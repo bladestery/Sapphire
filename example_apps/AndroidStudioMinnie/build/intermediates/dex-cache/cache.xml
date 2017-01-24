@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        custom-flags="--core-library"
+        is-multidex="false"
+        jar="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/app/build/intermediates/exploded-aar/AndroidStudioMinnie/sapphire/unspecified/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="e3219aa6cf59c9a07ab24e49f5399a99128d09c8">
+        <dex dex="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/app/build/intermediates/pre-dexed/debug/AndroidStudioMinnie-sapphire-unspecified_17424b66f7d29d13378656a5b41f8779bc39a1e6.jar" />
+    </item>
+
+</items>

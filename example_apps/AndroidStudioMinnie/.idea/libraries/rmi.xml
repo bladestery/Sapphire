@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="rmi">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/sapphire/libs/rmi.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
