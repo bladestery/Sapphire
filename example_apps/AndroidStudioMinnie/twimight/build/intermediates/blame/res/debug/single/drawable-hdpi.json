@@ -1,0 +1,586 @@
+[
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/menu_dropdown_panel_normalmode.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/menu_dropdown_panel_normalmode.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/spinner_16_outer_holo.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/spinner_16_outer_holo.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/btn_cab_done_default_disastertheme.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/btn_cab_done_default_disastertheme.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/ic_favorite_off.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/ic_favorite_off.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/cab_background_top_normaltheme.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/cab_background_top_normaltheme.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/spinner_ab_default_normalmode.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/spinner_ab_default_normalmode.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/btn_check_off_pressed_holo_disastermode.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/btn_check_off_pressed_holo_disastermode.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/ic_ab_back_holo_dark.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/ic_ab_back_holo_dark.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/spinner_ab_default_disastermode.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/spinner_ab_default_disastermode.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/progress_bg_normalmode.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/progress_bg_normalmode.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/ic_small_downloading.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/ic_small_downloading.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/tab_selected_disastermode.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/tab_selected_disastermode.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/textfield_disabled_normalmode.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/textfield_disabled_normalmode.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/btn_cab_done_pressed_disastertheme.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/btn_cab_done_pressed_disastertheme.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/spinner_ab_disabled_disastermode.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/spinner_ab_disabled_disastermode.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/ic_compose.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/ic_compose.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/btn_cab_done_pressed_normaltheme.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/btn_cab_done_pressed_normaltheme.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/ic_timeline.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/ic_timeline.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/tab_unselected_pressed_normalmode.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/tab_unselected_pressed_normalmode.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/progress_secondary_holo_light.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/progress_secondary_holo_light.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/tab_unselected_normalmode.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/tab_unselected_normalmode.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/btn_cab_done_focused_normaltheme.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/btn_cab_done_focused_normaltheme.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/ic_small_retweeted.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/ic_small_retweeted.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/spinner_ab_focused_disastermode.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/spinner_ab_focused_disastermode.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/ab_stacked_solid_disastermode.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/ab_stacked_solid_disastermode.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/textfield_disabled_focused_normalmode.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/textfield_disabled_focused_normalmode.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/ic_launcher.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/cab_background_bottom_disastermode.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/cab_background_bottom_disastermode.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/ic_notification.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/ic_notification.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/ic_small_pending.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/ic_small_pending.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/tab_unselected_pressed_disastermode.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/tab_unselected_pressed_disastermode.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/ab_texture_tile_disastermode.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/ab_texture_tile_disastermode.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/ic_search.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/ic_search.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/btn_check_off_focused_holo_disastermode.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/btn_check_off_focused_holo_disastermode.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/ab_bottom_solid_normalmode.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/ab_bottom_solid_normalmode.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/spinner_ab_disabled_normaltheme.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/spinner_ab_disabled_normaltheme.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/ic_location_off.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/ic_location_off.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/list_focused_normalmode.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/list_focused_normalmode.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/textfield_focused_normalmode.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/textfield_focused_normalmode.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/spinner_ab_pressed_normalmode.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/spinner_ab_pressed_normalmode.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/ic_delete.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/ic_delete.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/ic_cancel.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/ic_cancel.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/btn_check_on_focused_holo_normalmode.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/btn_check_on_focused_holo_normalmode.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/progress_secondary_disastermode.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/progress_secondary_disastermode.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/btn_check_on_disabled_holo_normalmode.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/btn_check_on_disabled_holo_normalmode.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/textfield_activated_disastermode.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/textfield_activated_disastermode.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/tab_unselected_focused_disastermode.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/tab_unselected_focused_disastermode.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/progress_bg_disastertheme.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/progress_bg_disastertheme.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/tab_selected_focused_normalmode.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/tab_selected_focused_normalmode.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/ic_small_unverified.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/ic_small_unverified.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/fastscroll_thumb_pressed_twimightholo.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/fastscroll_thumb_pressed_twimightholo.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/progress_primary_holo_light.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/progress_primary_holo_light.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/cab_background_top_disastertheme.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/cab_background_top_disastertheme.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/cab_background_top_disastermode.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/cab_background_top_disastermode.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/spinner_ab_disabled_normalmode.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/spinner_ab_disabled_normalmode.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/spinner_16_inner_holo.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/spinner_16_inner_holo.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/ic_favorites.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/ic_favorites.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/ab_transparent_disastermode.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/ab_transparent_disastermode.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/fastscroll_thumb_default_twimightholo.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/fastscroll_thumb_default_twimightholo.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/ic_favorite_on.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/ic_favorite_on.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/textfield_default_disastermode.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/textfield_default_disastermode.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/btn_check_on_focused_holo_disastermode.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/btn_check_on_focused_holo_disastermode.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/progress_secondary_normalmode.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/progress_secondary_normalmode.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/tab_selected_normalmode.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/tab_selected_normalmode.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/ab_texture_tile_normalmode.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/ab_texture_tile_normalmode.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/spinner_ab_disabled_disastertheme.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/spinner_ab_disabled_disastertheme.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/btn_check_on_holo_disastermode.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/btn_check_on_holo_disastermode.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/ic_retweet.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/ic_retweet.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/list_focused_disastermode.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/list_focused_disastermode.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/progress_primary_disastertheme.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/progress_primary_disastertheme.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/ab_texture_tile_normaltheme.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/ab_texture_tile_normaltheme.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/tab_unselected_focused_normalmode.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/tab_unselected_focused_normalmode.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/btn_check_off_holo_disastermode.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/btn_check_off_holo_disastermode.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/btn_cab_done_focused_disastermode.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/btn_cab_done_focused_disastermode.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/ic_camera.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/ic_camera.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/progress_primary_normalmode.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/progress_primary_normalmode.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/btn_check_on_pressed_holo_disastermode.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/btn_check_on_pressed_holo_disastermode.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/tab_selected_pressed_normalmode.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/tab_selected_pressed_normalmode.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/ab_solid_disastertheme.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/ab_solid_disastertheme.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/ic_small_smartphone.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/ic_small_smartphone.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/ab_solid_disastermode.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/ab_solid_disastermode.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/ic_pull_down.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/ic_pull_down.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/ic_photo.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/ic_photo.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/cab_background_top_normalmode.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/cab_background_top_normalmode.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/btn_cab_done_default_disastermode.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/btn_cab_done_default_disastermode.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/spinner_ab_focused_normaltheme.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/spinner_ab_focused_normaltheme.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/ab_bottom_solid_disastermode.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/ab_bottom_solid_disastermode.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/spinner_ab_default_disastertheme.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/spinner_ab_default_disastertheme.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/spinner_ab_pressed_disastertheme.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/spinner_ab_pressed_disastertheme.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/ic_small_favorite.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/ic_small_favorite.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/ic_download.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/ic_download.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/spinner_ab_focused_normalmode.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/spinner_ab_focused_normalmode.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/btn_cab_done_pressed_disastermode.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/btn_cab_done_pressed_disastermode.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/ic_small_verified.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/ic_small_verified.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/list_focused_disastertheme.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/list_focused_disastertheme.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/progress_secondary_disastertheme.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/progress_secondary_disastertheme.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/btn_check_off_disabled_holo_normalmode.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/btn_check_off_disabled_holo_normalmode.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/ab_solid_normalmode.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/ab_solid_normalmode.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/btn_check_on_disabled_focused_holo_disastermode.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/btn_check_on_disabled_focused_holo_disastermode.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/btn_check_on_holo_normalmode.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/btn_check_on_holo_normalmode.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/cab_background_bottom_normaltheme.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/cab_background_bottom_normaltheme.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/spinner_ab_default_normaltheme.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/spinner_ab_default_normaltheme.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/btn_cab_done_default_normalmode.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/btn_cab_done_default_normalmode.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/btn_check_off_disabled_focused_holo_disastermode.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/btn_check_off_disabled_focused_holo_disastermode.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/tab_selected_focused_disastermode.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/tab_selected_focused_disastermode.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/btn_check_off_focused_holo_normalmode.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/btn_check_off_focused_holo_normalmode.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/btn_check_on_disabled_holo_disastermode.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/btn_check_on_disabled_holo_disastermode.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/btn_check_off_disabled_focused_holo_normalmode.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/btn_check_off_disabled_focused_holo_normalmode.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/btn_cab_done_focused_disastertheme.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/btn_cab_done_focused_disastertheme.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/ic_location_on.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/ic_location_on.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/textfield_disabled_focused_disastermode.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/textfield_disabled_focused_disastermode.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/progress_bg_disastermode.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/progress_bg_disastermode.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/spinner_ab_pressed_disastermode.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/spinner_ab_pressed_disastermode.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/cab_background_bottom_disastertheme.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/cab_background_bottom_disastertheme.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/textfield_activated_normalmode.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/textfield_activated_normalmode.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/btn_cab_done_pressed_normalmode.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/btn_cab_done_pressed_normalmode.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/progress_bg_holo_light.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/progress_bg_holo_light.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/menu_dropdown_panel_disastermode.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/menu_dropdown_panel_disastermode.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/textfield_focused_disastermode.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/textfield_focused_disastermode.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/btn_check_off_pressed_holo_normalmode.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/btn_check_off_pressed_holo_normalmode.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/progress_bg_normaltheme.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/progress_bg_normaltheme.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/btn_check_off_holo_normalmode.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/btn_check_off_holo_normalmode.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/ic_save.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/ic_save.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/textfield_disabled_disastermode.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/textfield_disabled_disastermode.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/list_focused_normaltheme.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/list_focused_normaltheme.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/ab_stacked_solid_normalmode.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/ab_stacked_solid_normalmode.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/progress_primary_disastermode.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/progress_primary_disastermode.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/progress_secondary_normaltheme.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/progress_secondary_normaltheme.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/ic_mentions.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/ic_mentions.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/ic_reply.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/ic_reply.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/spinner_ab_focused_disastertheme.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/spinner_ab_focused_disastertheme.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/textfield_default_normalmode.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/textfield_default_normalmode.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/ic_small_downloaded.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/ic_small_downloaded.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/tab_unselected_disastermode.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/tab_unselected_disastermode.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/cab_background_bottom_normalmode.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/cab_background_bottom_normalmode.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/btn_cab_done_default_normaltheme.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/btn_cab_done_default_normaltheme.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/ab_transparent_normalmode.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/ab_transparent_normalmode.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/btn_check_on_pressed_holo_normalmode.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/btn_check_on_pressed_holo_normalmode.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/btn_check_on_disabled_focused_holo_normalmode.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/btn_check_on_disabled_focused_holo_normalmode.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/spinner_ab_pressed_normaltheme.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/spinner_ab_pressed_normaltheme.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/btn_check_off_disabled_holo_disastermode.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/btn_check_off_disabled_holo_disastermode.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/ab_texture_tile_disastertheme.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/ab_texture_tile_disastertheme.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/btn_cab_done_focused_normalmode.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/btn_cab_done_focused_normalmode.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/tab_selected_pressed_disastermode.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/tab_selected_pressed_disastermode.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/progress_primary_normaltheme.9.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/progress_primary_normaltheme.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-hdpi/ic_pull_up.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-hdpi/ic_pull_up.png"
+    }
+]

@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/menu/photo_view_menu.xml",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/menu/photo_view_menu.xml"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/menu/dm_context.xml",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/menu/dm_context.xml"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/menu/main_menu.xml",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/menu/main_menu.xml"
+    }
+]

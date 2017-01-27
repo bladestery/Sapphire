@@ -1,6 +1,6 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/app/src/main/AndroidManifest.xml:2:1-28:12
+ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/app/src/main/AndroidManifest.xml:2:1-29:12
 	package
 		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/app/src/main/AndroidManifest.xml:3:5-40
 		INJECTED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/app/src/main/AndroidManifest.xml
@@ -28,7 +28,7 @@ MERGED from [AndroidStudioMinnie:sapphire:unspecified] /home/ubuntu/Sapphire/exa
 		INJECTED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/app/src/main/AndroidManifest.xml
 		INJECTED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/app/src/main/AndroidManifest.xml
 application
-ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/app/src/main/AndroidManifest.xml:11:5-26:19
+ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/app/src/main/AndroidManifest.xml:11:5-27:19
 MERGED from [AndroidStudioMinnie:sapphire:unspecified] /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/app/build/intermediates/exploded-aar/AndroidStudioMinnie/sapphire/unspecified/AndroidManifest.xml:11:5-16:19
 	android:label
 		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/app/src/main/AndroidManifest.xml:14:9-41
@@ -41,18 +41,18 @@ MERGED from [AndroidStudioMinnie:sapphire:unspecified] /home/ubuntu/Sapphire/exa
 	android:name
 		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/app/src/main/AndroidManifest.xml:16:9-68
 activity#sapphire.appexamples.minnietwitter.glue.MainActivity
-ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/app/src/main/AndroidManifest.xml:17:9-25:20
+ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/app/src/main/AndroidManifest.xml:17:9-26:20
 	android:label
-		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/app/src/main/AndroidManifest.xml:19:13-45
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/app/src/main/AndroidManifest.xml:20:13-45
 	android:name
 		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/app/src/main/AndroidManifest.xml:18:13-80
 intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
-ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/app/src/main/AndroidManifest.xml:20:13-24:29
+ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/app/src/main/AndroidManifest.xml:21:13-25:29
 action#android.intent.action.MAIN
-ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/app/src/main/AndroidManifest.xml:21:17-69
+ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/app/src/main/AndroidManifest.xml:22:17-69
 	android:name
-		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/app/src/main/AndroidManifest.xml:21:25-66
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/app/src/main/AndroidManifest.xml:22:25-66
 category#android.intent.category.LAUNCHER
-ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/app/src/main/AndroidManifest.xml:23:17-77
+ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/app/src/main/AndroidManifest.xml:24:17-77
 	android:name
-		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/app/src/main/AndroidManifest.xml:23:27-74
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/app/src/main/AndroidManifest.xml:24:27-74

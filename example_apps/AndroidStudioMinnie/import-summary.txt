@@ -7,9 +7,106 @@ The following files were *not* copied into the new Gradle project; you
 should evaluate whether these are still needed in your project and if
 so manually move them:
 
-* ic_launcher-web.png
-* logging.properties
-* proguard-project.txt
+From PhotoView:
+* .gitignore
+* .travis.yml
+* LICENSE
+* README.md
+* art/
+* art/google-play-badge-small.png
+* build.gradle
+* gradle.properties
+* gradle/
+* gradle/wrapper/
+* gradle/wrapper/gradle-wrapper.jar
+* gradle/wrapper/gradle-wrapper.properties
+* gradlew
+* gradlew.bat
+* library/
+* library/build.gradle
+* library/src/
+* library/src/main/
+* library/src/main/AndroidManifest.xml
+* library/src/main/java/
+* library/src/main/java/uk/
+* library/src/main/java/uk/co/
+* library/src/main/java/uk/co/senab/
+* library/src/main/java/uk/co/senab/photoview/
+* library/src/main/java/uk/co/senab/photoview/Compat.java
+* library/src/main/java/uk/co/senab/photoview/DefaultOnDoubleTapListener.java
+* library/src/main/java/uk/co/senab/photoview/IPhotoView.java
+* library/src/main/java/uk/co/senab/photoview/PhotoView.java
+* library/src/main/java/uk/co/senab/photoview/PhotoViewAttacher.java
+* library/src/main/java/uk/co/senab/photoview/gestures/
+* library/src/main/java/uk/co/senab/photoview/gestures/CupcakeGestureDetector.java
+* library/src/main/java/uk/co/senab/photoview/gestures/EclairGestureDetector.java
+* library/src/main/java/uk/co/senab/photoview/gestures/FroyoGestureDetector.java
+* library/src/main/java/uk/co/senab/photoview/gestures/GestureDetector.java
+* library/src/main/java/uk/co/senab/photoview/gestures/OnGestureListener.java
+* library/src/main/java/uk/co/senab/photoview/gestures/VersionedGestureDetector.java
+* library/src/main/java/uk/co/senab/photoview/log/
+* library/src/main/java/uk/co/senab/photoview/log/LogManager.java
+* library/src/main/java/uk/co/senab/photoview/log/Logger.java
+* library/src/main/java/uk/co/senab/photoview/log/LoggerDefault.java
+* library/src/main/java/uk/co/senab/photoview/scrollerproxy/
+* library/src/main/java/uk/co/senab/photoview/scrollerproxy/GingerScroller.java
+* library/src/main/java/uk/co/senab/photoview/scrollerproxy/IcsScroller.java
+* library/src/main/java/uk/co/senab/photoview/scrollerproxy/PreGingerScroller.java
+* library/src/main/java/uk/co/senab/photoview/scrollerproxy/ScrollerProxy.java
+* sample/
+* sample/build.gradle
+* sample/src/
+* sample/src/main/
+* sample/src/main/AndroidManifest.xml
+* sample/src/main/java/
+* sample/src/main/java/uk/
+* sample/src/main/java/uk/co/
+* sample/src/main/java/uk/co/senab/
+* sample/src/main/java/uk/co/senab/photoview/
+* sample/src/main/java/uk/co/senab/photoview/sample/
+* sample/src/main/java/uk/co/senab/photoview/sample/ActivityTransitionActivity.java
+* sample/src/main/java/uk/co/senab/photoview/sample/ActivityTransitionToActivity.java
+* sample/src/main/java/uk/co/senab/photoview/sample/HackyDrawerLayout.java
+* sample/src/main/java/uk/co/senab/photoview/sample/HackyViewPager.java
+* sample/src/main/java/uk/co/senab/photoview/sample/ImageAdapter.java
+* sample/src/main/java/uk/co/senab/photoview/sample/ImageViewHolder.java
+* sample/src/main/java/uk/co/senab/photoview/sample/LauncherActivity.java
+* sample/src/main/java/uk/co/senab/photoview/sample/PicassoSampleActivity.java
+* sample/src/main/java/uk/co/senab/photoview/sample/RotationSampleActivity.java
+* sample/src/main/java/uk/co/senab/photoview/sample/SimpleSampleActivity.java
+* sample/src/main/java/uk/co/senab/photoview/sample/ViewPagerActivity.java
+* sample/src/main/res/
+* sample/src/main/res/drawable-nodpi/
+* sample/src/main/res/drawable-nodpi/wallpaper.jpg
+* sample/src/main/res/layout/
+* sample/src/main/res/layout/activity_launcher.xml
+* sample/src/main/res/layout/activity_main.xml
+* sample/src/main/res/layout/activity_simple.xml
+* sample/src/main/res/layout/activity_transition.xml
+* sample/src/main/res/layout/activity_transition_to.xml
+* sample/src/main/res/layout/activity_view_pager.xml
+* sample/src/main/res/layout/item_image.xml
+* sample/src/main/res/layout/item_list_item.xml
+* sample/src/main/res/menu/
+* sample/src/main/res/menu/main_menu.xml
+* sample/src/main/res/mipmap-hdpi/
+* sample/src/main/res/mipmap-hdpi/ic_launcher.png
+* sample/src/main/res/mipmap-mdpi/
+* sample/src/main/res/mipmap-mdpi/ic_launcher.png
+* sample/src/main/res/mipmap-xhdpi/
+* sample/src/main/res/mipmap-xhdpi/ic_launcher.png
+* sample/src/main/res/mipmap-xxhdpi/
+* sample/src/main/res/mipmap-xxhdpi/ic_launcher.png
+* sample/src/main/res/mipmap-xxxhdpi/
+* sample/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+* sample/src/main/res/values/
+* sample/src/main/res/values/colors.xml
+* sample/src/main/res/values/strings.xml
+* sample/src/main/res/values/styles.xml
+* sample/src/main/res/values/transitions.xml
+* settings.gradle
+From twimight_ng:
+* proguard.cfg
 
 Replaced Jars with Dependencies:
 --------------------------------
@@ -28,11 +125,19 @@ Moved Files:
 Android Gradle projects use a different directory structure than ADT
 Eclipse projects. Here's how the projects were restructured:
 
-* AndroidManifest.xml => sapphire/src/main/AndroidManifest.xml
-* libs/rmi-src.jar => sapphire/libs/rmi-src.jar
-* libs/rt.jar => sapphire/libs/rt.jar
-* res/ => sapphire/src/main/res/
-* src/ => sapphire/src/main/java/
+* AndroidManifest.xml => twimight/src/main/AndroidManifest.xml
+* assets/ => twimight/src/main/assets
+* libs/android-support-v13.jar => twimight/libs/android-support-v13.jar
+* libs/crittercism_v3_0_8_sdkonly.jar => twimight/libs/crittercism_v3_0_8_sdkonly.jar
+* libs/scprov-jdk15-1.46.99.3-UNOFFICIAL-ROBERTO-RELEASE.jar => twimight/libs/scprov-jdk15-1.46.99.3-UNOFFICIAL-ROBERTO-RELEASE.jar
+* libs/signpost-commonshttp4-1.2.1.2.jar => twimight/libs/signpost-commonshttp4-1.2.1.2.jar
+* libs/signpost-core-1.2.1.2.jar => twimight/libs/signpost-core-1.2.1.2.jar
+* libs/twitter4j-core-3.0.5.jar => twimight/libs/twitter4j-core-3.0.5.jar
+* libs/universal-image-loader-1.9.1-javadoc.jar => twimight/libs/universal-image-loader-1.9.1-javadoc.jar
+* libs/universal-image-loader-1.9.1-sources.jar => twimight/libs/universal-image-loader-1.9.1-sources.jar
+* libs/universal-image-loader-1.9.1.jar => twimight/libs/universal-image-loader-1.9.1.jar
+* res/ => twimight/src/main/res/
+* src/ => twimight/src/main/java/
 
 Missing Android Support Repository:
 -----------------------------------

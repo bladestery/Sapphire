@@ -1,11 +1,11 @@
 {
    "servers": [
-   {"hostname": "157.82.159.46", "port": "22345"}
+   {"hostname": "localhost", "port": "22345"}
     ],
   
    "clients": [
-   {"hostname": "192.168.27.172", "port": "22345"}
+   {"hostname": "localhost", "port": "22344"}
    ],
 
-   "oms": {"hostname": "157.82.159.46", "port": "22346"}
+   "oms": {"hostname": "localhost", "port": "22346"}
 }

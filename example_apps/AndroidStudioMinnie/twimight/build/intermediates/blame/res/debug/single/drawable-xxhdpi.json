@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-xxhdpi/ic_notification.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-xxhdpi/ic_notification.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-xxhdpi/mightybird.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-xxhdpi/mightybird.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/drawable-xxhdpi/disaster_illustration.png",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/drawable-xxhdpi/disaster_illustration.png"
+    }
+]

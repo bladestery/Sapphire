@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/xml/searchable.xml",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/xml/searchable.xml"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/build/intermediates/res/merged/debug/xml/user_settings.xml",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/twimight/src/main/res/xml/user_settings.xml"
+    }
+]

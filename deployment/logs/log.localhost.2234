@@ -1,0 +1,965 @@
+Added user 0 in:66ms
+Added user 1 in:9ms
+Added user 2 in:8ms
+Added user 3 in:7ms
+Added user 4 in:6ms
+Added user 5 in:10ms
+Added user 6 in:7ms
+Added user 7 in:5ms
+Added user 8 in:5ms
+Added user 9 in:5ms
+Added users!
+@user0 tweeted: Tweet  in: 1ms
+@user1 favorited from @user0 in: 6ms
+@user2 retweeted from @user0 in: 4ms
+@user3 tweeted: Tweet  in: 0ms
+@user4 favorited from @user0 in: 2ms
+@user5 tweeted: Tweet #tag1 @user3  in: 1ms
+@user6 tweeted: Tweet #tag4  in: 0ms
+@user7 tweeted: Tweet #tag0  in: 0ms
+@user8 tweeted: Tweet #tag1 @user4  in: 0ms
+@user9 tweeted: Tweet #tag3  in: 0ms
+@user0 tweeted: Tweet #tag4 @user3  in: 0ms
+@user1 tweeted: Tweet #tag0  in: 0ms
+@user2 tweeted: Tweet @user5  in: 0ms
+@user3 tweeted: Tweet @user4  in: 0ms
+@user4 retweeted from @user2 in: 6ms
+@user5 tweeted: Tweet  in: 0ms
+@user6 retweeted from @user5 in: 5ms
+@user7 tweeted: Tweet #tag4  in: 0ms
+@user8 tweeted: Tweet  in: 0ms
+@user9 tweeted: Tweet @user2  in: 0ms
+@user1 tweeted: Tweet #tag4 @user9  in: 0ms
+@user2 favorited from @user0 in: 2ms
+@user3 tweeted: Tweet @user8  in: 0ms
+@user4 favorited from @user0 in: 1ms
+@user5 tweeted: Tweet @user9  in: 0ms
+@user6 tweeted: Tweet #tag3  in: 0ms
+@user7 tweeted: Tweet #tag0  in: 0ms
+@user8 tweeted: Tweet  in: 0ms
+@user9 favorited from @user0 in: 2ms
+@user0 tweeted: Tweet @user3  in: 0ms
+@user1 tweeted: Tweet #tag3  in: 0ms
+@user2 retweeted from @user1 in: 3ms
+@user3 tweeted: Tweet  in: 0ms
+@user4 tweeted: Tweet #tag4 @user2  in: 0ms
+@user5 tweeted: Tweet @user8  in: 0ms
+@user6 tweeted: Tweet @user1  in: 0ms
+@user7 tweeted: Tweet  in: 0ms
+@user8 tweeted: Tweet @user1  in: 0ms
+@user9 retweeted from @user6 in: 6ms
+@user1 tweeted: Tweet  in: 0ms
+@user2 tweeted: Tweet @user2  in: 0ms
+@user3 tweeted: Tweet #tag4  in: 0ms
+@user4 tweeted: Tweet @user6  in: 0ms
+@user5 retweeted from @user1 in: 4ms
+@user6 tweeted: Tweet @user1  in: 0ms
+@user7 retweeted from @user3 in: 4ms
+@user8 tweeted: Tweet  in: 0ms
+@user9 favorited from @user4 in: 2ms
+@user0 tweeted: Tweet #tag3  in: 0ms
+@user1 retweeted from @user0 in: 3ms
+@user2 retweeted from @user0 in: 4ms
+@user3 tweeted: Tweet #tag1 @user8  in: 0ms
+@user4 retweeted from @user2 in: 4ms
+@user5 favorited from @user3 in: 2ms
+@user6 tweeted: Tweet #tag2 @user9  in: 0ms
+@user7 tweeted: Tweet #tag2 @user4  in: 0ms
+@user8 tweeted: Tweet #tag2 @user4  in: 4ms
+@user9 retweeted from @user3 in: 3ms
+@user0 tweeted: Tweet  in: 0ms
+@user1 tweeted: Tweet  in: 0ms
+@user2 retweeted from @user1 in: 3ms
+@user3 tweeted: Tweet  in: 0ms
+@user4 retweeted from @user2 in: 3ms
+@user5 tweeted: Tweet #tag3  in: 0ms
+@user6 tweeted: Tweet #tag0 @user3  in: 0ms
+@user7 retweeted from @user0 in: 4ms
+@user8 tweeted: Tweet  in: 0ms
+@user9 tweeted: Tweet @user6  in: 0ms
+@user1 retweeted from @user0 in: 4ms
+@user2 favorited from @user1 in: 2ms
+@user3 favorited from @user1 in: 2ms
+@user4 tweeted: Tweet #tag0  in: 0ms
+@user5 tweeted: Tweet  in: 0ms
+@user6 favorited from @user2 in: 2ms
+@user7 retweeted from @user1 in: 5ms
+@user8 tweeted: Tweet #tag0 @user6  in: 0ms
+@user9 tweeted: Tweet #tag3  in: 0ms
+@user0 tweeted: Tweet  in: 0ms
+@user1 tweeted: Tweet  in: 0ms
+@user2 tweeted: Tweet  in: 0ms
+@user3 tweeted: Tweet #tag0 @user4  in: 0ms
+@user4 tweeted: Tweet #tag4 @user2  in: 0ms
+@user5 retweeted from @user1 in: 4ms
+@user6 tweeted: Tweet  in: 1ms
+@user7 retweeted from @user4 in: 5ms
+@user8 favorited from @user1 in: 4ms
+@user9 retweeted from @user4 in: 7ms
+@user0 tweeted: Tweet  in: 0ms
+@user1 favorited from @user0 in: 3ms
+@user2 favorited from @user1 in: 3ms
+@user3 favorited from @user1 in: 3ms
+@user4 tweeted: Tweet #tag0  in: 1ms
+@user5 tweeted: Tweet #tag4  in: 1ms
+@user6 favorited from @user4 in: 4ms
+@user7 tweeted: Tweet #tag0 @user8  in: 0ms
+@user8 tweeted: Tweet  in: 0ms
+@user9 tweeted: Tweet @user9  in: 0ms
+@user1 favorited from @user0 in: 3ms
+@user2 tweeted: Tweet #tag3  in: 0ms
+@user3 tweeted: Tweet #tag2 @user0  in: 0ms
+@user4 tweeted: Tweet @user9  in: 0ms
+@user5 retweeted from @user4 in: 6ms
+@user6 favorited from @user2 in: 5ms
+@user7 tweeted: Tweet #tag0 @user0  in: 0ms
+@user8 tweeted: Tweet @user8  in: 0ms
+@user9 tweeted: Tweet #tag3  in: 0ms
+@user0 tweeted: Tweet @user5  in: 0ms
+@user1 tweeted: Tweet  in: 0ms
+@user2 favorited from @user1 in: 3ms
+@user3 tweeted: Tweet @user4  in: 0ms
+@user4 tweeted: Tweet @user2  in: 0ms
+@user5 tweeted: Tweet @user5  in: 0ms
+@user6 tweeted: Tweet  in: 0ms
+@user7 tweeted: Tweet #tag0 @user8  in: 0ms
+@user8 favorited from @user3 in: 4ms
+@user9 retweeted from @user7 in: 6ms
+@user1 favorited from @user0 in: 3ms
+@user2 favorited from @user0 in: 3ms
+@user3 tweeted: Tweet #tag2 @user9  in: 1ms
+@user4 retweeted from @user0 in: 9ms
+@user5 tweeted: Tweet #tag2  in: 0ms
+@user6 tweeted: Tweet #tag2 @user6  in: 1ms
+@user7 tweeted: Tweet #tag1  in: 1ms
+@user8 retweeted from @user0 in: 7ms
+@user9 tweeted: Tweet @user8  in: 2ms
+@user1 favorited from @user0 in: 4ms
+@user2 tweeted: Tweet #tag1  in: 0ms
+@user3 favorited from @user2 in: 3ms
+@user4 tweeted: Tweet  in: 0ms
+@user5 favorited from @user1 in: 3ms
+@user6 retweeted from @user2 in: 7ms
+@user7 tweeted: Tweet #tag0 @user9  in: 0ms
+@user8 retweeted from @user5 in: 8ms
+@user9 retweeted from @user8 in: 5ms
+@user1 tweeted: Tweet  in: 3ms
+@user2 favorited from @user1 in: 3ms
+@user3 tweeted: Tweet #tag3  in: 0ms
+@user4 tweeted: Tweet  in: 0ms
+@user5 retweeted from @user4 in: 8ms
+@user6 retweeted from @user0 in: 8ms
+@user7 tweeted: Tweet #tag4  in: 0ms
+@user8 favorited from @user5 in: 3ms
+@user9 tweeted: Tweet  in: 0ms
+@user1 tweeted: Tweet #tag2 @user7  in: 0ms
+@user2 tweeted: Tweet @user6  in: 0ms
+@user3 tweeted: Tweet  in: 0ms
+@user4 tweeted: Tweet #tag3 @user2  in: 0ms
+@user5 retweeted from @user3 in: 8ms
+@user6 retweeted from @user5 in: 5ms
+@user7 tweeted: Tweet #tag2  in: 0ms
+@user8 retweeted from @user5 in: 26ms
+@user9 tweeted: Tweet #tag1  in: 0ms
+@user1 retweeted from @user0 in: 9ms
+@user2 tweeted: Tweet #tag4  in: 1ms
+@user3 tweeted: Tweet #tag0  in: 1ms
+@user4 retweeted from @user0 in: 6ms
+@user5 tweeted: Tweet #tag2  in: 1ms
+@user6 favorited from @user4 in: 4ms
+@user7 tweeted: Tweet #tag2 @user5  in: 3ms
+@user8 tweeted: Tweet @user5  in: 0ms
+@user9 tweeted: Tweet #tag1 @user3  in: 0ms
+@user1 retweeted from @user0 in: 8ms
+@user2 retweeted from @user1 in: 9ms
+@user3 retweeted from @user2 in: 12ms
+@user4 tweeted: Tweet #tag4  in: 1ms
+@user5 favorited from @user1 in: 27ms
+@user6 favorited from @user3 in: 4ms
+@user7 favorited from @user3 in: 6ms
+@user8 tweeted: Tweet #tag2  in: 0ms
+@user9 retweeted from @user2 in: 5ms
+@user0 tweeted: Tweet #tag3 @user2  in: 1ms
+@user1 favorited from @user0 in: 2ms
+@user2 favorited from @user1 in: 2ms
+@user3 retweeted from @user0 in: 8ms
+@user4 favorited from @user3 in: 3ms
+@user5 tweeted: Tweet @user7  in: 0ms
+@user6 tweeted: Tweet #tag2 @user0  in: 0ms
+@user7 favorited from @user4 in: 3ms
+@user8 favorited from @user2 in: 3ms
+@user9 tweeted: Tweet #tag2 @user6  in: 0ms
+@user1 retweeted from @user0 in: 4ms
+@user2 tweeted: Tweet #tag0  in: 1ms
+@user3 tweeted: Tweet #tag1 @user9  in: 0ms
+@user4 tweeted: Tweet #tag2 @user6  in: 3ms
+@user5 tweeted: Tweet #tag1 @user8  in: 0ms
+@user6 tweeted: Tweet  in: 0ms
+@user7 tweeted: Tweet @user5  in: 0ms
+@user8 tweeted: Tweet  in: 0ms
+@user9 tweeted: Tweet  in: 0ms
+@user0 tweeted: Tweet  in: 0ms
+@user1 tweeted: Tweet #tag2  in: 0ms
+@user2 tweeted: Tweet @user2  in: 0ms
+@user3 tweeted: Tweet @user5  in: 0ms
+@user4 tweeted: Tweet #tag0 @user4  in: 0ms
+@user5 tweeted: Tweet  in: 0ms
+@user6 favorited from @user0 in: 4ms
+@user7 retweeted from @user2 in: 7ms
+@user8 tweeted: Tweet  in: 0ms
+@user9 retweeted from @user6 in: 5ms
+@user0 tweeted: Tweet  in: 1ms
+@user1 tweeted: Tweet @user6  in: 0ms
+@user2 favorited from @user1 in: 2ms
+@user3 favorited from @user2 in: 2ms
+@user4 tweeted: Tweet #tag3  in: 0ms
+@user5 retweeted from @user4 in: 6ms
+@user6 retweeted from @user2 in: 8ms
+@user7 tweeted: Tweet  in: 0ms
+@user8 tweeted: Tweet #tag1 @user4  in: 0ms
+@user9 tweeted: Tweet @user0  in: 0ms
+@user0 tweeted: Tweet  in: 0ms
+@user1 retweeted from @user0 in: 6ms
+@user2 favorited from @user1 in: 17ms
+@user3 favorited from @user2 in: 3ms
+@user4 tweeted: Tweet  in: 0ms
+@user5 retweeted from @user1 in: 3ms
+@user6 retweeted from @user1 in: 6ms
+@user7 tweeted: Tweet #tag4 @user7  in: 0ms
+@user8 tweeted: Tweet  in: 0ms
+@user9 favorited from @user4 in: 2ms
+@user1 favorited from @user0 in: 3ms
+@user2 favorited from @user0 in: 3ms
+@user3 retweeted from @user1 in: 9ms
+@user4 tweeted: Tweet @user8  in: 0ms
+@user5 tweeted: Tweet #tag1 @user9  in: 0ms
+@user6 tweeted: Tweet  in: 0ms
+@user7 tweeted: Tweet #tag4 @user4  in: 0ms
+@user8 retweeted from @user7 in: 5ms
+@user9 tweeted: Tweet  in: 0ms
+@user1 tweeted: Tweet #tag1  in: 0ms
+@user2 tweeted: Tweet  in: 0ms
+@user3 tweeted: Tweet #tag0  in: 0ms
+@user4 tweeted: Tweet #tag0  in: 0ms
+@user5 tweeted: Tweet #tag3  in: 0ms
+@user6 tweeted: Tweet #tag0  in: 0ms
+@user7 tweeted: Tweet #tag0  in: 0ms
+@user8 tweeted: Tweet #tag2 @user4  in: 0ms
+@user9 favorited from @user8 in: 6ms
+@user1 tweeted: Tweet  in: 0ms
+@user2 retweeted from @user0 in: 5ms
+@user3 favorited from @user2 in: 3ms
+@user4 tweeted: Tweet @user3  in: 0ms
+@user5 tweeted: Tweet  in: 0ms
+@user6 tweeted: Tweet  in: 0ms
+@user7 retweeted from @user1 in: 3ms
+@user8 favorited from @user5 in: 5ms
+@user9 retweeted from @user3 in: 7ms
+@user0 tweeted: Tweet @user7  in: 18ms
+@user1 favorited from @user0 in: 5ms
+@user2 tweeted: Tweet #tag2  in: 2ms
+@user3 retweeted from @user0 in: 9ms
+@user4 retweeted from @user0 in: 8ms
+@user5 tweeted: Tweet @user0  in: 0ms
+@user6 tweeted: Tweet #tag2  in: 0ms
+@user7 tweeted: Tweet @user9  in: 0ms
+@user8 tweeted: Tweet #tag3  in: 0ms
+@user9 tweeted: Tweet @user2  in: 0ms
+@user1 tweeted: Tweet #tag4  in: 0ms
+@user2 tweeted: Tweet @user5  in: 0ms
+@user3 tweeted: Tweet  in: 0ms
+@user4 favorited from @user0 in: 4ms
+@user5 favorited from @user2 in: 3ms
+@user6 tweeted: Tweet #tag2  in: 0ms
+@user7 favorited from @user1 in: 3ms
+@user8 retweeted from @user7 in: 6ms
+@user9 retweeted from @user6 in: 5ms
+@user0 tweeted: Tweet #tag2 @user2  in: 0ms
+@user1 retweeted from @user0 in: 4ms
+@user2 tweeted: Tweet #tag1 @user0  in: 0ms
+@user3 retweeted from @user1 in: 4ms
+@user4 tweeted: Tweet  in: 0ms
+@user5 retweeted from @user0 in: 4ms
+@user6 retweeted from @user3 in: 4ms
+@user7 retweeted from @user1 in: 5ms
+@user8 tweeted: Tweet #tag1  in: 0ms
+@user9 tweeted: Tweet  in: 0ms
+@user0 tweeted: Tweet #tag3  in: 0ms
+@user1 tweeted: Tweet  in: 0ms
+@user2 tweeted: Tweet  in: 0ms
+@user3 favorited from @user1 in: 2ms
+@user4 tweeted: Tweet #tag0 @user8  in: 0ms
+@user5 tweeted: Tweet #tag3  in: 0ms
+@user6 favorited from @user5 in: 2ms
+@user7 favorited from @user6 in: 2ms
+@user8 tweeted: Tweet #tag4 @user7  in: 0ms
+@user9 retweeted from @user2 in: 4ms
+@user0 tweeted: Tweet @user6  in: 0ms
+@user1 favorited from @user0 in: 2ms
+@user2 tweeted: Tweet @user0  in: 0ms
+@user3 favorited from @user1 in: 2ms
+@user4 retweeted from @user3 in: 3ms
+@user5 tweeted: Tweet  in: 0ms
+@user6 retweeted from @user4 in: 17ms
+@user7 tweeted: Tweet #tag0 @user2  in: 0ms
+@user8 retweeted from @user4 in: 17ms
+@user9 tweeted: Tweet #tag4 @user8  in: 1ms
+@user0 tweeted: Tweet @user9  in: 0ms
+@user1 favorited from @user0 in: 8ms
+@user2 tweeted: Tweet #tag1  in: 0ms
+@user3 tweeted: Tweet #tag1  in: 0ms
+@user4 tweeted: Tweet @user6  in: 0ms
+@user5 tweeted: Tweet @user0  in: 0ms
+@user6 tweeted: Tweet @user0  in: 0ms
+@user7 tweeted: Tweet  in: 0ms
+@user8 tweeted: Tweet #tag4  in: 0ms
+@user9 tweeted: Tweet #tag0 @user8  in: 0ms
+@user1 retweeted from @user0 in: 16ms
+@user2 favorited from @user1 in: 5ms
+@user3 tweeted: Tweet #tag1 @user5  in: 0ms
+@user4 tweeted: Tweet  in: 0ms
+@user5 favorited from @user1 in: 4ms
+@user6 tweeted: Tweet  in: 0ms
+@user7 retweeted from @user5 in: 10ms
+@user8 retweeted from @user2 in: 7ms
+@user9 favorited from @user5 in: 2ms
+@user0 tweeted: Tweet #tag3  in: 0ms
+@user1 tweeted: Tweet @user8  in: 0ms
+@user2 tweeted: Tweet @user6  in: 0ms
+@user3 favorited from @user0 in: 3ms
+@user4 retweeted from @user2 in: 4ms
+@user5 tweeted: Tweet @user4  in: 0ms
+@user6 favorited from @user0 in: 1ms
+@user7 tweeted: Tweet #tag3  in: 0ms
+@user8 favorited from @user6 in: 2ms
+@user9 tweeted: Tweet #tag0  in: 0ms
+@user0 tweeted: Tweet @user4  in: 0ms
+@user1 tweeted: Tweet #tag1  in: 0ms
+@user2 retweeted from @user1 in: 3ms
+@user3 tweeted: Tweet #tag3  in: 0ms
+@user4 favorited from @user1 in: 5ms
+@user5 tweeted: Tweet @user9  in: 0ms
+@user6 tweeted: Tweet #tag2 @user2  in: 0ms
+@user7 favorited from @user2 in: 1ms
+@user8 favorited from @user1 in: 1ms
+@user9 tweeted: Tweet #tag2  in: 0ms
+@user1 tweeted: Tweet #tag2 @user2  in: 0ms
+@user2 tweeted: Tweet  in: 0ms
+@user3 retweeted from @user1 in: 2ms
+@user4 retweeted from @user0 in: 9ms
+@user5 favorited from @user1 in: 2ms
+@user6 favorited from @user3 in: 1ms
+@user7 retweeted from @user5 in: 3ms
+@user8 tweeted: Tweet #tag3  in: 1ms
+@user9 tweeted: Tweet #tag3  in: 0ms
+@user0 tweeted: Tweet #tag4  in: 0ms
+@user1 favorited from @user0 in: 2ms
+@user2 tweeted: Tweet  in: 0ms
+@user3 tweeted: Tweet #tag3  in: 0ms
+@user4 tweeted: Tweet #tag4  in: 0ms
+@user5 tweeted: Tweet @user3  in: 0ms
+@user6 favorited from @user2 in: 5ms
+@user7 tweeted: Tweet @user0  in: 0ms
+@user8 favorited from @user1 in: 1ms
+@user9 tweeted: Tweet #tag4  in: 0ms
+@user0 tweeted: Tweet @user3  in: 0ms
+@user1 favorited from @user0 in: 1ms
+@user2 tweeted: Tweet #tag4  in: 0ms
+@user3 tweeted: Tweet @user7  in: 0ms
+@user4 favorited from @user1 in: 1ms
+@user5 favorited from @user1 in: 1ms
+@user6 tweeted: Tweet @user4  in: 0ms
+@user7 tweeted: Tweet #tag0  in: 0ms
+@user8 favorited from @user2 in: 5ms
+@user9 tweeted: Tweet  in: 0ms
+@user0 tweeted: Tweet #tag1 @user7  in: 0ms
+@user1 favorited from @user0 in: 2ms
+@user2 tweeted: Tweet #tag4  in: 0ms
+@user3 retweeted from @user0 in: 5ms
+@user4 tweeted: Tweet #tag1  in: 0ms
+@user5 tweeted: Tweet #tag3 @user8  in: 0ms
+@user6 favorited from @user5 in: 2ms
+@user7 tweeted: Tweet  in: 0ms
+@user8 tweeted: Tweet @user3  in: 0ms
+@user9 tweeted: Tweet #tag0  in: 0ms
+@user1 tweeted: Tweet  in: 0ms
+@user2 tweeted: Tweet #tag4 @user6  in: 0ms
+@user3 retweeted from @user0 in: 4ms
+@user4 tweeted: Tweet #tag0  in: 0ms
+@user5 retweeted from @user0 in: 3ms
+@user6 tweeted: Tweet @user7  in: 0ms
+@user7 tweeted: Tweet #tag2 @user3  in: 0ms
+@user8 tweeted: Tweet  in: 0ms
+@user9 favorited from @user5 in: 2ms
+@user1 retweeted from @user0 in: 4ms
+@user2 tweeted: Tweet #tag0  in: 0ms
+@user3 tweeted: Tweet  in: 0ms
+@user4 tweeted: Tweet  in: 0ms
+@user5 retweeted from @user2 in: 3ms
+@user6 tweeted: Tweet @user9  in: 0ms
+@user7 retweeted from @user6 in: 3ms
+@user8 tweeted: Tweet  in: 0ms
+@user9 retweeted from @user3 in: 3ms
+@user1 retweeted from @user0 in: 3ms
+@user2 tweeted: Tweet #tag2  in: 0ms
+@user3 retweeted from @user0 in: 3ms
+@user4 favorited from @user1 in: 2ms
+@user5 retweeted from @user1 in: 10ms
+@user6 tweeted: Tweet #tag4  in: 0ms
+@user7 favorited from @user6 in: 3ms
+@user8 retweeted from @user0 in: 5ms
+@user9 retweeted from @user0 in: 4ms
+@user0 tweeted: Tweet #tag4  in: 0ms
+@user1 retweeted from @user0 in: 6ms
+@user2 tweeted: Tweet #tag2 @user9  in: 0ms
+@user3 favorited from @user2 in: 2ms
+@user4 tweeted: Tweet #tag2 @user6  in: 0ms
+@user5 tweeted: Tweet #tag4  in: 1ms
+@user6 favorited from @user5 in: 4ms
+@user7 tweeted: Tweet #tag0  in: 0ms
+@user8 favorited from @user7 in: 2ms
+@user9 favorited from @user4 in: 2ms
+@user0 tweeted: Tweet @user2  in: 0ms
+@user1 favorited from @user0 in: 2ms
+@user2 tweeted: Tweet  in: 0ms
+@user3 tweeted: Tweet #tag0 @user2  in: 0ms
+@user4 favorited from @user2 in: 2ms
+@user5 tweeted: Tweet  in: 0ms
+@user6 favorited from @user0 in: 3ms
+@user7 retweeted from @user5 in: 8ms
+@user8 tweeted: Tweet #tag2  in: 0ms
+@user9 tweeted: Tweet #tag3  in: 0ms
+@user0 tweeted: Tweet #tag3 @user7  in: 0ms
+@user1 tweeted: Tweet  in: 0ms
+@user2 tweeted: Tweet #tag1 @user1  in: 0ms
+@user3 tweeted: Tweet #tag2  in: 0ms
+@user4 tweeted: Tweet  in: 0ms
+@user5 favorited from @user0 in: 2ms
+@user6 tweeted: Tweet @user5  in: 0ms
+@user7 tweeted: Tweet #tag1 @user2  in: 0ms
+@user8 tweeted: Tweet @user3  in: 1ms
+@user9 retweeted from @user4 in: 4ms
+@user0 tweeted: Tweet  in: 0ms
+@user1 favorited from @user0 in: 2ms
+@user2 favorited from @user1 in: 2ms
+@user3 tweeted: Tweet #tag2  in: 0ms
+@user4 tweeted: Tweet #tag1  in: 0ms
+@user5 retweeted from @user3 in: 3ms
+@user6 tweeted: Tweet  in: 0ms
+@user7 tweeted: Tweet #tag3  in: 0ms
+@user8 tweeted: Tweet @user6  in: 0ms
+@user9 tweeted: Tweet #tag0 @user8  in: 0ms
+@user1 tweeted: Tweet @user0  in: 0ms
+@user2 favorited from @user0 in: 2ms
+@user3 tweeted: Tweet #tag3  in: 0ms
+@user4 favorited from @user0 in: 2ms
+@user5 tweeted: Tweet @user4  in: 0ms
+@user6 favorited from @user0 in: 2ms
+@user7 tweeted: Tweet #tag2 @user3  in: 0ms
+@user8 retweeted from @user4 in: 4ms
+@user9 tweeted: Tweet  in: 0ms
+@user0 tweeted: Tweet #tag0  in: 0ms
+@user1 tweeted: Tweet #tag1 @user0  in: 0ms
+@user2 favorited from @user1 in: 2ms
+@user3 favorited from @user1 in: 2ms
+@user4 retweeted from @user2 in: 4ms
+@user5 tweeted: Tweet  in: 0ms
+@user6 tweeted: Tweet #tag1 @user9  in: 0ms
+@user7 favorited from @user1 in: 3ms
+@user8 favorited from @user4 in: 2ms
+@user9 tweeted: Tweet #tag0  in: 0ms
+@user1 retweeted from @user0 in: 4ms
+@user2 tweeted: Tweet #tag1  in: 0ms
+@user3 tweeted: Tweet @user5  in: 0ms
+@user4 favorited from @user3 in: 2ms
+@user5 retweeted from @user4 in: 3ms
+@user6 tweeted: Tweet #tag0 @user5  in: 0ms
+@user7 retweeted from @user2 in: 3ms
+@user8 tweeted: Tweet #tag4 @user3  in: 0ms
+@user9 tweeted: Tweet  in: 0ms
+@user1 tweeted: Tweet @user2  in: 0ms
+@user2 tweeted: Tweet #tag0 @user5  in: 0ms
+@user3 favorited from @user1 in: 2ms
+@user4 retweeted from @user1 in: 3ms
+@user5 tweeted: Tweet #tag2  in: 0ms
+@user6 favorited from @user4 in: 3ms
+@user7 tweeted: Tweet @user8  in: 0ms
+@user8 tweeted: Tweet #tag2  in: 0ms
+@user9 tweeted: Tweet #tag0 @user3  in: 0ms
+@user1 tweeted: Tweet #tag3  in: 0ms
+@user2 tweeted: Tweet #tag3 @user2  in: 0ms
+@user3 tweeted: Tweet #tag4  in: 0ms
+@user4 favorited from @user0 in: 2ms
+@user5 retweeted from @user3 in: 3ms
+@user6 tweeted: Tweet #tag2  in: 0ms
+@user7 favorited from @user4 in: 2ms
+@user8 tweeted: Tweet #tag3  in: 0ms
+@user9 retweeted from @user7 in: 7ms
+@user1 tweeted: Tweet  in: 0ms
+@user2 favorited from @user0 in: 3ms
+@user3 tweeted: Tweet  in: 0ms
+@user4 retweeted from @user1 in: 7ms
+@user5 retweeted from @user2 in: 5ms
+@user6 tweeted: Tweet @user4  in: 0ms
+@user7 tweeted: Tweet #tag4 @user8  in: 0ms
+@user8 tweeted: Tweet #tag0  in: 0ms
+@user9 tweeted: Tweet #tag0 @user3  in: 0ms
+@user0 tweeted: Tweet  in: 0ms
+@user1 tweeted: Tweet #tag4  in: 0ms
+@user2 favorited from @user0 in: 3ms
+@user3 tweeted: Tweet  in: 0ms
+@user4 tweeted: Tweet @user5  in: 0ms
+@user5 retweeted from @user0 in: 3ms
+@user6 retweeted from @user0 in: 3ms
+@user7 tweeted: Tweet @user8  in: 0ms
+@user8 tweeted: Tweet #tag3  in: 0ms
+@user9 retweeted from @user6 in: 4ms
+@user0 tweeted: Tweet @user4  in: 0ms
+@user1 favorited from @user0 in: 4ms
+@user2 favorited from @user0 in: 2ms
+@user3 tweeted: Tweet @user8  in: 0ms
+@user4 tweeted: Tweet  in: 0ms
+@user5 tweeted: Tweet @user7  in: 0ms
+@user6 tweeted: Tweet #tag4 @user1  in: 0ms
+@user7 tweeted: Tweet  in: 0ms
+@user8 tweeted: Tweet #tag2  in: 0ms
+@user9 retweeted from @user4 in: 18ms
+@user0 tweeted: Tweet #tag4 @user4  in: 0ms
+@user1 tweeted: Tweet #tag2  in: 0ms
+@user2 tweeted: Tweet @user9  in: 0ms
+@user3 favorited from @user2 in: 4ms
+@user4 tweeted: Tweet  in: 0ms
+@user5 retweeted from @user0 in: 7ms
+@user6 tweeted: Tweet  in: 0ms
+@user7 tweeted: Tweet  in: 0ms
+@user8 favorited from @user5 in: 3ms
+@user9 tweeted: Tweet  in: 0ms
+@user1 tweeted: Tweet  in: 0ms
+@user2 tweeted: Tweet @user9  in: 0ms
+@user3 favorited from @user0 in: 2ms
+@user4 favorited from @user0 in: 1ms
+@user5 tweeted: Tweet @user8  in: 0ms
+@user6 tweeted: Tweet #tag0  in: 0ms
+@user7 tweeted: Tweet @user0  in: 0ms
+@user8 tweeted: Tweet  in: 0ms
+@user9 favorited from @user0 in: 3ms
+@user1 retweeted from @user0 in: 4ms
+@user2 tweeted: Tweet #tag1  in: 0ms
+@user3 retweeted from @user2 in: 4ms
+@user4 tweeted: Tweet #tag4  in: 0ms
+@user5 retweeted from @user2 in: 4ms
+@user6 tweeted: Tweet #tag0 @user2  in: 0ms
+@user7 favorited from @user1 in: 2ms
+@user8 tweeted: Tweet #tag1 @user0  in: 0ms
+@user9 tweeted: Tweet #tag1 @user9  in: 0ms
+@user0 tweeted: Tweet #tag0  in: 0ms
+@user1 retweeted from @user0 in: 4ms
+@user2 tweeted: Tweet #tag4  in: 0ms
+@user3 favorited from @user2 in: 2ms
+@user4 tweeted: Tweet #tag3 @user8  in: 0ms
+@user5 tweeted: Tweet #tag1  in: 0ms
+@user6 favorited from @user0 in: 2ms
+@user7 tweeted: Tweet @user4  in: 0ms
+@user8 tweeted: Tweet  in: 0ms
+@user9 tweeted: Tweet  in: 0ms
+@user1 tweeted: Tweet @user3  in: 0ms
+@user2 tweeted: Tweet  in: 0ms
+@user3 tweeted: Tweet @user6  in: 0ms
+@user4 retweeted from @user0 in: 4ms
+@user5 retweeted from @user1 in: 10ms
+@user6 favorited from @user0 in: 2ms
+@user7 tweeted: Tweet  in: 0ms
+@user8 tweeted: Tweet #tag3 @user0  in: 0ms
+@user9 retweeted from @user8 in: 4ms
+@user1 tweeted: Tweet  in: 0ms
+@user2 favorited from @user1 in: 4ms
+@user3 tweeted: Tweet  in: 0ms
+@user4 tweeted: Tweet  in: 0ms
+@user5 tweeted: Tweet #tag3  in: 0ms
+@user6 retweeted from @user2 in: 4ms
+@user7 tweeted: Tweet #tag1 @user7  in: 0ms
+@user8 tweeted: Tweet #tag0  in: 0ms
+@user9 tweeted: Tweet @user8  in: 0ms
+@user0 tweeted: Tweet @user5  in: 0ms
+@user1 favorited from @user0 in: 3ms
+@user2 favorited from @user0 in: 3ms
+@user3 tweeted: Tweet #tag2  in: 0ms
+@user4 tweeted: Tweet @user7  in: 0ms
+@user5 tweeted: Tweet #tag0  in: 0ms
+@user6 favorited from @user3 in: 3ms
+@user7 favorited from @user3 in: 2ms
+@user8 tweeted: Tweet #tag1  in: 0ms
+@user9 tweeted: Tweet @user3  in: 0ms
+@user1 tweeted: Tweet #tag2 @user5  in: 0ms
+@user2 tweeted: Tweet @user2  in: 0ms
+@user3 tweeted: Tweet #tag1  in: 0ms
+@user4 tweeted: Tweet #tag1 @user7  in: 0ms
+@user5 tweeted: Tweet #tag4 @user4  in: 0ms
+@user6 favorited from @user5 in: 2ms
+@user7 tweeted: Tweet #tag3  in: 0ms
+@user8 retweeted from @user0 in: 4ms
+@user9 favorited from @user1 in: 3ms
+@user0 tweeted: Tweet @user9  in: 0ms
+@user1 tweeted: Tweet @user6  in: 0ms
+@user2 favorited from @user0 in: 3ms
+@user3 favorited from @user2 in: 2ms
+@user4 tweeted: Tweet #tag1  in: 0ms
+@user5 tweeted: Tweet #tag1  in: 0ms
+@user6 retweeted from @user5 in: 8ms
+@user7 retweeted from @user2 in: 4ms
+@user8 tweeted: Tweet @user1  in: 0ms
+@user9 retweeted from @user0 in: 4ms
+@user1 tweeted: Tweet @user9  in: 0ms
+@user2 tweeted: Tweet @user8  in: 0ms
+@user3 retweeted from @user2 in: 5ms
+@user4 tweeted: Tweet #tag0  in: 0ms
+@user5 retweeted from @user1 in: 6ms
+@user6 tweeted: Tweet #tag0 @user5  in: 0ms
+@user7 tweeted: Tweet  in: 0ms
+@user8 retweeted from @user3 in: 4ms
+@user9 retweeted from @user3 in: 8ms
+@user1 retweeted from @user0 in: 4ms
+@user2 tweeted: Tweet #tag4  in: 0ms
+@user3 tweeted: Tweet @user3  in: 0ms
+@user4 retweeted from @user2 in: 4ms
+@user5 retweeted from @user0 in: 5ms
+@user6 retweeted from @user3 in: 4ms
+@user7 tweeted: Tweet #tag1 @user6  in: 0ms
+@user8 favorited from @user4 in: 5ms
+@user9 tweeted: Tweet @user1  in: 0ms
+@user0 tweeted: Tweet  in: 0ms
+@user1 retweeted from @user0 in: 9ms
+@user2 favorited from @user1 in: 3ms
+@user3 tweeted: Tweet #tag3  in: 0ms
+@user4 retweeted from @user3 in: 6ms
+@user5 tweeted: Tweet @user6  in: 0ms
+@user6 favorited from @user1 in: 2ms
+@user7 tweeted: Tweet @user6  in: 0ms
+@user8 tweeted: Tweet #tag2 @user9  in: 0ms
+@user9 tweeted: Tweet #tag0 @user3  in: 0ms
+@user1 tweeted: Tweet #tag0  in: 0ms
+@user2 tweeted: Tweet #tag3 @user8  in: 0ms
+@user3 tweeted: Tweet @user8  in: 0ms
+@user4 tweeted: Tweet #tag0 @user9  in: 0ms
+@user5 tweeted: Tweet #tag1 @user0  in: 0ms
+@user6 tweeted: Tweet  in: 0ms
+@user7 favorited from @user1 in: 2ms
+@user8 tweeted: Tweet #tag2 @user9  in: 0ms
+@user9 tweeted: Tweet #tag4  in: 0ms
+@user0 tweeted: Tweet #tag2  in: 0ms
+@user1 tweeted: Tweet #tag1 @user1  in: 0ms
+@user2 favorited from @user1 in: 2ms
+@user3 tweeted: Tweet  in: 0ms
+@user4 tweeted: Tweet #tag1  in: 0ms
+@user5 tweeted: Tweet #tag2  in: 0ms
+@user6 tweeted: Tweet #tag2 @user2  in: 0ms
+@user7 favorited from @user6 in: 2ms
+@user8 tweeted: Tweet #tag3 @user8  in: 0ms
+@user9 retweeted from @user6 in: 4ms
+@user0 tweeted: Tweet #tag4  in: 0ms
+@user1 tweeted: Tweet #tag3 @user8  in: 0ms
+@user2 tweeted: Tweet #tag1  in: 0ms
+@user3 favorited from @user2 in: 4ms
+@user4 tweeted: Tweet #tag2 @user2  in: 0ms
+@user5 retweeted from @user1 in: 4ms
+@user6 favorited from @user5 in: 2ms
+@user7 retweeted from @user1 in: 4ms
+@user8 tweeted: Tweet #tag3  in: 0ms
+@user9 tweeted: Tweet #tag4 @user0  in: 0ms
+@user0 tweeted: Tweet #tag0  in: 0ms
+@user1 tweeted: Tweet @user0  in: 0ms
+@user2 tweeted: Tweet #tag2  in: 0ms
+@user3 retweeted from @user0 in: 5ms
+@user4 tweeted: Tweet #tag1 @user1  in: 0ms
+@user5 tweeted: Tweet #tag3 @user1  in: 0ms
+@user6 tweeted: Tweet  in: 0ms
+@user7 tweeted: Tweet #tag2  in: 0ms
+@user8 tweeted: Tweet @user1  in: 0ms
+@user9 retweeted from @user8 in: 4ms
+@user0 tweeted: Tweet  in: 0ms
+@user1 tweeted: Tweet  in: 0ms
+@user2 tweeted: Tweet #tag4  in: 0ms
+@user3 tweeted: Tweet  in: 0ms
+@user4 retweeted from @user2 in: 4ms
+@user5 retweeted from @user4 in: 4ms
+@user6 tweeted: Tweet #tag0 @user3  in: 0ms
+@user7 retweeted from @user4 in: 4ms
+@user8 favorited from @user6 in: 2ms
+@user9 favorited from @user5 in: 1ms
+@user0 tweeted: Tweet  in: 0ms
+@user1 tweeted: Tweet  in: 0ms
+@user2 tweeted: Tweet #tag4 @user2  in: 0ms
+@user3 tweeted: Tweet #tag4 @user0  in: 0ms
+@user4 tweeted: Tweet #tag0  in: 0ms
+@user5 retweeted from @user0 in: 4ms
+@user6 tweeted: Tweet #tag1 @user0  in: 0ms
+@user7 favorited from @user1 in: 2ms
+@user8 tweeted: Tweet #tag3  in: 0ms
+@user9 tweeted: Tweet  in: 0ms
+@user0 tweeted: Tweet @user9  in: 0ms
+@user1 tweeted: Tweet  in: 0ms
+@user2 tweeted: Tweet @user3  in: 0ms
+@user3 tweeted: Tweet #tag4 @user7  in: 0ms
+@user4 tweeted: Tweet  in: 0ms
+@user5 retweeted from @user1 in: 4ms
+@user6 favorited from @user5 in: 2ms
+@user7 tweeted: Tweet @user2  in: 0ms
+@user8 tweeted: Tweet #tag3  in: 0ms
+@user9 favorited from @user4 in: 2ms
+@user0 tweeted: Tweet  in: 0ms
+@user1 tweeted: Tweet #tag3 @user0  in: 0ms
+@user2 retweeted from @user1 in: 5ms
+@user3 tweeted: Tweet #tag3  in: 0ms
+@user4 favorited from @user3 in: 2ms
+@user5 tweeted: Tweet  in: 0ms
+@user6 favorited from @user4 in: 1ms
+@user7 tweeted: Tweet #tag2  in: 0ms
+@user8 retweeted from @user2 in: 3ms
+@user9 tweeted: Tweet #tag3  in: 0ms
+@user1 tweeted: Tweet #tag0 @user6  in: 0ms
+@user2 tweeted: Tweet #tag2  in: 0ms
+@user3 retweeted from @user1 in: 3ms
+@user4 retweeted from @user1 in: 4ms
+@user5 tweeted: Tweet @user2  in: 0ms
+@user6 retweeted from @user0 in: 3ms
+@user7 favorited from @user0 in: 1ms
+@user8 retweeted from @user0 in: 4ms
+@user9 tweeted: Tweet #tag0 @user4  in: 0ms
+@user0 tweeted: Tweet #tag4 @user7  in: 0ms
+@user1 tweeted: Tweet #tag3 @user8  in: 0ms
+@user2 tweeted: Tweet #tag0  in: 0ms
+@user3 tweeted: Tweet #tag4 @user5  in: 0ms
+@user4 retweeted from @user0 in: 3ms
+@user5 tweeted: Tweet @user1  in: 0ms
+@user6 tweeted: Tweet #tag4  in: 0ms
+@user7 tweeted: Tweet #tag2 @user4  in: 0ms
+@user8 favorited from @user6 in: 2ms
+@user9 tweeted: Tweet #tag1 @user9  in: 0ms
+@user0 tweeted: Tweet  in: 0ms
+@user1 tweeted: Tweet  in: 0ms
+@user2 tweeted: Tweet  in: 0ms
+@user3 retweeted from @user0 in: 3ms
+@user4 favorited from @user1 in: 1ms
+@user5 retweeted from @user3 in: 3ms
+@user6 tweeted: Tweet @user4  in: 0ms
+@user7 retweeted from @user0 in: 3ms
+@user8 retweeted from @user2 in: 3ms
+@user9 favorited from @user3 in: 2ms
+@user0 tweeted: Tweet #tag0 @user9  in: 0ms
+@user1 retweeted from @user0 in: 3ms
+@user2 retweeted from @user1 in: 3ms
+@user3 tweeted: Tweet #tag4  in: 0ms
+@user4 tweeted: Tweet #tag1 @user2  in: 0ms
+@user5 tweeted: Tweet #tag4  in: 0ms
+@user6 tweeted: Tweet #tag0 @user3  in: 0ms
+@user7 favorited from @user1 in: 1ms
+@user8 tweeted: Tweet  in: 0ms
+@user9 tweeted: Tweet #tag2  in: 0ms
+@user1 retweeted from @user0 in: 3ms
+@user2 favorited from @user1 in: 1ms
+@user3 tweeted: Tweet #tag0  in: 0ms
+@user4 tweeted: Tweet @user0  in: 0ms
+@user5 favorited from @user4 in: 1ms
+@user6 retweeted from @user4 in: 3ms
+@user7 tweeted: Tweet #tag4  in: 0ms
+@user8 retweeted from @user6 in: 5ms
+@user9 favorited from @user6 in: 2ms
+@user0 tweeted: Tweet #tag2  in: 0ms
+@user1 tweeted: Tweet @user0  in: 0ms
+@user2 retweeted from @user1 in: 3ms
+@user3 tweeted: Tweet #tag2 @user0  in: 0ms
+@user4 tweeted: Tweet  in: 0ms
+@user5 tweeted: Tweet #tag2 @user0  in: 0ms
+@user6 tweeted: Tweet #tag1  in: 0ms
+@user7 tweeted: Tweet #tag3  in: 0ms
+@user8 tweeted: Tweet #tag1 @user7  in: 0ms
+@user9 retweeted from @user6 in: 3ms
+@user1 tweeted: Tweet  in: 0ms
+@user2 retweeted from @user1 in: 3ms
+@user3 retweeted from @user1 in: 3ms
+@user4 retweeted from @user0 in: 3ms
+@user5 tweeted: Tweet #tag0  in: 0ms
+@user6 tweeted: Tweet  in: 0ms
+@user7 retweeted from @user1 in: 3ms
+@user8 tweeted: Tweet @user5  in: 0ms
+@user9 tweeted: Tweet #tag3 @user9  in: 0ms
+@user0 tweeted: Tweet #tag2 @user8  in: 0ms
+@user1 tweeted: Tweet #tag0  in: 0ms
+@user2 tweeted: Tweet #tag0 @user0  in: 0ms
+@user3 retweeted from @user1 in: 3ms
+@user4 retweeted from @user0 in: 3ms
+@user5 tweeted: Tweet @user7  in: 0ms
+@user6 retweeted from @user0 in: 3ms
+@user7 tweeted: Tweet @user0  in: 0ms
+@user8 tweeted: Tweet @user5  in: 0ms
+@user9 tweeted: Tweet @user0  in: 0ms
+@user0 tweeted: Tweet @user8  in: 0ms
+@user1 tweeted: Tweet #tag1 @user5  in: 0ms
+@user2 favorited from @user0 in: 2ms
+@user3 tweeted: Tweet #tag0 @user0  in: 0ms
+@user4 retweeted from @user3 in: 4ms
+@user5 favorited from @user4 in: 2ms
+@user6 tweeted: Tweet  in: 0ms
+@user7 tweeted: Tweet #tag4 @user9  in: 0ms
+@user8 tweeted: Tweet  in: 0ms
+@user9 tweeted: Tweet  in: 0ms
+@user0 tweeted: Tweet  in: 0ms
+@user1 favorited from @user0 in: 1ms
+@user2 retweeted from @user1 in: 3ms
+@user3 tweeted: Tweet #tag4 @user4  in: 0ms
+@user4 tweeted: Tweet #tag0  in: 0ms
+@user5 tweeted: Tweet #tag4 @user6  in: 0ms
+@user6 tweeted: Tweet @user5  in: 0ms
+@user7 tweeted: Tweet @user3  in: 0ms
+@user8 tweeted: Tweet #tag0  in: 0ms
+@user9 tweeted: Tweet #tag2  in: 0ms
+@user1 tweeted: Tweet @user0  in: 0ms
+@user2 tweeted: Tweet #tag0  in: 0ms
+@user3 tweeted: Tweet #tag2  in: 0ms
+@user4 favorited from @user1 in: 2ms
+@user5 tweeted: Tweet  in: 0ms
+@user6 tweeted: Tweet #tag4 @user9  in: 0ms
+@user7 tweeted: Tweet  in: 0ms
+@user8 tweeted: Tweet @user3  in: 0ms
+@user9 tweeted: Tweet #tag0  in: 0ms
+@user1 retweeted from @user0 in: 3ms
+@user2 favorited from @user1 in: 1ms
+@user3 tweeted: Tweet @user9  in: 0ms
+@user4 tweeted: Tweet  in: 0ms
+@user5 tweeted: Tweet  in: 0ms
+@user6 tweeted: Tweet  in: 0ms
+@user7 retweeted from @user2 in: 4ms
+@user8 favorited from @user4 in: 2ms
+@user9 tweeted: Tweet  in: 0ms
+@user1 tweeted: Tweet @user5  in: 0ms
+@user2 favorited from @user1 in: 1ms
+@user3 tweeted: Tweet #tag4 @user7  in: 0ms
+@user4 tweeted: Tweet  in: 0ms
+@user5 tweeted: Tweet @user4  in: 0ms
+@user6 tweeted: Tweet @user0  in: 0ms
+@user7 tweeted: Tweet #tag2  in: 0ms
+@user8 tweeted: Tweet #tag0  in: 0ms
+@user9 retweeted from @user6 in: 3ms
+@user0 tweeted: Tweet #tag1  in: 0ms
+@user1 retweeted from @user0 in: 3ms
+@user2 tweeted: Tweet #tag2 @user2  in: 0ms
+@user3 favorited from @user0 in: 2ms
+@user4 tweeted: Tweet  in: 0ms
+@user5 tweeted: Tweet @user8  in: 0ms
+@user6 retweeted from @user2 in: 3ms
+@user7 tweeted: Tweet #tag1  in: 0ms
+@user8 tweeted: Tweet #tag3  in: 0ms
+@user9 retweeted from @user7 in: 4ms
+@user1 favorited from @user0 in: 2ms
+@user2 retweeted from @user1 in: 4ms
+@user3 tweeted: Tweet  in: 0ms
+@user4 favorited from @user0 in: 2ms
+@user5 tweeted: Tweet #tag4  in: 0ms
+@user6 retweeted from @user5 in: 3ms
+@user7 tweeted: Tweet @user1  in: 0ms
+@user8 tweeted: Tweet #tag0  in: 0ms
+@user9 tweeted: Tweet #tag2 @user3  in: 0ms
+@user1 favorited from @user0 in: 1ms
+@user2 tweeted: Tweet #tag3 @user7  in: 0ms
+@user3 tweeted: Tweet @user0  in: 0ms
+@user4 tweeted: Tweet  in: 0ms
+@user5 retweeted from @user3 in: 5ms
+@user6 tweeted: Tweet @user2  in: 0ms
+@user7 tweeted: Tweet #tag3 @user1  in: 0ms
+@user8 tweeted: Tweet #tag4  in: 0ms
+@user9 retweeted from @user0 in: 3ms
+@user1 tweeted: Tweet #tag4 @user1  in: 0ms
+@user2 tweeted: Tweet  in: 0ms
+@user3 favorited from @user0 in: 1ms
+@user4 tweeted: Tweet #tag3  in: 0ms
+@user5 tweeted: Tweet @user3  in: 0ms
+@user6 tweeted: Tweet #tag2  in: 0ms
+@user7 retweeted from @user4 in: 3ms
+@user8 retweeted from @user1 in: 3ms
+@user9 tweeted: Tweet #tag0 @user1  in: 0ms
+@user0 tweeted: Tweet #tag4 @user4  in: 0ms
+@user1 retweeted from @user0 in: 3ms
+@user2 tweeted: Tweet  in: 0ms
+@user3 retweeted from @user2 in: 4ms
+@user4 tweeted: Tweet @user1  in: 0ms
+@user5 favorited from @user4 in: 2ms
+@user6 tweeted: Tweet @user2  in: 0ms
+@user7 tweeted: Tweet  in: 0ms
+@user8 retweeted from @user0 in: 3ms
+@user9 tweeted: Tweet #tag1  in: 0ms
+@user1 tweeted: Tweet #tag1  in: 0ms
+@user2 favorited from @user0 in: 2ms
+@user3 retweeted from @user0 in: 4ms
+@user4 favorited from @user0 in: 2ms
+@user5 retweeted from @user0 in: 3ms
+@user6 retweeted from @user0 in: 3ms
+@user7 tweeted: Tweet #tag3  in: 0ms
+@user8 tweeted: Tweet @user2  in: 0ms
+@user9 tweeted: Tweet #tag0 @user8  in: 0ms
+@user1 tweeted: Tweet @user0  in: 0ms
+@user2 tweeted: Tweet #tag0 @user2  in: 0ms
+@user3 tweeted: Tweet #tag4  in: 0ms
+@user4 tweeted: Tweet #tag2 @user6  in: 0ms
+@user5 tweeted: Tweet #tag1 @user3  in: 0ms
+@user6 tweeted: Tweet #tag1  in: 0ms
+@user7 tweeted: Tweet @user5  in: 0ms
+@user8 retweeted from @user1 in: 3ms
+@user9 favorited from @user3 in: 2ms
+@user1 tweeted: Tweet #tag1  in: 0ms
+@user2 tweeted: Tweet #tag0  in: 0ms
+@user3 retweeted from @user0 in: 6ms
+@user4 tweeted: Tweet @user9  in: 0ms
+@user5 favorited from @user0 in: 2ms
+@user6 favorited from @user3 in: 1ms
+@user7 tweeted: Tweet  in: 0ms
+@user8 tweeted: Tweet #tag0 @user0  in: 0ms
+@user9 retweeted from @user0 in: 4ms
+@user0 tweeted: Tweet #tag2  in: 0ms
+@user1 tweeted: Tweet @user7  in: 0ms
+@user2 tweeted: Tweet #tag0 @user1  in: 0ms
+@user3 tweeted: Tweet  in: 0ms
+@user4 tweeted: Tweet @user1  in: 0ms
+@user5 tweeted: Tweet  in: 0ms
+@user6 favorited from @user5 in: 2ms
+@user7 favorited from @user0 in: 1ms
+@user8 tweeted: Tweet  in: 0ms
+@user9 retweeted from @user6 in: 3ms
+@user0 tweeted: Tweet @user6  in: 0ms
+@user1 tweeted: Tweet #tag0 @user0  in: 0ms
+@user2 retweeted from @user1 in: 3ms
+@user3 tweeted: Tweet #tag3  in: 0ms
+@user4 tweeted: Tweet #tag2 @user8  in: 0ms
+@user5 tweeted: Tweet  in: 0ms
+@user6 retweeted from @user2 in: 4ms
+@user7 favorited from @user2 in: 2ms
+@user8 tweeted: Tweet  in: 0ms
+@user9 tweeted: Tweet @user7  in: 0ms
+@user0 tweeted: Tweet @user2  in: 0ms
+@user1 tweeted: Tweet #tag2  in: 0ms
+@user2 tweeted: Tweet  in: 0ms
+@user3 tweeted: Tweet @user1  in: 0ms
+@user4 retweeted from @user3 in: 3ms
+@user5 tweeted: Tweet  in: 0ms
+@user6 tweeted: Tweet #tag4  in: 0ms
+@user7 tweeted: Tweet  in: 0ms
+@user8 retweeted from @user0 in: 3ms
+@user9 favorited from @user7 in: 2ms
+@user1 tweeted: Tweet @user7  in: 0ms
+@user2 retweeted from @user1 in: 3ms
+@user3 tweeted: Tweet #tag4  in: 0ms
+@user4 retweeted from @user3 in: 3ms
+@user5 favorited from @user4 in: 2ms
+@user6 tweeted: Tweet #tag3  in: 0ms
+@user7 retweeted from @user1 in: 4ms
+@user8 tweeted: Tweet #tag2  in: 0ms
+@user9 retweeted from @user7 in: 4ms
+@user1 tweeted: Tweet #tag3 @user1  in: 0ms
+@user2 favorited from @user1 in: 2ms
+@user3 retweeted from @user1 in: 3ms
+@user4 retweeted from @user1 in: 3ms
+@user5 tweeted: Tweet #tag1  in: 0ms
+@user6 favorited from @user0 in: 2ms
+@user7 favorited from @user5 in: 3ms
+@user8 favorited from @user2 in: 6ms
+@user9 favorited from @user5 in: 3ms
+Done populating!
