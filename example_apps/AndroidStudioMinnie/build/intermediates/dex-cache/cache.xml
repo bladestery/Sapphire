@@ -3,13 +3,83 @@
 
     <item
         custom-flags="--core-library"
-        is-multidex="false"
-        jar="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/app/build/intermediates/exploded-aar/AndroidStudioMinnie/sapphire/unspecified/jars/classes.jar"
-        jumboMode="false"
+        is-multidex="true"
+        jar="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/app/build/intermediates/exploded-aar/com.android.support/multidex/1.0.1/jars/classes.jar"
+        jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="e3219aa6cf59c9a07ab24e49f5399a99128d09c8">
-        <dex dex="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/app/build/intermediates/pre-dexed/debug/AndroidStudioMinnie-sapphire-unspecified_17424b66f7d29d13378656a5b41f8779bc39a1e6.jar" />
+        sha1="78ea232052df889856dcb7b7b542707c89bb3bfb">
+        <dex dex="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-multidex-1.0.1_4455031b5f9f9c0721646f8631c2675bf77ebe68/classes.dex" />
+    </item>
+    <item
+        custom-flags="--core-library"
+        is-multidex="true"
+        jar="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/app/build/intermediates/exploded-aar/AndroidStudioMinnie/sapphire/unspecified/jars/libs/kernel.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="91d118233f5129db90e126b17c677faeb4c7532a">
+        <dex dex="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/app/build/intermediates/transforms/dex/debug/folders/1000/8/kernel_4a36505a9f0d05fe27996a9594319443feea3343/classes.dex" />
+    </item>
+    <item
+        custom-flags="--core-library"
+        is-multidex="true"
+        jar="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/app/build/intermediates/exploded-aar/AndroidStudioMinnie/sapphire/unspecified/jars/libs/rmi.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="d81dd642e1abe613427c02ad01c7493d1bb783ce">
+        <dex dex="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/app/build/intermediates/transforms/dex/debug/folders/1000/8/rmi_36c38b0778b2d948aef05ed48c89c88fac9af93b/classes.dex" />
+    </item>
+    <item
+        custom-flags="--core-library"
+        is-multidex="true"
+        jar="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/app/build/intermediates/exploded-aar/AndroidStudioMinnie/sapphire/unspecified/jars/libs/luni.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="b3f309f7b090c8fdf15c687b0ff19c5b1bab795c">
+        <dex dex="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/app/build/intermediates/transforms/dex/debug/folders/1000/8/luni_4011a3a4189cfecf1767e506f663bed3a7f43f27/classes.dex" />
+    </item>
+    <item
+        custom-flags="--core-library"
+        is-multidex="true"
+        jar="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/app/build/intermediates/exploded-aar/AndroidStudioMinnie/sapphire/unspecified/jars/libs/log4j-api-2.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="837fadb0d820240e168de342dd99cdeb84338924">
+        <dex dex="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/app/build/intermediates/transforms/dex/debug/folders/1000/8/log4j-api-2.1_4a53545a0e10f13e61e5c7676071d15222a010e8/classes.dex" />
+    </item>
+    <item
+        custom-flags="--core-library"
+        is-multidex="true"
+        jar="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="d1984696f98a0ff205f85638a05c117f6f7605a7">
+        <dex dex="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_91e39b76a34c691f1f9646a55cb9ad2381127692/classes.dex" />
+    </item>
+    <item
+        custom-flags="--core-library"
+        is-multidex="true"
+        jar="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="80feb4e15b702f8354ec4bb0e0be5736771cfab8">
+        <dex dex="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_78665a21012c44ed146abc3d7dc0c03586dd5e02/classes.dex" />
+    </item>
+    <item
+        custom-flags="--core-library"
+        is-multidex="true"
+        jar="/home/ubuntu/Android/Sdk/extras/android/m2repository/com/android/support/support-v4/18.0.0/support-v4-18.0.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="44ec51e9d395a47aab135e5e1b556c0007442156">
+        <dex dex="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-v4-18.0.0_33c5a5d76d0b32fb9dac7695505bdd6f356588de/classes.dex" />
     </item>
 
 </items>

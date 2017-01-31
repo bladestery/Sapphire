@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="kernel">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/sapphire/libs/kernel.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

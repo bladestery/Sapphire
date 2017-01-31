@@ -20,4 +20,8 @@ android {
 dependencies {
     compile 'com.android.support:support-v4:18.+'
     compile files('libs/rmi.jar')
+    compile files('libs/kernel.jar')
+    compile files('libs/log4j-api-2.1.jar')
+    compile files('libs/luni.jar')
+    //compile files('libs/rt.jar')
 }
