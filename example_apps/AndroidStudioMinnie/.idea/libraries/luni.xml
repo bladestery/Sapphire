@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="luni">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/sapphire/libs/luni.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

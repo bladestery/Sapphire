@@ -27,7 +27,6 @@ import sapphire.policy.SapphirePolicy.SapphireServerPolicy;
 import sapphire.runtime.EventHandler;
 
 import org.json.JSONException;
-import android.util.Log;
 
 /** OMSServer for tracking objects in Sapphire
  * 
@@ -128,16 +127,12 @@ public class OMSServerImpl implements OMSServer{
         */
        @Override
        public AppObjectStub getAppEntryPoint() throws RemoteException {
-		   Log.d("output", "In getAppEntry");
     	   if (appEntryPoint != null) {
     		   return appEntryPoint;
     	   } else {
     		   	InetSocketAddress host = serverManager.getServerInRegion(serverManager.getRegions().get(0));
-			   	Log.d("output", "Got Server in Region");
     		   	KernelServer server = serverManager.getServer(host);
-			    Log.d("output", "Got Server");
     		   	appEntryPoint = server.startApp(appEntryClassName);
-			   	Log.d("output", "Got appEntry");
     		   	return appEntryPoint;
     	   }
        }

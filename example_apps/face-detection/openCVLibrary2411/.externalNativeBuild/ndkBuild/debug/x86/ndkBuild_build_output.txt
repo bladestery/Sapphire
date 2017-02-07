@@ -1,0 +1,10 @@
+rm -f /home/bladestery/Sapphire/example_apps/face-detection/openCVLibrary2411/build/intermediates/ndkBuild/debug/lib/x86/*
+rm -f /home/bladestery/Sapphire/example_apps/face-detection/openCVLibrary2411/build/intermediates/ndkBuild/debug/lib/x86/gdbserver
+rm -f /home/bladestery/Sapphire/example_apps/face-detection/openCVLibrary2411/build/intermediates/ndkBuild/debug/lib/x86/gdb.setup
+mkdir -p /home/bladestery/Sapphire/example_apps/face-detection/openCVLibrary2411/build/intermediates/ndkBuild/debug/lib/x86
+echo [x86] "Gdbserver      ": "[i686-linux-android] /home/bladestery/Sapphire/example_apps/face-detection/openCVLibrary2411/build/intermediates/ndkBuild/debug/lib/x86/gdbserver"
+install -p /home/bladestery/Android/Sdk/ndk-bundle/prebuilt/android-x86/gdbserver/gdbserver /home/bladestery/Sapphire/example_apps/face-detection/openCVLibrary2411/build/intermediates/ndkBuild/debug/lib/x86/gdbserver
+echo [x86] "Gdbsetup       ": "/home/bladestery/Sapphire/example_apps/face-detection/openCVLibrary2411/build/intermediates/ndkBuild/debug/lib/x86/gdb.setup"
+echo "set solib-search-path /home/bladestery/Sapphire/example_apps/face-detection/openCVLibrary2411/build/intermediates/ndkBuild/debug/obj/local/x86" > /home/bladestery/Sapphire/example_apps/face-detection/openCVLibrary2411/build/intermediates/ndkBuild/debug/lib/x86/gdb.setup
+echo "directory /home/bladestery/Android/Sdk/ndk-bundle/platforms/android-9/arch-x86/usr/include /home/bladestery/Android/Sdk/ndk-bundle/sources/cxx-stl/gnu-libstdc++" >> /home/bladestery/Sapphire/example_apps/face-detection/openCVLibrary2411/build/intermediates/ndkBuild/debug/lib/x86/gdb.setup
+/home/bladestery/Android/Sdk/ndk-bundle/build/core/build-all.mk:89: Android NDK: WARNING: There are no modules to build in this project!    

@@ -35,7 +35,7 @@ def start_oms(oms, server_file, cp_app, p_log):
     cmd += ['sapphire.oms.OMSServerImpl']
     cmd += [hostname, port, app_class]
     print cmd
-    f = open("/home/ubuntu/Sapphire/deployment/logs/oms-log."+hostname+"."+port, 'w+')
+    f = open("/home/bladestery/Sapphire/deployment/logs/oms-log."+hostname+"."+port, 'w+')
     subprocess.Popen(cmd, stdout=f, stderr=f)
 
     sleep(2)
@@ -52,7 +52,7 @@ def start_servers(servers, oms, cp_app, p_log):
         cmd += ['sapphire.kernel.server.KernelServerImpl']
         cmd += [hostname, port, oms["hostname"], oms["port"]]
         print cmd
-        f = open("/home/ubuntu/Sapphire/deployment/logs/log."+hostname+"."+port, 'w+')
+        f = open("/home/bladestery/Sapphire/deployment/logs/log."+hostname+"."+port, 'w+')
         subprocess.Popen(cmd, stdout=f, stderr=f)
     
     sleep(2)
@@ -81,7 +81,7 @@ if __name__ == '__main__':
     #    print "ANDROID_BUILD_TOP is not set - should have been set while building android"
     #    sys.exit()
 
-    cp_app =  '/home/ubuntu/Android/Sdk/platforms/android-17/android.jar:/home/ubuntu/Android/Sdk/platforms/android-17/data/res:/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/classes/debug:/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/libs/log4j-api-2.1.jar:/home/ubuntu/Android/Sdk/extras/android/m2repository/com/android/support/support-v4/18.0.0/support-v4-18.0.0.jar:/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/libs/kernel.jar:/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/libs/rmi.jar'
+    cp_app =  '/home/bladestery/Android/Sdk/platforms/android-17/android.jar:/home/bladestery/Android/Sdk/platforms/android-17/data/res:/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/app/build/intermediates/classes/debug:/home/bladestery/Android/Sdk/extras/android/m2repository/com/android/support/support-v4/18.0.0/support-v4-18.0.0.jar:/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/app/build/intermediates/exploded-aar/com.android.support/multidex/1.0.1/jars/classes.jar:/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/app/build/intermediates/exploded-aar/com.android.support/multidex/1.0.1/res:/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/classes/debug:/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/libs/log4j-api-2.1.jar:/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/libs/kernel.jar:/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/libs/luni.jar:/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/libs/rmi.jar:/home/bladestery/android-studio/lib/idea_rt.jar'
     p_log = '~/Sapphire/sapphire/logging.properties'
 
     server_file = "servers.json"

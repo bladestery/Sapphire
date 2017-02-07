@@ -1,0 +1,33 @@
+#Internal package file, do not edit.
+#Tue Feb 07 05:22:44 ICT 2017
+2.base=/home/bladestery/Sapphire/example_apps/face-detection/openCVSamplefacedetection/build/intermediates/transforms/dex/debug/folders/1000/1f/main
+5.file=/home/bladestery/Sapphire/example_apps/face-detection/openCVSamplefacedetection/build/intermediates/transforms/stripDebugSymbol/debug/folders/2000/1f/main/lib/mips/libdetection_based_tracker.so
+5.set=NATIVE_RESOURCE
+3.base=/home/bladestery/Sapphire/example_apps/face-detection/openCVSamplefacedetection/build/intermediates/transforms/stripDebugSymbol/debug/folders/2000/1f/main
+6.file=/home/bladestery/Sapphire/example_apps/face-detection/openCVSamplefacedetection/build/intermediates/res/resources-debug.ap_/AndroidManifest.xml
+2.set=DEX
+4.base=/home/bladestery/Sapphire/example_apps/face-detection/openCVSamplefacedetection/build/intermediates/res/resources-debug.ap_
+7.file=/home/bladestery/Sapphire/example_apps/face-detection/openCVSamplefacedetection/build/intermediates/res/resources-debug.ap_/res/layout/face_detect_surface_view.xml
+7.set=ANDROID_RESOURCE
+count=10
+0.file=/home/bladestery/Sapphire/example_apps/face-detection/openCVSamplefacedetection/build/intermediates/res/resources-debug.ap_/resources.arsc
+5.base=/home/bladestery/Sapphire/example_apps/face-detection/openCVSamplefacedetection/build/intermediates/transforms/stripDebugSymbol/debug/folders/2000/1f/main
+8.file=/home/bladestery/Sapphire/example_apps/face-detection/openCVSamplefacedetection/build/intermediates/transforms/stripDebugSymbol/debug/folders/2000/1f/main/lib/x86/libdetection_based_tracker.so
+4.set=ANDROID_RESOURCE
+6.base=/home/bladestery/Sapphire/example_apps/face-detection/openCVSamplefacedetection/build/intermediates/res/resources-debug.ap_
+1.file=/home/bladestery/Sapphire/example_apps/face-detection/openCVSamplefacedetection/build/intermediates/transforms/stripDebugSymbol/debug/folders/2000/1f/main/lib/armeabi-v7a/libdetection_based_tracker.so
+9.set=ANDROID_RESOURCE
+9.file=/home/bladestery/Sapphire/example_apps/face-detection/openCVSamplefacedetection/build/intermediates/res/resources-debug.ap_/res/raw/lbpcascade_frontalface.xml
+1.set=NATIVE_RESOURCE
+7.base=/home/bladestery/Sapphire/example_apps/face-detection/openCVSamplefacedetection/build/intermediates/res/resources-debug.ap_
+2.file=/home/bladestery/Sapphire/example_apps/face-detection/openCVSamplefacedetection/build/intermediates/transforms/dex/debug/folders/1000/1f/main/classes.dex
+6.set=ANDROID_RESOURCE
+0.base=/home/bladestery/Sapphire/example_apps/face-detection/openCVSamplefacedetection/build/intermediates/res/resources-debug.ap_
+8.base=/home/bladestery/Sapphire/example_apps/face-detection/openCVSamplefacedetection/build/intermediates/transforms/stripDebugSymbol/debug/folders/2000/1f/main
+3.file=/home/bladestery/Sapphire/example_apps/face-detection/openCVSamplefacedetection/build/intermediates/transforms/stripDebugSymbol/debug/folders/2000/1f/main/lib/armeabi/libdetection_based_tracker.so
+3.set=NATIVE_RESOURCE
+1.base=/home/bladestery/Sapphire/example_apps/face-detection/openCVSamplefacedetection/build/intermediates/transforms/stripDebugSymbol/debug/folders/2000/1f/main
+9.base=/home/bladestery/Sapphire/example_apps/face-detection/openCVSamplefacedetection/build/intermediates/res/resources-debug.ap_
+4.file=/home/bladestery/Sapphire/example_apps/face-detection/openCVSamplefacedetection/build/intermediates/res/resources-debug.ap_/res/drawable/icon.png
+8.set=NATIVE_RESOURCE
+0.set=ANDROID_RESOURCE

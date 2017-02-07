@@ -1,4 +1,4 @@
-#Tue Jan 31 18:48:22 JST 2017
-base.0=/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/app/build/intermediates/transforms/dex/debug/folders/1000/1f/main
+#Tue Feb 07 11:02:41 ICT 2017
+base.0=/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/app/build/intermediates/transforms/dex/debug/folders/1000/1f/main
 renamed.0=classes.dex
-file.0=/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/app/build/intermediates/transforms/dex/debug/folders/1000/1f/main/classes.dex
+file.0=/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/app/build/intermediates/transforms/dex/debug/folders/1000/1f/main/classes.dex

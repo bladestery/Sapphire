@@ -7,7 +7,7 @@ import android.app.Activity;
 import android.view.Menu;
 import android.os.StrictMode;
 import android.widget.TextView;
-import android.util.Log;
+import android.os.AsyncTask;
 
 import sapphire.appexamples.minnietwitter.device.generator.TwitterWorldGeneratorAndroid;
 
@@ -16,15 +16,15 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		new AccessRemoteObject().execute();
 		setContentView(R.layout.activity_main);
-		if (android.os.Build.VERSION.SDK_INT > 9) {
-			StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-			StrictMode.setThreadPolicy(policy);
+	}
+
+	private class AccessRemoteObject extends AsyncTask<String, Void, String>{
+		protected String doInBackground(String... params) {
+			TwitterWorldGeneratorAndroid.main(null);
+			return null;
 		}
-		Log.d("output", "Starting MAIN");
-		TwitterWorldGeneratorAndroid.main(null);
-		//TextView minnie = (TextView) findViewById(R.id.minnie);
-		//minnie.setText(TwitterWorldGeneratorAndroid.main(Input));
 	}
 
 	@Override

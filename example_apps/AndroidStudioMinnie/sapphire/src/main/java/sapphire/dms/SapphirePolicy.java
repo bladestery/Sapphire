@@ -13,7 +13,7 @@ public abstract class SapphirePolicy extends DefaultSapphirePolicyUpcallImpl {
 	}
 	
 	public abstract static class SapphireServerPolicy extends DefaultSapphireServerPolicyUpcallImpl {
-	    
+		private static final long serialVersionUID = -6297032571186258361L;
 	}
 
 	public abstract static class SapphireGroupPolicy extends DefaultSapphireGroupPolicyUpcallImpl {

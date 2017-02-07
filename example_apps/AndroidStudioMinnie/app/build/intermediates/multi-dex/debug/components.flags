@@ -1,7 +1,7 @@
--injars /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/app/build/intermediates/transforms/jarMerging/debug/jars/1/1f/combined.jar
--outjars /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/app/build/intermediates/multi-dex/debug/componentClasses.jar
+-injars /home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/app/build/intermediates/transforms/jarMerging/debug/jars/1/1f/combined.jar
+-outjars /home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/app/build/intermediates/multi-dex/debug/componentClasses.jar
 
--libraryjars /home/ubuntu/Android/Sdk/build-tools/25.0.2/lib/shrinkedAndroid.jar
+-libraryjars /home/bladestery/Android/Sdk/build-tools/25.0.2/lib/shrinkedAndroid.jar
 
 -forceprocessing
 -dontoptimize
@@ -10,7 +10,7 @@
 -dontpreverify
 -dontnote **
 -dontwarn **
--printconfiguration /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/app/build/intermediates/multi-dex/debug/components.flags
+-printconfiguration /home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/app/build/intermediates/multi-dex/debug/components.flags
 
 
 -keep public class * extends android.app.Instrumentation {

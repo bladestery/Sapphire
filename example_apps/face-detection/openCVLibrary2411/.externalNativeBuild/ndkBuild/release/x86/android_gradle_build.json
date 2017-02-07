@@ -1,0 +1,11 @@
+{
+  "buildFiles": [
+    "/home/bladestery/Sapphire/example_apps/face-detection/openCVSamplefacedetection/src/main/jni/Application.mk",
+    "/home/bladestery/Sapphire/example_apps/face-detection/openCVSamplefacedetection/src/main/jni/Application.mk"
+  ],
+  "cleanCommands": [],
+  "libraries": {},
+  "toolchains": {},
+  "cFileExtensions": [],
+  "cppFileExtensions": []
+}

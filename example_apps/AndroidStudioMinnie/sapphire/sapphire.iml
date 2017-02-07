@@ -105,6 +105,7 @@
     <orderEntry type="library" exported="" name="log4j-api-2.1" level="project" />
     <orderEntry type="library" exported="" name="support-v4-18.0.0" level="project" />
     <orderEntry type="library" exported="" name="kernel" level="project" />
+    <orderEntry type="library" exported="" name="luni" level="project" />
     <orderEntry type="library" exported="" name="rmi" level="project" />
   </component>
 </module>
