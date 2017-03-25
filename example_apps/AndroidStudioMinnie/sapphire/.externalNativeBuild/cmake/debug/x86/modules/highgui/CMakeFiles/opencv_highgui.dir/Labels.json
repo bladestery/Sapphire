@@ -1,0 +1,44 @@
+
+{
+	"sources" : 
+	[
+		
+		{
+			"file" : "/home/bladestery/Downloads/opencv-3.2.0/modules/highgui/include/opencv2/highgui.hpp",
+			"labels" : [ "Main", "opencv_highgui", "Module" ]
+		},
+		
+		{
+			"file" : "/home/bladestery/Downloads/opencv-3.2.0/modules/highgui/include/opencv2/highgui/highgui.hpp",
+			"labels" : [ "Main", "opencv_highgui", "Module" ]
+		},
+		
+		{
+			"file" : "/home/bladestery/Downloads/opencv-3.2.0/modules/highgui/include/opencv2/highgui/highgui_c.h",
+			"labels" : [ "Main", "opencv_highgui", "Module" ]
+		},
+		
+		{
+			"file" : "/home/bladestery/Downloads/opencv-3.2.0/modules/highgui/src/window.cpp",
+			"labels" : [ "Main", "opencv_highgui", "Module" ]
+		},
+		
+		{
+			"file" : "/home/bladestery/Downloads/opencv-3.2.0/modules/highgui/src/precomp.hpp",
+			"labels" : [ "Main", "opencv_highgui", "Module" ]
+		},
+		
+		{
+			"file" : "/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/x86/cvconfig.h"
+		},
+		
+		{
+			"file" : "/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/x86/opencv2/opencv_modules.hpp"
+		}
+	],
+	"target" : 
+	{
+		"labels" : [ "Main", "opencv_highgui", "Module" ],
+		"name" : "opencv_highgui"
+	}
+}

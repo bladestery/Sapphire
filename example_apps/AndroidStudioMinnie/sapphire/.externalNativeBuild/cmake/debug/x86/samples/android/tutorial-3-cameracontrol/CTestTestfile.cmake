@@ -1,0 +1,6 @@
+# CMake generated Testfile for 
+# Source directory: /home/bladestery/Downloads/opencv-3.2.0/samples/android/tutorial-3-cameracontrol
+# Build directory: /home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/x86/samples/android/tutorial-3-cameracontrol
+# 
+# This file includes the relevant testing commands required for 
+# testing this directory and lists subdirectories to be tested as well.

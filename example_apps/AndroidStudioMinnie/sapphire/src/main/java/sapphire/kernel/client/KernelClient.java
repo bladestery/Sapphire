@@ -36,7 +36,7 @@ public class KernelClient {
 	 * 
 	 * @param hostname
 	 */
-	private KernelServer addHost(InetSocketAddress host) {
+	public KernelServer addHost(InetSocketAddress host) {
 		try {
 		    Registry registry = LocateRegistry.getRegistry(host.getHostName(), host.getPort());
 		    KernelServer server = (KernelServer) registry.lookup("SapphireKernelServer");
@@ -49,7 +49,7 @@ public class KernelClient {
 		return null;
 	}
 	
-	private KernelServer getServer(InetSocketAddress host) {
+	public KernelServer getServer(InetSocketAddress host) {
 		KernelServer server = servers.get(host);
 		if (server == null) {
 			server = addHost(host);
@@ -62,7 +62,7 @@ public class KernelClient {
 		servers = new Hashtable<InetSocketAddress,KernelServer>();
 	}
 	
-	private Object tryMakeKernelRPC(KernelServer server, KernelRPC rpc) throws KernelObjectNotFoundException, Exception {
+	public Object tryMakeKernelRPC(KernelServer server, KernelRPC rpc) throws KernelObjectNotFoundException, Exception {
 		Object ret = null;
 		try {
 			ret = server.makeKernelRPC(rpc);

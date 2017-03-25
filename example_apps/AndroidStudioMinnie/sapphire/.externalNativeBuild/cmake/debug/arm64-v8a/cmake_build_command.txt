@@ -1,0 +1,14 @@
+Executable : /home/bladestery/Android/Sdk/cmake/3.6.3155560/bin/cmake
+arguments : 
+-H/home/bladestery/Downloads/opencv-3.2.0
+-B/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/arm64-v8a
+-GAndroid Gradle - Ninja
+-DANDROID_ABI=arm64-v8a
+-DANDROID_NDK=/home/bladestery/Android/Sdk/ndk-bundle
+-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/cmake/debug/obj/arm64-v8a
+-DCMAKE_BUILD_TYPE=Debug
+-DCMAKE_MAKE_PROGRAM=/home/bladestery/Android/Sdk/cmake/3.6.3155560/bin/ninja
+-DCMAKE_TOOLCHAIN_FILE=/home/bladestery/Android/Sdk/ndk-bundle/build/cmake/android.toolchain.cmake
+-DANDROID_PLATFORM=android-21
+jvmArgs : 
+

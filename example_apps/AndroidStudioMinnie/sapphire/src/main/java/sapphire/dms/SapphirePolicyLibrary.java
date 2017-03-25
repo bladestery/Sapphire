@@ -35,11 +35,11 @@ public abstract class SapphirePolicyLibrary implements SapphirePolicyUpcalls {
 		protected KernelOID oid;
 		static Logger logger = Logger.getLogger("sapphire.policy.SapphirePolicyLibrary");
 
-		private OMSServer oms() {
+		public OMSServer oms() {
 			return GlobalKernelReferences.nodeServer.oms;
 		}
 
-		private KernelServerImpl kernel() {
+		public KernelServerImpl kernel() {
 			return GlobalKernelReferences.nodeServer;
 		}
 
@@ -50,7 +50,7 @@ public abstract class SapphirePolicyLibrary implements SapphirePolicyUpcalls {
 		/**
 		 * Creates a replica of this server and registers it with the group
 		 */
-		// TODO: Also replicate teh policy ??
+		// TODO: Also replicate the policy ??
 		public SapphireServerPolicy sapphire_replicate() {
 			KernelObjectStub serverPolicyStub = null;
 			String policyStubClassName = GlobalStubConstants.getPolicyPackageName() + "." + RMIUtil.getShortName(this.getClass()) + GlobalStubConstants.STUB_SUFFIX;
@@ -79,6 +79,8 @@ public abstract class SapphirePolicyLibrary implements SapphirePolicyUpcalls {
 		public AppObject sapphire_getAppObject() {
 			return appObject;
 		}
+
+		public KernelOID sapphire_getOID() { return oid; }
 
 		public void sapphire_pin(String region) throws RemoteException {
 			logger.info("Pinning Sapphire object " + oid.toString() + " to " + region);

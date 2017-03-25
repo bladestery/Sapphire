@@ -1,0 +1,139 @@
+Determining if the include file io.h exists failed with the following output:
+Change Dir: /home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/mips/CMakeFiles/CMakeTmp
+
+Run Build Command:"/home/bladestery/Android/Sdk/cmake/3.6.3155560/bin/ninja" "cmTC_1dc97"
+[1/2] Building C object CMakeFiles/cmTC_1dc97.dir/CheckIncludeFile.c.o
+FAILED: /home/bladestery/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/bin/clang  --target=mipsel-none-linux-android --gcc-toolchain=/home/bladestery/Android/Sdk/ndk-bundle/toolchains/mips64el-linux-android-4.9/prebuilt/linux-x86_64 --sysroot=/home/bladestery/Android/Sdk/ndk-bundle/platforms/android-19/arch-mips   -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -mips32 -Wa,--noexecstack -Wformat -Werror=format-security -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -mips32 -Wa,--noexecstack -Wformat -Werror=format-security    -fsigned-char -W -Wall -Werror=return-type -Werror=non-virtual-dtor -Werror=address -Werror=sequence-point -Wformat -Werror=format-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wsign-promo -Wno-narrowing -Wno-delete-non-virtual-dtor -Wno-unnamed-type-template-args -Wno-comment -fdiagnostics-show-option -Qunused-arguments -fomit-frame-pointer -fvisibility=hidden -fvisibility-inlines-hidden  -O0 -fno-limit-debug-info -O0 -fno-limit-debug-info   -O0 -DDEBUG -D_DEBUG -fPIE -o CMakeFiles/cmTC_1dc97.dir/CheckIncludeFile.c.o   -c /home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/mips/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/mips/CMakeFiles/CMakeTmp/CheckIncludeFile.c:1:10: fatal error: 'io.h' file not found
+#include <io.h>
+         ^
+1 error generated.
+ninja: build stopped: subcommand failed.
+
+
+Determining if the function jbg_newlen exists failed with the following output:
+Change Dir: /home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/mips/CMakeFiles/CMakeTmp
+
+Run Build Command:"/home/bladestery/Android/Sdk/cmake/3.6.3155560/bin/ninja" "cmTC_67b87"
+[1/2] Building C object CMakeFiles/cmTC_67b87.dir/CheckFunctionExists.c.o
+[2/2] Linking C executable cmTC_67b87
+FAILED: : && /home/bladestery/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/bin/clang  --target=mipsel-none-linux-android --gcc-toolchain=/home/bladestery/Android/Sdk/ndk-bundle/toolchains/mips64el-linux-android-4.9/prebuilt/linux-x86_64 --sysroot=/home/bladestery/Android/Sdk/ndk-bundle/platforms/android-19/arch-mips -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -mips32 -Wa,--noexecstack -Wformat -Werror=format-security -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -mips32 -Wa,--noexecstack -Wformat -Werror=format-security    -fsigned-char -W -Wall -Werror=return-type -Werror=non-virtual-dtor -Werror=address -Werror=sequence-point -Wformat -Werror=format-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wsign-promo -Wno-narrowing -Wno-delete-non-virtual-dtor -Wno-unnamed-type-template-args -Wno-comment -fdiagnostics-show-option -Qunused-arguments -fomit-frame-pointer -fvisibility=hidden -fvisibility-inlines-hidden -DCHECK_FUNCTION_EXISTS=jbg_newlen -O0 -fno-limit-debug-info -O0 -fno-limit-debug-info   -O0 -DDEBUG -D_DEBUG  -Wl,--build-id -Wl,--warn-shared-textrel -Wl,--fatal-warnings "-L/home/bladestery/Android/Sdk/ndk-bundle/toolchains/mips64el-linux-android-4.9/prebuilt/linux-x86_64/lib/gcc/mips64el-linux-android/4.9.x/32/mips-r1" -Wl,--no-undefined -Wl,-z,noexecstack -Qunused-arguments -Wl,-z,relro -Wl,-z,now -Wl,--gc-sections -Wl,-z,nocopyreloc -pie -fPIE CMakeFiles/cmTC_67b87.dir/CheckFunctionExists.c.o  -o cmTC_67b87  -lm && :
+CMakeFiles/cmTC_67b87.dir/CheckFunctionExists.c.o: In function `main':
+/home/bladestery/Android/Sdk/cmake/3.6.3155560/share/cmake-3.6/Modules/CheckFunctionExists.c:17: undefined reference to `jbg_newlen'
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+ninja: build stopped: subcommand failed.
+
+
+Determining if the include file search.h exists failed with the following output:
+Change Dir: /home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/mips/CMakeFiles/CMakeTmp
+
+Run Build Command:"/home/bladestery/Android/Sdk/cmake/3.6.3155560/bin/ninja" "cmTC_2aad0"
+[1/2] Building C object CMakeFiles/cmTC_2aad0.dir/CheckIncludeFile.c.o
+FAILED: /home/bladestery/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/bin/clang  --target=mipsel-none-linux-android --gcc-toolchain=/home/bladestery/Android/Sdk/ndk-bundle/toolchains/mips64el-linux-android-4.9/prebuilt/linux-x86_64 --sysroot=/home/bladestery/Android/Sdk/ndk-bundle/platforms/android-19/arch-mips   -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -mips32 -Wa,--noexecstack -Wformat -Werror=format-security -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -mips32 -Wa,--noexecstack -Wformat -Werror=format-security    -fsigned-char -W -Wall -Werror=return-type -Werror=non-virtual-dtor -Werror=address -Werror=sequence-point -Wformat -Werror=format-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wsign-promo -Wno-narrowing -Wno-delete-non-virtual-dtor -Wno-unnamed-type-template-args -Wno-comment -fdiagnostics-show-option -Qunused-arguments -fomit-frame-pointer -fvisibility=hidden -fvisibility-inlines-hidden  -O0 -fno-limit-debug-info -O0 -fno-limit-debug-info   -O0 -DDEBUG -D_DEBUG -fPIE -o CMakeFiles/cmTC_2aad0.dir/CheckIncludeFile.c.o   -c /home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/mips/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/mips/CMakeFiles/CMakeTmp/CheckIncludeFile.c:1:10: fatal error: 'search.h' file not found
+#include <search.h>
+         ^
+1 error generated.
+ninja: build stopped: subcommand failed.
+
+
+Build output check failed:
+    Regex: 'unknown .*option'
+    Output line: 'warning: unknown warning option '-Wno-unused-but-set-variable', did you mean '-Wno-unused-const-variable'? [-Wunknown-warning-option]'
+Compilation failed:
+    source file: '/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/mips/CMakeFiles/CMakeTmp/src.c'
+    check option: ' -Wno-unused-but-set-variable'
+===== BUILD LOG =====
+Change Dir: /home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/mips/CMakeFiles/CMakeTmp
+
+Run Build Command:"/home/bladestery/Android/Sdk/cmake/3.6.3155560/bin/ninja" "cmTC_ab281"
+[1/2] Building C object CMakeFiles/cmTC_ab281.dir/src.c.o
+warning: unknown warning option '-Wno-unused-but-set-variable'; did you mean '-Wno-unused-const-variable'? [-Wunknown-warning-option]
+/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/mips/CMakeFiles/CMakeTmp/src.c:1:8: warning: unknown pragma ignored [-Wunknown-pragmas]
+#pragma
+       ^
+2 warnings generated.
+[2/2] Linking C executable cmTC_ab281
+
+===== END =====
+
+Build output check failed:
+    Regex: 'unknown .*option'
+    Output line: 'warning: unknown warning option '-Wno-maybe-uninitialized', did you mean '-Wno-uninitialized'? [-Wunknown-warning-option]'
+Compilation failed:
+    source file: '/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/mips/CMakeFiles/CMakeTmp/src.c'
+    check option: ' -Wno-maybe-uninitialized'
+===== BUILD LOG =====
+Change Dir: /home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/mips/CMakeFiles/CMakeTmp
+
+Run Build Command:"/home/bladestery/Android/Sdk/cmake/3.6.3155560/bin/ninja" "cmTC_847d2"
+[1/2] Building C object CMakeFiles/cmTC_847d2.dir/src.c.o
+warning: unknown warning option '-Wno-maybe-uninitialized'; did you mean '-Wno-uninitialized'? [-Wunknown-warning-option]
+/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/mips/CMakeFiles/CMakeTmp/src.c:1:8: warning: unknown pragma ignored [-Wunknown-pragmas]
+#pragma
+       ^
+2 warnings generated.
+[2/2] Linking C executable cmTC_847d2
+
+===== END =====
+
+Build output check failed:
+    Regex: 'unknown .*option'
+    Output line: 'warning: unknown warning option '-Wno-misleading-indentation', did you mean '-Wno-missing-declarations'? [-Wunknown-warning-option]'
+Compilation failed:
+    source file: '/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/mips/CMakeFiles/CMakeTmp/src.c'
+    check option: ' -Wno-misleading-indentation'
+===== BUILD LOG =====
+Change Dir: /home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/mips/CMakeFiles/CMakeTmp
+
+Run Build Command:"/home/bladestery/Android/Sdk/cmake/3.6.3155560/bin/ninja" "cmTC_8ecbb"
+[1/2] Building C object CMakeFiles/cmTC_8ecbb.dir/src.c.o
+warning: unknown warning option '-Wno-misleading-indentation'; did you mean '-Wno-missing-declarations'? [-Wunknown-warning-option]
+/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/mips/CMakeFiles/CMakeTmp/src.c:1:8: warning: unknown pragma ignored [-Wunknown-pragmas]
+#pragma
+       ^
+2 warnings generated.
+[2/2] Linking C executable cmTC_8ecbb
+
+===== END =====
+
+Build output check failed:
+    Regex: 'unknown .*option'
+    Output line: 'warning: unknown warning option '-Wno-unused-but-set-parameter', did you mean '-Wno-unused-parameter'? [-Wunknown-warning-option]'
+Compilation failed:
+    source file: '/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/mips/CMakeFiles/CMakeTmp/src.c'
+    check option: ' -Wno-unused-but-set-parameter'
+===== BUILD LOG =====
+Change Dir: /home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/mips/CMakeFiles/CMakeTmp
+
+Run Build Command:"/home/bladestery/Android/Sdk/cmake/3.6.3155560/bin/ninja" "cmTC_c8b9c"
+[1/2] Building C object CMakeFiles/cmTC_c8b9c.dir/src.c.o
+warning: unknown warning option '-Wno-unused-but-set-parameter'; did you mean '-Wno-unused-parameter'? [-Wunknown-warning-option]
+/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/mips/CMakeFiles/CMakeTmp/src.c:1:8: warning: unknown pragma ignored [-Wunknown-pragmas]
+#pragma
+       ^
+2 warnings generated.
+[2/2] Linking C executable cmTC_c8b9c
+
+===== END =====
+
+Build output check failed:
+    Regex: 'unknown .*option'
+    Output line: 'warning: unknown warning option '-Wno-misleading-indentation', did you mean '-Wno-missing-declarations'? [-Wunknown-warning-option]'
+Compilation failed:
+    source file: '/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/mips/CMakeFiles/CMakeTmp/src.cxx'
+    check option: ' -Wno-misleading-indentation'
+===== BUILD LOG =====
+Change Dir: /home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/mips/CMakeFiles/CMakeTmp
+
+Run Build Command:"/home/bladestery/Android/Sdk/cmake/3.6.3155560/bin/ninja" "cmTC_26364"
+[1/2] Building CXX object CMakeFiles/cmTC_26364.dir/src.cxx.o
+warning: unknown warning option '-Wno-misleading-indentation'; did you mean '-Wno-missing-declarations'? [-Wunknown-warning-option]
+/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/mips/CMakeFiles/CMakeTmp/src.cxx:1:8: warning: unknown pragma ignored [-Wunknown-pragmas]
+#pragma
+       ^
+2 warnings generated.
+[2/2] Linking CXX executable cmTC_26364
+
+===== END =====
+

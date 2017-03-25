@@ -1,0 +1,126 @@
+Determining if the include file io.h exists failed with the following output:
+Change Dir: /home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/arm64-v8a/CMakeFiles/CMakeTmp
+
+Run Build Command:"/home/bladestery/Android/Sdk/cmake/3.6.3155560/bin/ninja" "cmTC_a7af4"
+[1/2] Building C object CMakeFiles/cmTC_a7af4.dir/CheckIncludeFile.c.o
+FAILED: /home/bladestery/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/bin/clang  --target=aarch64-none-linux-android --gcc-toolchain=/home/bladestery/Android/Sdk/ndk-bundle/toolchains/aarch64-linux-android-4.9/prebuilt/linux-x86_64 --sysroot=/home/bladestery/Android/Sdk/ndk-bundle/platforms/android-21/arch-arm64   -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -Wa,--noexecstack -Wformat -Werror=format-security -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -Wa,--noexecstack -Wformat -Werror=format-security    -fsigned-char -W -Wall -Werror=return-type -Werror=non-virtual-dtor -Werror=address -Werror=sequence-point -Wformat -Werror=format-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wsign-promo -Wno-narrowing -Wno-delete-non-virtual-dtor -Wno-unnamed-type-template-args -Wno-comment -fdiagnostics-show-option -Qunused-arguments -fomit-frame-pointer -fvisibility=hidden -fvisibility-inlines-hidden  -O0 -fno-limit-debug-info -O0 -fno-limit-debug-info   -O0 -DDEBUG -D_DEBUG -fPIE -o CMakeFiles/cmTC_a7af4.dir/CheckIncludeFile.c.o   -c /home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/arm64-v8a/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/arm64-v8a/CMakeFiles/CMakeTmp/CheckIncludeFile.c:1:10: fatal error: 'io.h' file not found
+#include <io.h>
+         ^
+1 error generated.
+ninja: build stopped: subcommand failed.
+
+
+Determining if the function jbg_newlen exists failed with the following output:
+Change Dir: /home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/arm64-v8a/CMakeFiles/CMakeTmp
+
+Run Build Command:"/home/bladestery/Android/Sdk/cmake/3.6.3155560/bin/ninja" "cmTC_95169"
+[1/2] Building C object CMakeFiles/cmTC_95169.dir/CheckFunctionExists.c.o
+[2/2] Linking C executable cmTC_95169
+FAILED: : && /home/bladestery/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/bin/clang  --target=aarch64-none-linux-android --gcc-toolchain=/home/bladestery/Android/Sdk/ndk-bundle/toolchains/aarch64-linux-android-4.9/prebuilt/linux-x86_64 --sysroot=/home/bladestery/Android/Sdk/ndk-bundle/platforms/android-21/arch-arm64 -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -Wa,--noexecstack -Wformat -Werror=format-security -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -Wa,--noexecstack -Wformat -Werror=format-security    -fsigned-char -W -Wall -Werror=return-type -Werror=non-virtual-dtor -Werror=address -Werror=sequence-point -Wformat -Werror=format-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wsign-promo -Wno-narrowing -Wno-delete-non-virtual-dtor -Wno-unnamed-type-template-args -Wno-comment -fdiagnostics-show-option -Qunused-arguments -fomit-frame-pointer -fvisibility=hidden -fvisibility-inlines-hidden -DCHECK_FUNCTION_EXISTS=jbg_newlen -O0 -fno-limit-debug-info -O0 -fno-limit-debug-info   -O0 -DDEBUG -D_DEBUG  -Wl,--build-id -Wl,--warn-shared-textrel -Wl,--fatal-warnings -Wl,--no-undefined -Wl,-z,noexecstack -Qunused-arguments -Wl,-z,relro -Wl,-z,now -Wl,--gc-sections -Wl,-z,nocopyreloc -pie -fPIE CMakeFiles/cmTC_95169.dir/CheckFunctionExists.c.o  -o cmTC_95169  -lm && :
+CMakeFiles/cmTC_95169.dir/CheckFunctionExists.c.o: In function `main':
+/home/bladestery/Android/Sdk/cmake/3.6.3155560/share/cmake-3.6/Modules/CheckFunctionExists.c:17: undefined reference to `jbg_newlen'
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+ninja: build stopped: subcommand failed.
+
+
+Build output check failed:
+    Regex: 'unknown .*option'
+    Output line: 'warning: unknown warning option '-Wno-unused-but-set-variable', did you mean '-Wno-unused-const-variable'? [-Wunknown-warning-option]'
+Compilation failed:
+    source file: '/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/arm64-v8a/CMakeFiles/CMakeTmp/src.c'
+    check option: ' -Wno-unused-but-set-variable'
+===== BUILD LOG =====
+Change Dir: /home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/arm64-v8a/CMakeFiles/CMakeTmp
+
+Run Build Command:"/home/bladestery/Android/Sdk/cmake/3.6.3155560/bin/ninja" "cmTC_76855"
+[1/2] Building C object CMakeFiles/cmTC_76855.dir/src.c.o
+warning: unknown warning option '-Wno-unused-but-set-variable'; did you mean '-Wno-unused-const-variable'? [-Wunknown-warning-option]
+/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/arm64-v8a/CMakeFiles/CMakeTmp/src.c:1:8: warning: unknown pragma ignored [-Wunknown-pragmas]
+#pragma
+       ^
+2 warnings generated.
+[2/2] Linking C executable cmTC_76855
+
+===== END =====
+
+Build output check failed:
+    Regex: 'unknown .*option'
+    Output line: 'warning: unknown warning option '-Wno-maybe-uninitialized', did you mean '-Wno-uninitialized'? [-Wunknown-warning-option]'
+Compilation failed:
+    source file: '/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/arm64-v8a/CMakeFiles/CMakeTmp/src.c'
+    check option: ' -Wno-maybe-uninitialized'
+===== BUILD LOG =====
+Change Dir: /home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/arm64-v8a/CMakeFiles/CMakeTmp
+
+Run Build Command:"/home/bladestery/Android/Sdk/cmake/3.6.3155560/bin/ninja" "cmTC_22f63"
+[1/2] Building C object CMakeFiles/cmTC_22f63.dir/src.c.o
+warning: unknown warning option '-Wno-maybe-uninitialized'; did you mean '-Wno-uninitialized'? [-Wunknown-warning-option]
+/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/arm64-v8a/CMakeFiles/CMakeTmp/src.c:1:8: warning: unknown pragma ignored [-Wunknown-pragmas]
+#pragma
+       ^
+2 warnings generated.
+[2/2] Linking C executable cmTC_22f63
+
+===== END =====
+
+Build output check failed:
+    Regex: 'unknown .*option'
+    Output line: 'warning: unknown warning option '-Wno-misleading-indentation', did you mean '-Wno-missing-declarations'? [-Wunknown-warning-option]'
+Compilation failed:
+    source file: '/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/arm64-v8a/CMakeFiles/CMakeTmp/src.c'
+    check option: ' -Wno-misleading-indentation'
+===== BUILD LOG =====
+Change Dir: /home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/arm64-v8a/CMakeFiles/CMakeTmp
+
+Run Build Command:"/home/bladestery/Android/Sdk/cmake/3.6.3155560/bin/ninja" "cmTC_c3e1d"
+[1/2] Building C object CMakeFiles/cmTC_c3e1d.dir/src.c.o
+warning: unknown warning option '-Wno-misleading-indentation'; did you mean '-Wno-missing-declarations'? [-Wunknown-warning-option]
+/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/arm64-v8a/CMakeFiles/CMakeTmp/src.c:1:8: warning: unknown pragma ignored [-Wunknown-pragmas]
+#pragma
+       ^
+2 warnings generated.
+[2/2] Linking C executable cmTC_c3e1d
+
+===== END =====
+
+Build output check failed:
+    Regex: 'unknown .*option'
+    Output line: 'warning: unknown warning option '-Wno-unused-but-set-parameter', did you mean '-Wno-unused-parameter'? [-Wunknown-warning-option]'
+Compilation failed:
+    source file: '/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/arm64-v8a/CMakeFiles/CMakeTmp/src.c'
+    check option: ' -Wno-unused-but-set-parameter'
+===== BUILD LOG =====
+Change Dir: /home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/arm64-v8a/CMakeFiles/CMakeTmp
+
+Run Build Command:"/home/bladestery/Android/Sdk/cmake/3.6.3155560/bin/ninja" "cmTC_357d8"
+[1/2] Building C object CMakeFiles/cmTC_357d8.dir/src.c.o
+warning: unknown warning option '-Wno-unused-but-set-parameter'; did you mean '-Wno-unused-parameter'? [-Wunknown-warning-option]
+/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/arm64-v8a/CMakeFiles/CMakeTmp/src.c:1:8: warning: unknown pragma ignored [-Wunknown-pragmas]
+#pragma
+       ^
+2 warnings generated.
+[2/2] Linking C executable cmTC_357d8
+
+===== END =====
+
+Build output check failed:
+    Regex: 'unknown .*option'
+    Output line: 'warning: unknown warning option '-Wno-misleading-indentation', did you mean '-Wno-missing-declarations'? [-Wunknown-warning-option]'
+Compilation failed:
+    source file: '/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/arm64-v8a/CMakeFiles/CMakeTmp/src.cxx'
+    check option: ' -Wno-misleading-indentation'
+===== BUILD LOG =====
+Change Dir: /home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/arm64-v8a/CMakeFiles/CMakeTmp
+
+Run Build Command:"/home/bladestery/Android/Sdk/cmake/3.6.3155560/bin/ninja" "cmTC_241a0"
+[1/2] Building CXX object CMakeFiles/cmTC_241a0.dir/src.cxx.o
+warning: unknown warning option '-Wno-misleading-indentation'; did you mean '-Wno-missing-declarations'? [-Wunknown-warning-option]
+/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/arm64-v8a/CMakeFiles/CMakeTmp/src.cxx:1:8: warning: unknown pragma ignored [-Wunknown-pragmas]
+#pragma
+       ^
+2 warnings generated.
+[2/2] Linking CXX executable cmTC_241a0
+
+===== END =====
+

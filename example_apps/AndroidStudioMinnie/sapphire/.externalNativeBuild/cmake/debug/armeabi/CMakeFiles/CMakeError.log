@@ -1,0 +1,166 @@
+Compilation failed:
+    source file: '/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/armeabi/CMakeFiles/CMakeTmp/src.cxx'
+    check option: ' -fsigned-char -W -Wall -Werror=return-type -Werror=non-virtual-dtor -Werror=address -Werror=sequence-point -Wformat -Werror=format-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wsign-promo -Wno-narrowing -Wno-delete-non-virtual-dtor -Wno-unnamed-type-template-args -Wno-comment -fdiagnostics-show-option -Qunused-arguments -fomit-frame-pointer  -mfp16-format=ieee'
+===== BUILD LOG =====
+Change Dir: /home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/armeabi/CMakeFiles/CMakeTmp
+
+Run Build Command:"/home/bladestery/Android/Sdk/cmake/3.6.3155560/bin/ninja" "cmTC_53544"
+[1/2] Building CXX object CMakeFiles/cmTC_53544.dir/src.cxx.o
+FAILED: /home/bladestery/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++  --target=armv5te-none-linux-androideabi --gcc-toolchain=/home/bladestery/Android/Sdk/ndk-bundle/toolchains/arm-linux-androideabi-4.9/prebuilt/linux-x86_64 --sysroot=/home/bladestery/Android/Sdk/ndk-bundle/platforms/android-19/arch-arm   -isystem /home/bladestery/Android/Sdk/ndk-bundle/sources/cxx-stl/gnu-libstdc++/4.9/include -isystem /home/bladestery/Android/Sdk/ndk-bundle/sources/cxx-stl/gnu-libstdc++/4.9/libs/armeabi/include -isystem /home/bladestery/Android/Sdk/ndk-bundle/sources/cxx-stl/gnu-libstdc++/4.9/include/backward -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -march=armv5te -mtune=xscale -msoft-float -fno-integrated-as -mthumb -Wa,--noexecstack -Wformat -Werror=format-security  -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -march=armv5te -mtune=xscale -msoft-float -fno-integrated-as -mthumb -Wa,--noexecstack -Wformat -Werror=format-security    -O0 -fno-limit-debug-info -O0 -fno-limit-debug-info  -fPIE   -fsigned-char -W -Wall -Werror=return-type -Werror=non-virtual-dtor -Werror=address -Werror=sequence-point -Wformat -Werror=format-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wsign-promo -Wno-narrowing -Wno-delete-non-virtual-dtor -Wno-unnamed-type-template-args -Wno-comment -fdiagnostics-show-option -Qunused-arguments -fomit-frame-pointer -mfp16-format=ieee -o CMakeFiles/cmTC_53544.dir/src.cxx.o -c /home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/armeabi/CMakeFiles/CMakeTmp/src.cxx
+clang++: error: unknown argument: '-mfp16-format=ieee'
+ninja: build stopped: subcommand failed.
+
+===== END =====
+
+Compilation failed:
+    source file: '/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/armeabi/CMakeFiles/CMakeTmp/src.c'
+    check option: ' -fsigned-char -W -Wall -Werror=return-type -Werror=non-virtual-dtor -Werror=address -Werror=sequence-point -Wformat -Werror=format-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wsign-promo -Wno-narrowing -Wno-delete-non-virtual-dtor -Wno-unnamed-type-template-args -Wno-comment -fdiagnostics-show-option -Qunused-arguments -fomit-frame-pointer  -mfp16-format=ieee'
+===== BUILD LOG =====
+Change Dir: /home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/armeabi/CMakeFiles/CMakeTmp
+
+Run Build Command:"/home/bladestery/Android/Sdk/cmake/3.6.3155560/bin/ninja" "cmTC_0f6f0"
+[1/2] Building C object CMakeFiles/cmTC_0f6f0.dir/src.c.o
+FAILED: /home/bladestery/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/bin/clang  --target=armv5te-none-linux-androideabi --gcc-toolchain=/home/bladestery/Android/Sdk/ndk-bundle/toolchains/arm-linux-androideabi-4.9/prebuilt/linux-x86_64 --sysroot=/home/bladestery/Android/Sdk/ndk-bundle/platforms/android-19/arch-arm   -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -march=armv5te -mtune=xscale -msoft-float -fno-integrated-as -mthumb -Wa,--noexecstack -Wformat -Werror=format-security -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -march=armv5te -mtune=xscale -msoft-float -fno-integrated-as -mthumb -Wa,--noexecstack -Wformat -Werror=format-security   -O0 -fno-limit-debug-info -O0 -fno-limit-debug-info  -fPIE   -fsigned-char -W -Wall -Werror=return-type -Werror=non-virtual-dtor -Werror=address -Werror=sequence-point -Wformat -Werror=format-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wsign-promo -Wno-narrowing -Wno-delete-non-virtual-dtor -Wno-unnamed-type-template-args -Wno-comment -fdiagnostics-show-option -Qunused-arguments -fomit-frame-pointer -mfp16-format=ieee -o CMakeFiles/cmTC_0f6f0.dir/src.c.o   -c /home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/armeabi/CMakeFiles/CMakeTmp/src.c
+clang: error: unknown argument: '-mfp16-format=ieee'
+ninja: build stopped: subcommand failed.
+
+===== END =====
+
+Determining if the include file io.h exists failed with the following output:
+Change Dir: /home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/armeabi/CMakeFiles/CMakeTmp
+
+Run Build Command:"/home/bladestery/Android/Sdk/cmake/3.6.3155560/bin/ninja" "cmTC_309b1"
+[1/2] Building C object CMakeFiles/cmTC_309b1.dir/CheckIncludeFile.c.o
+FAILED: /home/bladestery/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/bin/clang  --target=armv5te-none-linux-androideabi --gcc-toolchain=/home/bladestery/Android/Sdk/ndk-bundle/toolchains/arm-linux-androideabi-4.9/prebuilt/linux-x86_64 --sysroot=/home/bladestery/Android/Sdk/ndk-bundle/platforms/android-19/arch-arm   -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -march=armv5te -mtune=xscale -msoft-float -fno-integrated-as -mthumb -Wa,--noexecstack -Wformat -Werror=format-security -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -march=armv5te -mtune=xscale -msoft-float -fno-integrated-as -mthumb -Wa,--noexecstack -Wformat -Werror=format-security    -fsigned-char -W -Wall -Werror=return-type -Werror=non-virtual-dtor -Werror=address -Werror=sequence-point -Wformat -Werror=format-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wsign-promo -Wno-narrowing -Wno-delete-non-virtual-dtor -Wno-unnamed-type-template-args -Wno-comment -fdiagnostics-show-option -Qunused-arguments -fomit-frame-pointer -fvisibility=hidden -fvisibility-inlines-hidden  -O0 -fno-limit-debug-info -O0 -fno-limit-debug-info   -O0 -DDEBUG -D_DEBUG -fPIE -o CMakeFiles/cmTC_309b1.dir/CheckIncludeFile.c.o   -c /home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/armeabi/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/armeabi/CMakeFiles/CMakeTmp/CheckIncludeFile.c:1:10: fatal error: 'io.h' file not found
+#include <io.h>
+         ^
+1 error generated.
+ninja: build stopped: subcommand failed.
+
+
+Determining if the function jbg_newlen exists failed with the following output:
+Change Dir: /home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/armeabi/CMakeFiles/CMakeTmp
+
+Run Build Command:"/home/bladestery/Android/Sdk/cmake/3.6.3155560/bin/ninja" "cmTC_95765"
+[1/2] Building C object CMakeFiles/cmTC_95765.dir/CheckFunctionExists.c.o
+[2/2] Linking C executable cmTC_95765
+FAILED: : && /home/bladestery/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/bin/clang  --target=armv5te-none-linux-androideabi --gcc-toolchain=/home/bladestery/Android/Sdk/ndk-bundle/toolchains/arm-linux-androideabi-4.9/prebuilt/linux-x86_64 --sysroot=/home/bladestery/Android/Sdk/ndk-bundle/platforms/android-19/arch-arm -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -march=armv5te -mtune=xscale -msoft-float -fno-integrated-as -mthumb -Wa,--noexecstack -Wformat -Werror=format-security -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -march=armv5te -mtune=xscale -msoft-float -fno-integrated-as -mthumb -Wa,--noexecstack -Wformat -Werror=format-security    -fsigned-char -W -Wall -Werror=return-type -Werror=non-virtual-dtor -Werror=address -Werror=sequence-point -Wformat -Werror=format-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wsign-promo -Wno-narrowing -Wno-delete-non-virtual-dtor -Wno-unnamed-type-template-args -Wno-comment -fdiagnostics-show-option -Qunused-arguments -fomit-frame-pointer -fvisibility=hidden -fvisibility-inlines-hidden -DCHECK_FUNCTION_EXISTS=jbg_newlen -O0 -fno-limit-debug-info -O0 -fno-limit-debug-info   -O0 -DDEBUG -D_DEBUG  -Wl,--build-id -Wl,--warn-shared-textrel -Wl,--fatal-warnings -Wl,--no-undefined -Wl,-z,noexecstack -Qunused-arguments -Wl,-z,relro -Wl,-z,now -Wl,--gc-sections -Wl,-z,nocopyreloc -pie -fPIE CMakeFiles/cmTC_95765.dir/CheckFunctionExists.c.o  -o cmTC_95765  -lm && :
+/home/bladestery/Android/Sdk/cmake/3.6.3155560/share/cmake-3.6/Modules/CheckFunctionExists.c:17: error: undefined reference to 'jbg_newlen'
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+ninja: build stopped: subcommand failed.
+
+
+Determining if the include file search.h exists failed with the following output:
+Change Dir: /home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/armeabi/CMakeFiles/CMakeTmp
+
+Run Build Command:"/home/bladestery/Android/Sdk/cmake/3.6.3155560/bin/ninja" "cmTC_fe954"
+[1/2] Building C object CMakeFiles/cmTC_fe954.dir/CheckIncludeFile.c.o
+FAILED: /home/bladestery/Android/Sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/bin/clang  --target=armv5te-none-linux-androideabi --gcc-toolchain=/home/bladestery/Android/Sdk/ndk-bundle/toolchains/arm-linux-androideabi-4.9/prebuilt/linux-x86_64 --sysroot=/home/bladestery/Android/Sdk/ndk-bundle/platforms/android-19/arch-arm   -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -march=armv5te -mtune=xscale -msoft-float -fno-integrated-as -mthumb -Wa,--noexecstack -Wformat -Werror=format-security -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -march=armv5te -mtune=xscale -msoft-float -fno-integrated-as -mthumb -Wa,--noexecstack -Wformat -Werror=format-security    -fsigned-char -W -Wall -Werror=return-type -Werror=non-virtual-dtor -Werror=address -Werror=sequence-point -Wformat -Werror=format-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wsign-promo -Wno-narrowing -Wno-delete-non-virtual-dtor -Wno-unnamed-type-template-args -Wno-comment -fdiagnostics-show-option -Qunused-arguments -fomit-frame-pointer -fvisibility=hidden -fvisibility-inlines-hidden  -O0 -fno-limit-debug-info -O0 -fno-limit-debug-info   -O0 -DDEBUG -D_DEBUG -fPIE -o CMakeFiles/cmTC_fe954.dir/CheckIncludeFile.c.o   -c /home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/armeabi/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/armeabi/CMakeFiles/CMakeTmp/CheckIncludeFile.c:1:10: fatal error: 'search.h' file not found
+#include <search.h>
+         ^
+1 error generated.
+ninja: build stopped: subcommand failed.
+
+
+Build output check failed:
+    Regex: 'unknown .*option'
+    Output line: 'warning: unknown warning option '-Wno-unused-but-set-variable', did you mean '-Wno-unused-const-variable'? [-Wunknown-warning-option]'
+Compilation failed:
+    source file: '/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/armeabi/CMakeFiles/CMakeTmp/src.c'
+    check option: ' -Wno-unused-but-set-variable'
+===== BUILD LOG =====
+Change Dir: /home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/armeabi/CMakeFiles/CMakeTmp
+
+Run Build Command:"/home/bladestery/Android/Sdk/cmake/3.6.3155560/bin/ninja" "cmTC_cf6e0"
+[1/2] Building C object CMakeFiles/cmTC_cf6e0.dir/src.c.o
+warning: unknown warning option '-Wno-unused-but-set-variable'; did you mean '-Wno-unused-const-variable'? [-Wunknown-warning-option]
+/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/armeabi/CMakeFiles/CMakeTmp/src.c:1:8: warning: unknown pragma ignored [-Wunknown-pragmas]
+#pragma
+       ^
+2 warnings generated.
+[2/2] Linking C executable cmTC_cf6e0
+
+===== END =====
+
+Build output check failed:
+    Regex: 'unknown .*option'
+    Output line: 'warning: unknown warning option '-Wno-maybe-uninitialized', did you mean '-Wno-uninitialized'? [-Wunknown-warning-option]'
+Compilation failed:
+    source file: '/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/armeabi/CMakeFiles/CMakeTmp/src.c'
+    check option: ' -Wno-maybe-uninitialized'
+===== BUILD LOG =====
+Change Dir: /home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/armeabi/CMakeFiles/CMakeTmp
+
+Run Build Command:"/home/bladestery/Android/Sdk/cmake/3.6.3155560/bin/ninja" "cmTC_2a92a"
+[1/2] Building C object CMakeFiles/cmTC_2a92a.dir/src.c.o
+warning: unknown warning option '-Wno-maybe-uninitialized'; did you mean '-Wno-uninitialized'? [-Wunknown-warning-option]
+/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/armeabi/CMakeFiles/CMakeTmp/src.c:1:8: warning: unknown pragma ignored [-Wunknown-pragmas]
+#pragma
+       ^
+2 warnings generated.
+[2/2] Linking C executable cmTC_2a92a
+
+===== END =====
+
+Build output check failed:
+    Regex: 'unknown .*option'
+    Output line: 'warning: unknown warning option '-Wno-misleading-indentation', did you mean '-Wno-missing-declarations'? [-Wunknown-warning-option]'
+Compilation failed:
+    source file: '/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/armeabi/CMakeFiles/CMakeTmp/src.c'
+    check option: ' -Wno-misleading-indentation'
+===== BUILD LOG =====
+Change Dir: /home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/armeabi/CMakeFiles/CMakeTmp
+
+Run Build Command:"/home/bladestery/Android/Sdk/cmake/3.6.3155560/bin/ninja" "cmTC_859cf"
+[1/2] Building C object CMakeFiles/cmTC_859cf.dir/src.c.o
+warning: unknown warning option '-Wno-misleading-indentation'; did you mean '-Wno-missing-declarations'? [-Wunknown-warning-option]
+/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/armeabi/CMakeFiles/CMakeTmp/src.c:1:8: warning: unknown pragma ignored [-Wunknown-pragmas]
+#pragma
+       ^
+2 warnings generated.
+[2/2] Linking C executable cmTC_859cf
+
+===== END =====
+
+Build output check failed:
+    Regex: 'unknown .*option'
+    Output line: 'warning: unknown warning option '-Wno-unused-but-set-parameter', did you mean '-Wno-unused-parameter'? [-Wunknown-warning-option]'
+Compilation failed:
+    source file: '/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/armeabi/CMakeFiles/CMakeTmp/src.c'
+    check option: ' -Wno-unused-but-set-parameter'
+===== BUILD LOG =====
+Change Dir: /home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/armeabi/CMakeFiles/CMakeTmp
+
+Run Build Command:"/home/bladestery/Android/Sdk/cmake/3.6.3155560/bin/ninja" "cmTC_180d6"
+[1/2] Building C object CMakeFiles/cmTC_180d6.dir/src.c.o
+warning: unknown warning option '-Wno-unused-but-set-parameter'; did you mean '-Wno-unused-parameter'? [-Wunknown-warning-option]
+/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/armeabi/CMakeFiles/CMakeTmp/src.c:1:8: warning: unknown pragma ignored [-Wunknown-pragmas]
+#pragma
+       ^
+2 warnings generated.
+[2/2] Linking C executable cmTC_180d6
+
+===== END =====
+
+Build output check failed:
+    Regex: 'unknown .*option'
+    Output line: 'warning: unknown warning option '-Wno-misleading-indentation', did you mean '-Wno-missing-declarations'? [-Wunknown-warning-option]'
+Compilation failed:
+    source file: '/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/armeabi/CMakeFiles/CMakeTmp/src.cxx'
+    check option: ' -Wno-misleading-indentation'
+===== BUILD LOG =====
+Change Dir: /home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/armeabi/CMakeFiles/CMakeTmp
+
+Run Build Command:"/home/bladestery/Android/Sdk/cmake/3.6.3155560/bin/ninja" "cmTC_eb85f"
+[1/2] Building CXX object CMakeFiles/cmTC_eb85f.dir/src.cxx.o
+warning: unknown warning option '-Wno-misleading-indentation'; did you mean '-Wno-missing-declarations'? [-Wunknown-warning-option]
+/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/.externalNativeBuild/cmake/debug/armeabi/CMakeFiles/CMakeTmp/src.cxx:1:8: warning: unknown pragma ignored [-Wunknown-pragmas]
+#pragma
+       ^
+2 warnings generated.
+[2/2] Linking CXX executable cmTC_eb85f
+
+===== END =====
+
