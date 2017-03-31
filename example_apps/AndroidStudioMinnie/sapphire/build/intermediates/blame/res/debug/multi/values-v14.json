@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v14/values-v14.xml",
+        "outputFile": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v14/values-v14.xml",
         "map": [
             {
                 "to": {
@@ -12,7 +12,7 @@
                     "endOffset": 201
                 },
                 "from": {
-                    "file": "/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/res/values-v14/styles.xml",
+                    "file": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/res/values-v14/styles.xml",
                     "position": {
                         "startLine": 7,
                         "startColumn": 4,

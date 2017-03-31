@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="build/generated/source/aidl/debug"/>
+	<classpathentry kind="src" path="build/generated/source/buildConfig/androidTest/debug"/>
+	<classpathentry kind="src" path="build/generated/source/buildConfig/debug"/>
+	<classpathentry kind="src" path="build/generated/source/r/androidTest/debug"/>
+	<classpathentry kind="src" path="build/generated/source/r/debug"/>
+	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry kind="lib" path="build/intermediates/multi-dex/debug/componentClasses.jar"/>
+	<classpathentry kind="lib" path="build/intermediates/transforms/jarMerging/debug/jars/1/1f/combined.jar"/>
+	<classpathentry kind="lib" path="build/intermediates/transforms/mergeJavaRes/debug/jars/2/1f/main.jar"/>
+	<classpathentry kind="lib" path="libs/kernel.jar"/>
+	<classpathentry kind="lib" path="libs/log4j-api-2.1.jar"/>
+	<classpathentry kind="lib" path="libs/luni.jar"/>
+	<classpathentry kind="lib" path="libs/rmi.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/opencv"/>
+	<classpathentry kind="output" path="build/intermediates/classes/debug"/>
+</classpath>

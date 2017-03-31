@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="sapphire/build/generated/source/aidl/debug"/>
+	<classpathentry kind="src" path="sapphire/build/generated/source/buildConfig/androidTest/debug"/>
+	<classpathentry kind="src" path="sapphire/build/generated/source/buildConfig/debug"/>
+	<classpathentry kind="src" path="sapphire/build/generated/source/r/androidTest/debug"/>
+	<classpathentry kind="src" path="sapphire/build/generated/source/r/debug"/>
+	<classpathentry kind="src" path="sapphire/src/main/java"/>
+	<classpathentry excluding="sapphire/build/generated/source/aidl/debug/|sapphire/build/generated/source/buildConfig/androidTest/debug/|sapphire/build/generated/source/buildConfig/debug/|sapphire/build/generated/source/r/androidTest/debug/|sapphire/build/generated/source/r/debug/|sapphire/src/main/java/" kind="src" path=""/>
+	<classpathentry kind="lib" path="build/generated/mockable-android-14.jar"/>
+	<classpathentry kind="lib" path="build/generated/mockable-android-17.jar"/>
+	<classpathentry kind="lib" path="build/generated/mockable-android-19.jar"/>
+	<classpathentry kind="lib" path="build/generated/mockable-android-21.jar"/>
+	<classpathentry kind="lib" path="build/generated/mockable-android-23.jar"/>
+	<classpathentry kind="lib" path="build/generated/mockable-android-24.jar"/>
+	<classpathentry kind="lib" path="build/generated/mockable-android-25.jar"/>
+	<classpathentry kind="lib" path="gradle/wrapper/gradle-wrapper.jar"/>
+	<classpathentry kind="lib" path="sapphire/build/intermediates/multi-dex/debug/componentClasses.jar"/>
+	<classpathentry kind="lib" path="sapphire/build/intermediates/transforms/jarMerging/debug/jars/1/1f/combined.jar"/>
+	<classpathentry kind="lib" path="sapphire/build/intermediates/transforms/mergeJavaRes/debug/jars/2/1f/main.jar"/>
+	<classpathentry kind="lib" path="sapphire/libs/kernel.jar"/>
+	<classpathentry kind="lib" path="sapphire/libs/log4j-api-2.1.jar"/>
+	<classpathentry kind="lib" path="sapphire/libs/luni.jar"/>
+	<classpathentry kind="lib" path="sapphire/libs/rmi.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/opencv"/>
+	<classpathentry kind="output" path="sapphire/build/intermediates/classes/debug"/>
+</classpath>

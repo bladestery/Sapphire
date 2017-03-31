@@ -163,12 +163,12 @@ public class FdActivity extends Activity implements CvCameraViewListener2 {
         InetSocketAddress host, omsHost;
 
         try {
-            Registry registry = LocateRegistry.getRegistry("192.168.1.2", 22346);
+            Registry registry = LocateRegistry.getRegistry("157.82.159.46", 22346);
             server = (OMSServer) registry.lookup("SapphireOMS");
             System.out.println(server);
 
-            host = new InetSocketAddress("192.168.1.4", 22346);
-            omsHost = new InetSocketAddress("192.168.1.2", 22346);
+            host = new InetSocketAddress("192.168.27.64", 22346);
+            omsHost = new InetSocketAddress("157.82.159.46", 22346);
             nodeServer = new KernelServerImpl(host, omsHost);
             System.out.println(nodeServer);
 

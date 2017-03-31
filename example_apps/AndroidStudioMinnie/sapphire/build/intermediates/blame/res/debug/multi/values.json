@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/incremental/mergeDebugResources/merged.dir/values/values.xml",
+        "outputFile": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/incremental/mergeDebugResources/merged.dir/values/values.xml",
         "map": [
             {
                 "to": {
@@ -11,7 +11,7 @@
                     "endOffset": 389
                 },
                 "from": {
-                    "file": "/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/res/values/strings.xml",
+                    "file": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/res/values/strings.xml",
                     "position": {
                         "startLine": 2,
                         "startColumn": 4,
@@ -31,7 +31,7 @@
                     "endOffset": 680
                 },
                 "from": {
-                    "file": "/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/res/values/styles.xml",
+                    "file": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/res/values/styles.xml",
                     "position": {
                         "startLine": 6,
                         "startColumn": 4,
@@ -52,7 +52,7 @@
                     "endOffset": 840
                 },
                 "from": {
-                    "file": "/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/res/values/styles.xml",
+                    "file": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/res/values/styles.xml",
                     "position": {
                         "startLine": 15,
                         "startColumn": 4,

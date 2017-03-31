@@ -1,6 +1,6 @@
 /*
  * This file is auto-generated.  DO NOT MODIFY.
- * Original file: /home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/aidl/org/opencv/engine/OpenCVEngineInterface.aidl
+ * Original file: /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/aidl/org/opencv/engine/OpenCVEngineInterface.aidl
  */
 package org.opencv.engine;
 /**
