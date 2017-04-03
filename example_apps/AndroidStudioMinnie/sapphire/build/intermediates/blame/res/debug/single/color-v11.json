@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/res/merged/debug/color-v11/abc_background_cache_hint_selector_material_dark.xml",
+        "source": "/home/ubuntu/.android/build-cache/8a4097d10137a30eb28c21d41dbd1fd3719aea28/output/res/color-v11/abc_background_cache_hint_selector_material_dark.xml"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/res/merged/debug/color-v11/abc_background_cache_hint_selector_material_light.xml",
+        "source": "/home/ubuntu/.android/build-cache/8a4097d10137a30eb28c21d41dbd1fd3719aea28/output/res/color-v11/abc_background_cache_hint_selector_material_light.xml"
+    }
+]

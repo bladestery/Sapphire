@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/res/merged/debug/layout-land/fiducial_help.xml",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/res/layout-land/fiducial_help.xml"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/res/merged/debug/layout-land/black_polygon_help.xml",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/res/layout-land/black_polygon_help.xml"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/res/merged/debug/layout-land/calibration_help.xml",
+        "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/res/layout-land/calibration_help.xml"
+    }
+]

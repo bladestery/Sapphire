@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/res/merged/debug/drawable-ldrtl-xhdpi-v17/abc_spinner_mtrl_am_alpha.9.png",
+        "source": "/home/ubuntu/.android/build-cache/8a4097d10137a30eb28c21d41dbd1fd3719aea28/output/res/drawable-ldrtl-xhdpi-v17/abc_spinner_mtrl_am_alpha.9.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/res/merged/debug/drawable-ldrtl-xhdpi-v17/abc_ic_menu_copy_mtrl_am_alpha.png",
+        "source": "/home/ubuntu/.android/build-cache/8a4097d10137a30eb28c21d41dbd1fd3719aea28/output/res/drawable-ldrtl-xhdpi-v17/abc_ic_menu_copy_mtrl_am_alpha.png"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/res/merged/debug/drawable-ldrtl-xhdpi-v17/abc_ic_menu_cut_mtrl_alpha.png",
+        "source": "/home/ubuntu/.android/build-cache/8a4097d10137a30eb28c21d41dbd1fd3719aea28/output/res/drawable-ldrtl-xhdpi-v17/abc_ic_menu_cut_mtrl_alpha.png"
+    }
+]

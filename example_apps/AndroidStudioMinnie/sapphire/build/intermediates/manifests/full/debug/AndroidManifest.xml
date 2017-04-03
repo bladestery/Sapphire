@@ -1,19 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.opencv.samples.facedetect"
-    android:versionCode="301"
-    android:versionName="3.01" >
+    package="org.boofcv.android" >
 
     <uses-sdk
         android:minSdkVersion="19"
-        android:targetSdkVersion="21" />
-
-    <supports-screens
-        android:anyDensity="true"
-        android:largeScreens="true"
-        android:normalScreens="true"
-        android:resizeable="true"
-        android:smallScreens="true" />
+        android:targetSdkVersion="25" />
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -24,28 +15,162 @@
     <uses-feature
         android:name="android.hardware.camera.autofocus"
         android:required="false" />
-    <uses-feature
-        android:name="android.hardware.camera.front"
-        android:required="true" />
-    <uses-feature
-        android:name="android.hardware.camera.front.autofocus"
-        android:required="false" />
+
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:smallScreens="true"
+        android:xlargeScreens="true" />
+
+    <meta-data
+        android:name="android.support.VERSION"
+        android:value="25.3.1" />
 
     <application
-        android:icon="@drawable/icon"
-        android:label="@string/app_name"
-        android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+        android:name="android.support.multidex.MultiDexApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name" >
         <activity
-            android:name="org.opencv.samples.facedetect.FdActivity"
-            android:configChanges="keyboardHidden|orientation"
-            android:label="@string/app_name"
-            android:screenOrientation="landscape" >
+            android:name="org.boofcv.android.DemoMain"
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="org.boofcv.android.DemoVideoDisplayActivity"
+            android:screenOrientation="landscape" />
+        <activity android:name="org.boofcv.android.PreferenceActivity" />
+        <activity
+            android:name="org.boofcv.android.ip.BlurDisplayActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="org.boofcv.android.ip.EnhanceDisplayActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="org.boofcv.android.ip.GradientDisplayActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="org.boofcv.android.ip.BinaryDisplayActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="org.boofcv.android.detect.PointDisplayActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="org.boofcv.android.detect.ScalePointDisplayActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="org.boofcv.android.detect.LineDisplayActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="org.boofcv.android.tracker.KltDisplayActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="org.boofcv.android.sfm.StabilizeDisplayActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="org.boofcv.android.sfm.MosaicDisplayActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="org.boofcv.android.assoc.AssociationActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="org.boofcv.android.tracker.DdaTrackerDisplayActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="org.boofcv.android.tracker.CombinedTrackerDisplayActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="org.boofcv.android.calib.CalibrationActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="org.boofcv.android.calib.CalibrationComputeActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity android:name="org.boofcv.android.CameraInformationActivity" />
+        <activity
+            android:name="org.boofcv.android.sfm.DisparityActivity"
+            android:screenOrientation="landscape" />
+        <activity android:name="org.boofcv.android.AboutActivity" />
+        <activity android:name="org.boofcv.android.calib.CalibrationHelpActivity" />
+        <activity
+            android:name="org.boofcv.android.detect.ShapeFitDisplayActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="org.boofcv.android.ip.ImageTransformActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="org.boofcv.android.tracker.ObjectTrackerActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="org.boofcv.android.detect.ContourShapeFittingActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="org.boofcv.android.detect.CannyEdgeActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="org.boofcv.android.calib.UndistortDisplayActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="org.boofcv.android.detect.SegmentationDisplayActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="org.boofcv.android.ip.ThresholdDisplayActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="org.boofcv.android.recognition.FiducialSquareBinaryActivity"
+            android:screenOrientation="landscape" />
+        <activity android:name="org.boofcv.android.recognition.FiducialSquareBinaryHelpActivity" />
+        <activity
+            android:name="org.boofcv.android.recognition.FiducialSquareImageActivity"
+            android:screenOrientation="landscape" />
+        <activity android:name="org.boofcv.android.recognition.FiducialSquareImageHelpActivity" />
+        <activity
+            android:name="org.boofcv.android.recognition.FiducialLearnActivity"
+            android:screenOrientation="landscape" />
+        <activity android:name="org.boofcv.android.recognition.FiducialImageLibraryAcitivity" />
+        <activity android:name="org.boofcv.android.recognition.FiducialSelectHelpActivity" />
+        <activity
+            android:name="org.boofcv.android.recognition.FiducialCalibrationActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="org.boofcv.android.recognition.FiducialCalibrationHelpActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="org.boofcv.android.tracker.StaticBackgroundMotionActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name="org.boofcv.android.detect.DetectBlackPolygonActivity"
+            android:screenOrientation="landscape" />
+        <activity android:name="org.boofcv.android.detect.DetectBlackPolygonHelpActivity" />
+        <activity
+            android:name="org.boofcv.android.detect.DetectBlackEllipseActivity"
+            android:screenOrientation="landscape" />
+        <!-- <activity android:name=".detect.DetectBlackEllipseHelpActivity" /> -->
+        <activity
+            android:name="org.boofcv.android.recognition.ImageClassificationActivity"
+            android:screenOrientation="landscape" />
+        <!--
+ ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
+        -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <activity
+            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+            android:exported="false"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <provider
+            android:name="com.google.firebase.provider.FirebaseInitProvider"
+            android:authorities="org.boofcv.android.firebaseinitprovider"
+            android:exported="false"
+            android:initOrder="100" />
     </application>
 
 </manifest>

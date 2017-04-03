@@ -1,0 +1,26 @@
+[
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/res/merged/debug/layout-v11/notification_media_action.xml",
+        "source": "/home/ubuntu/.android/build-cache/8a4097d10137a30eb28c21d41dbd1fd3719aea28/output/res/layout-v11/notification_media_action.xml"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/res/merged/debug/layout-v11/notification_media_cancel_action.xml",
+        "source": "/home/ubuntu/.android/build-cache/8a4097d10137a30eb28c21d41dbd1fd3719aea28/output/res/layout-v11/notification_media_cancel_action.xml"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/res/merged/debug/layout-v11/notification_template_big_media_custom.xml",
+        "source": "/home/ubuntu/.android/build-cache/8a4097d10137a30eb28c21d41dbd1fd3719aea28/output/res/layout-v11/notification_template_big_media_custom.xml"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/res/merged/debug/layout-v11/notification_template_big_media.xml",
+        "source": "/home/ubuntu/.android/build-cache/8a4097d10137a30eb28c21d41dbd1fd3719aea28/output/res/layout-v11/notification_template_big_media.xml"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/res/merged/debug/layout-v11/notification_template_big_media_narrow_custom.xml",
+        "source": "/home/ubuntu/.android/build-cache/8a4097d10137a30eb28c21d41dbd1fd3719aea28/output/res/layout-v11/notification_template_big_media_narrow_custom.xml"
+    },
+    {
+        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/res/merged/debug/layout-v11/notification_template_big_media_narrow.xml",
+        "source": "/home/ubuntu/.android/build-cache/8a4097d10137a30eb28c21d41dbd1fd3719aea28/output/res/layout-v11/notification_template_big_media_narrow.xml"
+    }
+]

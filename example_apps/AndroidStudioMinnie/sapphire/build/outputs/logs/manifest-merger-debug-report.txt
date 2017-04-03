@@ -1,97 +1,384 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:2:1-39:12
+ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:2:1-154:12
 	package
-		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:3:5-44
-	android:versionName
-		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:5:5-31
-		INJECTED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml
-		INJECTED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml
-	android:versionCode
-		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:4:5-30
-		INJECTED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml
-		INJECTED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:3:5-33
 	xmlns:android
 		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:2:11-69
-application
-ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:7:5-21:19
-	android:label
-		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:8:9-41
-	android:icon
-		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:9:9-38
-	android:theme
-		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:10:9-67
-activity#org.opencv.samples.facedetect.FdActivity
-ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:12:9-20:20
-	android:screenOrientation
-		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:14:19-56
-	android:label
-		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:13:19-51
-	android:configChanges
-		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:15:19-69
+uses-permission#android.permission.CAMERA
+ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:5:5-65
 	android:name
-		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:12:19-45
-intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
-ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:16:13-19:29
-action#android.intent.action.MAIN
-ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:17:17-69
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:5:22-62
+uses-permission#android.permission.INTERNET
+ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:6:5-66
 	android:name
-		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:17:25-66
-category#android.intent.category.LAUNCHER
-ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:18:17-77
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:6:22-64
+uses-feature#android.hardware.camera
+ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:8:5-10:36
+	android:required
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:10:9-33
 	android:name
-		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:18:27-74
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:9:9-47
+uses-feature#android.hardware.camera.autofocus
+ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:11:5-13:36
+	android:required
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:13:9-33
+	android:name
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:12:9-57
 supports-screens
-ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:23:5-27:51
+ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:15:5-20:40
 	android:largeScreens
-		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:26:23-50
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:17:9-36
 	android:smallScreens
-		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:24:23-50
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:19:9-36
 	android:normalScreens
-		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:25:23-51
-	android:resizeable
-		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:23:23-48
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:18:9-37
+	android:xlargeScreens
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:20:9-37
 	android:anyDensity
-		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:27:23-48
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:16:9-34
+application
+ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:22:5-152:19
+MERGED from [com.android.support:appcompat-v7:25.3.1] /home/ubuntu/.android/build-cache/8a4097d10137a30eb28c21d41dbd1fd3719aea28/output/AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:animated-vector-drawable:25.3.1] /home/ubuntu/.android/build-cache/6168f0ba061afc9845a165249ce9fb1e8fc227f0/output/AndroidManifest.xml:26:5-20
+MERGED from [com.android.support:support-vector-drawable:25.3.1] /home/ubuntu/.android/build-cache/b58480bfad971ddc529a88d1f1c334d30f219154/output/AndroidManifest.xml:26:5-20
+MERGED from [com.google.android.gms:play-services-appindexing:9.8.0] /home/ubuntu/.android/build-cache/ae794d63334787eae95074fc803bc71170dbeb84/output/AndroidManifest.xml:18:5-19
+MERGED from [com.google.android.gms:play-services-base:9.8.0] /home/ubuntu/.android/build-cache/a6a5d1fe0a3e83e02e865adc8996610c4ece9851/output/AndroidManifest.xml:18:5-20:19
+MERGED from [com.google.firebase:firebase-common:9.8.0] /home/ubuntu/.android/build-cache/ae1d0dcd233d230a4fed04e524996faa5e0f9e64/output/AndroidManifest.xml:4:5-7:19
+MERGED from [com.google.android.gms:play-services-tasks:9.8.0] /home/ubuntu/.android/build-cache/f22af972310732560f12f5f7999ecaf7af4b5dea/output/AndroidManifest.xml:4:5-19
+MERGED from [com.google.android.gms:play-services-basement:9.8.0] /home/ubuntu/.android/build-cache/8a47e389f05b5db09aa0a7ba23b45903d6ff08ae/output/AndroidManifest.xml:19:5-21:19
+MERGED from [com.android.support:support-v4:25.3.1] /home/ubuntu/.android/build-cache/24b826b67b2216cca9684dbe1cb2df4938ec4be5/output/AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-fragment:25.3.1] /home/ubuntu/.android/build-cache/17ba421efc850ed9b3ce20ff51b86232d9bda45c/output/AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-media-compat:25.3.1] /home/ubuntu/.android/build-cache/29d6399444959f4d30488b581a661bbc9fc9fbe2/output/AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-core-ui:25.3.1] /home/ubuntu/.android/build-cache/36feb6a19dee766e43f4fc4052911a31e88ae323/output/AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-core-utils:25.3.1] /home/ubuntu/.android/build-cache/b99bebde0e6c37f857c4bf0d0f55dd8183bce431/output/AndroidManifest.xml:29:5-20
+MERGED from [com.android.support:support-compat:25.3.1] /home/ubuntu/.android/build-cache/58061161520f26fb03ff34689ec744b9f9866309/output/AndroidManifest.xml:29:5-20
+	android:label
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:25:9-41
+	android:allowBackup
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:23:9-35
+	android:icon
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:24:9-45
+	android:name
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:26:9-68
+activity#org.boofcv.android.DemoMain
+ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:27:9-35:20
+	android:label
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:29:13-45
+	android:name
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:28:13-37
+intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
+ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:30:13-34:29
+action#android.intent.action.MAIN
+ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:31:17-69
+	android:name
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:31:25-66
+category#android.intent.category.LAUNCHER
+ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:33:17-77
+	android:name
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:33:27-74
+activity#org.boofcv.android.DemoVideoDisplayActivity
+ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:36:9-38:53
+	android:screenOrientation
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:38:13-50
+	android:name
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:37:13-53
+activity#org.boofcv.android.PreferenceActivity
+ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:39:9-56
+	android:name
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:39:19-53
+activity#org.boofcv.android.ip.BlurDisplayActivity
+ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:40:9-42:53
+	android:screenOrientation
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:42:13-50
+	android:name
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:41:13-51
+activity#org.boofcv.android.ip.EnhanceDisplayActivity
+ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:43:9-45:53
+	android:screenOrientation
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:45:13-50
+	android:name
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:44:13-54
+activity#org.boofcv.android.ip.GradientDisplayActivity
+ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:46:9-48:53
+	android:screenOrientation
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:48:13-50
+	android:name
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:47:13-55
+activity#org.boofcv.android.ip.BinaryDisplayActivity
+ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:49:9-51:53
+	android:screenOrientation
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:51:13-50
+	android:name
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:50:13-53
+activity#org.boofcv.android.detect.PointDisplayActivity
+ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:52:9-54:53
+	android:screenOrientation
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:54:13-50
+	android:name
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:53:13-56
+activity#org.boofcv.android.detect.ScalePointDisplayActivity
+ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:55:9-57:53
+	android:screenOrientation
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:57:13-50
+	android:name
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:56:13-61
+activity#org.boofcv.android.detect.LineDisplayActivity
+ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:58:9-60:53
+	android:screenOrientation
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:60:13-50
+	android:name
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:59:13-55
+activity#org.boofcv.android.tracker.KltDisplayActivity
+ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:61:9-63:53
+	android:screenOrientation
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:63:13-50
+	android:name
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:62:13-55
+activity#org.boofcv.android.sfm.StabilizeDisplayActivity
+ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:64:9-66:53
+	android:screenOrientation
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:66:13-50
+	android:name
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:65:13-57
+activity#org.boofcv.android.sfm.MosaicDisplayActivity
+ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:67:9-69:53
+	android:screenOrientation
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:69:13-50
+	android:name
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:68:13-54
+activity#org.boofcv.android.assoc.AssociationActivity
+ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:70:9-72:53
+	android:screenOrientation
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:72:13-50
+	android:name
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:71:13-54
+activity#org.boofcv.android.tracker.DdaTrackerDisplayActivity
+ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:73:9-75:53
+	android:screenOrientation
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:75:13-50
+	android:name
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:74:13-62
+activity#org.boofcv.android.tracker.CombinedTrackerDisplayActivity
+ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:76:9-78:53
+	android:screenOrientation
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:78:13-50
+	android:name
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:77:13-67
+activity#org.boofcv.android.calib.CalibrationActivity
+ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:79:9-81:53
+	android:screenOrientation
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:81:13-50
+	android:name
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:80:13-54
+activity#org.boofcv.android.calib.CalibrationComputeActivity
+ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:82:9-84:77
+	android:configChanges
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:84:13-74
+	android:name
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:83:13-61
+activity#org.boofcv.android.CameraInformationActivity
+ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:85:9-63
+	android:name
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:85:19-60
+activity#org.boofcv.android.sfm.DisparityActivity
+ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:86:9-88:53
+	android:screenOrientation
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:88:13-50
+	android:name
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:87:13-50
+activity#org.boofcv.android.AboutActivity
+ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:89:9-51
+	android:name
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:89:19-48
+activity#org.boofcv.android.calib.CalibrationHelpActivity
+ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:90:9-67
+	android:name
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:90:19-64
+activity#org.boofcv.android.detect.ShapeFitDisplayActivity
+ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:91:9-93:53
+	android:screenOrientation
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:93:13-50
+	android:name
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:92:13-59
+activity#org.boofcv.android.ip.ImageTransformActivity
+ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:94:9-96:53
+	android:screenOrientation
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:96:13-50
+	android:name
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:95:13-54
+activity#org.boofcv.android.tracker.ObjectTrackerActivity
+ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:97:9-99:53
+	android:screenOrientation
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:99:13-50
+	android:name
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:98:13-58
+activity#org.boofcv.android.detect.ContourShapeFittingActivity
+ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:100:9-102:53
+	android:screenOrientation
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:102:13-50
+	android:name
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:101:13-63
+activity#org.boofcv.android.detect.CannyEdgeActivity
+ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:103:9-105:53
+	android:screenOrientation
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:105:13-50
+	android:name
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:104:13-53
+activity#org.boofcv.android.calib.UndistortDisplayActivity
+ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:106:9-108:53
+	android:screenOrientation
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:108:13-50
+	android:name
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:107:13-59
+activity#org.boofcv.android.detect.SegmentationDisplayActivity
+ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:109:9-111:53
+	android:screenOrientation
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:111:13-50
+	android:name
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:110:13-63
+activity#org.boofcv.android.ip.ThresholdDisplayActivity
+ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:112:9-114:53
+	android:screenOrientation
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:114:13-50
+	android:name
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:113:13-56
+activity#org.boofcv.android.recognition.FiducialSquareBinaryActivity
+ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:115:9-117:53
+	android:screenOrientation
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:117:13-50
+	android:name
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:116:13-69
+activity#org.boofcv.android.recognition.FiducialSquareBinaryHelpActivity
+ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:118:9-82
+	android:name
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:118:19-79
+activity#org.boofcv.android.recognition.FiducialSquareImageActivity
+ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:119:9-121:53
+	android:screenOrientation
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:121:13-50
+	android:name
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:120:13-68
+activity#org.boofcv.android.recognition.FiducialSquareImageHelpActivity
+ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:122:9-81
+	android:name
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:122:19-78
+activity#org.boofcv.android.recognition.FiducialLearnActivity
+ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:123:9-125:53
+	android:screenOrientation
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:125:13-50
+	android:name
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:124:13-62
+activity#org.boofcv.android.recognition.FiducialImageLibraryAcitivity
+ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:126:9-79
+	android:name
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:126:19-76
+activity#org.boofcv.android.recognition.FiducialSelectHelpActivity
+ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:127:9-76
+	android:name
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:127:19-73
+activity#org.boofcv.android.recognition.FiducialCalibrationActivity
+ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:128:9-130:53
+	android:screenOrientation
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:130:13-50
+	android:name
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:129:13-68
+activity#org.boofcv.android.recognition.FiducialCalibrationHelpActivity
+ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:131:9-133:53
+	android:screenOrientation
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:133:13-50
+	android:name
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:132:13-72
+activity#org.boofcv.android.tracker.StaticBackgroundMotionActivity
+ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:134:9-136:53
+	android:screenOrientation
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:136:13-50
+	android:name
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:135:13-67
+activity#org.boofcv.android.detect.DetectBlackPolygonActivity
+ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:137:9-139:53
+	android:screenOrientation
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:139:13-50
+	android:name
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:138:13-62
+activity#org.boofcv.android.detect.DetectBlackPolygonHelpActivity
+ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:140:9-75
+	android:name
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:140:19-72
+activity#org.boofcv.android.detect.DetectBlackEllipseActivity
+ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:141:9-143:53
+	android:screenOrientation
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:143:13-50
+	android:name
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:142:13-62
+activity#org.boofcv.android.recognition.ImageClassificationActivity
+ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:145:9-147:53
+	android:screenOrientation
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:147:13-50
+	android:name
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:146:13-68
+meta-data#com.google.android.gms.version
+ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:149:9-151:69
+MERGED from [com.google.android.gms:play-services-basement:9.8.0] /home/ubuntu/.android/build-cache/8a47e389f05b5db09aa0a7ba23b45903d6ff08ae/output/AndroidManifest.xml:20:9-121
+	android:value
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:151:13-66
+	android:name
+		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:150:13-58
 uses-sdk
-ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:29:5-44
+INJECTED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml reason: use-sdk injection requested
 MERGED from [com.android.support:multidex:1.0.1] /home/ubuntu/.android/build-cache/9e992cd1d83b149b19dcfa46629331d846d9045f/output/AndroidManifest.xml:18:5-42
+MERGED from [com.android.support:appcompat-v7:25.3.1] /home/ubuntu/.android/build-cache/8a4097d10137a30eb28c21d41dbd1fd3719aea28/output/AndroidManifest.xml:21:5-23:78
+MERGED from [com.android.support:animated-vector-drawable:25.3.1] /home/ubuntu/.android/build-cache/6168f0ba061afc9845a165249ce9fb1e8fc227f0/output/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:25.3.1] /home/ubuntu/.android/build-cache/b58480bfad971ddc529a88d1f1c334d30f219154/output/AndroidManifest.xml:20:5-43
+MERGED from [com.google.android.gms:play-services-appindexing:9.8.0] /home/ubuntu/.android/build-cache/ae794d63334787eae95074fc803bc71170dbeb84/output/AndroidManifest.xml:17:5-42
+MERGED from [com.google.android.gms:play-services-base:9.8.0] /home/ubuntu/.android/build-cache/a6a5d1fe0a3e83e02e865adc8996610c4ece9851/output/AndroidManifest.xml:17:5-42
+MERGED from [com.google.firebase:firebase-common:9.8.0] /home/ubuntu/.android/build-cache/ae1d0dcd233d230a4fed04e524996faa5e0f9e64/output/AndroidManifest.xml:3:5-42
+MERGED from [com.google.android.gms:play-services-tasks:9.8.0] /home/ubuntu/.android/build-cache/f22af972310732560f12f5f7999ecaf7af4b5dea/output/AndroidManifest.xml:3:5-42
+MERGED from [com.google.android.gms:play-services-basement:9.8.0] /home/ubuntu/.android/build-cache/8a47e389f05b5db09aa0a7ba23b45903d6ff08ae/output/AndroidManifest.xml:17:5-42
+MERGED from [com.android.support:support-v4:25.3.1] /home/ubuntu/.android/build-cache/24b826b67b2216cca9684dbe1cb2df4938ec4be5/output/AndroidManifest.xml:21:5-23:54
+MERGED from [com.android.support:support-fragment:25.3.1] /home/ubuntu/.android/build-cache/17ba421efc850ed9b3ce20ff51b86232d9bda45c/output/AndroidManifest.xml:21:5-23:60
+MERGED from [com.android.support:support-media-compat:25.3.1] /home/ubuntu/.android/build-cache/29d6399444959f4d30488b581a661bbc9fc9fbe2/output/AndroidManifest.xml:21:5-23:63
+MERGED from [com.android.support:support-core-ui:25.3.1] /home/ubuntu/.android/build-cache/36feb6a19dee766e43f4fc4052911a31e88ae323/output/AndroidManifest.xml:21:5-23:58
+MERGED from [com.android.support:support-core-utils:25.3.1] /home/ubuntu/.android/build-cache/b99bebde0e6c37f857c4bf0d0f55dd8183bce431/output/AndroidManifest.xml:21:5-23:61
+MERGED from [com.android.support:support-compat:25.3.1] /home/ubuntu/.android/build-cache/58061161520f26fb03ff34689ec744b9f9866309/output/AndroidManifest.xml:21:5-23:58
+	tools:overrideLibrary
+		ADDED from [com.android.support:appcompat-v7:25.3.1] /home/ubuntu/.android/build-cache/8a4097d10137a30eb28c21d41dbd1fd3719aea28/output/AndroidManifest.xml:23:9-75
 	android:targetSdkVersion
 		INJECTED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml
 		INJECTED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml
 	android:minSdkVersion
-		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:29:15-41
 		INJECTED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml
 		INJECTED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml
-uses-permission#android.permission.CAMERA
-ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:31:5-64
+meta-data#android.support.VERSION
+ADDED from [com.android.support:appcompat-v7:25.3.1] /home/ubuntu/.android/build-cache/8a4097d10137a30eb28c21d41dbd1fd3719aea28/output/AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:animated-vector-drawable:25.3.1] /home/ubuntu/.android/build-cache/6168f0ba061afc9845a165249ce9fb1e8fc227f0/output/AndroidManifest.xml:22:5-24:34
+MERGED from [com.android.support:support-vector-drawable:25.3.1] /home/ubuntu/.android/build-cache/b58480bfad971ddc529a88d1f1c334d30f219154/output/AndroidManifest.xml:22:5-24:34
+MERGED from [com.android.support:support-v4:25.3.1] /home/ubuntu/.android/build-cache/24b826b67b2216cca9684dbe1cb2df4938ec4be5/output/AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:support-fragment:25.3.1] /home/ubuntu/.android/build-cache/17ba421efc850ed9b3ce20ff51b86232d9bda45c/output/AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:support-media-compat:25.3.1] /home/ubuntu/.android/build-cache/29d6399444959f4d30488b581a661bbc9fc9fbe2/output/AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:support-core-ui:25.3.1] /home/ubuntu/.android/build-cache/36feb6a19dee766e43f4fc4052911a31e88ae323/output/AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:support-core-utils:25.3.1] /home/ubuntu/.android/build-cache/b99bebde0e6c37f857c4bf0d0f55dd8183bce431/output/AndroidManifest.xml:25:5-27:34
+MERGED from [com.android.support:support-compat:25.3.1] /home/ubuntu/.android/build-cache/58061161520f26fb03ff34689ec744b9f9866309/output/AndroidManifest.xml:25:5-27:34
+	android:value
+		ADDED from [com.android.support:appcompat-v7:25.3.1] /home/ubuntu/.android/build-cache/8a4097d10137a30eb28c21d41dbd1fd3719aea28/output/AndroidManifest.xml:27:9-31
 	android:name
-		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:31:22-62
-uses-permission#android.permission.INTERNET
-ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:32:5-66
+		ADDED from [com.android.support:appcompat-v7:25.3.1] /home/ubuntu/.android/build-cache/8a4097d10137a30eb28c21d41dbd1fd3719aea28/output/AndroidManifest.xml:26:9-47
+activity#com.google.android.gms.common.api.GoogleApiActivity
+ADDED from [com.google.android.gms:play-services-base:9.8.0] /home/ubuntu/.android/build-cache/a6a5d1fe0a3e83e02e865adc8996610c4ece9851/output/AndroidManifest.xml:19:9-172
+	android:exported
+		ADDED from [com.google.android.gms:play-services-base:9.8.0] /home/ubuntu/.android/build-cache/a6a5d1fe0a3e83e02e865adc8996610c4ece9851/output/AndroidManifest.xml:19:146-170
+	android:theme
+		ADDED from [com.google.android.gms:play-services-base:9.8.0] /home/ubuntu/.android/build-cache/a6a5d1fe0a3e83e02e865adc8996610c4ece9851/output/AndroidManifest.xml:19:86-145
 	android:name
-		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:32:22-64
-uses-feature#android.hardware.camera
-ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:34:5-84
-	android:required
-		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:34:58-82
+		ADDED from [com.google.android.gms:play-services-base:9.8.0] /home/ubuntu/.android/build-cache/a6a5d1fe0a3e83e02e865adc8996610c4ece9851/output/AndroidManifest.xml:19:19-85
+provider#com.google.firebase.provider.FirebaseInitProvider
+ADDED from [com.google.firebase:firebase-common:9.8.0] /home/ubuntu/.android/build-cache/ae1d0dcd233d230a4fed04e524996faa5e0f9e64/output/AndroidManifest.xml:6:9-175
+	android:authorities
+		ADDED from [com.google.firebase:firebase-common:9.8.0] /home/ubuntu/.android/build-cache/ae1d0dcd233d230a4fed04e524996faa5e0f9e64/output/AndroidManifest.xml:6:19-78
+		INJECTED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml
+	android:exported
+		ADDED from [com.google.firebase:firebase-common:9.8.0] /home/ubuntu/.android/build-cache/ae1d0dcd233d230a4fed04e524996faa5e0f9e64/output/AndroidManifest.xml:6:125-149
+	android:initOrder
+		ADDED from [com.google.firebase:firebase-common:9.8.0] /home/ubuntu/.android/build-cache/ae1d0dcd233d230a4fed04e524996faa5e0f9e64/output/AndroidManifest.xml:6:150-173
 	android:name
-		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:34:19-57
-uses-feature#android.hardware.camera.autofocus
-ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:35:5-94
-	android:required
-		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:35:68-92
-	android:name
-		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:35:19-67
-uses-feature#android.hardware.camera.front
-ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:36:5-89
-	android:required
-		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:36:64-87
-	android:name
-		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:36:19-63
-uses-feature#android.hardware.camera.front.autofocus
-ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:37:5-100
-	android:required
-		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:37:74-98
-	android:name
-		ADDED from /home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/AndroidManifest.xml:37:19-73
+		ADDED from [com.google.firebase:firebase-common:9.8.0] /home/ubuntu/.android/build-cache/ae1d0dcd233d230a4fed04e524996faa5e0f9e64/output/AndroidManifest.xml:6:79-124

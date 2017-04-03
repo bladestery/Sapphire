@@ -3,83 +3,156 @@
 
     <item
         custom-flags="--core-library"
-        is-multidex="false"
-        jar="/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/openCVSamplefacedetection/build/intermediates/exploded-aar/AndroidStudioMinnie/sapphire/unspecified/jars/libs/luni.jar"
+        is-multidex="true"
+        jar="/home/ubuntu/.android/build-cache/ae1d0dcd233d230a4fed04e524996faa5e0f9e64/output/jars/classes.jar"
         jumboMode="false"
         optimize="true"
         revision="25.0.2"
-        sha1="b3f309f7b090c8fdf15c687b0ff19c5b1bab795c">
-        <dex dex="/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/openCVSamplefacedetection/build/intermediates/pre-dexed/debug/luni_8857cdca8f928a1d532d81c4fec0bb5fd8248c81.jar" />
+        sha1="c61641e333fa88da21758bab8cc28ee16604b05f">
+        <dex dex="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/transforms/dex/debug/folders/1000/10/classes_1ee767bc9484dc5a5c3c9d66bc9107a0c9f51809/classes.dex" />
     </item>
     <item
         custom-flags="--core-library"
-        is-multidex="false"
-        jar="/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/openCVSamplefacedetection/libs/rt.jar"
+        is-multidex="true"
+        jar="/home/ubuntu/.gradle/caches/modules-2/files-2.1/org.hamcrest/hamcrest-core/1.3/42a25dc3219429f0e5d060061f71acb49bf010a0/hamcrest-core-1.3.jar"
         jumboMode="false"
         optimize="true"
         revision="25.0.2"
-        sha1="d0694a80047b1250c106f8ccc3e16e77f2708ca6">
-        <dex dex="/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/openCVSamplefacedetection/build/intermediates/pre-dexed/debug/rt_f8d215f416b569dcf8f083b805cfd3608fa583f8.jar" />
+        sha1="42a25dc3219429f0e5d060061f71acb49bf010a0">
+        <dex dex="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/transforms/dex/debug/folders/1000/10/hamcrest-core-1.3_a8f3f89e0f6b72083f761c01abe9bf2188a22a3c/classes.dex" />
     </item>
     <item
         custom-flags="--core-library"
-        is-multidex="false"
-        jar="/home/bladestery/Android/Sdk/extras/android/m2repository/com/android/support/support-v4/18.0.0/support-v4-18.0.0.jar"
+        is-multidex="true"
+        jar="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/libs/luni.jar"
         jumboMode="false"
         optimize="true"
         revision="25.0.2"
-        sha1="44ec51e9d395a47aab135e5e1b556c0007442156">
-        <dex dex="/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/openCVSamplefacedetection/build/intermediates/pre-dexed/debug/support-v4-18.0.0_409086ba49e4cff451cc3bbc77207cfa53a85062.jar" />
+        sha1="7fa1b38c852f8f3b077353a29694ca70817a758c">
+        <dex dex="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/transforms/dex/debug/folders/1000/2/luni_6b8fe7ce6ec228fb821e23db8350488b90c8dde6/classes.dex" />
     </item>
     <item
         custom-flags="--core-library"
-        is-multidex="false"
-        jar="/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/openCVSamplefacedetection/build/intermediates/exploded-aar/AndroidStudioMinnie/sapphire/unspecified/jars/libs/log4j-api-2.1.jar"
+        is-multidex="true"
+        jar="/home/ubuntu/.android/build-cache/b58480bfad971ddc529a88d1f1c334d30f219154/output/jars/classes.jar"
         jumboMode="false"
         optimize="true"
         revision="25.0.2"
-        sha1="837fadb0d820240e168de342dd99cdeb84338924">
-        <dex dex="/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/openCVSamplefacedetection/build/intermediates/pre-dexed/debug/log4j-api-2.1_24518cc6bc4ae43be73352f9d921b2e76406fbf7.jar" />
+        sha1="efb8cb62d47d157c29d1521daac7eefd4cb881ee">
+        <dex dex="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/transforms/dex/debug/folders/1000/10/classes_aa0c8182165a1d0998bb33018b80706db2c72e65/classes.dex" />
     </item>
     <item
         custom-flags="--core-library"
-        is-multidex="false"
-        jar="/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/openCVSamplefacedetection/build/intermediates/exploded-aar/AndroidStudioMinnie/sapphire/unspecified/jars/classes.jar"
+        is-multidex="true"
+        jar="/home/ubuntu/.gradle/caches/modules-2/files-2.1/org.yaml/snakeyaml/1.18/e4a441249ade301985cb8d009d4e4a72b85bf68e/snakeyaml-1.18.jar"
         jumboMode="false"
         optimize="true"
         revision="25.0.2"
-        sha1="188a32af95d03944659e83652377bf67292029a3">
-        <dex dex="/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/openCVSamplefacedetection/build/intermediates/pre-dexed/debug/AndroidStudioMinnie-sapphire-unspecified_3a6f0da86c462e6f1cebd299831aa6496a8b3a2b.jar" />
+        sha1="e4a441249ade301985cb8d009d4e4a72b85bf68e">
+        <dex dex="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/transforms/dex/debug/folders/1000/10/snakeyaml-1.18_d4c1fbc750ff5e798eb055633ec8218ec0b4ba3d/classes.dex" />
     </item>
     <item
         custom-flags="--core-library"
-        is-multidex="false"
-        jar="/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/openCVSamplefacedetection/build/intermediates/exploded-aar/AndroidStudioMinnie/sapphire/unspecified/jars/libs/rmi.jar"
+        is-multidex="true"
+        jar="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/libs/kernel.jar"
         jumboMode="false"
         optimize="true"
         revision="25.0.2"
-        sha1="d81dd642e1abe613427c02ad01c7493d1bb783ce">
-        <dex dex="/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/openCVSamplefacedetection/build/intermediates/pre-dexed/debug/rmi_213e8e611cb8156c78af2d3ce899bb65721a5577.jar" />
+        sha1="52eaa598a980896268e5c4b28b3fcbf351fd3508">
+        <dex dex="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/transforms/dex/debug/folders/1000/2/kernel_c3a9a8aa12b004ea7c18b72adcc701f3411ae824/classes.dex" />
     </item>
     <item
         custom-flags="--core-library"
-        is-multidex="false"
-        jar="/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/openCVSamplefacedetection/build/intermediates/exploded-aar/AndroidStudioMinnie/openCVLibrary2411/unspecified/jars/classes.jar"
+        is-multidex="true"
+        jar="/home/ubuntu/.gradle/caches/modules-2/files-2.1/org.rauschig/jarchivelib/0.7.1/47a77274cc38cfe6c04bc2afa3ece808742dc42b/jarchivelib-0.7.1.jar"
         jumboMode="false"
         optimize="true"
         revision="25.0.2"
-        sha1="212f52280b5ab83c5f11f0e49c6b883cf833f8eb">
-        <dex dex="/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/openCVSamplefacedetection/build/intermediates/pre-dexed/debug/AndroidStudioMinnie-openCVLibrary2411-unspecified_e5f244c3cd4911975a802e0e9460ebff3fe91dd0.jar" />
+        sha1="47a77274cc38cfe6c04bc2afa3ece808742dc42b">
+        <dex dex="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/transforms/dex/debug/folders/1000/10/jarchivelib-0.7.1_57e88c2bce0dc815b15614cdea49d19b27b5f2c0/classes.dex" />
     </item>
     <item
         custom-flags="--core-library"
-        is-multidex="false"
-        jar="/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/openCVSamplefacedetection/build/intermediates/exploded-aar/AndroidStudioMinnie/sapphire/unspecified/jars/libs/kernel.jar"
+        is-multidex="true"
+        jar="/home/ubuntu/Android/Sdk/extras/android/m2repository/com/android/support/support-annotations/25.3.1/support-annotations-25.3.1.jar"
         jumboMode="false"
         optimize="true"
         revision="25.0.2"
-        sha1="91d118233f5129db90e126b17c677faeb4c7532a">
-        <dex dex="/home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/openCVSamplefacedetection/build/intermediates/pre-dexed/debug/kernel_074fd2f79834262873c4ca7e43abaaa9151b73b0.jar" />
+        sha1="bf8841d29fa39e077730e7a91222c2ce269fa7c9">
+        <dex dex="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-25.3.1_d2806a622c6e514cdb6373e86a9638d6a79a79e3/classes.dex" />
+    </item>
+    <item
+        custom-flags="--core-library"
+        is-multidex="true"
+        jar="/home/ubuntu/.android/build-cache/58061161520f26fb03ff34689ec744b9f9866309/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="da27a32db6af8954ee8061537c7d476fcb1df46f">
+        <dex dex="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/transforms/dex/debug/folders/1000/10/classes_42af0b4222cde3eb1f252c09da3e0ac3502a431f/classes.dex" />
+    </item>
+    <item
+        custom-flags="--core-library"
+        is-multidex="true"
+        jar="/home/ubuntu/.gradle/caches/modules-2/files-2.1/org.ejml/core/0.30/79f5269e95262f6b81b84b04b2c355b0704ac9fe/core-0.30.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="79f5269e95262f6b81b84b04b2c355b0704ac9fe">
+        <dex dex="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/transforms/dex/debug/folders/1000/10/core-0.30_61c39c7c0dbc59c0a663a40319bd3265350b1d4d/classes.dex" />
+    </item>
+    <item
+        custom-flags="--core-library"
+        is-multidex="true"
+        jar="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/libs/rmi.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="e86043936945ef3cd2c6afc1bbce6feef993beb4">
+        <dex dex="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/transforms/dex/debug/folders/1000/2/rmi_0cf557a12400d6fbbfd34d415b94639ec7465f5b/classes.dex" />
+    </item>
+    <item
+        custom-flags="--core-library"
+        is-multidex="true"
+        jar="/home/ubuntu/.gradle/caches/modules-2/files-2.1/com.thoughtworks.xstream/xstream/1.4.7/bce3282142b63068260f021fcbe48b72e8d71a1a/xstream-1.4.7.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="bce3282142b63068260f021fcbe48b72e8d71a1a">
+        <dex dex="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/transforms/dex/debug/folders/1000/10/xstream-1.4.7_2fa1056e1343addc8277c87eba8858218d6fee94/classes.dex" />
+    </item>
+    <item
+        custom-flags="--core-library"
+        is-multidex="true"
+        jar="/home/ubuntu/.android/build-cache/24b826b67b2216cca9684dbe1cb2df4938ec4be5/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/transforms/dex/debug/folders/1000/10/classes_77b1863a8eff9a2506a12324dbc1aa0f1c41b29d/classes.dex" />
+    </item>
+    <item
+        custom-flags="--core-library"
+        is-multidex="true"
+        jar="/home/ubuntu/.android/build-cache/29d6399444959f4d30488b581a661bbc9fc9fbe2/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="45f697922e6f072daa12f8a2995dc77ab03c11da">
+        <dex dex="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/transforms/dex/debug/folders/1000/10/classes_e4bc55570328eba10974c76e55bef785e36b52ac/classes.dex" />
+    </item>
+    <item
+        custom-flags="--core-library"
+        is-multidex="true"
+        jar="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/libs/rt.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.2"
+        sha1="4ebda6e90325652835e1c010231e25f976ab6fee">
+        <dex dex="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/transforms/dex/debug/folders/1000/2/rt_82600eaf51ba5848b3206bd8fe8b39a43b41dcc4/classes4.dex" />
+        <dex dex="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/transforms/dex/debug/folders/1000/2/rt_82600eaf51ba5848b3206bd8fe8b39a43b41dcc4/classes2.dex" />
+        <dex dex="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/transforms/dex/debug/folders/1000/2/rt_82600eaf51ba5848b3206bd8fe8b39a43b41dcc4/classes3.dex" />
+        <dex dex="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/transforms/dex/debug/folders/1000/2/rt_82600eaf51ba5848b3206bd8fe8b39a43b41dcc4/classes.dex" />
     </item>
 
 </items>

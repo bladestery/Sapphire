@@ -1,4 +1,16 @@
-#Fri Mar 31 16:08:48 JST 2017
-base.0=/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/transforms/dex/debug/folders/1000/1f/main
+#Mon Apr 03 10:43:00 JST 2017
+renamed.4=classes2.dex
+renamed.3=classes3.dex
+renamed.2=classes5.dex
+renamed.1=classes4.dex
+base.4=/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/transforms/dex/debug/folders/1000/1f/main
 renamed.0=classes.dex
+base.3=/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/transforms/dex/debug/folders/1000/1f/main
+base.2=/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/transforms/dex/debug/folders/1000/1f/main
+base.1=/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/transforms/dex/debug/folders/1000/1f/main
+base.0=/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/transforms/dex/debug/folders/1000/1f/main
+file.4=/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/transforms/dex/debug/folders/1000/1f/main/classes2.dex
+file.3=/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/transforms/dex/debug/folders/1000/1f/main/classes3.dex
+file.2=/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/transforms/dex/debug/folders/1000/1f/main/classes5.dex
+file.1=/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/transforms/dex/debug/folders/1000/1f/main/classes4.dex
 file.0=/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/transforms/dex/debug/folders/1000/1f/main/classes.dex

@@ -1,6 +1,6 @@
 package sapphire.kernel.server;
 
-import org.opencv.android.OpenCVLoader;
+//import org.opencv.android.OpenCVLoader;
 
 import sapphire.app.AppEntryPoint;
 import sapphire.common.AppObjectStub;
@@ -239,7 +239,7 @@ public class KernelServerImpl implements KernelServer{
 			
 			oms.registerKernelServer(host);
 
-			if (!OpenCVLoader.initDebug()) {}
+			//if (!OpenCVLoader.initDebug()) {}
 			
 			logger.info("Server ready!");
 			System.out.println("Server ready!");
