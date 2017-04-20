@@ -19,6 +19,7 @@
 package boofcv.gui.image;
 
 import boofcv.alg.misc.GImageStatistics;
+import boofcv.alg.misc.ImageStatistics;
 import boofcv.io.image.ConvertBufferedImage;
 import boofcv.struct.image.ImageBase;
 import boofcv.struct.image.ImageGray;
@@ -33,7 +34,8 @@ import java.awt.image.BufferedImage;
  * @author Peter Abeles
  */
 public class ShowImages {
-
+	private static GImageStatistics GIS;
+	private static ImageStatistics IS;
 	/**
 	 * Creates a dialog window showing the specified image.  The function will not
 	 * exit until the user clicks ok
@@ -118,7 +120,7 @@ public class ShowImages {
 	}
 
 	public static ImagePanel showWindow(ImageGray img , String title , boolean showMagnitude) {
-		double max = GImageStatistics.maxAbs(img);
+		double max = GIS.maxAbs(img, IS);
 		BufferedImage buff;
 		if( showMagnitude )
 			buff = VisualizeImageData.grayMagnitude(img,null,max);

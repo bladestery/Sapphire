@@ -38,7 +38,7 @@ import boofcv.struct.image.ImageType;
  * @author Peter Abeles
  */
 public class ImplInterpolatePixelConvolution_F32 implements InterpolatePixelS<GrayF32>  {
-
+	private ImageType IT;
 	// used to read outside the image border
 	private ImageBorder_F32 border;
 	// kernel used to perform interpolation
@@ -207,7 +207,7 @@ public class ImplInterpolatePixelConvolution_F32 implements InterpolatePixelS<Gr
 	}
 	@Override
 	public ImageType<GrayF32> getImageType() {
-		return ImageType.single(GrayF32.class);
+		return IT.single(GrayF32.class);
 	}
 
 }

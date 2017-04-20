@@ -28,6 +28,7 @@ import boofcv.struct.image.ImageGray;
  * @author Peter Abeles
  */
 public abstract class DisparitySparseScoreSadRect< ArrayData , Input extends ImageGray> {
+	private static InputSanityCheck ISC;
 	// maximum and minimum allowed image disparity
 	protected int minDisparity;
 	protected int maxDisparity;
@@ -70,7 +71,7 @@ public abstract class DisparitySparseScoreSadRect< ArrayData , Input extends Ima
 	 * @param right Rectified right camera image.
 	 */
 	public void setImages( Input left , Input right ) {
-		InputSanityCheck.checkSameShape(left, right);
+		ISC.checkSameShape(left, right);
 
 		this.left = left;
 		this.right = right;

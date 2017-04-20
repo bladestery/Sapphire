@@ -37,7 +37,7 @@ import boofcv.struct.pyramid.PyramidFloat;
  * @author Peter Abeles
  */
 public class FactoryPyramid {
-
+	private static FactoryKernelGaussian FKG;
 	/**
 	 * Creates an updater for discrete pyramids where a Gaussian is convolved across the input
 	 * prior to sub-sampling.
@@ -53,7 +53,7 @@ public class FactoryPyramid {
 	{
 		Class<Kernel1D> kernelType = FactoryKernel.getKernelType(imageType,1);
 
-		Kernel1D kernel = FactoryKernelGaussian.gaussian(kernelType,sigma,radius);
+		Kernel1D kernel = FKG.gaussian(kernelType,sigma,radius);
 
 		return new PyramidDiscreteSampleBlur<>(kernel, sigma, imageType, saveOriginalReference, scaleFactors);
 	}

@@ -39,7 +39,7 @@ import georegression.struct.point.Point2D_I16;
  */
 public class PointDisplayActivity extends DemoVideoDisplayActivity
 		implements AdapterView.OnItemSelectedListener  {
-
+	private ImageType IT;
 	Spinner spinner;
 
 	Paint paintMax,paintMin;
@@ -164,7 +164,7 @@ public class PointDisplayActivity extends DemoVideoDisplayActivity
 
 		public PointProcessing(GeneralFeatureIntensity<GrayU8, GrayS16> intensity,
 							   NonMaxSuppression nonmax) {
-			super(ImageType.single(GrayU8.class));
+			super(IT.single(GrayU8.class));
 			GeneralFeatureDetector<GrayU8,GrayS16> general =
 			new GeneralFeatureDetector<GrayU8, GrayS16>(intensity,nonmax);
 

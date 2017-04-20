@@ -41,7 +41,8 @@ import boofcv.struct.image.*;
  */
 // TODO Add laplacian enhancement?
 public class EnhanceImageOps {
-
+	private static ImageStatistics IS;
+	private static InputSanityCheck ISC;
 	/**
 	 * Computes a transformation table which will equalize the provided histogram.  An equalized histogram spreads
 	 * the 'weight' across the whole spectrum of values.  Often used to make dim images easier for people to see.
@@ -71,7 +72,7 @@ public class EnhanceImageOps {
 	 * @param output Output image.
 	 */
 	public static void applyTransform(GrayU8 input , int transform[] , GrayU8 output ) {
-		InputSanityCheck.checkSameShape(input, output);
+		ISC.checkSameShape(input, output);
 
 		ImplEnhanceHistogram.applyTransform(input,transform,output);
 	}
@@ -84,7 +85,7 @@ public class EnhanceImageOps {
 	 * @param output Output image.
 	 */
 	public static void applyTransform(GrayU16 input , int transform[] , GrayU16 output ) {
-		InputSanityCheck.checkSameShape(input, output);
+		ISC.checkSameShape(input, output);
 
 		ImplEnhanceHistogram.applyTransform(input,transform,output);
 	}
@@ -98,7 +99,7 @@ public class EnhanceImageOps {
 	 * @param output Output image.
 	 */
 	public static void applyTransform(GrayS8 input , int transform[] , int minValue, GrayS8 output ) {
-		InputSanityCheck.checkSameShape(input, output);
+		ISC.checkSameShape(input, output);
 
 		ImplEnhanceHistogram.applyTransform(input,transform,minValue,output);
 	}
@@ -112,7 +113,7 @@ public class EnhanceImageOps {
 	 * @param output Output image.
 	 */
 	public static void applyTransform(GrayS16 input , int transform[] , int minValue, GrayS16 output ) {
-		InputSanityCheck.checkSameShape(input, output);
+		ISC.checkSameShape(input, output);
 
 		ImplEnhanceHistogram.applyTransform(input,transform,minValue,output);
 	}
@@ -126,7 +127,7 @@ public class EnhanceImageOps {
 	 * @param output Output image.
 	 */
 	public static void applyTransform(GrayS32 input , int transform[] , int minValue, GrayS32 output ) {
-		InputSanityCheck.checkSameShape(input, output);
+		ISC.checkSameShape(input, output);
 
 		ImplEnhanceHistogram.applyTransform(input,transform,minValue,output);
 	}
@@ -143,7 +144,7 @@ public class EnhanceImageOps {
 	public static void equalizeLocal(GrayU8 input , int radius , GrayU8 output ,
 									 int histogram[] , int transform[] ) {
 
-		InputSanityCheck.checkSameShape(input, output);
+		ISC.checkSameShape(input, output);
 
 		int width = radius*2+1;
 
@@ -163,7 +164,7 @@ public class EnhanceImageOps {
 
 		} else if( input.width < width && input.height < width ) {
 			// the local region is larger than the image.  just use the full image algorithm
-			ImageStatistics.histogram(input,histogram);
+			IS.histogram(input,histogram);
 			equalize(histogram,transform);
 			applyTransform(input,transform,output);
 		} else {
@@ -183,7 +184,7 @@ public class EnhanceImageOps {
 	public static void equalizeLocal(GrayU16 input , int radius , GrayU16 output ,
 									 int histogram[] , int transform[] ) {
 
-		InputSanityCheck.checkSameShape(input, output);
+		ISC.checkSameShape(input, output);
 
 		int width = radius*2+1;
 
@@ -203,7 +204,7 @@ public class EnhanceImageOps {
 
 		} else if( input.width < width && input.height < width ) {
 			// the local region is larger than the image.  just use the full image algorithm
-			ImageStatistics.histogram(input,histogram);
+			IS.histogram(input,histogram);
 			equalize(histogram,transform);
 			applyTransform(input,transform,output);
 		} else {
@@ -218,7 +219,7 @@ public class EnhanceImageOps {
 	 * @param output Output image.
 	 */
 	public static void sharpen4(GrayU8 input , GrayU8 output ) {
-		InputSanityCheck.checkSameShape(input, output);
+		ISC.checkSameShape(input, output);
 
 		ImplEnhanceFilter.sharpenInner4(input,output,0,255);
 		ImplEnhanceFilter.sharpenBorder4(input,output,0,255);
@@ -231,7 +232,7 @@ public class EnhanceImageOps {
 	 * @param output Output image.
 	 */
 	public static void sharpen4(GrayF32 input , GrayF32 output ) {
-		InputSanityCheck.checkSameShape(input, output);
+		ISC.checkSameShape(input, output);
 
 		ImplEnhanceFilter.sharpenInner4(input,output,0,255);
 		ImplEnhanceFilter.sharpenBorder4(input, output, 0, 255);
@@ -244,7 +245,7 @@ public class EnhanceImageOps {
 	 * @param output Output image.
 	 */
 	public static void sharpen8(GrayU8 input , GrayU8 output ) {
-		InputSanityCheck.checkSameShape(input, output);
+		ISC.checkSameShape(input, output);
 
 		ImplEnhanceFilter.sharpenInner8(input,output,0,255);
 		ImplEnhanceFilter.sharpenBorder8(input, output, 0, 255);
@@ -257,7 +258,7 @@ public class EnhanceImageOps {
 	 * @param output Output image.
 	 */
 	public static void sharpen8(GrayF32 input , GrayF32 output ) {
-		InputSanityCheck.checkSameShape(input, output);
+		ISC.checkSameShape(input, output);
 
 		ImplEnhanceFilter.sharpenInner8(input,output,0,255);
 		ImplEnhanceFilter.sharpenBorder8(input, output, 0, 255);

@@ -122,7 +122,6 @@ public abstract class VideoDisplayActivity extends Activity implements Camera.Pr
 
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-
 		contentView = new LinearLayout(this);
 		contentView.setOrientation(LinearLayout.VERTICAL);
 		LayoutParams contentParam = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);

@@ -35,7 +35,7 @@ import java.util.Random;
  * @author Peter Abeles
  */
 public abstract class ChecksImplDisparityScoreSadRectFive<Image extends ImageGray,Disparity extends ImageGray> {
-
+	private GeneralizedImageOps GIO;
 	Random rand = new Random(234);
 
 	DisparitySelect compDisp;
@@ -68,7 +68,7 @@ public abstract class ChecksImplDisparityScoreSadRectFive<Image extends ImageGra
 
 					@Override
 					public Disparity computeDisparity(Image left, Image right ) {
-						Disparity ret = GeneralizedImageOps.createSingleBand(disparityType, left.width, left.height);
+						Disparity ret = GIO.createSingleBand(disparityType, left.width, left.height);
 
 						alg.process(left,right,ret);
 
@@ -95,8 +95,8 @@ public abstract class ChecksImplDisparityScoreSadRectFive<Image extends ImageGra
 	@Test
 	public void compareToNaive() {
 		int w = 20, h = 25;
-		Image left = GeneralizedImageOps.createSingleBand(imageType,w, h);
-		Image right = GeneralizedImageOps.createSingleBand(imageType,w, h);
+		Image left = GIO.createSingleBand(imageType,w, h);
+		Image right = GIO.createSingleBand(imageType,w, h);
 
 		if( left.getDataType().isSigned() ) {
 			GImageMiscOps.fillUniform(left, rand, -20, 20);
@@ -125,7 +125,7 @@ public abstract class ChecksImplDisparityScoreSadRectFive<Image extends ImageGra
 		StereoDisparityWtoNaiveFive<Image> naive =
 				new StereoDisparityWtoNaiveFive<>(minDisparity, maxDisparity, radiusX, radiusY);
 
-		Disparity found = GeneralizedImageOps.createSingleBand(disparityType,w,h);
+		Disparity found = GIO.createSingleBand(disparityType,w,h);
 		GrayF32 expected = new GrayF32(w,h);
 
 		alg.process(left,right,found);

@@ -44,7 +44,7 @@ import georegression.transform.homography.HomographyPointOps_F64;
 public class MosaicDisplayActivity extends DemoVideoDisplayActivity
 implements CompoundButton.OnCheckedChangeListener
 {
-
+	private ImageType IT;
 	Paint paintInlier;
 	Paint paintOutlier;
 
@@ -103,7 +103,7 @@ implements CompoundButton.OnCheckedChangeListener
 		ImageMotion2D<GrayU8,Affine2D_F64> motion = FactoryMotion2D.createMotion2D(100, 1.5, 2, 40,
 				0.5, 0.6, false,tracker, new Affine2D_F64());
 
-		return FactoryMotion2D.createVideoStitch(0.2,motion, ImageType.single(GrayU8.class));
+		return FactoryMotion2D.createVideoStitch(0.2,motion, IT.single(GrayU8.class));
 	}
 
 	@Override
@@ -126,7 +126,7 @@ implements CompoundButton.OnCheckedChangeListener
 		FastQueue<Point2D_F64> outliersGui = new FastQueue<Point2D_F64>(Point2D_F64.class,true);
 
 		public PointProcessing( StitchingFromMotion2D<GrayU8,Affine2D_F64> alg  ) {
-			super(ImageType.single(GrayU8.class));
+			super(IT.single(GrayU8.class));
 			this.alg = alg;
 		}
 

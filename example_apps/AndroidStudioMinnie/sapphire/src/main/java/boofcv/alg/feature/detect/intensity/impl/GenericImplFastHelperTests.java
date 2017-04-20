@@ -30,7 +30,7 @@ import static org.junit.Assert.*;
  * @author Peter Abeles
  */
 public abstract class GenericImplFastHelperTests<T extends ImageGray> {
-
+	private GeneralizedImageOps GIO;
 	Class<T> imageType;
 	FastHelper<T> alg;
 	T image;
@@ -41,7 +41,7 @@ public abstract class GenericImplFastHelperTests<T extends ImageGray> {
 		this.imageType = imageType;
 		this.alg = alg;
 		this.threshold = threshold;
-		image = GeneralizedImageOps.createSingleBand(imageType,30,40);
+		image = GIO.createSingleBand(imageType,30,40);
 		offsets = DiscretizedCircle.imageOffsets(3, image.stride);
 	}
 
@@ -55,7 +55,7 @@ public abstract class GenericImplFastHelperTests<T extends ImageGray> {
 		alg.setThresholds(image.getIndex(10,11));
 		assertEquals(0,alg.scoreLower(image.getIndex(10,11)),1e-8);
 
-		GeneralizedImageOps.set(image,10,11,30);
+		GIO.set(image,10,11,30);
 		alg.setThresholds(image.getIndex(10,11));
 
 		setCircle(10, 11, 30-threshold-1);
@@ -79,7 +79,7 @@ public abstract class GenericImplFastHelperTests<T extends ImageGray> {
 		alg.setThresholds(image.getIndex(10,11));
 		assertEquals(0,alg.scoreLower(image.getIndex(10,11)),1e-8);
 
-		GeneralizedImageOps.set(image,10,11,30);
+		GIO.set(image,10,11,30);
 		alg.setThresholds(image.getIndex(10,11));
 
 		setCircle(10, 11, 30+threshold+1);
@@ -98,10 +98,10 @@ public abstract class GenericImplFastHelperTests<T extends ImageGray> {
 		GImageMiscOps.fill(image, 0);
 
 		alg.setImage(image,offsets);
-		GeneralizedImageOps.set(image,10,11,30);
-		GeneralizedImageOps.set(image,10,12,30-threshold-1);
-		GeneralizedImageOps.set(image,10,13,30+threshold+1);
-		GeneralizedImageOps.set(image,10,14,30);
+		GIO.set(image,10,11,30);
+		GIO.set(image,10,12,30-threshold-1);
+		GIO.set(image,10,13,30+threshold+1);
+		GIO.set(image,10,14,30);
 
 		alg.setThresholds(image.getIndex(10,11));
 
@@ -115,10 +115,10 @@ public abstract class GenericImplFastHelperTests<T extends ImageGray> {
 		GImageMiscOps.fill(image, 0);
 
 		alg.setImage(image,offsets);
-		GeneralizedImageOps.set(image,10,11,30);
-		GeneralizedImageOps.set(image,10,12,30-threshold-1);
-		GeneralizedImageOps.set(image,10,13,30+threshold+1);
-		GeneralizedImageOps.set(image,10,14,30);
+		GIO.set(image,10,11,30);
+		GIO.set(image,10,12,30-threshold-1);
+		GIO.set(image,10,13,30+threshold+1);
+		GIO.set(image,10,14,30);
 
 		alg.setThresholds(image.getIndex(10,11));
 
@@ -140,7 +140,7 @@ public abstract class GenericImplFastHelperTests<T extends ImageGray> {
 				offX += image.stride;
 			}
 
-			GeneralizedImageOps.set(image,x+offX,y+offY,value);
+			GIO.set(image,x+offX,y+offY,value);
 		}
 	}
 }

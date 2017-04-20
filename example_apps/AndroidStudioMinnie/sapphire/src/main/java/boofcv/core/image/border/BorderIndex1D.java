@@ -19,12 +19,14 @@
 package boofcv.core.image.border;
 
 
+import sapphire.app.SapphireObject;
+
 /**
  * Remaps references to elements outside of an array to elements inside of the array.
  *
  * @author Peter Abeles
  */
-public abstract class BorderIndex1D {
+public abstract class BorderIndex1D implements SapphireObject {
 
 	public void setLength( int length ) {
 		this.length = length;

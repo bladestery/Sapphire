@@ -25,7 +25,9 @@ import boofcv.alg.flow.*;
 import boofcv.alg.interpolate.InterpolatePixelS;
 import boofcv.alg.tracker.klt.PkltConfig;
 import boofcv.alg.tracker.klt.PyramidKltTracker;
+import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.BorderType;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.filter.derivative.FactoryDerivative;
 import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.factory.tracker.FactoryTrackerAlg;
@@ -42,7 +44,10 @@ import boofcv.struct.pyramid.PyramidDiscrete;
  * @author Peter Abeles
  */
 public class FactoryDenseOpticalFlow {
-
+	private static FactoryDerivative FD;
+	private static ImageType IT;
+	private static GeneralizedImageOps GIO;
+	private static FactoryImageBorder FIB;
 	/**
 	 * Compute optical flow using {@link PyramidKltTracker}.
 	 *
@@ -73,7 +78,7 @@ public class FactoryDenseOpticalFlow {
 
 		PyramidKltTracker<I, D> tracker = FactoryTrackerAlg.kltPyramid(configKlt.config, inputType, derivType);
 		DenseOpticalFlowKlt<I, D> flowKlt = new DenseOpticalFlowKlt<>(tracker, numLayers, radius);
-		ImageGradient<I, D> gradient = FactoryDerivative.sobel(inputType,derivType);
+		ImageGradient<I, D> gradient = FD.sobel(inputType,derivType, GIO, FIB);
 
 		return new FlowKlt_to_DenseOpticalFlow<>(flowKlt, gradient, pyramidA, pyramidB, inputType, derivType);
 	}
@@ -131,7 +136,7 @@ public class FactoryDenseOpticalFlow {
 		else
 			throw new IllegalArgumentException("Unsupported image type "+imageType);
 
-		return new HornSchunck_to_DenseOpticalFlow<>(alg, ImageType.single(imageType));
+		return new HornSchunck_to_DenseOpticalFlow<>(alg, IT.single(imageType));
 	}
 
 	/**

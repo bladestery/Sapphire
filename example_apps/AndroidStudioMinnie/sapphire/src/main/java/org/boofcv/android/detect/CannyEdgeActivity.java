@@ -8,9 +8,13 @@ import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 
+import org.boofcv.android.DemoManager;
 import org.boofcv.android.DemoVideoDisplayActivity;
 import org.boofcv.android.R;
 
+import java.net.InetSocketAddress;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.List;
 import java.util.Random;
 
@@ -18,10 +22,12 @@ import boofcv.alg.feature.detect.edge.CannyEdge;
 import boofcv.alg.feature.detect.edge.EdgeContour;
 import boofcv.android.VisualizeImageData;
 import boofcv.android.gui.VideoImageProcessing;
-import boofcv.factory.feature.detect.edge.FactoryEdgeDetectors;
 import boofcv.struct.image.GrayS16;
 import boofcv.struct.image.GrayU8;
-import boofcv.struct.image.ImageType;
+import sapphire.kernel.server.KernelServerImpl;
+import sapphire.oms.OMSServer;
+
+import static sapphire.kernel.common.GlobalKernelReferences.nodeServer;
 
 /**
  * Displays results from the canny edge detector
@@ -37,6 +43,9 @@ public class CannyEdgeActivity extends DemoVideoDisplayActivity
 	float threshold;
 	boolean colorize;
 
+	OMSServer server;
+	DemoManager dm;
+
 	public CannyEdgeActivity() {
 		super(true);
 	}
@@ -44,6 +53,32 @@ public class CannyEdgeActivity extends DemoVideoDisplayActivity
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		InetSocketAddress host, omsHost;
+
+		try {
+			Registry registry = LocateRegistry.getRegistry("157.82.159.30", 22346);
+			server = (OMSServer) registry.lookup("SapphireOMS");
+			System.out.println(server);
+
+			host = new InetSocketAddress("192.168.0.7", 22346);
+			omsHost = new InetSocketAddress("157.82.159.30", 22346);
+			nodeServer = new KernelServerImpl(host, omsHost);
+			System.out.println(nodeServer);
+
+			System.setProperty("java.rmi.server.hostname", host.getAddress().getHostAddress());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		try {
+			//Server is initiated with appObject to perform remote RPCs
+			dm = (DemoManager) server.getAppEntryPoint();
+			System.out.println("Got AppEntryPoint");
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(0);
+		}
 
 		LayoutInflater inflater = getLayoutInflater();
 		LinearLayout controls = (LinearLayout)inflater.inflate(R.layout.canny_controls,null);
@@ -90,19 +125,18 @@ public class CannyEdgeActivity extends DemoVideoDisplayActivity
 		CannyEdge<GrayU8,GrayS16> canny;
 
 		public CannyProcessing() {
-			super(ImageType.single(GrayU8.class));
-			this.canny = FactoryEdgeDetectors.canny(2, true, true, GrayU8.class, GrayS16.class);
+			super(dm.single(GrayU8.class));
+			dm.canny(2, true, true);
 		}
 
 		@Override
 		protected void process(GrayU8 input, Bitmap output, byte[] storage) {
-
 			// make sure it doesn't get too low
 			if( threshold <= 0.03f )
 				threshold = 0.03f;
 
-			canny.process(input,threshold/3.0f,threshold,null);
-			List<EdgeContour> contours = canny.getContours();
+			dm.process(input,threshold/3.0f,threshold,null);
+			List<EdgeContour> contours = dm.getContours();
 
 			// random colors for each line
 			if( colorize ) {

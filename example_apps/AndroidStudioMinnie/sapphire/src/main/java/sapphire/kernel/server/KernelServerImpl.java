@@ -146,7 +146,6 @@ public class KernelServerImpl implements KernelServer{
 		} catch (RemoteException e) {
 			throw new RemoteException("Could not contact oms to update kernel object host.");
 		}
-		
 		objectManager.removeObject(oid);
 	}
 	

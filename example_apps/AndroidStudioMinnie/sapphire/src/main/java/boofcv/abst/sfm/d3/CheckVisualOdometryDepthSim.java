@@ -36,6 +36,7 @@ import static org.junit.Assert.assertTrue;
 public abstract class CheckVisualOdometryDepthSim<I extends ImageGray,Depth extends ImageGray>
 	extends VideoSequenceSimulator<I>
 {
+	private GeneralizedImageOps GIO;
 	CameraPinholeRadial param = new CameraPinholeRadial(200,201,0,width/2,height/2,width,height).fsetRadial(0,0);
 	DepthVisualOdometry<I,Depth> algorithm;
 
@@ -50,8 +51,8 @@ public abstract class CheckVisualOdometryDepthSim<I extends ImageGray,Depth exte
 	public CheckVisualOdometryDepthSim(Class<I> inputType, Class<Depth> depthType) {
 		super(320, 240, inputType);
 
-		left = GeneralizedImageOps.createSingleBand(inputType,width,height);
-		depth = GeneralizedImageOps.createSingleBand(depthType,width,height);
+		left = GIO.createSingleBand(inputType,width,height);
+		depth = GIO.createSingleBand(depthType,width,height);
 
 		createSquares(numSquares,1,2);
 	}

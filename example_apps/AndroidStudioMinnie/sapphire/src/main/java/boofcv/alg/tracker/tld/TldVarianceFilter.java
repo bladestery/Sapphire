@@ -32,7 +32,7 @@ import boofcv.struct.image.*;
  * @author Peter Abeles
  */
 public class TldVarianceFilter<T extends ImageGray> {
-
+	private GeneralizedImageOps GIO;
 	// threshold for selecting candidate regions
 	private double thresholdLower;
 
@@ -49,7 +49,7 @@ public class TldVarianceFilter<T extends ImageGray> {
 	public TldVarianceFilter( Class<T> imageType ) {
 
 		// declare integral images.
-		if(GeneralizedImageOps.isFloatingPoint(imageType) ) {
+		if(GIO.isFloatingPoint(imageType) ) {
 			integral = new GrayF32(1,1);
 			integralSq = new GrayF64(1,1);
 		} else {

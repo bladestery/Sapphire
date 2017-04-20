@@ -20,6 +20,18 @@ package boofcv.alg.transform.pyramid;
 
 import boofcv.abst.filter.convolve.ConvolveInterface;
 import boofcv.abst.filter.derivative.AnyImageDerivative;
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.filter.blur.BlurImageOps;
+import boofcv.alg.filter.blur.GBlurImageOps;
+import boofcv.alg.filter.blur.impl.ImplMedianHistogramInner;
+import boofcv.alg.filter.blur.impl.ImplMedianSortEdgeNaive;
+import boofcv.alg.filter.blur.impl.ImplMedianSortNaive;
+import boofcv.alg.filter.convolve.ConvolveImageMean;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
 import boofcv.alg.filter.derivative.GImageDerivativeOps;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.BorderType;
@@ -43,6 +55,20 @@ import boofcv.struct.image.ImageGray;
 public class NoCacheScaleSpace<I extends ImageGray, D extends ImageGray>
 		implements GaussianScaleSpace<I,D>
 {
+	private static FactoryKernelGaussian FKG;
+	private static GeneralizedImageOps GIO;
+	private static GBlurImageOps GBIO;
+	private static InputSanityCheck ISC;
+	private static BlurImageOps BIO;
+	private static ConvolveImageMean CIM;
+	private static ConvolveNormalized CN;
+	private static ConvolveNormalizedNaive CNN;
+	private static ConvolveImageNoBorder CINB;
+	private static ConvolveNormalized_JustBorder CNJB;
+	private static ImplMedianHistogramInner IMHI;
+	private static ImplMedianSortEdgeNaive IMSEN;
+	private static ImplMedianSortNaive IMSN;
+	private static ImplConvolveMean ICM;
 	// reference to the original input image
 	private I originalImage;
 
@@ -88,8 +114,8 @@ public class NoCacheScaleSpace<I extends ImageGray, D extends ImageGray>
 		this.originalImage = input;
 
 		if( scaledImage == null ) {
-			scaledImage = GeneralizedImageOps.createSingleBand(inputType, input.getWidth(), input.getHeight());
-			workImage = GeneralizedImageOps.createSingleBand(inputType, input.getWidth(), input.getHeight());
+			scaledImage = GIO.createSingleBand(inputType, input.getWidth(), input.getHeight());
+			workImage = GIO.createSingleBand(inputType, input.getWidth(), input.getHeight());
 		} else if( scaledImage.width != input.width || scaledImage.height != input.height ) {
 			scaledImage.reshape(input.width,input.height);
 			workImage.reshape(input.width,input.height);
@@ -100,16 +126,16 @@ public class NoCacheScaleSpace<I extends ImageGray, D extends ImageGray>
 	public void setActiveScale(int index) {
 		this.currentScale = index;
 		double sigma = scales[index];
-		int radius = FactoryKernelGaussian.radiusForSigma(sigma, 0);
+		int radius = FKG.radiusForSigma(sigma, 0);
 
-		Kernel1D kernel = FactoryKernelGaussian.gaussian1D(inputType,sigma,radius);
+		Kernel1D kernel = FKG.gaussian1D(inputType,sigma,radius, GIO);
 
 		ConvolveInterface<I, I> blurX = FactoryConvolve.convolve(kernel,inputType,inputType, borderBlur ,true);
 		ConvolveInterface<I, I> blurY = FactoryConvolve.convolve(kernel,inputType,inputType, borderBlur ,false);
 
 		// compute the scale image
-		blurX.process(originalImage,workImage);
-		blurY.process(workImage,scaledImage);
+		blurX.process(originalImage,workImage, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM);
+		blurY.process(workImage,scaledImage, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM);
 
 		anyDeriv.setInput(scaledImage);
 	}

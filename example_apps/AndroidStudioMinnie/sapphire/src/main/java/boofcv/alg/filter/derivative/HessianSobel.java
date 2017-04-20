@@ -64,7 +64,7 @@ import boofcv.struct.image.GrayU8;
  * @author Peter Abeles
  */
 public class HessianSobel {
-
+	private static InputSanityCheck ISC;
 	public static Kernel2D_I32 kernelYY_I32 = new Kernel2D_I32(5, new int[]
 			{1, 4, 6 , 4, 1,
 			 0, 0, 0 , 0, 0,
@@ -114,7 +114,7 @@ public class HessianSobel {
 	public static void process(GrayU8 orig,
 							   GrayS16 derivXX, GrayS16 derivYY, GrayS16 derivXY ,
 							   ImageBorder_S32 border ) {
-		InputSanityCheck.checkSameShape(orig, derivXX, derivYY, derivXY);
+		ISC.checkSameShape(orig, derivXX, derivYY, derivXY);
 		HessianSobel_Shared.process(orig, derivXX, derivYY, derivXY);
 
 		if( border != null ) {
@@ -137,7 +137,7 @@ public class HessianSobel {
 	public static void process(GrayF32 orig,
 							   GrayF32 derivXX, GrayF32 derivYY, GrayF32 derivXY ,
 							   ImageBorder_F32 border ) {
-		InputSanityCheck.checkSameShape(orig, derivXX, derivYY, derivXY);
+		ISC.checkSameShape(orig, derivXX, derivYY, derivXY);
 		HessianSobel_Shared.process(orig, derivXX, derivYY, derivXY);
 
 		if( border != null ) {

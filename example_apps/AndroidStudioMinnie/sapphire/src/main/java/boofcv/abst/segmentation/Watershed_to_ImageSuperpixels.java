@@ -41,7 +41,7 @@ import org.ddogleg.struct.GrowQueue_I32;
  * @author Peter Abeles
  */
 public class Watershed_to_ImageSuperpixels<T extends ImageBase> implements ImageSuperpixels<T> {
-
+	private static InputSanityCheck ISC;
 	private WatershedVincentSoille1991 alg;
 	private ConnectRule rule;
 
@@ -68,7 +68,7 @@ public class Watershed_to_ImageSuperpixels<T extends ImageBase> implements Image
 
 	@Override
 	public void segment(T input, GrayS32 output) {
-		InputSanityCheck.checkSameShape(input,output);
+		ISC.checkSameShape(input,output);
 		converted.reshape(input.width,input.height);
 
 		GConvertImage.convert(input,converted);

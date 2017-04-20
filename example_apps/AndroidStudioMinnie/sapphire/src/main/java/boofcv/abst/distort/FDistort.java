@@ -52,6 +52,7 @@ import georegression.struct.affine.Affine2D_F64;
  */
 public class FDistort
 {
+	private static FactoryImageBorder FIB;
 	// type of input image
 	ImageType inputType;
 
@@ -172,7 +173,7 @@ public class FDistort
 		if( borderType == type )
 			return this;
 		borderType = type;
-		return border(FactoryImageBorder.generic(type, inputType));
+		return border(FIB.generic(type, inputType));
 	}
 
 	/**
@@ -183,7 +184,7 @@ public class FDistort
 //		if( borderType == BorderType.VALUE )
 //			return this;
 		borderType = BorderType.ZERO;
-		return border(FactoryImageBorder.genericValue(value, inputType));
+		return border(FIB.genericValue(value, inputType));
 	}
 
 	/**

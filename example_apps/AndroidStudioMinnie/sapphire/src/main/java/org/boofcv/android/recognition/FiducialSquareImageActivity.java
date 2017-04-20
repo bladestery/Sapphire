@@ -6,6 +6,7 @@ import java.util.List;
 
 import boofcv.abst.fiducial.FiducialDetector;
 import boofcv.abst.fiducial.SquareImage_to_FiducialDetector;
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.filter.binary.BinaryImageOps;
 import boofcv.alg.misc.PixelMath;
 import boofcv.factory.fiducial.ConfigFiducialImage;
@@ -21,6 +22,8 @@ import boofcv.struct.image.GrayU8;
  */
 public class FiducialSquareImageActivity extends FiducialSquareActivity
 {
+	private static BinaryImageOps BIO;
+	private static InputSanityCheck ISC;
 	FiducialManager manager;
 	List<FiducialManager.Info> list;
 
@@ -64,7 +67,7 @@ public class FiducialSquareImageActivity extends FiducialSquareActivity
 
 		for (int i = 0; i < list.size(); i++) {
 			GrayU8 binary = manager.loadBinaryImage(list.get(i).id);
-			BinaryImageOps.invert(binary,binary);
+			BIO.invert(binary,binary, ISC);
 			PixelMath.multiply(binary,255,0,255,binary);
 			detector.addPatternImage(binary,125,list.get(i).sideLength);
 		}

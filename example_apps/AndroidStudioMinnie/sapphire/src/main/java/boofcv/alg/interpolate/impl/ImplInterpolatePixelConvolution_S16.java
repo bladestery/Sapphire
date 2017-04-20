@@ -38,7 +38,7 @@ import boofcv.struct.image.ImageType;
  * @author Peter Abeles
  */
 public class ImplInterpolatePixelConvolution_S16 implements InterpolatePixelS<GrayS16>  {
-
+	private ImageType IT;
 	// used to read outside the image border
 	private ImageBorder_S32 border;
 	// kernel used to perform interpolation
@@ -207,7 +207,7 @@ public class ImplInterpolatePixelConvolution_S16 implements InterpolatePixelS<Gr
 	}
 	@Override
 	public ImageType<GrayS16> getImageType() {
-		return ImageType.single(GrayS16.class);
+		return IT.single(GrayS16.class);
 	}
 
 }

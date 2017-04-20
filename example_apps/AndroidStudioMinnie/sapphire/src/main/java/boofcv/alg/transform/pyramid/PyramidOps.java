@@ -21,9 +21,23 @@ package boofcv.alg.transform.pyramid;
 import boofcv.abst.filter.FilterImageInterface;
 import boofcv.abst.filter.derivative.ImageGradient;
 import boofcv.abst.filter.derivative.ImageHessian;
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.filter.blur.BlurImageOps;
+import boofcv.alg.filter.blur.GBlurImageOps;
+import boofcv.alg.filter.blur.impl.ImplMedianHistogramInner;
+import boofcv.alg.filter.blur.impl.ImplMedianSortEdgeNaive;
+import boofcv.alg.filter.blur.impl.ImplMedianSortNaive;
+import boofcv.alg.filter.convolve.ConvolveImageMean;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
+import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
 import boofcv.alg.interpolate.InterpolatePixelS;
 import boofcv.alg.transform.pyramid.impl.ImplPyramidOps;
 import boofcv.core.image.GeneralizedImageOps;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.ImageGray;
@@ -38,6 +52,21 @@ import java.lang.reflect.Array;
  * @author Peter Abeles
  */
 public class PyramidOps {
+	private static GeneralizedImageOps GIO;
+	private static GBlurImageOps GBIO;
+	private static InputSanityCheck ISC;
+	private static BlurImageOps BIO;
+	private static ConvolveImageMean CIM;
+	private static FactoryKernelGaussian FKG;
+	private static ConvolveNormalized CN;
+	private static ConvolveNormalizedNaive CNN;
+	private static ConvolveImageNoBorder CINB;
+	private static ConvolveNormalized_JustBorder CNJB;
+	private static ImplMedianHistogramInner IMHI;
+	private static ImplMedianSortEdgeNaive IMSEN;
+	private static ImplMedianSortNaive IMSN;
+	private static ImplConvolveMean ICM;
+	private static DerivativeHelperFunctions DHF;
 
 	/**
 	 * Creates an array of single band images for each layer in the provided pyramid.  Each image will
@@ -55,7 +84,7 @@ public class PyramidOps {
 		for( int i = 0; i < ret.length; i++ ) {
 			int w = pyramid.getWidth(i);
 			int h = pyramid.getHeight(i);
-			ret[i] = GeneralizedImageOps.createSingleBand(outputType,w,h);
+			ret[i] = GIO.createSingleBand(outputType,w,h);
 		}
 
 		return ret;
@@ -97,7 +126,7 @@ public class PyramidOps {
 	{
 		for( int i = 0; i < input.getNumLayers(); i++ ) {
 			I imageIn = input.getLayer(i);
-			filter.process(imageIn,output[i]);
+			filter.process(imageIn,output[i], GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM);
 		}
 	}
 
@@ -122,7 +151,7 @@ public class PyramidOps {
 	{
 		for( int i = 0; i < input.getNumLayers(); i++ ) {
 			I imageIn = input.getLayer(i);
-			gradient.process(imageIn,derivX[i],derivY[i]);
+			gradient.process(imageIn,derivX[i],derivY[i], ISC, DHF, CINB);
 		}
 	}
 

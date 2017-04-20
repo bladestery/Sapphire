@@ -42,7 +42,9 @@ import boofcv.struct.image.GrayS16;
  * @author Peter Abeles
  */
 public class HessianFromGradient {
-
+	private static InputSanityCheck ISC;
+	private static ConvolveImageNoBorder CINB;
+	private static DerivativeHelperFunctions DHF;
 	/**
 	 * Computes the hessian given an image's gradient using a Prewitt operator.
 	 *
@@ -56,14 +58,14 @@ public class HessianFromGradient {
 	public static void hessianPrewitt(GrayS16 inputDerivX , GrayS16 inputDerivY ,
 									  GrayS16 derivXX, GrayS16 derivYY, GrayS16 derivXY ,
 									  ImageBorder_S32 border ) {
-		InputSanityCheck.checkSameShape(inputDerivX, inputDerivY, derivXX, derivYY, derivXY);
+		ISC.checkSameShape(inputDerivX, inputDerivY, derivXX, derivYY, derivXY);
 
 		GradientPrewitt.process(inputDerivX,derivXX,derivXY,border);
 
 		if( border != null )
 			ConvolveWithBorder.convolve(GradientPrewitt.kernelDerivY_I32,inputDerivY,derivYY,border);
 		else
-			ConvolveImageNoBorder.convolve(GradientPrewitt.kernelDerivY_I32,inputDerivY,derivYY);
+			CINB.convolve(GradientPrewitt.kernelDerivY_I32,inputDerivY,derivYY, ISC);
 	}
 
 	/**
@@ -79,14 +81,14 @@ public class HessianFromGradient {
 	public static void hessianPrewitt(GrayF32 inputDerivX , GrayF32 inputDerivY,
 									  GrayF32 derivXX, GrayF32 derivYY, GrayF32 derivXY ,
 									  ImageBorder_F32 border ) {
-		InputSanityCheck.checkSameShape(inputDerivX, inputDerivY, derivXX, derivYY, derivXY);
+		ISC.checkSameShape(inputDerivX, inputDerivY, derivXX, derivYY, derivXY);
 
 		GradientPrewitt.process(inputDerivX,derivXX,derivXY,border);
 
 		if( border != null )
 			ConvolveWithBorder.convolve(GradientPrewitt.kernelDerivY_F32,inputDerivY,derivYY,border);
 		else
-			ConvolveImageNoBorder.convolve(GradientPrewitt.kernelDerivY_F32,inputDerivY,derivYY);
+			CINB.convolve(GradientPrewitt.kernelDerivY_F32,inputDerivY,derivYY, ISC);
 	}
 
 	/**
@@ -102,7 +104,7 @@ public class HessianFromGradient {
 	public static void hessianSobel(GrayS16 inputDerivX , GrayS16 inputDerivY ,
 									GrayS16 derivXX, GrayS16 derivYY, GrayS16 derivXY ,
 									ImageBorder_S32 border ) {
-		InputSanityCheck.checkSameShape(inputDerivX, inputDerivY, derivXX, derivYY, derivXY);
+		ISC.checkSameShape(inputDerivX, inputDerivY, derivXX, derivYY, derivXY);
 
 		GradientSobel.process(inputDerivX,derivXX,derivXY,border);
 
@@ -110,7 +112,7 @@ public class HessianFromGradient {
 			ConvolveWithBorder.convolve(GradientSobel.kernelDerivY_I32,inputDerivY,derivYY,
 					new ImageBorder1D_S32(BorderIndex1D_Extend.class));
 		else
-			ConvolveImageNoBorder.convolve(GradientSobel.kernelDerivY_I32,inputDerivY,derivYY);
+			CINB.convolve(GradientSobel.kernelDerivY_I32,inputDerivY,derivYY, ISC);
 	}
 
 	/**
@@ -126,7 +128,7 @@ public class HessianFromGradient {
 	public static void hessianSobel(GrayF32 inputDerivX , GrayF32 inputDerivY,
 									GrayF32 derivXX, GrayF32 derivYY, GrayF32 derivXY ,
 									ImageBorder_F32 border ) {
-		InputSanityCheck.checkSameShape(inputDerivX, inputDerivY, derivXX, derivYY, derivXY);
+		ISC.checkSameShape(inputDerivX, inputDerivY, derivXX, derivYY, derivXY);
 
 		GradientSobel.process(inputDerivX,derivXX,derivXY,border);
 
@@ -134,7 +136,7 @@ public class HessianFromGradient {
 			ConvolveWithBorder.convolve(GradientSobel.kernelDerivY_F32,inputDerivY,derivYY,
 					new ImageBorder1D_F32(BorderIndex1D_Extend.class));
 		else
-			ConvolveImageNoBorder.convolve(GradientSobel.kernelDerivY_F32,inputDerivY,derivYY);
+			CINB.convolve(GradientSobel.kernelDerivY_F32,inputDerivY,derivYY, ISC);
 	}
 
 	/**
@@ -150,15 +152,15 @@ public class HessianFromGradient {
 	public static void hessianThree(GrayS16 inputDerivX , GrayS16 inputDerivY ,
 									GrayS16 derivXX, GrayS16 derivYY, GrayS16 derivXY ,
 									ImageBorder_S32 border ) {
-		InputSanityCheck.checkSameShape(inputDerivX, inputDerivY, derivXX, derivYY, derivXY);
+		ISC.checkSameShape(inputDerivX, inputDerivY, derivXX, derivYY, derivXY);
 
-		GradientThree.process(inputDerivX,derivXX,derivXY,border);
+		GradientThree.process(inputDerivX,derivXX,derivXY,border, ISC, DHF, CINB);
 
 		if( border != null )
 			ConvolveWithBorder.vertical(GradientThree.kernelDeriv_I32,inputDerivY,derivYY,
 					new ImageBorder1D_S32(BorderIndex1D_Extend.class));
 		else
-			ConvolveImageNoBorder.vertical(GradientThree.kernelDeriv_I32,inputDerivY,derivYY);
+			CINB.vertical(GradientThree.kernelDeriv_I32,inputDerivY,derivYY, ISC);
 	}
 
 	/**
@@ -174,14 +176,14 @@ public class HessianFromGradient {
 	public static void hessianThree(GrayF32 inputDerivX , GrayF32 inputDerivY,
 									GrayF32 derivXX, GrayF32 derivYY, GrayF32 derivXY ,
 									ImageBorder_F32 border ) {
-		InputSanityCheck.checkSameShape(inputDerivX, inputDerivY, derivXX, derivYY, derivXY);
+		ISC.checkSameShape(inputDerivX, inputDerivY, derivXX, derivYY, derivXY);
 
-		GradientThree.process(inputDerivX,derivXX,derivXY,border);
+		GradientThree.process(inputDerivX,derivXX,derivXY,border, ISC, DHF, CINB);
 
 		if( border != null )
 			ConvolveWithBorder.vertical(GradientThree.kernelDeriv_F32,inputDerivY,derivYY,
 					new ImageBorder1D_F32(BorderIndex1D_Extend.class));
 		else
-			ConvolveImageNoBorder.vertical(GradientThree.kernelDeriv_F32,inputDerivY,derivYY);
+			CINB.vertical(GradientThree.kernelDeriv_F32,inputDerivY,derivYY, ISC);
 	}
 }

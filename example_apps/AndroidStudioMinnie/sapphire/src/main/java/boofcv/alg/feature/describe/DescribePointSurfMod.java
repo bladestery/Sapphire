@@ -40,7 +40,7 @@ import boofcv.struct.sparse.SparseImageGradient;
  * @author Peter Abeles
  */
 public class DescribePointSurfMod<II extends ImageGray> extends DescribePointSurf<II> {
-
+	private static FactoryKernelGaussian FKG;
 	// how many sample points sub-regions overlap.
 	private int overLap;
 
@@ -71,8 +71,8 @@ public class DescribePointSurfMod<II extends ImageGray> extends DescribePointSur
 
 		this.overLap = overLap;
 
-		weightGrid = FactoryKernelGaussian.gaussianWidth(sigmaLargeGrid, widthLargeGrid);
-		weightSub = FactoryKernelGaussian.gaussianWidth(sigmaSubRegion, widthSubRegion + 2 * overLap);
+		weightGrid = FKG.gaussianWidth(sigmaLargeGrid, widthLargeGrid);
+		weightSub = FKG.gaussianWidth(sigmaSubRegion, widthSubRegion + 2 * overLap);
 
 		double div = weightGrid.get(weightGrid.getRadius(),weightGrid.getRadius());
 		for( int i = 0; i < weightGrid.data.length; i++ )

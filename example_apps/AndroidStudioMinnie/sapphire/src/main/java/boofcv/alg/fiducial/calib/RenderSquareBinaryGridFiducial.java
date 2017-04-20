@@ -32,7 +32,7 @@ import java.util.List;
  * @author Peter Abeles
  */
 public class RenderSquareBinaryGridFiducial {
-
+	private ImageMiscOps IMO;
 	public double border = 0.25;
 	public int binaryGrid = 3;
 	public int squareWidth = 40;
@@ -66,7 +66,7 @@ public class RenderSquareBinaryGridFiducial {
 		int imageHeight = (numRows*2+2)*squareWidth;
 
 		GrayF32 image = new GrayF32(imageWidth,imageHeight);
-		ImageMiscOps.fill(image, 255);
+		IMO.fill(image, 255);
 
 		int number = 0;
 		for (int i = 0; i < numRows; i++) {
@@ -82,7 +82,7 @@ public class RenderSquareBinaryGridFiducial {
 	}
 
 	private void generateSquare( int x0 , int y0 , int width , int value , GrayF32 image ) {
-		ImageMiscOps.fillRectangle(image,0,x0,y0,width,width);
+		IMO.fillRectangle(image,0,x0,y0,width,width);
 
 		int innerWidth = (int)(width*(1.0-border*2)+0.5);
 
@@ -115,7 +115,7 @@ public class RenderSquareBinaryGridFiducial {
 				}
 
 				if( white ) {
-					ImageMiscOps.fillRectangle(image,255, pixelX0,pixelY0, pixelX1-pixelX0,pixelY1-pixelY0);
+					IMO.fillRectangle(image,255, pixelX0,pixelY0, pixelX1-pixelX0,pixelY1-pixelY0);
 				}
 			}
 		}

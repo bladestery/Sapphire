@@ -28,7 +28,7 @@ import static org.junit.Assert.assertEquals;
  * @author Peter Abeles
  */
 public abstract class GenericImageBorder1DTests<T extends ImageBase> extends GenericImageBorderTests<T> {
-
+	private GeneralizedImageOps GIO;
 	BorderIndex1D_Wrap wrap = new BorderIndex1D_Wrap();
 
 	public GenericImageBorder1DTests(ImageType<T> imageType) {
@@ -44,7 +44,7 @@ public abstract class GenericImageBorder1DTests<T extends ImageBase> extends Gen
 		y = wrap.getIndex(y);
 
 		for (int i = 0; i < pixel.length; i++) {
-			double value = GeneralizedImageOps.get(image,x,y,i);
+			double value = GIO.get(image,x,y,i);
 			assertEquals(pixel[i],value,1e-4);
 		}
 	}

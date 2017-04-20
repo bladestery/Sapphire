@@ -19,6 +19,9 @@
 package boofcv.alg.feature.dense;
 
 import boofcv.abst.filter.derivative.ImageGradient;
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
 import boofcv.alg.filter.derivative.DerivativeReduceType;
 import boofcv.alg.filter.derivative.DerivativeType;
 import boofcv.factory.filter.derivative.FactoryDerivative;
@@ -26,6 +29,7 @@ import boofcv.struct.feature.TupleDesc_F64;
 import boofcv.struct.image.*;
 import georegression.struct.point.Point2D_I32;
 import org.ddogleg.struct.FastQueue;
+import org.hamcrest.Factory;
 
 /**
  * Base calss for dense HOG implementations.
@@ -33,7 +37,11 @@ import org.ddogleg.struct.FastQueue;
  * @author Peter Abeles
  */
 public abstract class BaseDenseHog<Input extends ImageBase> {
-
+	private static FactoryDerivative FD;
+	private static ImageType IT;
+	private static InputSanityCheck ISC;
+	private static DerivativeHelperFunctions DHF;
+	private static ConvolveImageNoBorder CINB;
 	ImageGradient<Input, GrayF32> gradient;
 
 	// gradient of each pixel
@@ -99,18 +107,18 @@ public abstract class BaseDenseHog<Input extends ImageBase> {
 	static <Input extends ImageBase>
 	ImageGradient<Input,GrayF32> createGradient( ImageType<Input> imageType ) {
 		ImageGradient<Input,GrayF32> gradient;
-		ImageType<GrayF32> typeF32 = ImageType.single(GrayF32.class);
+		ImageType<GrayF32> typeF32 = IT.single(GrayF32.class);
 
 		if( imageType.getDataType() != ImageDataType.F32 )
 			throw new IllegalArgumentException("Input image type must be F32");
 
 		if( imageType.getFamily() == ImageType.Family.GRAY) {
-			gradient = FactoryDerivative.gradient(DerivativeType.THREE,imageType, typeF32);
+			gradient = FD.gradient(DerivativeType.THREE,imageType, typeF32);
 		} else if( imageType.getFamily() == ImageType.Family.PLANAR ) {
-			ImageType<Planar<GrayF32>> typePF32 = ImageType.pl(imageType.getNumBands(),GrayF32.class);
+			ImageType<Planar<GrayF32>> typePF32 = IT.pl(imageType.getNumBands(),GrayF32.class);
 			ImageGradient<Planar<GrayF32>,Planar<GrayF32>> gradientMB =
-					FactoryDerivative.gradient(DerivativeType.THREE,typePF32, typePF32);
-			gradient = (ImageGradient)FactoryDerivative.gradientReduce(gradientMB, DerivativeReduceType.MAX_F, GrayF32.class);
+					FD.gradient(DerivativeType.THREE,typePF32, typePF32);
+			gradient = (ImageGradient)FD.gradientReduce(gradientMB, DerivativeReduceType.MAX_F, GrayF32.class);
 		} else {
 			throw new IllegalArgumentException("Unsupported image type "+imageType);
 		}
@@ -127,7 +135,7 @@ public abstract class BaseDenseHog<Input extends ImageBase> {
 		derivY.reshape(input.width,input.height);
 
 		// pixel gradient
-		gradient.process(input,derivX,derivY);
+		gradient.process(input,derivX,derivY, ISC, DHF, CINB);
 	}
 
 	public abstract void process();

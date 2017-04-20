@@ -19,6 +19,9 @@
 package boofcv.alg.filter.derivative.impl;
 
 import boofcv.abst.filter.derivative.ImageGradient;
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
 import boofcv.alg.misc.GImageMiscOps;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.BorderType;
@@ -39,7 +42,11 @@ import static org.junit.Assert.*;
  */
 @SuppressWarnings("unchecked")
 public abstract class GeneralGradientSparse {
-
+	private static GeneralizedImageOps GIO;
+	private static FactoryImageBorder FIB;
+	private static InputSanityCheck ISC;
+	private static DerivativeHelperFunctions DHF;
+	private static ConvolveImageNoBorder CINB;
 	Random rand = new Random(234);
 
 	Class imageType,derivType;
@@ -60,9 +67,9 @@ public abstract class GeneralGradientSparse {
 
 	@Before
 	public void initialize() {
-		image = GeneralizedImageOps.createSingleBand(imageType,20,15);
-		derivX = GeneralizedImageOps.createSingleBand(derivType,20,15);
-		derivY = GeneralizedImageOps.createSingleBand(derivType,20,15);
+		image = GIO.createSingleBand(imageType,20,15);
+		derivX = GIO.createSingleBand(derivType,20,15);
+		derivY = GIO.createSingleBand(derivType,20,15);
 		GImageMiscOps.fillUniform(image, rand, 0, 255);
 	}
 
@@ -70,7 +77,7 @@ public abstract class GeneralGradientSparse {
 	@Test
 	public void compareToFullImage_noBorder() {
 
-		createGradient().process(image,derivX,derivY);
+		createGradient().process(image,derivX,derivY, ISC, DHF, CINB);
 		SparseImageGradient alg = createAlg(null);
 
 		alg.setImage(image);
@@ -80,8 +87,8 @@ public abstract class GeneralGradientSparse {
 				if( i >= -lower && j >= -lower && i < image.height-upper && j < image.width-upper ) {
 					assertTrue(j + " " + i, image.isInBounds(j, i));
 					GradientValue g = alg.compute(j, i);
-					double expectedX = GeneralizedImageOps.get(derivX,j,i);
-					double expectedY = GeneralizedImageOps.get(derivY,j,i);
+					double expectedX = GIO.get(derivX,j,i);
+					double expectedY = GIO.get(derivY,j,i);
 
 					assertEquals(expectedX, g.getX(), 1e-4f);
 					assertEquals(j+" "+i,expectedY, g.getY(), 1e-4f);
@@ -95,11 +102,11 @@ public abstract class GeneralGradientSparse {
 	@Test
 	public void compareToFullImage_Border() {
 
-		ImageBorder border = FactoryImageBorder.single(imageType, BorderType.EXTENDED);
+		ImageBorder border = FIB.single(imageType, BorderType.EXTENDED);
 
 		ImageGradient gradient = createGradient();
-		gradient.setBorderType(BorderType.EXTENDED);
-		gradient.process(image, derivX, derivY);
+		gradient.setBorderType(BorderType.EXTENDED, FIB);
+		gradient.process(image, derivX, derivY, ISC, DHF, CINB);
 
 		SparseImageGradient alg = createAlg(border);
 
@@ -109,8 +116,8 @@ public abstract class GeneralGradientSparse {
 			for (int j = 0; j < image.width; j++) {
 				assertTrue(j + " " + i, image.isInBounds(j, i));
 				GradientValue g = alg.compute(j, i);
-				double expectedX = GeneralizedImageOps.get(derivX,j,i);
-				double expectedY = GeneralizedImageOps.get(derivY, j, i);
+				double expectedX = GIO.get(derivX,j,i);
+				double expectedY = GIO.get(derivY, j, i);
 
 				assertEquals(expectedX, g.getX(), 1e-4f);
 				assertEquals(expectedY, g.getY(), 1e-4f);

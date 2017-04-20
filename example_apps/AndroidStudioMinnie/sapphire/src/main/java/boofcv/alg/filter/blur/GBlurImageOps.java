@@ -18,7 +18,23 @@
 
 package boofcv.alg.filter.blur;
 
+import android.graphics.BlurMaskFilter;
+import android.renderscript.ScriptGroup;
+
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.filter.blur.impl.ImplMedianHistogramInner;
+import boofcv.alg.filter.blur.impl.ImplMedianSortEdgeNaive;
+import boofcv.alg.filter.blur.impl.ImplMedianSortNaive;
+import boofcv.alg.filter.convolve.ConvolveImageMean;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
+import boofcv.core.image.GeneralizedImageOps;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.image.*;
+import sapphire.app.SapphireObject;
 
 
 /**
@@ -28,8 +44,8 @@ import boofcv.struct.image.*;
  * @author Peter Abeles
  */
 @SuppressWarnings("unchecked")
-public class GBlurImageOps {
-
+public class GBlurImageOps implements SapphireObject {
+	public GBlurImageOps() {}
 	/**
 	 * Applies a mean box filter.
 	 *
@@ -40,16 +56,18 @@ public class GBlurImageOps {
 	 * @param <T> Input image type.
 	 * @return Output blurred image.
 	 */
-	public static <T extends ImageBase>
-	T mean(T input, T output, int radius, ImageBase storage ) {
+	public <T extends ImageBase>
+	T mean(T input, T output, int radius, ImageBase storage , GBlurImageOps GBIO, GeneralizedImageOps GIO, InputSanityCheck ISC, BlurImageOps BIO, ConvolveImageMean CIM,
+		   ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN,
+		   ConvolveNormalized CN, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ImplConvolveMean ICM) {
 		if( input instanceof GrayU8) {
-			return (T)BlurImageOps.mean((GrayU8)input,(GrayU8)output,radius,(GrayU8)storage);
+			return (T)BIO.mean((GrayU8)input,(GrayU8)output,radius,(GrayU8)storage, ISC, CIM, CN, CNN, CINB, CNJB, ICM);
 		} else if( input instanceof GrayF32) {
-			return (T)BlurImageOps.mean((GrayF32)input,(GrayF32)output,radius,(GrayF32)storage);
+			return (T)BIO.mean((GrayF32)input,(GrayF32)output,radius,(GrayF32)storage, ISC, CIM, CN, CNN, CINB, CNJB, ICM);
 		} else if( input instanceof GrayF64) {
-			return (T)BlurImageOps.mean((GrayF64)input,(GrayF64)output,radius,(GrayF64)storage);
+			return (T)BIO.mean((GrayF64)input,(GrayF64)output,radius,(GrayF64)storage, ISC, CIM, CN, CNN, CINB, CNJB, ICM);
 		} else if( input instanceof Planar) {
-			return (T)BlurImageOps.mean((Planar)input,(Planar)output,radius,(ImageGray)storage);
+			return (T)BIO.mean((Planar)input,(Planar)output,radius,(ImageGray)storage, GBIO, GIO, ISC, BIO, IMHI, IMSEN, IMSN);
 		} else  {
 			throw new IllegalArgumentException("Unsupported image type");
 		}
@@ -64,14 +82,14 @@ public class GBlurImageOps {
 	 * @param <T> Input image type.
 	 * @return Output blurred image.
 	 */
-	public static <T extends ImageBase>
-	T median(T input, T output, int radius ) {
+	public <T extends ImageBase>
+	T median(T input, T output, int radius, GBlurImageOps GBIO, GeneralizedImageOps GIO , InputSanityCheck ISC, BlurImageOps BIO, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN){
 		if( input instanceof GrayU8) {
-			return (T)BlurImageOps.median((GrayU8) input, (GrayU8) output, radius);
+			return (T)BIO.median((GrayU8) input, (GrayU8) output, radius, ISC, IMHI, IMSEN);
 		} else if( input instanceof GrayF32) {
-			return (T)BlurImageOps.median((GrayF32) input, (GrayF32) output, radius);
+			return (T)BIO.median((GrayF32) input, (GrayF32) output, radius, ISC, IMSN);
 		} else if( input instanceof Planar) {
-			return (T)BlurImageOps.median((Planar)input,(Planar)output,radius);
+			return (T)BIO.median((Planar)input,(Planar)output,radius,GBIO, GIO, ISC, BIO, IMHI, IMSEN, IMSN);
 		} else  {
 			throw new IllegalArgumentException("Unsupported image type");
 		}
@@ -88,16 +106,17 @@ public class GBlurImageOps {
 	 * @param <T> Input image type.
 	 * @return Output blurred image.
 	 */
-	public static <T extends ImageBase>
-	T gaussian(T input, T output, double sigma , int radius, T storage ) {
+	public <T extends ImageBase>
+	T gaussian(T input, T output, double sigma , int radius, T storage, InputSanityCheck ISC, GeneralizedImageOps GIO, GBlurImageOps GBIO, BlurImageOps BIO,
+			   FactoryKernelGaussian FKG, ConvolveNormalized CN, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB) {
 		if( input instanceof GrayU8) {
-			return (T)BlurImageOps.gaussian((GrayU8)input,(GrayU8)output,sigma,radius,(GrayU8)storage);
+			return (T)BIO.gaussian((GrayU8)input,(GrayU8)output,sigma,radius,(GrayU8)storage,ISC, GIO, FKG, CN, CNN, CINB, CNJB);
 		} else if( input instanceof GrayF32) {
-			return (T)BlurImageOps.gaussian((GrayF32)input,(GrayF32)output,sigma,radius,(GrayF32)storage);
+			return (T)BIO.gaussian((GrayF32)input,(GrayF32)output,sigma,radius,(GrayF32)storage, ISC, FKG, CN, CNN, CINB, CNJB);
 		} else if( input instanceof GrayF64) {
-			return (T)BlurImageOps.gaussian((GrayF64)input,(GrayF64)output,sigma,radius,(GrayF64)storage);
+			return (T)BIO.gaussian((GrayF64)input,(GrayF64)output,sigma,radius,(GrayF64)storage,ISC, FKG, CN, CNN, CINB, CNJB);
 		} else if( input instanceof Planar) {
-			return (T)BlurImageOps.gaussian((Planar)input,(Planar)output,sigma,radius,(ImageGray)storage);
+			return (T)BIO.gaussian((Planar)input,(Planar)output,sigma,radius,(ImageGray)storage, GBIO, GIO, ISC, BIO, FKG, CN, CNN, CINB, CNJB);
 		} else  {
 			throw new IllegalArgumentException("Unsupported image type: "+input.getClass().getSimpleName());
 		}

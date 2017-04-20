@@ -42,6 +42,7 @@ import static org.junit.Assert.assertTrue;
 public abstract class CheckVisualOdometryMonoPlaneSim<I extends ImageGray>
 	extends VideoSequenceSimulator<I>
 {
+	private GeneralizedImageOps GIO;
 	CameraPinholeRadial param = new CameraPinholeRadial(150,155,0,width/2,height/2,width,height).fsetRadial(0,0);
 	MonocularPlaneVisualOdometry<I> algorithm;
 
@@ -57,7 +58,7 @@ public abstract class CheckVisualOdometryMonoPlaneSim<I extends ImageGray>
 	public CheckVisualOdometryMonoPlaneSim(Class<I> inputType) {
 		super(320, 240, inputType);
 
-		left = GeneralizedImageOps.createSingleBand(inputType,width,height);
+		left = GIO.createSingleBand(inputType,width,height);
 
 		createSquares(numSquares,-10,10);
 	}

@@ -18,16 +18,21 @@
 
 package boofcv.alg.fiducial.square;
 
+import android.renderscript.ScriptGroup;
+
 import boofcv.abst.distort.FDistort;
 import boofcv.abst.filter.binary.InputToBinary;
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.descriptor.DescriptorDistance;
 import boofcv.alg.filter.binary.GThresholdImageOps;
+import boofcv.alg.filter.binary.ThresholdImageOps;
 import boofcv.alg.filter.misc.AverageDownSampleOps;
 import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.misc.ImageStatistics;
 import boofcv.alg.misc.PixelMath;
 import boofcv.alg.shapes.polygon.BinaryPolygonDetector;
 import boofcv.core.image.ConvertImage;
+import boofcv.core.image.GeneralizedImageOps;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.ImageGray;
@@ -59,7 +64,12 @@ import java.util.List;
  */
 public class DetectFiducialSquareImage<T extends ImageGray>
 		extends BaseDetectFiducialSquare<T> {
-
+	private static ImageStatistics IS;
+	private static ImageMiscOps IMO;
+	private static GThresholdImageOps GTIO;
+	private static ThresholdImageOps TIO;
+	private static InputSanityCheck ISC;
+	private static GeneralizedImageOps GIO;
 	// Width of black border (units = pixels)
 	private final static int w=16;
 	private final static int squareLength=w*4; // this must be a multiple of 16
@@ -116,7 +126,7 @@ public class DetectFiducialSquareImage<T extends ImageGray>
 			throw new IllegalArgumentException("Input image is null.");
 		} else if( lengthSide <= 0 ) {
 			throw new IllegalArgumentException("Parameter lengthSide must be more than zero");
-		} else if(ImageStatistics.max(inputBinary) > 1 )
+		} else if(IS.max(inputBinary) > 1 )
 			throw new IllegalArgumentException("A binary image is composed on 0 and 1 pixels.  This isn't binary!");
 
 		// see if it needs to be resized
@@ -134,7 +144,7 @@ public class DetectFiducialSquareImage<T extends ImageGray>
 			} else {
 				new FDistort(inputGray,scaled).scaleExt().apply();
 			}
-			GThresholdImageOps.threshold(scaled,binary,255/2.0,false);
+			GTIO.threshold(scaled,binary,255/2.0,false, TIO, ISC, GIO);
 		} else {
 			binary.setTo(inputBinary);
 		}
@@ -145,11 +155,11 @@ public class DetectFiducialSquareImage<T extends ImageGray>
 
 		// CCW rotation so that the index refers to how many CW rotation it takes to put it into the nominal pose
 		binaryToDef(binary, def.desc[0]);
-		ImageMiscOps.rotateCCW(binary);
+		IMO.rotateCCW(binary);
 		binaryToDef(binary, def.desc[1]);
-		ImageMiscOps.rotateCCW(binary);
+		IMO.rotateCCW(binary);
 		binaryToDef(binary, def.desc[2]);
-		ImageMiscOps.rotateCCW(binary);
+		IMO.rotateCCW(binary);
 		binaryToDef(binary, def.desc[3]);
 
 		int index = targets.size();
@@ -180,7 +190,7 @@ public class DetectFiducialSquareImage<T extends ImageGray>
 
 		// compute a global threshold from the difference between the outside and inside perimeter pixel values
 		float threshold = (float)((edgeInside+edgeOutside)/2.0);
-		GThresholdImageOps.threshold(grayNoBorder,binary,threshold,false);
+		GTIO.threshold(grayNoBorder,binary,threshold,false, TIO, ISC, GIO);
 
 //		binary.printBinary();
 		binaryToDef(binary, squareDef);

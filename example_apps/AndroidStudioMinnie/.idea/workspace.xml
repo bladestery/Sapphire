@@ -43,11 +43,33 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="build.gradle" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/sapphire/build.gradle">
+      <file leaf-file-name="CannyEdgeActivity.java" pinned="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/detect/CannyEdgeActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="22" column="33" selection-start-line="22" selection-start-column="33" selection-end-line="22" selection-end-column="33" />
+            <state relative-caret-position="377">
+              <caret line="144" column="64" selection-start-line="144" selection-start-column="64" selection-end-line="144" selection-end-column="64" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ContourShapeFittingActivity.java" pinned="true" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/detect/ContourShapeFittingActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="121">
+              <caret line="152" column="34" selection-start-line="152" selection-start-column="34" selection-end-line="152" selection-end-column="34" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DemoManager.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/DemoManager.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="992">
+              <caret line="159" column="65" selection-start-line="159" selection-start-column="65" selection-end-line="159" selection-end-column="65" />
               <folding />
             </state>
           </provider>
@@ -59,6 +81,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="ASClass" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -185,10 +208,6 @@
                 <option name="name" value="prepareComAndroidSupportSupportVectorDrawable2531Library" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="transformClassesWithJarMergingForRelease" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
                 <option name="description" value="Runs all device checks using Device Providers and Test Servers." />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="deviceCheck" />
@@ -214,10 +233,6 @@
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="packageDebug" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="transformClassesWithMultidexlistForDebug" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
@@ -305,10 +320,6 @@
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="transformClassesWithDexForDebug" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="transformClassesWithJarMergingForDebug" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
@@ -414,10 +425,6 @@
                 <option name="description" value="Assembles all variants of all applications and secondary packages." />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="assemble" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="transformClassesWithMultidexlistForRelease" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
@@ -631,10 +638,6 @@
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="transformClassesWithMultidexlistForDebugAndroidTest" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="generateDebugResValues" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
@@ -825,11 +828,6 @@
                 <option name="name" value="assembleRelease" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="description" value="Prepare com.android.support:multidex-instrumentation:1.0.1" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="prepareComAndroidSupportMultidexInstrumentation101Library" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="compileDebugAndroidTestRenderscript" />
               </ExternalTaskPojo>
@@ -849,10 +847,6 @@
                 <option name="description" value="Prepare com.google.firebase:firebase-common:9.8.0" />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
                 <option name="name" value="prepareComGoogleFirebaseFirebaseCommon980Library" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
-                <option name="name" value="transformClassesWithJarMergingForDebugAndroidTest" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$" />
@@ -942,10 +936,6 @@
                 <option name="name" value="prepareComAndroidSupportSupportVectorDrawable2531Library" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/sapphire" />
-                <option name="name" value="transformClassesWithJarMergingForRelease" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
                 <option name="description" value="Runs all device checks using Device Providers and Test Servers." />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/sapphire" />
                 <option name="name" value="deviceCheck" />
@@ -971,10 +961,6 @@
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/sapphire" />
                 <option name="name" value="packageDebug" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/sapphire" />
-                <option name="name" value="transformClassesWithMultidexlistForDebug" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/sapphire" />
@@ -1062,10 +1048,6 @@
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/sapphire" />
                 <option name="name" value="transformClassesWithDexForDebug" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/sapphire" />
-                <option name="name" value="transformClassesWithJarMergingForDebug" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/sapphire" />
@@ -1171,10 +1153,6 @@
                 <option name="description" value="Assembles all variants of all applications and secondary packages." />
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/sapphire" />
                 <option name="name" value="assemble" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/sapphire" />
-                <option name="name" value="transformClassesWithMultidexlistForRelease" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/sapphire" />
@@ -1383,10 +1361,6 @@
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/sapphire" />
-                <option name="name" value="transformClassesWithMultidexlistForDebugAndroidTest" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/sapphire" />
                 <option name="name" value="generateDebugResValues" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
@@ -1577,11 +1551,6 @@
                 <option name="name" value="assembleRelease" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
-                <option name="description" value="Prepare com.android.support:multidex-instrumentation:1.0.1" />
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/sapphire" />
-                <option name="name" value="prepareComAndroidSupportMultidexInstrumentation101Library" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/sapphire" />
                 <option name="name" value="compileDebugAndroidTestRenderscript" />
               </ExternalTaskPojo>
@@ -1604,10 +1573,6 @@
               </ExternalTaskPojo>
               <ExternalTaskPojo>
                 <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/sapphire" />
-                <option name="name" value="transformClassesWithJarMergingForDebugAndroidTest" />
-              </ExternalTaskPojo>
-              <ExternalTaskPojo>
-                <option name="linkedExternalProjectPath" value="$PROJECT_DIR$/sapphire" />
                 <option name="name" value="generateReleaseResValues" />
               </ExternalTaskPojo>
               <ExternalTaskPojo>
@@ -1622,7 +1587,7 @@
     </option>
     <option name="modificationStamps">
       <map>
-        <entry key="$PROJECT_DIR$" value="4473181561993" />
+        <entry key="$PROJECT_DIR$" value="4475169619095" />
       </map>
     </option>
     <option name="projectBuildClasspath">
@@ -1637,13 +1602,13 @@
                       <ExternalModuleBuildClasspathPojo>
                         <option name="entries">
                           <list>
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/gradle/2.3.0/gradle-2.3.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/gradle-core/2.3.0/gradle-core-2.3.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/builder/2.3.0/builder-2.3.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/lint/lint/25.3.0/lint-25.3.0.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/gradle/2.3.1/gradle-2.3.1.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/gradle-core/2.3.1/gradle-core-2.3.1.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/builder/2.3.1/builder-2.3.1.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/lint/lint/25.3.1/lint-25.3.1.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/transform-api/2.0.0-deprecated-use-gradle-api/transform-api-2.0.0-deprecated-use-gradle-api.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/gradle-api/2.3.0/gradle-api-2.3.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/databinding/compilerCommon/2.3.0/compilerCommon-2.3.0.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/gradle-api/2.3.1/gradle-api-2.3.1.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/databinding/compilerCommon/2.3.1/compilerCommon-2.3.1.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/ow2/asm/asm/5.0.4/asm-5.0.4-sources.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/ow2/asm/asm/5.0.4/asm-5.0.4.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/ow2/asm/asm-commons/5.0.4/asm-commons-5.0.4.jar" />
@@ -1652,41 +1617,41 @@
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/jacoco/org.jacoco.report/0.7.5.201505241946/org.jacoco.report-0.7.5.201505241946.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/net/sf/jopt-simple/jopt-simple/4.9/jopt-simple-4.9.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/google/protobuf/protobuf-java/3.0.0/protobuf-java-3.0.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/builder-model/2.3.0/builder-model-2.3.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/builder-test-api/2.3.0/builder-test-api-2.3.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/sdklib/25.3.0/sdklib-25.3.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/sdk-common/25.3.0/sdk-common-25.3.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/common/25.3.0/common-25.3.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/manifest-merger/25.3.0/manifest-merger-25.3.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/ddms/ddmlib/25.3.0/ddmlib-25.3.0.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/builder-model/2.3.1/builder-model-2.3.1.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/builder-test-api/2.3.1/builder-test-api-2.3.1.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/sdklib/25.3.1/sdklib-25.3.1.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/sdk-common/25.3.1/sdk-common-25.3.1.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/common/25.3.1/common-25.3.1.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/manifest-merger/25.3.1/manifest-merger-25.3.1.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/ddms/ddmlib/25.3.1/ddmlib-25.3.1.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/jack/jack-api/0.13.0/jack-api-0.13.0.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/jill/jill-api/0.10.0/jill-api-0.10.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/analytics-library/protos/25.3.0/protos-25.3.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/analytics-library/shared/25.3.0/shared-25.3.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/analytics-library/tracker/25.3.0/tracker-25.3.0.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/analytics-library/protos/25.3.1/protos-25.3.1.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/analytics-library/shared/25.3.1/shared-25.3.1.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/analytics-library/tracker/25.3.1/tracker-25.3.1.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/squareup/javawriter/2.5.0/javawriter-2.5.0.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/bouncycastle/bcpkix-jdk15on/1.48/bcpkix-jdk15on-1.48.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/bouncycastle/bcprov-jdk15on/1.48/bcprov-jdk15on-1.48.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/ow2/asm/asm-tree/5.0.4/asm-tree-5.0.4.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/lint/lint-checks/25.3.0/lint-checks-25.3.0.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/lint/lint-checks/25.3.1/lint-checks-25.3.1.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/eclipse/jdt/core/compiler/ecj/4.6.1/ecj-4.6.1.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/google/guava/guava/18.0/guava-18.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/databinding/baseLibrary/2.3.0/baseLibrary-2.3.0.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/databinding/baseLibrary/2.3.1/baseLibrary-2.3.1.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/antlr/antlr4/4.5.3/antlr4-4.5.3.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/commons-io/commons-io/2.4/commons-io-2.4.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/googlecode/juniversalchardet/juniversalchardet/1.0.3/juniversalchardet-1.0.3.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/annotations/25.3.0/annotations-25.3.0.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/annotations/25.3.1/annotations-25.3.1.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/net/sf/proguard/proguard-base/5.3.2/proguard-base-5.3.2.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/ow2/asm/asm-debug-all/5.0.1/asm-debug-all-5.0.1.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/layoutlib/layoutlib-api/25.3.0/layoutlib-api-25.3.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/dvlib/25.3.0/dvlib-25.3.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/repository/25.3.0/repository-25.3.0.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/layoutlib/layoutlib-api/25.3.1/layoutlib-api-25.3.1.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/dvlib/25.3.1/dvlib-25.3.1.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/repository/25.3.1/repository-25.3.1.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/google/code/gson/gson/2.2.4/gson-2.2.4.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/apache/commons/commons-compress/1.8.1/commons-compress-1.8.1.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/apache/httpcomponents/httpclient/4.1.1/httpclient-4.1.1.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/apache/httpcomponents/httpmime/4.1/httpmime-4.1.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/net/sf/kxml/kxml2/2.3.0/kxml2-2.3.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/lint/lint-api/25.3.0/lint-api-25.3.0.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/lint/lint-api/25.3.1/lint-api-25.3.1.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/ow2/asm/asm-analysis/5.0.4/asm-analysis-5.0.4.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/intellij/annotations/12.0/annotations-12.0.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/google/jimfs/jimfs/1.1/jimfs-1.1.jar" />
@@ -2221,13 +2186,13 @@
                       <ExternalModuleBuildClasspathPojo>
                         <option name="entries">
                           <list>
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/gradle/2.3.0/gradle-2.3.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/gradle-core/2.3.0/gradle-core-2.3.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/builder/2.3.0/builder-2.3.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/lint/lint/25.3.0/lint-25.3.0.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/gradle/2.3.1/gradle-2.3.1.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/gradle-core/2.3.1/gradle-core-2.3.1.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/builder/2.3.1/builder-2.3.1.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/lint/lint/25.3.1/lint-25.3.1.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/transform-api/2.0.0-deprecated-use-gradle-api/transform-api-2.0.0-deprecated-use-gradle-api.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/gradle-api/2.3.0/gradle-api-2.3.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/databinding/compilerCommon/2.3.0/compilerCommon-2.3.0.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/gradle-api/2.3.1/gradle-api-2.3.1.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/databinding/compilerCommon/2.3.1/compilerCommon-2.3.1.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/ow2/asm/asm/5.0.4/asm-5.0.4-sources.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/ow2/asm/asm/5.0.4/asm-5.0.4.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/ow2/asm/asm-commons/5.0.4/asm-commons-5.0.4.jar" />
@@ -2236,41 +2201,41 @@
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/jacoco/org.jacoco.report/0.7.5.201505241946/org.jacoco.report-0.7.5.201505241946.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/net/sf/jopt-simple/jopt-simple/4.9/jopt-simple-4.9.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/google/protobuf/protobuf-java/3.0.0/protobuf-java-3.0.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/builder-model/2.3.0/builder-model-2.3.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/builder-test-api/2.3.0/builder-test-api-2.3.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/sdklib/25.3.0/sdklib-25.3.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/sdk-common/25.3.0/sdk-common-25.3.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/common/25.3.0/common-25.3.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/manifest-merger/25.3.0/manifest-merger-25.3.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/ddms/ddmlib/25.3.0/ddmlib-25.3.0.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/builder-model/2.3.1/builder-model-2.3.1.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/builder-test-api/2.3.1/builder-test-api-2.3.1.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/sdklib/25.3.1/sdklib-25.3.1.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/sdk-common/25.3.1/sdk-common-25.3.1.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/common/25.3.1/common-25.3.1.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/manifest-merger/25.3.1/manifest-merger-25.3.1.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/ddms/ddmlib/25.3.1/ddmlib-25.3.1.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/jack/jack-api/0.13.0/jack-api-0.13.0.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/jill/jill-api/0.10.0/jill-api-0.10.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/analytics-library/protos/25.3.0/protos-25.3.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/analytics-library/shared/25.3.0/shared-25.3.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/analytics-library/tracker/25.3.0/tracker-25.3.0.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/analytics-library/protos/25.3.1/protos-25.3.1.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/analytics-library/shared/25.3.1/shared-25.3.1.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/analytics-library/tracker/25.3.1/tracker-25.3.1.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/squareup/javawriter/2.5.0/javawriter-2.5.0.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/bouncycastle/bcpkix-jdk15on/1.48/bcpkix-jdk15on-1.48.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/bouncycastle/bcprov-jdk15on/1.48/bcprov-jdk15on-1.48.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/ow2/asm/asm-tree/5.0.4/asm-tree-5.0.4.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/lint/lint-checks/25.3.0/lint-checks-25.3.0.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/lint/lint-checks/25.3.1/lint-checks-25.3.1.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/eclipse/jdt/core/compiler/ecj/4.6.1/ecj-4.6.1.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/google/guava/guava/18.0/guava-18.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/databinding/baseLibrary/2.3.0/baseLibrary-2.3.0.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/databinding/baseLibrary/2.3.1/baseLibrary-2.3.1.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/antlr/antlr4/4.5.3/antlr4-4.5.3.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/commons-io/commons-io/2.4/commons-io-2.4.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/googlecode/juniversalchardet/juniversalchardet/1.0.3/juniversalchardet-1.0.3.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/annotations/25.3.0/annotations-25.3.0.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/annotations/25.3.1/annotations-25.3.1.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/net/sf/proguard/proguard-base/5.3.2/proguard-base-5.3.2.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/ow2/asm/asm-debug-all/5.0.1/asm-debug-all-5.0.1.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/layoutlib/layoutlib-api/25.3.0/layoutlib-api-25.3.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/dvlib/25.3.0/dvlib-25.3.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/repository/25.3.0/repository-25.3.0.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/layoutlib/layoutlib-api/25.3.1/layoutlib-api-25.3.1.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/dvlib/25.3.1/dvlib-25.3.1.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/repository/25.3.1/repository-25.3.1.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/google/code/gson/gson/2.2.4/gson-2.2.4.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/apache/commons/commons-compress/1.8.1/commons-compress-1.8.1.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/apache/httpcomponents/httpclient/4.1.1/httpclient-4.1.1.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/apache/httpcomponents/httpmime/4.1/httpmime-4.1.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/net/sf/kxml/kxml2/2.3.0/kxml2-2.3.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/lint/lint-api/25.3.0/lint-api-25.3.0.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/lint/lint-api/25.3.1/lint-api-25.3.1.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/ow2/asm/asm-analysis/5.0.4/asm-analysis-5.0.4.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/intellij/annotations/12.0/annotations-12.0.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/google/jimfs/jimfs/1.1/jimfs-1.1.jar" />
@@ -2306,65 +2271,65 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/opencv/core/stubs/MatOfInt_Stub.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/opencv/core/MatOfInt.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/opencv/core/MatOfDouble.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/opencv/core/stubs/MatOfInt4_Stub.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/opencv/core/MatOfInt4.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/opencv/core/stubs/MatOfFloat4_Stub.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/opencv/core/MatOfFloat4.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/opencv/core/stubs/MatOfByte_Stub.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/opencv/core/MatOfByte.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/opencv/core/stubs/KeyPoint_Stub.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/opencv/core/stubs/MatOfPoint2f_Stub.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/opencv/core/MatOfPoint2f.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/opencv/core/stubs/MatOfPoint3_Stub.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/opencv/core/MatOfPoint3.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/opencv/core/stubs/MatOfRect_Stub.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/opencv/core/MatOfRect.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/opencv/core/stubs/Size_Stub.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/opencv/core/stubs/Mat_Stub.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/opencv/core/Mat.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/opencv/core/stubs/MatOfDMatch_Stub.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/opencv/core/MatOfDMatch.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/opencv/core/stubs/MatOfDouble_Stub.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/opencv/objdetect/HOGDescriptor.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/opencv/samples/facedetect/CascadeManager_Stub.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/sapphire/kernel/client/KernelClient.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/opencv/samples/facedetect/CascadeManager.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/sapphire/dms/offload/CodeOffload.java" />
-        <option value="$PROJECT_DIR$/sapphire/buildserver.gradle" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/jni/Android.mk" />
-        <option value="$PROJECT_DIR$/sapphire/buildapp.gradle" />
-        <option value="$PROJECT_DIR$/lib/src/main/java/sapphire/dms/offload/CodeOffload.java" />
-        <option value="$PROJECT_DIR$/lib/src/main/java/sapphire/oms/OMSServerImpl.java" />
-        <option value="$PROJECT_DIR$/lib/src/main/java/sapphire/oms/KernelServerManager.java" />
-        <option value="$PROJECT_DIR$/lib/build.gradle" />
-        <option value="$PROJECT_DIR$/lib/src/main/java/sapphire/kernel/server/KernelServerImpl.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/opencv/android/StaticHelper.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/opencv/android/CameraBridgeViewBase.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/opencv/android/CameraGLSurfaceView.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/opencv/android/JavaCameraView.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/opencv/samples/facedetect/FdActivity.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/sapphire/kernel/server/KernelServerImpl.java" />
-        <option value="$PROJECT_DIR$/ddogleg/build.gradle" />
-        <option value="$PROJECT_DIR$/main/build.gradle" />
-        <option value="$PROJECT_DIR$/main/core/build.gradle" />
-        <option value="$PROJECT_DIR$/settings.gradle" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/main/sfm/test/boofcv/abst/sfm/d3/VideoSequenceSimulator.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/main/ip/src/boofcv/testing/BoofTesting.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/main/io/src/boofcv/io/UtilIO.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/io/src/main/java/deepboof/io/DeepBoofDataBaseOps.java" />
-        <option value="$PROJECT_DIR$/build.gradle" />
-        <option value="$PROJECT_DIR$/sapphire/build.gradle" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/feature/detect/edge/CannyEdge.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/tracker/sfot/SparseFlowObjectTracker.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/tracker/tld/TldRegionTracker.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/feature/detect/line/DetectLineSegmentsGridRansac.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/feature/detect/line/DetectLineHoughFoot.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/feature/detect/line/DetectLineHoughFootSubimage.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/feature/detect/line/DetectLineHoughPolar.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/feature/dense/BaseDenseHog.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/filter/derivative/impl/GeneralGradientSparse.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/filter/derivative/GradientTwo1.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/filter/derivative/GImageDerivativeOps.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/filter/derivative/GradientTwo0.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/filter/derivative/HessianThree.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/flow/BroxWarpingSpacial.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/flow/HornSchunckPyramid.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/feature/detect/interest/UnrollSiftScaleSpaceGradient.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/feature/detect/interest/EasyGeneralFeatureDetector.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/feature/detdesc/CompleteSift.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/filter/derivative/ImageGradient_PL.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/filter/derivative/ImageGradient_Gaussian.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/filter/derivative/ImageGradientThenReduce.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/feature/dense/DescribeImageDenseSift.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/feature/orientation/OrientationGradientToImage.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/filter/derivative/HessianFromGradient.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/transform/pyramid/PyramidOps.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/ImageGradient_Reflection_Stub.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/filter/derivative/GradientThree.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/factory/filter/derivative/FactoryDerivative.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/filter/binary/impl/ImplBinaryBorderOps.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/filter/binary/BinaryImageOps.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/fiducial/calib/chess/DetectChessboardFiducial.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/sapphire/compiler/VIDGeneratory.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/sapphire/compiler/VIDGenerator.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/android/VisualizeImageData.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/detect/CannyEdgeActivity.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/sapphire/compiler/ManagerGenerator.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/detect/DetectBlackEllipseActivity.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/detect/DetectBlackPolygonActivity.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/detect/SegmentationDisplayActivity.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/calib/CalibrationActivity.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/ip/BinaryDisplayActivity.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/ip/GradientDisplayActivity.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/ip/ImageTransformActivity.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/ip/ThresholdDisplayActivity.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/recognition/FiducialImageLibraryAcitivity.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/recognition/FiducialLearnActivity.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/recognition/FiducialSquareActivity.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/sfm/DisparityActivity.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/tracker/StaticBackgroundMotionActivity.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/detect/ContourShapeFittingActivity.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/DemoManager.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="65" />
-    <option name="y" value="24" />
-    <option name="width" value="2495" />
-    <option name="height" value="1416" />
+    <option name="x" value="287" />
+    <option name="y" value="165" />
+    <option name="width" value="1845" />
+    <option name="height" value="998" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -2391,17 +2356,14 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
+      <pane id="Scope" />
+      <pane id="ProjectPane" />
       <pane id="AndroidView">
         <subPane>
           <PATH>
             <PATH_ELEMENT>
               <option name="myItemId" value="AndroidStudioMinnie" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Gradle Scripts" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidBuildScriptsGroupNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -2414,10 +2376,55 @@
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AndroidStudioMinnie" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sapphire" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AndroidStudioMinnie" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sapphire" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="boofcv" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AndroidStudioMinnie" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sapphire" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="manifests" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidManifestsGroupNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="ProjectPane" />
+      <pane id="PackagesPane" />
       <pane id="Scratches" />
     </panes>
   </component>
@@ -2426,10 +2433,10 @@
     <property name="settings.editor.selected.configurable" value="gradle.compiler" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/sapphire/src/main/java" />
-    <property name="device.picker.selection" value="4df7e9b04a144043" />
+    <property name="device.picker.selection" value="7PN7N17118000271" />
     <property name="android.project.structure.last.selected" value="SDK Location" />
     <property name="android.project.structure.proportion" value="0.15" />
-    <property name="SearchEverywhereHistoryKey" value="fpsm&#9;FILE&#9;file:///home/bladestery/Sapphire/example_apps/AndroidStudioMinnie/openCVSamplefacedetection/src/main/java/org/opencv/android/FpsMeter.java&#10;org.opencv.android.JavaCameraView&#9;PSI&#9;JAVA://org.opencv.android.JavaCameraView&#10;serialversion&#9;PSI&#9;JAVA://compiler.RMICompilerException#serialVersionUID&#10;SDK manager&#9;ACTION&#9;Android.RunAndroidSdkManager&#10;SDK Manager&#9;ACTION&#9;Android.RunAndroidSdkManager&#10;sdk manager&#9;ACTION&#9;Android.RunAndroidSdkManager&#10;SDK&#9;ACTION&#9;Android.RunAndroidSdkManager&#10;reflectiveOperation&#9;FILE&#9;jar:///home/bladestery/android-studio/jre/jre/lib/rt.jar!/java/lang/ReflectiveOperationException.class&#10;OBjectInputstream&#9;FILE&#9;jar:///home/bladestery/android-studio/jre/jre/lib/rt.jar!/java/io/ObjectInputStream.class&#10;ObjectInputStream&#9;PSI&#9;JAVA://java.io.ObjectInputStream" />
+    <property name="SearchEverywhereHistoryKey" value="VideoDIsplay&#9;PSI&#9;JAVA://boofcv.android.gui.VideoDisplayActivity&#10;DemoVideo&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/org/boofcv/android/DemoVideoDisplayActivity.java&#10;DemoManager&#9;PSI&#9;JAVA://org.boofcv.android.DemoManager&#10;VisualizeImageData&#9;PSI&#9;JAVA://boofcv.gui.image.VisualizeImageData&#10;VID&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/org/boofcv/android/DemoVideoDisplayActivity.java&#10;Visual&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/android/VisualizeImageData.java&#10;Demoman&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/org/boofcv/android/DemoManager.java&#10;IBV&#9;PSI&#9;JAVA://boofcv.core.image.border.ImageBorderValue&#10;Derivative&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/alg/filter/derivative/DerivativeHelperFunctions.java&#10;ImageGradient&#9;PSI&#9;JAVA://boofcv.abst.filter.derivative.ImageGradient&#10;Factoryder&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/factory/filter/derivative/FactoryDerivative.java&#10;BorderType&#9;PSI&#9;JAVA://boofcv.core.image.border.BorderType&#10;borderType&#9;PSI&#9;JAVA://boofcv.core.image.border.BorderType&#10;Canny&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/alg/feature/detect/edge/CannyEdge.java&#10;GradientThree&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/alg/filter/derivative/GradientThree.java&#10;ImageGradie&#9;PSI&#9;JAVA://boofcv.abst.filter.derivative.ImageGradient&#10;FactoryKernelGau&#9;PSI&#9;JAVA://boofcv.factory.filter.kernel.FactoryKernelGaussian&#10;ImplConvolveMean&#9;PSI&#9;JAVA://boofcv.alg.filter.convolve.noborder.ImplConvolveMean&#10;FilterImage&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/abst/filter/FilterImageInterface.java&#10;ConvolveNorma&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/alg/filter/convolve/ConvolveNormalized.java&#10;ConvolveNOr&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/alg/filter/convolve/ConvolveNormalized.java&#10;ConvolveImageNoBorder&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/alg/filter/convolve/ConvolveImageNoBorder.java&#10;blurImage&#9;PSI&#9;JAVA://boofcv.alg.filter.blur.BlurImageOps&#10;ConvolveImageNo&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/alg/filter/convolve/ConvolveImageNoBorder.java&#10;FilterimageInter&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/abst/filter/FilterImageInterface.java&#10;BlurSto&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/abst/filter/blur/BlurStorageFilter.java&#10;Thresho&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/alg/filter/binary/ThresholdImageOps.java&#10;BlurImage&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/alg/filter/blur/BlurImageOps.java&#10;BlurStorage&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/abst/filter/blur/BlurStorageFilter.java&#10;GblurIma&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/alg/filter/blur/GBlurImageOps.java&#10;Convolve ImageMean&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/alg/filter/convolve/ConvolveImageMean.java&#10;ConvolveNo&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/alg/filter/convolve/ConvolveNormalized.java&#10;DemoMa&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/org/boofcv/android/DemoManager.java&#10;canny&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/alg/feature/detect/edge/CannyEdge.java&#10;GblurImage&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/alg/filter/blur/GBlurImageOps.java&#10;ConvolveImageMEan&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/alg/filter/convolve/ConvolveImageMean.java&#10;blurimageops&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/alg/filter/blur/BlurImageOps.java&#10;FactoryKer&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/factory/filter/kernel/FactoryKernelGaussian.java&#10;FIlter&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/abst/filter/FilterImageInterface.java&#10;Blurstorage&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/abst/filter/blur/BlurStorageFilter.java&#10;Gblur&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/alg/filter/blur/GBlurImageOps.java&#10;ImplMedianS&#9;PSI&#9;JAVA://boofcv.alg.filter.blur.impl.ImplMedianSortNaive&#10;ConvolveNormalized_JustBorder&#9;PSI&#9;JAVA://boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder&#10;ConvolveNormalized&#9;PSI&#9;JAVA://boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive&#10;ImplMedianSortEdgeNaive&#9;PSI&#9;JAVA://boofcv.alg.filter.blur.impl.ImplMedianSortEdgeNaive&#10;FactoryKernelGa&#9;PSI&#9;JAVA://boofcv.factory.filter.kernel.FactoryKernelGaussian&#10;ImplMedianHisto&#9;PSI&#9;JAVA://boofcv.alg.filter.blur.impl.ImplMedianHistogramInner&#10;convolveimagemean&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/alg/filter/convolve/ConvolveImageMean.java&#10;FilterImageInter&#9;PSI&#9;JAVA://boofcv.abst.filter.FilterImageInterface&#10;Gblu&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/alg/filter/blur/GBlurImageOps.java" />
     <property name="AnalyzeApkAction.lastApkPath" value="$PROJECT_DIR$/openCVSamplefacedetection/build/outputs/apk/openCVSamplefacedetection-debug.apk" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/sapphire/src/main/java" />
     <property name="ExportApk.ApkPath" value="$PROJECT_DIR$/openCVSamplefacedetection" />
@@ -2447,6 +2454,7 @@
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="sapphire.compiler" />
+      <recent name="org.boofcv.android" />
       <recent name="org.opencv.samples.facedetect.utils" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
@@ -2780,26 +2788,11 @@
       <envs />
       <method />
     </configuration>
-    <configuration default="false" name="ApplicationStubGenerator" type="Application" factoryName="Application">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="sapphire.compiler.StubGenerator" />
-      <option name="VM_PARAMETERS" value="" />
-      <option name="PROGRAM_PARAMETERS" value="$PROJECT_DIR$/openCVSamplefacedetection/build/intermediates/classes/debug/org/opencv/samples/facedetect org.opencv.samples.facedetect $PROJECT_DIR$/openCVSamplefacedetection/src/main/java/org/opencv/samples/facedetect /stubs" />
-      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="ENABLE_SWING_INSPECTOR" value="false" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="openCVSamplefacedetection" />
-      <envs />
-      <method />
-    </configuration>
     <configuration default="false" name="ManagerGenerator" type="Application" factoryName="Application">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <option name="MAIN_CLASS_NAME" value="sapphire.compiler.ManagerGenerator" />
       <option name="VM_PARAMETERS" value="" />
-      <option name="PROGRAM_PARAMETERS" value="$PROJECT_DIR$/sapphire/build/intermediates/classes/debug/org/opencv/samples/facedetect org.opencv.samples.facedetect $PROJECT_DIR$/sapphire/src/main/java/org/opencv/samples/facedetect/" />
+      <option name="PROGRAM_PARAMETERS" value="$PROJECT_DIR$/sapphire/build/intermediates/classes/debug/org/boofcv/android org.boofcv.android $PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="ALTERNATIVE_JRE_PATH" value="/usr/lib/jvm/java-8-oracle/jre" />
@@ -2807,21 +2800,6 @@
       <option name="ENV_VARIABLES" />
       <option name="PASS_PARENT_ENVS" value="true" />
       <module name="sapphire" />
-      <envs />
-      <method />
-    </configuration>
-    <configuration default="false" name="TrackerGenerator" type="Application" factoryName="Application">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="sapphire.compiler.TrackerGenerator" />
-      <option name="VM_PARAMETERS" value="" />
-      <option name="PROGRAM_PARAMETERS" value="$PROJECT_DIR$/openCVSamplefacedetection/build/intermediates/classes/debug/org/opencv/samples/facedetect org.opencv.samples.facedetect $PROJECT_DIR$/openCVSamplefacedetection/src/main/java/org/opencv/samples/facedetect /stubs" />
-      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="ENABLE_SWING_INSPECTOR" value="false" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="openCVSamplefacedetection" />
       <envs />
       <method />
     </configuration>
@@ -2829,7 +2807,7 @@
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <option name="MAIN_CLASS_NAME" value="sapphire.compiler.CVGenerator" />
       <option name="VM_PARAMETERS" value="" />
-      <option name="PROGRAM_PARAMETERS" value="$PROJECT_DIR$/sapphire/build/intermediates/classes/debug/org/opencv/core org.opencv.core $PROJECT_DIR$/sapphire/src/main/java/org/opencv/core/stubs" />
+      <option name="PROGRAM_PARAMETERS" value="$PROJECT_DIR$/sapphire/build/intermediates/classes/debug/boofcv boofcv $PROJECT_DIR$/sapphire/src/main/java/boofcv" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="ALTERNATIVE_JRE_PATH" value="/usr/lib/jvm/java-8-oracle/jre" />
@@ -2840,11 +2818,356 @@
       <envs />
       <method />
     </configuration>
-    <configuration default="false" name="CascadeGenerator" type="Application" factoryName="Application">
+    <configuration default="false" name="edgeGenerator" type="Application" factoryName="Application">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="sapphire.compiler.StubGenerator" />
+      <option name="MAIN_CLASS_NAME" value="sapphire.compiler.CVGenerator" />
       <option name="VM_PARAMETERS" value="" />
-      <option name="PROGRAM_PARAMETERS" value="$PROJECT_DIR$/sapphire/build/intermediates/classes/debug/org/opencv/objdetect/ org.opencv.objdetect $PROJECT_DIR$/sapphire/src/main/java/org/opencv/objdetect/" />
+      <option name="PROGRAM_PARAMETERS" value="$PROJECT_DIR$/sapphire/build/intermediates/classes/debug/boofcv/alg/feature/detect/edge boofcv.alg.feature.detect.edge $PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/feature/detect/edge" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="ALTERNATIVE_JRE_PATH" value="/usr/lib/jvm/java-8-oracle/jre" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="sapphire" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="MethodGenerator" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" value="sapphire.compiler.MethodGenerator" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="$PROJECT_DIR$/sapphire/build/intermediates/classes/debug/java/lang/reflect java.lang.reflect $PROJECT_DIR$/sapphire/src/main/java/java/lang/reflect" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="ALTERNATIVE_JRE_PATH" value="/usr/lib/jvm/java-8-oracle/jre" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="sapphire" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="BorderGenerator" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" value="sapphire.compiler.CVGenerator" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="$PROJECT_DIR$/sapphire/build/intermediates/classes/debug/boofcv/core/image/border boofcv.core.image.border $PROJECT_DIR$/sapphire/src/main/java/boofcv/core/image/border" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="ALTERNATIVE_JRE_PATH" value="/usr/lib/jvm/java-8-oracle/jre" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="sapphire" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="FIBGenerator" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" value="sapphire.compiler.FIBGenerator" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="$PROJECT_DIR$/sapphire/build/intermediates/classes/debug/boofcv/core/image/border boofcv.core.image.border $PROJECT_DIR$/sapphire/src/main/java/boofcv/core/image/border" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="ALTERNATIVE_JRE_PATH" value="/usr/lib/jvm/java-8-oracle/jre" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="sapphire" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="ContourGenerator" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" value="sapphire.compiler.CVGenerator" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="$PROJECT_DIR$/sapphire/build/intermediates/classes/debug/boofcv/alg/filter/binary boofcv.alg.filter.binary $PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/filter/binary" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="ALTERNATIVE_JRE_PATH" value="/usr/lib/jvm/java-8-oracle/jre" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="sapphire" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="ConvolveGenerator" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" value="sapphire.compiler.CVGenerator" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="$PROJECT_DIR$/sapphire/build/intermediates/classes/debug/boofcv/alg/filter/convolve boofcv.alg.filter.convolve $PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/filter/convolve" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="ALTERNATIVE_JRE_PATH" value="/usr/lib/jvm/java-8-oracle/jre" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="sapphire" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="DerivativeGenerator" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" value="sapphire.compiler.CVGenerator" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="$PROJECT_DIR$/sapphire/build/intermediates/classes/debug/boofcv/alg/filter/derivative boofcv.alg.filter.derivative $PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/filter/derivative" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="ALTERNATIVE_JRE_PATH" value="/usr/lib/jvm/java-8-oracle/jre" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="sapphire" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="FKGGenerator" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" value="sapphire.compiler.CVGenerator" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="$PROJECT_DIR$/sapphire/build/intermediates/classes/debug/boofcv/factory/filter/kernel boofcv.factory.filter.kernel $PROJECT_DIR$/sapphire/src/main/java/boofcv/factory/filter/kernel" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="ALTERNATIVE_JRE_PATH" value="/usr/lib/jvm/java-8-oracle/jre" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="sapphire" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="BlurGenerator" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" value="sapphire.compiler.CVGenerator" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="$PROJECT_DIR$/sapphire/build/intermediates/classes/debug/boofcv/alg/filter/blur boofcv.alg.filter.blur $PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/filter/blur" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="ALTERNATIVE_JRE_PATH" value="/usr/lib/jvm/java-8-oracle/jre" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="sapphire" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="FIBAGenerator" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" value="sapphire.compiler.FIBAGenerator" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="$PROJECT_DIR$/sapphire/build/intermediates/classes/debug/boofcv/core/image/border boofcv.core.image.border $PROJECT_DIR$/sapphire/src/main/java/boofcv/core/image/border" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="ALTERNATIVE_JRE_PATH" value="/usr/lib/jvm/java-8-oracle/jre" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="sapphire" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="IBVGenerator" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" value="sapphire.compiler.IBVGenerator" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="$PROJECT_DIR$/sapphire/build/intermediates/classes/debug/boofcv/core/image/border boofcv.core.image.border $PROJECT_DIR$/sapphire/src/main/java/boofcv/core/image/border" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="ALTERNATIVE_JRE_PATH" value="/usr/lib/jvm/java-8-oracle/jre" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="sapphire" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="FEDGenerator" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" value="sapphire.compiler.FEDGenerator" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="$PROJECT_DIR$/sapphire/build/intermediates/classes/debug/boofcv boofcv $PROJECT_DIR$/sapphire/src/main/java/boofcv" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="ALTERNATIVE_JRE_PATH" value="/usr/lib/jvm/java-8-oracle/jre" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="sapphire" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="ISGenerator" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" value="sapphire.compiler.ISGenerator" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="$PROJECT_DIR$/sapphire/build/intermediates/classes/debug/boofcv boofcv $PROJECT_DIR$/sapphire/src/main/java/boofcv" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="ALTERNATIVE_JRE_PATH" value="/usr/lib/jvm/java-8-oracle/jre" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="sapphire" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="CEGenerator" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" value="sapphire.compiler.CEGenerator" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="$PROJECT_DIR$/sapphire/build/intermediates/classes/debug/boofcv boofcv $PROJECT_DIR$/sapphire/src/main/java/boofcv" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="ALTERNATIVE_JRE_PATH" value="/usr/lib/jvm/java-8-oracle/jre" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="sapphire" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="IGRGenerator" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" value="sapphire.compiler.IGRGenerator" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="$PROJECT_DIR$/sapphire/build/intermediates/classes/debug/boofcv boofcv $PROJECT_DIR$/sapphire/src/main/java/boofcv" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="ALTERNATIVE_JRE_PATH" value="/usr/lib/jvm/java-8-oracle/jre" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="sapphire" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="CEDGenerator" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" value="sapphire.compiler.CEDGenerator" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="$PROJECT_DIR$/sapphire/build/intermediates/classes/debug/boofcv boofcv $PROJECT_DIR$/sapphire/src/main/java/boofcv" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="ALTERNATIVE_JRE_PATH" value="/usr/lib/jvm/java-8-oracle/jre" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="sapphire" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="GTEFGenerator" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" value="sapphire.compiler.GTEFGenerator" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="$PROJECT_DIR$/sapphire/build/intermediates/classes/debug/boofcv boofcv $PROJECT_DIR$/sapphire/src/main/java/boofcv" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="ALTERNATIVE_JRE_PATH" value="/usr/lib/jvm/java-8-oracle/jre" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="sapphire" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="FBFGenerator" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" value="sapphire.compiler.FBFGenerator" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="$PROJECT_DIR$/sapphire/build/intermediates/classes/debug/boofcv boofcv $PROJECT_DIR$/sapphire/src/main/java/boofcv" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="ALTERNATIVE_JRE_PATH" value="/usr/lib/jvm/java-8-oracle/jre" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="sapphire" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="GBIOGenerator" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" value="sapphire.compiler.GBIOGenerator" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="$PROJECT_DIR$/sapphire/build/intermediates/classes/debug/boofcv boofcv $PROJECT_DIR$/sapphire/src/main/java/boofcv" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="ALTERNATIVE_JRE_PATH" value="/usr/lib/jvm/java-8-oracle/jre" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="sapphire" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="BSFGenerator" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" value="sapphire.compiler.BSFGenerator" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="$PROJECT_DIR$/sapphire/build/intermediates/classes/debug/boofcv boofcv $PROJECT_DIR$/sapphire/src/main/java/boofcv" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="ALTERNATIVE_JRE_PATH" value="/usr/lib/jvm/java-8-oracle/jre" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="sapphire" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="GIOGenerator" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" value="sapphire.compiler.GIOGenerator" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="$PROJECT_DIR$/sapphire/build/intermediates/classes/debug/boofcv boofcv $PROJECT_DIR$/sapphire/src/main/java/boofcv" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="ALTERNATIVE_JRE_PATH" value="/usr/lib/jvm/java-8-oracle/jre" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="sapphire" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="FDGenerator" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" value="sapphire.compiler.FDGenerator" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="$PROJECT_DIR$/sapphire/build/intermediates/classes/debug/boofcv boofcv $PROJECT_DIR$/sapphire/src/main/java/boofcv" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="ALTERNATIVE_JRE_PATH" value="/usr/lib/jvm/java-8-oracle/jre" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="sapphire" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="IMOGenerator" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" value="sapphire.compiler.IMOGenerator" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="$PROJECT_DIR$/sapphire/build/intermediates/classes/debug/boofcv boofcv $PROJECT_DIR$/sapphire/src/main/java/boofcv" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="ALTERNATIVE_JRE_PATH" value="/usr/lib/jvm/java-8-oracle/jre" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="sapphire" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="ITGenerator" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" value="sapphire.compiler.ITGenerator" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="$PROJECT_DIR$/sapphire/build/intermediates/classes/debug/boofcv boofcv $PROJECT_DIR$/sapphire/src/main/java/boofcv" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="ALTERNATIVE_JRE_PATH" value="/usr/lib/jvm/java-8-oracle/jre" />
@@ -2859,7 +3182,7 @@
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <option name="MAIN_CLASS_NAME" value="sapphire.oms.OMSServerImpl" />
       <option name="VM_PARAMETERS" value="" />
-      <option name="PROGRAM_PARAMETERS" value="157.82.159.46 22346 org.opencv.samples.facedetect.FaceStart" />
+      <option name="PROGRAM_PARAMETERS" value="157.82.159.30 22346 org.boofcv.android.DemoStart" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="ALTERNATIVE_JRE_PATH" value="/usr/lib/jvm/java-8-oracle/jre" />
@@ -2874,7 +3197,7 @@
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <option name="MAIN_CLASS_NAME" value="sapphire.kernel.server.KernelServerImpl" />
       <option name="VM_PARAMETERS" value="-Djava.library.path=&quot;$USER_HOME$/Downloads/opencv-3.2.0/build/lib&quot;" />
-      <option name="PROGRAM_PARAMETERS" value="157.82.159.46 22345 157.82.159.46 22346" />
+      <option name="PROGRAM_PARAMETERS" value="157.82.159.30 22345 157.82.159.30 22346 " />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="ALTERNATIVE_JRE_PATH" value="/usr/lib/jvm/java-8-oracle/jre" />
@@ -2885,17 +3208,38 @@
       <envs />
       <method />
     </configuration>
-    <list size="10">
+    <list size="31">
       <item index="0" class="java.lang.String" itemvalue="Android App.sapphire" />
       <item index="1" class="java.lang.String" itemvalue="Application.PolicyGeneratorAll" />
       <item index="2" class="java.lang.String" itemvalue="Application.CodeOffloadPolicyGenerator" />
-      <item index="3" class="java.lang.String" itemvalue="Application.ApplicationStubGenerator" />
-      <item index="4" class="java.lang.String" itemvalue="Application.ManagerGenerator" />
-      <item index="5" class="java.lang.String" itemvalue="Application.TrackerGenerator" />
-      <item index="6" class="java.lang.String" itemvalue="Application.CVGenerator" />
-      <item index="7" class="java.lang.String" itemvalue="Application.CascadeGenerator" />
-      <item index="8" class="java.lang.String" itemvalue="Application.oms" />
-      <item index="9" class="java.lang.String" itemvalue="Application.server" />
+      <item index="3" class="java.lang.String" itemvalue="Application.ManagerGenerator" />
+      <item index="4" class="java.lang.String" itemvalue="Application.CVGenerator" />
+      <item index="5" class="java.lang.String" itemvalue="Application.edgeGenerator" />
+      <item index="6" class="java.lang.String" itemvalue="Application.MethodGenerator" />
+      <item index="7" class="java.lang.String" itemvalue="Application.BorderGenerator" />
+      <item index="8" class="java.lang.String" itemvalue="Application.FIBGenerator" />
+      <item index="9" class="java.lang.String" itemvalue="Application.ContourGenerator" />
+      <item index="10" class="java.lang.String" itemvalue="Application.ConvolveGenerator" />
+      <item index="11" class="java.lang.String" itemvalue="Application.DerivativeGenerator" />
+      <item index="12" class="java.lang.String" itemvalue="Application.FKGGenerator" />
+      <item index="13" class="java.lang.String" itemvalue="Application.BlurGenerator" />
+      <item index="14" class="java.lang.String" itemvalue="Application.FIBAGenerator" />
+      <item index="15" class="java.lang.String" itemvalue="Application.IBVGenerator" />
+      <item index="16" class="java.lang.String" itemvalue="Application.FEDGenerator" />
+      <item index="17" class="java.lang.String" itemvalue="Application.ISGenerator" />
+      <item index="18" class="java.lang.String" itemvalue="Application.CEGenerator" />
+      <item index="19" class="java.lang.String" itemvalue="Application.IGRGenerator" />
+      <item index="20" class="java.lang.String" itemvalue="Application.CEDGenerator" />
+      <item index="21" class="java.lang.String" itemvalue="Application.GTEFGenerator" />
+      <item index="22" class="java.lang.String" itemvalue="Application.FBFGenerator" />
+      <item index="23" class="java.lang.String" itemvalue="Application.GBIOGenerator" />
+      <item index="24" class="java.lang.String" itemvalue="Application.BSFGenerator" />
+      <item index="25" class="java.lang.String" itemvalue="Application.GIOGenerator" />
+      <item index="26" class="java.lang.String" itemvalue="Application.FDGenerator" />
+      <item index="27" class="java.lang.String" itemvalue="Application.IMOGenerator" />
+      <item index="28" class="java.lang.String" itemvalue="Application.ITGenerator" />
+      <item index="29" class="java.lang.String" itemvalue="Application.oms" />
+      <item index="30" class="java.lang.String" itemvalue="Application.server" />
     </list>
     <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
       <module name="" />
@@ -2980,30 +3324,31 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="65" y="24" width="2495" height="1416" extended-state="6" />
+    <frame x="287" y="165" width="1845" height="998" extended-state="0" />
     <editor active="false" />
     <layout>
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32894737" sideWeight="0.481421" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5139319" sideWeight="0.37362188" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32894737" sideWeight="0.47978768" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5456656" sideWeight="0.4883626" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.47325438" sideWeight="0.328125" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.6106811" sideWeight="0.5549204" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.40634674" sideWeight="0.61045325" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.48219815" sideWeight="0.57452023" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.68085104" sideWeight="0.4852696" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.68085104" sideWeight="0.5147304" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.124613" sideWeight="0.43364638" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3614551" sideWeight="0.47162107" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.124613" sideWeight="0.5663536" order="11" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.47325438" sideWeight="0.671875" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32939914" sideWeight="0.48258707" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.48219815" sideWeight="0.5055125" order="11" side_tool="true" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23790994" sideWeight="0.671875" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32894737" sideWeight="0.48101267" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Dynamic Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2498618" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39914164" sideWeight="0.49806523" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -3040,289 +3385,413 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/lib/src/main/java/sapphire/kernel/server/KernelServerImpl.java" />
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/opencv/core/Mat.java" />
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/sapphire/compiler/StubGenerator.java">
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/detect/ShapeFitDisplayActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="21" selection-start-line="9" selection-start-column="21" selection-end-line="9" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/opencv/android/StaticHelper.java" />
-    <entry file="file://$PROJECT_DIR$/sapphire/build/intermediates/res/merged/debug/values-v23/values-v23.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="30" column="35" selection-start-line="30" selection-start-column="35" selection-end-line="30" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/res/values/attrs.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/res/values/strings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1608">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/res/values/styles.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/opencv/android/JavaCameraView.java" />
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/opencv/samples/facedetect/FdActivity.java" />
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/opencv/android/CameraGLSurfaceView.java" />
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/opencv/android/CameraBridgeViewBase.java" />
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/main/core/readme.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" column="8" selection-start-line="1" selection-start-column="8" selection-end-line="1" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/all/build.gradle" />
-    <entry file="file://$PROJECT_DIR$/main/build.gradle" />
-    <entry file="file://$PROJECT_DIR$/examples/build.gradle" />
-    <entry file="file://$PROJECT_DIR$/local.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/sapphire/kernel/server/KernelServerImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3165">
-          <caret line="240" column="0" selection-start-line="240" selection-start-column="0" selection-end-line="240" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/core/build.gradle" />
-    <entry file="file://$PROJECT_DIR$/ddogleg/build.gradle" />
-    <entry file="file://$PROJECT_DIR$/settings.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+        <state relative-caret-position="165">
+          <caret line="14" column="1" selection-start-line="14" selection-start-column="1" selection-end-line="14" selection-end-column="1" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/main/ip/src/boofcv/alg/filter/convolve/noborder/ConvolveImageUnrolled_U8_I16.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="29" column="7" selection-start-line="29" selection-start-column="7" selection-end-line="29" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/main/ip/src/boofcv/testing/BoofTesting.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="23" column="46" selection-start-line="23" selection-start-column="46" selection-end-line="23" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/main/autocode/src/boofcv/Autocode64to32App.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="32" column="0" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/main/ip/benchmark/boofcv/alg/filter/convolve/ConvolveUnsafe_U8.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="23" column="23" selection-start-line="23" selection-start-column="23" selection-end-line="23" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/main/sfm/test/boofcv/alg/sfm/overhead/TestSelectOverheadParameters.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="325">
-          <caret line="38" column="0" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/main/sfm/test/boofcv/abst/sfm/d3/VideoSequenceSimulator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="30" column="46" selection-start-line="30" selection-start-column="46" selection-end-line="30" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/georegression/struct/se/Se3_F64.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="35" column="51" selection-start-line="35" selection-start-column="51" selection-end-line="35" selection-end-column="51" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/calib/CalibrationActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="325">
-          <caret line="42" column="48" selection-start-line="42" selection-start-column="48" selection-end-line="42" selection-end-column="48" />
+        <state relative-caret-position="197">
+          <caret line="297" column="0" selection-start-line="297" selection-start-column="0" selection-end-line="297" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/main/io/src/boofcv/io/UtilIO.java">
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/calib/CalibrationComputeActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="23" column="63" selection-start-line="23" selection-start-column="63" selection-end-line="23" selection-end-column="63" />
+        <state relative-caret-position="195">
+          <caret line="43" column="33" selection-start-line="43" selection-start-column="33" selection-end-line="43" selection-end-column="33" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/dense64/generate/org/ejml/alg/fixed/GenerateFixedOps.java">
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/calib/CalibrationHelpActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="20" column="15" selection-start-line="20" selection-start-column="15" selection-end-line="20" selection-end-column="15" />
+        <state relative-caret-position="210">
+          <caret line="24" column="29" selection-start-line="24" selection-start-column="29" selection-end-line="24" selection-end-column="29" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/dense64/test/org/ejml/alg/dense/decomposition/svd/TestSvdImplicitQrDecompose_D64.java">
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/calib/CalibrationImageInfo.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="135">
-          <caret line="25" column="22" selection-start-line="25" selection-start-column="22" selection-end-line="25" selection-end-column="22" />
+          <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/main/recognition/test/boofcv/deepboof/CheckBaseImageClassifier.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="28" column="31" selection-start-line="28" selection-start-column="31" selection-end-line="28" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/main/recognition/test/boofcv/deepboof/TestImageClassifierVggCifar10.java">
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/calib/UndistortDisplayActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="135">
-          <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+          <caret line="38" column="13" selection-start-line="38" selection-start-column="13" selection-end-line="38" selection-end-column="13" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/sfm/DisparityActivity.java">
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/assoc/AssociationActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="27" column="21" selection-start-line="27" selection-start-column="21" selection-end-line="27" selection-end-column="21" />
+        <state relative-caret-position="225">
+          <caret line="45" column="0" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/assoc/AssociationVisualize.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="23" column="13" selection-start-line="23" selection-start-column="13" selection-end-line="23" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/ip/BinaryDisplayActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="182">
+          <caret line="48" column="43" selection-start-line="48" selection-start-column="43" selection-end-line="48" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/ip/BlurDisplayActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="51" column="45" selection-start-line="51" selection-start-column="45" selection-end-line="51" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/ip/EnhanceDisplayActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="30" column="13" selection-start-line="30" selection-start-column="13" selection-end-line="30" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/ip/GradientDisplayActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="42" column="40" selection-start-line="42" selection-start-column="40" selection-end-line="42" selection-end-column="40" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/ip/ImageTransformActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="22" column="25" selection-start-line="22" selection-start-column="25" selection-end-line="22" selection-end-column="25" />
+        <state relative-caret-position="2327">
+          <caret line="196" column="58" selection-start-line="196" selection-start-column="58" selection-end-line="196" selection-end-column="58" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/ip/ThresholdDisplayActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="302">
+          <caret line="58" column="44" selection-start-line="58" selection-start-column="44" selection-end-line="58" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/recognition/DrawCalibrationFiducial.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="27" column="23" selection-start-line="27" selection-start-column="23" selection-end-line="27" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/recognition/FiducialCalibrationActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/recognition/FiducialCalibrationHelpActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="18" column="13" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/recognition/FiducialDetector.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="36" column="13" selection-start-line="36" selection-start-column="13" selection-end-line="36" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/recognition/FiducialImageLibraryAcitivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="34" column="0" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/recognition/FiducialLearnActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="140">
+          <caret line="51" column="25" selection-start-line="51" selection-start-column="25" selection-end-line="51" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/recognition/FiducialManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="31" column="13" selection-start-line="31" selection-start-column="13" selection-end-line="31" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/recognition/FiducialSelectHelpActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="18" column="13" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/recognition/FiducialSquareActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="55" column="25" selection-start-line="55" selection-start-column="25" selection-end-line="55" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/recognition/FiducialSquareBinaryActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/recognition/FiducialSquareBinaryHelpActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="18" column="13" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/recognition/FiducialSquareImageActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="22" column="13" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/recognition/FiducialSquareImageHelpActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="18" column="13" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/recognition/ImageClassificationActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="332">
-          <caret line="36" column="20" selection-start-line="36" selection-start-column="20" selection-end-line="36" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="32" column="53" selection-start-line="32" selection-start-column="53" selection-end-line="32" selection-end-column="53" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-manifest">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/build/intermediates/res/merged/debug/values/values.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="183">
-          <caret line="127" column="0" selection-start-line="127" selection-start-column="0" selection-end-line="127" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/io/src/main/java/deepboof/io/caffe/PrintWeightCrap.java" />
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/io/src/main/java/deepboof/io/caffe/PrintCrap.java" />
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/experimental/test/org/ejml/alg/dense/misc/TestNaiveDeterminant.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-180">
-          <caret line="22" column="16" selection-start-line="22" selection-start-column="16" selection-end-line="22" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/visualization/src/main/java/deepboof/visualization/SequentialNetworkDisplay.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-75">
-          <caret line="20" column="24" selection-start-line="20" selection-start-column="24" selection-end-line="20" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/io/src/main/java/caffe/Caffe.java">
-      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
-          <caret line="8" column="25" selection-start-line="8" selection-start-column="25" selection-end-line="8" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/io/src/main/java/deepboof/io/DeepBoofDataBaseOps.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="22" column="31" selection-start-line="22" selection-start-column="31" selection-end-line="22" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/main/io/src/boofcv/io/calibration/CalibrationIO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="25" column="25" selection-start-line="25" selection-start-column="25" selection-end-line="25" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/build/intermediates/manifests/full/debug/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="574">
-          <caret line="170" column="18" selection-start-line="170" selection-start-column="18" selection-end-line="170" selection-end-column="18" />
+          <caret line="53" column="13" selection-start-line="53" selection-start-column="13" selection-end-line="53" selection-end-column="13" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/fiducial/calib/circle/TestDetectAsymmetricCircleGrid.java">
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/recognition/SelectCalibrationFiducial.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-79">
-          <caret line="35" column="0" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
+        <state relative-caret-position="315">
+          <caret line="38" column="5" selection-start-line="38" selection-start-column="5" selection-end-line="38" selection-end-column="5" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/build.gradle">
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/sfm/DisparityActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+        <state relative-caret-position="503">
+          <caret line="374" column="20" selection-start-line="374" selection-start-column="20" selection-end-line="374" selection-end-column="38" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/build.gradle">
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/sfm/DisparityCalculation.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="22" column="33" selection-start-line="22" selection-start-column="33" selection-end-line="22" selection-end-column="33" />
+        <state relative-caret-position="375">
+          <caret line="65" column="0" selection-start-line="65" selection-start-column="0" selection-end-line="65" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/sfm/MosaicDisplayActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="43" column="13" selection-start-line="43" selection-start-column="13" selection-end-line="43" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/sfm/StabilizeDisplayActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="41" column="13" selection-start-line="41" selection-start-column="13" selection-end-line="41" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/tracker/CombinedTrackerDisplayActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="38" column="13" selection-start-line="38" selection-start-column="13" selection-end-line="38" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/tracker/DdaTrackerDisplayActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="38" column="13" selection-start-line="38" selection-start-column="13" selection-end-line="38" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/tracker/KltDisplayActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/tracker/ObjectTrackerActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="42" column="13" selection-start-line="42" selection-start-column="13" selection-end-line="42" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/tracker/PointTrackerDisplayActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="26" column="13" selection-start-line="26" selection-start-column="13" selection-end-line="26" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/tracker/StaticBackgroundMotionActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="48" column="13" selection-start-line="48" selection-start-column="13" selection-end-line="48" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/AboutActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/CameraInformationActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="24" column="13" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/CameraSpecs.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/CreateDetectorDescriptor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="30" column="13" selection-start-line="30" selection-start-column="13" selection-end-line="30" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/PreferenceActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="20" column="13" selection-start-line="20" selection-start-column="13" selection-end-line="20" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/UtilVarious.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="6" column="3" selection-start-line="6" selection-start-column="3" selection-end-line="6" selection-end-column="3" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/gui/image/VisualizeImageData.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="34" column="33" selection-start-line="34" selection-start-column="33" selection-end-line="34" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/DemoManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="992">
+          <caret line="159" column="65" selection-start-line="159" selection-start-column="65" selection-end-line="159" selection-end-column="65" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/android/gui/VideoDisplayActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3088">
+          <caret line="50" column="111" selection-start-line="50" selection-start-column="111" selection-end-line="50" selection-end-column="111" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/DemoVideoDisplayActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
+          <caret line="33" column="58" selection-start-line="33" selection-start-column="58" selection-end-line="33" selection-end-column="58" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/detect/ContourShapeFittingActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="121">
+          <caret line="152" column="34" selection-start-line="152" selection-start-column="34" selection-end-line="152" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/detect/CannyEdgeActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="377">
+          <caret line="144" column="64" selection-start-line="144" selection-start-column="64" selection-end-line="144" selection-end-column="64" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

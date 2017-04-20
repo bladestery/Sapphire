@@ -20,6 +20,7 @@ package boofcv.alg.transform.ii;
 
 import boofcv.alg.InputSanityCheck;
 import boofcv.alg.transform.ii.impl.ImplIntegralImageOps;
+import boofcv.core.image.GeneralizedImageOps;
 import boofcv.struct.ImageRectangle;
 import boofcv.struct.image.*;
 
@@ -32,7 +33,8 @@ import boofcv.struct.image.*;
  * @author Peter Abeles
  */
 public class IntegralImageOps {
-
+	private static InputSanityCheck ISC;
+	private static GeneralizedImageOps GIO;
 	/**
 	 * Converts a regular image into an integral image.
 	 *
@@ -41,7 +43,7 @@ public class IntegralImageOps {
 	 * @return Integral image.
 	 */
 	public static GrayF32 transform(GrayF32 input , GrayF32 transformed ) {
-		transformed = InputSanityCheck.checkDeclare(input,transformed);
+		transformed = ISC.checkDeclare(input,transformed);
 
 		ImplIntegralImageOps.transform(input,transformed);
 
@@ -56,7 +58,7 @@ public class IntegralImageOps {
 	 * @return Integral image.
 	 */
 	public static GrayF64 transform(GrayF64 input , GrayF64 transformed ) {
-		transformed = InputSanityCheck.checkDeclare(input,transformed);
+		transformed = ISC.checkDeclare(input,transformed);
 
 		ImplIntegralImageOps.transform(input,transformed);
 
@@ -71,7 +73,7 @@ public class IntegralImageOps {
 	 * @return Integral image.
 	 */
 	public static GrayS32 transform(GrayU8 input , GrayS32 transformed ) {
-		transformed = InputSanityCheck.checkDeclare(input,transformed,GrayS32.class);
+		transformed = ISC.checkDeclare(input,transformed,GrayS32.class, GIO);
 
 		ImplIntegralImageOps.transform(input,transformed);
 
@@ -86,7 +88,7 @@ public class IntegralImageOps {
 	 * @return Integral image.
 	 */
 	public static GrayS32 transform(GrayS32 input , GrayS32 transformed ) {
-		transformed = InputSanityCheck.checkDeclare(input,transformed,GrayS32.class);
+		transformed = ISC.checkDeclare(input,transformed,GrayS32.class, GIO);
 
 		ImplIntegralImageOps.transform(input, transformed);
 
@@ -101,7 +103,7 @@ public class IntegralImageOps {
 	 * @return Integral image.
 	 */
 	public static GrayS64 transform(GrayS64 input , GrayS64 transformed ) {
-		transformed = InputSanityCheck.checkDeclare(input,transformed,GrayS64.class);
+		transformed = ISC.checkDeclare(input,transformed,GrayS64.class, GIO);
 
 		ImplIntegralImageOps.transform(input, transformed);
 
@@ -120,7 +122,7 @@ public class IntegralImageOps {
 								   IntegralKernel kernel ,
 								   GrayF32 output )
 	{
-		output = InputSanityCheck.checkDeclare(integral,output);
+		output = ISC.checkDeclare(integral,output);
 
 		ImplIntegralImageOps.convolve(integral, kernel, output);
 
@@ -139,7 +141,7 @@ public class IntegralImageOps {
 								   IntegralKernel kernel ,
 								   GrayF64 output )
 	{
-		output = InputSanityCheck.checkDeclare(integral,output);
+		output = ISC.checkDeclare(integral,output);
 
 		ImplIntegralImageOps.convolve(integral,kernel,output);
 
@@ -158,7 +160,7 @@ public class IntegralImageOps {
 								   IntegralKernel kernel ,
 								   GrayS32 output )
 	{
-		output = InputSanityCheck.checkDeclare(integral,output);
+		output = ISC.checkDeclare(integral,output);
 
 		ImplIntegralImageOps.convolve(integral, kernel, output);
 
@@ -177,7 +179,7 @@ public class IntegralImageOps {
 								   IntegralKernel kernel ,
 								   GrayS64 output )
 	{
-		output = InputSanityCheck.checkDeclare(integral,output);
+		output = ISC.checkDeclare(integral,output);
 
 		ImplIntegralImageOps.convolve(integral,kernel,output);
 
@@ -197,7 +199,7 @@ public class IntegralImageOps {
 										 IntegralKernel kernel ,
 										 GrayF32 output , int borderX , int borderY )
 	{
-		output = InputSanityCheck.checkDeclare(integral,output);
+		output = ISC.checkDeclare(integral,output);
 
 		ImplIntegralImageOps.convolveBorder(integral,kernel,output,borderX,borderY);
 
@@ -217,7 +219,7 @@ public class IntegralImageOps {
 										 IntegralKernel kernel ,
 										 GrayF64 output , int borderX , int borderY )
 	{
-		output = InputSanityCheck.checkDeclare(integral,output);
+		output = ISC.checkDeclare(integral,output);
 
 		ImplIntegralImageOps.convolveBorder(integral,kernel,output,borderX,borderY);
 
@@ -237,7 +239,7 @@ public class IntegralImageOps {
 										 IntegralKernel kernel ,
 										 GrayS32 output , int borderX , int borderY )
 	{
-		output = InputSanityCheck.checkDeclare(integral,output);
+		output = ISC.checkDeclare(integral,output);
 
 		ImplIntegralImageOps.convolveBorder(integral,kernel,output,borderX,borderY);
 
@@ -257,7 +259,7 @@ public class IntegralImageOps {
 										 IntegralKernel kernel ,
 										 GrayS64 output , int borderX , int borderY )
 	{
-		output = InputSanityCheck.checkDeclare(integral,output);
+		output = ISC.checkDeclare(integral,output);
 
 		ImplIntegralImageOps.convolveBorder(integral,kernel,output,borderX,borderY);
 

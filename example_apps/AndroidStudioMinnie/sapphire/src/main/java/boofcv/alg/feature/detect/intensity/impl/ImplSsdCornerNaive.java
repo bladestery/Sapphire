@@ -34,7 +34,8 @@ import boofcv.struct.image.ImageGray;
  */
 @SuppressWarnings({"ForLoopReplaceableByForEach"})
 public class ImplSsdCornerNaive<T extends ImageGray> implements ShiTomasiCornerIntensity<T> {
-
+	private static GeneralizedImageOps GIO;
+	private static FactoryKernelGaussian FKG;
 	// feature's radius
 	private int radius;
 
@@ -45,7 +46,7 @@ public class ImplSsdCornerNaive<T extends ImageGray> implements ShiTomasiCornerI
 		this.radius = windowRadius;
 
 		if( weighted )
-			weights = FactoryKernelGaussian.gaussian(Kernel2D_I32.class,-1,radius);
+			weights = FKG.gaussian(Kernel2D_I32.class,-1,radius);
 	}
 
 	@Override
@@ -75,8 +76,8 @@ public class ImplSsdCornerNaive<T extends ImageGray> implements ShiTomasiCornerI
 				for (int i = -radius; i <= radius; i++) {
 					for (int j = -radius; j <= radius; j++) {
 						
-						double dx = GeneralizedImageOps.get(derivX,col + j, row + i);
-						double dy = GeneralizedImageOps.get(derivY,col + j, row + i);
+						double dx = GIO.get(derivX,col + j, row + i);
+						double dy = GIO.get(derivY,col + j, row + i);
 
 						double w = 1;
 						

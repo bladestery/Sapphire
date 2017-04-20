@@ -18,6 +18,8 @@
 
 package boofcv.alg.feature.detect.edge;
 
+import android.renderscript.ScriptGroup;
+
 import boofcv.alg.InputSanityCheck;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.GrayS8;
@@ -73,10 +75,10 @@ public class HysteresisEdgeTracePoints {
 	 * @param lower Lower threshold.
 	 * @param upper Upper threshold.
 	 */
-	public void process(GrayF32 intensity , GrayS8 direction , float lower , float upper ) {
+	public void process(GrayF32 intensity , GrayS8 direction , float lower , float upper, InputSanityCheck ISC) {
 		if( lower < 0 )
 			throw new IllegalArgumentException("Lower must be >= 0!");
-		InputSanityCheck.checkSameShape(intensity, direction);
+		ISC.checkSameShape(intensity, direction);
 
 		// set up internal data structures
 		this.intensity = intensity;

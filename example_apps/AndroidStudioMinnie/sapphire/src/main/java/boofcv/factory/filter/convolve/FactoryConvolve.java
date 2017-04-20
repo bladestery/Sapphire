@@ -38,7 +38,7 @@ import java.lang.reflect.Method;
  */
 @SuppressWarnings({"unchecked"})
 public class FactoryConvolve {
-
+	private static FactoryImageBorder FIB;
 	/**
 	 * Creates a filter for convolving 1D kernels along the image.
 	 *
@@ -54,7 +54,7 @@ public class FactoryConvolve {
 	{
 		outputType = BoofTesting.convertToGenericType(outputType);
 
-		Class<?> borderClassType = FactoryImageBorder.lookupBorderClassType((Class)inputType);
+		Class<?> borderClassType = FIB.lookupBorderClassType((Class)inputType);
 		String direction = isHorizontal ? "horizontal" : "vertical";
 		Method m;
 		try {
@@ -105,7 +105,7 @@ public class FactoryConvolve {
 	{
 		outputType = BoofTesting.convertToGenericType(outputType);
 
-		Class<?> borderClassType = FactoryImageBorder.lookupBorderClassType((Class)inputType);
+		Class<?> borderClassType = FIB.lookupBorderClassType((Class)inputType);
 		Method m;
 		try {
 			switch(borderType) {

@@ -19,14 +19,26 @@
 package boofcv.alg.filter.stat;
 
 import boofcv.alg.InputSanityCheck;
+import boofcv.alg.filter.blur.BlurImageOps;
 import boofcv.alg.filter.blur.GBlurImageOps;
+import boofcv.alg.filter.blur.impl.ImplMedianHistogramInner;
+import boofcv.alg.filter.blur.impl.ImplMedianSortEdgeNaive;
+import boofcv.alg.filter.blur.impl.ImplMedianSortNaive;
+import boofcv.alg.filter.convolve.ConvolveImageMean;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
 import boofcv.alg.filter.convolve.GConvolveImageOps;
+import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
 import boofcv.alg.misc.GImageStatistics;
 import boofcv.alg.misc.GPixelMath;
+import boofcv.alg.misc.ImageStatistics;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.BorderType;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.core.image.border.ImageBorder;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.convolve.Kernel1D;
 import boofcv.struct.image.GrayF;
 import boofcv.struct.image.GrayF32;
@@ -39,7 +51,23 @@ import boofcv.struct.image.ImageType;
  * @author Peter Abeles
  */
 public class ImageLocalNormalization<T extends GrayF> {
-
+	private static GeneralizedImageOps GIO;
+	private static ImageType IT;
+	private static GBlurImageOps GBIO;
+	private static FactoryImageBorder FIB;
+	private static InputSanityCheck ISC;
+	private static GImageStatistics GIS;
+	private static ImageStatistics IS;
+	private static BlurImageOps BIO;
+	private static ConvolveImageMean CIM;
+	private static ConvolveNormalized CN;
+	private static ConvolveNormalizedNaive CNN;
+	private static ConvolveImageNoBorder CINB;
+	private static ConvolveNormalized_JustBorder CNJB;
+	private static ImplMedianHistogramInner IMHI;
+	private static ImplMedianSortEdgeNaive IMSEN;
+	private static ImplMedianSortNaive IMSN;
+	private static ImplConvolveMean ICM;
 	// storage for the adjusted input which has a max pixel value of 1
 	protected T adjusted;
 	// storage for the local image mean
@@ -64,12 +92,12 @@ public class ImageLocalNormalization<T extends GrayF> {
 		this.imageType = imageType;
 
 		if( borderType != BorderType.NORMALIZED )
-			border = FactoryImageBorder.generic(borderType, ImageType.single(imageType));
+			border = FIB.generic(borderType, IT.single(imageType));
 
-		adjusted = GeneralizedImageOps.createSingleBand(imageType,1,1);
-		localMean = GeneralizedImageOps.createSingleBand(imageType,1,1);
-		pow2 = GeneralizedImageOps.createSingleBand(imageType,1,1);
-		localPow2 = GeneralizedImageOps.createSingleBand(imageType,1,1);
+		adjusted = GIO.createSingleBand(imageType,1,1);
+		localMean = GIO.createSingleBand(imageType,1,1);
+		pow2 = GIO.createSingleBand(imageType,1,1);
+		localPow2 = GIO.createSingleBand(imageType,1,1);
 	}
 
 	/*
@@ -137,9 +165,9 @@ public class ImageLocalNormalization<T extends GrayF> {
 
 		// take advantage of 2D gaussian kernels being separable
 		if( border == null ) {
-			GBlurImageOps.mean(adjusted, localMean, radius, output);
+			GBIO.mean(adjusted, localMean, radius, output, GBIO, GIO, ISC, BIO, CIM, IMHI, IMSEN, IMSN, CN, CNN, CINB, CNJB, ICM);
 			GPixelMath.pow2(adjusted, pow2);
-			GBlurImageOps.mean(pow2, localPow2, radius, output);
+			GBIO.mean(pow2, localPow2, radius, output, GBIO, GIO, ISC, BIO, CIM, IMHI, IMSEN, IMSN, CN, CNN, CINB, CNJB, ICM);
 		} else {
 			throw new IllegalArgumentException("Only renormalize border supported here so far.  This can be changed...");
 		}
@@ -152,7 +180,7 @@ public class ImageLocalNormalization<T extends GrayF> {
 	}
 
 	private void initialize(T input, T output) {
-		InputSanityCheck.checkSameShape(input,output);
+		ISC.checkSameShape(input,output);
 
 		adjusted.reshape(input.width,input.height);
 		localMean.reshape(input.width,input.height);
@@ -203,7 +231,7 @@ public class ImageLocalNormalization<T extends GrayF> {
 	private T ensureMaxValueOfOne(T input, double maxPixelValue) {
 		T adjusted;
 		if( maxPixelValue < 0 ) {
-			maxPixelValue = GImageStatistics.max(input);
+			maxPixelValue = GIS.max(input, IS);
 		}
 		if( maxPixelValue != 1.0f ) {
 			adjusted = this.adjusted;

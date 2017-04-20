@@ -35,10 +35,10 @@ import boofcv.struct.image.ImageGray;
  */
 @SuppressWarnings({"unchecked"})
 public class FactoryConvolveSparse {
-
+	private static GeneralizedImageOps GIO;
 	public static <T extends ImageGray, K extends Kernel2D>
 	ImageConvolveSparse<T,K> convolve2D(Class<T> imageType, K kernel) {
-		if( GeneralizedImageOps.isFloatingPoint(imageType)) {
+		if( GIO.isFloatingPoint(imageType)) {
 			return (ImageConvolveSparse<T,K>)new Convolve2D_F32((Kernel2D_F32)kernel);
 		} else {
 			return (ImageConvolveSparse<T,K>)new Convolve2D_I32((Kernel2D_I32)kernel);
@@ -47,7 +47,7 @@ public class FactoryConvolveSparse {
 
 	public static <T extends ImageGray, K extends Kernel1D>
 	ImageConvolveSparse<T,K> vertical1D(Class<T> imageType, K kernel) {
-		if( GeneralizedImageOps.isFloatingPoint(imageType)) {
+		if( GIO.isFloatingPoint(imageType)) {
 			return (ImageConvolveSparse<T,K>)new Vertical1D_F32((Kernel1D_F32)kernel);
 		} else {
 			return (ImageConvolveSparse<T,K>)new Vertical1D_I32((Kernel1D_I32)kernel);
@@ -56,7 +56,7 @@ public class FactoryConvolveSparse {
 
 	public static <T extends ImageGray, K extends Kernel1D>
 	ImageConvolveSparse<T,K> horizontal1D(Class<T> imageType, K kernel) {
-		if( GeneralizedImageOps.isFloatingPoint(imageType)) {
+		if( GIO.isFloatingPoint(imageType)) {
 			return (ImageConvolveSparse<T,K>)new Horizontal1D_F32((Kernel1D_F32)kernel);
 		} else {
 			return (ImageConvolveSparse<T,K>)new Horizontal1D_I32((Kernel1D_I32)kernel);

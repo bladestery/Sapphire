@@ -86,7 +86,7 @@ import boofcv.struct.image.Planar;
  This doesn't seem to improve the runtime noticeably and makes the code uglier.
   */
 public class ColorHsv {
-
+	private static InputSanityCheck ISC;
 	// 60 degrees in radians
 	public static final double d60_F64 = 60.0*Math.PI/180.0;
 	public static final float d60_F32 = (float)d60_F64;
@@ -281,7 +281,7 @@ public class ColorHsv {
 	 */
 	public static void hsvToRgb_F32(Planar<GrayF32> hsv , Planar<GrayF32> rgb ) {
 
-		InputSanityCheck.checkSameShape(hsv, rgb);
+		ISC.checkSameShape(hsv, rgb);
 
 		GrayF32 H = hsv.getBand(0);
 		GrayF32 S = hsv.getBand(1);
@@ -350,7 +350,7 @@ public class ColorHsv {
 	 */
 	public static void rgbToHsv_F32(Planar<GrayF32> rgb , Planar<GrayF32> hsv ) {
 
-		InputSanityCheck.checkSameShape(rgb, hsv);
+		ISC.checkSameShape(rgb, hsv);
 
 		GrayF32 R = rgb.getBand(0);
 		GrayF32 G = rgb.getBand(1);

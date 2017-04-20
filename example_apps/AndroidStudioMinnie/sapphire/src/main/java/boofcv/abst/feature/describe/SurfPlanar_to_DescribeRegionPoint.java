@@ -39,6 +39,8 @@ import boofcv.struct.image.Planar;
 public class SurfPlanar_to_DescribeRegionPoint<T extends ImageGray, II extends ImageGray>
 	implements DescribeRegionPoint<Planar<T>,BrightFeature>
 {
+	private ImageType IT;
+	private GeneralizedImageOps GIO;
 	DescribePointSurfPlanar<II> alg;
 
 	T gray;
@@ -51,11 +53,11 @@ public class SurfPlanar_to_DescribeRegionPoint<T extends ImageGray, II extends I
 											 Class<T> imageType, Class<II> integralType ) {
 		this.alg = alg;
 
-		gray = GeneralizedImageOps.createSingleBand(imageType, 1, 1);
-		grayII = GeneralizedImageOps.createSingleBand(integralType,1,1);
+		gray = GIO.createSingleBand(imageType, 1, 1);
+		grayII = GIO.createSingleBand(integralType,1,1);
 		bandII = new Planar<>(integralType, 1, 1, alg.getNumBands());
 
-		this.imageType = ImageType.pl(alg.getNumBands(), imageType);
+		this.imageType = IT.pl(alg.getNumBands(), imageType);
 	}
 
 	@Override

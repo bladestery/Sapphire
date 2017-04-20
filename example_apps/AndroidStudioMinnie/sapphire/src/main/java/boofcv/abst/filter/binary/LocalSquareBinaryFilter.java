@@ -18,7 +18,22 @@
 
 package boofcv.abst.filter.binary;
 
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.filter.binary.GThresholdImageOps;
+import boofcv.alg.filter.binary.ThresholdImageOps;
+import boofcv.alg.filter.blur.BlurImageOps;
+import boofcv.alg.filter.blur.GBlurImageOps;
+import boofcv.alg.filter.blur.impl.ImplMedianHistogramInner;
+import boofcv.alg.filter.blur.impl.ImplMedianSortEdgeNaive;
+import boofcv.alg.filter.blur.impl.ImplMedianSortNaive;
+import boofcv.alg.filter.convolve.ConvolveImageMean;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
+import boofcv.core.image.GeneralizedImageOps;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.ImageGray;
 import boofcv.struct.image.ImageType;
@@ -31,9 +46,9 @@ import boofcv.struct.image.ImageType;
  * @author Peter Abeles
  */
 public class LocalSquareBinaryFilter<T extends ImageGray> implements InputToBinary<T> {
-
 	ImageType<T> inputType;
-
+	private static GThresholdImageOps GTIO;
+	private static ThresholdImageOps TIO;
 	T work1;
 	ImageGray work2;
 
@@ -55,10 +70,12 @@ public class LocalSquareBinaryFilter<T extends ImageGray> implements InputToBina
 	}
 
 	@Override
-	public void process(T input, GrayU8 output) {
+	public void process(T input, GrayU8 output, GBlurImageOps GBIO, InputSanityCheck ISC, GeneralizedImageOps GIO, BlurImageOps BIO,
+						ConvolveImageMean CIM, FactoryKernelGaussian FKG, ConvolveNormalized CN, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB,
+						ConvolveNormalized_JustBorder CNJB, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM) {
 		work1.reshape(input.width,input.height);
 		work2.reshape(input.width,input.height);
-		GThresholdImageOps.localSquare(input, output, radius, scale, down, work1, work2);
+		GTIO.localSquare(input, output, radius, scale, down, work1, work2, TIO, ISC, GIO, BIO, CIM, CN, CNN, CINB, CNJB, ICM);
 	}
 
 	@Override
@@ -72,12 +89,12 @@ public class LocalSquareBinaryFilter<T extends ImageGray> implements InputToBina
 	}
 
 	@Override
-	public ImageType<T> getInputType() {
+	public ImageType<T> getInputType(ImageType IT) {
 		return inputType;
 	}
 
 	@Override
-	public ImageType<GrayU8> getOutputType() {
-		return ImageType.single(GrayU8.class);
+	public ImageType<GrayU8> getOutputType(ImageType IT) {
+		return IT.single(GrayU8.class);
 	}
 }

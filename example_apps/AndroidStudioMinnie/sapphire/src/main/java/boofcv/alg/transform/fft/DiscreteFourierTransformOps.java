@@ -30,7 +30,7 @@ import boofcv.struct.image.*;
  * @author Peter Abeles
  */
 public class DiscreteFourierTransformOps {
-
+	private static InputSanityCheck ISC;
 	/**
 	 * Creates a {@link DiscreteFourierTransform} for images of type {@link GrayF32}.
 	 *
@@ -96,7 +96,7 @@ public class DiscreteFourierTransformOps {
 	 * @param transform Storage for a Fourier Transform
 	 */
 	public static void checkImageArguments( ImageBase image , ImageInterleaved transform ) {
-		InputSanityCheck.checkSameShape(image,transform);
+		ISC.checkSameShape(image,transform);
 		if( 2 != transform.getNumBands() )
 			throw new IllegalArgumentException("The transform must have two bands");
 	}
@@ -397,7 +397,7 @@ public class DiscreteFourierTransformOps {
 
 		checkImageArguments(realA,complexB);
 
-		InputSanityCheck.checkSameShape( complexB,complexC);
+		ISC.checkSameShape( complexB,complexC);
 
 		for( int y = 0; y < realA.height; y++ ) {
 
@@ -429,7 +429,7 @@ public class DiscreteFourierTransformOps {
 
 		checkImageArguments(realA,complexB);
 
-		InputSanityCheck.checkSameShape( complexB,complexC);
+		ISC.checkSameShape( complexB,complexC);
 
 		for( int y = 0; y < realA.height; y++ ) {
 
@@ -458,7 +458,7 @@ public class DiscreteFourierTransformOps {
 	 */
 	public static void multiplyComplex( InterleavedF32 complexA , InterleavedF32 complexB , InterleavedF32 complexC ) {
 
-		InputSanityCheck.checkSameShape(complexA, complexB,complexC);
+		ISC.checkSameShape(complexA, complexB,complexC);
 
 		for( int y = 0; y < complexA.height; y++ ) {
 
@@ -488,7 +488,7 @@ public class DiscreteFourierTransformOps {
 	 */
 	public static void multiplyComplex( InterleavedF64 complexA , InterleavedF64 complexB , InterleavedF64 complexC ) {
 
-		InputSanityCheck.checkSameShape(complexA, complexB,complexC);
+		ISC.checkSameShape(complexA, complexB,complexC);
 
 		for( int y = 0; y < complexA.height; y++ ) {
 

@@ -20,6 +20,8 @@ package boofcv.alg.filter.blur.impl;
 
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.GrayI;
+import sapphire.app.SapphireObject;
+
 import org.ddogleg.sorting.QuickSelect;
 
 /**
@@ -38,9 +40,10 @@ import org.ddogleg.sorting.QuickSelect;
  *
  * @author Peter Abeles
  */
-public class ImplMedianSortEdgeNaive {
+public class ImplMedianSortEdgeNaive implements SapphireObject {
+	public ImplMedianSortEdgeNaive() {}
 
-	public static void process(GrayF32 input, GrayF32 output, int radius , float storage[] )
+	public void process(GrayF32 input, GrayF32 output, int radius , float storage[] )
 	{
 		int w = 2*radius+1;
 		if( storage == null ) {
@@ -156,7 +159,7 @@ public class ImplMedianSortEdgeNaive {
 		}
 	}
 
-	public static void process(GrayI input, GrayI output, int radius , int storage[] )
+	public void process(GrayI input, GrayI output, int radius , int storage[] )
 	{
 		int w = 2*radius+1;
 		if( storage == null ) {

@@ -63,6 +63,7 @@ import java.util.Arrays;
  * @author Peter Abeles
  */
 public abstract class SegmentSlic<T extends ImageBase> {
+	private static InputSanityCheck ISC;
 	// border which ensures there is a 3x3 neighborhood around the initial clusters and that there are pixels
 	// which can be sampled when computing the gradient
 	public static final int BORDER = 2;
@@ -135,7 +136,7 @@ public abstract class SegmentSlic<T extends ImageBase> {
 	}
 
 	public void process( T input , GrayS32 output ) {
-		InputSanityCheck.checkSameShape(input,output);
+		ISC.checkSameShape(input,output);
 		if( input.width < 2*BORDER || input.height < 2*BORDER)
 			throw new IllegalArgumentException(
 					"Image is too small to process.  Must have a width and height of at least "+(2*BORDER));

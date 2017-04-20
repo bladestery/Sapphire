@@ -35,6 +35,7 @@ import java.lang.reflect.Method;
  * @author Peter Abeles
  */
 public class CompareToNaiveWavelet {
+	private GeneralizedImageOps GIO;
 	int numExpected;
 
 	boolean isFloat;
@@ -67,7 +68,7 @@ public class CompareToNaiveWavelet {
 
 			Class<?>[] p = m.getParameterTypes();
 			typeInput = p[p.length-2];
-			isFloat = GeneralizedImageOps.isFloatingPoint(typeInput);
+			isFloat = GIO.isFloatingPoint(typeInput);
 			typeOutput = p[p.length-1];
 
 //			System.out.println(typeInput.getSimpleName()+" "+typeOutput.getSimpleName());

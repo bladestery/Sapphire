@@ -18,8 +18,11 @@
 
 package boofcv.abst.fiducial;
 
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.fiducial.square.DetectFiducialSquareImage;
 import boofcv.alg.filter.binary.GThresholdImageOps;
+import boofcv.alg.filter.binary.ThresholdImageOps;
+import boofcv.core.image.GeneralizedImageOps;
 import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.ImageGray;
 
@@ -31,6 +34,10 @@ import boofcv.struct.image.ImageGray;
 public class SquareImage_to_FiducialDetector<T extends ImageGray>
 	extends SquareBase_to_FiducialDetector<T,DetectFiducialSquareImage<T>>
 {
+	private static GThresholdImageOps GTIO;
+	private static ThresholdImageOps TIO;
+	private static InputSanityCheck ISC;
+	private static GeneralizedImageOps GIO;
 	DetectFiducialSquareImage<T> alg;
 
 	public SquareImage_to_FiducialDetector(DetectFiducialSquareImage<T> alg) {
@@ -47,7 +54,7 @@ public class SquareImage_to_FiducialDetector<T extends ImageGray>
 	 */
 	public void addPatternImage(T pattern, double threshold, double lengthSide) {
 		GrayU8 binary = new GrayU8(pattern.width,pattern.height);
-		GThresholdImageOps.threshold(pattern,binary,threshold,false);
+		GTIO.threshold(pattern,binary,threshold,false, TIO, ISC, GIO);
 		alg.addPattern(binary, lengthSide);
 	}
 

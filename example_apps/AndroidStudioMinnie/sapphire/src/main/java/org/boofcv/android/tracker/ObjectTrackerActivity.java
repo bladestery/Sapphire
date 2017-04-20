@@ -43,7 +43,7 @@ import georegression.struct.shapes.Quadrilateral_F64;
 public class ObjectTrackerActivity extends DemoVideoDisplayActivity
 		implements AdapterView.OnItemSelectedListener, View.OnTouchListener
 {
-
+	private ImageType IT;
 	Spinner spinnerView;
 
 	int mode = 0;
@@ -96,27 +96,27 @@ public class ObjectTrackerActivity extends DemoVideoDisplayActivity
 
 		switch (pos) {
 			case 0:
-				imageType = ImageType.single(GrayU8.class);
+				imageType = IT.single(GrayU8.class);
 				tracker = FactoryTrackerObjectQuad.circulant(null,GrayU8.class);
 				break;
 
 			case 1:
-				imageType = ImageType.pl(3, GrayU8.class);
+				imageType = IT.pl(3, GrayU8.class);
 				tracker = FactoryTrackerObjectQuad.meanShiftComaniciu2003(new ConfigComaniciu2003(false),imageType);
 				break;
 
 			case 2:
-				imageType = ImageType.pl(3, GrayU8.class);
+				imageType = IT.pl(3, GrayU8.class);
 				tracker = FactoryTrackerObjectQuad.meanShiftComaniciu2003(new ConfigComaniciu2003(true),imageType);
 				break;
 
 			case 3:
-				imageType = ImageType.pl(3, GrayU8.class);
+				imageType = IT.pl(3, GrayU8.class);
 				tracker = FactoryTrackerObjectQuad.meanShiftLikelihood(30,5,256, MeanShiftLikelihoodType.HISTOGRAM,imageType);
 				break;
 
 			case 4:{
-				imageType = ImageType.single(GrayU8.class);
+				imageType = IT.single(GrayU8.class);
 				SfotConfig config = new SfotConfig();
 				config.numberOfSamples = 10;
 				config.robustMaxError = 30;
@@ -124,7 +124,7 @@ public class ObjectTrackerActivity extends DemoVideoDisplayActivity
 			}break;
 
 			case 5:
-				imageType = ImageType.single(GrayU8.class);
+				imageType = IT.single(GrayU8.class);
 				tracker = FactoryTrackerObjectQuad.tld(new ConfigTld(false),GrayU8.class);
 				break;
 
@@ -179,7 +179,7 @@ public class ObjectTrackerActivity extends DemoVideoDisplayActivity
 		private Paint textPaint = new Paint();
 
 		protected TrackingProcessing(TrackerObjectQuad tracker , ImageType<T> inputType) {
-			super(ImageType.pl(3, GrayU8.class));
+			super(IT.pl(3, GrayU8.class));
 			this.inputType = inputType;
 
 			if( inputType.getFamily() == ImageType.Family.GRAY ) {

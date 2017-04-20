@@ -42,7 +42,7 @@ import boofcv.struct.image.GrayS16;
  * @author Peter Abeles
  */
 public class HessianBlobIntensity {
-
+	private static InputSanityCheck ISC;
 	/**
 	 * Different types of Hessian blob detectors
 	 */
@@ -68,7 +68,7 @@ public class HessianBlobIntensity {
 	 */
 	public static void determinant(GrayF32 featureIntensity , GrayF32 hessianXX, GrayF32 hessianYY , GrayF32 hessianXY )
 	{
-		InputSanityCheck.checkSameShape(featureIntensity,hessianXX,hessianYY,hessianXY);
+		ISC.checkSameShape(featureIntensity,hessianXX,hessianYY,hessianXY);
 
 		ImplHessianBlobIntensity.determinant(featureIntensity,hessianXX,hessianYY,hessianXY);
 	}
@@ -82,7 +82,7 @@ public class HessianBlobIntensity {
 	 */
 	public static void trace(GrayF32 featureIntensity , GrayF32 hessianXX, GrayF32 hessianYY )
 	{
-		InputSanityCheck.checkSameShape(featureIntensity,hessianXX,hessianYY);
+		ISC.checkSameShape(featureIntensity,hessianXX,hessianYY);
 
 		ImplHessianBlobIntensity.trace(featureIntensity,hessianXX,hessianYY);
 	}
@@ -97,7 +97,7 @@ public class HessianBlobIntensity {
 	 */
 	public static void determinant(GrayF32 featureIntensity , GrayS16 hessianXX, GrayS16 hessianYY , GrayS16 hessianXY )
 	{
-		InputSanityCheck.checkSameShape(featureIntensity,hessianXX,hessianYY,hessianXY);
+		ISC.checkSameShape(featureIntensity,hessianXX,hessianYY,hessianXY);
 
 		ImplHessianBlobIntensity.determinant(featureIntensity,hessianXX,hessianYY,hessianXY);
 	}
@@ -111,7 +111,7 @@ public class HessianBlobIntensity {
 	 */
 	public static void trace(GrayF32 featureIntensity , GrayS16 hessianXX, GrayS16 hessianYY )
 	{
-		InputSanityCheck.checkSameShape(featureIntensity,hessianXX,hessianYY);
+		ISC.checkSameShape(featureIntensity,hessianXX,hessianYY);
 
 		ImplHessianBlobIntensity.trace(featureIntensity,hessianXX,hessianYY);
 	}

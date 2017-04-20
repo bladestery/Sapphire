@@ -32,8 +32,8 @@ import java.util.Arrays;
  * @author Peter Abeles
  */
 public class ImageSegmentationOps {
-
-
+	private static InputSanityCheck ISC;
+	private static ImageMiscOps IMO;
 	/**
 	 * Counts the number of instances of 'which' inside the labeled image.
 	 *
@@ -84,7 +84,7 @@ public class ImageSegmentationOps {
 	 */
 	public static void regionPixelId_to_Compact(GrayS32 graph, GrowQueue_I32 segmentId, GrayS32 output) {
 
-		InputSanityCheck.checkSameShape(graph,output);
+		ISC.checkSameShape(graph,output);
 
 		// Change the label of root nodes to be the new compacted labels
 		for( int i = 0; i < segmentId.size; i++ ) {
@@ -109,7 +109,6 @@ public class ImageSegmentationOps {
 			output.data[output.startIndex + y*output.stride + x] = i;
 		}
 	}
-
 	/**
 	 * Indicates border pixels between two regions.  If two adjacent pixels (4-connect) are not from the same region
 	 * then both pixels are marked as true (value of 1) in output image, all other pixels are false (0).
@@ -119,9 +118,9 @@ public class ImageSegmentationOps {
 	 */
 	public static void markRegionBorders(GrayS32 labeled , GrayU8 output ) {
 
-		InputSanityCheck.checkSameShape(labeled,output);
+		ISC.checkSameShape(labeled,output);
 
-		ImageMiscOps.fill(output,0);
+		IMO.fill(output,0);
 
 		for( int y = 0; y < output.height-1; y++ ) {
 			int indexLabeled = labeled.startIndex + y*labeled.stride;

@@ -38,7 +38,7 @@ import java.util.List;
  * @author Peter Abeles
  */
 public class ScaleSpacePyramidPointPanel extends JPanel implements MouseListener {
-
+	private GeneralizedImageOps GIO;
 	private PyramidFloat ss;
 	BufferedImage background;
 	List<ScalePoint> points = new ArrayList<>();
@@ -85,7 +85,7 @@ public class ScaleSpacePyramidPointPanel extends JPanel implements MouseListener
 		if( level > 0 && ss != null ) {
 
 			ImageGray small = ss.getLayer(level-1);
-			ImageGray enlarge = GeneralizedImageOps.createSingleBand(small.getClass(), ss.getInputWidth(), ss.getInputHeight());
+			ImageGray enlarge = GIO.createSingleBand(small.getClass(), ss.getInputWidth(), ss.getInputHeight());
 			new FDistort(small,enlarge).interpNN().apply();
 
 			// if the size isn't the same null it so a new image will be declared

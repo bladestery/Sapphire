@@ -46,6 +46,8 @@ public class DenoiseBayesShrink_F32 extends SubbandShrink<GrayF32> {
 
 	float noiseVariance;
 
+	private ImageStatistics IS;
+
 	public DenoiseBayesShrink_F32( ShrinkThresholdRule<GrayF32> rule ) {
 		super(rule);
 	}
@@ -55,7 +57,7 @@ public class DenoiseBayesShrink_F32 extends SubbandShrink<GrayF32> {
 	{
 		// the maximum magnitude coefficient is used to normalize all the other coefficients
 		// and reduce numerical round-off error
-		float max = ImageStatistics.maxAbs(subband);
+		float max = IS.maxAbs(subband);
 		float varianceY = 0;
 		for( int y = 0; y < subband.height; y++ ) {
 			int index = subband.startIndex + subband.stride*y;

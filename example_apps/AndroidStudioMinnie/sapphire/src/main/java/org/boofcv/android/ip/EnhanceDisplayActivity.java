@@ -31,7 +31,8 @@ import boofcv.struct.image.Planar;
 public class EnhanceDisplayActivity extends DemoVideoDisplayActivity
 		implements AdapterView.OnItemSelectedListener, CompoundButton.OnCheckedChangeListener
 {
-
+	private ImageType IT;
+	private ImageStatistics IS;
 	Spinner spinnerView;
 	CheckBox checkColor;
 
@@ -118,7 +119,7 @@ public class EnhanceDisplayActivity extends DemoVideoDisplayActivity
 		GrayU8 enhanced;
 
 		protected EnhanceProcessing() {
-			super(ImageType.single(GrayU8.class));
+			super( IT.single(GrayU8.class));
 		}
 
 		@Override
@@ -134,7 +135,7 @@ public class EnhanceDisplayActivity extends DemoVideoDisplayActivity
 		GrayU8 gray;
 
 		public EnhanceProcessingColor() {
-			super(ImageType.pl(3, GrayU8.class));
+			super( IT.pl(3, GrayU8.class));
 		}
 
 		@Override
@@ -153,7 +154,7 @@ public class EnhanceDisplayActivity extends DemoVideoDisplayActivity
 
 		@Override
 		protected void process(GrayU8 input, Bitmap output, byte[] storage) {
-			ImageStatistics.histogram(input, histogram);
+			IS.histogram(input, histogram);
 			EnhanceImageOps.equalize(histogram, transform);
 			EnhanceImageOps.applyTransform(input, transform, enhanced);
 			ConvertBitmap.grayToBitmap(enhanced,output,storage);
@@ -167,7 +168,7 @@ public class EnhanceDisplayActivity extends DemoVideoDisplayActivity
 		@Override
 		protected void process(Planar<GrayU8> input, Bitmap output, byte[] storage) {
 			ConvertImage.average(input,gray);
-			ImageStatistics.histogram(gray, histogram);
+			IS.histogram(gray, histogram);
 			EnhanceImageOps.equalize(histogram, transform);
 			for( int i = 0; i < 3; i++ )
 				EnhanceImageOps.applyTransform(input.getBand(i), transform, enhanced.getBand(i));

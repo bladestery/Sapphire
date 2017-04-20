@@ -41,6 +41,9 @@ import georegression.struct.InvertibleTransform;
 public class BackgroundMovingBasic_SB<T extends ImageGray, Motion extends InvertibleTransform<Motion>>
 	extends BackgroundMovingBasic<T,Motion>
 {
+	private static ImageMiscOps IMO;
+	private static ImageType IT;
+	private static FactoryImageBorder FIB;
 	// storage for background image
 	protected GrayF32 background = new GrayF32(1,1);
 	// interpolates the input image
@@ -55,12 +58,12 @@ public class BackgroundMovingBasic_SB<T extends ImageGray, Motion extends Invert
 									Point2Transform2Model_F32<Motion> transform,
 									InterpolationType interpType,
 									Class<T> imageType) {
-		super(learnRate, threshold, transform, ImageType.single(imageType));
+		super(learnRate, threshold, transform, IT.single(imageType));
 
 		this.interpolateInput = FactoryInterpolation.bilinearPixelS(imageType, BorderType.EXTENDED);
 
 		this.interpolationBG = FactoryInterpolation.createPixelS(0, 255, interpType, BorderType.EXTENDED, GrayF32.class);
-		this.interpolationBG.setBorder(FactoryImageBorder.single(GrayF32.class, BorderType.EXTENDED));
+		this.interpolationBG.setBorder(FIB.single(GrayF32.class, BorderType.EXTENDED));
 		this.interpolationBG.setImage(background);
 
 		inputWrapper = FactoryGImageGray.create(imageType);
@@ -78,7 +81,7 @@ public class BackgroundMovingBasic_SB<T extends ImageGray, Motion extends Invert
 	@Override
 	public void initialize(int backgroundWidth, int backgroundHeight, Motion homeToWorld) {
 		background.reshape(backgroundWidth,backgroundHeight);
-		ImageMiscOps.fill(background,Float.MAX_VALUE);
+		IMO.fill(background,Float.MAX_VALUE);
 
 		this.homeToWorld.set(homeToWorld);
 		this.homeToWorld.invert(worldToHome);
@@ -89,7 +92,7 @@ public class BackgroundMovingBasic_SB<T extends ImageGray, Motion extends Invert
 
 	@Override
 	public void reset() {
-		ImageMiscOps.fill(background,Float.MAX_VALUE);
+		IMO.fill(background,Float.MAX_VALUE);
 	}
 
 	@Override

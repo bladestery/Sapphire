@@ -19,8 +19,13 @@
 package boofcv.alg.flow;
 
 import boofcv.abst.filter.derivative.ImageGradient;
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
 import boofcv.alg.interpolate.InterpolatePixelS;
 import boofcv.alg.misc.ImageMiscOps;
+import boofcv.core.image.GeneralizedImageOps;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.filter.derivative.FactoryDerivative;
 import boofcv.factory.flow.ConfigHornSchunckPyramid;
 import boofcv.struct.image.GrayF32;
@@ -47,6 +52,13 @@ import boofcv.struct.pyramid.ImagePyramid;
 public class HornSchunckPyramid< T extends ImageGray>
 		extends DenseFlowPyramidBase<T>
 {
+	private static ImageMiscOps IMO;
+	private static FactoryDerivative FD;
+	private static GeneralizedImageOps GIO;
+	private static FactoryImageBorder FIB;
+	private static InputSanityCheck ISC;
+	private static DerivativeHelperFunctions DHF;
+	private static ConvolveImageNoBorder CINB;
 	// used to weight the error of image brightness and smoothness of velocity flow
 	private float alpha2;
 
@@ -61,7 +73,7 @@ public class HornSchunckPyramid< T extends ImageGray>
 	private float convergeTolerance;
 
 	// computes the image gradient
-	private ImageGradient<GrayF32, GrayF32> gradient = FactoryDerivative.three(GrayF32.class, GrayF32.class);
+	private ImageGradient<GrayF32, GrayF32> gradient = FD.three(GrayF32.class, GrayF32.class, GIO, FIB);
 
 	// image gradient second image
 	private GrayF32 deriv2X = new GrayF32(1,1);
@@ -124,7 +136,7 @@ public class HornSchunckPyramid< T extends ImageGray>
 			warpImage2.reshape(layer1.width,layer1.height);
 
 			// compute the gradient for the second image
-			gradient.process(layer2,deriv2X,deriv2Y);
+			gradient.process(layer2,deriv2X,deriv2Y, ISC, DHF, CINB);
 
 			if( !first ) {
 				// interpolate initial flow from previous layer
@@ -138,10 +150,10 @@ public class HornSchunckPyramid< T extends ImageGray>
 				flowX.reshape(layer1.width,layer1.height);
 				flowY.reshape(layer1.width,layer1.height);
 
-				ImageMiscOps.fill(flowX,0);
-				ImageMiscOps.fill(flowY,0);
-				ImageMiscOps.fill(initFlowX,0);
-				ImageMiscOps.fill(initFlowY,0);
+				IMO.fill(flowX,0);
+				IMO.fill(flowY,0);
+				IMO.fill(initFlowX,0);
+				IMO.fill(initFlowY,0);
 			}
 
 			// compute flow for this layer

@@ -19,6 +19,7 @@
 package boofcv.alg.filter.derivative;
 
 import boofcv.alg.InputSanityCheck;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
 import boofcv.alg.filter.derivative.impl.GradientTwo1_Standard;
 import boofcv.core.image.border.ImageBorder_F32;
 import boofcv.core.image.border.ImageBorder_S32;
@@ -47,7 +48,9 @@ import boofcv.struct.image.GrayU8;
  * @author Peter Abeles
  */
 public class GradientTwo1 {
-
+	private static InputSanityCheck ISC;
+	private static DerivativeHelperFunctions DHF;
+	private static ConvolveImageNoBorder CINB;
 	public static Kernel1D_I32 kernelDeriv_I32 = new Kernel1D_I32(new int[]{-1,1}, 2, 1);
 	public static Kernel1D_F32 kernelDeriv_F32 = new Kernel1D_F32(new float[]{-1,1}, 2, 1);
 
@@ -71,12 +74,12 @@ public class GradientTwo1 {
 	 */
 	public static void process(GrayU8 orig,
 							   GrayS16 derivX, GrayS16 derivY, ImageBorder_S32 border ) {
-		InputSanityCheck.checkSameShape(orig, derivX, derivY);
+		ISC.checkSameShape(orig, derivX, derivY);
 		GradientTwo1_Standard.process(orig, derivX, derivY);
 
 		if( border != null ) {
-			DerivativeHelperFunctions.processBorderHorizontal(orig, derivX , kernelDeriv_I32, border);
-			DerivativeHelperFunctions.processBorderVertical(orig, derivY , kernelDeriv_I32, border);
+			DHF.processBorderHorizontal(orig, derivX , kernelDeriv_I32, border, CINB, ISC);
+			DHF.processBorderVertical(orig, derivY , kernelDeriv_I32, border, CINB, ISC);
 		}
 	}
 
@@ -90,12 +93,12 @@ public class GradientTwo1 {
 	 */
 	public static void process(GrayS16 orig,
 							   GrayS16 derivX, GrayS16 derivY, ImageBorder_S32 border) {
-		InputSanityCheck.checkSameShape(orig, derivX, derivY);
+		ISC.checkSameShape(orig, derivX, derivY);
 		GradientTwo1_Standard.process(orig, derivX, derivY);
 
 		if( border != null ) {
-			DerivativeHelperFunctions.processBorderHorizontal(orig, derivX , kernelDeriv_I32, border);
-			DerivativeHelperFunctions.processBorderVertical(orig, derivY , kernelDeriv_I32, border);
+			DHF.processBorderHorizontal(orig, derivX , kernelDeriv_I32, border, CINB, ISC);
+			DHF.processBorderVertical(orig, derivY , kernelDeriv_I32, border, CINB, ISC);
 		}
 	}
 
@@ -109,12 +112,12 @@ public class GradientTwo1 {
 	 */
 	public static void process(GrayF32 orig,
 							   GrayF32 derivX, GrayF32 derivY, ImageBorder_F32 border) {
-		InputSanityCheck.checkSameShape(orig, derivX, derivY);
+		ISC.checkSameShape(orig, derivX, derivY);
 		GradientTwo1_Standard.process(orig, derivX, derivY);
 
 		if( border != null ) {
-			DerivativeHelperFunctions.processBorderHorizontal(orig, derivX , kernelDeriv_F32, border);
-			DerivativeHelperFunctions.processBorderVertical(orig, derivY , kernelDeriv_F32, border);
+			DHF.processBorderHorizontal(orig, derivX , kernelDeriv_F32, border, CINB, ISC);
+			DHF.processBorderVertical(orig, derivY , kernelDeriv_F32, border, CINB, ISC);
 		}
 	}
 

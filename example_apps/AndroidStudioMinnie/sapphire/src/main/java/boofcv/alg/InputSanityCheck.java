@@ -23,13 +23,14 @@ import boofcv.struct.image.ImageBase;
 import boofcv.struct.image.ImageGray;
 import boofcv.struct.image.ImageMultiBand;
 import boofcv.struct.pyramid.ImagePyramid;
+import sapphire.app.SapphireObject;
 
 /**
  * @author Peter Abeles
  */
 // todo move to misc?
-public class InputSanityCheck {
-
+public class InputSanityCheck implements SapphireObject {
+	public InputSanityCheck() {}
 	/**
 	 * Checks to see if the target image is null or if it is a different size than
 	 * the test image.  If it is null then a new image is returned, otherwise
@@ -41,10 +42,10 @@ public class InputSanityCheck {
 	 * @param <T>
 	 * @return
 	 */
-	public static <T extends ImageGray> T checkReshape(T target , ImageGray testImage , Class<T> targetType )
+	public <T extends ImageGray> T checkReshape(T target , ImageGray testImage , Class<T> targetType , GeneralizedImageOps GIO)
 	{
 		if( target == null ) {
-			return GeneralizedImageOps.createSingleBand(targetType, testImage.width, testImage.height);
+			return GIO.createSingleBand(targetType, testImage.width, testImage.height);
 		} else if( target.width != testImage.width || target.height != testImage.height ) {
 			target.reshape(testImage.width,testImage.height);
 		}
@@ -55,7 +56,7 @@ public class InputSanityCheck {
 	 * If the output has not been declared a new instance is declared.  If an instance of the output
 	 * is provided its bounds are checked.
 	 */
-	public static <T extends ImageGray> T checkDeclare(T input, T output) {
+	public <T extends ImageGray> T checkDeclare(T input, T output) {
 		if (output == null) {
 			output = (T) input.createNew(input.width, input.height);
 		} else if (output.width != input.width || output.height != input.height)
@@ -67,23 +68,23 @@ public class InputSanityCheck {
 	 * If the output has not been declared a new instance is declared.  If an instance of the output
 	 * is provided its bounds are checked.
 	 */
-	public static <In extends ImageGray,Out extends ImageGray>
-	Out checkDeclare(In input, Out output , Class<Out> typeOut) {
+	public <In extends ImageGray,Out extends ImageGray>
+	Out checkDeclare(In input, Out output , Class<Out> typeOut, GeneralizedImageOps GIO) {
 		if (output == null) {
-			output = (Out) GeneralizedImageOps.createSingleBand(typeOut,input.width, input.height);
+			output = (Out) GIO.createSingleBand(typeOut,input.width, input.height);
 		} else if (output.width != input.width || output.height != input.height)
 			throw new IllegalArgumentException("Width and/or height of input and output do not match. "+input.width+"x"+input.height+" "+output.width+"x"+output.height);
 		return output;
 	}
 
-	public static void checkSameShape(ImageBase<?> imgA, ImageBase<?> imgB) {
+	public void checkSameShape(ImageBase<?> imgA, ImageBase<?> imgB) {
 		if (imgA.width != imgB.width)
 			throw new IllegalArgumentException("Image widths do not match. "+imgA.width+" "+imgB.width);
 		if (imgA.height != imgB.height)
 			throw new IllegalArgumentException("Image heights do not match. "+imgA.height+" "+imgB.height);
 	}
 
-	public static void checkSameShapeB(ImageMultiBand<?> imgA, ImageMultiBand<?> imgB) {
+	public void checkSameShapeB(ImageMultiBand<?> imgA, ImageMultiBand<?> imgB) {
 		if (imgA.width != imgB.width)
 			throw new IllegalArgumentException("Image widths do not match. "+imgA.width+" "+imgB.width);
 		if (imgA.height != imgB.height)
@@ -92,7 +93,7 @@ public class InputSanityCheck {
 			throw new IllegalArgumentException("Number of bands do not match "+imgA.getNumBands()+" "+imgB.getNumBands());
 	}
 
-	public static void checkSameShape(ImagePyramid<?> imgA, ImagePyramid<?> imgB) {
+	public void checkSameShape(ImagePyramid<?> imgA, ImagePyramid<?> imgB) {
 		if (imgA.getNumLayers() != imgB.getNumLayers())
 			throw new IllegalArgumentException("Number of layers do not match");
 		int N = imgA.getNumLayers();
@@ -102,21 +103,21 @@ public class InputSanityCheck {
 		}
 	}
 
-	public static void checkSameShape(ImageBase<?> imgA, ImageBase<?> imgB, ImageBase<?> imgC) {
+	public void checkSameShape(ImageBase<?> imgA, ImageBase<?> imgB, ImageBase<?> imgC) {
 		if (imgA.width != imgB.width || imgA.width != imgC.width)
 			throw new IllegalArgumentException("Image widths do not match.");
 		if (imgA.height != imgB.height || imgA.height != imgC.height)
 			throw new IllegalArgumentException("Image heights do not match.");
 	}
 
-	public static void checkSameShape(ImageBase<?> imgA, ImageBase<?> imgB, ImageBase<?> imgC , ImageBase<?> imgD) {
+	public void checkSameShape(ImageBase<?> imgA, ImageBase<?> imgB, ImageBase<?> imgC , ImageBase<?> imgD) {
 		if (imgA.width != imgB.width || imgA.width != imgC.width || imgA.width != imgD.width )
 			throw new IllegalArgumentException("Image widths do not match.");
 		if (imgA.height != imgB.height || imgA.height != imgC.height || imgA.height != imgD.height )
 			throw new IllegalArgumentException("Image heights do not match.");
 	}
 
-	public static void checkSameShape(ImageBase<?> imgA, ImageBase<?> imgB, ImageBase<?> imgC , ImageBase<?> imgD , ImageBase<?> imgE) {
+	public void checkSameShape(ImageBase<?> imgA, ImageBase<?> imgB, ImageBase<?> imgC , ImageBase<?> imgD , ImageBase<?> imgE) {
 		if (imgA.width != imgB.width || imgA.width != imgC.width || imgA.width != imgD.width || imgA.width != imgE.width )
 			throw new IllegalArgumentException("Image widths do not match.");
 		if (imgA.height != imgB.height || imgA.height != imgC.height || imgA.height != imgD.height || imgA.height != imgE.height)
@@ -126,12 +127,12 @@ public class InputSanityCheck {
 	/**
 	 * Makes sure the input image is not a sub-image
 	 */
-	public static void checkSubimage( ImageBase image ) {
+	public void checkSubimage( ImageBase image ) {
 		if( image.isSubimage() )
 			throw new IllegalArgumentException("Input image cannot be a subimage");
 	}
 
-	public static void checkIndexing( ImageBase imgA , ImageBase imgB )
+	public void checkIndexing( ImageBase imgA , ImageBase imgB )
 	{
 		if( imgA.stride != imgB.stride )
 			throw new IllegalArgumentException("Strides of images are not the same");

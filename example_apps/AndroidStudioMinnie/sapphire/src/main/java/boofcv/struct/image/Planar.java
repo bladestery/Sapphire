@@ -59,7 +59,8 @@ import java.lang.reflect.Array;
  * @author Peter Abeles
  */
 public class Planar<T extends ImageGray> extends ImageMultiBand<Planar<T>>{
-
+	private GeneralizedImageOps GIO;
+	private ImageType IT;
 	/**
 	 * Type of image in each band
 	 */
@@ -86,9 +87,9 @@ public class Planar<T extends ImageGray> extends ImageMultiBand<Planar<T>>{
 		this.bands = (T[]) Array.newInstance(type, numBands);
 
 		for (int i = 0; i < numBands; i++) {
-			bands[i] = GeneralizedImageOps.createSingleBand(type, width, height);
+			bands[i] = GIO.createSingleBand(type, width, height);
 		}
-		this.imageType = ImageType.pl(numBands,type);
+		this.imageType = IT.pl(numBands,type);
 	}
 	
 	/**
@@ -100,7 +101,7 @@ public class Planar<T extends ImageGray> extends ImageMultiBand<Planar<T>>{
 	public Planar(Class<T> type, int numBands) {
 		this.type = type;
 		this.bands = (T[]) Array.newInstance(type, numBands);
-		this.imageType = ImageType.pl(numBands,type);
+		this.imageType = IT.pl(numBands,type);
 	}
 
 

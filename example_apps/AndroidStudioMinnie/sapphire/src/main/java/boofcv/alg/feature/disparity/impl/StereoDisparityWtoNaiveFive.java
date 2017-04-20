@@ -31,6 +31,8 @@ import java.util.Arrays;
  * @author Peter Abeles
  */
 public class StereoDisparityWtoNaiveFive<I extends ImageGray> {
+	private static GeneralizedImageOps GIO;
+	private static InputSanityCheck ISC;
 	// left and right camera images
 	I imageLeft;
 	I imageRight;
@@ -74,7 +76,7 @@ public class StereoDisparityWtoNaiveFive<I extends ImageGray> {
 	 */
 	public void process( I left , I right , GrayF32 imageDisparity ) {
 		// check inputs and initialize data structures
-		InputSanityCheck.checkSameShape(left,right,imageDisparity);
+		ISC.checkSameShape(left,right,imageDisparity);
 		this.imageLeft = left;
 		this.imageRight = right;
 
@@ -163,8 +165,8 @@ public class StereoDisparityWtoNaiveFive<I extends ImageGray> {
 
 		for( int y = -radiusY; y <= radiusY; y++ ) {
 			for( int x = -radiusX; x <= radiusX; x++ ) {
-				double l = GeneralizedImageOps.get(imageLeft,leftX+x,centerY+y);
-				double r = GeneralizedImageOps.get(imageRight,rightX+x,centerY+y);
+				double l = GIO.get(imageLeft,leftX+x,centerY+y);
+				double r = GIO.get(imageRight,rightX+x,centerY+y);
 
 				ret += Math.abs(l-r);
 			}

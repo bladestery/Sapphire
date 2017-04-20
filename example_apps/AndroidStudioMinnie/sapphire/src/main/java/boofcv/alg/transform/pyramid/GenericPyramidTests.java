@@ -20,6 +20,7 @@ package boofcv.alg.transform.pyramid;
 
 import boofcv.alg.misc.GImageMiscOps;
 import boofcv.alg.misc.GImageStatistics;
+import boofcv.alg.misc.ImageStatistics;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.struct.image.ImageGray;
 import boofcv.struct.pyramid.ImagePyramid;
@@ -36,7 +37,9 @@ import static org.junit.Assert.assertTrue;
  * @author Peter Abeles
  */
 public abstract class GenericPyramidTests<T extends ImageGray> {
-
+	private static GeneralizedImageOps GIO;
+	private static GImageStatistics GIS;
+	private static ImageStatistics IS;
 	Random rand = new Random(234);
 	int width = 80;
 	int height = 120;
@@ -52,7 +55,7 @@ public abstract class GenericPyramidTests<T extends ImageGray> {
 	 */
 	@Test
 	public void checkModifiesLayersOnUpdate() {
-		T input = GeneralizedImageOps.createSingleBand(imageType, width, height);
+		T input = GIO.createSingleBand(imageType, width, height);
 		ImagePyramid<T> pyramid = createPyramid(1,2,4);
 		GImageMiscOps.fillUniform(input, rand, 0, 100);
 
@@ -60,7 +63,7 @@ public abstract class GenericPyramidTests<T extends ImageGray> {
 
 		for( int i = 0; i < pyramid.getNumLayers(); i++ ) {
 			T image = pyramid.getLayer(i);
-			assertTrue( GImageStatistics.sum(image) > 0 );
+			assertTrue( GIS.sum(image, IS) > 0 );
 		}
 	}
 

@@ -27,6 +27,7 @@ import boofcv.alg.feature.describe.brief.BinaryCompareDefinition_I32;
 import boofcv.alg.feature.describe.brief.FactoryBriefDefinition;
 import boofcv.alg.feature.detect.interest.SiftScaleSpace;
 import boofcv.alg.transform.ii.GIntegralImageOps;
+import boofcv.core.image.GeneralizedImageOps;
 import boofcv.factory.filter.blur.FactoryBlurFilter;
 import boofcv.struct.feature.*;
 import boofcv.struct.image.*;
@@ -40,7 +41,8 @@ import java.util.Random;
  * @author Peter Abeles
  */
 public class FactoryDescribeRegionPoint {
-
+	private static FactoryBlurFilter FBF;
+	private static GeneralizedImageOps GIO;
 	/**
 	 * <p>
 	 * Creates a SURF descriptor.  SURF descriptors are invariant to illumination, orientation, and scale.
@@ -189,7 +191,7 @@ public class FactoryDescribeRegionPoint {
 			config = new ConfigBrief();
 		config.checkValidity();
 
-		BlurFilter<T> filter = FactoryBlurFilter.gaussian(imageType,config.blurSigma,config.blurRadius);
+		BlurFilter<T> filter = FBF.gaussian(imageType,config.blurSigma,config.blurRadius, GIO);
 		BinaryCompareDefinition_I32 definition =
 				FactoryBriefDefinition.gaussian2(new Random(123), config.radius, config.numPoints);
 

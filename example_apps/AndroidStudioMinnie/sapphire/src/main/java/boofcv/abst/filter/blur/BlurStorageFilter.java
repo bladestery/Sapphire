@@ -18,11 +18,26 @@
 
 package boofcv.abst.filter.blur;
 
+import android.renderscript.ScriptGroup;
+
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.filter.blur.BlurImageOps;
 import boofcv.alg.filter.blur.GBlurImageOps;
+import boofcv.alg.filter.blur.impl.ImplMedianHistogramInner;
+import boofcv.alg.filter.blur.impl.ImplMedianSortEdgeNaive;
+import boofcv.alg.filter.blur.impl.ImplMedianSortNaive;
+import boofcv.alg.filter.convolve.ConvolveImageMean;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
 import boofcv.core.image.GeneralizedImageOps;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.image.ImageBase;
 import boofcv.struct.image.ImageGray;
 import boofcv.struct.image.ImageType;
+import sapphire.app.SapphireObject;
 
 /**
  * Simplified interface for using a blur filter that requires storage.  Reflections are used to look up a function inside
@@ -30,8 +45,7 @@ import boofcv.struct.image.ImageType;
  *
  * @author Peter Abeles
  */
-public class BlurStorageFilter<T extends ImageGray> implements BlurFilter<T> {
-
+public class BlurStorageFilter<T extends ImageGray> implements BlurFilter<T>, SapphireObject {
 	// Wrapper around performed operation
 	private BlurOperation operation;
 
@@ -45,21 +59,21 @@ public class BlurStorageFilter<T extends ImageGray> implements BlurFilter<T> {
 	// type of image it processes
 	Class<T> inputType;
 
-	public BlurStorageFilter( String functionName , Class<T> inputType, int radius) {
-		this(functionName,inputType,-1,radius);
+	public BlurStorageFilter( String functionName , Class<T> inputType, int radius, GeneralizedImageOps GIO) {
+		this(functionName,inputType,-1,radius, GIO);
 	}
 
-	public BlurStorageFilter( String functionName , Class<T> inputType, double sigma , int radius) {
+	public BlurStorageFilter( String functionName , Class<T> inputType, double sigma , int radius, GeneralizedImageOps GIO) {
 		this.radius = radius;
 		this.sigma = sigma;
 		this.inputType = inputType;
 
 		if( functionName.equals("mean")) {
 			operation = new MeanOperation();
-			storage = GeneralizedImageOps.createSingleBand(inputType,1,1);
+			storage = GIO.createSingleBand(inputType,1,1);
 		} else if( functionName.equals("gaussian")) {
 			operation = new GaussianOperation();
-			storage = GeneralizedImageOps.createSingleBand(inputType,1,1);
+			storage = GIO.createSingleBand(inputType,1,1);
 		} else if( functionName.equals("median")) {
 			operation = new MedianOperator();
 		} else {
@@ -84,10 +98,12 @@ public class BlurStorageFilter<T extends ImageGray> implements BlurFilter<T> {
 	}
 
 	@Override
-	public void process(T input, T output) {
+	public void process(T input, T output, GBlurImageOps GBIO, InputSanityCheck ISC, GeneralizedImageOps GIO, BlurImageOps BIO,
+						ConvolveImageMean CIM, FactoryKernelGaussian FKG, ConvolveNormalized CN, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB,
+						ConvolveNormalized_JustBorder CNJB, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM) {
 		if( storage != null )
 			storage.reshape(output.width, output.height);
-		operation.process(input,output);
+		operation.process(input,output, ISC, GBIO, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM);
 	}
 
 	@Override
@@ -101,37 +117,45 @@ public class BlurStorageFilter<T extends ImageGray> implements BlurFilter<T> {
 	}
 
 	@Override
-	public ImageType<T> getInputType() {
-		return ImageType.single(inputType);
+	public ImageType<T> getInputType(ImageType IT) {
+		return IT.single(inputType);
 	}
 
 	@Override
-	public ImageType<T> getOutputType() {
-		return ImageType.single(inputType);
+	public ImageType<T> getOutputType(ImageType IT) {
+		return IT.single(inputType);
 	}
 
-	private interface BlurOperation {
-		public void process(ImageBase input , ImageBase output );
+	public interface BlurOperation {
+		public void process(ImageBase input , ImageBase output, InputSanityCheck ISC, GBlurImageOps GBIO, GeneralizedImageOps GIO, BlurImageOps BIO,
+							ConvolveImageMean CIM, FactoryKernelGaussian FKG, ConvolveNormalized CN, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB,
+							ConvolveNormalized_JustBorder CNJB, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM);
 	}
 
-	private class MeanOperation implements BlurOperation {
+	public class MeanOperation implements BlurOperation, SapphireObject {
 		@Override
-		public void process(ImageBase input, ImageBase output) {
-			GBlurImageOps.mean(input,output,radius,storage);
+		public void process(ImageBase input, ImageBase output, InputSanityCheck ISC, GBlurImageOps GBIO, GeneralizedImageOps GIO, BlurImageOps BIO, ConvolveImageMean CIM,
+							FactoryKernelGaussian FKG, ConvolveNormalized CN, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB,
+							ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM) {
+			GBIO.mean(input,output,radius,storage, GBIO, GIO, ISC, BIO, CIM, IMHI, IMSEN, IMSN, CN, CNN, CINB, CNJB, ICM);
 		}
 	}
 
-	private class GaussianOperation implements BlurOperation {
+	public class GaussianOperation implements BlurOperation, SapphireObject {
 		@Override
-		public void process(ImageBase input, ImageBase output) {
-			GBlurImageOps.gaussian(input,output,sigma,radius,storage);
+		public void process(ImageBase input, ImageBase output, InputSanityCheck ISC, GBlurImageOps GBIO, GeneralizedImageOps GIO, BlurImageOps BIO, ConvolveImageMean CIM,
+		FactoryKernelGaussian FKG, ConvolveNormalized CN, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB,
+							ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM) {
+			GBIO.gaussian(input,output,sigma,radius,storage, ISC, GIO, GBIO, BIO, FKG, CN, CNN, CINB, CNJB);
 		}
 	}
 
-	private class MedianOperator implements BlurOperation {
+	public class MedianOperator implements BlurOperation, SapphireObject {
 		@Override
-		public void process(ImageBase input, ImageBase output) {
-			GBlurImageOps.median(input,output,radius);
+		public void process(ImageBase input, ImageBase output, InputSanityCheck ISC, GBlurImageOps GBIO, GeneralizedImageOps GIO, BlurImageOps BIO, ConvolveImageMean CIM,
+							FactoryKernelGaussian FKG, ConvolveNormalized CN, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB,
+							ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM) {
+			GBIO.median(input,output,radius, GBIO, GIO, ISC, BIO, IMHI, IMSEN, IMSN);
 		}
 	}
 }

@@ -39,7 +39,7 @@ import java.util.List;
 // todo remove all comwapare with border functions and use sub-images instead
 @SuppressWarnings({"unchecked"})
 public class BoofTesting {
-
+	private static GeneralizedImageOps GIO;
 	public static <T> T convertToGenericType(Class<?> type) {
 		if (type == GrayS8.class || type == GrayU8.class)
 			return (T) GrayI8.class;
@@ -149,7 +149,7 @@ public class BoofTesting {
 			Class params[] = m.getParameterTypes();
 			Object[] inputs = new Object[params.length];
 			for (int i = 0; i < params.length; i++) {
-				inputs[i] = GeneralizedImageOps.createSingleBand(params[i], 10, 20);
+				inputs[i] = GIO.createSingleBand(params[i], 10, 20);
 			}
 
 			try {
@@ -162,9 +162,9 @@ public class BoofTesting {
 			for (int target = 0; target < params.length; target++) {
 				for (int i = 0; i < params.length; i++) {
 					if (i != target)
-						inputs[i] = GeneralizedImageOps.createSingleBand(params[i], 10, 20);
+						inputs[i] = GIO.createSingleBand(params[i], 10, 20);
 					else
-						inputs[i] = GeneralizedImageOps.createSingleBand(params[i], 11, 22);
+						inputs[i] = GIO.createSingleBand(params[i], 11, 22);
 				}
 
 				try {
@@ -474,8 +474,8 @@ public class BoofTesting {
 			for( int y = 0; y < imgA.height; y++ ) {
 				for( int x = 0; x < imgA.width; x++ ) {
 					for( int band = 0; band < numBands; band++ ) {
-						double valA = GeneralizedImageOps.get( a, x, y, band);
-						double valB = GeneralizedImageOps.get( b, x, y, band);
+						double valA = GIO.get( a, x, y, band);
+						double valB = GIO.get( b, x, y, band);
 
 						double difference = valA - valB;
 						if( Math.abs(difference) > tol )

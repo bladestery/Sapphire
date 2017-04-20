@@ -42,7 +42,8 @@ import boofcv.struct.sparse.SparseImageGradient;
  */
 @SuppressWarnings({"unchecked"})
 public class FactoryDerivativeSparse {
-
+	private static GeneralizedImageOps GIO;
+	private static FactoryImageBorder FIB;
 	/**
 	 * Creates a sparse Laplacian filter.
 	 *
@@ -56,10 +57,10 @@ public class FactoryDerivativeSparse {
 	ImageFunctionSparse<T> createLaplacian( Class<T> imageType , ImageBorder<T> border )
 	{
 		if( border == null ) {
-			border = FactoryImageBorder.single(imageType, BorderType.EXTENDED);
+			border = FIB.single(imageType, BorderType.EXTENDED);
 		}
 
-		if( GeneralizedImageOps.isFloatingPoint(imageType)) {
+		if( GIO.isFloatingPoint(imageType)) {
 			ImageConvolveSparse<GrayF32, Kernel2D_F32> r = FactoryConvolveSparse.convolve2D(GrayF32.class, LaplacianEdge.kernel_F32);
 
 			r.setImageBorder((ImageBorder_F32)border);

@@ -36,7 +36,7 @@ import boofcv.struct.image.ImageInterleaved;
  * @author Peter Abeles
  */
 public abstract class GeneralBilinearPixelMultiChecks<T extends ImageInterleaved> extends GeneralChecksInterpolationPixelMB<T> {
-
+	private static FactoryImageBorder FIB;
 	@Override
 	protected InterpolatePixelMB<T> wrap(T image, int minValue, int maxValue) {
 		return FactoryInterpolation.bilinearPixelMB(image, null);
@@ -49,7 +49,7 @@ public abstract class GeneralBilinearPixelMultiChecks<T extends ImageInterleaved
 
 	@Override
 	protected void compute(T _img, float x, float y, float pixel[] ) {
-		ImageBorder<T> imgB = FactoryImageBorder.interleaved(_img, BorderType.EXTENDED);
+		ImageBorder<T> imgB = FIB.interleaved(_img, BorderType.EXTENDED);
 		GImageMultiBand img = FactoryGImageMultiBand.wrap(imgB);
 
 		float []X0Y0 = new float[ _img.getNumBands() ];

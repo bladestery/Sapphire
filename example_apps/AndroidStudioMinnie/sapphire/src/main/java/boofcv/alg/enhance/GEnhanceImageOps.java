@@ -27,6 +27,7 @@ import boofcv.struct.image.*;
  * @author Peter Abeles
  */
 public class GEnhanceImageOps {
+	private static InputSanityCheck ISC;
 	/**
 	 * Applies the transformation table to the provided input image.
 	 *
@@ -37,7 +38,7 @@ public class GEnhanceImageOps {
 	 */
 	public static <T extends ImageGray>
 	void applyTransform( T input , int transform[] , int minValue , T output ) {
-		InputSanityCheck.checkSameShape(input, output);
+		ISC.checkSameShape(input, output);
 
 		if( input instanceof GrayU8) {
 			EnhanceImageOps.applyTransform((GrayU8) input, transform, (GrayU8) output);

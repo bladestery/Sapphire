@@ -36,7 +36,7 @@ public abstract class GeneralSparseGradientTests
 <T extends ImageGray, D extends ImageGray,G extends GradientValue>
 	extends GeneralSparseOperatorTests<T>
 {
-
+	private GeneralizedImageOps GIO;
 	public Class<D> derivType;
 
 	// "true" derivative.  Used to validate results
@@ -53,8 +53,8 @@ public abstract class GeneralSparseGradientTests
 		super(inputType,sampleBoxX0,sampleBoxY0,sampleBoxX1,sampleBoxY1);
 		this.derivType = derivType;
 
-		derivX = GeneralizedImageOps.createSingleBand(derivType, width, height);
-		derivY = GeneralizedImageOps.createSingleBand(derivType, width, height);
+		derivX = GIO.createSingleBand(derivType, width, height);
+		derivY = GIO.createSingleBand(derivType, width, height);
 	}
 
 	/**
@@ -82,8 +82,8 @@ public abstract class GeneralSparseGradientTests
 		for( int y = -sampleBoxY0; y < height-sampleBoxY1-1; y++ ) {
 			for( int x = -sampleBoxX0; x < width-sampleBoxX1-1; x++ ) {
 				G g = alg.compute(x,y);
-				double expectedX = GeneralizedImageOps.get(derivX,x,y);
-				double expectedY = GeneralizedImageOps.get(derivY,x,y);
+				double expectedX = GIO.get(derivX,x,y);
+				double expectedY = GIO.get(derivY,x,y);
 
 				assertEquals(expectedX,g.getX(),1e-4);
 				assertEquals(expectedY,g.getY(),1e-4);
@@ -103,8 +103,8 @@ public abstract class GeneralSparseGradientTests
 		for( int y = -sampleBoxY0; y < height-sampleBoxY1-1; y++ ) {
 			for( int x = -sampleBoxX0; x < width-sampleBoxX1-1; x++ ) {
 				G g = alg.compute(x,y);
-				double expectedX = GeneralizedImageOps.get(derivX,x,y);
-				double expectedY = GeneralizedImageOps.get(derivY,x,y);
+				double expectedX = GIO.get(derivX,x,y);
+				double expectedY = GIO.get(derivY,x,y);
 
 				assertEquals(expectedX,g.getX(),1e-4);
 				assertEquals(expectedY,g.getY(),1e-4);
@@ -124,8 +124,8 @@ public abstract class GeneralSparseGradientTests
 				for( int x = 0; x < width; x++ ) {
 					if( x < sampleBoxX0 || x >= width-sampleBoxX1-1) {
 						G g = alg.compute(x,y);
-						double expectedX = GeneralizedImageOps.get(derivX,x,y);
-						double expectedY = GeneralizedImageOps.get(derivY,x,y);
+						double expectedX = GIO.get(derivX,x,y);
+						double expectedY = GIO.get(derivY,x,y);
 
 						assertEquals(expectedX,g.getX(),1e-4);
 						assertEquals(expectedY,g.getY(),1e-4);

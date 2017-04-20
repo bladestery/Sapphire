@@ -19,6 +19,7 @@
 package boofcv.alg.misc;
 
 import boofcv.struct.image.*;
+import sapphire.app.SapphireObject;
 
 import java.util.Random;
 
@@ -30,7 +31,8 @@ import java.util.Random;
  *
  * @author Peter Abeles
  */
-public class ImageMiscOps {
+public class ImageMiscOps implements SapphireObject {
+	public ImageMiscOps() {}
 
 	/**
 	 * Copies a rectangular region from one image into another.<br>
@@ -45,7 +47,7 @@ public class ImageMiscOps {
 	 * @param input Input image
 	 * @param output output image
 	 */
-	public static void copy(int srcX , int srcY , int dstX , int dstY , int width , int height ,
+	public void copy(int srcX , int srcY , int dstX , int dstY , int width , int height ,
 							GrayI8 input , GrayI8 output ) {
 
 		if( input.width < srcX+width || input.height < srcY+height )
@@ -69,7 +71,7 @@ public class ImageMiscOps {
 	 * @param input An image.
 	 * @param value The value that the image is being filled with.
 	 */
-	public static void fill(GrayI8 input, int value) {
+	public void fill(GrayI8 input, int value) {
 
 		for (int y = 0; y < input.height; y++) {
 			int index = input.getStartIndex() + y * input.getStride();
@@ -85,7 +87,7 @@ public class ImageMiscOps {
 	 * @param input An image.
 	 * @param value The value that the image is being filled with.
 	 */
-	public static void fill(InterleavedI8 input, int value) {
+	public void fill(InterleavedI8 input, int value) {
 
 		for (int y = 0; y < input.height; y++) {
 			int index = input.getStartIndex() + y * input.getStride();
@@ -102,7 +104,7 @@ public class ImageMiscOps {
 	 * @param input An image.
 	 * @param values Array which contains the values each band is to be filled with.
 	 */
-	public static void fill(InterleavedI8 input, int[] values) {
+	public void fill(InterleavedI8 input, int[] values) {
 
 		final int numBands = input.numBands;
 		for (int y = 0; y < input.height; y++) {
@@ -124,7 +126,7 @@ public class ImageMiscOps {
 	 * @param band Which band is to be filled with the specified value   
 	 * @param value The value that the image is being filled with.
 	 */
-	public static void fillBand(InterleavedI8 input, int band , int value) {
+	public void fillBand(InterleavedI8 input, int band , int value) {
 
 		final int numBands = input.numBands;
 		for (int y = 0; y < input.height; y++) {
@@ -143,7 +145,7 @@ public class ImageMiscOps {
 	 * @param band Which band the image is to be inserted into
 	 * @param output The multi-band image which the input image is to be inserted into
 	 */
-	public static void insertBand(GrayI8 input, int band , InterleavedI8 output) {
+	public void insertBand(GrayI8 input, int band , InterleavedI8 output) {
 
 		final int numBands = output.numBands;
 		for (int y = 0; y < input.height; y++) {
@@ -163,7 +165,7 @@ public class ImageMiscOps {
 	 * @param value The value that the image is being filled with.
 	 * @param radius Border width.   
 	 */
-	public static void fillBorder(GrayI8 input, int value, int radius ) {
+	public void fillBorder(GrayI8 input, int value, int radius ) {
 
 		// top and bottom
 		for (int y = 0; y < radius; y++) {
@@ -201,7 +203,7 @@ public class ImageMiscOps {
 	 * @param width Rectangle width
 	 * @param height Rectangle height
 	 */
-	public static void fillRectangle(GrayI8 img, int value, int x0, int y0, int width, int height) {
+	public void fillRectangle(GrayI8 img, int value, int x0, int y0, int width, int height) {
 		int x1 = x0 + width;
 		int y1 = y0 + height;
 
@@ -226,7 +228,7 @@ public class ImageMiscOps {
 	 * @param width Rectangle width
 	 * @param height Rectangle height
 	 */
-	public static void fillRectangle(InterleavedI8 img, byte value, int x0, int y0, int width, int height) {
+	public void fillRectangle(InterleavedI8 img, byte value, int x0, int y0, int width, int height) {
 		int x1 = x0 + width;
 		int y1 = y0 + height;
 
@@ -249,7 +251,7 @@ public class ImageMiscOps {
 	 * @param min Minimum value of the distribution, inclusive
 	 * @param max Maximum value of the distribution, exclusive
 	 */
-	public static void fillUniform(GrayI8 img, Random rand , int min , int max) {
+	public void fillUniform(GrayI8 img, Random rand , int min , int max) {
 		int range = max-min;
 
 		byte[] data = img.data;
@@ -270,7 +272,7 @@ public class ImageMiscOps {
 	 * @param min Minimum value of the distribution, inclusive
 	 * @param max Maximum value of the distribution, exclusive
 	 */
-	public static void fillUniform(InterleavedI8 img, Random rand , int min , int max) {
+	public void fillUniform(InterleavedI8 img, Random rand , int min , int max) {
 		int range = max-min;
 
 		byte[] data = img.data;
@@ -296,7 +298,7 @@ public class ImageMiscOps {
 	 * @param lowerBound Lower bound of value clip
 	 * @param upperBound Upper bound of value clip
 	 */
-	public static void fillGaussian(GrayI8 input, Random rand , double mean , double sigma , int lowerBound , int upperBound ) {
+	public void fillGaussian(GrayI8 input, Random rand , double mean , double sigma , int lowerBound , int upperBound ) {
 		byte[] data = input.data;
 
 		for (int y = 0; y < input.height; y++) {
@@ -322,7 +324,7 @@ public class ImageMiscOps {
 	 * @param lowerBound Lower bound of value clip
 	 * @param upperBound Upper bound of value clip
 	 */
-	public static void fillGaussian(InterleavedI8 input, Random rand , double mean , double sigma , int lowerBound , int upperBound ) {
+	public void fillGaussian(InterleavedI8 input, Random rand , double mean , double sigma , int lowerBound , int upperBound ) {
 		byte[] data = input.data;
 		int length = input.width*input.numBands;
 
@@ -342,7 +344,7 @@ public class ImageMiscOps {
 	/**
 	 * Flips the image from top to bottom
 	 */
-	public static void flipVertical( GrayI8 input ) {
+	public void flipVertical( GrayI8 input ) {
 		int h2 = input.height/2;
 
 		for( int y = 0; y < h2; y++ ) {
@@ -362,7 +364,7 @@ public class ImageMiscOps {
 	/**
 	 * Flips the image from left to right
 	 */
-	public static void flipHorizontal( GrayI8 input ) {
+	public void flipHorizontal( GrayI8 input ) {
 		int w2 = input.width/2;
 
 		for( int y = 0; y < input.height; y++ ) {
@@ -383,7 +385,7 @@ public class ImageMiscOps {
 	 * In-place 90 degree image rotation in the clockwise direction.  Only works on
 	 * square images.
 	 */
-	public static void rotateCW( GrayI8 image ) {
+	public void rotateCW( GrayI8 image ) {
 		if( image.width != image.height )
 			throw new IllegalArgumentException("Image must be square");
 
@@ -414,7 +416,7 @@ public class ImageMiscOps {
 	/**
 	 * Rotates the image 90 degrees in the clockwise direction.
 	 */
-	public static void rotateCW(GrayI8 input , GrayI8 output ) {
+	public void rotateCW(GrayI8 input , GrayI8 output ) {
 		if( input.width != output.height || input.height != output.width )
 			throw new IllegalArgumentException("Incompatible shapes");
 
@@ -432,7 +434,7 @@ public class ImageMiscOps {
 	 * In-place 90 degree image rotation in the counter-clockwise direction.  Only works on
 	 * square images.
 	 */
-	public static void rotateCCW( GrayI8 image ) {
+	public void rotateCCW( GrayI8 image ) {
 		if( image.width != image.height )
 			throw new IllegalArgumentException("Image must be square");
 
@@ -463,7 +465,7 @@ public class ImageMiscOps {
 	/**
 	 * Rotates the image 90 degrees in the counter-clockwise direction.
 	 */
-	public static void rotateCCW(GrayI8 input , GrayI8 output ) {
+	public void rotateCCW(GrayI8 input , GrayI8 output ) {
 		if( input.width != output.height || input.height != output.width )
 			throw new IllegalArgumentException("Incompatible shapes");
 
@@ -490,7 +492,7 @@ public class ImageMiscOps {
 	 * @param input Input image
 	 * @param output output image
 	 */
-	public static void copy(int srcX , int srcY , int dstX , int dstY , int width , int height ,
+	public void copy(int srcX , int srcY , int dstX , int dstY , int width , int height ,
 							GrayI16 input , GrayI16 output ) {
 
 		if( input.width < srcX+width || input.height < srcY+height )
@@ -514,7 +516,7 @@ public class ImageMiscOps {
 	 * @param input An image.
 	 * @param value The value that the image is being filled with.
 	 */
-	public static void fill(GrayI16 input, int value) {
+	public void fill(GrayI16 input, int value) {
 
 		for (int y = 0; y < input.height; y++) {
 			int index = input.getStartIndex() + y * input.getStride();
@@ -530,7 +532,7 @@ public class ImageMiscOps {
 	 * @param input An image.
 	 * @param value The value that the image is being filled with.
 	 */
-	public static void fill(InterleavedI16 input, int value) {
+	public void fill(InterleavedI16 input, int value) {
 
 		for (int y = 0; y < input.height; y++) {
 			int index = input.getStartIndex() + y * input.getStride();
@@ -547,7 +549,7 @@ public class ImageMiscOps {
 	 * @param input An image.
 	 * @param values Array which contains the values each band is to be filled with.
 	 */
-	public static void fill(InterleavedI16 input, int[] values) {
+	public void fill(InterleavedI16 input, int[] values) {
 
 		final int numBands = input.numBands;
 		for (int y = 0; y < input.height; y++) {
@@ -569,7 +571,7 @@ public class ImageMiscOps {
 	 * @param band Which band is to be filled with the specified value   
 	 * @param value The value that the image is being filled with.
 	 */
-	public static void fillBand(InterleavedI16 input, int band , int value) {
+	public void fillBand(InterleavedI16 input, int band , int value) {
 
 		final int numBands = input.numBands;
 		for (int y = 0; y < input.height; y++) {
@@ -588,7 +590,7 @@ public class ImageMiscOps {
 	 * @param band Which band the image is to be inserted into
 	 * @param output The multi-band image which the input image is to be inserted into
 	 */
-	public static void insertBand(GrayI16 input, int band , InterleavedI16 output) {
+	public void insertBand(GrayI16 input, int band , InterleavedI16 output) {
 
 		final int numBands = output.numBands;
 		for (int y = 0; y < input.height; y++) {
@@ -608,7 +610,7 @@ public class ImageMiscOps {
 	 * @param value The value that the image is being filled with.
 	 * @param radius Border width.   
 	 */
-	public static void fillBorder(GrayI16 input, int value, int radius ) {
+	public void fillBorder(GrayI16 input, int value, int radius ) {
 
 		// top and bottom
 		for (int y = 0; y < radius; y++) {
@@ -646,7 +648,7 @@ public class ImageMiscOps {
 	 * @param width Rectangle width
 	 * @param height Rectangle height
 	 */
-	public static void fillRectangle(GrayI16 img, int value, int x0, int y0, int width, int height) {
+	public void fillRectangle(GrayI16 img, int value, int x0, int y0, int width, int height) {
 		int x1 = x0 + width;
 		int y1 = y0 + height;
 
@@ -671,7 +673,7 @@ public class ImageMiscOps {
 	 * @param width Rectangle width
 	 * @param height Rectangle height
 	 */
-	public static void fillRectangle(InterleavedI16 img, short value, int x0, int y0, int width, int height) {
+	public void fillRectangle(InterleavedI16 img, short value, int x0, int y0, int width, int height) {
 		int x1 = x0 + width;
 		int y1 = y0 + height;
 
@@ -694,7 +696,7 @@ public class ImageMiscOps {
 	 * @param min Minimum value of the distribution, inclusive
 	 * @param max Maximum value of the distribution, exclusive
 	 */
-	public static void fillUniform(GrayI16 img, Random rand , int min , int max) {
+	public void fillUniform(GrayI16 img, Random rand , int min , int max) {
 		int range = max-min;
 
 		short[] data = img.data;
@@ -715,7 +717,7 @@ public class ImageMiscOps {
 	 * @param min Minimum value of the distribution, inclusive
 	 * @param max Maximum value of the distribution, exclusive
 	 */
-	public static void fillUniform(InterleavedI16 img, Random rand , int min , int max) {
+	public void fillUniform(InterleavedI16 img, Random rand , int min , int max) {
 		int range = max-min;
 
 		short[] data = img.data;
@@ -741,7 +743,7 @@ public class ImageMiscOps {
 	 * @param lowerBound Lower bound of value clip
 	 * @param upperBound Upper bound of value clip
 	 */
-	public static void fillGaussian(GrayI16 input, Random rand , double mean , double sigma , int lowerBound , int upperBound ) {
+	public void fillGaussian(GrayI16 input, Random rand , double mean , double sigma , int lowerBound , int upperBound ) {
 		short[] data = input.data;
 
 		for (int y = 0; y < input.height; y++) {
@@ -767,7 +769,7 @@ public class ImageMiscOps {
 	 * @param lowerBound Lower bound of value clip
 	 * @param upperBound Upper bound of value clip
 	 */
-	public static void fillGaussian(InterleavedI16 input, Random rand , double mean , double sigma , int lowerBound , int upperBound ) {
+	public void fillGaussian(InterleavedI16 input, Random rand , double mean , double sigma , int lowerBound , int upperBound ) {
 		short[] data = input.data;
 		int length = input.width*input.numBands;
 
@@ -787,7 +789,7 @@ public class ImageMiscOps {
 	/**
 	 * Flips the image from top to bottom
 	 */
-	public static void flipVertical( GrayI16 input ) {
+	public void flipVertical( GrayI16 input ) {
 		int h2 = input.height/2;
 
 		for( int y = 0; y < h2; y++ ) {
@@ -807,7 +809,7 @@ public class ImageMiscOps {
 	/**
 	 * Flips the image from left to right
 	 */
-	public static void flipHorizontal( GrayI16 input ) {
+	public void flipHorizontal( GrayI16 input ) {
 		int w2 = input.width/2;
 
 		for( int y = 0; y < input.height; y++ ) {
@@ -828,7 +830,7 @@ public class ImageMiscOps {
 	 * In-place 90 degree image rotation in the clockwise direction.  Only works on
 	 * square images.
 	 */
-	public static void rotateCW( GrayI16 image ) {
+	public void rotateCW( GrayI16 image ) {
 		if( image.width != image.height )
 			throw new IllegalArgumentException("Image must be square");
 
@@ -859,7 +861,7 @@ public class ImageMiscOps {
 	/**
 	 * Rotates the image 90 degrees in the clockwise direction.
 	 */
-	public static void rotateCW(GrayI16 input , GrayI16 output ) {
+	public void rotateCW(GrayI16 input , GrayI16 output ) {
 		if( input.width != output.height || input.height != output.width )
 			throw new IllegalArgumentException("Incompatible shapes");
 
@@ -877,7 +879,7 @@ public class ImageMiscOps {
 	 * In-place 90 degree image rotation in the counter-clockwise direction.  Only works on
 	 * square images.
 	 */
-	public static void rotateCCW( GrayI16 image ) {
+	public void rotateCCW( GrayI16 image ) {
 		if( image.width != image.height )
 			throw new IllegalArgumentException("Image must be square");
 
@@ -908,7 +910,7 @@ public class ImageMiscOps {
 	/**
 	 * Rotates the image 90 degrees in the counter-clockwise direction.
 	 */
-	public static void rotateCCW(GrayI16 input , GrayI16 output ) {
+	public void rotateCCW(GrayI16 input , GrayI16 output ) {
 		if( input.width != output.height || input.height != output.width )
 			throw new IllegalArgumentException("Incompatible shapes");
 
@@ -935,7 +937,7 @@ public class ImageMiscOps {
 	 * @param input Input image
 	 * @param output output image
 	 */
-	public static void copy(int srcX , int srcY , int dstX , int dstY , int width , int height ,
+	public void copy(int srcX , int srcY , int dstX , int dstY , int width , int height ,
 							GrayS32 input , GrayS32 output ) {
 
 		if( input.width < srcX+width || input.height < srcY+height )
@@ -959,7 +961,7 @@ public class ImageMiscOps {
 	 * @param input An image.
 	 * @param value The value that the image is being filled with.
 	 */
-	public static void fill(GrayS32 input, int value) {
+	public void fill(GrayS32 input, int value) {
 
 		for (int y = 0; y < input.height; y++) {
 			int index = input.getStartIndex() + y * input.getStride();
@@ -975,7 +977,7 @@ public class ImageMiscOps {
 	 * @param input An image.
 	 * @param value The value that the image is being filled with.
 	 */
-	public static void fill(InterleavedS32 input, int value) {
+	public void fill(InterleavedS32 input, int value) {
 
 		for (int y = 0; y < input.height; y++) {
 			int index = input.getStartIndex() + y * input.getStride();
@@ -992,7 +994,7 @@ public class ImageMiscOps {
 	 * @param input An image.
 	 * @param values Array which contains the values each band is to be filled with.
 	 */
-	public static void fill(InterleavedS32 input, int[] values) {
+	public void fill(InterleavedS32 input, int[] values) {
 
 		final int numBands = input.numBands;
 		for (int y = 0; y < input.height; y++) {
@@ -1014,7 +1016,7 @@ public class ImageMiscOps {
 	 * @param band Which band is to be filled with the specified value   
 	 * @param value The value that the image is being filled with.
 	 */
-	public static void fillBand(InterleavedS32 input, int band , int value) {
+	public void fillBand(InterleavedS32 input, int band , int value) {
 
 		final int numBands = input.numBands;
 		for (int y = 0; y < input.height; y++) {
@@ -1033,7 +1035,7 @@ public class ImageMiscOps {
 	 * @param band Which band the image is to be inserted into
 	 * @param output The multi-band image which the input image is to be inserted into
 	 */
-	public static void insertBand(GrayS32 input, int band , InterleavedS32 output) {
+	public void insertBand(GrayS32 input, int band , InterleavedS32 output) {
 
 		final int numBands = output.numBands;
 		for (int y = 0; y < input.height; y++) {
@@ -1053,7 +1055,7 @@ public class ImageMiscOps {
 	 * @param value The value that the image is being filled with.
 	 * @param radius Border width.   
 	 */
-	public static void fillBorder(GrayS32 input, int value, int radius ) {
+	public void fillBorder(GrayS32 input, int value, int radius ) {
 
 		// top and bottom
 		for (int y = 0; y < radius; y++) {
@@ -1091,7 +1093,7 @@ public class ImageMiscOps {
 	 * @param width Rectangle width
 	 * @param height Rectangle height
 	 */
-	public static void fillRectangle(GrayS32 img, int value, int x0, int y0, int width, int height) {
+	public void fillRectangle(GrayS32 img, int value, int x0, int y0, int width, int height) {
 		int x1 = x0 + width;
 		int y1 = y0 + height;
 
@@ -1116,7 +1118,7 @@ public class ImageMiscOps {
 	 * @param width Rectangle width
 	 * @param height Rectangle height
 	 */
-	public static void fillRectangle(InterleavedS32 img, int value, int x0, int y0, int width, int height) {
+	public void fillRectangle(InterleavedS32 img, int value, int x0, int y0, int width, int height) {
 		int x1 = x0 + width;
 		int y1 = y0 + height;
 
@@ -1139,7 +1141,7 @@ public class ImageMiscOps {
 	 * @param min Minimum value of the distribution, inclusive
 	 * @param max Maximum value of the distribution, exclusive
 	 */
-	public static void fillUniform(GrayS32 img, Random rand , int min , int max) {
+	public void fillUniform(GrayS32 img, Random rand , int min , int max) {
 		int range = max-min;
 
 		int[] data = img.data;
@@ -1160,7 +1162,7 @@ public class ImageMiscOps {
 	 * @param min Minimum value of the distribution, inclusive
 	 * @param max Maximum value of the distribution, exclusive
 	 */
-	public static void fillUniform(InterleavedS32 img, Random rand , int min , int max) {
+	public void fillUniform(InterleavedS32 img, Random rand , int min , int max) {
 		int range = max-min;
 
 		int[] data = img.data;
@@ -1186,7 +1188,7 @@ public class ImageMiscOps {
 	 * @param lowerBound Lower bound of value clip
 	 * @param upperBound Upper bound of value clip
 	 */
-	public static void fillGaussian(GrayS32 input, Random rand , double mean , double sigma , int lowerBound , int upperBound ) {
+	public void fillGaussian(GrayS32 input, Random rand , double mean , double sigma , int lowerBound , int upperBound ) {
 		int[] data = input.data;
 
 		for (int y = 0; y < input.height; y++) {
@@ -1212,7 +1214,7 @@ public class ImageMiscOps {
 	 * @param lowerBound Lower bound of value clip
 	 * @param upperBound Upper bound of value clip
 	 */
-	public static void fillGaussian(InterleavedS32 input, Random rand , double mean , double sigma , int lowerBound , int upperBound ) {
+	public void fillGaussian(InterleavedS32 input, Random rand , double mean , double sigma , int lowerBound , int upperBound ) {
 		int[] data = input.data;
 		int length = input.width*input.numBands;
 
@@ -1232,7 +1234,7 @@ public class ImageMiscOps {
 	/**
 	 * Flips the image from top to bottom
 	 */
-	public static void flipVertical( GrayS32 input ) {
+	public void flipVertical( GrayS32 input ) {
 		int h2 = input.height/2;
 
 		for( int y = 0; y < h2; y++ ) {
@@ -1252,7 +1254,7 @@ public class ImageMiscOps {
 	/**
 	 * Flips the image from left to right
 	 */
-	public static void flipHorizontal( GrayS32 input ) {
+	public void flipHorizontal( GrayS32 input ) {
 		int w2 = input.width/2;
 
 		for( int y = 0; y < input.height; y++ ) {
@@ -1273,7 +1275,7 @@ public class ImageMiscOps {
 	 * In-place 90 degree image rotation in the clockwise direction.  Only works on
 	 * square images.
 	 */
-	public static void rotateCW( GrayS32 image ) {
+	public void rotateCW( GrayS32 image ) {
 		if( image.width != image.height )
 			throw new IllegalArgumentException("Image must be square");
 
@@ -1304,7 +1306,7 @@ public class ImageMiscOps {
 	/**
 	 * Rotates the image 90 degrees in the clockwise direction.
 	 */
-	public static void rotateCW(GrayS32 input , GrayS32 output ) {
+	public void rotateCW(GrayS32 input , GrayS32 output ) {
 		if( input.width != output.height || input.height != output.width )
 			throw new IllegalArgumentException("Incompatible shapes");
 
@@ -1322,7 +1324,7 @@ public class ImageMiscOps {
 	 * In-place 90 degree image rotation in the counter-clockwise direction.  Only works on
 	 * square images.
 	 */
-	public static void rotateCCW( GrayS32 image ) {
+	public void rotateCCW( GrayS32 image ) {
 		if( image.width != image.height )
 			throw new IllegalArgumentException("Image must be square");
 
@@ -1353,7 +1355,7 @@ public class ImageMiscOps {
 	/**
 	 * Rotates the image 90 degrees in the counter-clockwise direction.
 	 */
-	public static void rotateCCW(GrayS32 input , GrayS32 output ) {
+	public void rotateCCW(GrayS32 input , GrayS32 output ) {
 		if( input.width != output.height || input.height != output.width )
 			throw new IllegalArgumentException("Incompatible shapes");
 
@@ -1380,7 +1382,7 @@ public class ImageMiscOps {
 	 * @param input Input image
 	 * @param output output image
 	 */
-	public static void copy(int srcX , int srcY , int dstX , int dstY , int width , int height ,
+	public void copy(int srcX , int srcY , int dstX , int dstY , int width , int height ,
 							GrayS64 input , GrayS64 output ) {
 
 		if( input.width < srcX+width || input.height < srcY+height )
@@ -1404,7 +1406,7 @@ public class ImageMiscOps {
 	 * @param input An image.
 	 * @param value The value that the image is being filled with.
 	 */
-	public static void fill(GrayS64 input, long value) {
+	public void fill(GrayS64 input, long value) {
 
 		for (int y = 0; y < input.height; y++) {
 			int index = input.getStartIndex() + y * input.getStride();
@@ -1420,7 +1422,7 @@ public class ImageMiscOps {
 	 * @param input An image.
 	 * @param value The value that the image is being filled with.
 	 */
-	public static void fill(InterleavedS64 input, long value) {
+	public void fill(InterleavedS64 input, long value) {
 
 		for (int y = 0; y < input.height; y++) {
 			int index = input.getStartIndex() + y * input.getStride();
@@ -1437,7 +1439,7 @@ public class ImageMiscOps {
 	 * @param input An image.
 	 * @param values Array which contains the values each band is to be filled with.
 	 */
-	public static void fill(InterleavedS64 input, long[] values) {
+	public void fill(InterleavedS64 input, long[] values) {
 
 		final int numBands = input.numBands;
 		for (int y = 0; y < input.height; y++) {
@@ -1459,7 +1461,7 @@ public class ImageMiscOps {
 	 * @param band Which band is to be filled with the specified value   
 	 * @param value The value that the image is being filled with.
 	 */
-	public static void fillBand(InterleavedS64 input, int band , long value) {
+	public void fillBand(InterleavedS64 input, int band , long value) {
 
 		final int numBands = input.numBands;
 		for (int y = 0; y < input.height; y++) {
@@ -1478,7 +1480,7 @@ public class ImageMiscOps {
 	 * @param band Which band the image is to be inserted into
 	 * @param output The multi-band image which the input image is to be inserted into
 	 */
-	public static void insertBand(GrayS64 input, int band , InterleavedS64 output) {
+	public void insertBand(GrayS64 input, int band , InterleavedS64 output) {
 
 		final int numBands = output.numBands;
 		for (int y = 0; y < input.height; y++) {
@@ -1498,7 +1500,7 @@ public class ImageMiscOps {
 	 * @param value The value that the image is being filled with.
 	 * @param radius Border width.   
 	 */
-	public static void fillBorder(GrayS64 input, long value, int radius ) {
+	public void fillBorder(GrayS64 input, long value, int radius ) {
 
 		// top and bottom
 		for (int y = 0; y < radius; y++) {
@@ -1536,7 +1538,7 @@ public class ImageMiscOps {
 	 * @param width Rectangle width
 	 * @param height Rectangle height
 	 */
-	public static void fillRectangle(GrayS64 img, long value, int x0, int y0, int width, int height) {
+	public void fillRectangle(GrayS64 img, long value, int x0, int y0, int width, int height) {
 		int x1 = x0 + width;
 		int y1 = y0 + height;
 
@@ -1561,7 +1563,7 @@ public class ImageMiscOps {
 	 * @param width Rectangle width
 	 * @param height Rectangle height
 	 */
-	public static void fillRectangle(InterleavedS64 img, long value, int x0, int y0, int width, int height) {
+	public void fillRectangle(InterleavedS64 img, long value, int x0, int y0, int width, int height) {
 		int x1 = x0 + width;
 		int y1 = y0 + height;
 
@@ -1584,7 +1586,7 @@ public class ImageMiscOps {
 	 * @param min Minimum value of the distribution, inclusive
 	 * @param max Maximum value of the distribution, exclusive
 	 */
-	public static void fillUniform(GrayS64 img, Random rand , long min , long max) {
+	public void fillUniform(GrayS64 img, Random rand , long min , long max) {
 		long range = max-min;
 
 		long[] data = img.data;
@@ -1605,7 +1607,7 @@ public class ImageMiscOps {
 	 * @param min Minimum value of the distribution, inclusive
 	 * @param max Maximum value of the distribution, exclusive
 	 */
-	public static void fillUniform(InterleavedS64 img, Random rand , long min , long max) {
+	public void fillUniform(InterleavedS64 img, Random rand , long min , long max) {
 		long range = max-min;
 
 		long[] data = img.data;
@@ -1631,7 +1633,7 @@ public class ImageMiscOps {
 	 * @param lowerBound Lower bound of value clip
 	 * @param upperBound Upper bound of value clip
 	 */
-	public static void fillGaussian(GrayS64 input, Random rand , double mean , double sigma , long lowerBound , long upperBound ) {
+	public void fillGaussian(GrayS64 input, Random rand , double mean , double sigma , long lowerBound , long upperBound ) {
 		long[] data = input.data;
 
 		for (int y = 0; y < input.height; y++) {
@@ -1657,7 +1659,7 @@ public class ImageMiscOps {
 	 * @param lowerBound Lower bound of value clip
 	 * @param upperBound Upper bound of value clip
 	 */
-	public static void fillGaussian(InterleavedS64 input, Random rand , double mean , double sigma , long lowerBound , long upperBound ) {
+	public void fillGaussian(InterleavedS64 input, Random rand , double mean , double sigma , long lowerBound , long upperBound ) {
 		long[] data = input.data;
 		int length = input.width*input.numBands;
 
@@ -1677,7 +1679,7 @@ public class ImageMiscOps {
 	/**
 	 * Flips the image from top to bottom
 	 */
-	public static void flipVertical( GrayS64 input ) {
+	public void flipVertical( GrayS64 input ) {
 		int h2 = input.height/2;
 
 		for( int y = 0; y < h2; y++ ) {
@@ -1697,7 +1699,7 @@ public class ImageMiscOps {
 	/**
 	 * Flips the image from left to right
 	 */
-	public static void flipHorizontal( GrayS64 input ) {
+	public void flipHorizontal( GrayS64 input ) {
 		int w2 = input.width/2;
 
 		for( int y = 0; y < input.height; y++ ) {
@@ -1718,7 +1720,7 @@ public class ImageMiscOps {
 	 * In-place 90 degree image rotation in the clockwise direction.  Only works on
 	 * square images.
 	 */
-	public static void rotateCW( GrayS64 image ) {
+	public void rotateCW( GrayS64 image ) {
 		if( image.width != image.height )
 			throw new IllegalArgumentException("Image must be square");
 
@@ -1749,7 +1751,7 @@ public class ImageMiscOps {
 	/**
 	 * Rotates the image 90 degrees in the clockwise direction.
 	 */
-	public static void rotateCW(GrayS64 input , GrayS64 output ) {
+	public void rotateCW(GrayS64 input , GrayS64 output ) {
 		if( input.width != output.height || input.height != output.width )
 			throw new IllegalArgumentException("Incompatible shapes");
 
@@ -1767,7 +1769,7 @@ public class ImageMiscOps {
 	 * In-place 90 degree image rotation in the counter-clockwise direction.  Only works on
 	 * square images.
 	 */
-	public static void rotateCCW( GrayS64 image ) {
+	public void rotateCCW( GrayS64 image ) {
 		if( image.width != image.height )
 			throw new IllegalArgumentException("Image must be square");
 
@@ -1798,7 +1800,7 @@ public class ImageMiscOps {
 	/**
 	 * Rotates the image 90 degrees in the counter-clockwise direction.
 	 */
-	public static void rotateCCW(GrayS64 input , GrayS64 output ) {
+	public void rotateCCW(GrayS64 input , GrayS64 output ) {
 		if( input.width != output.height || input.height != output.width )
 			throw new IllegalArgumentException("Incompatible shapes");
 
@@ -1825,7 +1827,7 @@ public class ImageMiscOps {
 	 * @param input Input image
 	 * @param output output image
 	 */
-	public static void copy(int srcX , int srcY , int dstX , int dstY , int width , int height ,
+	public void copy(int srcX , int srcY , int dstX , int dstY , int width , int height ,
 							GrayF32 input , GrayF32 output ) {
 
 		if( input.width < srcX+width || input.height < srcY+height )
@@ -1849,7 +1851,7 @@ public class ImageMiscOps {
 	 * @param input An image.
 	 * @param value The value that the image is being filled with.
 	 */
-	public static void fill(GrayF32 input, float value) {
+	public void fill(GrayF32 input, float value) {
 
 		for (int y = 0; y < input.height; y++) {
 			int index = input.getStartIndex() + y * input.getStride();
@@ -1865,7 +1867,7 @@ public class ImageMiscOps {
 	 * @param input An image.
 	 * @param value The value that the image is being filled with.
 	 */
-	public static void fill(InterleavedF32 input, float value) {
+	public void fill(InterleavedF32 input, float value) {
 
 		for (int y = 0; y < input.height; y++) {
 			int index = input.getStartIndex() + y * input.getStride();
@@ -1882,7 +1884,7 @@ public class ImageMiscOps {
 	 * @param input An image.
 	 * @param values Array which contains the values each band is to be filled with.
 	 */
-	public static void fill(InterleavedF32 input, float[] values) {
+	public void fill(InterleavedF32 input, float[] values) {
 
 		final int numBands = input.numBands;
 		for (int y = 0; y < input.height; y++) {
@@ -1904,7 +1906,7 @@ public class ImageMiscOps {
 	 * @param band Which band is to be filled with the specified value   
 	 * @param value The value that the image is being filled with.
 	 */
-	public static void fillBand(InterleavedF32 input, int band , float value) {
+	public void fillBand(InterleavedF32 input, int band , float value) {
 
 		final int numBands = input.numBands;
 		for (int y = 0; y < input.height; y++) {
@@ -1923,7 +1925,7 @@ public class ImageMiscOps {
 	 * @param band Which band the image is to be inserted into
 	 * @param output The multi-band image which the input image is to be inserted into
 	 */
-	public static void insertBand(GrayF32 input, int band , InterleavedF32 output) {
+	public void insertBand(GrayF32 input, int band , InterleavedF32 output) {
 
 		final int numBands = output.numBands;
 		for (int y = 0; y < input.height; y++) {
@@ -1943,7 +1945,7 @@ public class ImageMiscOps {
 	 * @param value The value that the image is being filled with.
 	 * @param radius Border width.   
 	 */
-	public static void fillBorder(GrayF32 input, float value, int radius ) {
+	public void fillBorder(GrayF32 input, float value, int radius ) {
 
 		// top and bottom
 		for (int y = 0; y < radius; y++) {
@@ -1981,7 +1983,7 @@ public class ImageMiscOps {
 	 * @param width Rectangle width
 	 * @param height Rectangle height
 	 */
-	public static void fillRectangle(GrayF32 img, float value, int x0, int y0, int width, int height) {
+	public void fillRectangle(GrayF32 img, float value, int x0, int y0, int width, int height) {
 		int x1 = x0 + width;
 		int y1 = y0 + height;
 
@@ -2006,7 +2008,7 @@ public class ImageMiscOps {
 	 * @param width Rectangle width
 	 * @param height Rectangle height
 	 */
-	public static void fillRectangle(InterleavedF32 img, float value, int x0, int y0, int width, int height) {
+	public void fillRectangle(InterleavedF32 img, float value, int x0, int y0, int width, int height) {
 		int x1 = x0 + width;
 		int y1 = y0 + height;
 
@@ -2029,7 +2031,7 @@ public class ImageMiscOps {
 	 * @param min Minimum value of the distribution, inclusive
 	 * @param max Maximum value of the distribution, inclusive
 	 */
-	public static void fillUniform(GrayF32 img, Random rand , float min , float max) {
+	public void fillUniform(GrayF32 img, Random rand , float min , float max) {
 		float range = max-min;
 
 		float[] data = img.data;
@@ -2050,7 +2052,7 @@ public class ImageMiscOps {
 	 * @param min Minimum value of the distribution, inclusive
 	 * @param max Maximum value of the distribution, inclusive
 	 */
-	public static void fillUniform(InterleavedF32 img, Random rand , float min , float max) {
+	public void fillUniform(InterleavedF32 img, Random rand , float min , float max) {
 		float range = max-min;
 
 		float[] data = img.data;
@@ -2076,7 +2078,7 @@ public class ImageMiscOps {
 	 * @param lowerBound Lower bound of value clip
 	 * @param upperBound Upper bound of value clip
 	 */
-	public static void fillGaussian(GrayF32 input, Random rand , double mean , double sigma , float lowerBound , float upperBound ) {
+	public void fillGaussian(GrayF32 input, Random rand , double mean , double sigma , float lowerBound , float upperBound ) {
 		float[] data = input.data;
 
 		for (int y = 0; y < input.height; y++) {
@@ -2102,7 +2104,7 @@ public class ImageMiscOps {
 	 * @param lowerBound Lower bound of value clip
 	 * @param upperBound Upper bound of value clip
 	 */
-	public static void fillGaussian(InterleavedF32 input, Random rand , double mean , double sigma , float lowerBound , float upperBound ) {
+	public void fillGaussian(InterleavedF32 input, Random rand , double mean , double sigma , float lowerBound , float upperBound ) {
 		float[] data = input.data;
 		int length = input.width*input.numBands;
 
@@ -2122,7 +2124,7 @@ public class ImageMiscOps {
 	/**
 	 * Flips the image from top to bottom
 	 */
-	public static void flipVertical( GrayF32 input ) {
+	public void flipVertical( GrayF32 input ) {
 		int h2 = input.height/2;
 
 		for( int y = 0; y < h2; y++ ) {
@@ -2142,7 +2144,7 @@ public class ImageMiscOps {
 	/**
 	 * Flips the image from left to right
 	 */
-	public static void flipHorizontal( GrayF32 input ) {
+	public void flipHorizontal( GrayF32 input ) {
 		int w2 = input.width/2;
 
 		for( int y = 0; y < input.height; y++ ) {
@@ -2163,7 +2165,7 @@ public class ImageMiscOps {
 	 * In-place 90 degree image rotation in the clockwise direction.  Only works on
 	 * square images.
 	 */
-	public static void rotateCW( GrayF32 image ) {
+	public void rotateCW( GrayF32 image ) {
 		if( image.width != image.height )
 			throw new IllegalArgumentException("Image must be square");
 
@@ -2194,7 +2196,7 @@ public class ImageMiscOps {
 	/**
 	 * Rotates the image 90 degrees in the clockwise direction.
 	 */
-	public static void rotateCW(GrayF32 input , GrayF32 output ) {
+	public void rotateCW(GrayF32 input , GrayF32 output ) {
 		if( input.width != output.height || input.height != output.width )
 			throw new IllegalArgumentException("Incompatible shapes");
 
@@ -2212,7 +2214,7 @@ public class ImageMiscOps {
 	 * In-place 90 degree image rotation in the counter-clockwise direction.  Only works on
 	 * square images.
 	 */
-	public static void rotateCCW( GrayF32 image ) {
+	public void rotateCCW( GrayF32 image ) {
 		if( image.width != image.height )
 			throw new IllegalArgumentException("Image must be square");
 
@@ -2243,7 +2245,7 @@ public class ImageMiscOps {
 	/**
 	 * Rotates the image 90 degrees in the counter-clockwise direction.
 	 */
-	public static void rotateCCW(GrayF32 input , GrayF32 output ) {
+	public void rotateCCW(GrayF32 input , GrayF32 output ) {
 		if( input.width != output.height || input.height != output.width )
 			throw new IllegalArgumentException("Incompatible shapes");
 
@@ -2270,7 +2272,7 @@ public class ImageMiscOps {
 	 * @param input Input image
 	 * @param output output image
 	 */
-	public static void copy(int srcX , int srcY , int dstX , int dstY , int width , int height ,
+	public void copy(int srcX , int srcY , int dstX , int dstY , int width , int height ,
 							GrayF64 input , GrayF64 output ) {
 
 		if( input.width < srcX+width || input.height < srcY+height )
@@ -2294,7 +2296,7 @@ public class ImageMiscOps {
 	 * @param input An image.
 	 * @param value The value that the image is being filled with.
 	 */
-	public static void fill(GrayF64 input, double value) {
+	public void fill(GrayF64 input, double value) {
 
 		for (int y = 0; y < input.height; y++) {
 			int index = input.getStartIndex() + y * input.getStride();
@@ -2310,7 +2312,7 @@ public class ImageMiscOps {
 	 * @param input An image.
 	 * @param value The value that the image is being filled with.
 	 */
-	public static void fill(InterleavedF64 input, double value) {
+	public void fill(InterleavedF64 input, double value) {
 
 		for (int y = 0; y < input.height; y++) {
 			int index = input.getStartIndex() + y * input.getStride();
@@ -2327,7 +2329,7 @@ public class ImageMiscOps {
 	 * @param input An image.
 	 * @param values Array which contains the values each band is to be filled with.
 	 */
-	public static void fill(InterleavedF64 input, double[] values) {
+	public void fill(InterleavedF64 input, double[] values) {
 
 		final int numBands = input.numBands;
 		for (int y = 0; y < input.height; y++) {
@@ -2349,7 +2351,7 @@ public class ImageMiscOps {
 	 * @param band Which band is to be filled with the specified value   
 	 * @param value The value that the image is being filled with.
 	 */
-	public static void fillBand(InterleavedF64 input, int band , double value) {
+	public void fillBand(InterleavedF64 input, int band , double value) {
 
 		final int numBands = input.numBands;
 		for (int y = 0; y < input.height; y++) {
@@ -2368,7 +2370,7 @@ public class ImageMiscOps {
 	 * @param band Which band the image is to be inserted into
 	 * @param output The multi-band image which the input image is to be inserted into
 	 */
-	public static void insertBand(GrayF64 input, int band , InterleavedF64 output) {
+	public void insertBand(GrayF64 input, int band , InterleavedF64 output) {
 
 		final int numBands = output.numBands;
 		for (int y = 0; y < input.height; y++) {
@@ -2388,7 +2390,7 @@ public class ImageMiscOps {
 	 * @param value The value that the image is being filled with.
 	 * @param radius Border width.   
 	 */
-	public static void fillBorder(GrayF64 input, double value, int radius ) {
+	public void fillBorder(GrayF64 input, double value, int radius ) {
 
 		// top and bottom
 		for (int y = 0; y < radius; y++) {
@@ -2426,7 +2428,7 @@ public class ImageMiscOps {
 	 * @param width Rectangle width
 	 * @param height Rectangle height
 	 */
-	public static void fillRectangle(GrayF64 img, double value, int x0, int y0, int width, int height) {
+	public void fillRectangle(GrayF64 img, double value, int x0, int y0, int width, int height) {
 		int x1 = x0 + width;
 		int y1 = y0 + height;
 
@@ -2451,7 +2453,7 @@ public class ImageMiscOps {
 	 * @param width Rectangle width
 	 * @param height Rectangle height
 	 */
-	public static void fillRectangle(InterleavedF64 img, double value, int x0, int y0, int width, int height) {
+	public void fillRectangle(InterleavedF64 img, double value, int x0, int y0, int width, int height) {
 		int x1 = x0 + width;
 		int y1 = y0 + height;
 
@@ -2474,7 +2476,7 @@ public class ImageMiscOps {
 	 * @param min Minimum value of the distribution, inclusive
 	 * @param max Maximum value of the distribution, inclusive
 	 */
-	public static void fillUniform(GrayF64 img, Random rand , double min , double max) {
+	public void fillUniform(GrayF64 img, Random rand , double min , double max) {
 		double range = max-min;
 
 		double[] data = img.data;
@@ -2495,7 +2497,7 @@ public class ImageMiscOps {
 	 * @param min Minimum value of the distribution, inclusive
 	 * @param max Maximum value of the distribution, inclusive
 	 */
-	public static void fillUniform(InterleavedF64 img, Random rand , double min , double max) {
+	public void fillUniform(InterleavedF64 img, Random rand , double min , double max) {
 		double range = max-min;
 
 		double[] data = img.data;
@@ -2521,7 +2523,7 @@ public class ImageMiscOps {
 	 * @param lowerBound Lower bound of value clip
 	 * @param upperBound Upper bound of value clip
 	 */
-	public static void fillGaussian(GrayF64 input, Random rand , double mean , double sigma , double lowerBound , double upperBound ) {
+	public void fillGaussian(GrayF64 input, Random rand , double mean , double sigma , double lowerBound , double upperBound ) {
 		double[] data = input.data;
 
 		for (int y = 0; y < input.height; y++) {
@@ -2547,7 +2549,7 @@ public class ImageMiscOps {
 	 * @param lowerBound Lower bound of value clip
 	 * @param upperBound Upper bound of value clip
 	 */
-	public static void fillGaussian(InterleavedF64 input, Random rand , double mean , double sigma , double lowerBound , double upperBound ) {
+	public void fillGaussian(InterleavedF64 input, Random rand , double mean , double sigma , double lowerBound , double upperBound ) {
 		double[] data = input.data;
 		int length = input.width*input.numBands;
 
@@ -2567,7 +2569,7 @@ public class ImageMiscOps {
 	/**
 	 * Flips the image from top to bottom
 	 */
-	public static void flipVertical( GrayF64 input ) {
+	public void flipVertical( GrayF64 input ) {
 		int h2 = input.height/2;
 
 		for( int y = 0; y < h2; y++ ) {
@@ -2587,7 +2589,7 @@ public class ImageMiscOps {
 	/**
 	 * Flips the image from left to right
 	 */
-	public static void flipHorizontal( GrayF64 input ) {
+	public void flipHorizontal( GrayF64 input ) {
 		int w2 = input.width/2;
 
 		for( int y = 0; y < input.height; y++ ) {
@@ -2608,7 +2610,7 @@ public class ImageMiscOps {
 	 * In-place 90 degree image rotation in the clockwise direction.  Only works on
 	 * square images.
 	 */
-	public static void rotateCW( GrayF64 image ) {
+	public void rotateCW( GrayF64 image ) {
 		if( image.width != image.height )
 			throw new IllegalArgumentException("Image must be square");
 
@@ -2639,7 +2641,7 @@ public class ImageMiscOps {
 	/**
 	 * Rotates the image 90 degrees in the clockwise direction.
 	 */
-	public static void rotateCW(GrayF64 input , GrayF64 output ) {
+	public void rotateCW(GrayF64 input , GrayF64 output ) {
 		if( input.width != output.height || input.height != output.width )
 			throw new IllegalArgumentException("Incompatible shapes");
 
@@ -2657,7 +2659,7 @@ public class ImageMiscOps {
 	 * In-place 90 degree image rotation in the counter-clockwise direction.  Only works on
 	 * square images.
 	 */
-	public static void rotateCCW( GrayF64 image ) {
+	public void rotateCCW( GrayF64 image ) {
 		if( image.width != image.height )
 			throw new IllegalArgumentException("Image must be square");
 
@@ -2688,7 +2690,7 @@ public class ImageMiscOps {
 	/**
 	 * Rotates the image 90 degrees in the counter-clockwise direction.
 	 */
-	public static void rotateCCW(GrayF64 input , GrayF64 output ) {
+	public void rotateCCW(GrayF64 input , GrayF64 output ) {
 		if( input.width != output.height || input.height != output.width )
 			throw new IllegalArgumentException("Incompatible shapes");
 
@@ -2705,7 +2707,7 @@ public class ImageMiscOps {
 	/**
 	 * Adds uniform i.i.d noise to each pixel in the image.  Noise range is min &le; X < max.
 	 */
-	public static void addUniform(GrayU8 input, Random rand , int min , int max) {
+	public void addUniform(GrayU8 input, Random rand , int min , int max) {
 		int range = max-min;
 
 		byte[] data = input.data;
@@ -2725,7 +2727,7 @@ public class ImageMiscOps {
 	/**
 	 * Adds uniform i.i.d noise to each pixel in the image.  Noise range is min &le; X < max.
 	 */
-	public static void addUniform(InterleavedU8 input, Random rand , int min , int max) {
+	public void addUniform(InterleavedU8 input, Random rand , int min , int max) {
 		int range = max-min;
 
 		byte[] data = input.data;
@@ -2754,7 +2756,7 @@ public class ImageMiscOps {
 	 * @param lowerBound Allowed lower bound
 	 * @param upperBound Allowed upper bound
 	 */
-	public static void addGaussian(GrayU8 input, Random rand , double sigma , int lowerBound , int upperBound ) {
+	public void addGaussian(GrayU8 input, Random rand , double sigma , int lowerBound , int upperBound ) {
 
 		for (int y = 0; y < input.height; y++) {
 			int index = input.getStartIndex() + y * input.getStride();
@@ -2776,7 +2778,7 @@ public class ImageMiscOps {
 	 * @param lowerBound Allowed lower bound
 	 * @param upperBound Allowed upper bound
 	 */
-	public static void addGaussian(InterleavedU8 input, Random rand , double sigma , int lowerBound , int upperBound ) {
+	public void addGaussian(InterleavedU8 input, Random rand , double sigma , int lowerBound , int upperBound ) {
 
 		int length = input.width*input.numBands;
 
@@ -2795,7 +2797,7 @@ public class ImageMiscOps {
 	/**
 	 * Adds uniform i.i.d noise to each pixel in the image.  Noise range is min &le; X < max.
 	 */
-	public static void addUniform(GrayS8 input, Random rand , int min , int max) {
+	public void addUniform(GrayS8 input, Random rand , int min , int max) {
 		int range = max-min;
 
 		byte[] data = input.data;
@@ -2815,7 +2817,7 @@ public class ImageMiscOps {
 	/**
 	 * Adds uniform i.i.d noise to each pixel in the image.  Noise range is min &le; X < max.
 	 */
-	public static void addUniform(InterleavedS8 input, Random rand , int min , int max) {
+	public void addUniform(InterleavedS8 input, Random rand , int min , int max) {
 		int range = max-min;
 
 		byte[] data = input.data;
@@ -2844,7 +2846,7 @@ public class ImageMiscOps {
 	 * @param lowerBound Allowed lower bound
 	 * @param upperBound Allowed upper bound
 	 */
-	public static void addGaussian(GrayS8 input, Random rand , double sigma , int lowerBound , int upperBound ) {
+	public void addGaussian(GrayS8 input, Random rand , double sigma , int lowerBound , int upperBound ) {
 
 		for (int y = 0; y < input.height; y++) {
 			int index = input.getStartIndex() + y * input.getStride();
@@ -2866,7 +2868,7 @@ public class ImageMiscOps {
 	 * @param lowerBound Allowed lower bound
 	 * @param upperBound Allowed upper bound
 	 */
-	public static void addGaussian(InterleavedS8 input, Random rand , double sigma , int lowerBound , int upperBound ) {
+	public void addGaussian(InterleavedS8 input, Random rand , double sigma , int lowerBound , int upperBound ) {
 
 		int length = input.width*input.numBands;
 
@@ -2885,7 +2887,7 @@ public class ImageMiscOps {
 	/**
 	 * Adds uniform i.i.d noise to each pixel in the image.  Noise range is min &le; X < max.
 	 */
-	public static void addUniform(GrayU16 input, Random rand , int min , int max) {
+	public void addUniform(GrayU16 input, Random rand , int min , int max) {
 		int range = max-min;
 
 		short[] data = input.data;
@@ -2905,7 +2907,7 @@ public class ImageMiscOps {
 	/**
 	 * Adds uniform i.i.d noise to each pixel in the image.  Noise range is min &le; X < max.
 	 */
-	public static void addUniform(InterleavedU16 input, Random rand , int min , int max) {
+	public void addUniform(InterleavedU16 input, Random rand , int min , int max) {
 		int range = max-min;
 
 		short[] data = input.data;
@@ -2934,7 +2936,7 @@ public class ImageMiscOps {
 	 * @param lowerBound Allowed lower bound
 	 * @param upperBound Allowed upper bound
 	 */
-	public static void addGaussian(GrayU16 input, Random rand , double sigma , int lowerBound , int upperBound ) {
+	public void addGaussian(GrayU16 input, Random rand , double sigma , int lowerBound , int upperBound ) {
 
 		for (int y = 0; y < input.height; y++) {
 			int index = input.getStartIndex() + y * input.getStride();
@@ -2956,7 +2958,7 @@ public class ImageMiscOps {
 	 * @param lowerBound Allowed lower bound
 	 * @param upperBound Allowed upper bound
 	 */
-	public static void addGaussian(InterleavedU16 input, Random rand , double sigma , int lowerBound , int upperBound ) {
+	public void addGaussian(InterleavedU16 input, Random rand , double sigma , int lowerBound , int upperBound ) {
 
 		int length = input.width*input.numBands;
 
@@ -2975,7 +2977,7 @@ public class ImageMiscOps {
 	/**
 	 * Adds uniform i.i.d noise to each pixel in the image.  Noise range is min &le; X < max.
 	 */
-	public static void addUniform(GrayS16 input, Random rand , int min , int max) {
+	public void addUniform(GrayS16 input, Random rand , int min , int max) {
 		int range = max-min;
 
 		short[] data = input.data;
@@ -2995,7 +2997,7 @@ public class ImageMiscOps {
 	/**
 	 * Adds uniform i.i.d noise to each pixel in the image.  Noise range is min &le; X < max.
 	 */
-	public static void addUniform(InterleavedS16 input, Random rand , int min , int max) {
+	public void addUniform(InterleavedS16 input, Random rand , int min , int max) {
 		int range = max-min;
 
 		short[] data = input.data;
@@ -3024,7 +3026,7 @@ public class ImageMiscOps {
 	 * @param lowerBound Allowed lower bound
 	 * @param upperBound Allowed upper bound
 	 */
-	public static void addGaussian(GrayS16 input, Random rand , double sigma , int lowerBound , int upperBound ) {
+	public void addGaussian(GrayS16 input, Random rand , double sigma , int lowerBound , int upperBound ) {
 
 		for (int y = 0; y < input.height; y++) {
 			int index = input.getStartIndex() + y * input.getStride();
@@ -3046,7 +3048,7 @@ public class ImageMiscOps {
 	 * @param lowerBound Allowed lower bound
 	 * @param upperBound Allowed upper bound
 	 */
-	public static void addGaussian(InterleavedS16 input, Random rand , double sigma , int lowerBound , int upperBound ) {
+	public void addGaussian(InterleavedS16 input, Random rand , double sigma , int lowerBound , int upperBound ) {
 
 		int length = input.width*input.numBands;
 
@@ -3065,7 +3067,7 @@ public class ImageMiscOps {
 	/**
 	 * Adds uniform i.i.d noise to each pixel in the image.  Noise range is min &le; X < max.
 	 */
-	public static void addUniform(GrayS32 input, Random rand , int min , int max) {
+	public void addUniform(GrayS32 input, Random rand , int min , int max) {
 		int range = max-min;
 
 		int[] data = input.data;
@@ -3082,7 +3084,7 @@ public class ImageMiscOps {
 	/**
 	 * Adds uniform i.i.d noise to each pixel in the image.  Noise range is min &le; X < max.
 	 */
-	public static void addUniform(InterleavedS32 input, Random rand , int min , int max) {
+	public void addUniform(InterleavedS32 input, Random rand , int min , int max) {
 		int range = max-min;
 
 		int[] data = input.data;
@@ -3108,7 +3110,7 @@ public class ImageMiscOps {
 	 * @param lowerBound Allowed lower bound
 	 * @param upperBound Allowed upper bound
 	 */
-	public static void addGaussian(GrayS32 input, Random rand , double sigma , int lowerBound , int upperBound ) {
+	public void addGaussian(GrayS32 input, Random rand , double sigma , int lowerBound , int upperBound ) {
 
 		for (int y = 0; y < input.height; y++) {
 			int index = input.getStartIndex() + y * input.getStride();
@@ -3130,7 +3132,7 @@ public class ImageMiscOps {
 	 * @param lowerBound Allowed lower bound
 	 * @param upperBound Allowed upper bound
 	 */
-	public static void addGaussian(InterleavedS32 input, Random rand , double sigma , int lowerBound , int upperBound ) {
+	public void addGaussian(InterleavedS32 input, Random rand , double sigma , int lowerBound , int upperBound ) {
 
 		int length = input.width*input.numBands;
 
@@ -3149,7 +3151,7 @@ public class ImageMiscOps {
 	/**
 	 * Adds uniform i.i.d noise to each pixel in the image.  Noise range is min &le; X < max.
 	 */
-	public static void addUniform(GrayS64 input, Random rand , long min , long max) {
+	public void addUniform(GrayS64 input, Random rand , long min , long max) {
 		long range = max-min;
 
 		long[] data = input.data;
@@ -3166,7 +3168,7 @@ public class ImageMiscOps {
 	/**
 	 * Adds uniform i.i.d noise to each pixel in the image.  Noise range is min &le; X < max.
 	 */
-	public static void addUniform(InterleavedS64 input, Random rand , long min , long max) {
+	public void addUniform(InterleavedS64 input, Random rand , long min , long max) {
 		long range = max-min;
 
 		long[] data = input.data;
@@ -3192,7 +3194,7 @@ public class ImageMiscOps {
 	 * @param lowerBound Allowed lower bound
 	 * @param upperBound Allowed upper bound
 	 */
-	public static void addGaussian(GrayS64 input, Random rand , double sigma , long lowerBound , long upperBound ) {
+	public void addGaussian(GrayS64 input, Random rand , double sigma , long lowerBound , long upperBound ) {
 
 		for (int y = 0; y < input.height; y++) {
 			int index = input.getStartIndex() + y * input.getStride();
@@ -3214,7 +3216,7 @@ public class ImageMiscOps {
 	 * @param lowerBound Allowed lower bound
 	 * @param upperBound Allowed upper bound
 	 */
-	public static void addGaussian(InterleavedS64 input, Random rand , double sigma , long lowerBound , long upperBound ) {
+	public void addGaussian(InterleavedS64 input, Random rand , double sigma , long lowerBound , long upperBound ) {
 
 		int length = input.width*input.numBands;
 
@@ -3233,7 +3235,7 @@ public class ImageMiscOps {
 	/**
 	 * Adds uniform i.i.d noise to each pixel in the image.  Noise range is min &le; X < max.
 	 */
-	public static void addUniform(GrayF32 input, Random rand , float min , float max) {
+	public void addUniform(GrayF32 input, Random rand , float min , float max) {
 		float range = max-min;
 
 		float[] data = input.data;
@@ -3250,7 +3252,7 @@ public class ImageMiscOps {
 	/**
 	 * Adds uniform i.i.d noise to each pixel in the image.  Noise range is min &le; X < max.
 	 */
-	public static void addUniform(InterleavedF32 input, Random rand , float min , float max) {
+	public void addUniform(InterleavedF32 input, Random rand , float min , float max) {
 		float range = max-min;
 
 		float[] data = input.data;
@@ -3276,7 +3278,7 @@ public class ImageMiscOps {
 	 * @param lowerBound Allowed lower bound
 	 * @param upperBound Allowed upper bound
 	 */
-	public static void addGaussian(GrayF32 input, Random rand , double sigma , float lowerBound , float upperBound ) {
+	public void addGaussian(GrayF32 input, Random rand , double sigma , float lowerBound , float upperBound ) {
 
 		for (int y = 0; y < input.height; y++) {
 			int index = input.getStartIndex() + y * input.getStride();
@@ -3298,7 +3300,7 @@ public class ImageMiscOps {
 	 * @param lowerBound Allowed lower bound
 	 * @param upperBound Allowed upper bound
 	 */
-	public static void addGaussian(InterleavedF32 input, Random rand , double sigma , float lowerBound , float upperBound ) {
+	public void addGaussian(InterleavedF32 input, Random rand , double sigma , float lowerBound , float upperBound ) {
 
 		int length = input.width*input.numBands;
 
@@ -3317,7 +3319,7 @@ public class ImageMiscOps {
 	/**
 	 * Adds uniform i.i.d noise to each pixel in the image.  Noise range is min &le; X < max.
 	 */
-	public static void addUniform(GrayF64 input, Random rand , double min , double max) {
+	public void addUniform(GrayF64 input, Random rand , double min , double max) {
 		double range = max-min;
 
 		double[] data = input.data;
@@ -3334,7 +3336,7 @@ public class ImageMiscOps {
 	/**
 	 * Adds uniform i.i.d noise to each pixel in the image.  Noise range is min &le; X < max.
 	 */
-	public static void addUniform(InterleavedF64 input, Random rand , double min , double max) {
+	public void addUniform(InterleavedF64 input, Random rand , double min , double max) {
 		double range = max-min;
 
 		double[] data = input.data;
@@ -3360,7 +3362,7 @@ public class ImageMiscOps {
 	 * @param lowerBound Allowed lower bound
 	 * @param upperBound Allowed upper bound
 	 */
-	public static void addGaussian(GrayF64 input, Random rand , double sigma , double lowerBound , double upperBound ) {
+	public void addGaussian(GrayF64 input, Random rand , double sigma , double lowerBound , double upperBound ) {
 
 		for (int y = 0; y < input.height; y++) {
 			int index = input.getStartIndex() + y * input.getStride();
@@ -3382,7 +3384,7 @@ public class ImageMiscOps {
 	 * @param lowerBound Allowed lower bound
 	 * @param upperBound Allowed upper bound
 	 */
-	public static void addGaussian(InterleavedF64 input, Random rand , double sigma , double lowerBound , double upperBound ) {
+	public void addGaussian(InterleavedF64 input, Random rand , double sigma , double lowerBound , double upperBound ) {
 
 		int length = input.width*input.numBands;
 

@@ -37,7 +37,7 @@ import java.util.Random;
  * @author Peter Abeles
  */
 public class ImageBinaryLabeledPanel extends JPanel implements MouseListener {
-
+	private static BinaryImageOps BIO;
 	// the image being displayed
 	protected BufferedImage img;
 	protected GrayS32 labelImage;
@@ -54,7 +54,7 @@ public class ImageBinaryLabeledPanel extends JPanel implements MouseListener {
 
 		Random rand = new Random(randSeed);
 
-		colors = BinaryImageOps.selectRandomColors(maxValues,rand);
+		colors = BIO.selectRandomColors(maxValues,rand);
 		VisualizeBinaryData.renderLabeled(labelImage, colors, img);
 	}
 

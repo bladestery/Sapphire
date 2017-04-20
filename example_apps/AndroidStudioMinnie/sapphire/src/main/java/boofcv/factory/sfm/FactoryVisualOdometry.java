@@ -68,7 +68,7 @@ import org.ddogleg.fitting.modelset.ransac.Ransac;
  * @author Peter Abeles
  */
 public class FactoryVisualOdometry {
-
+	private static ImageType IT;
 
 	/**
 	 * Monocular plane based visual odometry algorithm which uses both points on the plane and off plane for motion
@@ -266,7 +266,7 @@ public class FactoryVisualOdometry {
 				(thresholdAdd, thresholdRetire, doublePass, motion, pixelTo3D, refine, tracker, null, null);
 
 		return new VisOdomPixelDepthPnP_to_DepthVisualOdometry<>
-				(sparseDepth, alg, distance, ImageType.single(visualType), depthType);
+				(sparseDepth, alg, distance, IT.single(visualType), depthType);
 	}
 
 	/**

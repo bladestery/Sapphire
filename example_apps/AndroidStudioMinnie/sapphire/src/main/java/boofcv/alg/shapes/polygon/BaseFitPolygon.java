@@ -40,6 +40,7 @@ import java.util.Random;
  * @author Peter Abeles
  */
 public class BaseFitPolygon {
+	private GeneralizedImageOps GIO;
 	boolean showRendered = false;
 
 	Random rand = new Random(234);
@@ -72,8 +73,8 @@ public class BaseFitPolygon {
 	 * @param imageType Type of image
 	 */
 	protected void setup( Affine2D_F64 affine, boolean black , Class imageType ) {
-		work = GeneralizedImageOps.createSingleBand(imageType, width, height);
-		image = GeneralizedImageOps.createSingleBand(imageType,width,height);
+		work = GIO.createSingleBand(imageType, width, height);
+		image = GIO.createSingleBand(imageType,width,height);
 
 		int bg = black ? white : 0;
 		int fg = black ? 0 : white;

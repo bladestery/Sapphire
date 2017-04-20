@@ -27,6 +27,7 @@ import boofcv.alg.feature.detect.intensity.FastCornerIntensity;
 import boofcv.alg.feature.detect.intensity.GradientCornerIntensity;
 import boofcv.alg.feature.detect.intensity.HessianBlobIntensity;
 import boofcv.alg.feature.detect.interest.GeneralFeatureDetector;
+import boofcv.core.image.GeneralizedImageOps;
 import boofcv.factory.feature.detect.extract.FactoryFeatureExtractor;
 import boofcv.factory.feature.detect.intensity.FactoryIntensityPoint;
 import boofcv.factory.feature.detect.intensity.FactoryIntensityPointAlg;
@@ -48,7 +49,8 @@ import boofcv.struct.image.ImageGray;
  * @author Peter Abeles
  */
 public class FactoryDetectPoint {
-
+	private static FactoryBlurFilter FBF;
+	private static GeneralizedImageOps GIO;
 	/**
 	 * Detects Harris corners.
 	 *
@@ -142,7 +144,7 @@ public class FactoryDetectPoint {
 		if( configDetector == null)
 			configDetector = new ConfigGeneralDetector();
 
-		BlurStorageFilter<T> medianFilter = FactoryBlurFilter.median(imageType, configDetector.radius);
+		BlurStorageFilter<T> medianFilter = FBF.median(imageType, configDetector.radius, GIO);
 		GeneralFeatureIntensity<T, D> intensity = new WrapperMedianCornerIntensity<>(medianFilter, imageType);
 		return createGeneral(intensity, configDetector);
 	}

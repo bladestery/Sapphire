@@ -40,7 +40,7 @@ import javax.annotation.Generated;
  */
 @Generated("boofcv.core.image.GenerateConvertImage")
 public class ConvertImage {
-
+	private static InputSanityCheck ISC;
 	/**
 	 * <p>
 	 * Converts an {@link GrayU8} into a {@link GrayS8}.
@@ -54,7 +54,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayS8(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -75,7 +75,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new InterleavedS8(input.width, input.height, input.numBands);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -96,7 +96,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayU16(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -117,7 +117,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new InterleavedU16(input.width, input.height, input.numBands);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -138,7 +138,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayS16(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -159,7 +159,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new InterleavedS16(input.width, input.height, input.numBands);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -180,7 +180,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayS32(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -201,7 +201,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new InterleavedS32(input.width, input.height, input.numBands);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -222,7 +222,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayS64(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -243,7 +243,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new InterleavedS64(input.width, input.height, input.numBands);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -264,7 +264,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayF32(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -285,7 +285,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new InterleavedF32(input.width, input.height, input.numBands);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -306,7 +306,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayF64(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -327,7 +327,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new InterleavedF64(input.width, input.height, input.numBands);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -347,7 +347,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayU8(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertMsToGray.average(input, output);
@@ -366,7 +366,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new InterleavedU8(input.width, input.height,input.getNumBands());
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input,output);
@@ -386,7 +386,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayU8(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ConvertInterleavedToSingle.average(input, output);
@@ -405,7 +405,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new Planar<>(GrayU8.class,input.width, input.height,input.numBands);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input,output);
@@ -427,7 +427,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayU8(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 		if( numValues < 0 || numValues > 256 )
 			throw new IllegalArgumentException("0 <= numValues <= 256");
@@ -460,7 +460,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayU8(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -481,7 +481,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new InterleavedU8(input.width, input.height, input.numBands);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -502,7 +502,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayU16(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -523,7 +523,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new InterleavedU16(input.width, input.height, input.numBands);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -544,7 +544,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayS16(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -565,7 +565,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new InterleavedS16(input.width, input.height, input.numBands);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -586,7 +586,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayS32(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -607,7 +607,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new InterleavedS32(input.width, input.height, input.numBands);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -628,7 +628,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayS64(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -649,7 +649,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new InterleavedS64(input.width, input.height, input.numBands);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -670,7 +670,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayF32(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -691,7 +691,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new InterleavedF32(input.width, input.height, input.numBands);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -712,7 +712,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayF64(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -733,7 +733,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new InterleavedF64(input.width, input.height, input.numBands);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -753,7 +753,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayS8(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertMsToGray.average(input, output);
@@ -772,7 +772,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new InterleavedS8(input.width, input.height,input.getNumBands());
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input,output);
@@ -792,7 +792,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayS8(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ConvertInterleavedToSingle.average(input, output);
@@ -811,7 +811,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new Planar<GrayS8>(GrayS8.class,input.width, input.height,input.numBands);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input,output);
@@ -833,7 +833,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayU8(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 		if( numValues < 0 || numValues > 256 )
 			throw new IllegalArgumentException("0 <= numValues <= 256");
@@ -866,7 +866,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayU8(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -887,7 +887,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new InterleavedU8(input.width, input.height, input.numBands);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -908,7 +908,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayS8(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -929,7 +929,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new InterleavedS8(input.width, input.height, input.numBands);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -950,7 +950,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayS16(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -971,7 +971,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new InterleavedS16(input.width, input.height, input.numBands);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -992,7 +992,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayS32(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -1013,7 +1013,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new InterleavedS32(input.width, input.height, input.numBands);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -1034,7 +1034,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayS64(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -1055,7 +1055,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new InterleavedS64(input.width, input.height, input.numBands);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -1076,7 +1076,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayF32(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -1097,7 +1097,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new InterleavedF32(input.width, input.height, input.numBands);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -1118,7 +1118,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayF64(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -1139,7 +1139,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new InterleavedF64(input.width, input.height, input.numBands);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -1159,7 +1159,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayU16(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertMsToGray.average(input, output);
@@ -1178,7 +1178,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new InterleavedU16(input.width, input.height,input.getNumBands());
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input,output);
@@ -1198,7 +1198,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayU16(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ConvertInterleavedToSingle.average(input, output);
@@ -1217,7 +1217,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new Planar<GrayU16>(GrayU16.class,input.width, input.height,input.numBands);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input,output);
@@ -1239,7 +1239,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayU8(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 		if( numValues < 0 || numValues > 256 )
 			throw new IllegalArgumentException("0 <= numValues <= 256");
@@ -1272,7 +1272,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayU8(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -1293,7 +1293,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new InterleavedU8(input.width, input.height, input.numBands);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -1314,7 +1314,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayS8(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -1335,7 +1335,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new InterleavedS8(input.width, input.height, input.numBands);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -1356,7 +1356,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayU16(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -1377,7 +1377,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new InterleavedU16(input.width, input.height, input.numBands);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -1398,7 +1398,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayS32(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -1419,7 +1419,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new InterleavedS32(input.width, input.height, input.numBands);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -1440,7 +1440,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayS64(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -1461,7 +1461,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new InterleavedS64(input.width, input.height, input.numBands);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -1482,7 +1482,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayF32(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -1503,7 +1503,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new InterleavedF32(input.width, input.height, input.numBands);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -1524,7 +1524,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayF64(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -1545,7 +1545,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new InterleavedF64(input.width, input.height, input.numBands);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -1565,7 +1565,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayS16(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertMsToGray.average(input, output);
@@ -1584,7 +1584,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new InterleavedS16(input.width, input.height,input.getNumBands());
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input,output);
@@ -1604,7 +1604,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayS16(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ConvertInterleavedToSingle.average(input, output);
@@ -1623,7 +1623,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new Planar<GrayS16>(GrayS16.class,input.width, input.height,input.numBands);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input,output);
@@ -1645,7 +1645,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayU8(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 		if( numValues < 0 || numValues > 256 )
 			throw new IllegalArgumentException("0 <= numValues <= 256");
@@ -1678,7 +1678,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayU8(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -1699,7 +1699,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new InterleavedU8(input.width, input.height, input.numBands);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -1720,7 +1720,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayS8(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -1741,7 +1741,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new InterleavedS8(input.width, input.height, input.numBands);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -1762,7 +1762,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayU16(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -1783,7 +1783,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new InterleavedU16(input.width, input.height, input.numBands);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -1804,7 +1804,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayS16(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -1825,7 +1825,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new InterleavedS16(input.width, input.height, input.numBands);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -1846,7 +1846,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayS64(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -1867,7 +1867,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new InterleavedS64(input.width, input.height, input.numBands);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -1888,7 +1888,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayF32(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -1909,7 +1909,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new InterleavedF32(input.width, input.height, input.numBands);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -1930,7 +1930,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayF64(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -1951,7 +1951,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new InterleavedF64(input.width, input.height, input.numBands);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -1971,7 +1971,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayS32(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertMsToGray.average(input, output);
@@ -1990,7 +1990,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new InterleavedS32(input.width, input.height,input.getNumBands());
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input,output);
@@ -2010,7 +2010,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayS32(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ConvertInterleavedToSingle.average(input, output);
@@ -2029,7 +2029,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new Planar<GrayS32>(GrayS32.class,input.width, input.height,input.numBands);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input,output);
@@ -2051,7 +2051,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayU8(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 		if( numValues < 0 || numValues > 256 )
 			throw new IllegalArgumentException("0 <= numValues <= 256");
@@ -2084,7 +2084,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayU8(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -2105,7 +2105,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new InterleavedU8(input.width, input.height, input.numBands);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -2126,7 +2126,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayS8(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -2147,7 +2147,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new InterleavedS8(input.width, input.height, input.numBands);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -2168,7 +2168,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayU16(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -2189,7 +2189,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new InterleavedU16(input.width, input.height, input.numBands);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -2210,7 +2210,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayS16(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -2231,7 +2231,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new InterleavedS16(input.width, input.height, input.numBands);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -2252,7 +2252,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayS32(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -2273,7 +2273,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new InterleavedS32(input.width, input.height, input.numBands);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -2294,7 +2294,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayF32(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -2315,7 +2315,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new InterleavedF32(input.width, input.height, input.numBands);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -2336,7 +2336,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayF64(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -2357,7 +2357,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new InterleavedF64(input.width, input.height, input.numBands);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -2377,7 +2377,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayS64(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertMsToGray.average(input, output);
@@ -2396,7 +2396,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new InterleavedS64(input.width, input.height,input.getNumBands());
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input,output);
@@ -2416,7 +2416,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayS64(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ConvertInterleavedToSingle.average(input, output);
@@ -2435,7 +2435,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new Planar<GrayS64>(GrayS64.class,input.width, input.height,input.numBands);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input,output);
@@ -2457,7 +2457,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayU8(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 		if( numValues < 0 || numValues > 256 )
 			throw new IllegalArgumentException("0 <= numValues <= 256");
@@ -2490,7 +2490,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayU8(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -2511,7 +2511,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new InterleavedU8(input.width, input.height, input.numBands);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -2532,7 +2532,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayS8(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -2553,7 +2553,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new InterleavedS8(input.width, input.height, input.numBands);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -2574,7 +2574,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayU16(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -2595,7 +2595,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new InterleavedU16(input.width, input.height, input.numBands);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -2616,7 +2616,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayS16(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -2637,7 +2637,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new InterleavedS16(input.width, input.height, input.numBands);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -2658,7 +2658,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayS32(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -2679,7 +2679,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new InterleavedS32(input.width, input.height, input.numBands);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -2700,7 +2700,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayS64(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -2721,7 +2721,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new InterleavedS64(input.width, input.height, input.numBands);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -2742,7 +2742,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayF64(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -2763,7 +2763,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new InterleavedF64(input.width, input.height, input.numBands);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -2783,7 +2783,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayF32(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertMsToGray.average(input, output);
@@ -2802,7 +2802,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new InterleavedF32(input.width, input.height,input.getNumBands());
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input,output);
@@ -2822,7 +2822,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayF32(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ConvertInterleavedToSingle.average(input, output);
@@ -2841,7 +2841,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new Planar<>(GrayF32.class,input.width, input.height,input.numBands);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input,output);
@@ -2863,7 +2863,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayU8(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 		if( numValues < 0 || numValues > 256 )
 			throw new IllegalArgumentException("0 <= numValues <= 256");
@@ -2896,7 +2896,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayU8(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -2917,7 +2917,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new InterleavedU8(input.width, input.height, input.numBands);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -2938,7 +2938,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayS8(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -2959,7 +2959,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new InterleavedS8(input.width, input.height, input.numBands);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -2980,7 +2980,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayU16(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -3001,7 +3001,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new InterleavedU16(input.width, input.height, input.numBands);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -3022,7 +3022,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayS16(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -3043,7 +3043,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new InterleavedS16(input.width, input.height, input.numBands);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -3064,7 +3064,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayS32(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -3085,7 +3085,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new InterleavedS32(input.width, input.height, input.numBands);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -3106,7 +3106,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayS64(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -3127,7 +3127,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new InterleavedS64(input.width, input.height, input.numBands);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -3148,7 +3148,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayF32(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -3169,7 +3169,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new InterleavedF32(input.width, input.height, input.numBands);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input, output);
@@ -3189,7 +3189,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayF64(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertMsToGray.average(input, output);
@@ -3208,7 +3208,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new InterleavedF64(input.width, input.height,input.getNumBands());
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input,output);
@@ -3228,7 +3228,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayF64(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ConvertInterleavedToSingle.average(input, output);
@@ -3247,7 +3247,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new Planar<GrayF64>(GrayF64.class,input.width, input.height,input.numBands);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 
 		ImplConvertImage.convert(input,output);
@@ -3269,7 +3269,7 @@ public class ConvertImage {
 		if (output == null) {
 			output = new GrayU8(input.width, input.height);
 		} else {
-			InputSanityCheck.checkSameShape(input, output);
+			ISC.checkSameShape(input, output);
 		}
 		if( numValues < 0 || numValues > 256 )
 			throw new IllegalArgumentException("0 <= numValues <= 256");

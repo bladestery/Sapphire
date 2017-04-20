@@ -18,6 +18,8 @@
 
 package boofcv.alg.background;
 
+import android.renderscript.ScriptGroup;
+
 import boofcv.alg.InputSanityCheck;
 import boofcv.struct.distort.Point2Transform2Model_F32;
 import boofcv.struct.image.GrayU8;
@@ -57,7 +59,7 @@ import georegression.struct.point.Point2D_F32;
 public abstract class BackgroundModelMoving<T extends ImageBase,MotionModel extends InvertibleTransform<MotionModel>>
 	extends BackgroundModel<T>
 {
-
+	private static InputSanityCheck ISC;
 	// Convert the motion model into a usable format
 	protected Point2Transform2Model_F32<MotionModel> transform;
 
@@ -164,7 +166,7 @@ public abstract class BackgroundModelMoving<T extends ImageBase,MotionModel exte
 	 * @param segmented Segmented image. 0 = background, 1 = foreground/moving
 	 */
 	public void segment( MotionModel homeToCurrent , T frame , GrayU8 segmented ) {
-		InputSanityCheck.checkSameShape(frame,segmented);
+		ISC.checkSameShape(frame,segmented);
 
 		worldToHome.concat(homeToCurrent, worldToCurrent);
 		worldToCurrent.invert(currentToWorld);

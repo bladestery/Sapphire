@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -15,9 +16,13 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.ToggleButton;
 
+import org.boofcv.android.DemoManager;
 import org.boofcv.android.DemoVideoDisplayActivity;
 import org.boofcv.android.R;
 
+import java.net.InetSocketAddress;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.List;
 
 import boofcv.alg.filter.binary.BinaryImageOps;
@@ -37,6 +42,10 @@ import boofcv.struct.image.ImageType;
 import georegression.metric.UtilAngle;
 import georegression.struct.point.Point2D_I32;
 import georegression.struct.shapes.EllipseRotated_F64;
+import sapphire.kernel.server.KernelServerImpl;
+import sapphire.oms.OMSServer;
+
+import static sapphire.kernel.common.GlobalKernelReferences.nodeServer;
 
 /**
  * Fits different shapes to binary images
@@ -46,14 +55,42 @@ import georegression.struct.shapes.EllipseRotated_F64;
 public class ContourShapeFittingActivity extends DemoVideoDisplayActivity
 		implements AdapterView.OnItemSelectedListener
 {
-
 	Spinner spinnerView;
 
 	volatile boolean down;
 
+	OMSServer server;
+	DemoManager dm;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		InetSocketAddress host, omsHost;
+
+		try {
+			Registry registry = LocateRegistry.getRegistry("157.82.159.30", 22346);
+			server = (OMSServer) registry.lookup("SapphireOMS");
+			System.out.println(server);
+
+			host = new InetSocketAddress("192.168.26.27", 22346);
+			omsHost = new InetSocketAddress("157.82.159.30", 22346);
+			nodeServer = new KernelServerImpl(host, omsHost);
+			System.out.println(nodeServer);
+
+			System.setProperty("java.rmi.server.hostname", host.getAddress().getHostAddress());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		try {
+			//Server is initiated with appObject to perform remote RPCs
+			dm = (DemoManager) server.getAppEntryPoint();
+			System.out.println("Got AppEntryPoint");
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(0);
+		}
 
 		LayoutInflater inflater = getLayoutInflater();
 		LinearLayout controls = (LinearLayout)inflater.inflate(R.layout.shape_fitting_controls,null);
@@ -115,10 +152,10 @@ public class ContourShapeFittingActivity extends DemoVideoDisplayActivity
 		GrayS32 contourOutput;
 		Paint paint = new Paint();
 		RectF r = new RectF();
-		LinearContourLabelChang2004 findContours = new LinearContourLabelChang2004(ConnectRule.EIGHT);
+		//LinearContourLabelChang2004 findContours = new LinearContourLabelChang2004(ConnectRule.EIGHT);
 
 		protected BaseProcessing() {
-			super(ImageType.single(GrayU8.class));
+			super(dm.single(GrayU8.class));
 		}
 
 		@Override
@@ -138,20 +175,20 @@ public class ContourShapeFittingActivity extends DemoVideoDisplayActivity
 		protected void process(GrayU8 input, Bitmap output, byte[] storage) {
 
 			// Select a reasonable threshold
-			int mean = GThresholdImageOps.computeOtsu(input,0,255);
+			int mean = dm.computeOtsu(input,0,255);
 
 			// create a binary image by thresholding
-			ThresholdImageOps.threshold(input, binary, mean, down);
+			dm.threshold(input, binary, mean, down);
 
 			// reduce noise with some filtering
-			BinaryImageOps.removePointNoise(binary, filtered1);
+			dm.removePointNoise(binary, filtered1);
 
 			// draw binary image for output
 			VisualizeImageData.binaryToBitmap(filtered1, false, output, storage);
 
 			// draw the ellipses
-			findContours.process(filtered1,contourOutput);
-			List<Contour> contours = findContours.getContours().toList();
+			dm.findContoursProcess(filtered1,contourOutput);
+			List<Contour> contours = dm.findContoursGetContours().toList();
 
 			Canvas canvas = new Canvas(output);
 

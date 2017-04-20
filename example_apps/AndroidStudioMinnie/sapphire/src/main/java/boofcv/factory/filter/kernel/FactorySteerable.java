@@ -40,7 +40,7 @@ import boofcv.struct.image.ImageGray;
  */
 @SuppressWarnings({"unchecked"})
 public class FactorySteerable {
-
+	private static FactoryKernelGaussian FKG;
 	/**
 	 * Steerable filter for 2D Gaussian derivatives.  The basis is composed of a set of rotated kernels.
 	 *
@@ -65,13 +65,13 @@ public class FactorySteerable {
 		int maxOrder = Math.max(orderX,orderY);
 
 		if( sigma <= 0 )
-			sigma = (float)FactoryKernelGaussian.sigmaForRadius(radius,maxOrder);
+			sigma = (float)FKG.sigmaForRadius(radius,maxOrder);
 		else if( radius <= 0 )
-			radius = FactoryKernelGaussian.radiusForSigma(sigma,maxOrder);
+			radius = FKG.radiusForSigma(sigma,maxOrder);
 
 		Class kernel1DType = FactoryKernel.get1DType(kernelType);
-		Kernel1D kerX =  FactoryKernelGaussian.derivativeK(kernel1DType,orderX,sigma,radius);
-		Kernel1D kerY = FactoryKernelGaussian.derivativeK(kernel1DType,orderY,sigma,radius);
+		Kernel1D kerX =  FKG.derivativeK(kernel1DType,orderX,sigma,radius);
+		Kernel1D kerY = FKG.derivativeK(kernel1DType,orderY,sigma,radius);
 		Kernel2D kernel = GKernelMath.convolve(kerY,kerX);
 
 		Kernel2D []basis = new Kernel2D[order+1];

@@ -40,7 +40,7 @@ import java.util.Random;
  * @author Peter Abeles
  */
 public class AreGenericsSlower {
-
+	private ImageMiscOps IMO;
 	static Random rand = new Random(234);
 
 	static int width = 640;
@@ -141,7 +141,7 @@ public class AreGenericsSlower {
 	}
 
 	public void performTest() {
-		ImageMiscOps.fillUniform(image,rand,0,100);
+		IMO.fillUniform(image,rand,0,100);
 
 		System.out.println("=========  Profile Image Size " + width + " x " + height + " ==========");
 		System.out.println();

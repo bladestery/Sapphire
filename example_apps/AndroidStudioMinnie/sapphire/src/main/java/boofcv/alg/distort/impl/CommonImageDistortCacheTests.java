@@ -39,7 +39,8 @@ import java.util.Random;
  * @author Peter Abeles
  */
 public abstract class CommonImageDistortCacheTests<T extends ImageGray> {
-
+	private static GeneralizedImageOps GIO;
+	private static FactoryImageBorder FIB;
 	Class<T> imageType;
 	
 	Random rand = new Random(234234);
@@ -56,11 +57,11 @@ public abstract class CommonImageDistortCacheTests<T extends ImageGray> {
 	protected CommonImageDistortCacheTests(Class<T> imageType) {
 		this.imageType = imageType;
 		interp = FactoryInterpolation.bilinearPixelS(imageType, BorderType.EXTENDED);
-		interp.setBorder(FactoryImageBorder.singleValue(imageType, 1));
+		interp.setBorder(FIB.singleValue(imageType, 1));
 
-		src = GeneralizedImageOps.createSingleBand(imageType,200,300);
-		dst0 = GeneralizedImageOps.createSingleBand(imageType,200,300);
-		dst1 = GeneralizedImageOps.createSingleBand(imageType,200,300);
+		src = GIO.createSingleBand(imageType,200,300);
+		dst0 = GIO.createSingleBand(imageType,200,300);
+		dst1 = GIO.createSingleBand(imageType,200,300);
 
 		GImageMiscOps.addGaussian(src, rand, 10, 0, 255);
 	}

@@ -19,8 +19,22 @@
 package boofcv.alg.transform.pyramid;
 
 import boofcv.abst.filter.convolve.GenericConvolveDown;
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.filter.blur.BlurImageOps;
+import boofcv.alg.filter.blur.GBlurImageOps;
+import boofcv.alg.filter.blur.impl.ImplMedianHistogramInner;
+import boofcv.alg.filter.blur.impl.ImplMedianSortEdgeNaive;
+import boofcv.alg.filter.blur.impl.ImplMedianSortNaive;
+import boofcv.alg.filter.convolve.ConvolveImageMean;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
+import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.BorderType;
 import boofcv.factory.filter.convolve.FactoryConvolveDown;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.convolve.Kernel1D;
 import boofcv.struct.image.ImageGray;
 import boofcv.struct.pyramid.PyramidDiscrete;
@@ -45,7 +59,20 @@ import boofcv.struct.pyramid.PyramidDiscrete;
  */
 @SuppressWarnings({"unchecked"})
 public class PyramidDiscreteSampleBlur<T extends ImageGray> extends PyramidDiscrete<T> {
-
+	private static GBlurImageOps GBIO;
+	private static GeneralizedImageOps GIO;
+	private static InputSanityCheck ISC;
+	private static BlurImageOps BIO;
+	private static ConvolveImageMean CIM;
+	private static FactoryKernelGaussian FKG;
+	private static ConvolveNormalized CN;
+	private static ConvolveNormalizedNaive CNN;
+	private static ConvolveImageNoBorder CINB;
+	private static ConvolveNormalized_JustBorder CNJB;
+	private static ImplMedianHistogramInner IMHI;
+	private static ImplMedianSortEdgeNaive IMSEN;
+	private static ImplMedianSortNaive IMSN;
+	private static ImplConvolveMean ICM;
 	// stores the results from the first convolution
 	private T temp;
 	GenericConvolveDown<T,T> horizontal;
@@ -107,8 +134,8 @@ public class PyramidDiscreteSampleBlur<T extends ImageGray> extends PyramidDiscr
 			vertical.setSkip(skip);
 
 			temp.reshape(input.width/skip,input.height);
-			horizontal.process(input,temp);
-			vertical.process(temp,getLayer(0));
+			horizontal.process(input,temp, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM);
+			vertical.process(temp,getLayer(0), GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM);
 		}
 
 		for (int index = 1; index < getNumLayers(); index++) {
@@ -119,8 +146,8 @@ public class PyramidDiscreteSampleBlur<T extends ImageGray> extends PyramidDiscr
 			horizontal.setSkip(skip);
 			vertical.setSkip(skip);
 
-			horizontal.process(prev,temp);
-			vertical.process(temp,getLayer(index));
+			horizontal.process(prev,temp, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM);
+			vertical.process(temp,getLayer(index), GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM);
 		}
 	}
 

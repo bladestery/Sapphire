@@ -6,9 +6,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import boofcv.abst.filter.binary.InputToBinary;
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.fiducial.square.BaseDetectFiducialSquare;
 import boofcv.alg.fiducial.square.FoundFiducial;
+import boofcv.alg.filter.blur.BlurImageOps;
+import boofcv.alg.filter.blur.GBlurImageOps;
+import boofcv.alg.filter.blur.impl.ImplMedianHistogramInner;
+import boofcv.alg.filter.blur.impl.ImplMedianSortEdgeNaive;
+import boofcv.alg.filter.blur.impl.ImplMedianSortNaive;
+import boofcv.alg.filter.convolve.ConvolveImageMean;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
+import boofcv.core.image.GeneralizedImageOps;
 import boofcv.factory.filter.binary.FactoryThresholdBinary;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.factory.shape.ConfigPolygonDetector;
 import boofcv.factory.shape.FactoryShapeDetector;
 import boofcv.struct.image.GrayF32;
@@ -21,7 +35,20 @@ import georegression.struct.shapes.Quadrilateral_F64;
  * @author Peter Abeles
  */
 public class FiducialDetector extends BaseDetectFiducialSquare<GrayU8> {
-
+	private static GBlurImageOps GBIO;
+	private static GeneralizedImageOps GIO;
+	private static InputSanityCheck ISC;
+	private static BlurImageOps BIO;
+	private static ConvolveImageMean CIM;
+	private static FactoryKernelGaussian FKG;
+	private static ConvolveNormalized CN;
+	private static ConvolveNormalizedNaive CNN;
+	private static ConvolveImageNoBorder CINB;
+	private static ConvolveNormalized_JustBorder CNJB;
+	private static ImplMedianHistogramInner IMHI;
+	private static ImplMedianSortEdgeNaive IMSEN;
+	private static ImplMedianSortNaive IMSN;
+	private static ImplConvolveMean ICM;
 	private static final String TAG = "FiducialDetector";
 
 	// Width of black border (units = pixels)
@@ -82,7 +109,7 @@ public class FiducialDetector extends BaseDetectFiducialSquare<GrayU8> {
 		int off = (gray.width-binary.width)/2;
 		gray.subimage(off, off, gray.width - off, gray.width - off, grayNoBorder);
 
-		threshold.process(grayNoBorder, binary);
+		threshold.process(grayNoBorder, binary, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM);
 		return true;
 	}
 

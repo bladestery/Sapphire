@@ -18,7 +18,13 @@
 
 package boofcv.abst.filter.derivative;
 
+import java.io.InputStream;
+
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
 import boofcv.core.image.border.BorderType;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.struct.image.ImageGray;
 import boofcv.struct.image.ImageType;
 import boofcv.struct.image.Planar;
@@ -35,22 +41,22 @@ public class ImageGradient_PL<T extends ImageGray, D extends ImageGray>
 
 	ImageType<Planar<D>> derivType;
 
-	public ImageGradient_PL(ImageGradient<T, D> bandGradient , int numBands ) {
+	public ImageGradient_PL(ImageGradient<T, D> bandGradient , int numBands, ImageType IT) {
 		this.bandGradient = bandGradient;
 
-		derivType = ImageType.pl(numBands,bandGradient.getDerivativeType().getImageClass());
+		derivType = IT.pl(numBands,bandGradient.getDerivativeType(IT).getImageClass());
 	}
 
 	@Override
-	public void process(Planar<T> inputImage, Planar<D> derivX, Planar<D> derivY) {
+	public void process(Planar<T> inputImage, Planar<D> derivX, Planar<D> derivY, InputSanityCheck ISC, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB) {
 		for (int i = 0; i < inputImage.getNumBands(); i++) {
-			bandGradient.process(inputImage.getBand(i), derivX.getBand(i), derivY.getBand(i));
+			bandGradient.process(inputImage.getBand(i), derivX.getBand(i), derivY.getBand(i), ISC, DHF, CINB);
 		}
 	}
 
 	@Override
-	public void setBorderType(BorderType type) {
-		bandGradient.setBorderType(type);
+	public void setBorderType(BorderType type, FactoryImageBorder FIB) {
+		bandGradient.setBorderType(type, FIB);
 	}
 
 	@Override
@@ -64,7 +70,7 @@ public class ImageGradient_PL<T extends ImageGray, D extends ImageGray>
 	}
 
 	@Override
-	public ImageType<Planar<D>> getDerivativeType() {
+	public ImageType<Planar<D>> getDerivativeType(ImageType IT) {
 		return derivType;
 	}
 }

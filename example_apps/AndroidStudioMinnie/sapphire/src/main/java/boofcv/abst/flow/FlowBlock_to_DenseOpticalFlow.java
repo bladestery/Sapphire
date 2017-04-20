@@ -33,6 +33,7 @@ import boofcv.struct.pyramid.ImagePyramid;
 public class FlowBlock_to_DenseOpticalFlow<T extends ImageGray>
 	implements DenseOpticalFlow<T>
 {
+	private ImageType IT;
 	DenseOpticalFlowBlockPyramid<T> flowAlg;
 
 	// width and height of input image.  used to see if anything changes
@@ -57,7 +58,7 @@ public class FlowBlock_to_DenseOpticalFlow<T extends ImageGray>
 		this.scale = scale;
 		this.maxLayers = maxLayers;
 
-		this.imageType = ImageType.single(imageType);
+		this.imageType = IT.single(imageType);
 	}
 
 	@Override

@@ -18,9 +18,13 @@
 
 package boofcv.alg.fiducial.square;
 
+import android.renderscript.ScriptGroup;
+
 import boofcv.abst.filter.binary.InputToBinary;
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.filter.binary.ThresholdImageOps;
 import boofcv.alg.shapes.polygon.BinaryPolygonDetector;
+import boofcv.core.image.GeneralizedImageOps;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.ImageGray;
@@ -61,6 +65,9 @@ import java.util.Arrays;
  */
 public class DetectFiducialSquareBinary<T extends ImageGray>
 		extends BaseDetectFiducialSquare<T> {
+	private static ThresholdImageOps TIO;
+	private static InputSanityCheck ISC;
+	private static GeneralizedImageOps GIO;
 
 	// helper data structures for computing the value of each grid element
 	int[] counts, classified, tmp;
@@ -250,7 +257,7 @@ public class DetectFiducialSquareBinary<T extends ImageGray>
 	 */
 	protected void findBitCounts(GrayF32 gray , double threshold ) {
 		// compute binary image using an adaptive algorithm to handle shadows
-		ThresholdImageOps.threshold(gray,binaryInner,(float)threshold,true);
+		TIO.threshold(gray,binaryInner,(float)threshold,true, ISC, GIO);
 
 		Arrays.fill(counts, 0);
 		for (int row = 0; row < gridWidth; row++) {

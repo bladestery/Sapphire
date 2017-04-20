@@ -15,10 +15,18 @@ import android.widget.ToggleButton;
 import org.boofcv.android.DemoVideoDisplayActivity;
 import org.boofcv.android.R;
 
+import java.util.function.IntBinaryOperator;
+
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.filter.binary.BinaryImageOps;
 import boofcv.alg.filter.binary.GThresholdImageOps;
+import boofcv.alg.filter.binary.ThresholdImageOps;
+import boofcv.alg.filter.binary.impl.ImplBinaryBorderOps;
+import boofcv.alg.filter.binary.impl.ImplBinaryInnerOps;
 import boofcv.android.VisualizeImageData;
 import boofcv.android.gui.VideoImageProcessing;
+import boofcv.core.image.GeneralizedImageOps;
+import boofcv.core.image.border.ImageBorderValue;
 import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.ImageType;
 
@@ -31,7 +39,15 @@ public class BinaryDisplayActivity extends DemoVideoDisplayActivity
 		implements SeekBar.OnSeekBarChangeListener ,
 		CompoundButton.OnCheckedChangeListener,
 		AdapterView.OnItemSelectedListener {
-
+	private static ImageType IT;
+	private static GThresholdImageOps GTIO;
+	private static BinaryImageOps BIO;
+	private static ThresholdImageOps TIO;
+	private static InputSanityCheck ISC;
+	private static GeneralizedImageOps GIO;
+	private static ImplBinaryBorderOps IBBO;
+	private static ImplBinaryInnerOps IBIO;
+	private static ImageBorderValue IBV;
 	boolean down;
 	double threshold;
 	int action;
@@ -98,7 +114,7 @@ public class BinaryDisplayActivity extends DemoVideoDisplayActivity
 		GrayU8 afterOps;
 
 		protected ThresholdProcessing() {
-			super(ImageType.single(GrayU8.class));
+			super(IT.single(GrayU8.class));
 		}
 
 		@Override
@@ -111,39 +127,39 @@ public class BinaryDisplayActivity extends DemoVideoDisplayActivity
 
 		@Override
 		protected void process(GrayU8 input, Bitmap output, byte[] storage) {
-			GThresholdImageOps.threshold(input,binary,threshold, down);
+			GTIO.threshold(input,binary,threshold, down, TIO, ISC, GIO);
 
 			switch( action ) {
 				case 1:
-					BinaryImageOps.dilate4(binary,1,afterOps);
+					BIO.dilate4(binary,1,afterOps, ISC, IBIO, IBBO, IBV);
 					break;
 
 				case 2:
-					BinaryImageOps.dilate8(binary, 1, afterOps);
+					BIO.dilate8(binary, 1, afterOps, ISC, IBIO, IBBO, IBV);
 					break;
 
 				case 3:
-					BinaryImageOps.erode4(binary, 1, afterOps);
+					BIO.erode4(binary, 1, afterOps, ISC, IBIO, IBBO, IBV);
 					break;
 
 				case 4:
-					BinaryImageOps.erode8(binary, 1, afterOps);
+					BIO.erode8(binary, 1, afterOps, ISC, IBIO, IBBO, IBV);
 					break;
 
 				case 5:
-					BinaryImageOps.edge4(binary, afterOps);
+					BIO.edge4(binary, afterOps, ISC, IBIO, IBBO, IBV);
 					break;
 
 				case 6:
-					BinaryImageOps.edge8(binary, afterOps);
+					BIO.edge8(binary, afterOps, ISC, IBIO, IBBO, IBV);
 					break;
 
 				case 7:
-					BinaryImageOps.removePointNoise(binary, afterOps);
+					BIO.removePointNoise(binary, afterOps, ISC, IBIO, IBBO, IBV);
 					break;
 
 				case 8:
-					BinaryImageOps.thin(binary,50,afterOps);
+					BIO.thin(binary,50,afterOps, ISC);
 					break;
 
 				default:

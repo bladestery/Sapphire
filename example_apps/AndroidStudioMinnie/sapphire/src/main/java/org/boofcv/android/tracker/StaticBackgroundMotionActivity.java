@@ -43,7 +43,9 @@ import boofcv.struct.image.ImageType;
 public class StaticBackgroundMotionActivity extends DemoVideoDisplayActivity
 		implements AdapterView.OnItemSelectedListener, View.OnTouchListener
 {
-
+	private ImageType IT;
+	private GeneralizedImageOps GIO;
+	private ImageMiscOps IMO;
 	int selected;
 
 	boolean resetRequested;
@@ -140,19 +142,19 @@ public class StaticBackgroundMotionActivity extends DemoVideoDisplayActivity
 		switch( selected ) {
 			case 0:
 				model = FactoryBackgroundModel.stationaryBasic(
-						configBasic,ImageType.single(GrayU8.class));
+						configBasic,IT.single(GrayU8.class));
 				break;
 
 			case 1:
-				model = FactoryBackgroundModel.stationaryBasic(configBasic,ImageType.il(3, ImageDataType.U8));
+				model = FactoryBackgroundModel.stationaryBasic(configBasic,IT.il(3, ImageDataType.U8));
 				break;
 
 			case 2:
-				model = FactoryBackgroundModel.stationaryGaussian(configGaussian, ImageType.single(GrayU8.class));
+				model = FactoryBackgroundModel.stationaryGaussian(configGaussian, IT.single(GrayU8.class));
 				break;
 
 			case 3:
-				model = FactoryBackgroundModel.stationaryGaussian(configGaussian, ImageType.il(3, ImageDataType.U8));
+				model = FactoryBackgroundModel.stationaryGaussian(configGaussian, IT.il(3, ImageDataType.U8));
 				break;
 
 			default:
@@ -185,7 +187,7 @@ public class StaticBackgroundMotionActivity extends DemoVideoDisplayActivity
 			this.model = model;
 			this.scaled = model.getImageType().createImage(1, 1);
 
-			this.work = GeneralizedImageOps.createSingleBand(model.getImageType().getDataType(),1,1);
+			this.work = GIO.createSingleBand(model.getImageType().getDataType(),1,1);
 		}
 
 		@Override
@@ -203,7 +205,7 @@ public class StaticBackgroundMotionActivity extends DemoVideoDisplayActivity
 			if( resetRequested ) {
 				resetRequested = false;
 				model.reset();
-				ImageMiscOps.fill(binary,0);
+				IMO.fill(binary,0);
 			} else {
 				model.segment(image, binary);
 				model.updateBackground(image);

@@ -39,6 +39,7 @@ import static org.junit.Assert.assertEquals;
  * @author Peter Abeles
  */
 public abstract class GeneralSegmentSlicColorChecks<T extends ImageBase> {
+	private GeneralizedImageOps GIO;
 	ImageType<T> imageType;
 
 	Random rand = new Random(234);
@@ -91,7 +92,7 @@ public abstract class GeneralSegmentSlicColorChecks<T extends ImageBase> {
 				alg.setColor(found,x,y);
 
 				for (int i = 0; i < imageType.getNumBands(); i++) {
-					double expected = GeneralizedImageOps.get(input,x,y,i);
+					double expected = GIO.get(input,x,y,i);
 					assertEquals(expected,found[i],1e-4);
 				}
 			}
@@ -117,7 +118,7 @@ public abstract class GeneralSegmentSlicColorChecks<T extends ImageBase> {
 
 		int x = 4,y = 5;
 		for( int i = 0; i < imageType.getNumBands(); i++ ) {
-			expected[i] += GeneralizedImageOps.get(input,x,y,i)*w;
+			expected[i] += GIO.get(input,x,y,i)*w;
 		}
 
 		alg.addColor(found,input.getIndex(x,y),w);
@@ -145,7 +146,7 @@ public abstract class GeneralSegmentSlicColorChecks<T extends ImageBase> {
 
 		float expected = 0;
 		for( int i = 0; i < imageType.getNumBands(); i++ ) {
-			float d = color[i] - (float)GeneralizedImageOps.get(input,6,8,i);
+			float d = color[i] - (float)GIO.get(input,6,8,i);
 			expected += d*d;
 		}
 

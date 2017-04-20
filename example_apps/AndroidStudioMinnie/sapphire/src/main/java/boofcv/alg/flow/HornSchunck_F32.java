@@ -28,9 +28,9 @@ import boofcv.struct.image.ImageType;
  * @author Peter Abeles
  */
 public class HornSchunck_F32 extends HornSchunck<GrayF32,GrayF32> {
-
+	private static ImageType IT;
 	public HornSchunck_F32(float alpha, int numIterations) {
-		super(alpha, numIterations, ImageType.single(GrayF32.class));
+		super(alpha, numIterations, IT.single(GrayF32.class));
 	}
 
 	@Override

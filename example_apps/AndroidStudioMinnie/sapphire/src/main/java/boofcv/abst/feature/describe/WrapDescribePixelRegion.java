@@ -34,12 +34,13 @@ import boofcv.struct.image.ImageType;
 public class WrapDescribePixelRegion<T extends ImageGray, D extends TupleDesc>
 		implements DescribeRegionPoint<T,D>
 {
+	private ImageType IT;
 	DescribePointPixelRegion<T,D> alg;
 	ImageType<T> imageType;
 
 	public WrapDescribePixelRegion(DescribePointPixelRegion<T, D> alg , Class<T> imageType) {
 		this.alg = alg;
-		this.imageType = ImageType.single(imageType);
+		this.imageType = IT.single(imageType);
 	}
 
 	public D createDescription() {

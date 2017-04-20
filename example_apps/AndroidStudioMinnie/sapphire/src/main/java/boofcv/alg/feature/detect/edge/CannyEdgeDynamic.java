@@ -20,18 +20,22 @@ package boofcv.alg.feature.detect.edge;
 
 import boofcv.abst.filter.blur.BlurFilter;
 import boofcv.abst.filter.derivative.ImageGradient;
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.misc.ImageStatistics;
+import boofcv.core.image.GeneralizedImageOps;
 import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.ImageGray;
 
+import boofcv.struct.image.ImageType;
+import sapphire.app.SapphireObject;
 
 /**
  * Canny edge detector where the thresholds are computed dynamically based upon the magnitude of the largest edge
  *
  * @author Peter Abeles
  */
-public class CannyEdgeDynamic<T extends ImageGray, D extends ImageGray> extends CannyEdge<T,D>
+public class CannyEdgeDynamic<T extends ImageGray, D extends ImageGray> extends CannyEdge<T,D> implements SapphireObject
 {
 	/**
 	 * Constructor and configures algorithm
@@ -39,18 +43,18 @@ public class CannyEdgeDynamic<T extends ImageGray, D extends ImageGray> extends 
 	 * @param blur Used during the image blur pre-process step.
 	 * @param gradient Computes image gradient.
 	 */
-	public CannyEdgeDynamic(BlurFilter<T> blur, ImageGradient<T, D> gradient, boolean saveTrace) {
-		super(blur, gradient,saveTrace);
+	public CannyEdgeDynamic(BlurFilter<T> blur, ImageGradient<T, D> gradient, boolean saveTrace, GeneralizedImageOps GIO, ImageType IT) {
+		super(blur, gradient,saveTrace, GIO, IT);
 	}
 
 	@Override
-	protected void performThresholding(float threshLow, float threshHigh, GrayU8 output) {
+	protected void performThresholding(float threshLow, float threshHigh, GrayU8 output, ImageMiscOps IMO, ImageStatistics IS, InputSanityCheck ISC) {
 
 		if( threshLow < 0 || threshLow > 1 || threshHigh < 0 || threshHigh > 1 )
 			throw new IllegalArgumentException("Relative thresholds must be from 0 to 1, inclusive.");
 
 		// find the largest intensity value
-		float max = ImageStatistics.max(suppressed);
+		float max = IS.max(suppressed);
 
 		// set the threshold using that
 		threshLow = max*threshLow;
@@ -62,9 +66,9 @@ public class CannyEdgeDynamic<T extends ImageGray, D extends ImageGray> extends 
 			if( hysteresisPts != null )
 				hysteresisPts.getContours().clear();
 			if( output != null )
-				ImageMiscOps.fill(output,0);
+				IMO.fill(output,0);
 		} else {
-			super.performThresholding(threshLow, threshHigh, output);
+			super.performThresholding(threshLow, threshHigh, output, IMO, IS, ISC);
 		}
 	}
 }

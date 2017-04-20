@@ -18,7 +18,21 @@
 
 package boofcv.abst.filter;
 
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.filter.blur.BlurImageOps;
+import boofcv.alg.filter.blur.GBlurImageOps;
+import boofcv.alg.filter.blur.impl.ImplMedianHistogramInner;
+import boofcv.alg.filter.blur.impl.ImplMedianSortEdgeNaive;
+import boofcv.alg.filter.blur.impl.ImplMedianSortNaive;
+import boofcv.alg.filter.convolve.ConvolveImageMean;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
 import boofcv.alg.misc.GImageMiscOps;
+import boofcv.core.image.GeneralizedImageOps;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.image.ImageGray;
 import boofcv.struct.image.ImageType;
 
@@ -59,14 +73,16 @@ public class FilterSequence<Input extends ImageGray, Output extends ImageGray>
 	}
 
 	@Override
-	public void process(Input input, Output output) {
+	public void process(Input input, Output output, GBlurImageOps GBIO, InputSanityCheck ISC, GeneralizedImageOps GIO, BlurImageOps BIO,
+						ConvolveImageMean CIM, FactoryKernelGaussian FKG, ConvolveNormalized CN, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB,
+						ConvolveNormalized_JustBorder CNJB, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM) {
 		Output temp1 = (Output)output.createNew( output.width , output.height );
 		Output temp2 = (Output)output.createNew( output.width , output.height );
 
-		firstFilter.process(input,temp1);
+		firstFilter.process(input,temp1, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM);
 
 		for( FilterImageInterface<Output,Output> f : sequence ) {
-			f.process(temp1,temp2);
+			f.process(temp1,temp2, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM);
 			Output swap = temp1;
 			temp1 = temp2;
 			temp2 = swap;
@@ -87,12 +103,12 @@ public class FilterSequence<Input extends ImageGray, Output extends ImageGray>
 	}
 
 	@Override
-	public ImageType<Input> getInputType() {
-		return firstFilter.getInputType();
+	public ImageType<Input> getInputType(ImageType IT) {
+		return firstFilter.getInputType(IT);
 	}
 
 	@Override
-	public ImageType<Output> getOutputType() {
-		return firstFilter.getOutputType();
+	public ImageType<Output> getOutputType(ImageType IT) {
+		return firstFilter.getOutputType(IT);
 	}
 }

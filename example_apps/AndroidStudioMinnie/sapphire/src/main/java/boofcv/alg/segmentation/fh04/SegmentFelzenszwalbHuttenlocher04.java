@@ -79,7 +79,7 @@ import org.ddogleg.struct.GrowQueue_I32;
  * @author Peter Abeles
  */
 public class SegmentFelzenszwalbHuttenlocher04<T extends ImageBase> {
-
+	private static InputSanityCheck ISC;
 	// tuning parameter.  Determines the number of segments.  Larger number means larger regions
 	private float K;
 
@@ -143,7 +143,7 @@ public class SegmentFelzenszwalbHuttenlocher04<T extends ImageBase> {
 	public void process( T input , GrayS32 output ) {
 		if( output.isSubimage() )
 			throw new IllegalArgumentException("Output can't be a sub-image");
-		InputSanityCheck.checkSameShape(input, output);
+		ISC.checkSameShape(input, output);
 
 		initialize(input,output);
 

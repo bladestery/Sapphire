@@ -21,6 +21,7 @@ package boofcv.core.image;
 import boofcv.alg.InputSanityCheck;
 import boofcv.struct.image.*;
 import boofcv.testing.BoofTesting;
+import sapphire.app.SapphireObject;
 
 /**
  * <p>
@@ -31,7 +32,11 @@ import boofcv.testing.BoofTesting;
  * @author Peter Abeles
  */
 // TODO rename to GImageOps ?
-public class GeneralizedImageOps {
+public class GeneralizedImageOps implements SapphireObject {
+	private static ImageType IT;
+	private static InputSanityCheck ISC;
+
+	public GeneralizedImageOps() {}
 
 	/**
 	 * Converts an image from one type to another type.  Creates a new image instance if
@@ -42,19 +47,19 @@ public class GeneralizedImageOps {
 	 * @param typeDst The type of output image.
 	 * @return Converted image.
 	 */
-	public static <T extends ImageGray> T convert(ImageGray<?> src , T dst , Class<T> typeDst  )
+	public <T extends ImageGray> T convert(ImageGray<?> src , T dst , Class<T> typeDst  )
 	{
 		if (dst == null) {
 			dst =(T) createSingleBand(typeDst, src.width, src.height);
 		} else {
-			InputSanityCheck.checkSameShape(src, dst);
+			ISC.checkSameShape(src, dst);
 		}
 		GConvertImage.convert(src,dst);
 
 		return dst;
 	}
 
-	public static boolean isFloatingPoint(Class<?> imgType) {
+	public boolean isFloatingPoint(Class<?> imgType) {
 		if( GrayF.class.isAssignableFrom(imgType) ) {
 			return true;
 		} else {
@@ -62,7 +67,7 @@ public class GeneralizedImageOps {
 		}
 	}
 
-	public static double get(ImageGray img, int x, int y) {
+	public double get(ImageGray img, int x, int y) {
 		if (img instanceof GrayI8) {
 			return ((GrayI8) img).get(x, y);
 		} else if (img instanceof GrayI16) {
@@ -80,7 +85,7 @@ public class GeneralizedImageOps {
 		}
 	}
 
-	public static double get(ImageBase img, int x, int y , int band ) {
+	public double get(ImageBase img, int x, int y , int band ) {
 		if (img instanceof ImageGray) {
 			return get((ImageGray) img, x, y);
 		} else if (img instanceof ImageInterleaved) {
@@ -92,7 +97,7 @@ public class GeneralizedImageOps {
 		}
 	}
 
-	public static double get(ImageInterleaved img, int x, int y , int band ) {
+	public double get(ImageInterleaved img, int x, int y , int band ) {
 		if (img instanceof InterleavedU8) {
 			return ((InterleavedU8) img).getBand(x, y, band);
 		} else if (img instanceof InterleavedS8) {
@@ -114,12 +119,12 @@ public class GeneralizedImageOps {
 		}
 	}
 
-	public static <T extends ImageGray> T createSingleBand(ImageDataType type, int width, int height) {
-		Class<T> typeClass = ImageType.getImageClass(ImageType.Family.GRAY, type);
+	public <T extends ImageGray> T createSingleBand(ImageDataType type, int width, int height) {
+		Class<T> typeClass = IT.getImageClass(ImageType.Family.GRAY, type);
 		return createSingleBand(typeClass, width, height);
 	}
 
-	public static <T extends ImageBase> T createImage(Class<T> type, int width, int height, int numBands ) {
+	public <T extends ImageBase> T createImage(Class<T> type, int width, int height, int numBands ) {
 		if( type == Planar.class )
 			throw new IllegalArgumentException("Can't use this function with planar because the data type needs to be specified too");
 
@@ -130,7 +135,7 @@ public class GeneralizedImageOps {
 		else
 			throw new RuntimeException("Unknown");
 	}
-	public static <T extends ImageGray> T createSingleBand(Class<T> type, int width, int height) {
+	public <T extends ImageGray> T createSingleBand(Class<T> type, int width, int height) {
 		type = BoofTesting.convertGenericToSpecificType(type);
 
 		if (type == GrayU8.class) {
@@ -156,12 +161,12 @@ public class GeneralizedImageOps {
 		throw new RuntimeException("Unknown type: "+type.getSimpleName());
 	}
 
-	public static <T extends ImageInterleaved> T createInterleaved(ImageDataType type, int width, int height , int numBands) {
-		Class<T> typeClass = ImageType.getImageClass(ImageType.Family.INTERLEAVED, type);
+	public <T extends ImageInterleaved> T createInterleaved(ImageDataType type, int width, int height , int numBands) {
+		Class<T> typeClass = IT.getImageClass(ImageType.Family.INTERLEAVED, type);
 		return createInterleaved(typeClass,width,height,numBands);
 	}
 
-	public static <T extends ImageInterleaved> T createInterleaved(Class<T> type, int width, int height , int numBands) {
+	public <T extends ImageInterleaved> T createInterleaved(Class<T> type, int width, int height , int numBands) {
 		type = BoofTesting.convertGenericToSpecificType(type);
 
 		if (type == InterleavedU8.class) {
@@ -187,7 +192,7 @@ public class GeneralizedImageOps {
 		throw new RuntimeException("Unknown type: "+type.getSimpleName());
 	}
 
-	public static void set(ImageGray img, int x, int y, double value) {
+	public void set(ImageGray img, int x, int y, double value) {
 		if (GrayI.class.isAssignableFrom(img.getClass())) {
 			((GrayI)img).set(x,y,(int)value);
 		} else if (img instanceof GrayF32) {
@@ -201,7 +206,7 @@ public class GeneralizedImageOps {
 		}
 	}
 
-	public static void setM(ImageBase img, int x, int y, double... value) {
+	public void setM(ImageBase img, int x, int y, double... value) {
 		if( img instanceof Planar) {
 			Planar ms = (Planar) img;
 
@@ -239,11 +244,11 @@ public class GeneralizedImageOps {
 		}
 	}
 
-	public static void setB(ImageBase img, int x, int y, int band , double value ) {
+	public void setB(ImageBase img, int x, int y, int band , double value ) {
 		if( img instanceof Planar) {
 			Planar ms = (Planar) img;
 
-			GeneralizedImageOps.set(ms.getBand(band),x,y,value);
+			set(ms.getBand(band),x,y,value);
 		} else if( img instanceof ImageInterleaved ) {
 			if (img instanceof InterleavedU8) {
 				((InterleavedU8) img).setBand(x, y, band, (byte) value);
@@ -273,7 +278,7 @@ public class GeneralizedImageOps {
 		}
 	}
 
-	public static <T extends ImageGray> int getNumBits(Class<T> type) {
+	public <T extends ImageGray> int getNumBits(Class<T> type) {
 		if (type == GrayU8.class) {
 			return 8;
 		} else if (type == GrayS8.class) {

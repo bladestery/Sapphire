@@ -20,11 +20,25 @@ package boofcv.alg.filter.derivative;
 
 import boofcv.abst.filter.FilterImageInterface;
 import boofcv.abst.filter.FilterSequence;
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.filter.blur.BlurImageOps;
+import boofcv.alg.filter.blur.GBlurImageOps;
+import boofcv.alg.filter.blur.impl.ImplMedianHistogramInner;
+import boofcv.alg.filter.blur.impl.ImplMedianSortEdgeNaive;
+import boofcv.alg.filter.blur.impl.ImplMedianSortNaive;
+import boofcv.alg.filter.convolve.ConvolveImageMean;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
+import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.BorderIndex1D_Extend;
 import boofcv.core.image.border.BorderType;
 import boofcv.core.image.border.ImageBorder1D_F32;
 import boofcv.core.image.border.ImageBorder1D_S32;
 import boofcv.factory.filter.convolve.FactoryConvolve;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.convolve.Kernel1D;
 import boofcv.struct.convolve.Kernel2D;
 import boofcv.struct.image.ImageGray;
@@ -42,6 +56,20 @@ import java.lang.reflect.Method;
  */
 @SuppressWarnings({"unchecked"})
 public class CompareHessianToConvolution {
+	private static GBlurImageOps GBIO;
+	private static GeneralizedImageOps GIO;
+	private static InputSanityCheck ISC;
+	private static BlurImageOps BIO;
+	private static ConvolveImageMean CIM;
+	private static FactoryKernelGaussian FKG;
+	private static ConvolveNormalized CN;
+	private static ConvolveNormalizedNaive CNN;
+	private static ConvolveImageNoBorder CINB;
+	private static ConvolveNormalized_JustBorder CNJB;
+	private static ImplMedianHistogramInner IMHI;
+	private static ImplMedianSortEdgeNaive IMSEN;
+	private static ImplMedianSortNaive IMSN;
+	private static ImplConvolveMean ICM;
 
 	Method m;
 	FilterImageInterface outputFilters[] = new FilterImageInterface[2];
@@ -114,9 +142,9 @@ public class CompareHessianToConvolution {
 		for( int i = 0; i < expectedOutput.length; i++ ) {
 			expectedOutput[i] = (ImageGray)images[0].createNew(width,height);
 		}
-		outputFilters[0].process(images[0],expectedOutput[0]);
-		outputFilters[1].process(images[1],expectedOutput[1]);
-		outputFilters[1].process(images[0],expectedOutput[2]);
+		outputFilters[0].process(images[0],expectedOutput[0], GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM);
+		outputFilters[1].process(images[1],expectedOutput[1], GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM);
+		outputFilters[1].process(images[0],expectedOutput[2], GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM);
 
 		// compute results from the test function
 		Object testInputs[] = new Object[ param.length ];

@@ -19,13 +19,27 @@
 package boofcv.alg.feature.describe;
 
 import boofcv.abst.filter.blur.BlurFilter;
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.feature.describe.brief.BinaryCompareDefinition_I32;
+import boofcv.alg.filter.blur.BlurImageOps;
+import boofcv.alg.filter.blur.GBlurImageOps;
+import boofcv.alg.filter.blur.impl.ImplMedianHistogramInner;
+import boofcv.alg.filter.blur.impl.ImplMedianSortEdgeNaive;
+import boofcv.alg.filter.blur.impl.ImplMedianSortNaive;
+import boofcv.alg.filter.convolve.ConvolveImageMean;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
 import boofcv.alg.interpolate.InterpolatePixelS;
 import boofcv.core.image.GeneralizedImageOps;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.misc.BoofMiscOps;
 import boofcv.struct.BoofDefaults;
 import boofcv.struct.feature.TupleDesc_B;
 import boofcv.struct.image.ImageGray;
+import boofcv.struct.image.ImageType;
 import georegression.struct.point.Point2D_I32;
 
 import java.util.Arrays;
@@ -44,6 +58,21 @@ import java.util.Arrays;
  * @author Peter Abeles
  */
 public class DescribePointBriefSO<T extends ImageGray> {
+	private static GeneralizedImageOps GIO;
+	private static ImageType IT;
+	private static GBlurImageOps GBIO;
+	private static InputSanityCheck ISC;
+	private static BlurImageOps BIO;
+	private static ConvolveImageMean CIM;
+	private static FactoryKernelGaussian FKG;
+	private static ConvolveNormalized CN;
+	private static ConvolveNormalizedNaive CNN;
+	private static ConvolveImageNoBorder CINB;
+	private static ConvolveNormalized_JustBorder CNJB;
+	private static ImplMedianHistogramInner IMHI;
+	private static ImplMedianSortEdgeNaive IMSEN;
+	private static ImplMedianSortNaive IMSN;
+	private static ImplConvolveMean ICM;
 	// describes the BRIEF feature
 	protected BinaryCompareDefinition_I32 definition;
 
@@ -65,8 +94,8 @@ public class DescribePointBriefSO<T extends ImageGray> {
 		this.filterBlur = filterBlur;
 		this.interp = interp;
 
-		Class<T> imageType = filterBlur.getInputType().getImageClass();
-		blur = GeneralizedImageOps.createSingleBand(imageType, 1, 1);
+		Class<T> imageType = filterBlur.getInputType(IT).getImageClass();
+		blur = GIO.createSingleBand(imageType, 1, 1);
 		values = new float[ definition.samplePoints.length ];
 	}
 
@@ -76,7 +105,7 @@ public class DescribePointBriefSO<T extends ImageGray> {
 
 	public void setImage(T image) {
 		blur.reshape(image.width,image.height);
-		filterBlur.process(image,blur);
+		filterBlur.process(image,blur, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM);
 		interp.setImage(blur);
 	}
 

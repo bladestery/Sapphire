@@ -43,7 +43,7 @@ import static org.junit.Assert.assertTrue;
  * @author Peter Abeles
  */
 public class CommonFactoryWavelet {
-
+	private ImageMiscOps IMO;
 	Random rand = new Random(234);
 	int width = 20;
 	int height = 30;
@@ -61,7 +61,7 @@ public class CommonFactoryWavelet {
 			GrayF32 tran = new GrayF32(width,height);
 			GrayF32 rev = new GrayF32(width-makeOdd,height-makeOdd);
 
-			ImageMiscOps.fillUniform(orig,rand,0,50);
+			IMO.fillUniform(orig,rand,0,50);
 
 			BorderIndex1D border = waveletDesc.getBorder();
 
@@ -100,7 +100,7 @@ public class CommonFactoryWavelet {
 			GrayS32 tran = new GrayS32(width,height);
 			GrayS32 rev = new GrayS32(width-makeOdd,height-makeOdd);
 
-			ImageMiscOps.fillUniform(orig,rand,-50,50);
+			IMO.fillUniform(orig,rand,-50,50);
 
 			BorderIndex1D border = waveletDesc.getBorder();
 

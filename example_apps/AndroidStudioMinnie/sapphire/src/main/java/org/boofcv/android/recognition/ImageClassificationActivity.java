@@ -53,6 +53,7 @@ import boofcv.struct.image.Planar;
  */
 public class ImageClassificationActivity extends DemoVideoDisplayActivity
         implements AdapterView.OnItemSelectedListener {
+    private ImageType IT;
     public static final String MODEL_PATH = "classifier_models";
 
     Spinner spinnerClassifier;
@@ -64,7 +65,7 @@ public class ImageClassificationActivity extends DemoVideoDisplayActivity
     ImageClassifier<Planar<GrayF32>> classifier;
     List<String> sources;
     Status status = Status.INITIALIZING;
-    Planar<GrayF32> workImage = ImageType.pl(3, GrayF32.class).createImage(1,1);
+    Planar<GrayF32> workImage = (boofcv.struct.image.Planar) IT.pl(3, GrayF32.class).createImage(1,1);
     long startTime;
 
     // Progress Dialog
@@ -224,7 +225,7 @@ public class ImageClassificationActivity extends DemoVideoDisplayActivity
         private Paint dimPaint = new Paint();
 
         public ClassifierProcessing() {
-            super(ImageType.pl(3, GrayF32.class));
+            super(IT.pl(3, GrayF32.class));
 
             textPaint.setARGB(255, 255, 100, 100);
             textPaint.setTextSize(16);

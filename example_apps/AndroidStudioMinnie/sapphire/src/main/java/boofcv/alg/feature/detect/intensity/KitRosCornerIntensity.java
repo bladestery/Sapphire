@@ -37,13 +37,13 @@ import boofcv.struct.image.GrayS16;
  * @author Peter Abeles
  */
 public class KitRosCornerIntensity {
-
+	private static InputSanityCheck ISC;
 	public static void process(GrayF32 featureIntensity,
 							   GrayF32 derivX, GrayF32 derivY,
 							   GrayF32 hessianXX, GrayF32 hessianYY , GrayF32 hessianXY )
 	{
-		InputSanityCheck.checkSameShape(derivX,derivY,hessianXX,hessianYY,hessianXY);
-		InputSanityCheck.checkSameShape(derivX,featureIntensity);
+		ISC.checkSameShape(derivX,derivY,hessianXX,hessianYY,hessianXY);
+		ISC.checkSameShape(derivX,featureIntensity);
 
 		ImplKitRosCornerIntensity.process(featureIntensity,derivX,derivY,hessianXX,hessianYY,hessianXY);
 	}
@@ -52,8 +52,8 @@ public class KitRosCornerIntensity {
 							   GrayS16 derivX, GrayS16 derivY,
 							   GrayS16 hessianXX, GrayS16 hessianYY , GrayS16 hessianXY )
 	{
-		InputSanityCheck.checkSameShape(derivX,derivY,hessianXX,hessianYY,hessianXY);
-		InputSanityCheck.checkSameShape(derivX,featureIntensity);
+		ISC.checkSameShape(derivX,derivY,hessianXX,hessianYY,hessianXY);
+		ISC.checkSameShape(derivX,featureIntensity);
 
 		ImplKitRosCornerIntensity.process(featureIntensity,derivX,derivY,hessianXX,hessianYY,hessianXY);
 	}

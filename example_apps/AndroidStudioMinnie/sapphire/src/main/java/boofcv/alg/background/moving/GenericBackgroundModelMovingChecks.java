@@ -41,7 +41,7 @@ import static org.junit.Assert.assertTrue;
  * @author Peter Abeles
  */
 public abstract class GenericBackgroundModelMovingChecks {
-
+	private ImageMiscOps IMO;
 	Random rand = new Random(234);
 
 	int width = 60;
@@ -291,7 +291,7 @@ public abstract class GenericBackgroundModelMovingChecks {
 		BoofTesting.assertEquals(expected,segmented,1e-8);
 
 		GImageMiscOps.fill(frame,100);
-		ImageMiscOps.fill(expected,1);
+		IMO.fill(expected,1);
 
 		// it should be all changed.  really just a sanity check
 		alg.segment(homeToCurrent,frame,segmented);
@@ -315,7 +315,7 @@ public abstract class GenericBackgroundModelMovingChecks {
 
 		frame = BoofTesting.createSubImageOf(frame);
 		segmented = BoofTesting.createSubImageOf(segmented);
-		ImageMiscOps.fill(segmented,0);
+		IMO.fill(segmented,0);
 
 		checkSubImage_process(frame, segmented);
 		GrayU8 found = segmented.clone();

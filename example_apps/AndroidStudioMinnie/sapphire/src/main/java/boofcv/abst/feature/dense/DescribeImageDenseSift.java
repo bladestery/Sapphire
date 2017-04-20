@@ -19,8 +19,12 @@
 package boofcv.abst.feature.dense;
 
 import boofcv.abst.filter.derivative.ImageGradient;
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.feature.dense.DescribeDenseSiftAlg;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
 import boofcv.core.image.GeneralizedImageOps;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.filter.derivative.FactoryDerivative;
 import boofcv.struct.feature.TupleDesc_F64;
 import boofcv.struct.image.ImageGray;
@@ -37,6 +41,13 @@ import java.util.List;
 public class DescribeImageDenseSift<T extends ImageGray, D extends ImageGray>
 		implements DescribeImageDense<T,TupleDesc_F64>
 {
+	private static FactoryDerivative FD;
+	private static GeneralizedImageOps GIO;
+	private static ImageType IT;
+	private static FactoryImageBorder FIB;
+	private static InputSanityCheck ISC;
+	private static DerivativeHelperFunctions DHF;
+	private static ConvolveImageNoBorder CINB;
 	// dense SIFT implementation
 	DescribeDenseSiftAlg<D> alg;
 
@@ -67,13 +78,13 @@ public class DescribeImageDenseSift<T extends ImageGray, D extends ImageGray>
 		this.alg = alg;
 		this.periodX = periodX;
 		this.periodY = periodY;
-		this.inputType = ImageType.single(inputType);
+		this.inputType = IT.single(inputType);
 
 		Class<D> gradientType = alg.getDerivType();
-		gradient = FactoryDerivative.three(inputType,gradientType);
+		gradient = FD.three(inputType,gradientType, GIO, FIB);
 
-		derivX = GeneralizedImageOps.createSingleBand(gradientType,1,1);
-		derivY = GeneralizedImageOps.createSingleBand(gradientType,1,1);
+		derivX = GIO.createSingleBand(gradientType,1,1);
+		derivY = GIO.createSingleBand(gradientType,1,1);
 	}
 
 	@Override
@@ -83,7 +94,7 @@ public class DescribeImageDenseSift<T extends ImageGray, D extends ImageGray>
 
 		derivX.reshape(input.width,input.height);
 		derivY.reshape(input.width,input.height);
-		gradient.process(input,derivX,derivY);
+		gradient.process(input,derivX,derivY, ISC, DHF, CINB);
 
 		alg.setImageGradient(derivX,derivY);
 		alg.process();

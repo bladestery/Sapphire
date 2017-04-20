@@ -27,6 +27,7 @@ import boofcv.alg.tracker.klt.PyramidKltFeature;
 import boofcv.alg.transform.pyramid.PyramidOps;
 import boofcv.misc.BoofMiscOps;
 import boofcv.struct.image.ImageGray;
+import boofcv.struct.image.ImageType;
 import boofcv.struct.pyramid.PyramidDiscrete;
 
 import java.util.ArrayList;
@@ -40,6 +41,7 @@ import java.util.List;
 public class PointTrackerTwoPassKltPyramid<I extends ImageGray,D extends ImageGray>
 	extends PointTrackerKltPyramid<I,D> implements PointTrackerTwoPass<I>
 {
+	private static ImageType IT;
 	// list of active tracks before the current image is processed
 	List<PyramidKltFeature> originalActive = new ArrayList<>();
 
@@ -58,7 +60,7 @@ public class PointTrackerTwoPassKltPyramid<I extends ImageGray,D extends ImageGr
 										 InterpolateRectangle<D> interpDeriv)
 	{
 		super(config, templateRadius, pyramid , detector, gradient, interpInput, interpDeriv,
-				gradient.getDerivativeType().getImageClass());
+				gradient.getDerivativeType(IT).getImageClass());
 	}
 
 	@Override

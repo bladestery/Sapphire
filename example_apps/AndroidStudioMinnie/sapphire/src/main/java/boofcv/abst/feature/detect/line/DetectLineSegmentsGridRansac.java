@@ -20,11 +20,16 @@ package boofcv.abst.feature.detect.line;
 
 
 import boofcv.abst.filter.derivative.ImageGradient;
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.feature.detect.edge.GGradientToEdgeFeatures;
+import boofcv.alg.feature.detect.edge.GradientToEdgeFeatures;
 import boofcv.alg.feature.detect.line.ConnectLinesGrid;
 import boofcv.alg.feature.detect.line.GridRansacLineDetector;
 import boofcv.alg.feature.detect.line.LineImageOps;
 import boofcv.alg.filter.binary.GThresholdImageOps;
+import boofcv.alg.filter.binary.ThresholdImageOps;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.struct.feature.MatrixOfList;
 import boofcv.struct.image.GrayF32;
@@ -41,6 +46,15 @@ import java.util.List;
 public class DetectLineSegmentsGridRansac<T extends ImageGray, D extends ImageGray>
 		implements DetectLineSegment<T>
 {
+	private static GThresholdImageOps GTIO;
+	private static GeneralizedImageOps GIO;
+	private static GradientToEdgeFeatures GTEF;
+	private static GGradientToEdgeFeatures GGTEF;
+	private static ThresholdImageOps TIO;
+	private static InputSanityCheck ISC;
+
+	private static DerivativeHelperFunctions DHF;
+	private static ConvolveImageNoBorder CINB;
 	GridRansacLineDetector<D> detectorGrid;
 	ConnectLinesGrid connect;
 
@@ -63,8 +77,8 @@ public class DetectLineSegmentsGridRansac<T extends ImageGray, D extends ImageGr
 		this.gradient = gradient;
 		this.edgeThreshold = edgeThreshold;
 
-		derivX = GeneralizedImageOps.createSingleBand(derivType, 1, 1);
-		derivY = GeneralizedImageOps.createSingleBand(derivType, 1, 1);
+		derivX = GIO.createSingleBand(derivType, 1, 1);
+		derivY = GIO.createSingleBand(derivType, 1, 1);
 		edgeIntensity = new GrayF32(1,1);
 		detected = new GrayU8(1,1);
 	}
@@ -77,9 +91,9 @@ public class DetectLineSegmentsGridRansac<T extends ImageGray, D extends ImageGr
 		edgeIntensity.reshape(input.width,input.height);
 		detected.reshape(input.width,input.height);
 
-		gradient.process(input,derivX,derivY);
-		GGradientToEdgeFeatures.intensityAbs(derivX, derivY, edgeIntensity);
-		GThresholdImageOps.threshold(edgeIntensity, detected, edgeThreshold, false);
+		gradient.process(input,derivX,derivY, ISC, DHF, CINB);
+		GGTEF.intensityAbs(derivX, derivY, edgeIntensity, GTEF, ISC);
+		GTIO.threshold(edgeIntensity, detected, edgeThreshold, false, TIO, ISC, GIO);
 
 		detectorGrid.process(derivX,derivY,detected);
 

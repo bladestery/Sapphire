@@ -43,6 +43,7 @@ import static org.junit.Assert.assertTrue;
  * @author Peter Abeles
  */
 public abstract class CommonGridRansacLineDetectorChecks< D extends ImageGray> {
+	private GeneralizedImageOps GIO;
 	int width = 40;
 	int height = 30;
 
@@ -70,12 +71,12 @@ public abstract class CommonGridRansacLineDetectorChecks< D extends ImageGray> {
 //		System.out.println("regionSize = "+regionSize);
 		int where = 25;
 		GrayU8 edgeImage = new GrayU8(width,height);
-		D derivX = GeneralizedImageOps.createSingleBand(derivType,width,height);
-		D derivY = GeneralizedImageOps.createSingleBand(derivType,width,height);
+		D derivX = GIO.createSingleBand(derivType,width,height);
+		D derivY = GIO.createSingleBand(derivType,width,height);
 
 		for( int i = 0; i < height; i++ ) {
 			edgeImage.set(where,i,1);
-			GeneralizedImageOps.set(derivX,where,i,20);
+			GIO.set(derivX,where,i,20);
 		}
 
 		ModelManagerLinePolar2D_F32 manager = new ModelManagerLinePolar2D_F32();

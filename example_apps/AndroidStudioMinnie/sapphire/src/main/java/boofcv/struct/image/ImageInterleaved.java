@@ -34,13 +34,14 @@ import java.lang.reflect.Array;
  * @author Peter Abeles
  */
 public abstract class ImageInterleaved<T extends ImageInterleaved> extends ImageMultiBand<T> {
+	private ImageType IT;
 	/**
 	 * How many color bands are contained in each pixel
 	 */
 	public int numBands;
 
 	{
-		this.imageType = (ImageType<T>)ImageType.il(0, getClass());
+		this.imageType = (ImageType<T>)IT.il(0, getClass());
 	}
 
 	/**

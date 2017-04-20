@@ -45,7 +45,7 @@ import org.ddogleg.struct.FastQueue;
  * @author Peter Abeles
  */
 public class DescribeDenseSiftAlg<D extends ImageGray> extends DescribeSiftCommon {
-
+	private static InputSanityCheck ISC;
 	// sampling period along the image's rows an columns
 	double periodRows;
 	double periodColumns;
@@ -101,7 +101,7 @@ public class DescribeDenseSiftAlg<D extends ImageGray> extends DescribeSiftCommo
 	 * @param derivY image derivative y-axis
 	 */
 	public void setImageGradient(D derivX , D derivY ) {
-		InputSanityCheck.checkSameShape(derivX,derivY);
+		ISC.checkSameShape(derivX,derivY);
 		if( derivX.stride != derivY.stride || derivX.startIndex != derivY.startIndex )
 			throw new IllegalArgumentException("stride and start index must be the same");
 

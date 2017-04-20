@@ -54,7 +54,8 @@ import java.util.Arrays;
  * @author Peter Abeles
  */
 public abstract class DenseOpticalFlowBlockPyramid<T extends ImageGray> {
-
+	private static GeneralizedImageOps GIO;
+	private static InputSanityCheck ISC;
 	// the maximum displacement it will search
 	protected int searchRadius;
 	// radius of the square region it is searching with
@@ -92,7 +93,7 @@ public abstract class DenseOpticalFlowBlockPyramid<T extends ImageGray> {
 		int w = regionRadius*2+1;
 		maxError = maxPerPixelError*w*w;
 
-		template = GeneralizedImageOps.createSingleBand(imageType,w, w);
+		template = GIO.createSingleBand(imageType,w, w);
 	}
 
 	/**
@@ -102,7 +103,7 @@ public abstract class DenseOpticalFlowBlockPyramid<T extends ImageGray> {
 	 */
 	public void process( ImagePyramid<T> pyramidPrev , ImagePyramid<T> pyramidCurr ) {
 
-		InputSanityCheck.checkSameShape(pyramidPrev, pyramidCurr);
+		ISC.checkSameShape(pyramidPrev, pyramidCurr);
 
 		int numLayers = pyramidPrev.getNumLayers();
 

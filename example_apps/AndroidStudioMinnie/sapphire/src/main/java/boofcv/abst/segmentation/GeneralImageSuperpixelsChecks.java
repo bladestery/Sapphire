@@ -18,8 +18,11 @@
 
 package boofcv.abst.segmentation;
 
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.filter.binary.BinaryImageOps;
 import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
+import boofcv.core.image.GeneralizedImageOps;
 import boofcv.struct.ConnectRule;
 import boofcv.struct.image.GrayS32;
 import boofcv.struct.image.GrayU8;
@@ -37,7 +40,10 @@ import static org.junit.Assert.assertTrue;
  * @author Peter Abeles
  */
 public abstract class GeneralImageSuperpixelsChecks<T extends ImageBase> {
-
+	private static BinaryImageOps BIO;
+	private static InputSanityCheck ISC;
+	private static GeneralizedImageOps GIO;
+	private static ImageMiscOps IMO;
 	ImageType imageTypes[];
 
 	Random rand = new Random(234);
@@ -75,12 +81,12 @@ public abstract class GeneralImageSuperpixelsChecks<T extends ImageBase> {
 
 			for (int i = 0; i < alg.getTotalSuperpixels(); i++) {
 				selected[i] = true;
-				BinaryImageOps.labelToBinary(output,binary,selected);
+				BIO.labelToBinary(output,binary,selected,ISC, GIO);
 				selected[i] = false;
 
 				// the number of blobs should always be one
 				ConnectRule rule = alg.getRule();
-				assertEquals(1,BinaryImageOps.contour(binary,rule,null).size());
+				assertEquals(1,BIO.contour(binary,rule,null, ISC, IMO).size());
 			}
 		}
 	}

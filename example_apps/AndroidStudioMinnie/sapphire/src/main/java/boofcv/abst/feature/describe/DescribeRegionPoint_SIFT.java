@@ -38,6 +38,7 @@ import boofcv.struct.image.ImageType;
 public class DescribeRegionPoint_SIFT <T extends ImageGray>
 	implements DescribeRegionPoint<T,TupleDesc_F64>
 {
+	private ImageType IT;
 	// expected type of input image.  All image types are converted to floats since that's what
 	// the scale-space requires
 	ImageType<T> imageType;
@@ -57,7 +58,7 @@ public class DescribeRegionPoint_SIFT <T extends ImageGray>
 		this.scaleSpace = new UnrollSiftScaleSpaceGradient(scaleSpace);
 		this.describe = describe;
 
-		this.imageType = ImageType.single(imageType);
+		this.imageType = IT.single(imageType);
 	}
 
 	@Override

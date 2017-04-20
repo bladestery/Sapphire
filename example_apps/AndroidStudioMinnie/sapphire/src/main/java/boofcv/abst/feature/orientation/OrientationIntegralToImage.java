@@ -30,6 +30,7 @@ import boofcv.struct.image.ImageGray;
 public class OrientationIntegralToImage<T extends ImageGray, II extends ImageGray>
 	implements OrientationImage<T>
 {
+	private GeneralizedImageOps GIO;
 	// algorithm which is being wrapped around
 	OrientationIntegral<II> alg;
 
@@ -44,7 +45,7 @@ public class OrientationIntegralToImage<T extends ImageGray, II extends ImageGra
 									  Class<II> integralType ) {
 		this.alg = alg;
 		this.inputType = inputType;
-		integralImage = GeneralizedImageOps.createSingleBand(integralType, 1, 1);
+		integralImage = GIO.createSingleBand(integralType, 1, 1);
 	}
 
 	@Override

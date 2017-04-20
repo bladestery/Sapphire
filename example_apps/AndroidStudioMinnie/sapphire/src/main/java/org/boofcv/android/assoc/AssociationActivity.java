@@ -40,6 +40,7 @@ import georegression.struct.point.Point2D_F64;
 public class AssociationActivity extends DemoVideoDisplayActivity
 		implements AdapterView.OnItemSelectedListener
 {
+	private ImageType IT;
 	Spinner spinnerDesc;
 	Spinner spinnerDet;
 
@@ -176,7 +177,7 @@ public class AssociationActivity extends DemoVideoDisplayActivity
 
 		public AssociationProcessing( DetectDescribePoint<GrayF32,Desc> detDesc ,
 									  AssociateDescription<Desc> associate  ) {
-			super(ImageType.single(GrayF32.class));
+			super(IT.single(GrayF32.class));
 			this.detDesc = detDesc;
 			this.associate = associate;
 

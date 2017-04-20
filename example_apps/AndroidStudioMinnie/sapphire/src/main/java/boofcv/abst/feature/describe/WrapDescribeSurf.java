@@ -31,7 +31,7 @@ import boofcv.struct.image.ImageType;
  */
 public class WrapDescribeSurf<T extends ImageGray, II extends ImageGray>
 		implements DescribeRegionPoint<T,BrightFeature> {
-
+	private ImageType IT;
 	// computes SURF feature descriptor
 	DescribePointSurf<II> surf;
 	// integral image
@@ -42,7 +42,7 @@ public class WrapDescribeSurf<T extends ImageGray, II extends ImageGray>
 	public WrapDescribeSurf(DescribePointSurf<II> surf , Class<T> imageType)
 	{
 		this.surf = surf;
-		this.imageType = ImageType.single(imageType);
+		this.imageType = IT.single(imageType);
 	}
 
 	@Override

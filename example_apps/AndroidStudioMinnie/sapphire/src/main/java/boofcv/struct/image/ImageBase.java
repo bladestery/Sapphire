@@ -19,6 +19,7 @@
 package boofcv.struct.image;
 
 import georegression.struct.point.Point2D_I32;
+import sapphire.app.SapphireObject;
 
 import java.io.Serializable;
 
@@ -27,7 +28,7 @@ import java.io.Serializable;
  *
  * @author Peter Abeles
  */
-public abstract class ImageBase<T extends ImageBase> implements Serializable, Cloneable {
+public abstract class ImageBase<T extends ImageBase> implements SapphireObject, Serializable, Cloneable {
 	/**
 	 * Index of the first pixel in the data array
 	 */

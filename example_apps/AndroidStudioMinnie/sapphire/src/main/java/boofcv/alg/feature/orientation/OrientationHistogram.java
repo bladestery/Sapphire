@@ -40,6 +40,8 @@ import boofcv.struct.image.ImageGray;
 public abstract class OrientationHistogram <D extends ImageGray>
 		implements OrientationGradient<D>
 {
+	private static FactoryKernelGaussian FKG;
+	private static InputSanityCheck ISC;
 	// the region's radius
 	protected double objectToSample;
 	// the radius at the set scale
@@ -108,13 +110,13 @@ public abstract class OrientationHistogram <D extends ImageGray>
 	public void setObjectRadius(double objectRadius) {
 		radiusScale = (int)Math.ceil(objectRadius*objectToSample);
 		if( isWeighted ) {
-			weights = FactoryKernelGaussian.gaussian(2,true, 32, -1,radiusScale);
+			weights = FKG.gaussian(2,true, 32, -1,radiusScale);
 		}
 	}
 
 	@Override
 	public void setImage( D derivX, D derivY) {
-		InputSanityCheck.checkSameShape(derivX,derivY);
+		ISC.checkSameShape(derivX,derivY);
 
 		this.derivX = derivX;
 		this.derivY = derivY;

@@ -63,6 +63,7 @@ import org.ddogleg.struct.GrowQueue_F32;
  * @author Peter Abeles
  */
 public class HoughTransformLinePolar {
+	private ImageMiscOps IMO;
 	// extracts line from the transform
 	NonMaxSuppression extractor;
 	// stores returned lines
@@ -113,7 +114,7 @@ public class HoughTransformLinePolar {
 	 */
 	public void transform( GrayU8 binary )
 	{
-		ImageMiscOps.fill(transform, 0);
+		IMO.fill(transform, 0);
 
 		originX = binary.width/2;
 		originY = binary.height/2;

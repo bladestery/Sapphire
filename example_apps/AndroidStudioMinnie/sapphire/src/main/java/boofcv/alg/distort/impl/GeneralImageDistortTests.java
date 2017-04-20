@@ -40,7 +40,7 @@ import static org.junit.Assert.assertEquals;
  */
 @SuppressWarnings({"unchecked"})
 public abstract class GeneralImageDistortTests<T extends ImageBase> {
-
+	private GeneralizedImageOps GIO;
 	Random rand = new Random(123);
 
 	int width = 30;
@@ -76,7 +76,7 @@ public abstract class GeneralImageDistortTests<T extends ImageBase> {
 		tran.apply(src, dst);
 
 		for (int band = 0; band < imageType.getNumBands(); band++) {
-			double value = GeneralizedImageOps.get(dst, dst.getWidth() - 1, dst.getHeight() - 1, band);
+			double value = GIO.get(dst, dst.getWidth() - 1, dst.getHeight() - 1, band);
 			assertEquals(0, value, 1e-8);
 		}
 
@@ -86,7 +86,7 @@ public abstract class GeneralImageDistortTests<T extends ImageBase> {
 		tran.apply(src, dst);
 
 		for (int band = 0; band < imageType.getNumBands(); band++) {
-			double value = GeneralizedImageOps.get(dst,dst.getWidth()-1,dst.getHeight()-1,band);
+			double value = GIO.get(dst,dst.getWidth()-1,dst.getHeight()-1,band);
 			assertEquals(50, value, 1e-8);
 		}
 	}
@@ -114,10 +114,10 @@ public abstract class GeneralImageDistortTests<T extends ImageBase> {
 					int srcX = dstX + offX;
 					int srcY = dstY + offY;
 
-					double dstVal = GeneralizedImageOps.get(dst, dstX, dstY, band);
+					double dstVal = GIO.get(dst, dstX, dstY, band);
 
 					if (src.isInBounds(srcX, srcY)) {
-						double srcVal = GeneralizedImageOps.get(src, srcX, srcY, band);
+						double srcVal = GIO.get(src, srcX, srcY, band);
 						assertEquals(srcVal, dstVal, 1e-4);
 					} else if (renderAll) {
 						// background set it to 0
@@ -156,15 +156,15 @@ public abstract class GeneralImageDistortTests<T extends ImageBase> {
 				for (int band = 0; band < imageType.getNumBands(); band++) {
 					// should be 50 outside of the crop region
 					if( dstX < x0 || dstX >= x1 || dstY < y0 || dstY >= y1 )
-						assertEquals(50,GeneralizedImageOps.get(dst,dstX,dstY,band),1e-4);
+						assertEquals(50,GIO.get(dst,dstX,dstY,band),1e-4);
 					else {
 						int srcX = dstX + offX;
 						int srcY = dstY + offY;
 
-						double dstVal = GeneralizedImageOps.get(dst,dstX,dstY,band);
+						double dstVal = GIO.get(dst,dstX,dstY,band);
 
 						if( src.isInBounds(srcX,srcY) ) {
-							double srcVal = GeneralizedImageOps.get(src,srcX,srcY,band);
+							double srcVal = GIO.get(src,srcX,srcY,band);
 							assertEquals(srcVal,dstVal,1e-4);
 						} else if( renderAll ) {
 							assertEquals(0,dstVal,1e-4);
@@ -203,15 +203,15 @@ public abstract class GeneralImageDistortTests<T extends ImageBase> {
 				for (int band = 0; band < imageType.getNumBands(); band++) {
 					// should be 50 outside of the crop region
 					if( dstX < x0 || dstX >= x1 || dstY < y0 || dstY >= y1 )
-						assertEquals(50,GeneralizedImageOps.get(dst,dstX,dstY,band),1e-4);
+						assertEquals(50,GIO.get(dst,dstX,dstY,band),1e-4);
 					else {
 						int srcX = dstX + offX;
 						int srcY = dstY + offY;
 
-						double dstVal = GeneralizedImageOps.get(dst,dstX,dstY,band);
+						double dstVal = GIO.get(dst,dstX,dstY,band);
 
 						if( src.isInBounds(srcX,srcY) ) {
-							double srcVal = GeneralizedImageOps.get(src,srcX,srcY,band);
+							double srcVal = GIO.get(src,srcX,srcY,band);
 							assertEquals(srcVal,dstVal,1e-4);
 						} else if( renderAll ) {
 							assertEquals(0,dstVal,1e-4);

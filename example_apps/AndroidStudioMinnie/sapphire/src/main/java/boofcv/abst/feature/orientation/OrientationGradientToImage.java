@@ -19,6 +19,9 @@
 package boofcv.abst.feature.orientation;
 
 import boofcv.abst.filter.derivative.ImageGradient;
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.struct.image.ImageGray;
 
@@ -30,6 +33,10 @@ import boofcv.struct.image.ImageGray;
 public class OrientationGradientToImage<T extends ImageGray, D extends ImageGray>
 	implements OrientationImage<T>
 {
+	private GeneralizedImageOps GIO;
+	private static InputSanityCheck ISC;
+	private static DerivativeHelperFunctions DHF;
+	private static ConvolveImageNoBorder CINB;
 	ImageGradient<T,D> gradient;
 	OrientationGradient<D> alg;
 
@@ -48,8 +55,8 @@ public class OrientationGradientToImage<T extends ImageGray, D extends ImageGray
 		this.gradient = gradient;
 		this.inputType = inputType;
 
-		derivX = GeneralizedImageOps.createSingleBand(gradientType,1,1);
-		derivY = GeneralizedImageOps.createSingleBand(gradientType,1,1);
+		derivX = GIO.createSingleBand(gradientType,1,1);
+		derivY = GIO.createSingleBand(gradientType,1,1);
 	}
 
 	@Override
@@ -57,7 +64,7 @@ public class OrientationGradientToImage<T extends ImageGray, D extends ImageGray
 		derivX.reshape(image.width,image.height);
 		derivY.reshape(image.width,image.height);
 
-		gradient.process(image,derivX,derivY);
+		gradient.process(image,derivX,derivY, ISC, DHF, CINB);
 		alg.setImage(derivX,derivY);
 	}
 

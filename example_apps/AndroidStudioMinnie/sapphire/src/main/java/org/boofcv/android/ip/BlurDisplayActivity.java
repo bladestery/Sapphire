@@ -14,9 +14,23 @@ import org.boofcv.android.DemoVideoDisplayActivity;
 import org.boofcv.android.R;
 
 import boofcv.abst.filter.blur.BlurFilter;
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.filter.blur.BlurImageOps;
+import boofcv.alg.filter.blur.GBlurImageOps;
+import boofcv.alg.filter.blur.impl.ImplMedianHistogramInner;
+import boofcv.alg.filter.blur.impl.ImplMedianSortEdgeNaive;
+import boofcv.alg.filter.blur.impl.ImplMedianSortNaive;
+import boofcv.alg.filter.convolve.ConvolveImageMean;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
 import boofcv.android.ConvertBitmap;
 import boofcv.android.gui.VideoImageProcessing;
+import boofcv.core.image.GeneralizedImageOps;
 import boofcv.factory.filter.blur.FactoryBlurFilter;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.ImageType;
 
@@ -28,6 +42,22 @@ import boofcv.struct.image.ImageType;
 public class BlurDisplayActivity extends DemoVideoDisplayActivity
 		implements AdapterView.OnItemSelectedListener
 {
+	private static FactoryBlurFilter FBF;
+	private static GeneralizedImageOps GIO;
+	private static ImageType IT;
+	private static GBlurImageOps GBIO;
+	private static InputSanityCheck ISC;
+	private static BlurImageOps BIO;
+	private static ConvolveImageMean CIM;
+	private static FactoryKernelGaussian FKG;
+	private static ConvolveNormalized CN;
+	private static ConvolveNormalizedNaive CNN;
+	private static ConvolveImageNoBorder CINB;
+	private static ConvolveNormalized_JustBorder CNJB;
+	private static ImplMedianHistogramInner IMHI;
+	private static ImplMedianSortEdgeNaive IMSEN;
+	private static ImplMedianSortNaive IMSN;
+	private static ImplConvolveMean ICM;
 
 	Spinner spinnerView;
 
@@ -88,15 +118,15 @@ public class BlurDisplayActivity extends DemoVideoDisplayActivity
 		int radius = Math.max(1,this.radius);
 		switch (pos) {
 			case 0:
-				processing = new BlurProcessing(FactoryBlurFilter.mean(GrayU8.class, radius));
+				processing = new BlurProcessing(FBF.mean(GrayU8.class, radius, GIO));
 				break;
 
 			case 1:
-				processing = new BlurProcessing(FactoryBlurFilter.gaussian(GrayU8.class,-1,radius));
+				processing = new BlurProcessing(FBF.gaussian(GrayU8.class,-1,radius, GIO));
 				break;
 
 			case 2:
-				processing = new BlurProcessing(FactoryBlurFilter.median(GrayU8.class,radius));
+				processing = new BlurProcessing(FBF.median(GrayU8.class,radius, GIO));
 				break;
 		}
 
@@ -111,7 +141,7 @@ public class BlurDisplayActivity extends DemoVideoDisplayActivity
 		final BlurFilter<GrayU8> filter;
 
 		public BlurProcessing(BlurFilter<GrayU8> filter) {
-			super(ImageType.single(GrayU8.class));
+			super( IT.single(GrayU8.class));
 			this.filter = filter;
 		}
 
@@ -126,7 +156,7 @@ public class BlurDisplayActivity extends DemoVideoDisplayActivity
 		protected void process(GrayU8 input, Bitmap output, byte[] storage) {
 			if( radius > 0 ) {
 				synchronized ( filter ) {
-					filter.process(input, blurred);
+					filter.process(input, blurred, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM);
 				}
 				ConvertBitmap.grayToBitmap(blurred, output, storage);
 			} else {

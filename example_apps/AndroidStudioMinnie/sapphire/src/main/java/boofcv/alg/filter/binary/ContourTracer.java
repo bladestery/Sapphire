@@ -22,6 +22,8 @@ import boofcv.struct.ConnectRule;
 import boofcv.struct.image.GrayS32;
 import boofcv.struct.image.GrayU8;
 import georegression.struct.point.Point2D_I32;
+import sapphire.app.SapphireObject;
+
 import org.ddogleg.struct.FastQueue;
 
 import java.util.List;
@@ -33,7 +35,7 @@ import java.util.List;
  *
  * @author Peter Abeles
  */
-public class ContourTracer {
+public class ContourTracer implements SapphireObject {
 
 	// which connectivity rule is being used. 4 and 8 supported
 	private ConnectRule rule;

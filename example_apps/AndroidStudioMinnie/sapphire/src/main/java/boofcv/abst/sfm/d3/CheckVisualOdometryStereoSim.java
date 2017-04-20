@@ -39,6 +39,7 @@ import static org.junit.Assert.assertTrue;
 public abstract class CheckVisualOdometryStereoSim<I extends ImageGray>
 	extends VideoSequenceSimulator<I>
 {
+	private GeneralizedImageOps GIO;
 	StereoParameters param = createStereoParam();
 
 	I left;
@@ -51,8 +52,8 @@ public abstract class CheckVisualOdometryStereoSim<I extends ImageGray>
 	public CheckVisualOdometryStereoSim(Class<I> inputType) {
 		super(320, 240, inputType);
 
-		left = GeneralizedImageOps.createSingleBand(inputType,width,height);
-		right = GeneralizedImageOps.createSingleBand(inputType,width,height);
+		left = GIO.createSingleBand(inputType,width,height);
+		right = GIO.createSingleBand(inputType,width,height);
 
 		createSquares(numSquares,1,2);
 	}
@@ -68,11 +69,11 @@ public abstract class CheckVisualOdometryStereoSim<I extends ImageGray>
 	public void changeInputSize() {
 		StereoVisualOdometry<I> algorithm = createAlgorithm();
 
-		I leftSmall = GeneralizedImageOps.createSingleBand(inputType,width/2,height/2);
-		I rightSmall = GeneralizedImageOps.createSingleBand(inputType,width/2,height/2);
+		I leftSmall = GIO.createSingleBand(inputType,width/2,height/2);
+		I rightSmall = GIO.createSingleBand(inputType,width/2,height/2);
 
-		I leftLarge = GeneralizedImageOps.createSingleBand(inputType,width,height);
-		I rightLarge = GeneralizedImageOps.createSingleBand(inputType,width,height);
+		I leftLarge = GIO.createSingleBand(inputType,width,height);
+		I rightLarge = GIO.createSingleBand(inputType,width,height);
 
 		GImageMiscOps.fillUniform(leftSmall,rand,0,100);
 		GImageMiscOps.fillUniform(leftSmall,rand,0,100);

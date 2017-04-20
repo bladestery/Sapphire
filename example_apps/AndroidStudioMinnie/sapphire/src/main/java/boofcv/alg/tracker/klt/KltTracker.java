@@ -53,6 +53,8 @@ import boofcv.struct.image.ImageGray;
  */
 @SuppressWarnings({"SuspiciousNameCombination"})
 public class KltTracker<InputImage extends ImageGray, DerivativeImage extends ImageGray> {
+	private static ImageMiscOps IMO;
+	private static InputSanityCheck ISC;
 
 	// input image
 	protected InputImage image;
@@ -92,7 +94,7 @@ public class KltTracker<InputImage extends ImageGray, DerivativeImage extends Im
 	float allowedTop;
 	float allowedBottom;
 
-	// bounds for checking to see if it is out of the image
+	// bounds for checInputSanityChecking to see if it is out of the image
 	float outsideLeft;
 	float outsideRight;
 	float outsideTop;
@@ -117,7 +119,7 @@ public class KltTracker<InputImage extends ImageGray, DerivativeImage extends Im
 	 * @param derivY Image derivative along the y-axis
 	 */
 	public void setImage(InputImage image, DerivativeImage derivX, DerivativeImage derivY) {
-		InputSanityCheck.checkSameShape(image, derivX, derivY);
+		ISC.checkSameShape(image, derivX, derivY);
 
 		this.image = image;
 		this.interpInput.setImage(image);
@@ -199,7 +201,7 @@ public class KltTracker<InputImage extends ImageGray, DerivativeImage extends Im
 
 		computeSubImageBounds(feature, feature.x, feature.y);
 
-		ImageMiscOps.fill(feature.desc, Float.NaN);
+		IMO.fill(feature.desc, Float.NaN);
 		feature.desc.subimage(dstX0, dstY0, dstX1, dstY1, subimage);
 		interpInput.setImage(image);
 		interpInput.region(srcX0, srcY0, subimage);
@@ -380,7 +382,7 @@ public class KltTracker<InputImage extends ImageGray, DerivativeImage extends Im
 
 		computeSubImageBounds(feature, cx, cy);
 
-		ImageMiscOps.fill(currDesc, Float.NaN);
+		IMO.fill(currDesc, Float.NaN);
 		currDesc.subimage(dstX0, dstY0, dstX1, dstY1, subimage);
 		interpInput.setImage(image);
 		interpInput.region(srcX0, srcY0, subimage);

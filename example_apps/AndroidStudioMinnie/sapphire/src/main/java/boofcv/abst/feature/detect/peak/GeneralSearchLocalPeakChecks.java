@@ -30,7 +30,8 @@ import static org.junit.Assert.assertEquals;
  * @author Peter Abeles
  */
 public abstract class GeneralSearchLocalPeakChecks {
-
+	private static ImageMiscOps IMO;
+	private static FactoryKernelGaussian FKG;
 	Class<GrayF32> imageType = GrayF32.class;
 	GrayF32 image = new GrayF32(30,40);
 
@@ -40,8 +41,8 @@ public abstract class GeneralSearchLocalPeakChecks {
 
 	@Test
 	public void gaussian() {
-		ImageMiscOps.fill(image,0);
-		Kernel2D_F32 k = FactoryKernelGaussian.gaussian(2,true,32,-1,5);
+		IMO.fill(image,0);
+		Kernel2D_F32 k = FKG.gaussian(2,true,32,-1,5);
 
 		int cx = 12;
 		int cy = 15;
@@ -62,7 +63,7 @@ public abstract class GeneralSearchLocalPeakChecks {
 
 	@Test
 	public void impulse() {
-		ImageMiscOps.fill(image,0);
+		IMO.fill(image,0);
 
 		int cx = 12;
 		int cy = 15;
@@ -98,7 +99,7 @@ public abstract class GeneralSearchLocalPeakChecks {
 
 	@Test
 	public void edgeCaseLeft() {
-		ImageMiscOps.fill(image,0);
+		IMO.fill(image,0);
 
 		image.set(1,10,10);
 
@@ -111,7 +112,7 @@ public abstract class GeneralSearchLocalPeakChecks {
 
 	@Test
 	public void edgeCaseRight() {
-		ImageMiscOps.fill(image,0);
+		IMO.fill(image,0);
 
 		image.set(image.width-2,10,10);
 
@@ -124,7 +125,7 @@ public abstract class GeneralSearchLocalPeakChecks {
 
 	@Test
 	public void edgeCaseTop() {
-		ImageMiscOps.fill(image,0);
+		IMO.fill(image,0);
 
 		image.set(10,1,10);
 
@@ -137,7 +138,7 @@ public abstract class GeneralSearchLocalPeakChecks {
 
 	@Test
 	public void edgeCaseBottom() {
-		ImageMiscOps.fill(image,0);
+		IMO.fill(image,0);
 
 		image.set(10,image.height-2,10);
 

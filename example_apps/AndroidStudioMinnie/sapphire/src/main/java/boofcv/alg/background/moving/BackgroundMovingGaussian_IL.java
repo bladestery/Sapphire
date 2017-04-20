@@ -40,7 +40,7 @@ import georegression.struct.InvertibleTransform;
 public class BackgroundMovingGaussian_IL<T extends ImageInterleaved, Motion extends InvertibleTransform<Motion>>
 		extends BackgroundMovingGaussian<T,Motion>
 {
-
+	private ImageType IT;
 	// interpolates the input image
 	protected InterpolatePixelMB<T> interpolateInput;
 	// interpolates the background image
@@ -79,7 +79,7 @@ public class BackgroundMovingGaussian_IL<T extends ImageInterleaved, Motion exte
 
 		background = new InterleavedF32(1,1,2*numBands);
 		this.interpolationBG = FactoryInterpolation.createPixelMB(
-				0, 255, interpType, BorderType.EXTENDED, ImageType.il(numBands*2, InterleavedF32.class));
+				0, 255, interpType, BorderType.EXTENDED, IT.il(numBands*2, InterleavedF32.class));
 		this.interpolationBG.setImage(background);
 		inputWrapper = FactoryGImageMultiBand.create(imageType);
 

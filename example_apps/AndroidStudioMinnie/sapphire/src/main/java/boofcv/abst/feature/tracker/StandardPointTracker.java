@@ -38,7 +38,7 @@ import static org.junit.Assert.*;
  * @author Peter Abeles
  */
 public abstract class StandardPointTracker<T extends ImageGray> {
-
+	private ImageMiscOps IMO;
 	public PointTracker<T> tracker;
 	Random rand = new Random(234);
 	int width = 100;
@@ -54,7 +54,7 @@ public abstract class StandardPointTracker<T extends ImageGray> {
 
 	@Before
 	public void initStandard() {
-		ImageMiscOps.fillUniform(image, rand, 0, 100);
+		IMO.fillUniform(image, rand, 0, 100);
 	}
 
 	/**
@@ -133,7 +133,7 @@ public abstract class StandardPointTracker<T extends ImageGray> {
 		checkInside(tracker.getAllTracks(null));
 
 		// Tweak the input image and make sure that everything has the expected size
-		ImageMiscOps.addGaussian(image,rand,2,0,255);
+		IMO.addGaussian(image,rand,2,0,255);
 		processImage((T)image);
 
 		int beforeAll = tracker.getAllTracks(null).size();
@@ -286,7 +286,7 @@ public abstract class StandardPointTracker<T extends ImageGray> {
 		checkUniqueFeatureID();
 
 		// by adding a little bit of noise the features should move slightly
-		ImageMiscOps.addUniform(image,rand,0,5);
+		IMO.addUniform(image,rand,0,5);
 		processImage((T)image);
 		checkUniqueFeatureID();
 
@@ -306,7 +306,7 @@ public abstract class StandardPointTracker<T extends ImageGray> {
 		tracker.reset();
 
 		// add several tracks
-		ImageMiscOps.addUniform(image,rand,0,5);
+		IMO.addUniform(image,rand,0,5);
 		processImage((T)image);
 		tracker.spawnTracks();
 

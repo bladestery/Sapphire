@@ -48,6 +48,7 @@ import java.util.List;
 public class WrapVisOdomQuadPnP<T extends ImageGray,TD extends TupleDesc>
 		implements StereoVisualOdometry<T>, AccessPointTracks3D
 {
+	private ImageType IT;
 	VisOdomQuadPnP<T,TD> alg;
 	RefinePnPStereo refine;
 	AssociateStereo2D<TD> associateStereo;
@@ -146,6 +147,6 @@ public class WrapVisOdomQuadPnP<T extends ImageGray,TD extends TupleDesc>
 
 	@Override
 	public ImageType<T> getImageType() {
-		return ImageType.single(imageType);
+		return IT.single(imageType);
 	}
 }

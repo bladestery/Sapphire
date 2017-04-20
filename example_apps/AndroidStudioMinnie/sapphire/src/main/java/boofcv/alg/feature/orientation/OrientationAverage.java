@@ -37,6 +37,7 @@ import boofcv.struct.image.ImageGray;
  */
 public abstract class OrientationAverage<D extends ImageGray> implements OrientationGradient<D> {
 	// image gradient
+	private FactoryKernelGaussian FKG;
 	protected D derivX;
 	protected D derivY;
 
@@ -76,7 +77,7 @@ public abstract class OrientationAverage<D extends ImageGray> implements Orienta
 	public void setObjectRadius(double radius) {
 		radiusScale = (int)Math.ceil(radius*objectToSample);
 		if( isWeighted ) {
-			weights = FactoryKernelGaussian.gaussian(2,true, 32, -1,radiusScale);
+			weights = FKG.gaussian(2,true, 32, -1,radiusScale);
 		}
 	}
 

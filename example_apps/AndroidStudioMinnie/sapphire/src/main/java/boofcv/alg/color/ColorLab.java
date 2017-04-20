@@ -39,7 +39,7 @@ import boofcv.struct.image.Planar;
  * @author Peter Abeles
  */
 public class ColorLab {
-
+	private static InputSanityCheck ISC;
 	// 64 bit
 	public static final double epsilon = 0.008856;	//actual CIE standard
 	public static final double kappa   = 903.3;		//actual CIE standard
@@ -122,7 +122,7 @@ public class ColorLab {
 	 */
 	public static void rgbToLab_U8(Planar<GrayU8> rgb , Planar<GrayF32> lab ) {
 
-		InputSanityCheck.checkSameShape(lab, rgb);
+		ISC.checkSameShape(lab, rgb);
 
 		GrayU8 R = rgb.getBand(0);
 		GrayU8 G = rgb.getBand(1);
@@ -175,7 +175,7 @@ public class ColorLab {
 	 */
 	public static void rgbToLab_F32(Planar<GrayF32> rgb , Planar<GrayF32> lab ) {
 
-		InputSanityCheck.checkSameShape(lab, rgb);
+		ISC.checkSameShape(lab, rgb);
 
 		GrayF32 R = rgb.getBand(0);
 		GrayF32 G = rgb.getBand(1);

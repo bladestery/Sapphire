@@ -37,7 +37,7 @@ import static org.junit.Assert.assertTrue;
  * @author Peter Abeles
  */
 public abstract class ChecksDenseOpticalFlowBlockPyramid<T extends ImageGray> {
-
+	private GeneralizedImageOps GIO;
 	Class<T> imageType;
 	Random rand = new Random(234);
 	T image;
@@ -45,7 +45,7 @@ public abstract class ChecksDenseOpticalFlowBlockPyramid<T extends ImageGray> {
 	protected ChecksDenseOpticalFlowBlockPyramid(Class<T> imageType) {
 		this.imageType = imageType;
 
-		image = GeneralizedImageOps.createSingleBand(imageType,40,50);
+		image = GIO.createSingleBand(imageType,40,50);
 	}
 
 	public abstract DenseOpticalFlowBlockPyramid<T> createAlg( int searchRadius, int regionRadius, int maxPerPixelError);
@@ -82,8 +82,8 @@ public abstract class ChecksDenseOpticalFlowBlockPyramid<T extends ImageGray> {
 			for( int j = -r; j <= r; j++ ) {
 				int x = j+3, y = i+4;
 
-				double expected = GeneralizedImageOps.get(image,x,y);
-				double found = GeneralizedImageOps.get(alg.template,j+r,i+r);
+				double expected = GIO.get(image,x,y);
+				double found = GIO.get(alg.template,j+r,i+r);
 
 				assertEquals(expected,found,1e-8);
 			}
@@ -106,8 +106,8 @@ public abstract class ChecksDenseOpticalFlowBlockPyramid<T extends ImageGray> {
 			for( int j = -r; j <= r; j++ ) {
 				int x = j+5, y = i+6;
 
-				double v0 = GeneralizedImageOps.get(image,x,y);
-				double v1 = GeneralizedImageOps.get(alg.template,j+r,i+r);
+				double v0 = GIO.get(image,x,y);
+				double v1 = GIO.get(alg.template,j+r,i+r);
 
 				expected += Math.abs(v0-v1);
 			}

@@ -19,8 +19,22 @@
 package boofcv.alg.fiducial.calib.grid;
 
 import boofcv.abst.filter.binary.InputToBinary;
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.fiducial.calib.squares.*;
+import boofcv.alg.filter.blur.BlurImageOps;
+import boofcv.alg.filter.blur.GBlurImageOps;
+import boofcv.alg.filter.blur.impl.ImplMedianHistogramInner;
+import boofcv.alg.filter.blur.impl.ImplMedianSortEdgeNaive;
+import boofcv.alg.filter.blur.impl.ImplMedianSortNaive;
+import boofcv.alg.filter.convolve.ConvolveImageMean;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
 import boofcv.alg.shapes.polygon.BinaryPolygonDetector;
+import boofcv.core.image.GeneralizedImageOps;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.ImageGray;
 import georegression.struct.point.Point2D_F64;
@@ -49,7 +63,20 @@ import java.util.List;
  * @author Peter Abeles
  */
 public class DetectSquareGridFiducial<T extends ImageGray> {
-
+	private static GBlurImageOps GBIO;
+	private static GeneralizedImageOps GIO;
+	private static InputSanityCheck ISC;
+	private static BlurImageOps BIO;
+	private static ConvolveImageMean CIM;
+	private static FactoryKernelGaussian FKG;
+	private static ConvolveNormalized CN;
+	private static ConvolveNormalizedNaive CNN;
+	private static ConvolveImageNoBorder CINB;
+	private static ConvolveNormalized_JustBorder CNJB;
+	private static ImplMedianHistogramInner IMHI;
+	private static ImplMedianSortEdgeNaive IMSEN;
+	private static ImplMedianSortNaive IMSN;
+	private static ImplConvolveMean ICM;
 	// dimension of square grid.  This only refers to black squares and not the white space
 	int numCols;
 	int numRows;
@@ -109,7 +136,7 @@ public class DetectSquareGridFiducial<T extends ImageGray> {
 	public boolean process( T image ) {
 		binary.reshape(image.width,image.height);
 
-		inputToBinary.process(image,binary);
+		inputToBinary.process(image,binary, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM);
 		detectorSquare.process(image, binary);
 
 		FastQueue<Polygon2D_F64> found = detectorSquare.getFoundPolygons();

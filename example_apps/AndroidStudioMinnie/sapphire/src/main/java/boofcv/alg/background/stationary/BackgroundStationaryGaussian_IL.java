@@ -35,7 +35,8 @@ import boofcv.struct.image.InterleavedF32;
 public class BackgroundStationaryGaussian_IL<T extends ImageInterleaved>
 		extends BackgroundStationaryGaussian<T>
 {
-
+	private static ImageMiscOps IMO;
+	private static InputSanityCheck ISC;
 	// wrappers which provide abstraction across image types
 	protected GImageMultiBand inputWrapper;
 	protected GImageMultiBand bgWrapper;
@@ -96,7 +97,7 @@ public class BackgroundStationaryGaussian_IL<T extends ImageInterleaved>
 			}
 			return;
 		} else {
-			InputSanityCheck.checkSameShape(background, frame);
+			ISC.checkSameShape(background, frame);
 		}
 
 		int numBands = background.getNumBands()/2;
@@ -128,7 +129,7 @@ public class BackgroundStationaryGaussian_IL<T extends ImageInterleaved>
 	@Override
 	public void segment( T frame, GrayU8 segmented) {
 		if( background.width == 1 ) {
-			ImageMiscOps.fill(segmented, unknownValue);
+			IMO.fill(segmented, unknownValue);
 			return;
 		}
 		inputWrapper.wrap(frame);

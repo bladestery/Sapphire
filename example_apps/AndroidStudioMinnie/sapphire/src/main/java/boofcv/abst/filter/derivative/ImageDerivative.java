@@ -19,6 +19,7 @@
 package boofcv.abst.filter.derivative;
 
 import boofcv.core.image.border.BorderType;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.struct.image.ImageBase;
 import boofcv.struct.image.ImageType;
 
@@ -37,7 +38,7 @@ public interface ImageDerivative<T extends ImageBase, D extends ImageBase> {
 	 *
 	 * @param type Specify image border behavior
 	 */
-	public void setBorderType( BorderType type );
+	public void setBorderType( BorderType type, FactoryImageBorder FIB );
 
 	/**
 	 * Returns how the image borders are handled.
@@ -57,5 +58,5 @@ public interface ImageDerivative<T extends ImageBase, D extends ImageBase> {
 	/**
 	 * Image type for derivative output
 	 */
-	public ImageType<D> getDerivativeType();
+	public ImageType<D> getDerivativeType(ImageType IT);
 }

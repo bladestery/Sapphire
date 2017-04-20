@@ -22,17 +22,22 @@ import boofcv.abst.filter.blur.BlurFilter;
 import boofcv.abst.filter.derivative.ImageGradient;
 import boofcv.alg.feature.detect.edge.CannyEdge;
 import boofcv.alg.feature.detect.edge.CannyEdgeDynamic;
+import boofcv.core.image.GeneralizedImageOps;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.filter.blur.FactoryBlurFilter;
 import boofcv.factory.filter.derivative.FactoryDerivative;
 import boofcv.struct.image.ImageGray;
+
+import boofcv.struct.image.ImageType;
+import sapphire.app.SapphireObject;
 
 /**
  * Creates different types of edge detectors.
  *
  * @author Peter Abeles
  */
-public class FactoryEdgeDetectors {
-
+public class FactoryEdgeDetectors implements SapphireObject {
+	public FactoryEdgeDetectors() {}
 	/**
 	 * Detects the edge of an object using the canny edge detector. The output can be a binary image and/or a
 	 * graph of connected contour points.
@@ -47,15 +52,16 @@ public class FactoryEdgeDetectors {
 	 * @param derivType Type of image derivative.
 	 * @return Canny edge detector
 	 */
-	public static <T extends ImageGray, D extends ImageGray>
-	CannyEdge<T,D> canny( int blurRadius , boolean saveTrace , boolean dynamicThreshold, Class<T> imageType , Class<D> derivType )
+	public <T extends ImageGray, D extends ImageGray>
+	CannyEdge<T,D> canny(int blurRadius , boolean saveTrace , boolean dynamicThreshold, Class<T> imageType , Class<D> derivType,
+						 FactoryBlurFilter FBF, FactoryDerivative FD, GeneralizedImageOps GIO, ImageType IT, FactoryImageBorder FIB)
 	{
-		BlurFilter<T> blur = FactoryBlurFilter.gaussian(imageType, -1, blurRadius);
-		ImageGradient<T,D> gradient = FactoryDerivative.three(imageType, derivType);
+		BlurFilter<T> blur = FBF.gaussian(imageType, -1, blurRadius, GIO);
+		ImageGradient<T,D> gradient = FD.three(imageType, derivType, GIO, FIB);
 
 		if( dynamicThreshold )
-			return new CannyEdgeDynamic<>(blur, gradient, saveTrace);
+			return new CannyEdgeDynamic<>(blur, gradient, saveTrace, GIO, IT);
 		else
-			return new CannyEdge<>(blur, gradient, saveTrace);
+			return new CannyEdge<>(blur, gradient, saveTrace, GIO, IT);
 	}
 }

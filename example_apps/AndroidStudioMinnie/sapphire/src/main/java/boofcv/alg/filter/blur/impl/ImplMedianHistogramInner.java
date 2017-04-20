@@ -19,6 +19,7 @@
 package boofcv.alg.filter.blur.impl;
 
 import boofcv.struct.image.GrayU8;
+import sapphire.app.SapphireObject;
 
 /**
  * <p>
@@ -33,8 +34,8 @@ import boofcv.struct.image.GrayU8;
  * </p>
  * @author Peter Abeles
  */
-public class ImplMedianHistogramInner {
-
+public class ImplMedianHistogramInner implements SapphireObject{
+	public ImplMedianHistogramInner() {}
 
 	/**
 	 * Applies a median image filter.
@@ -45,7 +46,7 @@ public class ImplMedianHistogramInner {
 	 * @param offset Array used to store relative pixel offsets.
 	 * @param histogram Saves the image histogram.  Must be at least 256 elements.
 	 */
-	public static void process(GrayU8 input, GrayU8 output , int radius, int offset[], int histogram[] ) {
+	public void process(GrayU8 input, GrayU8 output , int radius, int offset[], int histogram[] ) {
 
 		if( histogram == null )
 			histogram = new int[ 256 ];

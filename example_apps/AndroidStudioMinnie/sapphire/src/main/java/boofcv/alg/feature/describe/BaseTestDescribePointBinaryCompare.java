@@ -41,7 +41,7 @@ import static org.junit.Assert.assertTrue;
  * @author Peter Abeles
  */
 public abstract class BaseTestDescribePointBinaryCompare<T extends ImageGray> {
-
+	private GeneralizedImageOps GIO;
 	Random rand = new Random(234);
 	int width = 30;
 	int height = 40;
@@ -54,7 +54,7 @@ public abstract class BaseTestDescribePointBinaryCompare<T extends ImageGray> {
 	}
 
 	protected  T createImage( int width , int height ) {
-		T ret = GeneralizedImageOps.createSingleBand(imageType, width, height);
+		T ret = GIO.createSingleBand(imageType, width, height);
 		GImageMiscOps.fillUniform(ret, rand, 0, 50);
 		return ret;
 	}

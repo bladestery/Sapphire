@@ -36,6 +36,8 @@ import boofcv.struct.image.*;
  * @author Peter Abeles
  */
 public class ConvolveWithBorder {
+	private static InputSanityCheck ISC;
+	private static ConvolveImageNoBorder CINB;
 	/**
 	 * Performs a horizontal 1D convolution across the image.  Borders are handled as specified by the 'border'
 	 * parameter.
@@ -47,10 +49,10 @@ public class ConvolveWithBorder {
 	 */
 	public static void horizontal(Kernel1D_F32 kernel,
 								  GrayF32 image, GrayF32 dest , ImageBorder_F32 border ) {
-		InputSanityCheck.checkSameShape(image, dest);
+		ISC.checkSameShape(image, dest);
 
 		border.setImage(image);
-		ConvolveImageNoBorder.horizontal(kernel,image,dest);
+		CINB.horizontal(kernel,image,dest, ISC);
 		ConvolveJustBorder_General.horizontal(kernel, border,dest);
 	}
 
@@ -65,10 +67,10 @@ public class ConvolveWithBorder {
 	 */
 	public static void vertical(Kernel1D_F32 kernel,
 								GrayF32 image, GrayF32 dest , ImageBorder_F32 border ) {
-		InputSanityCheck.checkSameShape(image, dest);
+		ISC.checkSameShape(image, dest);
 
 		border.setImage(image);
-		ConvolveImageNoBorder.vertical(kernel,image,dest);
+		CINB.vertical(kernel,image,dest, ISC);
 		ConvolveJustBorder_General.vertical(kernel, border,dest);
 	}
 
@@ -83,10 +85,10 @@ public class ConvolveWithBorder {
 	 */
 	public static void convolve(Kernel2D_F32 kernel,
 								GrayF32 image, GrayF32 dest , ImageBorder_F32 border ) {
-		InputSanityCheck.checkSameShape(image, dest);
+		ISC.checkSameShape(image, dest);
 
 		border.setImage(image);
-		ConvolveImageNoBorder.convolve(kernel,image,dest);
+		CINB.convolve(kernel,image,dest, ISC);
 		ConvolveJustBorder_General.convolve(kernel,border,dest);
 	}
 
@@ -101,10 +103,10 @@ public class ConvolveWithBorder {
 	 */
 	public static void horizontal(Kernel1D_I32 kernel,
 								  GrayU8 image, GrayI16 dest , ImageBorder_S32 border ) {
-		InputSanityCheck.checkSameShape(image, dest);
+		ISC.checkSameShape(image, dest);
 
 		border.setImage(image);
-		ConvolveImageNoBorder.horizontal(kernel,image,dest);
+		CINB.horizontal(kernel,image,dest, ISC);
 		ConvolveJustBorder_General.horizontal(kernel, border,dest);
 	}
 
@@ -119,10 +121,10 @@ public class ConvolveWithBorder {
 	 */
 	public static void vertical(Kernel1D_I32 kernel,
 								GrayU8 image, GrayI16 dest , ImageBorder_S32 border ) {
-		InputSanityCheck.checkSameShape(image, dest);
+		ISC.checkSameShape(image, dest);
 
 		border.setImage(image);
-		ConvolveImageNoBorder.vertical(kernel,image,dest);
+		CINB.vertical(kernel,image,dest, ISC);
 		ConvolveJustBorder_General.vertical(kernel, border,dest);
 	}
 
@@ -137,10 +139,10 @@ public class ConvolveWithBorder {
 	 */
 	public static void convolve(Kernel2D_I32 kernel,
 								GrayU8 image, GrayI16 dest , ImageBorder_S32 border ) {
-		InputSanityCheck.checkSameShape(image, dest);
+		ISC.checkSameShape(image, dest);
 
 		border.setImage(image);
-		ConvolveImageNoBorder.convolve(kernel,image,dest);
+		CINB.convolve(kernel,image,dest, ISC);
 		ConvolveJustBorder_General.convolve(kernel,border,dest);
 	}
 
@@ -155,10 +157,10 @@ public class ConvolveWithBorder {
 	 */
 	public static void horizontal(Kernel1D_I32 kernel,
 								  GrayU8 image, GrayS32 dest , ImageBorder_S32 border ) {
-		InputSanityCheck.checkSameShape(image, dest);
+		ISC.checkSameShape(image, dest);
 
 		border.setImage(image);
-		ConvolveImageNoBorder.horizontal(kernel, image, dest);
+		CINB.horizontal(kernel, image, dest, ISC);
 		ConvolveJustBorder_General.horizontal(kernel, border, dest);
 	}
 
@@ -173,10 +175,10 @@ public class ConvolveWithBorder {
 	 */
 	public static void vertical(Kernel1D_I32 kernel,
 								GrayU8 image, GrayS32 dest , ImageBorder_S32 border ) {
-		InputSanityCheck.checkSameShape(image, dest);
+		ISC.checkSameShape(image, dest);
 
 		border.setImage(image);
-		ConvolveImageNoBorder.vertical(kernel,image,dest);
+		CINB.vertical(kernel,image,dest, ISC);
 		ConvolveJustBorder_General.vertical(kernel, border,dest);
 	}
 
@@ -191,10 +193,10 @@ public class ConvolveWithBorder {
 	 */
 	public static void convolve(Kernel2D_I32 kernel,
 								GrayU8 image, GrayS32 dest , ImageBorder_S32 border ) {
-		InputSanityCheck.checkSameShape(image, dest);
+		ISC.checkSameShape(image, dest);
 
 		border.setImage(image);
-		ConvolveImageNoBorder.convolve(kernel,image,dest);
+		CINB.convolve(kernel,image,dest, ISC);
 		ConvolveJustBorder_General.convolve(kernel,border,dest);
 	}
 
@@ -209,10 +211,10 @@ public class ConvolveWithBorder {
 	 */
 	public static void horizontal(Kernel1D_I32 kernel,
 								  GrayS16 image, GrayI16 dest , ImageBorder_S32 border ) {
-		InputSanityCheck.checkSameShape(image, dest);
+		ISC.checkSameShape(image, dest);
 
 		border.setImage(image);
-		ConvolveImageNoBorder.horizontal(kernel,image,dest);
+		CINB.horizontal(kernel,image,dest, ISC);
 		ConvolveJustBorder_General.horizontal(kernel, border, dest);
 	}
 
@@ -227,10 +229,10 @@ public class ConvolveWithBorder {
 	 */
 	public static void vertical(Kernel1D_I32 kernel,
 								GrayS16 image, GrayI16 dest , ImageBorder_S32 border ) {
-		InputSanityCheck.checkSameShape(image, dest);
+		ISC.checkSameShape(image, dest);
 
 		border.setImage(image);
-		ConvolveImageNoBorder.vertical(kernel,image,dest);
+		CINB.vertical(kernel,image,dest, ISC);
 		ConvolveJustBorder_General.vertical(kernel, border,dest);
 	}
 
@@ -245,10 +247,10 @@ public class ConvolveWithBorder {
 	 */
 	public static void convolve(Kernel2D_I32 kernel,
 								GrayS16 image, GrayI16 dest , ImageBorder_S32 border ) {
-		InputSanityCheck.checkSameShape(image, dest);
+		ISC.checkSameShape(image, dest);
 
 		border.setImage(image);
-		ConvolveImageNoBorder.convolve(kernel,image,dest);
+		CINB.convolve(kernel,image,dest, ISC);
 		ConvolveJustBorder_General.convolve(kernel,border,dest);
 	}
 }

@@ -46,7 +46,7 @@ import boofcv.struct.image.Planar;
  */
 public class ColorXyz {
 
-
+	private static InputSanityCheck ISC;
 	/**
 	 * Conversion from 8-bit RGB into XYZ.  8-bit = range of 0 to 255.
 	 */
@@ -108,7 +108,7 @@ public class ColorXyz {
 	 */
 	public static void rgbToXyz_F32(Planar<GrayF32> rgb , Planar<GrayF32> xyz ) {
 
-		InputSanityCheck.checkSameShape(xyz, rgb);
+		ISC.checkSameShape(xyz, rgb);
 
 		GrayF32 R = rgb.getBand(0);
 		GrayF32 G = rgb.getBand(1);
@@ -145,7 +145,7 @@ public class ColorXyz {
 	 */
 	public static void rgbToXyz_U8(Planar<GrayU8> rgb , Planar<GrayF32> xyz ) {
 
-		InputSanityCheck.checkSameShape(xyz, rgb);
+		ISC.checkSameShape(xyz, rgb);
 
 		GrayU8 R = rgb.getBand(0);
 		GrayU8 G = rgb.getBand(1);

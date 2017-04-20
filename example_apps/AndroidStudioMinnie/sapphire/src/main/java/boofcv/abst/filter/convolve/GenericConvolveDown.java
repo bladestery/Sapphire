@@ -18,7 +18,21 @@
 
 package boofcv.abst.filter.convolve;
 
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.filter.blur.BlurImageOps;
+import boofcv.alg.filter.blur.GBlurImageOps;
+import boofcv.alg.filter.blur.impl.ImplMedianHistogramInner;
+import boofcv.alg.filter.blur.impl.ImplMedianSortEdgeNaive;
+import boofcv.alg.filter.blur.impl.ImplMedianSortNaive;
+import boofcv.alg.filter.convolve.ConvolveImageMean;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
+import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.BorderType;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.convolve.KernelBase;
 import boofcv.struct.image.ImageGray;
 import boofcv.struct.image.ImageType;
@@ -65,7 +79,9 @@ public class GenericConvolveDown<Input extends ImageGray, Output extends ImageGr
 	}
 
 	@Override
-	public void process(Input input, Output output) {
+	public void process(Input input, Output output, GBlurImageOps GBIO, InputSanityCheck ISC, GeneralizedImageOps GIO, BlurImageOps BIO,
+						ConvolveImageMean CIM, FactoryKernelGaussian FKG, ConvolveNormalized CN, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB,
+						ConvolveNormalized_JustBorder CNJB, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM) {
 		try {
 			m.invoke(null,kernel,input,output,skip);
 		} catch (IllegalAccessException | InvocationTargetException e) {
@@ -92,12 +108,12 @@ public class GenericConvolveDown<Input extends ImageGray, Output extends ImageGr
 	}
 
 	@Override
-	public ImageType<Input> getInputType() {
-		return ImageType.single(inputType);
+	public ImageType<Input> getInputType(ImageType IT) {
+		return IT.single(inputType);
 	}
 
 	@Override
-	public ImageType<Output> getOutputType() {
-		return ImageType.single(outputType);
+	public ImageType<Output> getOutputType(ImageType IT) {
+		return IT.single(outputType);
 	}
 }

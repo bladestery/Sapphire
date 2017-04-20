@@ -28,9 +28,10 @@ import boofcv.struct.image.ImageType;
  * @author Peter Abeles
  */
 public class SegmentSlic_F32 extends SegmentSlic<GrayF32> {
+	private static ImageType IT;
 	public SegmentSlic_F32(int numberOfRegions, float m, int totalIterations,
 						   ConnectRule connectRule) {
-		super(numberOfRegions, m , totalIterations, connectRule,ImageType.single(GrayF32.class));
+		super(numberOfRegions, m , totalIterations, connectRule,IT.single(GrayF32.class));
 	}
 
 	@Override

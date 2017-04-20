@@ -34,6 +34,7 @@ import static org.junit.Assert.*;
  */
 public abstract class GeneralDenseOpticalFlowChecks<T extends ImageGray>
 {
+	private GeneralizedImageOps GIO;
 	Random rand = new Random(234);
 	Class<T> imageType;
 
@@ -46,8 +47,8 @@ public abstract class GeneralDenseOpticalFlowChecks<T extends ImageGray>
 	protected GeneralDenseOpticalFlowChecks(Class<T> imageType) {
 		this.imageType = imageType;
 
-		orig = GeneralizedImageOps.createSingleBand(imageType,20,25);
-		shifted = GeneralizedImageOps.createSingleBand(imageType,20,25);
+		orig = GIO.createSingleBand(imageType,20,25);
+		shifted = GIO.createSingleBand(imageType,20,25);
 
 		found = new ImageFlow(20,25);
 
@@ -160,8 +161,8 @@ public abstract class GeneralDenseOpticalFlowChecks<T extends ImageGray>
 
 		alg.process(orig,shifted,found);
 
-		T larger0 = GeneralizedImageOps.createSingleBand(imageType,40,35);
-		T larger1 = GeneralizedImageOps.createSingleBand(imageType,40,35);
+		T larger0 = GIO.createSingleBand(imageType,40,35);
+		T larger1 = GIO.createSingleBand(imageType,40,35);
 
 		// if it doesn't blow up it worked
 		alg.process(larger0,larger1,new ImageFlow(40,35));

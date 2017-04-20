@@ -40,7 +40,7 @@ import static boofcv.android.ConvertBitmap.declareStorage;
  * @author Peter Abeles
  */
 public class VisualizeImageData {
-
+	private static ImageStatistics IS;
 	/**
 	 * Renders a binary image as a B&W bitmap.  Create storage with
 	 * {@link ConvertBitmap#declareStorage(android.graphics.Bitmap, byte[])};
@@ -102,7 +102,7 @@ public class VisualizeImageData {
 			storage = declareStorage(output,null);
 
 		if( maxAbsValue < 0 )
-			maxAbsValue = ImageStatistics.maxAbs(input);
+			maxAbsValue = IS.maxAbs(input);
 
 		int indexDst = 0;
 
@@ -141,7 +141,7 @@ public class VisualizeImageData {
 			storage = declareStorage(output,null);
 
 		if( maxAbsValue < 0 )
-			maxAbsValue = ImageStatistics.maxAbs(input);
+			maxAbsValue = IS.maxAbs(input);
 
 		int indexDst = 0;
 
@@ -180,7 +180,7 @@ public class VisualizeImageData {
 			storage = declareStorage(output,null);
 
 		if( maxAbsValue < 0 )
-			maxAbsValue = ImageStatistics.maxAbs(input);
+			maxAbsValue = IS.maxAbs(input);
 
 		int indexDst = 0;
 
@@ -213,7 +213,7 @@ public class VisualizeImageData {
 			storage = declareStorage(output,null);
 
 		if( maxAbsValue < 0 )
-			maxAbsValue = ImageStatistics.maxAbs(input);
+			maxAbsValue = IS.maxAbs(input);
 
 		int indexDst = 0;
 
@@ -248,8 +248,8 @@ public class VisualizeImageData {
 			storage = declareStorage(output,null);
 
 		if( maxAbsValue < 0 ) {
-			maxAbsValue = ImageStatistics.maxAbs(derivX);
-			maxAbsValue = Math.max(maxAbsValue, ImageStatistics.maxAbs(derivY));
+			maxAbsValue = IS.maxAbs(derivX);
+			maxAbsValue = Math.max(maxAbsValue, IS.maxAbs(derivY));
 		}
 		if( maxAbsValue == 0 )
 			return;
@@ -307,8 +307,8 @@ public class VisualizeImageData {
 			storage = declareStorage(output,null);
 
 		if( maxAbsValue < 0 ) {
-			maxAbsValue = ImageStatistics.maxAbs(derivX);
-			maxAbsValue = Math.max(maxAbsValue, ImageStatistics.maxAbs(derivY));
+			maxAbsValue = IS.maxAbs(derivX);
+			maxAbsValue = Math.max(maxAbsValue, IS.maxAbs(derivY));
 		}
 		if( maxAbsValue == 0 )
 			return;

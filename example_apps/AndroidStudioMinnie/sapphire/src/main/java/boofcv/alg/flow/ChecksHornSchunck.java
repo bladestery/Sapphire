@@ -34,6 +34,7 @@ import static org.junit.Assert.assertTrue;
  * @author Peter Abeles
  */
 public abstract class ChecksHornSchunck<T extends ImageGray, D extends ImageGray> {
+	private GeneralizedImageOps GIO;
 	Class<T> imageType;
 	Class<D> derivType;
 
@@ -56,8 +57,8 @@ public abstract class ChecksHornSchunck<T extends ImageGray, D extends ImageGray
 	public void process() {
 		HornSchunck<T,D> alg = createAlg();
 
-		T image1 = GeneralizedImageOps.createSingleBand(imageType, width, height);
-		T image2 = GeneralizedImageOps.createSingleBand(imageType,width,height);
+		T image1 = GIO.createSingleBand(imageType, width, height);
+		T image2 = GIO.createSingleBand(imageType,width,height);
 		ImageFlow output = new ImageFlow(width,height);
 
 		GImageMiscOps.fillRectangle(image1, 100, 10, 0, 20, 30);
@@ -89,9 +90,9 @@ public abstract class ChecksHornSchunck<T extends ImageGray, D extends ImageGray
 
 		HornSchunck<T,D> alg = createAlg();
 
-		T image1 = GeneralizedImageOps.createSingleBand(imageType, width, height);
-		T image2 = GeneralizedImageOps.createSingleBand(imageType,width,height);
-		D found = GeneralizedImageOps.createSingleBand(derivType, width, height);
+		T image1 = GIO.createSingleBand(imageType, width, height);
+		T image2 = GIO.createSingleBand(imageType,width,height);
+		D found = GIO.createSingleBand(derivType, width, height);
 
 		GImageMiscOps.fillUniform(image1,rand,0,200);
 		GImageMiscOps.fillUniform(image2,rand,0,200);
@@ -117,9 +118,9 @@ public abstract class ChecksHornSchunck<T extends ImageGray, D extends ImageGray
 
 		HornSchunck<T,D> alg = createAlg();
 
-		T image1 = GeneralizedImageOps.createSingleBand(imageType, width, height);
-		T image2 = GeneralizedImageOps.createSingleBand(imageType,width,height);
-		D found = GeneralizedImageOps.createSingleBand(derivType, width, height);
+		T image1 = GIO.createSingleBand(imageType, width, height);
+		T image2 = GIO.createSingleBand(imageType,width,height);
+		D found = GIO.createSingleBand(derivType, width, height);
 
 		GImageMiscOps.fillUniform(image1,rand,0,200);
 		GImageMiscOps.fillUniform(image2,rand,0,200);
@@ -145,9 +146,9 @@ public abstract class ChecksHornSchunck<T extends ImageGray, D extends ImageGray
 
 		HornSchunck<T,D> alg = createAlg();
 
-		T image1 = GeneralizedImageOps.createSingleBand(imageType, width, height);
-		T image2 = GeneralizedImageOps.createSingleBand(imageType,width,height);
-		D found = GeneralizedImageOps.createSingleBand(derivType, width, height);
+		T image1 = GIO.createSingleBand(imageType, width, height);
+		T image2 = GIO.createSingleBand(imageType,width,height);
+		D found = GIO.createSingleBand(derivType, width, height);
 
 		GImageMiscOps.fillUniform(image1,rand,0,200);
 		GImageMiscOps.fillUniform(image2,rand,0,200);
@@ -191,7 +192,7 @@ public abstract class ChecksHornSchunck<T extends ImageGray, D extends ImageGray
 		if( y < 0 ) y = 0;
 		if( y >= image.height) y = image.height-1;
 
-		return (float) GeneralizedImageOps.get(image, x, y);
+		return (float) GIO.get(image, x, y);
 	}
 
 	private static class Point {

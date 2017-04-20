@@ -43,6 +43,9 @@ import boofcv.struct.image.ImageGray;
 public abstract class ImplSsdCornerBase<D extends ImageGray, D2 extends ImageGray>
 		implements GradientCornerIntensity<D>
 {
+	private static GeneralizedImageOps GIO;
+	private static ImageMiscOps IMO;
+	private static InputSanityCheck ISC;
 	// input image gradient
 	protected D derivX;
 	protected D derivY;
@@ -61,9 +64,9 @@ public abstract class ImplSsdCornerBase<D extends ImageGray, D2 extends ImageGra
 	public ImplSsdCornerBase( int windowRadius , Class<D2> secondDerivType ) {
 		this.radius = windowRadius;
 
-		horizXX = GeneralizedImageOps.createSingleBand(secondDerivType,1,1);
-		horizXY = GeneralizedImageOps.createSingleBand(secondDerivType,1,1);
-		horizYY = GeneralizedImageOps.createSingleBand(secondDerivType,1,1);
+		horizXX = GIO.createSingleBand(secondDerivType,1,1);
+		horizXY = GIO.createSingleBand(secondDerivType,1,1);
+		horizYY = GIO.createSingleBand(secondDerivType,1,1);
 	}
 
 	public void setImageShape( int imageWidth, int imageHeight ) {
@@ -90,7 +93,7 @@ public abstract class ImplSsdCornerBase<D extends ImageGray, D2 extends ImageGra
 
 	@Override
 	public void process(D derivX, D derivY, GrayF32 intensity ) {
-		InputSanityCheck.checkSameShape(derivX,derivY,intensity);
+		ISC.checkSameShape(derivX,derivY,intensity);
 
 		setImageShape(derivX.getWidth(),derivX.getHeight());
 		this.derivX = derivX;
@@ -99,7 +102,7 @@ public abstract class ImplSsdCornerBase<D extends ImageGray, D2 extends ImageGra
 		// there is no intensity computed along the border. Make sure it's always zero
 		// In the future it might be better to fill it with meaningful data, even if it's
 		// from a partial region
-		ImageMiscOps.fillBorder(intensity,0,radius);
+		IMO.fillBorder(intensity,0,radius);
 		horizontal();
 		vertical(intensity);
 	}

@@ -18,7 +18,11 @@
 
 package boofcv.abst.filter.derivative;
 
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
 import boofcv.core.image.border.BorderType;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.struct.image.ImageGray;
 import boofcv.struct.image.ImageMultiBand;
 import boofcv.struct.image.ImageType;
@@ -43,17 +47,17 @@ public class ImageGradientThenReduce<Input extends ImageMultiBand,
 	Middle middleX,middleY;
 
 	public ImageGradientThenReduce(ImageGradient<Input, Middle> gradient,
-								   GradientMultiToSingleBand<Middle, Output> reduce) {
+								   GradientMultiToSingleBand<Middle, Output> reduce, ImageType IT) {
 		this.gradient = gradient;
 		this.reduce = reduce;
 
-		middleX = gradient.getDerivativeType().createImage(1,1);
-		middleY = gradient.getDerivativeType().createImage(1,1);
+		middleX = gradient.getDerivativeType(IT).createImage(1,1);
+		middleY = gradient.getDerivativeType(IT).createImage(1,1);
 	}
 
 	@Override
-	public void setBorderType(BorderType type) {
-		gradient.setBorderType(type);
+	public void setBorderType(BorderType type, FactoryImageBorder FIB) {
+		gradient.setBorderType(type, FIB);
 	}
 
 	@Override
@@ -67,16 +71,16 @@ public class ImageGradientThenReduce<Input extends ImageMultiBand,
 	}
 
 	@Override
-	public ImageType<Output> getDerivativeType() {
-		return ImageType.single(reduce.getOutputType());
+	public ImageType<Output> getDerivativeType(ImageType IT) {
+		return IT.single(reduce.getOutputType());
 	}
 
 	@Override
-	public void process(Input inputImage, Output derivX, Output derivY) {
+	public void process(Input inputImage, Output derivX, Output derivY, InputSanityCheck ISC, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB) {
 		middleX.reshape(inputImage.width,inputImage.height);
 		middleY.reshape(inputImage.width,inputImage.height);
 
-		gradient.process(inputImage, middleX, middleY);
+		gradient.process(inputImage, middleX, middleY, ISC, DHF, CINB);
 		reduce.process(middleX,middleY, derivX,derivY);
 	}
 }

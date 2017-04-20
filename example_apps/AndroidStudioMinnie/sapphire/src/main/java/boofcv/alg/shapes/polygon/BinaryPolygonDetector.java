@@ -21,6 +21,7 @@ package boofcv.alg.shapes.polygon;
 import boofcv.alg.InputSanityCheck;
 import boofcv.alg.filter.binary.Contour;
 import boofcv.alg.filter.binary.LinearContourLabelChang2004;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.shapes.edge.EdgeIntensityPolygon;
 import boofcv.alg.shapes.polyline.MinimizeEnergyPrune;
 import boofcv.alg.shapes.polyline.RefinePolyLineCorner;
@@ -71,7 +72,8 @@ import java.util.List;
  * @author Peter Abeles
  */
 public class BinaryPolygonDetector<T extends ImageGray> {
-
+	private static InputSanityCheck ISC;
+	private static ImageMiscOps IMO;
 	// minimum size of a shape's contour as a fraction of the image width
 	private double minContourFraction;
 	private int minimumContour; // this is image.width*minContourFraction
@@ -221,7 +223,7 @@ public class BinaryPolygonDetector<T extends ImageGray> {
 	 */
 	public void process(T gray, GrayU8 binary) {
 		if( verbose ) System.out.println("ENTER  BinaryPolygonDetector.process()");
-		InputSanityCheck.checkSameShape(binary, gray);
+		ISC.checkSameShape(binary, gray);
 
 		if( labeled.width != gray.width || labeled.height == gray.width )
 			configure(gray.width,gray.height);
@@ -267,7 +269,7 @@ public class BinaryPolygonDetector<T extends ImageGray> {
 		fitPolygon.setAbortSplits(2*maxSides);
 
 		// find binary blobs
-		contourFinder.process(binary, labeled);
+		contourFinder.process(binary, labeled, IMO);
 
 		// find blobs where all 4 edges are lines
 		FastQueue<Contour> blobs = contourFinder.getContours();

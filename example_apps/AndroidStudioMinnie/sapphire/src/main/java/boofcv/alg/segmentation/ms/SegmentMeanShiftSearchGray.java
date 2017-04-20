@@ -35,7 +35,7 @@ import org.ddogleg.struct.FastQueue;
  * @author Peter Abeles
  */
 public class SegmentMeanShiftSearchGray<T extends ImageGray> extends SegmentMeanShiftSearch<T> {
-
+	private ImageMiscOps IMO;
 	// Interpolation routine used to get sub-pixel samples
 	protected InterpolatePixelS<T> interpolate;
 
@@ -73,9 +73,9 @@ public class SegmentMeanShiftSearchGray<T extends ImageGray> extends SegmentMean
 		pixelToMode.reshape(image.width, image.height);
 		quickMode.reshape(image.width, image.height);
 		// mark as -1 so it knows which pixels have been assigned a mode already and can skip them
-		ImageMiscOps.fill(pixelToMode, -1);
+		IMO.fill(pixelToMode, -1);
 		// mark all pixels are not being a mode
-		ImageMiscOps.fill(quickMode,-1);
+		IMO.fill(quickMode,-1);
 
 		// use mean shift to find the peak of each pixel in the image
 		int indexImg = 0;

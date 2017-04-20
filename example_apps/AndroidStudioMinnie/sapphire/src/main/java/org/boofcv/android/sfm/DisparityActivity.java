@@ -45,6 +45,8 @@ import boofcv.struct.image.ImageType;
 public class DisparityActivity extends DemoVideoDisplayActivity
 		implements AdapterView.OnItemSelectedListener
 {
+	private ImageMiscOps IMO;
+	private ImageType IT;
 	Spinner spinnerView;
 	Spinner spinnerAlgs;
 
@@ -199,7 +201,7 @@ public class DisparityActivity extends DemoVideoDisplayActivity
 		int disparityMin,disparityMax;
 
 		public DisparityProcessing() {
-			super(ImageType.single(GrayF32.class));
+			super(IT.single(GrayF32.class));
 
 			DetectDescribePoint<GrayF32, BrightFeature> detDesc =
 					FactoryDetectDescribe.surfFast(null,null,null,GrayF32.class);
@@ -330,7 +332,7 @@ public class DisparityActivity extends DemoVideoDisplayActivity
 						}
 					} else {
 						synchronized ( lockGui ) {
-							ImageMiscOps.fill(disparityImage,0);
+							IMO.fill(disparityImage,0);
 						}
 						runOnUiThread(new Runnable() {
 							public void run() {

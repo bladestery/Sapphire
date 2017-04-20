@@ -35,6 +35,7 @@ import org.ddogleg.struct.FastQueue;
  * @author Peter Abeles
  */
 public class HysteresisEdgeTraceMark {
+	private ImageMiscOps IMO;
 
 	// after an edge has been traversed it is set to this value
 	public static final float MARK_TRAVERSED = -1;
@@ -64,17 +65,17 @@ public class HysteresisEdgeTraceMark {
 	 * @param output Output binary image. Modified.
 	 */
 	public void process(GrayF32 intensity , GrayS8 direction , float lower , float upper ,
-						GrayU8 output ) {
+						GrayU8 output, InputSanityCheck ISC) {
 		if( lower < 0 )
 			throw new IllegalArgumentException("Lower must be >= 0!");
-		InputSanityCheck.checkSameShape(intensity,direction,output);
+		ISC.checkSameShape(intensity,direction,output);
 
 		// set up internal data structures
 		this.intensity = intensity;
 		this.direction = direction;
 		this.output = output;
 		this.lower = lower;
-		ImageMiscOps.fill(output,0);
+		IMO.fill(output,0);
 
 		// step through each pixel in the image
 		for( int y = 0; y < intensity.height; y++ ) {

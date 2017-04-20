@@ -46,7 +46,7 @@ import static boofcv.alg.distort.LensDistortionOps.transformPoint;
 // this is probably true of other SFM algorithms
 public class WrapVisOdomPixelDepthPnP<T extends ImageGray>
 		implements StereoVisualOdometry<T>, AccessPointTracks3D {
-
+	private ImageType IT;
 	// low level algorithm
 	VisOdomPixelDepthPnP<T> alg;
 	StereoSparse3D<T> stereo;
@@ -122,7 +122,7 @@ public class WrapVisOdomPixelDepthPnP<T extends ImageGray>
 
 	@Override
 	public ImageType<T> getImageType() {
-		return ImageType.single(imageType);
+		return IT.single(imageType);
 	}
 
 	@Override

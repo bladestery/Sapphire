@@ -37,6 +37,8 @@ import java.lang.reflect.Array;
 public class FlowKlt_to_DenseOpticalFlow<I extends ImageGray, D extends ImageGray>
 	implements DenseOpticalFlow<I>
 {
+	private	ImageType IT;
+	private GeneralizedImageOps GIO;
 	DenseOpticalFlowKlt<I,D> flowKlt;
 	ImageGradient<I,D> gradient;
 
@@ -65,11 +67,11 @@ public class FlowKlt_to_DenseOpticalFlow<I extends ImageGray, D extends ImageGra
 		srcDerivY = (D[])Array.newInstance(derivType,pyramidSrc.getNumLayers());
 
 		for( int i = 0; i < srcDerivX.length; i++ ) {
-			srcDerivX[i] = GeneralizedImageOps.createSingleBand(derivType,1,1);
-			srcDerivY[i] = GeneralizedImageOps.createSingleBand(derivType,1,1);
+			srcDerivX[i] = GIO.createSingleBand(derivType,1,1);
+			srcDerivY[i] = GIO.createSingleBand(derivType,1,1);
 		}
 
-		imageType = ImageType.single(inputType);
+		imageType = IT.single(inputType);
 	}
 
 	@Override

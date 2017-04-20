@@ -19,6 +19,9 @@
 package boofcv.alg.tracker.tld;
 
 import boofcv.abst.filter.derivative.ImageGradient;
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
 import boofcv.alg.tracker.klt.KltTrackFault;
 import boofcv.alg.tracker.klt.PyramidKltFeature;
 import boofcv.alg.tracker.klt.PyramidKltTracker;
@@ -46,7 +49,10 @@ import java.lang.reflect.Array;
  * @author Peter Abeles
  */
 public class TldRegionTracker< Image extends ImageGray, Derivative extends ImageGray> {
-
+	private GeneralizedImageOps GIO;
+	private static InputSanityCheck ISC;
+	private static DerivativeHelperFunctions DHF;
+	private static ConvolveImageNoBorder CINB;
 	// maximum allowed median forwards-backwards error in pixels squared
 	private double maxErrorFB;
 
@@ -127,7 +133,7 @@ public class TldRegionTracker< Image extends ImageGray, Derivative extends Image
 		}
 
 		for( int i = 0; i < image.getNumLayers(); i++ ) {
-			gradient.process(image.getLayer(i), previousDerivX[i], previousDerivY[i]);
+			gradient.process(image.getLayer(i), previousDerivX[i], previousDerivY[i], ISC, DHF, CINB);
 		}
 
 		previousImage.setTo(image);
@@ -148,10 +154,10 @@ public class TldRegionTracker< Image extends ImageGray, Derivative extends Image
 			int w = image.getWidth(i);
 			int h = image.getHeight(i);
 
-			previousDerivX[i] = GeneralizedImageOps.createSingleBand(derivType, w, h);
-			previousDerivY[i] = GeneralizedImageOps.createSingleBand(derivType, w, h);
-			currentDerivX[i] = GeneralizedImageOps.createSingleBand(derivType, w, h);
-			currentDerivY[i] = GeneralizedImageOps.createSingleBand(derivType, w, h);
+			previousDerivX[i] = GIO.createSingleBand(derivType, w, h);
+			previousDerivY[i] = GIO.createSingleBand(derivType, w, h);
+			currentDerivX[i] = GIO.createSingleBand(derivType, w, h);
+			currentDerivY[i] = GIO.createSingleBand(derivType, w, h);
 		}
 
 		previousImage = FactoryPyramid.discreteGaussian(image.getScales(), -1, 1, false,image.getImageType());
@@ -195,7 +201,7 @@ public class TldRegionTracker< Image extends ImageGray, Derivative extends Image
 	protected void updateCurrent(ImagePyramid<Image> image) {
 		this.currentImage = image;
 		for( int i = 0; i < image.getNumLayers(); i++ ) {
-			gradient.process(image.getLayer(i), currentDerivX[i], currentDerivY[i]);
+			gradient.process(image.getLayer(i), currentDerivX[i], currentDerivY[i], ISC, DHF, CINB);
 		}
 	}
 

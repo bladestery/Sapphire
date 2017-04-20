@@ -19,6 +19,7 @@
 package boofcv.alg.filter.binary;
 
 import georegression.struct.point.Point2D_I32;
+import sapphire.app.SapphireObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +30,7 @@ import java.util.List;
  *
  * @author Peter Abeles
  */
-public class Contour {
+public class Contour implements SapphireObject {
 	/**
 	 * ID of blob in the image.  Pixels belonging to this blob in the labeled image will have this pixel value.
 	 */

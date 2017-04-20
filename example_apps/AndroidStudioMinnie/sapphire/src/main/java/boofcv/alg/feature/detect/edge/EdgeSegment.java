@@ -19,6 +19,7 @@
 package boofcv.alg.feature.detect.edge;
 
 import georegression.struct.point.Point2D_I32;
+import sapphire.app.SapphireObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +29,7 @@ import java.util.List;
  *
  * @author Peter Abeles
  */
-public class EdgeSegment {
+public class EdgeSegment implements SapphireObject {
 	/** index of this segment in the list.  used for book keeping during construction */
 	public int index;
 

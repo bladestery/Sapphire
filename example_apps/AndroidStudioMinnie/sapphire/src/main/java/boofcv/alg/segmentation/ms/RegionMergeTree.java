@@ -34,7 +34,7 @@ import org.ddogleg.struct.GrowQueue_I32;
  * @author Peter Abeles
  */
 public class RegionMergeTree {
-
+	private static BinaryImageOps BIO;
 	// list used to convert the original region ID's into their new compacted ones
 	// The values indicate which region a region is to be merged into
 	// An value of equal to its index indicates that the region is a root in the graph and
@@ -72,7 +72,7 @@ public class RegionMergeTree {
 		setToRootNodeNewID(regionMemberCount);
 
 		// change the labels in the pixelToRegion image
-		BinaryImageOps.relabel(pixelToRegion, mergeList.data);
+		BIO.relabel(pixelToRegion, mergeList.data);
 	}
 
 	/**

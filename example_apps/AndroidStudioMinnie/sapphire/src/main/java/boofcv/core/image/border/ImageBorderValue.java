@@ -19,6 +19,7 @@
 package boofcv.core.image.border;
 
 import boofcv.struct.image.*;
+import sapphire.app.SapphireObject;
 
 import java.util.Arrays;
 
@@ -27,9 +28,10 @@ import java.util.Arrays;
  *
  * @author Peter Abeles
  */
-public class ImageBorderValue {
+public class ImageBorderValue implements SapphireObject{
+	public ImageBorderValue() {}
 
-	public static ImageBorder wrap(ImageGray image , double value ) {
+	public ImageBorder wrap(ImageGray image , double value ) {
 		if( image.getDataType().isInteger() ) {
 			if( image.getDataType().getNumBits() <= 32 )
 				return wrap((GrayI)image,(int)value);
@@ -42,7 +44,7 @@ public class ImageBorderValue {
 		}
 	}
 
-	public static ImageBorder wrap( ImageInterleaved image , double value ) {
+	public ImageBorder wrap( ImageInterleaved image , double value ) {
 		if (image instanceof InterleavedF32) {
 			return new Value_IL_F32((InterleavedF32) image, (float) value);
 		} else if (image instanceof InterleavedF64) {
@@ -56,19 +58,19 @@ public class ImageBorderValue {
 		}
 	}
 
-	public static ImageBorder_S64 wrap(GrayS64 image , long value ) {
+	public ImageBorder_S64 wrap(GrayS64 image , long value ) {
 		return new Value_I64(image,value);
 	}
 
-	public static ImageBorder_F64 wrap(GrayF64 image , double value ) {
+	public ImageBorder_F64 wrap(GrayF64 image , double value ) {
 		return new Value_F64(image,value);
 	}
 
-	public static ImageBorder_F32 wrap(GrayF32 image , float value ) {
+	public ImageBorder_F32 wrap(GrayF32 image , float value ) {
 		return new Value_F32(image,value);
 	}
 
-	public static ImageBorder_S32 wrap(GrayI image , int value ) {
+	public ImageBorder_S32 wrap(GrayI image , int value ) {
 		return new Value_I(image,value);
 	}
 

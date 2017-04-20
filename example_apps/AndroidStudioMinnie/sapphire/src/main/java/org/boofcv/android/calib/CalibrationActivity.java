@@ -59,6 +59,7 @@ import georegression.struct.shapes.Polygon2D_F64;
  */
 public class CalibrationActivity extends PointTrackerDisplayActivity
 {
+	private ImageType IT;
 	public static final int TARGET_DIALOG = 10;
 
 	public static CalibrationPatterns targetType = CalibrationPatterns.CHESSBOARD;
@@ -235,7 +236,7 @@ public class CalibrationActivity extends PointTrackerDisplayActivity
 		byte[] storage;
 
 		protected DetectTarget( DetectorFiducialCalibration detector ) {
-			super(ImageType.single(GrayF32.class));
+			super(IT.single(GrayF32.class));
 			this.detector = detector;
 		}
 

@@ -54,6 +54,7 @@ import boofcv.struct.image.ImageInterleaved;
 public abstract class ThresholdSquareBlockMinMax
 		<T extends ImageGray, I extends ImageInterleaved>
 {
+	private static InputSanityCheck ISC;
 	// interleaved image which stores min and max values inside each block
 	protected I minmax;
 
@@ -84,7 +85,7 @@ public abstract class ThresholdSquareBlockMinMax
 	 * @param output Output binary image
 	 */
 	public void process(T input , GrayU8 output ) {
-		InputSanityCheck.checkSameShape(input,output);
+		ISC.checkSameShape(input,output);
 
 		if( input.width < requestedBlockWidth || input.height < requestedBlockWidth ) {
 			throw new IllegalArgumentException("Image is smaller than block size");

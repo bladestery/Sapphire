@@ -20,6 +20,7 @@ package boofcv.alg.flow;
 
 import boofcv.alg.interpolate.InterpolatePixelS;
 import boofcv.alg.misc.GImageStatistics;
+import boofcv.alg.misc.ImageStatistics;
 import boofcv.core.image.GConvertImage;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.BorderType;
@@ -35,7 +36,10 @@ import boofcv.struct.pyramid.PyramidFloat;
  * @author Peter Abeles
  */
 public abstract class DenseFlowPyramidBase<T extends ImageGray> {
-
+	private static GeneralizedImageOps GIO;
+	private static FactoryImageBorder FIB;
+	private static GImageStatistics GIS;
+	private static ImageStatistics IS;
 	// storage for normalized image
 	private GrayF32 norm1 = new GrayF32(1,1);
 	private GrayF32 norm2 = new GrayF32(1,1);
@@ -58,7 +62,7 @@ public abstract class DenseFlowPyramidBase<T extends ImageGray> {
 		this.sigma = sigma;
 		this.maxLayers = maxLayers;
 		this.interp = interp;
-		interp.setBorder(FactoryImageBorder.single(GrayF32.class, BorderType.EXTENDED));
+		interp.setBorder(FIB.single(GrayF32.class, BorderType.EXTENDED));
 	}
 
 	/**
@@ -120,7 +124,7 @@ public abstract class DenseFlowPyramidBase<T extends ImageGray> {
 	 * in the current layer.  Adjusts for change in image scale.
 	 */
 	protected void warpImageTaylor(GrayF32 before, GrayF32 flowX , GrayF32 flowY , GrayF32 after) {
-		interp.setBorder(FactoryImageBorder.single(before.getImageType().getImageClass(), BorderType.EXTENDED));
+		interp.setBorder(FIB.single(before.getImageType().getImageClass(), BorderType.EXTENDED));
 		interp.setImage(before);
 
 		for( int y = 0; y < before.height; y++ ) {
@@ -153,10 +157,10 @@ public abstract class DenseFlowPyramidBase<T extends ImageGray> {
 	void imageNormalization(T image1, T image2, GrayF32 normalized1, GrayF32 normalized2 )
 	{
 		// find the max and min of both images
-		float max1 = (float)GImageStatistics.max(image1);
-		float max2 = (float)GImageStatistics.max(image2);
-		float min1 = (float)GImageStatistics.min(image1);
-		float min2 = (float)GImageStatistics.min(image2);
+		float max1 = (float)GIS.max(image1, IS);
+		float max2 = (float)GIS.max(image2, IS);
+		float min1 = (float)GIS.min(image1, IS);
+		float min2 = (float)GIS.min(image2, IS);
 
 		// obtain the absolute max and min
 		float max = max1 > max2 ? max1 : max2;
@@ -170,8 +174,8 @@ public abstract class DenseFlowPyramidBase<T extends ImageGray> {
 				for (int x = 0; x < image1.width; x++,indexN++) {
 					// this is a slow way to convert the image type into a float, but everything else is much
 					// more expensive
-					float pv1 = (float)GeneralizedImageOps.get(image1, x, y);
-					float pv2 = (float)GeneralizedImageOps.get(image2,x,y);
+					float pv1 = (float)GIO.get(image1, x, y);
+					float pv2 = (float)GIO.get(image2,x,y);
 
 					normalized1.data[indexN] = (pv1 - min) / range;
 					normalized2.data[indexN] = (pv2 - min) / range;

@@ -18,8 +18,22 @@
 
 package boofcv.abst.filter.binary;
 
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.filter.binary.impl.ThresholdSauvola;
+import boofcv.alg.filter.blur.BlurImageOps;
+import boofcv.alg.filter.blur.GBlurImageOps;
+import boofcv.alg.filter.blur.impl.ImplMedianHistogramInner;
+import boofcv.alg.filter.blur.impl.ImplMedianSortEdgeNaive;
+import boofcv.alg.filter.blur.impl.ImplMedianSortNaive;
+import boofcv.alg.filter.convolve.ConvolveImageMean;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
 import boofcv.core.image.GConvertImage;
+import boofcv.core.image.GeneralizedImageOps;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.image.*;
 
 /**
@@ -30,7 +44,6 @@ import boofcv.struct.image.*;
  * @author Peter Abeles
  */
 public class LocalSauvolaBinaryFilter<T extends ImageGray> implements InputToBinary<T> {
-
 	ImageType<T> inputType;
 
 	ThresholdSauvola alg;
@@ -52,7 +65,9 @@ public class LocalSauvolaBinaryFilter<T extends ImageGray> implements InputToBin
 	}
 
 	@Override
-	public void process(T input, GrayU8 output) {
+	public void process(T input, GrayU8 output, GBlurImageOps GBIO, InputSanityCheck ISC, GeneralizedImageOps GIO, BlurImageOps BIO,
+						ConvolveImageMean CIM, FactoryKernelGaussian FKG, ConvolveNormalized CN, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB,
+						ConvolveNormalized_JustBorder CNJB, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM) {
 		if( this.input == null )
 			alg.process((GrayF32)input,output);
 		else {
@@ -73,12 +88,12 @@ public class LocalSauvolaBinaryFilter<T extends ImageGray> implements InputToBin
 	}
 
 	@Override
-	public ImageType<T> getInputType() {
+	public ImageType<T> getInputType(ImageType IT) {
 		return inputType;
 	}
 
 	@Override
-	public ImageType<GrayU8> getOutputType() {
-		return ImageType.single(GrayU8.class);
+	public ImageType<GrayU8> getOutputType(ImageType IT) {
+		return IT.single(GrayU8.class);
 	}
 }

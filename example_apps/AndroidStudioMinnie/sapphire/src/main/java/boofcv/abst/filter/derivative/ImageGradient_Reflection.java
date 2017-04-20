@@ -18,12 +18,16 @@
 
 package boofcv.abst.filter.derivative;
 
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
 import boofcv.core.image.border.BorderType;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.core.image.border.ImageBorder;
 import boofcv.struct.BoofDefaults;
 import boofcv.struct.image.ImageGray;
 import boofcv.struct.image.ImageType;
+import sapphire.app.SapphireObject;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -35,7 +39,7 @@ import java.lang.reflect.Method;
  * @author Peter Abeles
  */
 public class ImageGradient_Reflection<Input extends ImageGray, Output extends ImageGray>
-		implements ImageGradient<Input, Output>
+		implements ImageGradient<Input, Output>, SapphireObject
 {
 	// How the image border should be handled
 	BorderType borderType = BoofDefaults.DERIV_BORDER_TYPE;
@@ -44,25 +48,25 @@ public class ImageGradient_Reflection<Input extends ImageGray, Output extends Im
 	// the image derivative function
 	private Method m;
 
-	public ImageGradient_Reflection(Method m) {
+	public ImageGradient_Reflection(Method m, FactoryImageBorder FIB) {
 		this.m = m;
-		setBorderType(borderType);
+		setBorderType(borderType, FIB);
 	}
 
 	@Override
-	public void process(Input inputImage , Output derivX, Output derivY) {
+	public void process(Input inputImage , Output derivX, Output derivY, InputSanityCheck ISC, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB) {
 		try {
-			m.invoke(null,inputImage, derivX, derivY, border);
+			m.invoke(null,inputImage, derivX, derivY, border, ISC, DHF, CINB);
 		} catch (IllegalAccessException | InvocationTargetException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
 	@Override
-	public void setBorderType(BorderType type) {
+	public void setBorderType(BorderType type, FactoryImageBorder FIB) {
 		this.borderType = type;
 		Class imageType = m.getParameterTypes()[0];
-		border = FactoryImageBorder.single(imageType, borderType);
+		border = FIB.single(imageType, borderType);
 	}
 
 	@Override
@@ -79,7 +83,7 @@ public class ImageGradient_Reflection<Input extends ImageGray, Output extends Im
 	}
 
 	@Override
-	public ImageType<Output> getDerivativeType() {
-		return ImageType.single((Class) m.getParameterTypes()[1]);
+	public ImageType<Output> getDerivativeType(ImageType IT) {
+		return IT.single((Class) m.getParameterTypes()[1]);
 	}
 }

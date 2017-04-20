@@ -24,6 +24,8 @@ import boofcv.abst.filter.derivative.ImageGradient;
 import boofcv.alg.feature.detect.interest.SiftScaleSpace;
 import boofcv.alg.feature.orientation.OrientationHistogramSift;
 import boofcv.alg.transform.ii.GIntegralImageOps;
+import boofcv.core.image.GeneralizedImageOps;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.filter.derivative.FactoryDerivative;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.ImageGray;
@@ -35,7 +37,9 @@ import boofcv.struct.image.ImageGray;
  * @author Peter Abeles
  */
 public class FactoryOrientation {
-
+	private static FactoryDerivative FD;
+	private static GeneralizedImageOps GIO;
+	private static FactoryImageBorder FIB;
 	/**
 	 * Adds wrappers around implementations of {@link RegionOrientation} such that they can be used
 	 * as a {@link OrientationImage}.
@@ -48,7 +52,7 @@ public class FactoryOrientation {
 	OrientationImage<T> convertImage( RegionOrientation algorithm , Class<T> imageType ) {
 		if( algorithm instanceof OrientationGradient ) {
 			Class derivType = ((OrientationGradient) algorithm).getImageType();
-			ImageGradient gradient = FactoryDerivative.sobel(imageType,derivType);
+			ImageGradient gradient = FD.sobel(imageType,derivType, GIO, FIB);
 			return new OrientationGradientToImage((OrientationGradient)algorithm,gradient,imageType,derivType);
 		} else if( algorithm instanceof OrientationIntegral ) {
 			Class integralType = GIntegralImageOps.getIntegralType(imageType);

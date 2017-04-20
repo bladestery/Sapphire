@@ -34,6 +34,7 @@ import boofcv.struct.image.GrayU8;
  * @author Peter Abeles
  */
 public class GradientPrewitt {
+	private static InputSanityCheck ISC;
 	public static Kernel2D_I32 kernelDerivX_I32 = new Kernel2D_I32(3, new int[]{-1,0,1,-1,0,1,-1,0,1});
 	public static Kernel2D_I32 kernelDerivY_I32 = new Kernel2D_I32(3, new int[]{-1,-1,-1,0,0,0,1,1,1});
 	public static Kernel2D_F32 kernelDerivX_F32 = new Kernel2D_F32(
@@ -60,7 +61,7 @@ public class GradientPrewitt {
 	 * @param border Specifies how the image border is handled. If null the border is not processed.
 	 */
 	public static void process(GrayU8 orig, GrayS16 derivX, GrayS16 derivY, ImageBorder_S32 border ) {
-		InputSanityCheck.checkSameShape(orig, derivX, derivY);
+		ISC.checkSameShape(orig, derivX, derivY);
 		GradientPrewitt_Shared.process(orig, derivX, derivY);
 
 		if( border != null ) {
@@ -79,7 +80,7 @@ public class GradientPrewitt {
 	 * @param border Specifies how the image border is handled. If null the border is not processed.
 	 */
 	public static void process(GrayS16 orig, GrayS16 derivX, GrayS16 derivY, ImageBorder_S32 border ) {
-		InputSanityCheck.checkSameShape(orig, derivX, derivY);
+		ISC.checkSameShape(orig, derivX, derivY);
 		GradientPrewitt_Shared.process(orig, derivX, derivY);
 
 		if( border != null ) {
@@ -98,7 +99,7 @@ public class GradientPrewitt {
 	 * @param border Specifies how the image border is handled. If null the border is not processed.
 	 */
 	public static void process(GrayF32 orig, GrayF32 derivX, GrayF32 derivY, ImageBorder_F32 border ) {
-		InputSanityCheck.checkSameShape(orig, derivX, derivY);
+		ISC.checkSameShape(orig, derivX, derivY);
 
 		GradientPrewitt_Shared.process(orig, derivX, derivY);
 

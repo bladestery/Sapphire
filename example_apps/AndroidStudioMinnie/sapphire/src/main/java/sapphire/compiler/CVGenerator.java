@@ -64,6 +64,7 @@ public class CVGenerator {
 		File[] fList = directory.listFiles();
 		for (File file : fList){
 			if (file.isFile() && file.getName().endsWith(".class")) {
+				//System.out.println("processing: " + file);
 				try {
 					Class<?> c = Class.forName(CVGenerator.removeExtension(packageName + "." + file.getName()));
 					
@@ -95,7 +96,7 @@ public class CVGenerator {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-			} else if (file.isDirectory() && ! file.getName().equals(GlobalStubConstants.STUB_PACKAGE_PART)){
+			} else if (file.isDirectory() && ! file.getName().equals(GlobalStubConstants.STUB_PACKAGE_PART) && (!file.getName().equals("android"))){
 				generateStubs(file.getAbsolutePath(), packageName + "." + file.getName(), destFolder);
 			}
 		}

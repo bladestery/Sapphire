@@ -49,7 +49,8 @@ import org.ddogleg.struct.GrowQueue_F32;
  * @author Peter Abeles
  */
 public class HoughTransformLineFootOfNorm {
-
+	private static ImageMiscOps IMO;
+	private static InputSanityCheck ISC;
 	// extracts line from the transform
 	NonMaxSuppression extractor;
 	// stores returned lines
@@ -91,10 +92,10 @@ public class HoughTransformLineFootOfNorm {
 	 */
 	public <D extends ImageGray> void transform(D derivX , D derivY , GrayU8 binary )
 	{
-		InputSanityCheck.checkSameShape(derivX,derivY,binary);
+		ISC.checkSameShape(derivX,derivY,binary);
 
 		transform.reshape(derivX.width,derivY.height);
-		ImageMiscOps.fill(transform,0);
+		IMO.fill(transform,0);
 
 		originX = derivX.width/2;
 		originY = derivX.height/2;

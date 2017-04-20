@@ -36,6 +36,7 @@ import static org.junit.Assert.assertEquals;
  * @author Peter Abeles
  */
 public abstract class ChecksImplDisparitySparseScoreSadRect<Image extends ImageGray,ArrayData> {
+	private GeneralizedImageOps GIO;
 	Random rand = new Random(234);
 
 	DisparitySparseSelect<ArrayData> selectAlg;
@@ -65,8 +66,8 @@ public abstract class ChecksImplDisparitySparseScoreSadRect<Image extends ImageG
 	@Test
 	public void compareToDense() {
 		int w = 20, h = 25;
-		Image left = GeneralizedImageOps.createSingleBand(imageType, w, h);
-		Image right = GeneralizedImageOps.createSingleBand(imageType,w, h);
+		Image left = GIO.createSingleBand(imageType, w, h);
+		Image right = GIO.createSingleBand(imageType,w, h);
 
 		if( left.getDataType().isSigned() ) {
 			GImageMiscOps.fillUniform(left, rand, -20, 20);

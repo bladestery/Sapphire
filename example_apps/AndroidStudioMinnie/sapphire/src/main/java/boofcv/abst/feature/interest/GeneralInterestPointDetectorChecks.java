@@ -39,7 +39,7 @@ import static org.junit.Assert.assertTrue;
  * @author Peter Abeles
  */
 public abstract class GeneralInterestPointDetectorChecks<T extends ImageGray> {
-
+	private GeneralizedImageOps GIO;
 	private Random rand = new Random(234);
 
 	private InterestPointDetector<T> detector;
@@ -66,7 +66,7 @@ public abstract class GeneralInterestPointDetectorChecks<T extends ImageGray> {
 		this.hasScale = hasScale;
 
 		// create a random input image
-		image = GeneralizedImageOps.createSingleBand(imageType,60,80);
+		image = GIO.createSingleBand(imageType,60,80);
 		GImageMiscOps.fillUniform(image, rand, 0, 100);
 	}
 

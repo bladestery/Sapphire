@@ -19,6 +19,9 @@
 package boofcv.alg.filter.derivative;
 
 import boofcv.abst.filter.derivative.AnyImageDerivative;
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.feature.detect.intensity.impl.ImplSsdCorner_F32;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.*;
 import boofcv.struct.convolve.Kernel1D;
@@ -33,7 +36,11 @@ import boofcv.struct.image.*;
  * @author Peter Abeles
  */
 public class GImageDerivativeOps {
-
+	private static GeneralizedImageOps GIO;
+	private static FactoryImageBorder FIB;
+	private static InputSanityCheck ISC;
+	private static DerivativeHelperFunctions DHF;
+	private static ConvolveImageNoBorder CINB;
 	public static <I extends ImageGray, D extends ImageGray>
 	void laplace( I input , D output ) {
 		if( input instanceof GrayF32) {
@@ -78,7 +85,7 @@ public class GImageDerivativeOps {
 	public static <I extends ImageGray, D extends ImageGray>
 	void gradient( DerivativeType type , I input , D derivX , D derivY , BorderType borderType ) {
 
-		ImageBorder<I> border = BorderType.SKIP == borderType ? null : FactoryImageBorder.single(input, borderType);
+		ImageBorder<I> border = BorderType.SKIP == borderType ? null : FIB.single(input, borderType);
 
 		switch( type ) {
 			case PREWITT:
@@ -105,11 +112,11 @@ public class GImageDerivativeOps {
 				break;
 			case THREE:
 				if( input instanceof GrayF32) {
-					GradientThree.process((GrayF32)input,(GrayF32)derivX,(GrayF32)derivY,(ImageBorder_F32)border);
+					GradientThree.process((GrayF32)input,(GrayF32)derivX,(GrayF32)derivY,(ImageBorder_F32)border, ISC, DHF, CINB);
 				} else if( input instanceof GrayU8) {
-					GradientThree.process((GrayU8)input,(GrayS16)derivX,(GrayS16)derivY,(ImageBorder_S32)border);
+					GradientThree.process((GrayU8)input,(GrayS16)derivX,(GrayS16)derivY,(ImageBorder_S32)border, ISC, DHF, CINB);
 				} else if( input instanceof GrayS16) {
-					GradientThree.process((GrayS16)input,(GrayS16)derivX,(GrayS16)derivY,(ImageBorder_S32)border);
+					GradientThree.process((GrayS16)input,(GrayS16)derivX,(GrayS16)derivY,(ImageBorder_S32)border, ISC, DHF, CINB);
 				} else {
 					throw new IllegalArgumentException("Unknown input image type: "+input.getClass().getSimpleName());
 				}
@@ -156,7 +163,7 @@ public class GImageDerivativeOps {
 	 */
 	public static <I extends ImageGray, D extends ImageGray>
 	void hessian( DerivativeType type , I input , D derivXX , D derivYY , D derivXY , BorderType borderType ) {
-		ImageBorder<I> border = BorderType.SKIP == borderType ? null : FactoryImageBorder.single(input, borderType);
+		ImageBorder<I> border = BorderType.SKIP == borderType ? null : FIB.single(input, borderType);
 
 		switch( type ) {
 			case SOBEL:
@@ -197,7 +204,7 @@ public class GImageDerivativeOps {
 	 */
 	public static <D extends ImageGray>
 	void hessian( DerivativeType type , D derivX , D derivY , D derivXX , D derivYY , D derivXY , BorderType borderType ) {
-		ImageBorder<D> border = BorderType.SKIP == borderType ? null : FactoryImageBorder.single(derivX, borderType);
+		ImageBorder<D> border = BorderType.SKIP == borderType ? null : FIB.single(derivX, borderType);
 
 		switch( type ) {
 			case PREWITT:
@@ -279,7 +286,7 @@ public class GImageDerivativeOps {
 	public static <I extends ImageGray, D extends ImageGray>
 	AnyImageDerivative<I,D> createAnyDerivatives( DerivativeType type , Class<I> inputType , Class<D> derivType ) {
 
-		boolean isInteger = !GeneralizedImageOps.isFloatingPoint(inputType);
+		boolean isInteger = !GIO.isFloatingPoint(inputType);
 		KernelBase kernel = lookupKernelX(type,isInteger);
 
 		if( kernel instanceof Kernel1D )

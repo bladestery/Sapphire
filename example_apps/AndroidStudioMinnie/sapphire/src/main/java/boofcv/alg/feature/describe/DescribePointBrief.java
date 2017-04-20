@@ -19,10 +19,24 @@
 package boofcv.alg.feature.describe;
 
 import boofcv.abst.filter.blur.BlurFilter;
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.feature.describe.brief.BinaryCompareDefinition_I32;
+import boofcv.alg.filter.blur.BlurImageOps;
+import boofcv.alg.filter.blur.GBlurImageOps;
+import boofcv.alg.filter.blur.impl.ImplMedianHistogramInner;
+import boofcv.alg.filter.blur.impl.ImplMedianSortEdgeNaive;
+import boofcv.alg.filter.blur.impl.ImplMedianSortNaive;
+import boofcv.alg.filter.convolve.ConvolveImageMean;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
 import boofcv.core.image.GeneralizedImageOps;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.feature.TupleDesc_B;
 import boofcv.struct.image.ImageGray;
+import boofcv.struct.image.ImageType;
 
 /**
  * <p>
@@ -40,6 +54,22 @@ import boofcv.struct.image.ImageGray;
  * @author Peter Abeles
  */
 public class DescribePointBrief<T extends ImageGray> {
+	private static GeneralizedImageOps GIO;
+	private static ImageType IT;
+	private static InputSanityCheck ISC;
+	private static GBlurImageOps GBIO;
+	private static BlurImageOps BIO;
+	private static ConvolveImageMean CIM;
+	private static FactoryKernelGaussian FKG;
+	private static ConvolveNormalized CN;
+	private static ConvolveNormalizedNaive CNN;
+	private static ConvolveImageNoBorder CINB;
+	private static ConvolveNormalized_JustBorder CNJB;
+	private static ImplMedianHistogramInner IMHI;
+	private static ImplMedianSortEdgeNaive IMSEN;
+	private static ImplMedianSortNaive IMSN;
+	private static ImplConvolveMean ICM;
+
 	// blurs the image prior to sampling
 	protected BlurFilter<T> filterBlur;
 	// blurred image
@@ -52,8 +82,8 @@ public class DescribePointBrief<T extends ImageGray> {
 		this.filterBlur = filterBlur;
 		this.describe = describe;
 
-		Class<T> imageType = filterBlur.getInputType().getImageClass();
-		blur = GeneralizedImageOps.createSingleBand(imageType, 1, 1);
+		Class<T> imageType = filterBlur.getInputType(IT).getImageClass();
+		blur = GIO.createSingleBand(imageType, 1, 1);
 	}
 
 	/**
@@ -72,7 +102,7 @@ public class DescribePointBrief<T extends ImageGray> {
 	 */
 	public void setImage(T image) {
 		blur.reshape(image.width,image.height);
-		filterBlur.process(image,blur);
+		filterBlur.process(image,blur, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM);
 		describe.setImage(image);
 	}
 

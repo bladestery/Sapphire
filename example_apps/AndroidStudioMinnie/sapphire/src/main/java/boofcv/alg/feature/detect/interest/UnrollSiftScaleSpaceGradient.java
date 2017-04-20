@@ -19,6 +19,11 @@
 package boofcv.alg.feature.detect.interest;
 
 import boofcv.abst.filter.derivative.ImageGradient;
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
+import boofcv.core.image.GeneralizedImageOps;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.filter.derivative.FactoryDerivative;
 import boofcv.struct.image.GrayF32;
 
@@ -32,7 +37,12 @@ import java.util.List;
  * @author Peter Abeles
  */
 public class UnrollSiftScaleSpaceGradient {
-
+	private static FactoryDerivative FD;
+	private static GeneralizedImageOps GIO;
+	private static FactoryImageBorder FIB;
+	private static InputSanityCheck ISC;
+	private static DerivativeHelperFunctions DHF;
+	private static ConvolveImageNoBorder CINB;
 	// input scale space
 	SiftScaleSpace scaleSpace;
 
@@ -42,7 +52,7 @@ public class UnrollSiftScaleSpaceGradient {
 	List<ImageScale> allScales = new ArrayList<>();
 
 	// used to compute the image gradient
-	ImageGradient<GrayF32,GrayF32> gradient = FactoryDerivative.three(GrayF32.class,null);
+	ImageGradient<GrayF32,GrayF32> gradient = FD.three(GrayF32.class,null, GIO, FIB);
 
 	public UnrollSiftScaleSpaceGradient(SiftScaleSpace scaleSpace) {
 		this.scaleSpace = scaleSpace;
@@ -73,7 +83,7 @@ public class UnrollSiftScaleSpaceGradient {
 				scale.derivX.reshape(scaleImage.width,scaleImage.height);
 				scale.derivY.reshape(scaleImage.width,scaleImage.height);
 
-				gradient.process(scaleImage,scale.derivX,scale.derivY);
+				gradient.process(scaleImage,scale.derivX,scale.derivY, ISC, DHF, CINB);
 				scale.imageToInput = pixelCurrentToInput;
 				scale.sigma = sigma;
 

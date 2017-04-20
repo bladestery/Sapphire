@@ -40,7 +40,7 @@ import boofcv.struct.image.ImageType;
  * @author Peter Abeles
  */
 public abstract class HornSchunck<T extends ImageBase, D extends ImageBase> {
-
+	private static InputSanityCheck ISC;
 	// used to weight the error of image brightness and smoothness of velocity flow
 	protected float alpha2;
 
@@ -91,7 +91,7 @@ public abstract class HornSchunck<T extends ImageBase, D extends ImageBase> {
 	 */
 	public void process( T image1 , T image2 , ImageFlow output) {
 
-		InputSanityCheck.checkSameShape(image1,image2);
+		ISC.checkSameShape(image1,image2);
 
 		derivX.reshape(image1.width,image1.height);
 		derivY.reshape(image1.width,image1.height);

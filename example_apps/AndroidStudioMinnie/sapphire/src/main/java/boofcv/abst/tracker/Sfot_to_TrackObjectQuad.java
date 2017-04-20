@@ -35,6 +35,7 @@ import georegression.struct.shapes.Quadrilateral_F64;
 public class Sfot_to_TrackObjectQuad<T extends ImageGray, D extends ImageGray>
 		implements TrackerObjectQuad<T>
 {
+	private ImageType IT;
 	SparseFlowObjectTracker<T,D> alg;
 
 	RectangleRotate_F64 region = new RectangleRotate_F64();
@@ -43,7 +44,7 @@ public class Sfot_to_TrackObjectQuad<T extends ImageGray, D extends ImageGray>
 
 	public Sfot_to_TrackObjectQuad(SparseFlowObjectTracker<T, D> alg , Class<T> imageType) {
 		this.alg = alg;
-		this.type = ImageType.single(imageType);
+		this.type = IT.single(imageType);
 	}
 
 	@Override

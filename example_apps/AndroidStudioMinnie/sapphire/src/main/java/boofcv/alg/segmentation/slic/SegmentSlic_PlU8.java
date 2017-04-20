@@ -29,9 +29,10 @@ import boofcv.struct.image.Planar;
  * @author Peter Abeles
  */
 public class SegmentSlic_PlU8 extends SegmentSlic<Planar<GrayU8>> {
+	private static ImageType IT;
 	public SegmentSlic_PlU8(int numberOfRegions, float m, int totalIterations,
 							ConnectRule connectRule , int numBands) {
-		super(numberOfRegions, m , totalIterations, connectRule,ImageType.pl(numBands, GrayU8.class));
+		super(numberOfRegions, m , totalIterations, connectRule,IT.pl(numBands, GrayU8.class));
 	}
 
 	@Override

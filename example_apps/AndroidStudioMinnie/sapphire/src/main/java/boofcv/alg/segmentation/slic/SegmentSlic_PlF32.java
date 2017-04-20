@@ -30,9 +30,10 @@ import boofcv.struct.image.Planar;
  * @author Peter Abeles
  */
 public class SegmentSlic_PlF32 extends SegmentSlic<Planar<GrayF32>> {
+	private static ImageType IT;
 	public SegmentSlic_PlF32(int numberOfRegions, float m, int totalIterations,
 							 ConnectRule connectRule, int numBands) {
-		super(numberOfRegions, m , totalIterations, connectRule,ImageType.pl(numBands,GrayF32.class));
+		super(numberOfRegions, m , totalIterations, connectRule,IT.pl(numBands,GrayF32.class));
 	}
 
 	@Override

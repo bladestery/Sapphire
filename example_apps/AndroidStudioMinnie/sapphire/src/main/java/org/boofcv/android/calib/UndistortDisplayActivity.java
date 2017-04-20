@@ -39,7 +39,7 @@ import boofcv.struct.image.Planar;
 public class UndistortDisplayActivity extends DemoVideoDisplayActivity
 		implements CompoundButton.OnCheckedChangeListener
 {
-
+	private ImageType IT;
 	ToggleButton toggleDistort;
 	ToggleButton toggleColor;
 
@@ -103,7 +103,7 @@ public class UndistortDisplayActivity extends DemoVideoDisplayActivity
 		Planar<GrayU8> undistorted;
 
 		public UndistortProcessing() {
-			super(ImageType.pl(3,GrayU8.class));
+			super(IT.pl(3,GrayU8.class));
 		}
 
 		@Override

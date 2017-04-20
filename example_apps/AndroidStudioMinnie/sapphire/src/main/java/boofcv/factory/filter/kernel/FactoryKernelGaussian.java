@@ -21,7 +21,10 @@ package boofcv.factory.filter.kernel;
 import boofcv.alg.filter.kernel.KernelMath;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.struct.convolve.*;
+import boofcv.struct.image.FactoryImage;
 import boofcv.struct.image.ImageGray;
+import sapphire.app.SapphireObject;
+
 import org.ddogleg.stats.UtilGaussian;
 
 
@@ -33,10 +36,11 @@ import org.ddogleg.stats.UtilGaussian;
 	//  Just rename...
 // TODO remove ability to normalize with a flag.  Use kernel math instead.  More explicit, easier testing
 // todo add size heuristic for derivative that is different from regular kernel
-public class FactoryKernelGaussian {
+public class FactoryKernelGaussian implements SapphireObject {
+	public FactoryKernelGaussian() {}
 	// when converting to integer kernels what is the minimum size of the an element relative to the maximum
-	public static float MIN_FRAC = 1.0f/100f;
-	public static double MIN_FRACD = 1.0/100;
+	public float MIN_FRAC = 1.0f/100f;
+	public double MIN_FRACD = 1.0/100;
 
 	/**
 	 * Creates a Gaussian kernel of the specified type.
@@ -46,7 +50,7 @@ public class FactoryKernelGaussian {
 	 * @param radius Number of pixels in the kernel's radius.  If &le; 0 then the sigma will be computed from the sigma.
 	 * @return The computed Gaussian kernel.
 	 */
-	public static <T extends KernelBase> T gaussian(Class<T> kernelType, double sigma, int radius )
+	public <T extends KernelBase> T gaussian(Class<T> kernelType, double sigma, int radius )
 	{
 		if (Kernel1D_F32.class == kernelType) {
 			return gaussian(1, true, 32, sigma, radius);
@@ -73,11 +77,11 @@ public class FactoryKernelGaussian {
 	 * @param radius Number of pixels in the kernel's radius.  If &le; 0 then the sigma will be computed from the sigma.
 	 * @return The computed Gaussian kernel.
 	 */
-	public static <T extends ImageGray, K extends Kernel1D>
-	K gaussian1D(Class<T> imageType, double sigma, int radius )
+	public <T extends ImageGray, K extends Kernel1D>
+	K gaussian1D(Class<T> imageType, double sigma, int radius, GeneralizedImageOps GIO)
 	{
-		boolean isFloat = GeneralizedImageOps.isFloatingPoint(imageType);
-		int numBits = GeneralizedImageOps.getNumBits(imageType);
+		boolean isFloat = GIO.isFloatingPoint(imageType);
+		int numBits = GIO.getNumBits(imageType);
 		if( numBits < 32 )
 			numBits = 32;
 		return gaussian(1,isFloat, numBits, sigma,radius);
@@ -91,11 +95,11 @@ public class FactoryKernelGaussian {
 	 * @param radius Number of pixels in the kernel's radius.  If &le; 0 then the sigma will be computed from the sigma.
 	 * @return The computed Gaussian kernel.
 	 */
-	public static <T extends ImageGray, K extends Kernel2D>
-	K gaussian2D(Class<T> imageType, double sigma, int radius )
+	public <T extends ImageGray, K extends Kernel2D>
+	K gaussian2D(Class<T> imageType, double sigma, int radius , GeneralizedImageOps GIO)
 	{
-		boolean isFloat = GeneralizedImageOps.isFloatingPoint(imageType);
-		int numBits = Math.max(32, GeneralizedImageOps.getNumBits(imageType));
+		boolean isFloat = GIO.isFloatingPoint(imageType);
+		int numBits = Math.max(32, GIO.getNumBits(imageType));
 		return gaussian(2,isFloat, numBits, sigma,radius);
 	}
 
@@ -108,12 +112,12 @@ public class FactoryKernelGaussian {
 	 * @param sigma The distributions stdev.  If &le; 0 then the sigma will be computed from the radius.
 	 * @param radius Number of pixels in the kernel's radius.  If &le; 0 then the sigma will be computed from the sigma.   @return The computed Gaussian kernel.
 	 */
-	public static <T extends KernelBase> T gaussian(int DOF, boolean isFloat, int numBits, double sigma, int radius)
+	public <T extends KernelBase> T gaussian(int DOF, boolean isFloat, int numBits, double sigma, int radius)
 	{
 		if( radius <= 0 )
-			radius = FactoryKernelGaussian.radiusForSigma(sigma,0);
+			radius = radiusForSigma(sigma,0);
 		else if( sigma <= 0 )
-			sigma = FactoryKernelGaussian.sigmaForRadius(radius,0);
+			sigma = sigmaForRadius(radius,0);
 
 		if( DOF == 2 ) {
 			if( numBits == 32 ) {
@@ -149,15 +153,15 @@ public class FactoryKernelGaussian {
 		}
 	}
 
-	public static <T extends ImageGray, K extends Kernel1D>
+	public <T extends ImageGray, K extends Kernel1D>
 	K derivativeI( Class<T> imageType , int order,
-				   double sigma, int radius )
+				   double sigma, int radius , GeneralizedImageOps GIO)
 	{
-		boolean isFloat = GeneralizedImageOps.isFloatingPoint(imageType);
+		boolean isFloat = GIO.isFloatingPoint(imageType);
 		return derivative(order,isFloat,sigma,radius);
 	}
 
-	public static <T extends Kernel1D> T derivativeK( Class<T> kernelType , int order,
+	public <T extends Kernel1D> T derivativeK( Class<T> kernelType , int order,
 													  double sigma, int radius )
 	{
 		if (Kernel1D_F32.class == kernelType)
@@ -175,7 +179,7 @@ public class FactoryKernelGaussian {
 	 * @param radius Number of pixels in the kernel's radius.  If &le; 0 then the sigma will be computed from the sigma.
 	 * @return The computed Gaussian kernel.
 	 */
-	public static <T extends Kernel1D> T derivative( int order, boolean isFloat,
+	public <T extends Kernel1D> T derivative( int order, boolean isFloat,
 													 double sigma, int radius )
 	{
 		// zero order is a regular gaussian
@@ -184,9 +188,9 @@ public class FactoryKernelGaussian {
 		}
 
 		if( radius <= 0 )
-			radius = FactoryKernelGaussian.radiusForSigma(sigma,order);
+			radius = radiusForSigma(sigma,order);
 		else if( sigma <= 0 ) {
-			sigma = FactoryKernelGaussian.sigmaForRadius(radius,order);
+			sigma = sigmaForRadius(radius,order);
 		}
 
 		Kernel1D_F32 k = derivative1D_F32(order,sigma,radius, true);
@@ -257,7 +261,7 @@ public class FactoryKernelGaussian {
 	 * @param odd Does the kernel have an even or add width
 	 * @param normalize If the kernel should be normalized to one or not.
 	 */
-	public static Kernel2D_F32 gaussian2D_F32(double sigma, int radius, boolean odd, boolean normalize) {
+	public Kernel2D_F32 gaussian2D_F32(double sigma, int radius, boolean odd, boolean normalize) {
 		Kernel1D_F32 kernel1D = gaussian1D_F32(sigma,radius, odd, false);
 		Kernel2D_F32 ret = KernelMath.convolve2D(kernel1D, kernel1D);
 
@@ -268,7 +272,7 @@ public class FactoryKernelGaussian {
 		return ret;
 	}
 
-	public static Kernel2D_F64 gaussian2D_F64(double sigma, int radius, boolean odd, boolean normalize) {
+	public Kernel2D_F64 gaussian2D_F64(double sigma, int radius, boolean odd, boolean normalize) {
 		Kernel1D_F64 kernel1D = gaussian1D_F64(sigma,radius, odd, false);
 		Kernel2D_F64 ret = KernelMath.convolve2D(kernel1D, kernel1D);
 
@@ -344,7 +348,7 @@ public class FactoryKernelGaussian {
 	 * @param order Order of the derivative.  0 original distribution
 	 * @return Default sigma
 	 */
-	public static double sigmaForRadius(double radius , int order ) {
+	public double sigmaForRadius(double radius , int order ) {
 		if( radius <= 0 )
 			throw new IllegalArgumentException("Radius must be > 0");
 
@@ -360,7 +364,7 @@ public class FactoryKernelGaussian {
 	 * @param order Order of the derivative.  0 original distribution
 	 * @return Default sigma
 	 */
-	public static int radiusForSigma(double sigma, int order ) {
+	public int radiusForSigma(double sigma, int order ) {
 		if( sigma <= 0 )
 			throw new IllegalArgumentException("Sigma must be > 0");
 
@@ -374,7 +378,7 @@ public class FactoryKernelGaussian {
 	 * @param width How wide the kernel is.  Can be even or odd.
 	 * @return Gaussian convolution kernel.
 	 */
-	public static Kernel2D_F64 gaussianWidth( double sigma , int width )
+	public Kernel2D_F64 gaussianWidth( double sigma , int width )
 	{
 		if( sigma <= 0 )
 			sigma = sigmaForRadius(width/2,0);

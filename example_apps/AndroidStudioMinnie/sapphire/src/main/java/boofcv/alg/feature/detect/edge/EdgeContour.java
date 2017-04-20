@@ -21,13 +21,15 @@ package boofcv.alg.feature.detect.edge;
 import java.util.ArrayList;
 import java.util.List;
 
+import sapphire.app.SapphireObject;
+
 /**
  * Data structure containing the contour along an edge.  Multiple paths along the edge are handled by creating
  * multiple segments at decision points.
  *
  * @author Peter Abeles
  */
-public class EdgeContour {
+public class EdgeContour implements SapphireObject {
 	public List<EdgeSegment> segments = new ArrayList<>();
 
 	public void reset() {

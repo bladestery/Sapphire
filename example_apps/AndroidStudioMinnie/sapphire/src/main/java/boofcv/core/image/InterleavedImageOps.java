@@ -29,7 +29,7 @@ import boofcv.struct.image.InterleavedF32;
  * @author Peter Abeles
  */
 public class InterleavedImageOps {
-
+	private static InputSanityCheck ISC;
 	/**
 	 * Splits the 2-band interleaved into into two {@link ImageGray}.
 	 *
@@ -40,8 +40,8 @@ public class InterleavedImageOps {
 	public static void split2(InterleavedF32 interleaved , GrayF32 band0 , GrayF32 band1 ) {
 		if( interleaved.numBands != 2 )
 			throw new IllegalArgumentException("Input interleaved image must have 2 bands");
-		InputSanityCheck.checkSameShape(band0, interleaved);
-		InputSanityCheck.checkSameShape(band1, interleaved);
+		ISC.checkSameShape(band0, interleaved);
+		ISC.checkSameShape(band1, interleaved);
 
 		for( int y = 0; y < interleaved.height; y++ ) {
 
@@ -68,8 +68,8 @@ public class InterleavedImageOps {
 		if( interleaved.numBands != 2 )
 			throw new IllegalArgumentException("Output interleaved image must have 2 bands");
 
-		InputSanityCheck.checkSameShape(band0,interleaved);
-		InputSanityCheck.checkSameShape(band1,interleaved);
+		ISC.checkSameShape(band0,interleaved);
+		ISC.checkSameShape(band1,interleaved);
 
 		for( int y = 0; y < interleaved.height; y++ ) {
 

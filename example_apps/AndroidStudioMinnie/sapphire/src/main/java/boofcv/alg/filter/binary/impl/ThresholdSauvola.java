@@ -18,7 +18,14 @@
 
 package boofcv.alg.filter.binary.impl;
 
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.filter.blur.BlurImageOps;
+import boofcv.alg.filter.convolve.ConvolveImageMean;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
 import boofcv.alg.misc.ImageStatistics;
 import boofcv.alg.misc.PixelMath;
 import boofcv.struct.image.GrayF32;
@@ -41,7 +48,15 @@ import boofcv.struct.image.GrayU8;
  * @author Peter Abeles
  */
 public class ThresholdSauvola {
-
+	private static BlurImageOps BIO;
+	private static InputSanityCheck ISC;
+	private static ImageStatistics IS;
+	private static ConvolveImageMean CIM;
+	private static ConvolveNormalized CN;
+	private static ConvolveNormalizedNaive CNN;
+	private static ConvolveImageNoBorder CINB;
+	private static ConvolveNormalized_JustBorder CNJB;
+	private static ImplConvolveMean ICM;
 	// user specified threshold
 	float k;
 	// size of local region
@@ -86,16 +101,16 @@ public class ThresholdSauvola {
 		inputPow2.reshape(input.width,input.height);
 
 		// mean of input image = E[X]
-		BlurImageOps.mean(input, inputMean, radius, tmp);
+		BIO.mean(input, inputMean, radius, tmp, ISC, CIM, CN, CNN, CINB, CNJB, ICM);
 
 		// standard deviation = sqrt( E[X^2] + E[X]^2)
 		PixelMath.pow2(input, inputPow2);
-		BlurImageOps.mean(inputPow2,inputPow2Mean,radius,tmp);
+		BIO.mean(inputPow2,inputPow2Mean,radius,tmp, ISC, CIM, CN, CNN, CINB, CNJB, ICM);
 		PixelMath.pow2(inputMean,inputMeanPow2);
 		PixelMath.subtract(inputPow2Mean, inputMeanPow2, stdev);
 		PixelMath.sqrt(stdev, stdev);
 
-		float R = ImageStatistics.max(stdev);
+		float R = IS.max(stdev);
 
 		if( down ) {
 			for (int y = 0; y < input.height; y++) {

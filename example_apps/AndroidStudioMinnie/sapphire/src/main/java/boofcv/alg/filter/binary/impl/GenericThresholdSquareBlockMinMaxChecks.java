@@ -38,6 +38,8 @@ import static org.junit.Assert.assertTrue;
 public abstract class GenericThresholdSquareBlockMinMaxChecks
 		<T extends ImageGray>
 {
+	private GeneralizedImageOps GIO;
+	private ImageStatistics IS;
 
 	Class<T> imageType;
 	Random rand = new Random(234);
@@ -51,7 +53,7 @@ public abstract class GenericThresholdSquareBlockMinMaxChecks
 
 	@Test
 	public void thresholdSquare() {
-		T input = GeneralizedImageOps.createSingleBand(imageType,100,120);
+		T input = GIO.createSingleBand(imageType,100,120);
 
 		GImageMiscOps.fill(input,200);
 		GImageMiscOps.fillRectangle(input,20,40,45,30,32);
@@ -63,7 +65,7 @@ public abstract class GenericThresholdSquareBlockMinMaxChecks
 		alg.process(input,output);
 
 		// the entire square should be 1
-		assertEquals(30*32, ImageStatistics.sum(output.subimage(40,45,70,77)));
+		assertEquals(30*32, IS.sum(output.subimage(40,45,70,77)));
 
 		// the border surrounding the square should be 0
 		for (int x = 39; x < 72; x++) {
@@ -78,7 +80,7 @@ public abstract class GenericThresholdSquareBlockMinMaxChecks
 
 	@Test
 	public void toggleDown() {
-		T input = GeneralizedImageOps.createSingleBand(imageType,100,120);
+		T input = GIO.createSingleBand(imageType,100,120);
 		GImageMiscOps.fillUniform(input,rand,0,255);
 
 		GrayU8 down = new GrayU8(100,120);
@@ -97,7 +99,7 @@ public abstract class GenericThresholdSquareBlockMinMaxChecks
 
 	@Test(expected=IllegalArgumentException.class)
 	public void widthLargerThanImage() {
-		T input = GeneralizedImageOps.createSingleBand(imageType,10,12);
+		T input = GIO.createSingleBand(imageType,10,12);
 		GrayU8 output = new GrayU8(10,12);
 
 		ThresholdSquareBlockMinMax<T,?> alg = createAlg(10,20,1.0,true);
@@ -106,7 +108,7 @@ public abstract class GenericThresholdSquareBlockMinMaxChecks
 
 	@Test
 	public void subImage() {
-		T input = GeneralizedImageOps.createSingleBand(imageType,100,120);
+		T input = GIO.createSingleBand(imageType,100,120);
 		GImageMiscOps.fillUniform(input,rand,0,255);
 
 		GrayU8 expected = new GrayU8(100,120);

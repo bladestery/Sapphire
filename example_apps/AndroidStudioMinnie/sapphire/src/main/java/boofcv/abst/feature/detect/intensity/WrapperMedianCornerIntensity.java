@@ -19,7 +19,22 @@
 package boofcv.abst.feature.detect.intensity;
 
 import boofcv.abst.filter.blur.BlurStorageFilter;
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.feature.detect.intensity.MedianCornerIntensity;
+import boofcv.alg.filter.blur.BlurImageOps;
+import boofcv.alg.filter.blur.GBlurImageOps;
+import boofcv.alg.filter.blur.impl.ImplMedianHistogramInner;
+import boofcv.alg.filter.blur.impl.ImplMedianSortEdgeNaive;
+import boofcv.alg.filter.blur.impl.ImplMedianSortNaive;
+import boofcv.alg.filter.convolve.ConvolveImageMean;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
+import boofcv.alg.misc.GImageStatistics;
+import boofcv.core.image.GeneralizedImageOps;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.QueueCorner;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.ImageGray;
@@ -35,7 +50,20 @@ import java.lang.reflect.Method;
  */
 public class WrapperMedianCornerIntensity<I extends ImageGray, D extends ImageGray>
 		extends BaseGeneralFeatureIntensity<I,D>  {
-
+	private static GBlurImageOps GBIO;
+	private static GeneralizedImageOps GIO;
+	private static InputSanityCheck ISC;
+	private static BlurImageOps BIO;
+	private static ConvolveImageMean CIM;
+	private static FactoryKernelGaussian FKG;
+	private static ConvolveNormalized CN;
+	private static ConvolveNormalizedNaive CNN;
+	private static ConvolveImageNoBorder CINB;
+	private static ConvolveNormalized_JustBorder CNJB;
+	private static ImplMedianHistogramInner IMHI;
+	private static ImplMedianSortEdgeNaive IMSEN;
+	private static ImplMedianSortNaive IMSN;
+	private static ImplConvolveMean ICM;
 	Method m;
 	BlurStorageFilter<I> medianFilter;
 	I medianImage;
@@ -60,7 +88,7 @@ public class WrapperMedianCornerIntensity<I extends ImageGray, D extends ImageGr
 			medianImage.reshape(input.width,input.height);
 		}
 		
-		medianFilter.process(input,medianImage);
+		medianFilter.process(input,medianImage, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM);
 		try {
 			m.invoke(null,intensity,input,medianImage);
 		} catch (IllegalAccessException | InvocationTargetException e) {

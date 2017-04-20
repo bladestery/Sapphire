@@ -33,7 +33,7 @@ import static org.junit.Assert.assertEquals;
  * @author Peter Abeles
  */
 public abstract class ChecksSelectRectStandardBase<ArrayData,T extends ImageGray> {
-
+	private GeneralizedImageOps GIO;
 	Class<ArrayData> arrayType;
 
 	int w=20;
@@ -48,7 +48,7 @@ public abstract class ChecksSelectRectStandardBase<ArrayData,T extends ImageGray
 	public ChecksSelectRectStandardBase(Class<ArrayData> arrayType, Class<T> disparityType) {
 		this.disparityType = disparityType;
 		this.arrayType = arrayType;
-		disparity = GeneralizedImageOps.createSingleBand(disparityType,w,h);
+		disparity = GIO.createSingleBand(disparityType,w,h);
 	}
 
 	void init( int min , int max ) {
@@ -114,7 +114,7 @@ public abstract class ChecksSelectRectStandardBase<ArrayData,T extends ImageGray
 	 * the "correct" value
 	 */
 	private int getDisparity( int x , int y ) {
-		double value = GeneralizedImageOps.get(disparity, x, y);
+		double value = GIO.get(disparity, x, y);
 		return (int)Math.round(value);
 	}
 

@@ -32,7 +32,7 @@ import georegression.metric.UtilAngle;
  * @author Peter Abeles
  */
 public class DescribeSiftCommon {
-
+	private static FactoryKernelGaussian FKG;
 	// width of a subregion, in samples
 	protected int widthSubregion;
 	// width of the outer grid, in sub-regions
@@ -101,7 +101,7 @@ public class DescribeSiftCommon {
 	 * Creates a gaussian weighting kernel with an even number of elements along its width
 	 */
 	protected static float[] createGaussianWeightKernel( double sigma , int radius ) {
-		Kernel2D_F32 ker = FactoryKernelGaussian.gaussian2D_F32(sigma,radius,false,false);
+		Kernel2D_F32 ker = FKG.gaussian2D_F32(sigma,radius,false,false);
 		float maxValue = KernelMath.maxAbs(ker.data,4*radius*radius);
 		KernelMath.divide(ker,maxValue);
 		return ker.data;

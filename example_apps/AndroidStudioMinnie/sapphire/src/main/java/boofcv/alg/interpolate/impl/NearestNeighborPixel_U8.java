@@ -36,7 +36,7 @@ import boofcv.struct.image.ImageType;
  * @author Peter Abeles
  */
 public class NearestNeighborPixel_U8 extends NearestNeighborPixelS<GrayU8> {
-
+	private ImageType IT;
 	private byte data[];
 	public NearestNeighborPixel_U8() {
 	}
@@ -72,7 +72,7 @@ public class NearestNeighborPixel_U8 extends NearestNeighborPixelS<GrayU8> {
 
 	@Override
 	public ImageType<GrayU8> getImageType() {
-		return ImageType.single(GrayU8.class);
+		return IT.single(GrayU8.class);
 	}
 
 }

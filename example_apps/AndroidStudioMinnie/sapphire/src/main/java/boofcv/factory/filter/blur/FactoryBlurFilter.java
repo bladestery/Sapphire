@@ -19,14 +19,17 @@
 package boofcv.factory.filter.blur;
 
 import boofcv.abst.filter.blur.BlurStorageFilter;
+import boofcv.core.image.GeneralizedImageOps;
 import boofcv.struct.image.ImageGray;
+import sapphire.app.SapphireObject;
 
 /**
  * Factory for creating different blur image filters.
  *
  * @author Peter Abeles
  */
-public class FactoryBlurFilter {
+public class FactoryBlurFilter implements SapphireObject {
+	public FactoryBlurFilter() {}
 
 	/**
 	 * Creates a median filter for the specified image type.
@@ -35,8 +38,8 @@ public class FactoryBlurFilter {
 	 * @param radius Size of the filter.
 	 * @return Median image filter.
 	 */
-	public static <T extends ImageGray> BlurStorageFilter<T> median(Class<T> type , int radius ) {
-		return new BlurStorageFilter<>("median", type, radius);
+	public <T extends ImageGray> BlurStorageFilter<T> median(Class<T> type , int radius, GeneralizedImageOps GIO) {
+		return new BlurStorageFilter<>("median", type, radius, GIO);
 	}
 
 	/**
@@ -46,8 +49,8 @@ public class FactoryBlurFilter {
 	 * @param radius Size of the filter.
 	 * @return mean image filter.
 	 */
-	public static <T extends ImageGray> BlurStorageFilter<T> mean(Class<T> type , int radius ) {
-		return new BlurStorageFilter<>("mean", type, radius);
+	public <T extends ImageGray> BlurStorageFilter<T> mean(Class<T> type , int radius, GeneralizedImageOps GIO ) {
+		return new BlurStorageFilter<>("mean", type, radius, GIO);
 	}
 
 	/**
@@ -57,7 +60,7 @@ public class FactoryBlurFilter {
 	 * @param radius Size of the filter.
 	 * @return mean image filter.
 	 */
-	public static <T extends ImageGray> BlurStorageFilter<T> gaussian(Class<T> type , double sigma , int radius ) {
-		return new BlurStorageFilter<>("gaussian", type, sigma, radius);
+	public <T extends ImageGray> BlurStorageFilter<T> gaussian(Class<T> type , double sigma , int radius, GeneralizedImageOps GIO) {
+		return new BlurStorageFilter<>("gaussian", type, sigma, radius, GIO);
 	}
 }

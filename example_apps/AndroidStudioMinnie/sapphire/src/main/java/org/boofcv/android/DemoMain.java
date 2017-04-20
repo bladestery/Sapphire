@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -57,6 +58,7 @@ import java.util.Map;
 
 import boofcv.io.calibration.CalibrationIO;
 
+
 public class DemoMain extends Activity implements ExpandableListView.OnChildClickListener {
 
 	// contains information on all the cameras.  less error prone and easier to deal with
@@ -71,7 +73,6 @@ public class DemoMain extends Activity implements ExpandableListView.OnChildClic
 
 	boolean waitingCameraPermissions = true;
 
-
 	/**
 	 * Called when the activity is first created.
 	 */
@@ -79,6 +80,9 @@ public class DemoMain extends Activity implements ExpandableListView.OnChildClic
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
+
+		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+		StrictMode.setThreadPolicy(policy);
 
 		loadCameraSpecs();
 		createGroups();
@@ -163,8 +167,6 @@ public class DemoMain extends Activity implements ExpandableListView.OnChildClic
 		sfm.addChild("Stereo",DisparityActivity.class);
 		sfm.addChild("Stabilization",StabilizeDisplayActivity.class);
 		sfm.addChild("Mosaic",MosaicDisplayActivity.class);
-
-
 
 		groups.add(ip);
 		groups.add(detect);

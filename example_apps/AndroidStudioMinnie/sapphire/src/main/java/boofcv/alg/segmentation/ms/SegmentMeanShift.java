@@ -55,6 +55,7 @@ import org.ddogleg.struct.GrowQueue_I32;
  * @author Peter Abeles
  */
 public class SegmentMeanShift<T extends ImageBase> {
+	private static InputSanityCheck ISC;
 	// finds mean shift modes
 	SegmentMeanShiftSearch<T> search;
 	// Combines similar regions together
@@ -94,7 +95,7 @@ public class SegmentMeanShift<T extends ImageBase> {
 	 * @param output Storage for output image.  Each pixel is set to the region it belongs to.
 	 */
 	public void process( T image , GrayS32 output ) {
-		InputSanityCheck.checkSameShape(image,output);
+		ISC.checkSameShape(image,output);
 
 //		long time0 = System.currentTimeMillis();
 

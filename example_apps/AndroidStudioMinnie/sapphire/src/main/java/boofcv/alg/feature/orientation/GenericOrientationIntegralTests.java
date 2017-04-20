@@ -33,7 +33,7 @@ import static org.junit.Assert.assertTrue;
  * @author Peter Abeles
  */
 public class GenericOrientationIntegralTests<T extends ImageGray> {
-
+	private GeneralizedImageOps GIO;
 	int width = 30;
 	int height = 40;
 
@@ -54,7 +54,7 @@ public class GenericOrientationIntegralTests<T extends ImageGray> {
 		this.regionSize = regionSize;
 		this.alg = alg;
 
-		ii = GeneralizedImageOps.createSingleBand(imageType, width, height);
+		ii = GIO.createSingleBand(imageType, width, height);
 	}
 
 	/**
@@ -148,7 +148,7 @@ public class GenericOrientationIntegralTests<T extends ImageGray> {
 		for( int i = 0; i < height; i++ ) {
 			for( int j = 0; j < width; j++ ) {
 				if( j >= regionSize || i >= regionSize )
-					GeneralizedImageOps.set(ii,j,i,0);
+					GIO.set(ii,j,i,0);
 			}
 		}
 
@@ -175,7 +175,7 @@ public class GenericOrientationIntegralTests<T extends ImageGray> {
 		for( int y = 0; y < height; y++ ) {
 			for( int x = 0; x < width; x++ ) {
 				double val = 10*(x*c + y*s);
-				GeneralizedImageOps.set(input,x,y,val);
+				GIO.set(input,x,y,val);
 			}
 		}
 

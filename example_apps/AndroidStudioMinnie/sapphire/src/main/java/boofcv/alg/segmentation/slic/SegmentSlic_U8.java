@@ -28,9 +28,10 @@ import boofcv.struct.image.ImageType;
  * @author Peter Abeles
  */
 public class SegmentSlic_U8 extends SegmentSlic<GrayU8> {
+	private static ImageType IT;
 	public SegmentSlic_U8(int numberOfRegions, float m, int totalIterations,
 						  ConnectRule connectRule ) {
-		super(numberOfRegions, m , totalIterations, connectRule,ImageType.single(GrayU8.class));
+		super(numberOfRegions, m , totalIterations, connectRule,IT.single(GrayU8.class));
 	}
 
 	@Override

@@ -20,13 +20,27 @@ package boofcv.alg.fiducial.square;
 
 import boofcv.abst.filter.binary.InputToBinary;
 import boofcv.abst.geo.RefineEpipolar;
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.distort.*;
+import boofcv.alg.filter.blur.BlurImageOps;
+import boofcv.alg.filter.blur.GBlurImageOps;
+import boofcv.alg.filter.blur.impl.ImplMedianHistogramInner;
+import boofcv.alg.filter.blur.impl.ImplMedianSortEdgeNaive;
+import boofcv.alg.filter.blur.impl.ImplMedianSortNaive;
+import boofcv.alg.filter.convolve.ConvolveImageMean;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
 import boofcv.alg.geo.h.HomographyLinear4;
 import boofcv.alg.interpolate.InterpolatePixelS;
 import boofcv.alg.shapes.polygon.BinaryPolygonDetector;
+import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.BorderType;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.distort.FactoryDistort;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.factory.geo.EpipolarError;
 import boofcv.factory.geo.FactoryMultiView;
 import boofcv.factory.interpolate.FactoryInterpolation;
@@ -67,7 +81,21 @@ import java.util.List;
  */
 // TODO create unit test for bright object
 public abstract class BaseDetectFiducialSquare<T extends ImageGray> {
-
+	private static FactoryImageBorder FIB;
+	private static GBlurImageOps GBIO;
+	private static GeneralizedImageOps GIO;
+	private static InputSanityCheck ISC;
+	private static BlurImageOps BIO;
+	private static ConvolveImageMean CIM;
+	private static FactoryKernelGaussian FKG;
+	private static ConvolveNormalized CN;
+	private static ConvolveNormalizedNaive CNN;
+	private static ConvolveImageNoBorder CINB;
+	private static ConvolveNormalized_JustBorder CNJB;
+	private static ImplMedianHistogramInner IMHI;
+	private static ImplMedianSortEdgeNaive IMSEN;
+	private static ImplMedianSortNaive IMSN;
+	private static ImplConvolveMean ICM;
 	// Storage for the found fiducials
 	private FastQueue<FoundFiducial> found = new FastQueue<>(FoundFiducial.class, true);
 
@@ -113,7 +141,7 @@ public abstract class BaseDetectFiducialSquare<T extends ImageGray> {
 	 * @param inputToBinary Converts input image into a binary image
 	 * @param squareDetector Detects the quadrilaterals in the image
 	 * @param borderWidthFraction Fraction of the fiducial's width that the border occupies. 0.25 is recommended.
-	 * @param minimumBorderBlackFraction Minimum fraction of pixels inside the border which must be black.  Try 0.65
+	 * @param minimumBorderBlackFraction Minimum fraction of pixeBlurImageOpsls inside the border which must be black.  Try 0.65
 	 * @param squarePixels  Number of pixels wide the undistorted square image of the fiducial's interior is.
 	 *                      This will include the black border.
 	 * @param inputType Type of input image it's processing
@@ -148,7 +176,7 @@ public abstract class BaseDetectFiducialSquare<T extends ImageGray> {
 		// this combines two separate sources of distortion together so that it can be removed in the final image which
 		// is sent to fiducial decoder
 		InterpolatePixelS<T> interp = FactoryInterpolation.nearestNeighborPixelS(inputType);
-		interp.setBorder(FactoryImageBorder.single(inputType, BorderType.EXTENDED));
+		interp.setBorder(FIB.single(inputType, BorderType.EXTENDED));
 		removePerspective = FactoryDistort.distortSB(false, interp, GrayF32.class);
 
 		// if no camera parameters is specified default to this
@@ -197,7 +225,7 @@ public abstract class BaseDetectFiducialSquare<T extends ImageGray> {
 	public void process( T gray ) {
 		binary.reshape(gray.width,gray.height);
 
-		inputToBinary.process(gray,binary);
+		inputToBinary.process(gray,binary, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM);
 		squareDetector.process(gray,binary);
 		// These are in undistorted pixels
 		FastQueue<Polygon2D_F64> candidates = squareDetector.getFoundPolygons();

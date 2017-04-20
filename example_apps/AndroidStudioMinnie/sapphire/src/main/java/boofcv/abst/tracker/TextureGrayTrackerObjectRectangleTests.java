@@ -38,7 +38,7 @@ import java.util.Random;
  * @author Peter Abeles
  */
 public abstract class TextureGrayTrackerObjectRectangleTests extends GenericTrackerObjectRectangleTests<GrayU8> {
-
+	private static GeneralizedImageOps GIO;
 	public TextureGrayTrackerObjectRectangleTests() {
 		super(new ImageType<GrayU8>(ImageType.Family.GRAY, ImageDataType.U8,1));
 
@@ -97,7 +97,7 @@ public abstract class TextureGrayTrackerObjectRectangleTests extends GenericTrac
 				p.x = x;
 
 				if( Intersection2D_F64.containConvex(poly64, p)) {
-					GeneralizedImageOps.set(image, x, y, value);
+					GIO.set(image, x, y, value);
 				}
 			}
 		}

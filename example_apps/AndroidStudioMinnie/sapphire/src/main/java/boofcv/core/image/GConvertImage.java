@@ -33,7 +33,7 @@ import java.lang.reflect.Method;
  */
 @SuppressWarnings("unchecked")
 public class GConvertImage {
-
+	private static GeneralizedImageOps GIO;
 	/**
 	 * <p>
 	 * Converts one type of between two types of images using a default method.  Both are the same image type
@@ -95,7 +95,7 @@ public class GConvertImage {
 			if( mi.getImageType().getDataType() != so.getDataType() ) {
 				int w = output.width;
 				int h = output.height;
-				ImageGray tmp = GeneralizedImageOps.createSingleBand(mi.getImageType().getDataType(),w,h);
+				ImageGray tmp = GIO.createSingleBand(mi.getImageType().getDataType(),w,h);
 				average(mi,tmp);
 				convert(tmp,so);
 			} else {
@@ -133,7 +133,7 @@ public class GConvertImage {
 			if( mb.getImageType().getDataType() != so.getDataType() ) {
 				int w = output.width;
 				int h = output.height;
-				ImageGray tmp = GeneralizedImageOps.createSingleBand(mb.getImageType().getDataType(),w,h);
+				ImageGray tmp = GIO.createSingleBand(mb.getImageType().getDataType(),w,h);
 				average(mb,tmp);
 				convert(tmp,so);
 			} else {

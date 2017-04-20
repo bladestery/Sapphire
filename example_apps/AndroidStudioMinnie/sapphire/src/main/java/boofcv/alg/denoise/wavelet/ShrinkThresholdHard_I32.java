@@ -31,6 +31,7 @@ import boofcv.struct.image.GrayS32;
  * @author Peter Abeles
  */
 public class ShrinkThresholdHard_I32 implements ShrinkThresholdRule<GrayS32> {
+	private ImageMiscOps IMO;
 
 	@Override
 	public void process(GrayS32 image, Number threshold) {
@@ -38,7 +39,7 @@ public class ShrinkThresholdHard_I32 implements ShrinkThresholdRule<GrayS32> {
 
 		// see if all the coefficients should be set to zero
 		if( f == Integer.MAX_VALUE ) {
-			ImageMiscOps.fill(image, 0);
+			IMO.fill(image, 0);
 			return;
 		}
 

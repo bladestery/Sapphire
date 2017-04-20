@@ -18,9 +18,22 @@
 
 package boofcv.alg.filter.binary;
 
+import android.graphics.BlurMaskFilter;
+import android.renderscript.ScriptGroup;
+
 import boofcv.alg.InputSanityCheck;
+import boofcv.alg.distort.universal.UniOmniPtoS_F32;
 import boofcv.alg.filter.blur.BlurImageOps;
+import boofcv.alg.filter.convolve.ConvolveImageMean;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
+import boofcv.core.image.GeneralizedImageOps;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.image.*;
+import sapphire.app.SapphireObject;
 
 /**
  * <p>
@@ -33,7 +46,8 @@ import boofcv.struct.image.*;
  *
  * @author Peter Abeles
  */
-public class ThresholdImageOps {
+public class ThresholdImageOps implements SapphireObject {
+	public ThresholdImageOps() {}
 
 	/**
 	 * Applies a global threshold across the whole image.  If 'down' is true, then pixels with values &le;
@@ -46,10 +60,10 @@ public class ThresholdImageOps {
 	 * @param down If true then the inequality &le; is used, otherwise if false then &gt; is used.
 	 * @return Output image.
 	 */
-	public static GrayU8 threshold(GrayF32 input , GrayU8 output ,
-								   float threshold , boolean down )
+	public GrayU8 threshold(GrayF32 input , GrayU8 output ,
+								   float threshold , boolean down, InputSanityCheck ISC, GeneralizedImageOps GIO )
 	{
-		output = InputSanityCheck.checkDeclare(input,output,GrayU8.class);
+		output = ISC.checkDeclare(input,output,GrayU8.class, GIO);
 
 		if( down ) {
 			for( int y = 0; y < input.height; y++ ) {
@@ -95,10 +109,10 @@ public class ThresholdImageOps {
 	 * @param down If true then the inequality &le; is used, otherwise if false then &gt; is used.
 	 * @return Output image.
 	 */
-	public static GrayU8 threshold(GrayF64 input , GrayU8 output ,
-								   double threshold , boolean down )
+	public GrayU8 threshold(GrayF64 input , GrayU8 output ,
+							double threshold , boolean down, InputSanityCheck ISC, GeneralizedImageOps GIO)
 	{
-		output = InputSanityCheck.checkDeclare(input,output,GrayU8.class);
+		output = ISC.checkDeclare(input,output,GrayU8.class, GIO);
 
 		if( down ) {
 			for( int y = 0; y < input.height; y++ ) {
@@ -144,10 +158,10 @@ public class ThresholdImageOps {
 	 * @param down If true then the inequality &le; is used, otherwise if false then &gt; is used.
 	 * @return Output image.
 	 */
-	public static GrayU8 threshold(GrayU8 input , GrayU8 output ,
-								   int threshold , boolean down )
+	public GrayU8 threshold(GrayU8 input , GrayU8 output ,
+							int threshold , boolean down , InputSanityCheck ISC, GeneralizedImageOps GIO)
 	{
-		output = InputSanityCheck.checkDeclare(input,output,GrayU8.class);
+		output = ISC.checkDeclare(input,output,GrayU8.class, GIO);
 
 		if( down ) {
 			for( int y = 0; y < input.height; y++ ) {
@@ -193,10 +207,10 @@ public class ThresholdImageOps {
 	 * @param down If true then the inequality &le; is used, otherwise if false then &gt; is used.
 	 * @return Output image.
 	 */
-	public static GrayU8 threshold(GrayS16 input , GrayU8 output ,
-								   int threshold , boolean down )
+	public GrayU8 threshold(GrayS16 input , GrayU8 output ,
+								   int threshold , boolean down, InputSanityCheck ISC, GeneralizedImageOps GIO)
 	{
-		output = InputSanityCheck.checkDeclare(input,output,GrayU8.class);
+		output = ISC.checkDeclare(input,output,GrayU8.class, GIO);
 
 		if( down ) {
 			for( int y = 0; y < input.height; y++ ) {
@@ -242,10 +256,10 @@ public class ThresholdImageOps {
 	 * @param down If true then the inequality &le; is used, otherwise if false then &gt; is used.
 	 * @return Output image.
 	 */
-	public static GrayU8 threshold(GrayU16 input , GrayU8 output ,
-								   int threshold , boolean down )
+	public GrayU8 threshold(GrayU16 input , GrayU8 output ,
+								   int threshold , boolean down , InputSanityCheck ISC, GeneralizedImageOps GIO)
 	{
-		output = InputSanityCheck.checkDeclare(input,output,GrayU8.class);
+		output = ISC.checkDeclare(input,output,GrayU8.class, GIO);
 
 		if( down ) {
 			for( int y = 0; y < input.height; y++ ) {
@@ -291,10 +305,10 @@ public class ThresholdImageOps {
 	 * @param down If true then the inequality &le; is used, otherwise if false then &gt; is used.
 	 * @return Output image.
 	 */
-	public static GrayU8 threshold(GrayS32 input , GrayU8 output ,
-								   int threshold , boolean down )
+	public GrayU8 threshold(GrayS32 input , GrayU8 output ,
+								   int threshold , boolean down , InputSanityCheck ISC, GeneralizedImageOps GIO)
 	{
-		output = InputSanityCheck.checkDeclare(input,output,GrayU8.class);
+		output = ISC.checkDeclare(input,output,GrayU8.class, GIO);
 
 		if( down ) {
 			for( int y = 0; y < input.height; y++ ) {
@@ -344,17 +358,17 @@ public class ThresholdImageOps {
 	 * @param storage2 (Optional) Storage for intermediate step. If null will be declared internally.
 	 * @return Thresholded image.
 	 */
-	public static GrayU8 localSquare(GrayU8 input , GrayU8 output ,
-									 int radius , float scale , boolean down ,
-									 GrayU8 storage1 , GrayU8 storage2 ) {
+	public GrayU8 localSquare(GrayU8 input , GrayU8 output ,
+							  int radius , float scale , boolean down ,
+							  GrayU8 storage1 , GrayU8 storage2, InputSanityCheck ISC, GeneralizedImageOps GIO, BlurImageOps BIO, ConvolveImageMean CIM,
+							  ConvolveNormalized CN, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ImplConvolveMean ICM) {
 
-		output = InputSanityCheck.checkDeclare(input,output,GrayU8.class);
-		storage1 = InputSanityCheck.checkDeclare(input,storage1,GrayU8.class);
-		storage2 = InputSanityCheck.checkDeclare(input,storage2,GrayU8.class);
+		output = ISC.checkDeclare(input,output,GrayU8.class, GIO);
+		storage1 = ISC.checkDeclare(input,storage1,GrayU8.class, GIO);
+		storage2 = ISC.checkDeclare(input,storage2,GrayU8.class, GIO);
 
 		GrayU8 mean = storage1;
-
-		BlurImageOps.mean(input,mean,radius,storage2);
+		BIO.mean(input,mean,radius,storage2,ISC, CIM, CN, CNN, CINB, CNJB, ICM);
 
 		if( down ) {
 			for( int y = 0; y < input.height; y++ ) {
@@ -411,17 +425,18 @@ public class ThresholdImageOps {
 	 * @param storage2 (Optional) Storage for intermediate step. If null will be declared internally.
 	 * @return Thresholded image.
 	 */
-	public static GrayU8 localGaussian(GrayU8 input , GrayU8 output ,
-									   int radius , float scale , boolean down ,
-									   GrayU8 storage1 , GrayU8 storage2 ) {
+	public GrayU8 localGaussian(GrayU8 input , GrayU8 output ,
+								int radius , float scale , boolean down ,
+								GrayU8 storage1 , GrayU8 storage2 , InputSanityCheck ISC, GeneralizedImageOps GIO, BlurImageOps BIO,
+								FactoryKernelGaussian FKG, ConvolveNormalized CN, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB) {
 
-		output = InputSanityCheck.checkDeclare(input,output,GrayU8.class);
-		storage1 = InputSanityCheck.checkDeclare(input,storage1,GrayU8.class);
-		storage2 = InputSanityCheck.checkDeclare(input,storage2,GrayU8.class);
+		output = ISC.checkDeclare(input,output,GrayU8.class, GIO);
+		storage1 = ISC.checkDeclare(input,storage1,GrayU8.class, GIO);
+		storage2 = ISC.checkDeclare(input,storage2,GrayU8.class, GIO);
 
 		GrayU8 blur = storage1;
 
-		BlurImageOps.gaussian(input,blur,-1,radius,storage2);
+		BIO.gaussian(input,blur,-1,radius,storage2, ISC, GIO, FKG, CN, CNN, CINB, CNJB);
 
 		if( down ) {
 			for( int y = 0; y < input.height; y++ ) {
@@ -477,17 +492,19 @@ public class ThresholdImageOps {
 	 * @param storage2 (Optional) Storage for intermediate step. If null will be declared internally.
 	 * @return Thresholded image.
 	 */
-	public static GrayU8 localSquare(GrayF32 input , GrayU8 output ,
+	public GrayU8 localSquare(GrayF32 input , GrayU8 output ,
 									 int radius , float scale , boolean down ,
-									 GrayF32 storage1 , GrayF32 storage2 ) {
+									 GrayF32 storage1 , GrayF32 storage2, InputSanityCheck ISC, GeneralizedImageOps GIO, BlurImageOps BIO, ConvolveImageMean CIM,
+							  ConvolveNormalized CN, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ImplConvolveMean
+									  ICM) {
 
-		output = InputSanityCheck.checkDeclare(input,output,GrayU8.class);
-		storage1 = InputSanityCheck.checkDeclare(input,storage1,GrayF32.class);
-		storage2 = InputSanityCheck.checkDeclare(input,storage2,GrayF32.class);
+		output = ISC.checkDeclare(input,output,GrayU8.class, GIO);
+		storage1 = ISC.checkDeclare(input,storage1,GrayF32.class, GIO);
+		storage2 = ISC.checkDeclare(input,storage2,GrayF32.class, GIO);
 
 		GrayF32 mean = storage1;
 
-		BlurImageOps.mean(input,mean,radius,storage2);
+		BIO.mean(input,mean,radius,storage2, ISC, CIM, CN, CNN, CINB, CNJB, ICM);
 
 		if( down ) {
 			for( int y = 0; y < input.height; y++ ) {
@@ -543,17 +560,18 @@ public class ThresholdImageOps {
 	 * @param storage2 (Optional) Storage for intermediate step. If null will be declared internally.
 	 * @return Thresholded image.
 	 */
-	public static GrayU8 localGaussian(GrayF32 input , GrayU8 output ,
+	public GrayU8 localGaussian(GrayF32 input , GrayU8 output ,
 									   int radius , float scale , boolean down ,
-									   GrayF32 storage1 , GrayF32 storage2 ) {
+									   GrayF32 storage1 , GrayF32 storage2 , InputSanityCheck ISC, GeneralizedImageOps GIO, BlurImageOps BIO,
+								FactoryKernelGaussian FKG, ConvolveNormalized CN, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB) {
 
-		output = InputSanityCheck.checkDeclare(input,output,GrayU8.class);
-		storage1 = InputSanityCheck.checkDeclare(input,storage1,GrayF32.class);
-		storage2 = InputSanityCheck.checkDeclare(input,storage2,GrayF32.class);
+		output = ISC.checkDeclare(input,output,GrayU8.class, GIO);
+		storage1 = ISC.checkDeclare(input,storage1,GrayF32.class, GIO);
+		storage2 = ISC.checkDeclare(input,storage2,GrayF32.class, GIO);
 
 		GrayF32 blur = storage1;
 
-		BlurImageOps.gaussian(input,blur,-1,radius,storage2);
+		BIO.gaussian(input,blur,-1,radius,storage2, ISC, FKG, CN, CNN, CINB, CNJB);
 
 		if( down ) {
 			for( int y = 0; y < input.height; y++ ) {

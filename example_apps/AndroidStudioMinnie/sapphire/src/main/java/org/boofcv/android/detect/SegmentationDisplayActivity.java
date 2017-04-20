@@ -41,7 +41,7 @@ import boofcv.struct.image.Planar;
 public class SegmentationDisplayActivity extends DemoVideoDisplayActivity
 		implements AdapterView.OnItemSelectedListener
 {
-
+	private ImageType IT;
 	Spinner spinnerView;
 
 	Mode mode = Mode.VIEW_VIDEO;
@@ -95,7 +95,7 @@ public class SegmentationDisplayActivity extends DemoVideoDisplayActivity
 		mode = Mode.VIEW_VIDEO;
 		hasSegment = false;
 
-		ImageType<Planar<GrayU8>> type = ImageType.pl(3, GrayU8.class);
+		ImageType<Planar<GrayU8>> type = IT.pl(3, GrayU8.class);
 
 		switch (pos) {
 			case 0:
@@ -151,7 +151,7 @@ public class SegmentationDisplayActivity extends DemoVideoDisplayActivity
 		GrowQueue_I32 regionMemberCount = new GrowQueue_I32();
 
 		public SegmentationProcessing(ImageSuperpixels<Planar<GrayU8>> segmentation) {
-			super(ImageType.pl(3, GrayU8.class));
+			super(IT.pl(3, GrayU8.class));
 			this.segmentation = segmentation;
 			this.colorize = FactorySegmentationAlg.regionMeanColor(segmentation.getImageType());
 		}

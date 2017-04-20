@@ -28,6 +28,8 @@ import boofcv.alg.feature.detect.interest.EasyGeneralFeatureDetector;
 import boofcv.alg.feature.detect.interest.GeneralFeatureDetector;
 import boofcv.alg.interpolate.InterpolateRectangle;
 import boofcv.alg.tracker.klt.PkltConfig;
+import boofcv.core.image.GeneralizedImageOps;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.filter.derivative.FactoryDerivative;
 import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.factory.transform.pyramid.FactoryPyramid;
@@ -41,7 +43,9 @@ import static boofcv.factory.feature.tracker.FactoryPointTracker.createShiTomasi
  * @author Peter Abeles
  */
 public class FactoryPointTrackerTwoPass {
-
+	private static FactoryDerivative FD;
+	private static GeneralizedImageOps GIO;
+	private static FactoryImageBorder FIB;
 	/**
 	 * Pyramid KLT feature tracker.
 	 *
@@ -58,7 +62,7 @@ public class FactoryPointTrackerTwoPass {
 		InterpolateRectangle<I> interpInput = FactoryInterpolation.<I>bilinearRectangle(imageType);
 		InterpolateRectangle<D> interpDeriv = FactoryInterpolation.<D>bilinearRectangle(derivType);
 
-		ImageGradient<I,D> gradient = FactoryDerivative.sobel(imageType, derivType);
+		ImageGradient<I,D> gradient = FD.sobel(imageType, derivType, GIO, FIB);
 
 		PyramidDiscrete<I> pyramid = FactoryPyramid.discreteGaussian(config.pyramidScaling,-1,2,true,imageType);
 

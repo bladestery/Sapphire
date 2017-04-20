@@ -32,6 +32,7 @@ import boofcv.struct.image.ImageType;
 public class HornSchunckPyramid_to_DenseOpticalFlow<T extends ImageGray>
 	implements DenseOpticalFlow<T>
 {
+	private ImageType IT;
 	HornSchunckPyramid<T> hornSchunck;
 	Class<T> imageType;
 
@@ -60,6 +61,6 @@ public class HornSchunckPyramid_to_DenseOpticalFlow<T extends ImageGray>
 
 	@Override
 	public ImageType<T> getInputType() {
-		return ImageType.single(imageType);
+		return IT.single(imageType);
 	}
 }

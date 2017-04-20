@@ -38,7 +38,7 @@ import static org.junit.Assert.assertTrue;
  * @author Peter Abeles
  */
 public abstract class GenericNonMaxAlgorithmTests {
-
+	private ImageMiscOps IMO;
 	Random rand = new Random(2134);
 
 	int width = 30;
@@ -72,7 +72,7 @@ public abstract class GenericNonMaxAlgorithmTests {
 
 
 	public void reset() {
-		ImageMiscOps.fill(intensity, 0);
+		IMO.fill(intensity, 0);
 	}
 
 	public void allStandard() {
@@ -212,7 +212,7 @@ public abstract class GenericNonMaxAlgorithmTests {
 				reg.setThreshold(0.6f);
 
 				for (int i = 0; i < 10; i++) {
-					ImageMiscOps.fillGaussian(inten, rand, 0, 3, -100, 100);
+					IMO.fillGaussian(inten, rand, 0, 3, -100, 100);
 
 
 					// detect the corners

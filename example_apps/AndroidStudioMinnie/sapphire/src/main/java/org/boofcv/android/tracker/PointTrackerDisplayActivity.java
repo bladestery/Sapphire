@@ -25,7 +25,7 @@ import georegression.struct.point.Point2D_F64;
  * @author Peter Abeles
  */
 public class PointTrackerDisplayActivity extends DemoVideoDisplayActivity {
-
+	private ImageType IT;
 	Paint paintLine = new Paint();
 	Paint paintRed = new Paint();
 	Paint paintBlue = new Paint();
@@ -59,7 +59,7 @@ public class PointTrackerDisplayActivity extends DemoVideoDisplayActivity {
 
 
 		public PointProcessing( PointTracker<GrayU8> tracker ) {
-			super(ImageType.single(GrayU8.class));
+			super(IT.single(GrayU8.class));
 			this.tracker = tracker;
 		}
 

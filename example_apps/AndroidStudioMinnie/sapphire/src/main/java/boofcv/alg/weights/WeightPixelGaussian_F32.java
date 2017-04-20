@@ -24,6 +24,7 @@ import boofcv.factory.filter.kernel.FactoryKernelGaussian;
  * @author Peter Abeles
  */
 public class WeightPixelGaussian_F32 extends WeightPixelKernel_F32 {
+	private FactoryKernelGaussian FKG;
 	@Override
 	public void setRadius(int radiusX , int radiusY) {
 
@@ -32,8 +33,8 @@ public class WeightPixelGaussian_F32 extends WeightPixelKernel_F32 {
 
 		int radius = radiusX;
 		if( kernel == null || kernel.getRadius() != radius ) {
-			double sigma = FactoryKernelGaussian.sigmaForRadius(radius,0);
-			kernel = FactoryKernelGaussian.gaussian2D_F32((float)sigma,radius, true, true);
+			double sigma = FKG.sigmaForRadius(radius,0);
+			kernel = FKG.gaussian2D_F32((float)sigma,radius, true, true);
 		}
 	}
 }

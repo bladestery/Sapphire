@@ -18,6 +18,9 @@
 
 package boofcv.alg.filter.convolve;
 
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
 import boofcv.core.image.border.ImageBorder;
 import boofcv.core.image.border.ImageBorder_F32;
 import boofcv.core.image.border.ImageBorder_S32;
@@ -28,7 +31,11 @@ import boofcv.struct.image.*;
  * Image type agnostic convolution functions
  */
 public class GConvolveImageOps {
-
+	private static ConvolveImageNoBorder CINB;
+	private static InputSanityCheck ISC;
+	private static ConvolveNormalized CN;
+	private static ConvolveNormalizedNaive CNN;
+	private static ConvolveNormalized_JustBorder CNJB;
 	/**
 	 * Performs a horizontal 1D convolution across the image.  Borders are handled as specified by the 'border'
 	 * parameter.
@@ -114,14 +121,14 @@ public class GConvolveImageOps {
 	public static <In extends ImageGray, Out extends ImageGray, K extends Kernel1D>
 	void horizontal(K kernel, In input, In output ) {
 		if( input instanceof GrayF32) {
-			ConvolveImageNoBorder.horizontal((Kernel1D_F32)kernel,(GrayF32)input,(GrayF32)output);
+			CINB.horizontal((Kernel1D_F32)kernel,(GrayF32)input,(GrayF32)output, ISC);
 		} else if( input instanceof GrayU8) {
 			if( GrayI16.class.isAssignableFrom(output.getClass()) )
-				ConvolveImageNoBorder.horizontal((Kernel1D_I32)kernel,(GrayU8)input,(GrayI16)output);
+				CINB.horizontal((Kernel1D_I32)kernel,(GrayU8)input,(GrayI16)output, ISC);
 			else
-				ConvolveImageNoBorder.horizontal((Kernel1D_I32)kernel,(GrayU8)input,(GrayS32)output);
+				CINB.horizontal((Kernel1D_I32)kernel,(GrayU8)input,(GrayS32)output, ISC);
 		} else if( input instanceof GrayS16) {
-			ConvolveImageNoBorder.horizontal((Kernel1D_I32)kernel,(GrayS16)input,(GrayI16)output);
+			CINB.horizontal((Kernel1D_I32)kernel,(GrayS16)input,(GrayI16)output, ISC);
 		} else {
 			throw new IllegalArgumentException("Unknown image type: "+input.getClass().getName());
 		}
@@ -137,14 +144,14 @@ public class GConvolveImageOps {
 	public static <In extends ImageGray, Out extends ImageGray, K extends Kernel1D>
 	void vertical(K kernel, In input, Out output ) {
 		if( input instanceof GrayF32) {
-			ConvolveImageNoBorder.vertical((Kernel1D_F32) kernel, (GrayF32) input, (GrayF32) output);
+			CINB.vertical((Kernel1D_F32) kernel, (GrayF32) input, (GrayF32) output, ISC);
 		} else if( input instanceof GrayU8) {
 			if( GrayI16.class.isAssignableFrom(output.getClass()) )
-				ConvolveImageNoBorder.vertical((Kernel1D_I32) kernel, (GrayU8) input, (GrayI16) output);
+				CINB.vertical((Kernel1D_I32) kernel, (GrayU8) input, (GrayI16) output, ISC);
 			else
-				ConvolveImageNoBorder.vertical((Kernel1D_I32) kernel, (GrayU8) input, (GrayS32) output);
+				CINB.vertical((Kernel1D_I32) kernel, (GrayU8) input, (GrayS32) output, ISC);
 		} else if( input instanceof GrayS16) {
-			ConvolveImageNoBorder.vertical((Kernel1D_I32) kernel, (GrayS16) input, (GrayI16) output);
+			CINB.vertical((Kernel1D_I32) kernel, (GrayS16) input, (GrayI16) output, ISC);
 		} else {
 			throw new IllegalArgumentException("Unknown image type: "+input.getClass().getName());
 		}
@@ -160,14 +167,14 @@ public class GConvolveImageOps {
 	public static <In extends ImageGray, Out extends ImageGray, K extends Kernel2D>
 	void convolve(K kernel, In input, Out output ) {
 		if( input instanceof GrayF32) {
-			ConvolveImageNoBorder.convolve((Kernel2D_F32) kernel, (GrayF32) input, (GrayF32) output);
+			CINB.convolve((Kernel2D_F32) kernel, (GrayF32) input, (GrayF32) output, ISC);
 		} else if( input instanceof GrayU8) {
 			if( GrayI16.class.isAssignableFrom(output.getClass()) )
-				ConvolveImageNoBorder.convolve((Kernel2D_I32) kernel, (GrayU8) input, (GrayI16) output);
+				CINB.convolve((Kernel2D_I32) kernel, (GrayU8) input, (GrayI16) output, ISC);
 			else
-				ConvolveImageNoBorder.convolve((Kernel2D_I32) kernel, (GrayU8) input, (GrayS32) output);
+				CINB.convolve((Kernel2D_I32) kernel, (GrayU8) input, (GrayS32) output, ISC);
 		} else if( input instanceof GrayS16) {
-			ConvolveImageNoBorder.convolve((Kernel2D_I32) kernel, (GrayS16) input, (GrayI16) output);
+			CINB.convolve((Kernel2D_I32) kernel, (GrayS16) input, (GrayI16) output, ISC);
 		} else {
 			throw new IllegalArgumentException("Unknown image type: "+input.getClass().getName());
 		}
@@ -184,13 +191,13 @@ public class GConvolveImageOps {
 	public static <In extends ImageGray, Out extends ImageGray, K extends Kernel1D>
 	void horizontalNormalized(K kernel, In input, Out output ) {
 		if( input instanceof GrayF32) {
-			ConvolveNormalized.horizontal((Kernel1D_F32) kernel, (GrayF32) input, (GrayF32) output);
+			CN.horizontal((Kernel1D_F32) kernel, (GrayF32) input, (GrayF32) output, ISC, CNN, CINB, CNJB);
 		} else if( input instanceof GrayF64) {
-			ConvolveNormalized.horizontal((Kernel1D_F64)kernel,(GrayF64)input,(GrayF64)output);
+			CN.horizontal((Kernel1D_F64)kernel,(GrayF64)input,(GrayF64)output, ISC, CNN, CINB, CNJB);
 		} else if( input instanceof GrayU8) {
-			ConvolveNormalized.horizontal((Kernel1D_I32)kernel,(GrayU8)input,(GrayI8)output);
+			CN.horizontal((Kernel1D_I32)kernel,(GrayU8)input,(GrayI8)output, ISC, CNN, CINB, CNJB);
 		} else if( input instanceof GrayS16) {
-			ConvolveNormalized.horizontal((Kernel1D_I32)kernel,(GrayS16)input,(GrayI16)output);
+			CN.horizontal((Kernel1D_I32)kernel,(GrayS16)input,(GrayI16)output, ISC, CNN, CINB, CNJB);
 		} else {
 			throw new IllegalArgumentException("Unknown image type: "+input.getClass().getName());
 		}
@@ -207,13 +214,13 @@ public class GConvolveImageOps {
 	public static <T extends ImageGray, K extends Kernel1D>
 	void verticalNormalized(K kernel, T input, T output ) {
 		if( input instanceof GrayF32) {
-			ConvolveNormalized.vertical((Kernel1D_F32) kernel, (GrayF32) input, (GrayF32) output);
+			CN.vertical((Kernel1D_F32) kernel, (GrayF32) input, (GrayF32) output, ISC, CNN, CINB, CNJB);
 		} else if( input instanceof GrayF64) {
-			ConvolveNormalized.vertical((Kernel1D_F64) kernel, (GrayF64) input, (GrayF64) output);
+			CN.vertical((Kernel1D_F64) kernel, (GrayF64) input, (GrayF64) output, ISC, CNN, CINB, CNJB);
 		} else if( input instanceof GrayU8) {
-			ConvolveNormalized.vertical((Kernel1D_I32) kernel, (GrayU8) input, (GrayI8) output);
+			CN.vertical((Kernel1D_I32) kernel, (GrayU8) input, (GrayI8) output, ISC, CNN, CINB, CNJB);
 		} else if( input instanceof GrayS16) {
-			ConvolveNormalized.vertical((Kernel1D_I32) kernel, (GrayS16) input, (GrayI16) output);
+			CN.vertical((Kernel1D_I32) kernel, (GrayS16) input, (GrayI16) output, ISC, CNN, CINB, CNJB);
 		} else {
 			throw new IllegalArgumentException("Unknown image type: "+input.getClass().getName());
 		}
@@ -228,15 +235,15 @@ public class GConvolveImageOps {
 	 * @param kernel The kernel that is being convolved. Not modified.
 	 */
 	public static <T extends ImageGray, K extends Kernel2D>
-	void convolveNormalized(K kernel, T input, T output ) {
+	void CN(K kernel, T input, T output ) {
 		if( input instanceof GrayF32) {
-			ConvolveNormalized.convolve((Kernel2D_F32) kernel, (GrayF32) input, (GrayF32) output);
+			CN.convolve((Kernel2D_F32) kernel, (GrayF32) input, (GrayF32) output, ISC, CNN, CINB, CNJB);
 		} else if( input instanceof GrayF64) {
-			ConvolveNormalized.convolve((Kernel2D_F64) kernel, (GrayF64) input, (GrayF64) output);
+			CN.convolve((Kernel2D_F64) kernel, (GrayF64) input, (GrayF64) output, ISC, CNN, CINB, CNJB);
 		} else if( input instanceof GrayU8) {
-			ConvolveNormalized.convolve((Kernel2D_I32) kernel, (GrayU8) input, (GrayI8) output);
+			CN.convolve((Kernel2D_I32) kernel, (GrayU8) input, (GrayI8) output, ISC, CNN, CINB, CNJB);
 		} else if( input instanceof GrayS16) {
-			ConvolveNormalized.convolve((Kernel2D_I32) kernel, (GrayS16) input, (GrayI16) output);
+			CN.convolve((Kernel2D_I32) kernel, (GrayS16) input, (GrayI16) output, ISC, CNN, CINB, CNJB);
 		} else {
 			throw new IllegalArgumentException("Unknown image type: "+input.getClass().getName());
 		}

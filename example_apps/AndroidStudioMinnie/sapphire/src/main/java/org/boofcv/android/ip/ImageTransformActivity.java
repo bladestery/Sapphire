@@ -43,7 +43,8 @@ import boofcv.struct.wavelet.WlCoef;
 public class ImageTransformActivity extends DemoVideoDisplayActivity
 		implements AdapterView.OnItemSelectedListener
 {
-
+	private ImageStatistics IS;
+	private ImageType IT;
 	Spinner spinnerView;
 
 	@Override
@@ -100,7 +101,7 @@ public class ImageTransformActivity extends DemoVideoDisplayActivity
 		InterleavedF32 transform;
 
 		protected FourierProcessing() {
-			super(ImageType.single(GrayU8.class));
+			super(IT.single(GrayU8.class));
 		}
 
 		@Override
@@ -119,7 +120,7 @@ public class ImageTransformActivity extends DemoVideoDisplayActivity
 			DiscreteFourierTransformOps.shiftZeroFrequency(transform, true);
 			DiscreteFourierTransformOps.magnitude(transform, grayF);
 			PixelMath.log(grayF,grayF);
-			float max = ImageStatistics.maxAbs(grayF);
+			float max = IS.maxAbs(grayF);
 			PixelMath.multiply(grayF, 255f / max, grayF);
 			ConvertBitmap.grayToBitmap(grayF, output, storage);
 		}
@@ -134,7 +135,7 @@ public class ImageTransformActivity extends DemoVideoDisplayActivity
 		GrayU8 sub = new GrayU8();
 
 		protected PyramidProcessing() {
-			super(ImageType.single(GrayU8.class));
+			super(IT.single(GrayU8.class));
 		}
 
 		@Override
@@ -176,7 +177,7 @@ public class ImageTransformActivity extends DemoVideoDisplayActivity
 		GrayS32 transform;
 
 		protected WaveletProcessing() {
-			super(ImageType.single(GrayU8.class));
+			super(IT.single(GrayU8.class));
 		}
 
 		@Override

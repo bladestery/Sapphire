@@ -49,6 +49,7 @@ import boofcv.struct.image.GrayF32;
  * @author Peter Abeles
  */
 public class SiftScaleSpace {
+	private static FactoryKernelGaussian FKG;
 	// all the scale images across an octave
 	GrayF32 octaveImages[];
 	// images which are the difference between the scales
@@ -128,7 +129,7 @@ public class SiftScaleSpace {
 
 		// create all the convolution kernels
 		Class kernelType = FactoryKernel.getKernelType(GrayF32.class, 1);
-		kernelSigma0 = (Kernel1D_F32) FactoryKernelGaussian.gaussian(kernelType, sigma0, -1);
+		kernelSigma0 = (Kernel1D_F32) FKG.gaussian(kernelType, sigma0, -1);
 
 		kernelSigmaToK = new Kernel1D_F32[numScales+2];
 		for (int i = 1; i < numScales + 3; i++) {
@@ -137,7 +138,7 @@ public class SiftScaleSpace {
 			// compute the sigma that when applied to the previous scale will produce k*scale
 			// k*sigma_{i-1} = conv( sigma_(i-1) , sigma)
 			double sigma = before*Math.sqrt(levelK-1.0);
-			kernelSigmaToK[i-1] = (Kernel1D_F32)FactoryKernelGaussian.gaussian(kernelType, sigma, -1);
+			kernelSigmaToK[i-1] = (Kernel1D_F32)FKG.gaussian(kernelType, sigma, -1);
 		}
 
 //		for (int octave = firstOctave; octave <= lastOctave; octave++) {

@@ -37,6 +37,7 @@ import georegression.struct.InvertibleTransform;
 public class BackgroundMovingBasic_IL<T extends ImageInterleaved, Motion extends InvertibleTransform<Motion>>
 	extends BackgroundMovingBasic<T,Motion>
 {
+	private ImageType IT;
 	// where the background image is stored
 	protected InterleavedF32 background;
 	// interpolates the input image
@@ -62,7 +63,7 @@ public class BackgroundMovingBasic_IL<T extends ImageInterleaved, Motion extends
 		background = new InterleavedF32(1,1,numBands);
 
 		this.interpolationBG = FactoryInterpolation.createPixelMB(
-				0, 255, interpType, BorderType.EXTENDED, ImageType.il(numBands, InterleavedF32.class));
+				0, 255, interpType, BorderType.EXTENDED, IT.il(numBands, InterleavedF32.class));
 		this.interpolationBG.setImage(background);
 
 		pixelInput = new float[numBands];

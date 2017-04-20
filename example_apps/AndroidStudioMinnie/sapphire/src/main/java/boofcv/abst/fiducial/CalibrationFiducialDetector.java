@@ -45,6 +45,7 @@ import java.util.List;
 public class CalibrationFiducialDetector<T extends ImageGray>
 		extends FiducialDetectorPnP<T>
 {
+	private ImageType IT;
 	// detects the calibration target
 	private DetectorFiducialCalibration detector;
 
@@ -124,7 +125,7 @@ public class CalibrationFiducialDetector<T extends ImageGray>
 
 	protected void init(DetectorFiducialCalibration detector, double width, Class<T> imageType) {
 		this.detector = detector;
-		this.type = ImageType.single(imageType);
+		this.type = IT.single(imageType);
 		this.converted = new GrayF32(1,1);
 
 		this.width = width;

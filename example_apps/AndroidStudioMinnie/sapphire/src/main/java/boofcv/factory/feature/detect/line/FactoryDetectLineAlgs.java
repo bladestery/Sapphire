@@ -27,6 +27,8 @@ import boofcv.abst.filter.derivative.ImageGradient;
 import boofcv.alg.feature.detect.line.ConnectLinesGrid;
 import boofcv.alg.feature.detect.line.GridRansacLineDetector;
 import boofcv.alg.feature.detect.line.gridline.*;
+import boofcv.core.image.GeneralizedImageOps;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.filter.derivative.FactoryDerivative;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.GrayS16;
@@ -42,7 +44,9 @@ import org.ddogleg.fitting.modelset.ransac.Ransac;
  * @author Peter Abeles
  */
 public class FactoryDetectLineAlgs {
-
+	private static FactoryDerivative FD;
+	private static GeneralizedImageOps GIO;
+	private static FactoryImageBorder FIB;
 	/**
 	 * Detects line segments inside an image using the {@link DetectLineSegmentsGridRansac} algorithm.
 	 *
@@ -64,7 +68,7 @@ public class FactoryDetectLineAlgs {
 												 Class<I> imageType ,
 												 Class<D> derivType ) {
 
-		ImageGradient<I,D> gradient = FactoryDerivative.sobel(imageType,derivType);
+		ImageGradient<I,D> gradient = FD.sobel(imageType,derivType, GIO, FIB);
 
 		ModelManagerLinePolar2D_F32 manager = new ModelManagerLinePolar2D_F32();
 		GridLineModelDistance distance = new GridLineModelDistance((float)thresholdAngle);
@@ -110,7 +114,7 @@ public class FactoryDetectLineAlgs {
 		if( config == null )
 			config = new ConfigHoughFoot();
 
-		ImageGradient<I,D> gradient = FactoryDerivative.sobel(imageType,derivType);
+		ImageGradient<I,D> gradient = FD.sobel(imageType,derivType, GIO, FIB);
 
 		return new DetectLineHoughFoot<>(config.localMaxRadius, config.minCounts, config.minDistanceFromOrigin,
 				config.thresholdEdge, config.maxLines, gradient);
@@ -137,7 +141,7 @@ public class FactoryDetectLineAlgs {
 		if( config == null )
 			config = new ConfigHoughFootSubimage();
 
-		ImageGradient<I,D> gradient = FactoryDerivative.sobel(imageType,derivType);
+		ImageGradient<I,D> gradient = FD.sobel(imageType,derivType, GIO, FIB);
 
 		return new DetectLineHoughFootSubimage<>(config.localMaxRadius,
 				config.minCounts, config.minDistanceFromOrigin, config.thresholdEdge,
@@ -164,7 +168,7 @@ public class FactoryDetectLineAlgs {
 		if( config == null )
 			throw new IllegalArgumentException("This is no default since minCounts must be specified");
 
-		ImageGradient<I,D> gradient = FactoryDerivative.sobel(imageType,derivType);
+		ImageGradient<I,D> gradient = FD.sobel(imageType,derivType, GIO, FIB);
 
 		return new DetectLineHoughPolar<>(config.localMaxRadius, config.minCounts, config.resolutionRange,
 				config.resolutionAngle, config.thresholdEdge, config.maxLines, gradient);

@@ -38,7 +38,7 @@ import georegression.struct.InvertibleTransform;
 public class BackgroundMovingGaussian_SB <T extends ImageGray, Motion extends InvertibleTransform<Motion>>
 		extends BackgroundMovingGaussian<T,Motion>
 {
-
+	private static ImageType IT;
 	// interpolates the input image
 	protected InterpolatePixelS<T> interpolateInput;
 	// interpolates the background image
@@ -66,12 +66,12 @@ public class BackgroundMovingGaussian_SB <T extends ImageGray, Motion extends In
 									   InterpolationType interpType,
 									   Class<T> imageType)
 	{
-		super(learnRate, threshold, transform, ImageType.single(imageType));
+		super(learnRate, threshold, transform, IT.single(imageType));
 
 		this.interpolateInput = FactoryInterpolation.bilinearPixelS(imageType, BorderType.EXTENDED);
 
 		this.interpolationBG = FactoryInterpolation.createPixelMB(
-				0, 255, interpType, BorderType.EXTENDED, ImageType.pl(2, GrayF32.class));
+				0, 255, interpType, BorderType.EXTENDED, IT.pl(2, GrayF32.class));
 		this.interpolationBG.setImage(background);
 		inputWrapper = FactoryGImageGray.create(imageType);
 	}

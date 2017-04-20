@@ -37,6 +37,7 @@ import static org.junit.Assert.assertTrue;
 public abstract class GeneralSparseOperatorTests
 <T extends ImageGray>
 {
+	private GeneralizedImageOps GIO;
 	protected Random rand = new Random(12342);
 	protected int width = 30;
 	protected int height = 40;
@@ -60,7 +61,7 @@ public abstract class GeneralSparseOperatorTests
 		this.sampleBoxX1 = sampleBoxX1;
 		this.sampleBoxY1 = sampleBoxY1;
 
-		input = GeneralizedImageOps.createSingleBand(inputType, width, height);
+		input = GIO.createSingleBand(inputType, width, height);
 
 		GImageMiscOps.fillUniform(input, rand, 0, 100);
 	}

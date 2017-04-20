@@ -20,11 +20,25 @@ import org.boofcv.android.R;
 import org.ddogleg.struct.FastQueue;
 
 import boofcv.abst.filter.binary.InputToBinary;
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.filter.blur.BlurImageOps;
+import boofcv.alg.filter.blur.GBlurImageOps;
+import boofcv.alg.filter.blur.impl.ImplMedianHistogramInner;
+import boofcv.alg.filter.blur.impl.ImplMedianSortEdgeNaive;
+import boofcv.alg.filter.blur.impl.ImplMedianSortNaive;
+import boofcv.alg.filter.convolve.ConvolveImageMean;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
 import boofcv.alg.shapes.ellipse.BinaryEllipseDetector;
 import boofcv.android.ConvertBitmap;
 import boofcv.android.VisualizeImageData;
 import boofcv.android.gui.VideoImageProcessing;
+import boofcv.core.image.GeneralizedImageOps;
 import boofcv.factory.filter.binary.FactoryThresholdBinary;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.factory.shape.ConfigEllipseDetector;
 import boofcv.factory.shape.FactoryShapeDetector;
 import boofcv.struct.image.GrayU8;
@@ -40,6 +54,21 @@ import georegression.struct.shapes.EllipseRotated_F64;
 public class DetectBlackEllipseActivity extends DemoVideoDisplayActivity
 		implements AdapterView.OnItemSelectedListener , View.OnTouchListener
 {
+	private static ImageType IT;
+	private static GBlurImageOps GBIO;
+	private static GeneralizedImageOps GIO;
+	private static InputSanityCheck ISC;
+	private static BlurImageOps BIO;
+	private static ConvolveImageMean CIM;
+	private static FactoryKernelGaussian FKG;
+	private static ConvolveNormalized CN;
+	private static ConvolveNormalizedNaive CNN;
+	private static ConvolveImageNoBorder CINB;
+	private static ConvolveNormalized_JustBorder CNJB;
+	private static ImplMedianHistogramInner IMHI;
+	private static ImplMedianSortEdgeNaive IMSEN;
+	private static ImplMedianSortNaive IMSN;
+	private static ImplConvolveMean ICM;
 	Paint paint;
 
 	Spinner spinnerThresholder;
@@ -146,7 +175,7 @@ public class DetectBlackEllipseActivity extends DemoVideoDisplayActivity
 		RectF r = new RectF();
 
 		protected EllipseProcessing() {
-			super(ImageType.single(GrayU8.class));
+			super(IT.single(GrayU8.class));
 		}
 
 		@Override
@@ -159,7 +188,7 @@ public class DetectBlackEllipseActivity extends DemoVideoDisplayActivity
 		protected void process(GrayU8 image, Bitmap output, byte[] storage) {
 
 			synchronized ( this ) {
-				inputToBinary.process(image,binary);
+				inputToBinary.process(image,binary, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM);
 			}
 
 			detector.process(image,binary);

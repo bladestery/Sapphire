@@ -38,6 +38,7 @@ import georegression.struct.point.Point2D_F64;
 public class SurfPlanar_to_DetectDescribePoint<T extends ImageGray, II extends ImageGray>
 		implements DetectDescribePoint<Planar<T>,BrightFeature>
 {
+	private GeneralizedImageOps GIO;
 	DetectDescribeSurfPlanar<II> alg;
 
 	T gray;
@@ -49,8 +50,8 @@ public class SurfPlanar_to_DetectDescribePoint<T extends ImageGray, II extends I
 	{
 		this.alg = alg;
 
-		gray = GeneralizedImageOps.createSingleBand(imageType, 1, 1);
-		grayII = GeneralizedImageOps.createSingleBand(integralType,1,1);
+		gray = GIO.createSingleBand(imageType, 1, 1);
+		grayII = GIO.createSingleBand(integralType,1,1);
 		bandII = new Planar<>(integralType, 1, 1, alg.getDescribe().getNumBands());
 	}
 

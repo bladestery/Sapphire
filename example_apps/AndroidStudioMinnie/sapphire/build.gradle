@@ -5,13 +5,14 @@ android {
     buildToolsVersion "25.0.2"
 
     defaultConfig {
-        minSdkVersion 19
+        minSdkVersion 24
         targetSdkVersion 25
         multiDexEnabled true
-
+        /*
         ndk {
             moduleName "detection_based_tracker"
         }
+        */
     }
     buildTypes {
         release {

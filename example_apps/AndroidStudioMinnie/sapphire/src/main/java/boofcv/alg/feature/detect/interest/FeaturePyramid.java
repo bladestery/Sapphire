@@ -21,6 +21,7 @@ package boofcv.alg.feature.detect.interest;
 import boofcv.abst.feature.detect.interest.InterestPointScaleSpacePyramid;
 import boofcv.abst.filter.derivative.AnyImageDerivative;
 import boofcv.core.image.border.FactoryImageBorderAlgs;
+import boofcv.core.image.border.ImageBorderValue;
 import boofcv.core.image.border.ImageBorder_F32;
 import boofcv.struct.QueueCorner;
 import boofcv.struct.feature.ScalePoint;
@@ -56,7 +57,8 @@ import java.util.List;
 @SuppressWarnings({"unchecked"})
 public class FeaturePyramid<T extends ImageGray, D extends ImageGray>
 		implements InterestPointScaleSpacePyramid<T> {
-
+	private static ImageBorderValue IBV;
+	private static FactoryImageBorderAlgs FIBA;
 	// generalized feature detector.  Used to find candidate features in each scale's image
 	private GeneralFeatureDetector<T, D> detector;
 	private float baseThreshold;
@@ -171,9 +173,9 @@ public class FeaturePyramid<T extends ImageGray, D extends ImageGray>
 		int index2 = (spaceIndex + 2) % 3;
 
 		List<Point2D_I16> candidates = maximums[index1];
-		ImageBorder_F32 inten0 = (ImageBorder_F32) FactoryImageBorderAlgs.value(intensities[index0], 0);
+		ImageBorder_F32 inten0 = (ImageBorder_F32) FIBA.value(intensities[index0], 0, IBV);
 		GrayF32 inten1 = intensities[index1];
-		ImageBorder_F32 inten2 = (ImageBorder_F32) FactoryImageBorderAlgs.value(intensities[index2], 0);
+		ImageBorder_F32 inten2 = (ImageBorder_F32) FIBA.value(intensities[index2], 0, IBV);
 
 		float scale0 = (float) ss.scale[layerID - 1];
 		float scale1 = (float) ss.scale[layerID];

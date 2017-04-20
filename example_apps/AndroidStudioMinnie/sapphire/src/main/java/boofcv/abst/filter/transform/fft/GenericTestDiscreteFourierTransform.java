@@ -21,6 +21,7 @@ package boofcv.abst.filter.transform.fft;
 import boofcv.abst.transform.fft.DiscreteFourierTransform;
 import boofcv.alg.misc.GImageMiscOps;
 import boofcv.alg.misc.GImageStatistics;
+import boofcv.alg.misc.ImageStatistics;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.struct.image.ImageGray;
 import boofcv.struct.image.ImageInterleaved;
@@ -35,7 +36,9 @@ import static org.junit.Assert.*;
  * @author Peter Abeles
  */
 public abstract class GenericTestDiscreteFourierTransform<T extends ImageGray, I extends ImageInterleaved> {
-
+	private static GeneralizedImageOps GIO;
+	private static GImageStatistics GIS;
+	private static ImageStatistics IS;
 	protected Random rand = new Random(234);
 
 	boolean subimage;
@@ -92,7 +95,7 @@ public abstract class GenericTestDiscreteFourierTransform<T extends ImageGray, I
 		I transform = createTransform(20,25);
 
 		GImageMiscOps.fillUniform(input,rand,-20,20);
-		double value = GImageStatistics.sum(input);
+		double value = GIS.sum(input, IS);
 		// NOTE: the value probably depends on when the scaling is invoked.  Must need to be more robust here
 
 		DiscreteFourierTransform<T,I> alg = createAlgorithm();
@@ -100,9 +103,9 @@ public abstract class GenericTestDiscreteFourierTransform<T extends ImageGray, I
 		alg.forward(input, transform);
 
 		// imaginary component should be zero
-		assertEquals(0,GeneralizedImageOps.get(transform,0,0,1),tolerance);
+		assertEquals(0,GIO.get(transform,0,0,1),tolerance);
 		// this should be the average value
-		assertEquals(value, GeneralizedImageOps.get(transform, 0, 0,0), tolerance);
+		assertEquals(value, GIO.get(transform, 0, 0,0), tolerance);
 	}
 
 	/**
@@ -150,8 +153,8 @@ public abstract class GenericTestDiscreteFourierTransform<T extends ImageGray, I
 		DiscreteFourierTransform<T,I> alg = createAlgorithm();
 
 		alg.forward(input,transform);
-		assertEquals( GeneralizedImageOps.get(transform,4,0,0),GeneralizedImageOps.get(transform,6,0,0),tolerance);
-		assertEquals( GeneralizedImageOps.get(transform,4,0,1),-GeneralizedImageOps.get(transform,6,0,1),tolerance);
+		assertEquals( GIO.get(transform,4,0,0),GIO.get(transform,6,0,0),tolerance);
+		assertEquals( GIO.get(transform,4,0,1),-GIO.get(transform,6,0,1),tolerance);
 	}
 
 	/**
@@ -166,8 +169,8 @@ public abstract class GenericTestDiscreteFourierTransform<T extends ImageGray, I
 		DiscreteFourierTransform<T,I> alg = createAlgorithm();
 
 		alg.forward(input,transform);
-		assertEquals( GeneralizedImageOps.get(transform,3,0,0),GeneralizedImageOps.get(transform,4,0,0),tolerance);
-		assertEquals( GeneralizedImageOps.get(transform,3,0,1),-GeneralizedImageOps.get(transform,4,0,1),tolerance);
+		assertEquals( GIO.get(transform,3,0,0),GIO.get(transform,4,0,0),tolerance);
+		assertEquals( GIO.get(transform,3,0,1),-GIO.get(transform,4,0,1),tolerance);
 	}
 
 	@Test

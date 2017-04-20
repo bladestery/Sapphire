@@ -39,6 +39,7 @@ import java.util.Random;
  * @author Peter Abeles
  */
 public abstract class PermuteWaveletCompare {
+	private GeneralizedImageOps GIO;
 	Random rand = new Random(234);
 
 	Class inputType;
@@ -76,9 +77,9 @@ public abstract class PermuteWaveletCompare {
 			heightOut = t;
 		}
 
-		ImageGray input = GeneralizedImageOps.createSingleBand(inputType, widthIn, heightIn);
-		ImageGray found = GeneralizedImageOps.createSingleBand(outputType, widthOut, heightOut);
-		ImageGray expected = GeneralizedImageOps.createSingleBand(outputType, widthOut, heightOut);
+		ImageGray input = GIO.createSingleBand(inputType, widthIn, heightIn);
+		ImageGray found = GIO.createSingleBand(outputType, widthOut, heightOut);
+		ImageGray expected = GIO.createSingleBand(outputType, widthOut, heightOut);
 
 		GImageMiscOps.fillUniform(input, rand, 0, 50);
 

@@ -20,9 +20,23 @@ package boofcv.alg.filter.derivative;
 
 import boofcv.abst.filter.FilterImageInterface;
 import boofcv.abst.filter.FilterSequence;
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.filter.blur.BlurImageOps;
+import boofcv.alg.filter.blur.GBlurImageOps;
+import boofcv.alg.filter.blur.impl.ImplMedianHistogramInner;
+import boofcv.alg.filter.blur.impl.ImplMedianSortEdgeNaive;
+import boofcv.alg.filter.blur.impl.ImplMedianSortNaive;
+import boofcv.alg.filter.convolve.ConvolveImageMean;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
+import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.BorderType;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.filter.convolve.FactoryConvolve;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.convolve.Kernel1D;
 import boofcv.struct.convolve.Kernel2D;
 import boofcv.struct.image.ImageGray;
@@ -39,7 +53,21 @@ import java.lang.reflect.Method;
  */
 @SuppressWarnings({"unchecked"})
 public class CompareDerivativeToConvolution {
-
+	private static FactoryImageBorder FIB;
+	private static GBlurImageOps GBIO;
+	private static InputSanityCheck ISC;
+	private static GeneralizedImageOps GIO;
+	private static BlurImageOps BIO;
+	private static ConvolveImageMean CIM;
+	private static FactoryKernelGaussian FKG;
+	private static ConvolveNormalized CN;
+	private static ConvolveNormalizedNaive CNN;
+	private static ConvolveImageNoBorder CINB;
+	private static ConvolveNormalized_JustBorder CNJB;
+	private static ImplMedianHistogramInner IMHI;
+	private static ImplMedianSortEdgeNaive IMSEN;
+	private static ImplMedianSortNaive IMSN;
+	private static ImplConvolveMean ICM;
 	Method m;
 	FilterImageInterface outputFilters[];
 	Border borders[];
@@ -104,7 +132,7 @@ public class CompareDerivativeToConvolution {
 		ImageGray expectedOutput[] = new ImageGray[param.length-2];
 		for( int i = 0; i < expectedOutput.length; i++ ) {
 			expectedOutput[i] = (ImageGray)outputImages[i].createNew(inputImage.width,inputImage.height);
-			outputFilters[i].process(inputImage,expectedOutput[i]);
+			outputFilters[i].process(inputImage,expectedOutput[i], GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM);
 		}
 
 		// compute results from the test function
@@ -115,7 +143,7 @@ public class CompareDerivativeToConvolution {
 		}
 		if( param.length == numImageOutputs + 2 ) {
 			if( processBorder ) {
-				testInputs[param.length-1] = FactoryImageBorder.single(inputImage.getClass(), BorderType.EXTENDED);
+				testInputs[param.length-1] = FIB.single(inputImage.getClass(), BorderType.EXTENDED);
 			} else {
 				testInputs[param.length-1] = null;
 			}

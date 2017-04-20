@@ -20,7 +20,12 @@ package boofcv.alg.feature.detect.intensity.impl;
 
 import boofcv.alg.InputSanityCheck;
 import boofcv.alg.feature.detect.intensity.GradientCornerIntensity;
+import boofcv.alg.filter.convolve.ConvolveImageMean;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
 import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.convolve.Kernel1D_I32;
 import boofcv.struct.image.GrayF32;
@@ -31,7 +36,12 @@ import boofcv.struct.image.GrayS32;
  * @author Peter Abeles
  */
 public abstract class ImplSsdCornerWeighted_S16 implements GradientCornerIntensity<GrayS16> {
-
+	private static InputSanityCheck ISC;
+	private static FactoryKernelGaussian FKG;
+	private static ConvolveNormalized CN;
+	private static ConvolveNormalizedNaive CNN;
+	private static ConvolveImageNoBorder CINB;
+	private static ConvolveNormalized_JustBorder CNJB;
 	int radius;
 	Kernel1D_I32 kernel;
 	GrayS32 imgXX = new GrayS32(1,1);
@@ -44,12 +54,12 @@ public abstract class ImplSsdCornerWeighted_S16 implements GradientCornerIntensi
 
 	public ImplSsdCornerWeighted_S16(int radius) {
 		this.radius = radius;
-		kernel = FactoryKernelGaussian.gaussian(Kernel1D_I32.class, -1, radius);
+		kernel = FKG.gaussian(Kernel1D_I32.class, -1, radius);
 	}
 
 	@Override
 	public void process(GrayS16 derivX, GrayS16 derivY, GrayF32 intensity ) {
-		InputSanityCheck.checkSameShape(derivX, derivY, intensity);
+		ISC.checkSameShape(derivX, derivY, intensity);
 
 		int w = derivX.width;
 		int h = derivX.height;
@@ -95,8 +105,8 @@ public abstract class ImplSsdCornerWeighted_S16 implements GradientCornerIntensi
 	protected abstract float computeResponse();
 
 	private void blur(GrayS32 image , GrayS32 temp ) {
-		ConvolveNormalized.horizontal(kernel, image, temp);
-		ConvolveNormalized.vertical(kernel,temp,image);
+		CN.horizontal(kernel, image, temp, ISC,CNN, CINB, CNJB);
+		CN.vertical(kernel,temp,image, ISC,CNN, CINB, CNJB);
 	}
 
 	@Override

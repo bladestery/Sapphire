@@ -37,6 +37,7 @@ import static org.junit.Assert.assertTrue;
  */
 public abstract class ChecksGeneralFeatureIntensity<I extends ImageGray, D extends ImageGray>
 {
+	private GeneralizedImageOps GIO;
 	public List<Class> listInputTypes = new ArrayList<>();
 	public List<Class> listDerivTypes = new ArrayList<>();
 
@@ -86,12 +87,12 @@ public abstract class ChecksGeneralFeatureIntensity<I extends ImageGray, D exten
 	}
 
 	private void randomInit(Class<I> imageType , Class<D> derivType , int width, int height) {
-		input = GeneralizedImageOps.createSingleBand(imageType, width, height);
-		derivX = GeneralizedImageOps.createSingleBand(derivType,width,height);
-		derivY = GeneralizedImageOps.createSingleBand(derivType,width,height);
-		derivXX = GeneralizedImageOps.createSingleBand(derivType,width,height);
-		derivYY = GeneralizedImageOps.createSingleBand(derivType,width,height);
-		derivXY = GeneralizedImageOps.createSingleBand(derivType,width,height);
+		input = GIO.createSingleBand(imageType, width, height);
+		derivX = GIO.createSingleBand(derivType,width,height);
+		derivY = GIO.createSingleBand(derivType,width,height);
+		derivXX = GIO.createSingleBand(derivType,width,height);
+		derivYY = GIO.createSingleBand(derivType,width,height);
+		derivXY = GIO.createSingleBand(derivType,width,height);
 
 		GImageMiscOps.fillUniform(input, rand, 0, 255);
 		GImageMiscOps.fillUniform(derivX, rand, -100, 100);

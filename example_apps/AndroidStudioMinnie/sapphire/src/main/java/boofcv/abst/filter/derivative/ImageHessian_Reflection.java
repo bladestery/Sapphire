@@ -37,6 +37,7 @@ import java.lang.reflect.Method;
 public class ImageHessian_Reflection<Output extends ImageGray>
 		implements ImageHessian<Output>
 {
+	private static FactoryImageBorder FIB;
 	// How the image border should be handled
 	BorderType borderType = BoofDefaults.DERIV_BORDER_TYPE;
 	ImageBorder<Output> border;
@@ -45,7 +46,7 @@ public class ImageHessian_Reflection<Output extends ImageGray>
 
 	public ImageHessian_Reflection(Method m ) {
 		this.m = m;
-		setBorderType(borderType);
+		setBorderType(borderType, FIB);
 	}
 
 	@Override
@@ -58,10 +59,10 @@ public class ImageHessian_Reflection<Output extends ImageGray>
 	}
 
 	@Override
-	public void setBorderType(BorderType type) {
+	public void setBorderType(BorderType type, FactoryImageBorder FIB) {
 		this.borderType = type;
 		Class imageType = m.getParameterTypes()[0];
-		border = FactoryImageBorder.single(imageType, borderType);
+		border = FIB.single(imageType, borderType);
 	}
 
 	@Override
@@ -78,7 +79,7 @@ public class ImageHessian_Reflection<Output extends ImageGray>
 	}
 
 	@Override
-	public ImageType<Output> getDerivativeType() {
-		return ImageType.single((Class)m.getParameterTypes()[2]);
+	public ImageType<Output> getDerivativeType(ImageType IT) {
+		return IT.single((Class)m.getParameterTypes()[2]);
 	}
 }

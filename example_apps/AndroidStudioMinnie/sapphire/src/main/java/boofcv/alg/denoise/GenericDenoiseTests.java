@@ -18,8 +18,10 @@
 
 package boofcv.alg.denoise;
 
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.misc.GImageMiscOps;
 import boofcv.alg.misc.GImageStatistics;
+import boofcv.alg.misc.ImageStatistics;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.struct.image.ImageGray;
 import boofcv.testing.BoofTesting;
@@ -37,7 +39,10 @@ import static org.junit.Assert.assertTrue;
  */
 @SuppressWarnings({"unchecked"})
 public abstract class GenericDenoiseTests<T extends ImageGray> {
-
+	private static GeneralizedImageOps GIO;
+	private static GImageStatistics GIS;
+	private static ImageStatistics IS;
+	private static InputSanityCheck ISC;
 	Random rand = new Random(10);
 	int width = 20;
 	int height = 30;
@@ -65,15 +70,15 @@ public abstract class GenericDenoiseTests<T extends ImageGray> {
 	public void performTest( T imageNoisy , T imageDenoised ) {
 		denoiseImage(imageNoisy,imageDenoised);
 
-		double noisyMSE = GImageStatistics.meanDiffSq(image, imageNoisy);
-		double denoisedMSE = GImageStatistics.meanDiffSq(image, imageDenoised);
+		double noisyMSE = GIS.meanDiffSq(image, imageNoisy, IS, ISC);
+		double denoisedMSE = GIS.meanDiffSq(image, imageDenoised, IS, ISC);
 
 		assertTrue( denoisedMSE < noisyMSE );
 	}
 
 	private void declareImages() {
-		image = GeneralizedImageOps.createSingleBand(imageType, width, height);
-		imageDenoised = GeneralizedImageOps.createSingleBand(imageType, width, height);
+		image = GIO.createSingleBand(imageType, width, height);
+		imageDenoised = GIO.createSingleBand(imageType, width, height);
 
 		// render a simple scene
 		GImageMiscOps.fill(image, 20);

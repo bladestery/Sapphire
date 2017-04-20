@@ -33,6 +33,8 @@ import boofcv.struct.image.*;
 public class BackgroundStationaryBasic_IL<T extends ImageInterleaved>
 	extends BackgroundStationaryBasic<T>
 {
+	private static ImageMiscOps IMO;
+	private static InputSanityCheck ISC;
 	// storage for background image
 	protected InterleavedF32 background;
 
@@ -71,7 +73,7 @@ public class BackgroundStationaryBasic_IL<T extends ImageInterleaved>
 			GConvertImage.convert(frame, background);
 			return;
 		} else {
-			InputSanityCheck.checkSameShape(background,frame);
+			ISC.checkSameShape(background,frame);
 		}
 
 		inputWrapper.wrap(frame);
@@ -98,10 +100,10 @@ public class BackgroundStationaryBasic_IL<T extends ImageInterleaved>
 	@Override
 	public void segment(T frame, GrayU8 segmented) {
 		if( background.width == 1 ) {
-			ImageMiscOps.fill(segmented,unknownValue);
+			IMO.fill(segmented,unknownValue);
 			return;
 		}
-		InputSanityCheck.checkSameShape(background,frame,segmented);
+		ISC.checkSameShape(background,frame,segmented);
 		inputWrapper.wrap(frame);
 
 		int numBands = background.getNumBands();

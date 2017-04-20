@@ -38,7 +38,7 @@ import static org.junit.Assert.assertTrue;
  */
 @SuppressWarnings({"unchecked"})
 public abstract class GeneralDetectLineTests {
-
+	private GeneralizedImageOps GIO;
 	int width = 40;
 	int height = 50;
 
@@ -76,7 +76,7 @@ public abstract class GeneralDetectLineTests {
 	}
 
 	private <T extends ImageGray> void obviousLine(Class<T> imageType ) {
-		T input = GeneralizedImageOps.createSingleBand(imageType, width, height);
+		T input = GIO.createSingleBand(imageType, width, height);
 
 		GImageMiscOps.fillRectangle(input, 30, 0, 0, lineLocation, height);
 
@@ -105,7 +105,7 @@ public abstract class GeneralDetectLineTests {
 	}
 
 	private <T extends ImageGray> void subImages(Class<T> imageType ) {
-		T input = GeneralizedImageOps.createSingleBand(imageType, width, height);
+		T input = GIO.createSingleBand(imageType, width, height);
 
 		GImageMiscOps.fillRectangle(input,30,0,0,lineLocation,height);
 		T sub = BoofTesting.createSubImageOf(input);

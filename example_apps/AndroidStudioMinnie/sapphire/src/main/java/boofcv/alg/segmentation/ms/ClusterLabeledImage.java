@@ -45,6 +45,7 @@ import org.ddogleg.struct.GrowQueue_I32;
  * @author Peter Abeles
  */
 public class ClusterLabeledImage extends RegionMergeTree {
+	private ImageMiscOps IMO;
 
 	// which connectivity rule is used.  4 or 8.
 	protected ConnectRule connectRule;
@@ -128,7 +129,7 @@ public class ClusterLabeledImage extends RegionMergeTree {
 		regionMemberCount.reset();
 
 		setUpEdges(input,output);
-		ImageMiscOps.fill(output,-1);
+		IMO.fill(output,-1);
 
 		// this is a bit of a hack here.  Normally you call the parent's init function.
 		// since the number of regions is not initially known this will grow

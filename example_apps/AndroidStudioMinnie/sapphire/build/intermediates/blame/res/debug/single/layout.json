@@ -20,10 +20,6 @@
         "source": "/home/ubuntu/.android/build-cache/8a4097d10137a30eb28c21d41dbd1fd3719aea28/output/res/layout/abc_action_bar_title_item.xml"
     },
     {
-        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/res/merged/debug/layout/notification_action_tombstone.xml",
-        "source": "/home/ubuntu/.android/build-cache/8a4097d10137a30eb28c21d41dbd1fd3719aea28/output/res/layout/notification_action_tombstone.xml"
-    },
-    {
         "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/res/merged/debug/layout/canny_controls.xml",
         "source": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/res/layout/canny_controls.xml"
     },
@@ -50,10 +46,6 @@
     {
         "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/res/merged/debug/layout/select_dialog_singlechoice_material.xml",
         "source": "/home/ubuntu/.android/build-cache/8a4097d10137a30eb28c21d41dbd1fd3719aea28/output/res/layout/select_dialog_singlechoice_material.xml"
-    },
-    {
-        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/res/merged/debug/layout/notification_template_icon_group.xml",
-        "source": "/home/ubuntu/.android/build-cache/8a4097d10137a30eb28c21d41dbd1fd3719aea28/output/res/layout/notification_template_icon_group.xml"
     },
     {
         "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/res/merged/debug/layout/abc_activity_chooser_view_list_item.xml",
@@ -218,10 +210,6 @@
     {
         "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/res/merged/debug/layout/abc_search_dropdown_item_icons_2line.xml",
         "source": "/home/ubuntu/.android/build-cache/8a4097d10137a30eb28c21d41dbd1fd3719aea28/output/res/layout/abc_search_dropdown_item_icons_2line.xml"
-    },
-    {
-        "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/res/merged/debug/layout/notification_action.xml",
-        "source": "/home/ubuntu/.android/build-cache/8a4097d10137a30eb28c21d41dbd1fd3719aea28/output/res/layout/notification_action.xml"
     },
     {
         "merged": "/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/res/merged/debug/layout/fiducial_image_library.xml",

@@ -34,7 +34,7 @@ import georegression.struct.point.Point2D_F64;
  */
 public class ScalePointDisplayActivity extends DemoVideoDisplayActivity
 		implements AdapterView.OnItemSelectedListener  {
-
+	private ImageType IT;
 	Spinner spinner;
 
 	Paint paintMax;
@@ -119,7 +119,7 @@ public class ScalePointDisplayActivity extends DemoVideoDisplayActivity
 		FastQueue<ScalePoint> foundGUI = new FastQueue<ScalePoint>(ScalePoint.class,true);
 
 		public PointProcessing(InterestPointDetector<GrayU8> detector) {
-			super(ImageType.single(GrayU8.class));
+			super(IT.single(GrayU8.class));
 			this.detector = detector;
 		}
 

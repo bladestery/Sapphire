@@ -19,6 +19,7 @@
 package boofcv.struct.image;
 
 import boofcv.core.image.GeneralizedImageOps;
+import sapphire.app.SapphireObject;
 
 import java.io.Serializable;
 import java.lang.reflect.Array;
@@ -28,8 +29,7 @@ import java.lang.reflect.Array;
  *
  * @author Peter Abeles
  */
-public class ImageType<T extends ImageBase> implements Serializable {
-
+public class ImageType<T extends ImageBase> implements SapphireObject, Serializable {
 	/**
 	 * Specifies the image data structure
 	 */
@@ -43,33 +43,35 @@ public class ImageType<T extends ImageBase> implements Serializable {
 	 */
 	int numBands;
 
+	public ImageType() {}
+
 	public ImageType(Family family, ImageDataType dataType, int numBands) {
 		this.family = family;
 		this.dataType = dataType;
 		this.numBands = numBands;
 	}
 
-	public static <I extends ImageGray> ImageType<I> single(Class<I> imageType ) {
+	public <I extends ImageGray> ImageType<I> single(Class<I> imageType ) {
 		return new ImageType<>(Family.GRAY, ImageDataType.classToType(imageType), 1);
 	}
 
-	public static <I extends ImageGray> ImageType<I> single(ImageDataType type ) {
+	public <I extends ImageGray> ImageType<I> single(ImageDataType type ) {
 		return new ImageType<>(Family.GRAY, type, 1);
 	}
 
-	public static <I extends ImageGray> ImageType<Planar<I>> pl(int numBands , Class<I> imageType ) {
+	public <I extends ImageGray> ImageType<Planar<I>> pl(int numBands , Class<I> imageType ) {
 		return new ImageType<>(Family.PLANAR, ImageDataType.classToType(imageType), numBands);
 	}
 
-	public static <I extends ImageGray> ImageType<Planar<I>> pl(int numBands , ImageDataType type ) {
+	public <I extends ImageGray> ImageType<Planar<I>> pl(int numBands , ImageDataType type ) {
 		return new ImageType<>(Family.PLANAR, type, numBands);
 	}
 
-	public static <I extends ImageInterleaved> ImageType<I> il(int numBands, Class<I> imageType) {
+	public <I extends ImageInterleaved> ImageType<I> il(int numBands, Class<I> imageType) {
 		return new ImageType<>(Family.INTERLEAVED, ImageDataType.classToType(imageType), numBands);
 	}
 
-	public static <I extends ImageInterleaved> ImageType<I> il(int numBands, ImageDataType type) {
+	public <I extends ImageInterleaved> ImageType<I> il(int numBands, ImageDataType type) {
 		return new ImageType<>(Family.INTERLEAVED, type, numBands);
 	}
 
@@ -85,12 +87,13 @@ public class ImageType<T extends ImageBase> implements Serializable {
 	 * @return New instance of the image.
 	 */
 	public T createImage( int width , int height ) {
+		GeneralizedImageOps GIO = new GeneralizedImageOps();
 		switch( family ) {
 			case GRAY:
-				return (T)GeneralizedImageOps.createSingleBand(getImageClass(),width,height);
+				return (T)GIO.createSingleBand(getImageClass(),width,height);
 
 			case INTERLEAVED:
-				return (T)GeneralizedImageOps.createInterleaved(getImageClass(), width, height, numBands);
+				return (T)GIO.createInterleaved(getImageClass(), width, height, numBands);
 
 			case PLANAR:
 				return (T)new Planar(getImageClass(),width,height,numBands);
@@ -131,7 +134,7 @@ public class ImageType<T extends ImageBase> implements Serializable {
 		return getImageClass(family,dataType);
 	}
 
-	public static Class getImageClass( Family family , ImageDataType dataType ) {
+	public Class getImageClass( Family family , ImageDataType dataType ) {
 		switch( family ) {
 			case GRAY:
 			case PLANAR:
@@ -172,7 +175,7 @@ public class ImageType<T extends ImageBase> implements Serializable {
 		return "ImageType( "+family+" "+dataType+" "+numBands+" )";
 	}
 
-	public static enum Family
+	public enum Family
 	{
 		GRAY,
 		PLANAR,

@@ -23,6 +23,8 @@ import boofcv.struct.ConnectRule;
 import boofcv.struct.image.GrayS32;
 import boofcv.struct.image.GrayU8;
 import georegression.struct.point.Point2D_I32;
+import sapphire.app.SapphireObject;
+
 import org.ddogleg.struct.FastQueue;
 
 import java.util.ArrayList;
@@ -54,8 +56,7 @@ import java.util.List;
  *
  * @author Peter Abeles
  */
-public class LinearContourLabelChang2004 {
-
+public class LinearContourLabelChang2004 implements SapphireObject {
 	// traces edge pixels
 	private ContourTracer tracer;
 
@@ -85,18 +86,18 @@ public class LinearContourLabelChang2004 {
 	 * @param binary Input binary image. Not modified.
 	 * @param labeled Output. Labeled image.  Modified.
 	 */
-	public void process(GrayU8 binary , GrayS32 labeled ) {
+	public void process(GrayU8 binary , GrayS32 labeled, ImageMiscOps IMO) {
 		// initialize data structures
 
 		// ensure that the image border pixels are filled with zero by enlarging the image
 		if( border.width != binary.width+2 || border.height != binary.height+2)  {
 			border.reshape(binary.width + 2, binary.height + 2);
-			ImageMiscOps.fillBorder(border, 0, 1);
+			IMO.fillBorder(border, 0, 1);
 		}
 		border.subimage(1,1,border.width-1,border.height-1, null).setTo(binary);
 
 		// labeled image must initially be filled with zeros
-		ImageMiscOps.fill(labeled,0);
+		IMO.fill(labeled,0);
 
 		binary = border;
 		storagePoints.reset();

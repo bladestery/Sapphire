@@ -52,7 +52,7 @@ import static org.junit.Assert.*;
  * @author Peter Abeles
  */
 public abstract class GenericPlanarCalibrationDetectorChecks {
-
+	private ImageMiscOps IMO;
 	int width = 300,height= 300;
 
 	GrayF32 original;
@@ -179,7 +179,7 @@ public abstract class GenericPlanarCalibrationDetectorChecks {
 
 		PixelTransform2_F32 pixelTransform = new PointToPixelTransform_F32(d2o);
 
-		ImageMiscOps.fill(distorted, 0xff);
+		IMO.fill(distorted, 0xff);
 		DistortImageOps.distortSingle(original, distorted, pixelTransform,
 				InterpolationType.BILINEAR, BorderType.EXTENDED);
 

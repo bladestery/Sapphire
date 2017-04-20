@@ -35,6 +35,9 @@ import boofcv.struct.image.*;
 public class BackgroundStationaryGaussian_SB<T extends ImageGray>
 		extends BackgroundStationaryGaussian<T>
 {
+	private static InputSanityCheck ISC;
+	private static ImageType IT;
+	private static ImageMiscOps IMO;
 	// wrappers which provide abstraction across image types
 	protected GImageGray inputWrapper;
 
@@ -50,7 +53,7 @@ public class BackgroundStationaryGaussian_SB<T extends ImageGray>
 	 */
 	public BackgroundStationaryGaussian_SB(float learnRate, float threshold, Class<T> imageType)
 	{
-		super(learnRate, threshold, ImageType.single(imageType));
+		super(learnRate, threshold, IT.single(imageType));
 
 		inputWrapper = FactoryGImageGray.create(imageType);
 	}
@@ -68,7 +71,7 @@ public class BackgroundStationaryGaussian_SB<T extends ImageGray>
 			GImageMiscOps.fill(background.getBand(1),initialVariance);
 			return;
 		} else {
-			InputSanityCheck.checkSameShape(background, frame);
+			ISC.checkSameShape(background, frame);
 		}
 
 		inputWrapper.wrap(frame);
@@ -101,10 +104,10 @@ public class BackgroundStationaryGaussian_SB<T extends ImageGray>
 	@Override
 	public void segment( T frame, GrayU8 segmented) {
 		if( background.width == 1 ) {
-			ImageMiscOps.fill(segmented, unknownValue);
+			IMO.fill(segmented, unknownValue);
 			return;
 		}
-		InputSanityCheck.checkSameShape(background,frame,segmented);
+		ISC.checkSameShape(background,frame,segmented);
 		inputWrapper.wrap(frame);
 
 		GrayF32 backgroundMean = background.getBand(0);

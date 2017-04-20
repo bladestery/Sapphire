@@ -65,7 +65,7 @@ import boofcv.struct.sparse.SparseScaleGradient;
  * @author Peter Abeles
  */
 public class DescribePointSurf<II extends ImageGray> {
-
+	private static FactoryKernelGaussian FKG;
 	// Number of sub-regions wide the large grid is
 	protected int widthLargeGrid;
 	// Number of sample points wide a sub-region is
@@ -113,7 +113,7 @@ public class DescribePointSurf<II extends ImageGray> {
 		this.widthSample = widthSample;
 
 		int radius = (widthLargeGrid*widthSubRegion)/2;
-		weight = FactoryKernelGaussian.gaussianWidth(weightSigma, radius * 2);
+		weight = FKG.gaussianWidth(weightSigma, radius * 2);
 
 		// normalize to reduce numerical issues.
 		// not sure if this makes any difference.

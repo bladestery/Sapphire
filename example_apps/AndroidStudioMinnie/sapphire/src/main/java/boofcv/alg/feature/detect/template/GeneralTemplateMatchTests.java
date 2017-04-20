@@ -42,7 +42,8 @@ import static org.junit.Assert.*;
  */
 @SuppressWarnings("unchecked")
 public abstract class GeneralTemplateMatchTests<T extends ImageGray> {
-
+	private ImageStatistics IS;
+	private GeneralizedImageOps GIO;
 	Random rand = new Random(344);
 
 	// image and template being matched
@@ -59,9 +60,9 @@ public abstract class GeneralTemplateMatchTests<T extends ImageGray> {
 	public GeneralTemplateMatchTests(TemplateMatchingIntensity<T> alg, Class<T> imageType) {
 		this.alg = alg;
 
-		image = GeneralizedImageOps.createSingleBand(imageType, 30, 40);
-		template = GeneralizedImageOps.createSingleBand(imageType, 5, 8);
-		mask = GeneralizedImageOps.createSingleBand(imageType, 5, 8);
+		image = GIO.createSingleBand(imageType, 30, 40);
+		template = GIO.createSingleBand(imageType, 5, 8);
+		mask = GIO.createSingleBand(imageType, 5, 8);
 
 		GImageMiscOps.fillUniform(template, rand, 50, 60);
 	}
@@ -192,7 +193,7 @@ public abstract class GeneralTemplateMatchTests<T extends ImageGray> {
 		GImageMiscOps.fill(alg.getIntensity(),0);
 		alg.setInputImage(image);
 		alg.process(template, mask);
-		assertEquals(0, ImageStatistics.maxAbs(alg.getIntensity()),1e-4f);
+		assertEquals(0, IS.maxAbs(alg.getIntensity()),1e-4f);
 	}
 
 	/**
@@ -256,8 +257,8 @@ public abstract class GeneralTemplateMatchTests<T extends ImageGray> {
 	}
 
 	public float fractionBest(GrayF32 intensity , int x , int y ) {
-		float min = ImageStatistics.min(intensity);
-		float max = ImageStatistics.max(intensity);
+		float min = IS.min(intensity);
+		float max = IS.max(intensity);
 
 		float value = intensity.get(x,y);
 
@@ -265,9 +266,9 @@ public abstract class GeneralTemplateMatchTests<T extends ImageGray> {
 	}
 
 	public float fractionAverage(GrayF32 intensity , int x , int y ) {
-		float min = ImageStatistics.min(intensity);
-		float max = ImageStatistics.max(intensity);
-		float average = (float)ImageStatistics.mean(intensity);
+		float min = IS.min(intensity);
+		float max = IS.max(intensity);
+		float average = (float)IS.mean(intensity);
 
 		return (average-min)/(max-min);
 	}

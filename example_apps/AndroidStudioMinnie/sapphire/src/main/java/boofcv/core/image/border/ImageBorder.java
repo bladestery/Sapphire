@@ -19,6 +19,7 @@
 package boofcv.core.image.border;
 
 import boofcv.struct.image.ImageBase;
+import sapphire.app.SapphireObject;
 
 /**
  * A wrapper around a normal image that returns a numeric value if a pixel is requested that is outside of the image
@@ -26,7 +27,7 @@ import boofcv.struct.image.ImageBase;
  *
  * @author Peter Abeles
  */
-public abstract class ImageBorder<T extends ImageBase> {
+public abstract class ImageBorder<T extends ImageBase> implements SapphireObject {
 
 	T image;
 

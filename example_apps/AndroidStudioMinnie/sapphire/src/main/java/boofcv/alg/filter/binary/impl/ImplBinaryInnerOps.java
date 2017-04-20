@@ -19,6 +19,7 @@
 package boofcv.alg.filter.binary.impl;
 
 import boofcv.struct.image.GrayU8;
+import sapphire.app.SapphireObject;
 
 /**
  * <p>
@@ -32,9 +33,10 @@ import boofcv.struct.image.GrayU8;
  * @author Peter Abeles
  * @see boofcv.alg.filter.binary.BinaryImageOps
  */
-public class ImplBinaryInnerOps {
+public class ImplBinaryInnerOps implements SapphireObject {
+	public ImplBinaryInnerOps() {}
 
-	public static void erode4(GrayU8 input, GrayU8 output) {
+	public void erode4(GrayU8 input, GrayU8 output) {
 
 		final int h = input.height - 1;
 		final int w = input.width - 2;
@@ -55,7 +57,7 @@ public class ImplBinaryInnerOps {
 		}
 	}
 
-	public static void dilate4(GrayU8 input, GrayU8 output) {
+	public void dilate4(GrayU8 input, GrayU8 output) {
 
 		final int h = input.height - 1;
 		final int w = input.width - 2;
@@ -77,7 +79,7 @@ public class ImplBinaryInnerOps {
 		}
 	}
 
-	public static void edge4(GrayU8 input, GrayU8 output) {
+	public void edge4(GrayU8 input, GrayU8 output) {
 
 		final int h = input.height - 1;
 		final int w = input.width - 2;
@@ -98,7 +100,7 @@ public class ImplBinaryInnerOps {
 		}
 	}
 
-	public static void erode8(GrayU8 input, GrayU8 output) {
+	public void erode8(GrayU8 input, GrayU8 output) {
 
 		final int h = input.height - 1;
 		final int w = input.width - 2;
@@ -120,7 +122,7 @@ public class ImplBinaryInnerOps {
 		}
 	}
 
-	public static void dilate8(GrayU8 input, GrayU8 output) {
+	public void dilate8(GrayU8 input, GrayU8 output) {
 
 		final int h = input.height - 1;
 		final int w = input.width - 2;
@@ -142,7 +144,7 @@ public class ImplBinaryInnerOps {
 		}
 	}
 
-	public static void edge8(GrayU8 input, GrayU8 output) {
+	public void edge8(GrayU8 input, GrayU8 output) {
 
 		final int h = input.height - 1;
 		final int w = input.width - 2;
@@ -164,7 +166,7 @@ public class ImplBinaryInnerOps {
 		}
 	}
 
-	public static void removePointNoise(GrayU8 input, GrayU8 output) {
+	public void removePointNoise(GrayU8 input, GrayU8 output) {
 
 		final int h = input.height - 1;
 		final int w = input.width - 2;

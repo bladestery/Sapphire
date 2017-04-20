@@ -39,6 +39,7 @@ import java.util.List;
  */
 public class JpegByteImageSequence<T extends ImageBase> implements SimpleImageSequence<T> {
 
+	private static ImageType IT;
 	int index;
 	List<byte[]> jpegData = new ArrayList<>();
 
@@ -65,7 +66,7 @@ public class JpegByteImageSequence<T extends ImageBase> implements SimpleImageSe
 	}
 
 	public JpegByteImageSequence(Class<T> imageType, List<byte[]> jpegData, boolean loop) {
-		this(ImageType.single((Class)imageType), jpegData,loop);
+		this(IT.single((Class)imageType), jpegData,loop);
 	}
 
 	@Override

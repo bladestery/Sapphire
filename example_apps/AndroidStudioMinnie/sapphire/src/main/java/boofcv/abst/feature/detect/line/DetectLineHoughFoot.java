@@ -22,14 +22,20 @@ package boofcv.abst.feature.detect.line;
 import boofcv.abst.feature.detect.extract.ConfigExtract;
 import boofcv.abst.feature.detect.extract.NonMaxSuppression;
 import boofcv.abst.filter.derivative.ImageGradient;
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.feature.detect.edge.GGradientToEdgeFeatures;
+import boofcv.alg.feature.detect.edge.GradientToEdgeFeatures;
 import boofcv.alg.feature.detect.line.HoughTransformLineFootOfNorm;
 import boofcv.alg.feature.detect.line.ImageLinePruneMerge;
 import boofcv.alg.filter.binary.ThresholdImageOps;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
+import boofcv.core.image.GeneralizedImageOps;
 import boofcv.factory.feature.detect.extract.FactoryFeatureExtractor;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.ImageGray;
+import boofcv.struct.image.ImageType;
 import georegression.struct.line.LineParametric2D_F32;
 import org.ddogleg.struct.FastQueue;
 
@@ -53,7 +59,14 @@ import java.util.List;
  * @author Peter Abeles
  */
 public class DetectLineHoughFoot <I extends ImageGray, D extends ImageGray> implements DetectLine<I> {
-
+	private static ImageType IT;
+	private static GradientToEdgeFeatures GTEF;
+	private static GGradientToEdgeFeatures GGTEF;
+	private static ThresholdImageOps TIO;
+	private static InputSanityCheck ISC;
+	private static GeneralizedImageOps GIO;
+	private static DerivativeHelperFunctions DHF;
+	private static ConvolveImageNoBorder CINB;
 	// transform algorithm
 	HoughTransformLineFootOfNorm alg;
 
@@ -102,8 +115,8 @@ public class DetectLineHoughFoot <I extends ImageGray, D extends ImageGray> impl
 		NonMaxSuppression extractor = FactoryFeatureExtractor.nonmaxCandidate(
 				new ConfigExtract(localMaxRadius, minCounts, 0, false));
 		alg = new HoughTransformLineFootOfNorm(extractor,minDistanceFromOrigin);
-		derivX = gradient.getDerivativeType().createImage(1,1);
-		derivY = gradient.getDerivativeType().createImage(1, 1);
+		derivX = gradient.getDerivativeType(IT).createImage(1,1);
+		derivY = gradient.getDerivativeType(IT).createImage(1, 1);
 	}
 
 	@Override
@@ -113,10 +126,10 @@ public class DetectLineHoughFoot <I extends ImageGray, D extends ImageGray> impl
 		intensity.reshape(input.width,input.height);
 		binary.reshape(input.width,input.height);
 
-		gradient.process(input,derivX,derivY);
-		GGradientToEdgeFeatures.intensityAbs(derivX, derivY, intensity);
+		gradient.process(input,derivX,derivY, ISC, DHF, CINB);
+		GGTEF.intensityAbs(derivX, derivY, intensity, GTEF, ISC);
 
-		ThresholdImageOps.threshold(intensity, binary, thresholdEdge, false);
+		TIO.threshold(intensity, binary, thresholdEdge, false, ISC, GIO);
 
 		alg.transform(derivX,derivY,binary);
 		FastQueue<LineParametric2D_F32> lines = alg.extractLines();

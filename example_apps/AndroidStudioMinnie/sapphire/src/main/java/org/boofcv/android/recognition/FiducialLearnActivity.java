@@ -49,6 +49,7 @@ import georegression.struct.shapes.Quadrilateral_F64;
 public class FiducialLearnActivity extends DemoVideoDisplayActivity
 		implements View.OnTouchListener
 {
+	private ImageType IT;
 	public static final String TAG = "FiducialLearnActivity";
 
 	boolean touched = false;
@@ -107,7 +108,7 @@ public class FiducialLearnActivity extends DemoVideoDisplayActivity
 		GrowQueue_F64 area = new GrowQueue_F64();
 
 		public FiducialProcessor() {
-			super(ImageType.single(GrayU8.class));
+			super(IT.single(GrayU8.class));
 
 			paintBorder.setColor(Color.BLACK);
 			paintBorder.setStrokeWidth(6);

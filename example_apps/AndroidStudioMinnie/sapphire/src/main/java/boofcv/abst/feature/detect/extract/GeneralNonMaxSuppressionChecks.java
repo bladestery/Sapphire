@@ -34,7 +34,7 @@ import static org.junit.Assert.fail;
  * @author Peter Abeles
  */
 public abstract class GeneralNonMaxSuppressionChecks {
-
+	private ImageMiscOps IMO;
 	Random rand = new Random(123);
 
 	int width = 20;
@@ -69,7 +69,7 @@ public abstract class GeneralNonMaxSuppressionChecks {
 		alg.setThresholdMinimum(-5);
 		alg.setThresholdMaximum(5);
 
-		ImageMiscOps.fill(image,0);
+		IMO.fill(image,0);
 		if( alg.getUsesCandidates() ) {
 			candidatesMin.reset();
 			candidatesMax.reset();
@@ -260,7 +260,7 @@ public abstract class GeneralNonMaxSuppressionChecks {
 	public void checkSubImage() {
 		init();
 
-		ImageMiscOps.fillGaussian(image,rand,0,2,-100,100);
+		IMO.fillGaussian(image,rand,0,2,-100,100);
 		// make every pixel as a candidate since I'm not sure which ones are extremes.
 		for( int i = 0; i < image.height; i++ )
 			for( int j = 0; j < image.width; j++ ) {

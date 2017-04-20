@@ -19,6 +19,10 @@
 package boofcv.alg.tracker.sfot;
 
 import boofcv.abst.filter.derivative.ImageGradient;
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.feature.detect.edge.impl.ImplEdgeNonMaxSuppression;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
 import boofcv.alg.sfm.robust.DistanceScaleTranslateRotate2DSq;
 import boofcv.alg.sfm.robust.GenerateScaleTranslateRotate2D;
 import boofcv.alg.sfm.robust.ModelManagerScaleTranslateRotate2D;
@@ -51,6 +55,10 @@ import java.lang.reflect.Array;
  */
 public class SparseFlowObjectTracker<Image extends ImageGray, Derivative extends ImageGray>
 {
+	private GeneralizedImageOps GIO;
+	private static InputSanityCheck ISC;
+	private static DerivativeHelperFunctions DHF;
+	private static ConvolveImageNoBorder CINB;
 	// for the current image
 	private ImagePyramid<Image> currentImage;
 	private Derivative[] currentDerivX;
@@ -116,7 +124,7 @@ public class SparseFlowObjectTracker<Image extends ImageGray, Derivative extends
 		previousImage.process(input);
 		for( int i = 0; i < previousImage.getNumLayers(); i++ ) {
 			Image layer = previousImage.getLayer(i);
-			gradient.process(layer,previousDerivX[i],previousDerivY[i]);
+			gradient.process(layer,previousDerivX[i],previousDerivY[i], ISC, DHF, CINB);
 		}
 
 		trackLost = false;
@@ -194,7 +202,7 @@ public class SparseFlowObjectTracker<Image extends ImageGray, Derivative extends
 		currentImage.process(input);
 		for( int i = 0; i < currentImage.getNumLayers(); i++ ) {
 			Image layer = currentImage.getLayer(i);
-			gradient.process(layer,currentDerivX[i],currentDerivY[i]);
+			gradient.process(layer,currentDerivX[i],currentDerivY[i], ISC, DHF, CINB);
 		}
 
 		// convert to float to avoid excessive conversions from double to float
@@ -282,10 +290,10 @@ public class SparseFlowObjectTracker<Image extends ImageGray, Derivative extends
 			int w = currentImage.getWidth(i);
 			int h = currentImage.getHeight(i);
 
-			previousDerivX[i] = GeneralizedImageOps.createSingleBand(derivType, w, h);
-			previousDerivY[i] = GeneralizedImageOps.createSingleBand(derivType, w, h);
-			currentDerivX[i] = GeneralizedImageOps.createSingleBand(derivType, w, h);
-			currentDerivY[i] = GeneralizedImageOps.createSingleBand(derivType, w, h);
+			previousDerivX[i] = GIO.createSingleBand(derivType, w, h);
+			previousDerivY[i] = GIO.createSingleBand(derivType, w, h);
+			currentDerivX[i] = GIO.createSingleBand(derivType, w, h);
+			currentDerivY[i] = GIO.createSingleBand(derivType, w, h);
 		}
 
 		track = new PyramidKltFeature(numPyramidLayers,config.trackerFeatureRadius);

@@ -29,6 +29,7 @@ import boofcv.struct.image.ImageGray;
 public class WrapDisparitySadRect <T extends ImageGray, D extends ImageGray>
 		implements StereoDisparity<T,D>
 {
+	private GeneralizedImageOps GIO;
 	DisparityScoreRowFormat<T,D> alg;
 	D disparity;
 
@@ -40,7 +41,7 @@ public class WrapDisparitySadRect <T extends ImageGray, D extends ImageGray>
 	public void process(T imageLeft, T imageRight) {
 		if( disparity == null || disparity.width != imageLeft.width || disparity.height != imageLeft.height )  {
 			// make sure the image borders are marked as invalid
-			disparity = GeneralizedImageOps.createSingleBand(alg.getDisparityType(),imageLeft.width,imageLeft.height);
+			disparity = GIO.createSingleBand(alg.getDisparityType(),imageLeft.width,imageLeft.height);
 			GImageMiscOps.fill(disparity, getMaxDisparity() + 1);
 		}
 

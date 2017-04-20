@@ -29,7 +29,7 @@ import boofcv.struct.image.Planar;
  * @author Peter Abeles
  */
 public class GradientReduceToSingle {
-
+	private static InputSanityCheck ISC;
 	/**
 	 * Reduces the number of bands by selecting the band with the largest Frobenius norm and using
 	 * its gradient to be the output gradient on a pixel-by-pixel basis
@@ -42,11 +42,11 @@ public class GradientReduceToSingle {
 	public static void maxf(Planar<GrayF32> inX , Planar<GrayF32> inY , GrayF32 outX , GrayF32 outY )
 	{
 		// input and output should be the same shape
-		InputSanityCheck.checkSameShape(inX,inY,outX,outY);
+		ISC.checkSameShape(inX,inY,outX,outY);
 
 		// make sure that the pixel index is the same
-		InputSanityCheck.checkIndexing(inX,inY);
-		InputSanityCheck.checkIndexing(outX,outY);
+		ISC.checkIndexing(inX,inY);
+		ISC.checkIndexing(outX,outY);
 
 		for (int y = 0; y < inX.height; y++) {
 			int indexIn = inX.startIndex + inX.stride*y;
@@ -88,11 +88,11 @@ public class GradientReduceToSingle {
 							GrayU8 outX , GrayU8 outY )
 	{
 		// input and output should be the same shape
-		InputSanityCheck.checkSameShape(inX,inY,outX,outY);
+		ISC.checkSameShape(inX,inY,outX,outY);
 
 		// make sure that the pixel index is the same
-		InputSanityCheck.checkIndexing(inX,inY);
-		InputSanityCheck.checkIndexing(outX,outY);
+		ISC.checkIndexing(inX,inY);
+		ISC.checkIndexing(outX,outY);
 
 		for (int y = 0; y < inX.height; y++) {
 			int indexIn = inX.startIndex + inX.stride*y;

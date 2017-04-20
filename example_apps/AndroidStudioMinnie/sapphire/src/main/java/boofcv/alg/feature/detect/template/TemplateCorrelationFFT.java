@@ -34,6 +34,7 @@ import boofcv.struct.image.InterleavedF32;
 public class TemplateCorrelationFFT
 		implements TemplateMatchingIntensity<GrayF32>
 {
+	private ImageStatistics IS;
 	DiscreteFourierTransform<GrayF32,InterleavedF32> dft =
 			DiscreteFourierTransformOps.createTransformF32();
 
@@ -67,8 +68,8 @@ public class TemplateCorrelationFFT
 
 		normalizedImage.reshape(image.width,image.height);
 
-		maxValue = ImageStatistics.max(image)+0.0001f;// avoid divide by zero errors
-		mean = ImageStatistics.mean(image);
+		maxValue = IS.max(image)+0.0001f;// avoid divide by zero errors
+		mean = IS.mean(image);
 
 		PixelMath.divide(image,maxValue,normalizedImage);
 		PixelMath.minus(normalizedImage,mean/maxValue,normalizedImage);

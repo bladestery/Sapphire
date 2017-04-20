@@ -6,7 +6,7 @@ package sapphire.policy.stubs;
 
 
 public final class CodeOffload$CodeOffloadServerPolicy_Stub extends sapphire.policy.offload.CodeOffload.CodeOffloadServerPolicy implements sapphire.kernel.common.KernelObjectStub {
-    static final long serialVersionUID =7622063222129301844L;
+
     sapphire.kernel.common.KernelOID $__oid = null;
     java.net.InetSocketAddress $__hostname = null;
 

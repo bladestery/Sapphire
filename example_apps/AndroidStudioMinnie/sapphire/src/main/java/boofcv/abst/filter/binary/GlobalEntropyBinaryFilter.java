@@ -18,7 +18,24 @@
 
 package boofcv.abst.filter.binary;
 
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.filter.binary.GThresholdImageOps;
+import boofcv.alg.filter.binary.ThresholdImageOps;
+import boofcv.alg.filter.blur.BlurImageOps;
+import boofcv.alg.filter.blur.GBlurImageOps;
+import boofcv.alg.filter.blur.impl.ImplMedianHistogramInner;
+import boofcv.alg.filter.blur.impl.ImplMedianSortEdgeNaive;
+import boofcv.alg.filter.blur.impl.ImplMedianSortNaive;
+import boofcv.alg.filter.convolve.ConvolveImageMean;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
+import boofcv.alg.misc.GImageStatistics;
+import boofcv.alg.misc.ImageStatistics;
+import boofcv.core.image.GeneralizedImageOps;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.ImageGray;
 import boofcv.struct.image.ImageType;
@@ -31,9 +48,12 @@ import boofcv.struct.image.ImageType;
  * @author Peter Abeles
  */
 public class GlobalEntropyBinaryFilter<T extends ImageGray> implements InputToBinary<T> {
-
 	ImageType<T> inputType;
-
+	private static GThresholdImageOps GTIO;
+	private static ThresholdImageOps TIO;
+	private static InputSanityCheck ISC;
+	private static GeneralizedImageOps GIO;
+	private static ImageStatistics IS;
 	boolean down;
 	int minValue;
 	int maxValue;
@@ -50,9 +70,11 @@ public class GlobalEntropyBinaryFilter<T extends ImageGray> implements InputToBi
 	}
 
 	@Override
-	public void process(T input, GrayU8 output) {
-		double threshold = GThresholdImageOps.computeEntropy(input, minValue, maxValue);
-		GThresholdImageOps.threshold(input,output,threshold,down);
+	public void process(T input, GrayU8 output, GBlurImageOps GBIO, InputSanityCheck ISC, GeneralizedImageOps GIO, BlurImageOps BIO,
+						ConvolveImageMean CIM, FactoryKernelGaussian FKG, ConvolveNormalized CN, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB,
+						ConvolveNormalized_JustBorder CNJB, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM) {
+		double threshold = GTIO.computeEntropy(input, minValue, maxValue, IS);
+		GTIO.threshold(input,output,threshold,down, TIO, ISC, GIO);
 	}
 
 	@Override
@@ -66,12 +88,12 @@ public class GlobalEntropyBinaryFilter<T extends ImageGray> implements InputToBi
 	}
 
 	@Override
-	public ImageType<T> getInputType() {
+	public ImageType<T> getInputType(ImageType IT) {
 		return inputType;
 	}
 
 	@Override
-	public ImageType<GrayU8> getOutputType() {
-		return ImageType.single(GrayU8.class);
+	public ImageType<GrayU8> getOutputType(ImageType IT) {
+		return IT.single(GrayU8.class);
 	}
 }

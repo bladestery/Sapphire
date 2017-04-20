@@ -33,7 +33,8 @@ import static org.junit.Assert.assertTrue;
  * @author Peter Abeles
  */
 public abstract class GenericBackgroundStationaryBasicChecks extends GenericBackgroundModelStationaryChecks {
-
+	private ImageStatistics IS;
+	private ImageMiscOps IMO;
 
 	@Test
 	public void checkLearnRate() {
@@ -64,7 +65,7 @@ public abstract class GenericBackgroundStationaryBasicChecks extends GenericBack
 		GrayU8 expected = new GrayU8(width,height);
 
 		alg.segment(frame,segmented);
-		ImageMiscOps.fill(expected, 1);
+		IMO.fill(expected, 1);
 		BoofTesting.assertEquals(expected,segmented,1e-5f);
 	}
 
@@ -89,7 +90,7 @@ public abstract class GenericBackgroundStationaryBasicChecks extends GenericBack
 		GrayU8 expected = new GrayU8(width,height);
 
 		alg.segment(frame,segmented);
-		ImageMiscOps.fill(expected, 0);
+		IMO.fill(expected, 0);
 		BoofTesting.assertEquals(expected,segmented,1e-5f);
 	}
 
@@ -117,10 +118,10 @@ public abstract class GenericBackgroundStationaryBasicChecks extends GenericBack
 		GImageMiscOps.fill(frame, 103);
 		alg.setThreshold(2.5f);
 		alg.segment(frame, segmented);
-		assertTrue(width * height <= ImageStatistics.sum(segmented));
+		assertTrue(width * height <= IS.sum(segmented));
 
 		alg.setThreshold(3.5f);
 		alg.segment(frame, segmented);
-		assertTrue(0 == ImageStatistics.sum(segmented));
+		assertTrue(0 == IS.sum(segmented));
 	}
 }

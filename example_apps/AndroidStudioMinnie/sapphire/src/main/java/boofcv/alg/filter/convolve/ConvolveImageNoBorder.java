@@ -22,6 +22,7 @@ import boofcv.alg.InputSanityCheck;
 import boofcv.alg.filter.convolve.noborder.*;
 import boofcv.struct.convolve.*;
 import boofcv.struct.image.*;
+import sapphire.app.SapphireObject;
 
 
 /**
@@ -44,8 +45,8 @@ import boofcv.struct.image.*;
  * @author Peter Abeles
  */
 @SuppressWarnings({"ForLoopReplaceableByForEach"})
-public class ConvolveImageNoBorder {
-
+public class ConvolveImageNoBorder implements SapphireObject {
+	public ConvolveImageNoBorder() {}
 	/**
 	 * Performs a horizontal 1D convolution across the image.  The horizontal border is not processed.
 	 *
@@ -53,9 +54,9 @@ public class ConvolveImageNoBorder {
 	 * @param output Where the resulting image is written to. Modified.
 	 * @param kernel The kernel that is being convolved. Not modified.
 	 */
-	public static void horizontal(Kernel1D_F32 kernel,
-								  GrayF32 input, GrayF32 output) {
-		InputSanityCheck.checkSameShape(input, output);
+	public void horizontal(Kernel1D_F32 kernel,
+								  GrayF32 input, GrayF32 output, InputSanityCheck ISC) {
+		ISC.checkSameShape(input, output);
 
 		if (!ConvolveImageUnrolled_F32_F32.horizontal(kernel, input, output))
 			ConvolveImageStandard.horizontal(kernel, input, output);
@@ -68,9 +69,9 @@ public class ConvolveImageNoBorder {
 	 * @param output Where the resulting image is written to. Modified.
 	 * @param kernel The kernel that is being convolved. Not modified.
 	 */
-	public static void horizontal(Kernel1D_F64 kernel,
-								  GrayF64 input, GrayF64 output) {
-		InputSanityCheck.checkSameShape(input, output);
+	public void horizontal(Kernel1D_F64 kernel,
+								  GrayF64 input, GrayF64 output, InputSanityCheck ISC) {
+		ISC.checkSameShape(input, output);
 
 		if (!ConvolveImageUnrolled_F64_F64.horizontal(kernel, input, output))
 			ConvolveImageStandard.horizontal(kernel, input, output);
@@ -83,9 +84,9 @@ public class ConvolveImageNoBorder {
 	 * @param output Where the resulting image is written to. Modified.
 	 * @param kernel The kernel that is being convolved. Not modified.
 	 */
-	public static void horizontal(Kernel1D_I32 kernel,
-								  GrayU8 input, GrayI8 output, int divisor ) {
-		InputSanityCheck.checkSameShape(input, output);
+	public void horizontal(Kernel1D_I32 kernel,
+								  GrayU8 input, GrayI8 output, int divisor, InputSanityCheck ISC) {
+		ISC.checkSameShape(input, output);
 
 		if( !ConvolveImageUnrolled_U8_I8_Div.horizontal(kernel, input,  output, divisor))
 			ConvolveImageStandard.horizontal(kernel, input,  output, divisor);
@@ -98,8 +99,8 @@ public class ConvolveImageNoBorder {
 	 * @param output Where the resulting image is written to. Modified.
 	 * @param kernel The kernel that is being convolved. Not modified.
 	 */
-	public static void horizontal(Kernel1D_I32 kernel, GrayU8 input, GrayI16 output ) {
-		InputSanityCheck.checkSameShape(input, output);
+	public void horizontal(Kernel1D_I32 kernel, GrayU8 input, GrayI16 output, InputSanityCheck ISC) {
+		ISC.checkSameShape(input, output);
 
 		if (!ConvolveImageUnrolled_U8_I16.horizontal(kernel, input,  output ))
 			ConvolveImageStandard.horizontal(kernel, input,  output);
@@ -112,9 +113,9 @@ public class ConvolveImageNoBorder {
 	 * @param output Where the resulting image is written to. Modified.
 	 * @param kernel The kernel that is being convolved. Not modified.
 	 */
-	public static void horizontal(Kernel1D_I32 kernel,
-								  GrayU8 input, GrayS32 output ) {
-		InputSanityCheck.checkSameShape(input, output);
+	public void horizontal(Kernel1D_I32 kernel,
+								  GrayU8 input, GrayS32 output , InputSanityCheck ISC) {
+		ISC.checkSameShape(input, output);
 
 		// todo add unroll
 		ConvolveImageStandard.horizontal(kernel, input, output);
@@ -127,8 +128,8 @@ public class ConvolveImageNoBorder {
 	 * @param output Where the resulting image is written to. Modified.
 	 * @param kernel The kernel that is being convolved. Not modified.
 	 */
-	public static void horizontal(Kernel1D_I32 kernel, GrayS16 input, GrayI16 output) {
-		InputSanityCheck.checkSameShape(input, output);
+	public void horizontal(Kernel1D_I32 kernel, GrayS16 input, GrayI16 output, InputSanityCheck ISC) {
+		ISC.checkSameShape(input, output);
 
 		if (!ConvolveImageUnrolled_S16_I16.horizontal(kernel, input, output))
 			ConvolveImageStandard.horizontal(kernel, input, output);
@@ -142,9 +143,9 @@ public class ConvolveImageNoBorder {
 	 * @param kernel The kernel that is being convolved. Not modified.
 	 * @param divisor The value that the convolved image is divided by.
 	 */
-	public static void horizontal(Kernel1D_I32 kernel,
-								  GrayS16 input, GrayI16 output, int divisor) {
-		InputSanityCheck.checkSameShape(input, output);
+	public void horizontal(Kernel1D_I32 kernel,
+								  GrayS16 input, GrayI16 output, int divisor, InputSanityCheck ISC) {
+		ISC.checkSameShape(input, output);
 
 		if (!ConvolveImageUnrolled_S16_I16_Div.horizontal(kernel, input, output, divisor))
 			ConvolveImageStandard.horizontal(kernel, input, output, divisor);
@@ -158,9 +159,9 @@ public class ConvolveImageNoBorder {
 	 * @param kernel The kernel that is being convolved. Not modified.
 	 * @param divisor The value that the convolved image is divided by.
 	 */
-	public static void horizontal(Kernel1D_I32 kernel,
-								  GrayS32 input, GrayS32 output, int divisor) {
-		InputSanityCheck.checkSameShape(input, output);
+	public void horizontal(Kernel1D_I32 kernel,
+								  GrayS32 input, GrayS32 output, int divisor, InputSanityCheck ISC) {
+		ISC.checkSameShape(input, output);
 
 		if (!ConvolveImageUnrolled_S32_S32_Div.horizontal(kernel, input, output, divisor))
 			ConvolveImageStandard.horizontal(kernel, input, output, divisor);
@@ -174,8 +175,8 @@ public class ConvolveImageNoBorder {
 	 * @param output Where the resulting image is written to. Modified.
 	 * @param kernel The kernel that is being convolved. Not modified.
 	 */
-	public static void vertical(Kernel1D_F32 kernel, GrayF32 input, GrayF32 output) {
-		InputSanityCheck.checkSameShape(input, output);
+	public void vertical(Kernel1D_F32 kernel, GrayF32 input, GrayF32 output, InputSanityCheck ISC) {
+		ISC.checkSameShape(input, output);
 
 		if (!ConvolveImageUnrolled_F32_F32.vertical(kernel, input,  output))
 			ConvolveImageStandard.vertical(kernel, input,  output);
@@ -189,8 +190,8 @@ public class ConvolveImageNoBorder {
 	 * @param output Where the resulting image is written to. Modified.
 	 * @param kernel The kernel that is being convolved. Not modified.
 	 */
-	public static void vertical(Kernel1D_F64 kernel, GrayF64 input, GrayF64 output) {
-		InputSanityCheck.checkSameShape(input, output);
+	public void vertical(Kernel1D_F64 kernel, GrayF64 input, GrayF64 output, InputSanityCheck ISC) {
+		ISC.checkSameShape(input, output);
 
 		if (!ConvolveImageUnrolled_F64_F64.vertical(kernel, input,  output))
 			ConvolveImageStandard.vertical(kernel, input,  output);
@@ -204,9 +205,9 @@ public class ConvolveImageNoBorder {
 	 * @param output Where the resulting image is written to. Modified.
 	 * @param kernel The kernel that is being convolved. Not modified.
 	 */
-	public static void vertical(Kernel1D_I32 kernel,
-								GrayU8 input, GrayI8 output, int divisor) {
-		InputSanityCheck.checkSameShape(input, output);
+	public void vertical(Kernel1D_I32 kernel,
+								GrayU8 input, GrayI8 output, int divisor, InputSanityCheck ISC) {
+		ISC.checkSameShape(input, output);
 
 		if( !ConvolveImageUnrolled_U8_I8_Div.vertical(kernel, input,  output, divisor))
 			ConvolveImageStandard.vertical(kernel, input,  output, divisor);
@@ -220,9 +221,9 @@ public class ConvolveImageNoBorder {
 	 * @param output Where the resulting image is written to. Modified.
 	 * @param kernel The kernel that is being convolved. Not modified.
 	 */
-	public static void vertical(Kernel1D_I32 kernel,
-								GrayU16 input, GrayI8 output, int divisor) {
-		InputSanityCheck.checkSameShape(input, output);
+	public void vertical(Kernel1D_I32 kernel,
+								GrayU16 input, GrayI8 output, int divisor, InputSanityCheck ISC) {
+		ISC.checkSameShape(input, output);
 
 		// TODO unroll
 		ConvolveImageStandard.vertical(kernel, input,  output, divisor);
@@ -236,8 +237,8 @@ public class ConvolveImageNoBorder {
 	 * @param output Where the resulting image is written to. Modified.
 	 * @param kernel The kernel that is being convolved. Not modified.
 	 */
-	public static void vertical(Kernel1D_I32 kernel, GrayU8 input, GrayI16 output ) {
-		InputSanityCheck.checkSameShape(input, output);
+	public void vertical(Kernel1D_I32 kernel, GrayU8 input, GrayI16 output, InputSanityCheck ISC) {
+		ISC.checkSameShape(input, output);
 
 		if (!ConvolveImageUnrolled_U8_I16.vertical(kernel, input,  output))
 			ConvolveImageStandard.vertical(kernel, input,  output);
@@ -251,8 +252,8 @@ public class ConvolveImageNoBorder {
 	 * @param output Where the resulting image is written to. Modified.
 	 * @param kernel The kernel that is being convolved. Not modified.
 	 */
-	public static void vertical(Kernel1D_I32 kernel, GrayU8 input, GrayS32 output ) {
-		InputSanityCheck.checkSameShape(input, output);
+	public void vertical(Kernel1D_I32 kernel, GrayU8 input, GrayS32 output, InputSanityCheck ISC) {
+		ISC.checkSameShape(input, output);
 
 		// todo add unroll
 		ConvolveImageStandard.vertical(kernel, input,  output);
@@ -265,8 +266,8 @@ public class ConvolveImageNoBorder {
 	 * @param output Where the resulting image is written to. Modified.
 	 * @param kernel The kernel that is being convolved. Not modified.
 	 */
-	public static void vertical(Kernel1D_I32 kernel, GrayS16 input, GrayI16 output ) {
-		InputSanityCheck.checkSameShape(input, output);
+	public void vertical(Kernel1D_I32 kernel, GrayS16 input, GrayI16 output, InputSanityCheck ISC) {
+		ISC.checkSameShape(input, output);
 
 		if (!ConvolveImageUnrolled_S16_I16.vertical(kernel, input,  output))
 			ConvolveImageStandard.vertical(kernel, input,  output);
@@ -281,8 +282,8 @@ public class ConvolveImageNoBorder {
 	 * @param kernel The kernel that is being convolved. Not modified.
 	 * @param divisor The value that the convolved image is divided by.
 	 */
-	public static void vertical(Kernel1D_I32 kernel, GrayS16 input, GrayI16 output, int divisor ) {
-		InputSanityCheck.checkSameShape(input, output);
+	public void vertical(Kernel1D_I32 kernel, GrayS16 input, GrayI16 output, int divisor , InputSanityCheck ISC) {
+		ISC.checkSameShape(input, output);
 
 		if (!ConvolveImageUnrolled_S16_I16_Div.vertical(kernel, input, output, divisor))
 			ConvolveImageStandard.vertical(kernel, input, output, divisor);
@@ -297,8 +298,8 @@ public class ConvolveImageNoBorder {
 	 * @param kernel The kernel that is being convolved. Not modified.
 	 * @param divisor The value that the convolved image is divided by.
 	 */
-	public static void vertical(Kernel1D_I32 kernel, GrayS32 input, GrayI16 output, int divisor ) {
-		InputSanityCheck.checkSameShape(input, output);
+	public void vertical(Kernel1D_I32 kernel, GrayS32 input, GrayI16 output, int divisor , InputSanityCheck ISC) {
+		ISC.checkSameShape(input, output);
 
 		// todo unroll
 		ConvolveImageStandard.vertical(kernel, input, output, divisor);
@@ -313,8 +314,8 @@ public class ConvolveImageNoBorder {
 	 * @param kernel The kernel that is being convolved. Not modified.
 	 * @param divisor The value that the convolved image is divided by.
 	 */
-	public static void vertical(Kernel1D_I32 kernel, GrayS32 input, GrayS32 output, int divisor ) {
-		InputSanityCheck.checkSameShape(input, output);
+	public void vertical(Kernel1D_I32 kernel, GrayS32 input, GrayS32 output, int divisor , InputSanityCheck ISC) {
+		ISC.checkSameShape(input, output);
 
 		if (!ConvolveImageUnrolled_S32_S32_Div.vertical(kernel, input, output, divisor))
 			ConvolveImageStandard.vertical(kernel, input, output, divisor);
@@ -327,8 +328,8 @@ public class ConvolveImageNoBorder {
 	 * @param input  The source image that is to be convolved
 	 * @param output   The results of the convolution
 	 */
-	public static void convolve(Kernel2D_F32 kernel, GrayF32 input, GrayF32 output) {
-		InputSanityCheck.checkSameShape(input, output);
+	public void convolve(Kernel2D_F32 kernel, GrayF32 input, GrayF32 output, InputSanityCheck ISC) {
+		ISC.checkSameShape(input, output);
 
 		if( !ConvolveImageUnrolled_F32_F32.convolve(kernel,input,output))
 			ConvolveImageStandard.convolve(kernel, input,  output);
@@ -341,8 +342,8 @@ public class ConvolveImageNoBorder {
 	 * @param input  The source image that is to be convolved
 	 * @param output   The results of the convolution
 	 */
-	public static void convolve(Kernel2D_F64 kernel, GrayF64 input, GrayF64 output) {
-		InputSanityCheck.checkSameShape(input, output);
+	public void convolve(Kernel2D_F64 kernel, GrayF64 input, GrayF64 output, InputSanityCheck ISC) {
+		ISC.checkSameShape(input, output);
 
 		if( !ConvolveImageUnrolled_F64_F64.convolve(kernel,input,output))
 			ConvolveImageStandard.convolve(kernel, input,  output);
@@ -356,9 +357,9 @@ public class ConvolveImageNoBorder {
 	 * @param output	The results of the convolution
 	 * @param divisor The value that the convolved image is divided by.
 	 */
-	public static void convolve(Kernel2D_I32 kernel,
-								GrayU8 input, GrayI8 output, int divisor) {
-		InputSanityCheck.checkSameShape(input, output);
+	public void convolve(Kernel2D_I32 kernel,
+								GrayU8 input, GrayI8 output, int divisor, InputSanityCheck ISC) {
+		ISC.checkSameShape(input, output);
 
 		if( !ConvolveImageUnrolled_U8_I8_Div.convolve(kernel,input,output,divisor))
 			ConvolveImageStandard.convolve(kernel, input,  output, divisor);
@@ -371,8 +372,8 @@ public class ConvolveImageNoBorder {
 	 * @param input  The source image that is to be convolved
 	 * @param output   The results of the convolution
 	 */
-	public static void convolve(Kernel2D_I32 kernel, GrayU8 input, GrayI16 output) {
-		InputSanityCheck.checkSameShape(input, output);
+	public void convolve(Kernel2D_I32 kernel, GrayU8 input, GrayI16 output, InputSanityCheck ISC) {
+		ISC.checkSameShape(input, output);
 
 		if( !ConvolveImageUnrolled_U8_I16.convolve(kernel,input,output))
 			ConvolveImageStandard.convolve(kernel, input,  output);
@@ -385,8 +386,8 @@ public class ConvolveImageNoBorder {
 	 * @param input  The source image that is to be convolved
 	 * @param output   The results of the convolution
 	 */
-	public static void convolve(Kernel2D_I32 kernel, GrayU8 input, GrayS32 output) {
-		InputSanityCheck.checkSameShape(input, output);
+	public void convolve(Kernel2D_I32 kernel, GrayU8 input, GrayS32 output, InputSanityCheck ISC) {
+		ISC.checkSameShape(input, output);
 
 		// todo add unrolled
 		ConvolveImageStandard.convolve(kernel, input,  output);
@@ -399,8 +400,8 @@ public class ConvolveImageNoBorder {
 	 * @param input  The source image that is to be convolved
 	 * @param output   The results of the convolution
 	 */
-	public static void convolve(Kernel2D_I32 kernel, GrayS16 input, GrayI16 output) {
-		InputSanityCheck.checkSameShape(input, output);
+	public void convolve(Kernel2D_I32 kernel, GrayS16 input, GrayI16 output, InputSanityCheck ISC) {
+		ISC.checkSameShape(input, output);
 
 		if( !ConvolveImageUnrolled_S16_I16.convolve(kernel,input,output))
 			ConvolveImageStandard.convolve(kernel, input,  output);
@@ -414,8 +415,8 @@ public class ConvolveImageNoBorder {
 	 * @param output   The results of the convolution
 	 * @param divisor The value that the convolved image is divided by.
 	 */
-	public static void convolve(Kernel2D_I32 kernel, GrayS16 input, GrayI16 output, int divisor ) {
-		InputSanityCheck.checkSameShape(input, output);
+	public void convolve(Kernel2D_I32 kernel, GrayS16 input, GrayI16 output, int divisor , InputSanityCheck ISC) {
+		ISC.checkSameShape(input, output);
 
 		if( !ConvolveImageUnrolled_S16_I16_Div.convolve(kernel,input,output,divisor))
 			ConvolveImageStandard.convolve(kernel, input,  output, divisor);

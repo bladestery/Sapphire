@@ -38,7 +38,7 @@ import static org.junit.Assert.assertEquals;
  * @author Peter Abeles
  */
 public class StandardGradientChecks {
-
+	private GeneralizedImageOps GIO;
 	Random rand = new Random(234);
 	int width = 20;
 	int height = 30;
@@ -76,13 +76,13 @@ public class StandardGradientChecks {
 	 */
 	private void testSecondDerivative(Method m1 , Method m2) {
 		Class params[] = m1.getParameterTypes();
-		ImageGray input = GeneralizedImageOps.createSingleBand(params[0], width, height);
-		ImageGray derivX = GeneralizedImageOps.createSingleBand(params[1], width, height);
-		ImageGray derivY = GeneralizedImageOps.createSingleBand(params[2], width, height);
-		ImageGray derivXX = GeneralizedImageOps.createSingleBand(params[1], width, height);
-		ImageGray derivYY = GeneralizedImageOps.createSingleBand(params[2], width, height);
-		ImageGray derivXY = GeneralizedImageOps.createSingleBand(params[1], width, height);
-		ImageGray derivYX = GeneralizedImageOps.createSingleBand(params[1], width, height);
+		ImageGray input = GIO.createSingleBand(params[0], width, height);
+		ImageGray derivX = GIO.createSingleBand(params[1], width, height);
+		ImageGray derivY = GIO.createSingleBand(params[2], width, height);
+		ImageGray derivXX = GIO.createSingleBand(params[1], width, height);
+		ImageGray derivYY = GIO.createSingleBand(params[2], width, height);
+		ImageGray derivXY = GIO.createSingleBand(params[1], width, height);
+		ImageGray derivYX = GIO.createSingleBand(params[1], width, height);
 
 		GImageMiscOps.fillUniform(input, rand, 0, 40);
 

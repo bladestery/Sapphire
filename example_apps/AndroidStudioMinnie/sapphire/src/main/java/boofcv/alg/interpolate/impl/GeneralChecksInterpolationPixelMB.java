@@ -41,6 +41,8 @@ import static org.junit.Assert.*;
  * @author Peter Abeles
  */
 public abstract class GeneralChecksInterpolationPixelMB< T extends ImageMultiBand> {
+	private static GeneralizedImageOps GIO;
+	private static FactoryImageBorder FIB;
 	protected Random rand = new Random(0xff34);
 
 	protected int width = 320;
@@ -192,7 +194,7 @@ public abstract class GeneralChecksInterpolationPixelMB< T extends ImageMultiBan
 	public void get_outside_border(T img) {
 		InterpolatePixelMB<T> interp = wrap(img, 0, 100);
 
-		ImageBorder<T> border = (ImageBorder)FactoryImageBorder.interleavedValue((Class) img.getClass(), 5);
+		ImageBorder<T> border = (ImageBorder)FIB.interleavedValue((Class) img.getClass(), 5);
 		interp.setBorder(border);
 		interp.setImage(img);
 
@@ -283,7 +285,7 @@ public abstract class GeneralChecksInterpolationPixelMB< T extends ImageMultiBan
 		T img = createImage(20, 30, numBands);
 		GImageMiscOps.fillUniform(img, rand, 0, 100);
 		InterpolatePixelMB<T> interp = wrap(img, 0, 100);
-		interp.setBorder((ImageBorder)FactoryImageBorder.interleavedValue((ImageInterleaved)img, 0));
+		interp.setBorder((ImageBorder)FIB.interleavedValue((ImageInterleaved)img, 0));
 
 		for( int off = 0; off < 5; off++ ) {
 			float frac = off/5.0f;
@@ -312,8 +314,8 @@ public abstract class GeneralChecksInterpolationPixelMB< T extends ImageMultiBan
 		T imgB = BoofTesting.createSubImageOf(imgA);
 		InterpolatePixelMB<T> interpB = wrap(imgB, 0, 100);
 
-		interpA.setBorder((ImageBorder)FactoryImageBorder.interleavedValue((ImageInterleaved)imgA, 0));
-		interpB.setBorder((ImageBorder) FactoryImageBorder.interleavedValue((ImageInterleaved) imgB, 0));
+		interpA.setBorder((ImageBorder)FIB.interleavedValue((ImageInterleaved)imgA, 0));
+		interpB.setBorder((ImageBorder) FIB.interleavedValue((ImageInterleaved) imgB, 0));
 
 		for (int y = 0; y < 40; y++) {
 			for (int x = 0; x < 30; x++) {
@@ -348,16 +350,16 @@ public abstract class GeneralChecksInterpolationPixelMB< T extends ImageMultiBan
 		GImageMiscOps.fillUniform(origMB, rand, 0, 100);
 
 		ImageDataType dataType = origMB.getImageType().getDataType();
-		ImageGray band0 = GeneralizedImageOps.createSingleBand(dataType,origMB.width,origMB.height);
-		ImageGray band1 = GeneralizedImageOps.createSingleBand(dataType,origMB.width,origMB.height);
+		ImageGray band0 = GIO.createSingleBand(dataType,origMB.width,origMB.height);
+		ImageGray band1 = GIO.createSingleBand(dataType,origMB.width,origMB.height);
 
 		for (int y = 0; y < origMB.height; y++) {
 			for (int x = 0; x < origMB.width; x++) {
-				double val0 = GeneralizedImageOps.get(origMB,x,y,0);
-				double val1 = GeneralizedImageOps.get(origMB,x,y,1);
+				double val0 = GIO.get(origMB,x,y,0);
+				double val1 = GIO.get(origMB,x,y,1);
 
-				GeneralizedImageOps.set(band0,x,y,val0);
-				GeneralizedImageOps.set(band1,x,y,val1);
+				GIO.set(band0,x,y,val0);
+				GIO.set(band1,x,y,val1);
 			}
 		}
 
@@ -366,9 +368,9 @@ public abstract class GeneralChecksInterpolationPixelMB< T extends ImageMultiBan
 
 		InterpolatePixelMB<T> interpMB = wrap(origMB,0,255);
 
-		interpBand0.setBorder(FactoryImageBorder.genericValue(0,band0.getImageType()));
-		interpBand1.setBorder(FactoryImageBorder.genericValue(0,band1.getImageType()));
-		interpMB.setBorder(FactoryImageBorder.genericValue(0,interpMB.getImageType()));
+		interpBand0.setBorder(FIB.genericValue(0,band0.getImageType()));
+		interpBand1.setBorder(FIB.genericValue(0,band1.getImageType()));
+		interpMB.setBorder(FIB.genericValue(0,interpMB.getImageType()));
 
 		interpBand0.setImage(band0);
 		interpBand1.setImage(band1);

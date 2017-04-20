@@ -19,10 +19,26 @@
 package boofcv.alg.filter.binary;
 
 import boofcv.abst.filter.binary.LocalSquareBlockMinMaxBinaryFilter;
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.filter.binary.impl.ThresholdSauvola;
+import boofcv.alg.filter.blur.BlurImageOps;
+import boofcv.alg.filter.blur.GBlurImageOps;
+import boofcv.alg.filter.blur.impl.ImplMedianHistogramInner;
+import boofcv.alg.filter.blur.impl.ImplMedianSortEdgeNaive;
+import boofcv.alg.filter.blur.impl.ImplMedianSortNaive;
+import boofcv.alg.filter.convolve.ConvolveImageMean;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
 import boofcv.alg.misc.GImageStatistics;
+import boofcv.alg.misc.ImageStatistics;
 import boofcv.core.image.GConvertImage;
+import boofcv.core.image.GeneralizedImageOps;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.image.*;
+import sapphire.app.SapphireObject;
 
 
 /**
@@ -30,7 +46,11 @@ import boofcv.struct.image.*;
  *
  * @author Peter Abeles
  */
-public class GThresholdImageOps {
+public class GThresholdImageOps implements SapphireObject {
+	private static ImageType IT;
+	private static GImageStatistics GIS;
+	
+	public GThresholdImageOps() {}
 
 	/**
 	 * <p>
@@ -43,12 +63,12 @@ public class GThresholdImageOps {
 	 * @param maxValue The maximum value of a pixel in the image.  (inclusive)
 	 * @return Selected threshold.
 	 */
-	public static int computeOtsu(ImageGray input , int minValue , int maxValue ) {
+	public int computeOtsu(ImageGray input , int minValue , int maxValue, GImageStatistics GIS, ImageStatistics IS) {
 
 		int range = 1+maxValue - minValue;
 		int histogram[] = new int[ range ];
 
-		GImageStatistics.histogram(input,minValue,histogram);
+		GIS.histogram(input,minValue,histogram, IS);
 
 		// Total number of pixels
 		int total = input.width*input.height;
@@ -68,7 +88,7 @@ public class GThresholdImageOps {
 	// original code from http://www.labbookpages.co.uk/software/imgProc/otsuThreshold.html
 	//                    Dr. Andrew Greensted
 	// modifications to reduce overflow
-	public static int computeOtsu( int histogram[] , int length , int totalPixels ) {
+	public int computeOtsu( int histogram[] , int length , int totalPixels ) {
 
 		double dlength = length;
 		double sum = 0;
@@ -120,12 +140,12 @@ public class GThresholdImageOps {
 	 * @param maxValue The maximum value of a pixel in the image.  (inclusive)
 	 * @return Selected threshold.
 	 */
-	public static int computeEntropy(ImageGray input , int minValue , int maxValue ) {
+	public int computeEntropy(ImageGray input , int minValue , int maxValue, ImageStatistics IS ) {
 
 		int range = 1 + maxValue - minValue;
 		int histogram[] = new int[ range ];
 
-		GImageStatistics.histogram(input,minValue,histogram);
+		GIS.histogram(input,minValue,histogram, IS);
 
 		// Total number of pixels
 		int total = input.width*input.height;
@@ -150,7 +170,7 @@ public class GThresholdImageOps {
 	 * @param totalPixels Total pixels in the image
 	 * @return Selected threshold
 	 */
-	public static int computeEntropy( int histogram[] , int length , int totalPixels ) {
+	public int computeEntropy( int histogram[] , int length , int totalPixels ) {
 
 		// precompute p[i]*ln(p[i]) and handle special case where p[i] = 0
 		double p[] = new double[length];
@@ -210,22 +230,22 @@ public class GThresholdImageOps {
 	 * @param down If true then the inequality &le; is used, otherwise if false then &gt; is used.
 	 * @return binary image.
 	 */
-	public static <T extends ImageGray>
+	public <T extends ImageGray>
 	GrayU8 threshold(T input , GrayU8 output ,
-					 double threshold , boolean down )
+					 double threshold , boolean down, ThresholdImageOps TIO, InputSanityCheck ISC, GeneralizedImageOps GIO)
 	{
 		if( input instanceof GrayF32) {
-			return ThresholdImageOps.threshold((GrayF32)input,output,(float)threshold,down);
+			return TIO.threshold((GrayF32)input,output,(float)threshold,down, ISC, GIO);
 		} else if( input instanceof GrayU8) {
-			return ThresholdImageOps.threshold((GrayU8)input,output,(int)threshold,down);
+			return TIO.threshold((GrayU8)input,output,(int)threshold,down, ISC, GIO);
 		} else if( input instanceof GrayU16) {
-			return ThresholdImageOps.threshold((GrayU16)input,output,(int)threshold,down);
+			return TIO.threshold((GrayU16)input,output,(int)threshold,down, ISC, GIO);
 		} else if( input instanceof GrayS16) {
-			return ThresholdImageOps.threshold((GrayS16)input,output,(int)threshold,down);
+			return TIO.threshold((GrayS16)input,output,(int)threshold,down, ISC, GIO);
 		} else if( input instanceof GrayS32) {
-			return ThresholdImageOps.threshold((GrayS32)input,output,(int)threshold,down);
+			return TIO.threshold((GrayS32)input,output,(int)threshold,down, ISC, GIO);
 		} else if( input instanceof GrayF64) {
-			return ThresholdImageOps.threshold((GrayF64)input,output,threshold,down);
+			return TIO.threshold((GrayF64)input,output,threshold,down, ISC, GIO);
 		} else {
 			throw new IllegalArgumentException("Unknown image type: "+input.getClass().getSimpleName());
 		}
@@ -253,16 +273,17 @@ public class GThresholdImageOps {
 	 * @param work2 (Optional) Internal workspace.  Can be null
 	 * @return binary image.
 	 */
-	public static <T extends ImageGray>
+	public <T extends ImageGray>
 	GrayU8 localSquare(T input, GrayU8 output,
-					   int radius, double scale, boolean down, T work1, T work2)
+					   int radius, double scale, boolean down, T work1, T work2, ThresholdImageOps TIO, InputSanityCheck ISC, GeneralizedImageOps GIO, BlurImageOps BIO, ConvolveImageMean CIM,
+					   ConvolveNormalized CN, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ImplConvolveMean ICM)
 	{
 		if( input instanceof GrayF32) {
-			return ThresholdImageOps.localSquare((GrayF32) input, output, radius, (float) scale, down,
-					(GrayF32) work1, (GrayF32) work2);
+			return TIO.localSquare((GrayF32) input, output, radius, (float) scale, down,
+					(GrayF32) work1, (GrayF32) work2, ISC, GIO, BIO, CIM, CN, CNN, CINB, CNJB, ICM);
 		} else if( input instanceof GrayU8) {
-			return ThresholdImageOps.localSquare((GrayU8) input, output, radius, (float) scale, down,
-					(GrayU8) work1, (GrayU8) work2);
+			return TIO.localSquare((GrayU8) input, output, radius, (float) scale, down,
+					(GrayU8) work1, (GrayU8) work2, ISC, GIO, BIO, CIM, CN, CNN, CINB, CNJB, ICM);
 		} else {
 			throw new IllegalArgumentException("Unknown image type: "+input.getClass().getSimpleName());
 		}
@@ -290,17 +311,18 @@ public class GThresholdImageOps {
 	 * @param work2 (Optional) Internal workspace.  Can be null
 	 * @return binary image.
 	 */
-	public static <T extends ImageGray>
+	public <T extends ImageGray>
 	GrayU8 localGaussian(T input, GrayU8 output,
 						 int radius, double scale, boolean down,
-						 T work1, ImageGray work2)
+						 T work1, ImageGray work2, ThresholdImageOps TIO, InputSanityCheck ISC, GeneralizedImageOps GIO, BlurImageOps BIO,
+						 FactoryKernelGaussian FKG, ConvolveNormalized CN, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB)
 	{
 		if( input instanceof GrayF32) {
-			return ThresholdImageOps.localGaussian((GrayF32) input, output, radius, (float) scale, down,
-					(GrayF32) work1, (GrayF32) work2);
+			return TIO.localGaussian((GrayF32) input, output, radius, (float) scale, down,
+					(GrayF32) work1, (GrayF32) work2, ISC, GIO, BIO, FKG, CN, CNN, CINB, CNJB);
 		} else if( input instanceof GrayU8) {
-			return ThresholdImageOps.localGaussian((GrayU8) input, output, radius, (float) scale, down,
-					(GrayU8) work1, (GrayU8) work2);
+			return TIO.localGaussian((GrayU8) input, output, radius, (float) scale, down,
+					(GrayU8) work1, (GrayU8) work2, ISC, GIO, BIO, FKG, CN, CNN, CINB, CNJB);
 		} else {
 			throw new IllegalArgumentException("Unknown image type: "+input.getClass().getSimpleName());
 		}
@@ -319,7 +341,7 @@ public class GThresholdImageOps {
 	 * @param down Should it threshold up or down.
 	 * @return binary image
 	 */
-	public static <T extends ImageGray>
+	public <T extends ImageGray>
 	GrayU8 localSauvola(T input, GrayU8 output, int radius, float k, boolean down)
 	{
 		ThresholdSauvola alg = new ThresholdSauvola(radius,k, down);
@@ -350,16 +372,18 @@ public class GThresholdImageOps {
 	 * @param textureThreshold If the min and max values are within this threshold the pixel will be set to 1.
 	 * @return Binary image
 	 */
-	public static <T extends ImageGray>
-	GrayU8 localBlockMinMax(T input, GrayU8 output, int radius, double scale , boolean down, double textureThreshold)
+	public <T extends ImageGray>
+	GrayU8 localBlockMinMax(T input, GrayU8 output, int radius, double scale , boolean down, double textureThreshold, GBlurImageOps GBIO, InputSanityCheck ISC, GeneralizedImageOps GIO, BlurImageOps BIO,
+							ConvolveImageMean CIM, FactoryKernelGaussian FKG, ConvolveNormalized CN, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB,
+							ConvolveNormalized_JustBorder CNJB, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM)
 	{
 		LocalSquareBlockMinMaxBinaryFilter<T> alg = new LocalSquareBlockMinMaxBinaryFilter<>(textureThreshold, radius * 2 + 1, scale, down,
-				(Class<T>) input.getClass());
+				(Class<T>) input.getClass(), IT);
 
 		if( output == null )
 			output = new GrayU8(input.width,input.height);
 
-		alg.process(input,output);
+		alg.process(input,output, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM);
 
 		return output;
 	}

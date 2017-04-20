@@ -39,7 +39,7 @@ import static org.junit.Assert.*;
  * @author Peter Abeles
  */
 public abstract class StandardSingleBandTests<T extends ImageGray> {
-
+	private GeneralizedImageOps GIO;
 	public Random rand = new Random(234);
 
 	public abstract T createImage(int width, int height);
@@ -248,8 +248,8 @@ public abstract class StandardSingleBandTests<T extends ImageGray> {
 	private void checkEquals(ImageGray imgA, ImageGray imgB) {
 		for (int i = 0; i < imgA.getHeight(); i++) {
 			for (int j = 0; j < imgA.getWidth(); j++) {
-				double valA = GeneralizedImageOps.get(imgA, j, i);
-				double valB = GeneralizedImageOps.get(imgB, j, i);
+				double valA = GIO.get(imgA, j, i);
+				double valB = GIO.get(imgB, j, i);
 
 				assertEquals(valA, valB, 1e-8);
 			}

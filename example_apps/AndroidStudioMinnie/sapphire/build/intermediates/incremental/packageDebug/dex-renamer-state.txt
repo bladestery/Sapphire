@@ -1,16 +1,7 @@
-#Mon Apr 03 10:43:00 JST 2017
-renamed.4=classes2.dex
-renamed.3=classes3.dex
-renamed.2=classes5.dex
-renamed.1=classes4.dex
-base.4=/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/transforms/dex/debug/folders/1000/1f/main
-renamed.0=classes.dex
-base.3=/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/transforms/dex/debug/folders/1000/1f/main
-base.2=/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/transforms/dex/debug/folders/1000/1f/main
-base.1=/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/transforms/dex/debug/folders/1000/1f/main
-base.0=/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/transforms/dex/debug/folders/1000/1f/main
-file.4=/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/transforms/dex/debug/folders/1000/1f/main/classes2.dex
-file.3=/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/transforms/dex/debug/folders/1000/1f/main/classes3.dex
-file.2=/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/transforms/dex/debug/folders/1000/1f/main/classes5.dex
-file.1=/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/transforms/dex/debug/folders/1000/1f/main/classes4.dex
-file.0=/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/transforms/dex/debug/folders/1000/1f/main/classes.dex
+#Thu Apr 20 23:00:38 JST 2017
+base.0=/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_f79d4b3849251d0df0108ee58c382645257e0f81
+renamed.1=classes.dex
+renamed.0=classes2.dex
+file.1=/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_36a8e5ab38788433c9e523100f0616e04ee1c6da/classes.dex
+base.1=/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_36a8e5ab38788433c9e523100f0616e04ee1c6da
+file.0=/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_f79d4b3849251d0df0108ee58c382645257e0f81/classes.dex

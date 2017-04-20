@@ -81,7 +81,7 @@ import static boofcv.alg.feature.detect.interest.FastHessianFeatureDetector.poly
  * @author Peter Abeles
  */
 public class SiftDetector {
-
+	private static FactoryImageBorder FIB;
 	// image pyramid that it processes
 	protected SiftScaleSpace scaleSpace;
 
@@ -150,7 +150,7 @@ public class SiftDetector {
 		derivXY = FactoryConvolveSparse.convolve2D(GrayF32.class, kernelXY);
 		derivYY = FactoryConvolveSparse.vertical1D(GrayF32.class, kernelDD);
 
-		ImageBorder<GrayF32> border = FactoryImageBorder.single(GrayF32.class, BorderType.EXTENDED);
+		ImageBorder<GrayF32> border = FIB.single(GrayF32.class, BorderType.EXTENDED);
 
 		derivXX.setImageBorder(border);
 		derivXY.setImageBorder(border);

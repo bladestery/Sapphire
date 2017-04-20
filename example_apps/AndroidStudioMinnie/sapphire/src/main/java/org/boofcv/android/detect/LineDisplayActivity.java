@@ -44,7 +44,7 @@ import georegression.struct.line.LineSegment2D_F32;
  */
 public class LineDisplayActivity extends DemoVideoDisplayActivity
 		implements AdapterView.OnItemSelectedListener {
-
+	private ImageType IT;
 	Paint paint;
 
 	EditText editLines;
@@ -173,12 +173,12 @@ public class LineDisplayActivity extends DemoVideoDisplayActivity
 		byte[] storage;
 
 		public LineProcessing(DetectLine<GrayU8> detector) {
-			super(ImageType.single(GrayU8.class));
+			super( IT.single(GrayU8.class));
 			this.detector = detector;
 		}
 
 		public LineProcessing(DetectLineSegment<GrayU8> detectorSegment) {
-			super(ImageType.single(GrayU8.class));
+			super( IT.single(GrayU8.class));
 			this.detectorSegment = detectorSegment;
 		}
 

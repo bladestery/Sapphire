@@ -18,7 +18,13 @@
 
 package boofcv.abst.filter.derivative;
 
+import android.renderscript.ScriptGroup;
+
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
 import boofcv.alg.filter.convolve.GConvolveImageOps;
+import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
+import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.BorderType;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.core.image.border.ImageBorder;
@@ -27,7 +33,6 @@ import boofcv.struct.convolve.Kernel1D;
 import boofcv.struct.image.ImageGray;
 import boofcv.struct.image.ImageType;
 
-import static boofcv.factory.filter.kernel.FactoryKernelGaussian.sigmaForRadius;
 
 
 /**
@@ -38,7 +43,9 @@ import static boofcv.factory.filter.kernel.FactoryKernelGaussian.sigmaForRadius;
  */
 public class ImageGradient_Gaussian<I extends ImageGray, D extends ImageGray>
 		implements ImageGradient<I, D> {
-
+	private static FactoryImageBorder FIB;
+	private static FactoryKernelGaussian FKG;
+	private static GeneralizedImageOps GIO;
 	// default border.
 	private BorderType borderType = BorderType.EXTENDED;
 	ImageBorder border;
@@ -55,7 +62,7 @@ public class ImageGradient_Gaussian<I extends ImageGray, D extends ImageGray>
 	double maxValue;
 
 	public ImageGradient_Gaussian(int radius , Class<I> inputType , Class<D> derivType) {
-		this(sigmaForRadius(radius,0),radius,inputType,derivType);
+		this(FKG.sigmaForRadius(radius,0),radius,inputType,derivType);
 	}
 
 	public ImageGradient_Gaussian(double sigma, int radius,
@@ -64,18 +71,18 @@ public class ImageGradient_Gaussian<I extends ImageGray, D extends ImageGray>
 
 		// need to do this here to make sure the blur and derivative functions have the same paramters.
 		if( radius <= 0 )
-			radius = FactoryKernelGaussian.radiusForSigma(sigma,1);
+			radius = FKG.radiusForSigma(sigma,1);
 		else if( sigma <= 0 )
-			sigma = FactoryKernelGaussian.sigmaForRadius(radius,1);
+			sigma = FKG.sigmaForRadius(radius,1);
 
-		kernelBlur = FactoryKernelGaussian.gaussian1D(inputType,sigma,radius);
-		kernelDeriv = FactoryKernelGaussian.derivativeI(inputType,1,sigma,radius);
-		border = FactoryImageBorder.single(derivType, borderType);
+		kernelBlur = FKG.gaussian1D(inputType,sigma,radius, GIO);
+		kernelDeriv = FKG.derivativeI(inputType,1,sigma,radius, GIO);
+		border = FIB.single(derivType, borderType);
 	}
 
 	@SuppressWarnings({"unchecked"})
 	@Override
-	public void process( I inputImage , D derivX, D derivY ) {
+	public void process(I inputImage , D derivX, D derivY , InputSanityCheck ISC, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB) {
 
 		if( storage == null ) {
 			storage = (I)inputImage.createNew(inputImage.width,inputImage.height );
@@ -90,9 +97,9 @@ public class ImageGradient_Gaussian<I extends ImageGray, D extends ImageGray>
 	}
 
 	@Override
-	public void setBorderType(BorderType type) {
+	public void setBorderType(BorderType type, FactoryImageBorder FIB) {
 		this.borderType = type;
-		border = FactoryImageBorder.single(derivType, borderType);
+		border = FIB.single(derivType, borderType);
 	}
 
 	@Override
@@ -106,7 +113,7 @@ public class ImageGradient_Gaussian<I extends ImageGray, D extends ImageGray>
 	}
 
 	@Override
-	public ImageType<D> getDerivativeType() {
-		return ImageType.single(derivType);
+	public ImageType<D> getDerivativeType(ImageType IT) {
+		return  IT.single(derivType);
 	}
 }

@@ -34,7 +34,8 @@ import boofcv.struct.image.*;
 public class BackgroundStationaryGaussian_PL<T extends ImageGray>
 		extends BackgroundStationaryGaussian<Planar<T>>
 {
-
+	private static ImageMiscOps IMO;
+	private static InputSanityCheck ISC;
 	// wrappers which provide abstraction across image types
 	protected GImageMultiBand inputWrapper;
 	protected GImageMultiBand bgWrapper;
@@ -85,7 +86,7 @@ public class BackgroundStationaryGaussian_PL<T extends ImageGray>
 			}
 			return;
 		} else {
-			InputSanityCheck.checkSameShape(background, frame);
+			ISC.checkSameShape(background, frame);
 		}
 
 		inputWrapper.wrap(frame);
@@ -123,7 +124,7 @@ public class BackgroundStationaryGaussian_PL<T extends ImageGray>
 	@Override
 	public void segment(Planar<T> frame, GrayU8 segmented) {
 		if( background.width == 1 ) {
-			ImageMiscOps.fill(segmented, unknownValue);
+			IMO.fill(segmented, unknownValue);
 			return;
 		}
 		inputWrapper.wrap(frame);

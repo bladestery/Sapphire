@@ -43,7 +43,7 @@ public class UtilIO {
 		if( new File(path).isAbsolute() )
 			return path;
 
-		File pathExample = new File(getPathToBase(),"data/example/");
+		File pathExample = new File("/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/data/example/");
 		if( !pathExample.exists() ) {
 			System.err.println();
 			System.err.println("Can't find data/example directory!  There are three likely causes for this problem.");

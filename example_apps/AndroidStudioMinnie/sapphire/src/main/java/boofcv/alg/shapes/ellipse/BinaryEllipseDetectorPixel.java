@@ -20,6 +20,7 @@ package boofcv.alg.shapes.ellipse;
 
 import boofcv.alg.filter.binary.Contour;
 import boofcv.alg.filter.binary.LinearContourLabelChang2004;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.struct.ConnectRule;
 import boofcv.struct.distort.PixelTransform2_F32;
 import boofcv.struct.image.GrayS32;
@@ -62,7 +63,8 @@ import java.util.List;
  * @author Peter Abeles
  */
 public class BinaryEllipseDetectorPixel {
-
+	private static LinearContourLabelChang2004 cF;
+	private static ImageMiscOps IMO;
 	// maximum distance from the ellipse in pixels
 	private double maxDistanceFromEllipse = 3.0;
 
@@ -115,7 +117,7 @@ public class BinaryEllipseDetectorPixel {
 		found.reset();
 		labeled.reshape(binary.width, binary.height);
 
-		contourFinder.process(binary, labeled);
+		cF.process(binary, labeled, IMO);
 
 		FastQueue<Contour> blobs = contourFinder.getContours();
 		for (int i = 0; i < blobs.size; i++) {

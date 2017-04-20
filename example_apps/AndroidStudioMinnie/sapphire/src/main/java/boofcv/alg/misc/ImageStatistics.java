@@ -20,6 +20,7 @@ package boofcv.alg.misc;
 
 import boofcv.alg.InputSanityCheck;
 import boofcv.struct.image.*;
+import sapphire.app.SapphireObject;
 
 import javax.annotation.Generated;
 
@@ -31,25 +32,25 @@ import javax.annotation.Generated;
  * @author Peter Abeles
  */
 @Generated("boofcv.alg.misc.GenerateImageStatistics")
-public class ImageStatistics {
-
+public class ImageStatistics implements SapphireObject {
+	public ImageStatistics() {}
 	/**
 	 * Returns the minimum element value.
-	 * 
+	 *
 	 * @param input Input image. Not modified.
 	 * @return Minimum pixel value.
 	 */
-	public static int min( GrayU8 input ) {
+	public int min( GrayU8 input ) {
 		return minU( input.data, input.startIndex, input.height, input.width , input.stride );
 	}
 
 	/**
 	 * Returns the minimum element value.
-	 * 
+	 *
 	 * @param input Input image. Not modified.
 	 * @return Minimum pixel value.
 	 */
-	public static int min( InterleavedU8 input ) {
+	public int min( InterleavedU8 input ) {
 		return minU( input.data, input.startIndex, input.height, input.width*input.numBands , input.stride );
 	}
 
@@ -72,21 +73,21 @@ public class ImageStatistics {
 
 	/**
 	 * Returns the maximum element value.
-	 * 
+	 *
 	 * @param input Input image. Not modified.
 	 * @return Maximum pixel value.
 	 */
-	public static int max( GrayU8 input ) {
+	public int max( GrayU8 input ) {
 		return maxU( input.data, input.startIndex, input.height, input.width , input.stride );
 	}
 
 	/**
 	 * Returns the maximum element value.
-	 * 
+	 *
 	 * @param input Input image. Not modified.
 	 * @return Maximum pixel value.
 	 */
-	public static int max( InterleavedU8 input ) {
+	public int max( InterleavedU8 input ) {
 		return maxU( input.data, input.startIndex, input.height, input.width*input.numBands , input.stride );
 	}
 
@@ -109,21 +110,21 @@ public class ImageStatistics {
 
 	/**
 	 * Returns the maximum element value.
-	 * 
+	 *
 	 * @param input Input image. Not modified.
 	 * @return Maximum pixel value.
 	 */
-	public static int maxAbs( GrayU8 input ) {
+	public int maxAbs( GrayU8 input ) {
 		return maxAbsU( input.data, input.startIndex, input.height, input.width , input.stride );
 	}
 
 	/**
 	 * Returns the maximum element value.
-	 * 
+	 *
 	 * @param input Input image. Not modified.
 	 * @return Maximum pixel value.
 	 */
-	public static int maxAbs( InterleavedU8 input ) {
+	public int maxAbs( InterleavedU8 input ) {
 		return maxAbsU( input.data, input.startIndex, input.height, input.width*input.numBands , input.stride );
 	}
 
@@ -151,8 +152,8 @@ public class ImageStatistics {
 	 * @param imgB second image. Not modified.
 	 * @return error between the two images.
 	 */
-	public static double meanDiffSq(GrayU8 imgA, GrayU8 imgB ) {
-		InputSanityCheck.checkSameShape(imgA,imgB);
+	public double meanDiffSq(GrayU8 imgA, GrayU8 imgB, InputSanityCheck ISC) {
+		ISC.checkSameShape(imgA,imgB);
 		return meanDiffSqU(imgA.data,imgA.startIndex,imgA.stride, imgB.data,imgB.startIndex,imgB.stride,
 				imgA.height, imgA.width);
 	}
@@ -164,8 +165,8 @@ public class ImageStatistics {
 	 * @param imgB second image. Not modified.
 	 * @return error between the two images.
 	 */
-	public static double meanDiffSq(InterleavedU8 imgA, InterleavedU8 imgB ) {
-		InputSanityCheck.checkSameShape(imgA,imgB);
+	public double meanDiffSq(InterleavedU8 imgA, InterleavedU8 imgB, InputSanityCheck ISC) {
+		ISC.checkSameShape(imgA,imgB);
 		return meanDiffSqU(imgA.data,imgA.startIndex,imgA.stride, imgB.data,imgB.startIndex,imgB.stride,
 				imgA.height, imgA.width*imgA.numBands);
 	}
@@ -178,9 +179,9 @@ public class ImageStatistics {
 		for (int y = 0; y < rows; y++) {
 			int indexA = startIndexA + y * strideA;
 			int indexB = startIndexB + y * strideB;
-			
+
 			int indexEnd = indexA+columns;
-			
+
 			for (; indexA < indexEnd; indexA++,indexB++) {
 				int difference = (dataA[indexA]& 0xFF)-(dataB[indexB]& 0xFF);
 				total += difference*difference;
@@ -197,8 +198,8 @@ public class ImageStatistics {
 	 * @param imgB second image. Not modified.
 	 * @return error between the two images.
 	 */
-	public static double meanDiffAbs(GrayU8 imgA, GrayU8 imgB ) {
-		InputSanityCheck.checkSameShape(imgA,imgB);
+	public double meanDiffAbs(GrayU8 imgA, GrayU8 imgB , InputSanityCheck ISC) {
+		ISC.checkSameShape(imgA,imgB);
 		return meanDiffAbsU(imgA.data,imgA.startIndex,imgA.stride, imgB.data,imgB.startIndex,imgB.stride,
 				imgA.height, imgA.width);
 	}
@@ -210,8 +211,8 @@ public class ImageStatistics {
 	 * @param imgB second image. Not modified.
 	 * @return error between the two images.
 	 */
-	public static double meanDiffAbs(InterleavedU8 imgA, InterleavedU8 imgB ) {
-		InputSanityCheck.checkSameShape(imgA,imgB);
+	public double meanDiffAbs(InterleavedU8 imgA, InterleavedU8 imgB , InputSanityCheck ISC) {
+		ISC.checkSameShape(imgA,imgB);
 		return meanDiffAbsU(imgA.data,imgA.startIndex,imgA.stride, imgB.data,imgB.startIndex,imgB.stride,
 				imgA.height, imgA.width*imgA.numBands);
 	}
@@ -224,9 +225,9 @@ public class ImageStatistics {
 		for (int y = 0; y < rows; y++) {
 			int indexA = startIndexA + y * strideA;
 			int indexB = startIndexB + y * strideB;
-			
+
 			int indexEnd = indexA+columns;
-			
+
 			for (; indexA < indexEnd; indexA++,indexB++) {
 				int difference = (dataA[indexA]& 0xFF)-(dataB[indexB]& 0xFF);
 				total += Math.abs(difference);
@@ -240,35 +241,35 @@ public class ImageStatistics {
 	 * <p>
 	 * Returns the sum of all the pixels in the image.
 	 * </p>
-	 * 
+	 *
 	 * @param img Input image. Not modified.
 	 */
-	public static int sum( GrayU8 img ) {
+	public int sum( GrayU8 img ) {
 
 		final int rows = img.height;
 		final int columns = img.width;
 
 		int total = 0;
-		
+
 		for (int y = 0; y < rows; y++) {
 			int index = img.startIndex + y * img.stride;
-			
+
 			int indexEnd = index+columns;
 			for (; index < indexEnd; index++ ) {
 				total += img.data[index] & 0xFF;
 			}
 		}
-		
+
 		return total;
 	}
 
 	/**
 	 * Returns the mean pixel intensity value.
-	 * 
+	 *
 	 * @param img Input image.  Not modified.
 	 * @return Mean pixel intensity value
 	 */
-	public static double mean( GrayU8 img ) {
+	public double mean( GrayU8 img ) {
 		return sum(img)/(double)(img.width*img.height);
 	}
 
@@ -276,35 +277,35 @@ public class ImageStatistics {
 	 * <p>
 	 * Returns the sum of all the pixels in the image.
 	 * </p>
-	 * 
+	 *
 	 * @param img Input image. Not modified.
 	 */
-	public static int sum( InterleavedU8 img ) {
+	public int sum( InterleavedU8 img ) {
 
 		final int rows = img.height;
 		final int columns = img.width*img.numBands;
 
 		int total = 0;
-		
+
 		for (int y = 0; y < rows; y++) {
 			int index = img.startIndex + y * img.stride;
-			
+
 			int indexEnd = index+columns;
 			for (; index < indexEnd; index++ ) {
 				total += img.data[index] & 0xFF;
 			}
 		}
-		
+
 		return total;
 	}
 
 	/**
 	 * Returns the mean pixel intensity value.
-	 * 
+	 *
 	 * @param img Input image.  Not modified.
 	 * @return Mean pixel intensity value
 	 */
-	public static double mean( InterleavedU8 img ) {
+	public double mean( InterleavedU8 img ) {
 		return sum(img)/(double)(img.width*img.height*img.numBands);
 	}
 
@@ -312,10 +313,10 @@ public class ImageStatistics {
 	 * Computes the variance of pixel intensity values inside the image.
 	 *
 	 * @param img Input image. Not modified.
-	 * @param mean Mean pixel intensity value.   
-	 * @return Pixel variance   
+	 * @param mean Mean pixel intensity value.
+	 * @return Pixel variance
 	 */
-	public static double variance(GrayU8 img , double mean ) {
+	public double variance(GrayU8 img , double mean ) {
 
 		double variance = 0;
 
@@ -325,7 +326,7 @@ public class ImageStatistics {
 			int indexEnd = index+img.width;
 			// for(int x = 0; x < img.width; x++ ) {
 			for (; index < indexEnd; index++ ) {
-				double d = (img.data[index]& 0xFF) - mean; 
+				double d = (img.data[index]& 0xFF) - mean;
 				variance += d*d;
 			}
 		}
@@ -335,14 +336,14 @@ public class ImageStatistics {
 
 	/**
 	 * Computes the histogram of intensity values for the image.
-	 * 
+	 *
 	 * @param input (input) Image.
 	 * @param histogram (output) Storage for histogram. Number of elements must be equal to max value.
 	 */
-	public static void histogram(GrayU8 input , int histogram[] ) {
+	public void histogram(GrayU8 input , int histogram[] ) {
 		for( int i = 0; i < histogram.length; i++ )
 			histogram[i] = 0;
-		
+
 		for( int y = 0; y < input.height; y++ ) {
 			int index = input.startIndex + y*input.stride;
 			int end = index + input.width;
@@ -355,21 +356,21 @@ public class ImageStatistics {
 
 	/**
 	 * Returns the minimum element value.
-	 * 
+	 *
 	 * @param input Input image. Not modified.
 	 * @return Minimum pixel value.
 	 */
-	public static int min( GrayS8 input ) {
+	public int min( GrayS8 input ) {
 		return min( input.data, input.startIndex, input.height, input.width , input.stride );
 	}
 
 	/**
 	 * Returns the minimum element value.
-	 * 
+	 *
 	 * @param input Input image. Not modified.
 	 * @return Minimum pixel value.
 	 */
-	public static int min( InterleavedS8 input ) {
+	public int min( InterleavedS8 input ) {
 		return min( input.data, input.startIndex, input.height, input.width*input.numBands , input.stride );
 	}
 
@@ -392,21 +393,21 @@ public class ImageStatistics {
 
 	/**
 	 * Returns the maximum element value.
-	 * 
+	 *
 	 * @param input Input image. Not modified.
 	 * @return Maximum pixel value.
 	 */
-	public static int max( GrayS8 input ) {
+	public int max( GrayS8 input ) {
 		return max( input.data, input.startIndex, input.height, input.width , input.stride );
 	}
 
 	/**
 	 * Returns the maximum element value.
-	 * 
+	 *
 	 * @param input Input image. Not modified.
 	 * @return Maximum pixel value.
 	 */
-	public static int max( InterleavedS8 input ) {
+	public int max( InterleavedS8 input ) {
 		return max( input.data, input.startIndex, input.height, input.width*input.numBands , input.stride );
 	}
 
@@ -429,21 +430,21 @@ public class ImageStatistics {
 
 	/**
 	 * Returns the maximum element value.
-	 * 
+	 *
 	 * @param input Input image. Not modified.
 	 * @return Maximum pixel value.
 	 */
-	public static int maxAbs( GrayS8 input ) {
+	public int maxAbs( GrayS8 input ) {
 		return maxAbs( input.data, input.startIndex, input.height, input.width , input.stride );
 	}
 
 	/**
 	 * Returns the maximum element value.
-	 * 
+	 *
 	 * @param input Input image. Not modified.
 	 * @return Maximum pixel value.
 	 */
-	public static int maxAbs( InterleavedS8 input ) {
+	public int maxAbs( InterleavedS8 input ) {
 		return maxAbs( input.data, input.startIndex, input.height, input.width*input.numBands , input.stride );
 	}
 
@@ -471,8 +472,8 @@ public class ImageStatistics {
 	 * @param imgB second image. Not modified.
 	 * @return error between the two images.
 	 */
-	public static double meanDiffSq(GrayS8 imgA, GrayS8 imgB ) {
-		InputSanityCheck.checkSameShape(imgA,imgB);
+	public double meanDiffSq(GrayS8 imgA, GrayS8 imgB , InputSanityCheck ISC) {
+		ISC.checkSameShape(imgA,imgB);
 		return meanDiffSq(imgA.data,imgA.startIndex,imgA.stride, imgB.data,imgB.startIndex,imgB.stride,
 				imgA.height, imgA.width);
 	}
@@ -484,8 +485,8 @@ public class ImageStatistics {
 	 * @param imgB second image. Not modified.
 	 * @return error between the two images.
 	 */
-	public static double meanDiffSq(InterleavedS8 imgA, InterleavedS8 imgB ) {
-		InputSanityCheck.checkSameShape(imgA,imgB);
+	public double meanDiffSq(InterleavedS8 imgA, InterleavedS8 imgB , InputSanityCheck ISC) {
+		ISC.checkSameShape(imgA,imgB);
 		return meanDiffSq(imgA.data,imgA.startIndex,imgA.stride, imgB.data,imgB.startIndex,imgB.stride,
 				imgA.height, imgA.width*imgA.numBands);
 	}
@@ -498,9 +499,9 @@ public class ImageStatistics {
 		for (int y = 0; y < rows; y++) {
 			int indexA = startIndexA + y * strideA;
 			int indexB = startIndexB + y * strideB;
-			
+
 			int indexEnd = indexA+columns;
-			
+
 			for (; indexA < indexEnd; indexA++,indexB++) {
 				int difference = (dataA[indexA])-(dataB[indexB]);
 				total += difference*difference;
@@ -517,8 +518,8 @@ public class ImageStatistics {
 	 * @param imgB second image. Not modified.
 	 * @return error between the two images.
 	 */
-	public static double meanDiffAbs(GrayS8 imgA, GrayS8 imgB ) {
-		InputSanityCheck.checkSameShape(imgA,imgB);
+	public double meanDiffAbs(GrayS8 imgA, GrayS8 imgB , InputSanityCheck ISC) {
+		ISC.checkSameShape(imgA,imgB);
 		return meanDiffAbs(imgA.data,imgA.startIndex,imgA.stride, imgB.data,imgB.startIndex,imgB.stride,
 				imgA.height, imgA.width);
 	}
@@ -530,8 +531,8 @@ public class ImageStatistics {
 	 * @param imgB second image. Not modified.
 	 * @return error between the two images.
 	 */
-	public static double meanDiffAbs(InterleavedS8 imgA, InterleavedS8 imgB ) {
-		InputSanityCheck.checkSameShape(imgA,imgB);
+	public double meanDiffAbs(InterleavedS8 imgA, InterleavedS8 imgB, InputSanityCheck ISC ) {
+		ISC.checkSameShape(imgA,imgB);
 		return meanDiffAbs(imgA.data,imgA.startIndex,imgA.stride, imgB.data,imgB.startIndex,imgB.stride,
 				imgA.height, imgA.width*imgA.numBands);
 	}
@@ -544,9 +545,9 @@ public class ImageStatistics {
 		for (int y = 0; y < rows; y++) {
 			int indexA = startIndexA + y * strideA;
 			int indexB = startIndexB + y * strideB;
-			
+
 			int indexEnd = indexA+columns;
-			
+
 			for (; indexA < indexEnd; indexA++,indexB++) {
 				int difference = (dataA[indexA])-(dataB[indexB]);
 				total += Math.abs(difference);
@@ -560,35 +561,35 @@ public class ImageStatistics {
 	 * <p>
 	 * Returns the sum of all the pixels in the image.
 	 * </p>
-	 * 
+	 *
 	 * @param img Input image. Not modified.
 	 */
-	public static int sum( GrayS8 img ) {
+	public int sum( GrayS8 img ) {
 
 		final int rows = img.height;
 		final int columns = img.width;
 
 		int total = 0;
-		
+
 		for (int y = 0; y < rows; y++) {
 			int index = img.startIndex + y * img.stride;
-			
+
 			int indexEnd = index+columns;
 			for (; index < indexEnd; index++ ) {
 				total += img.data[index] ;
 			}
 		}
-		
+
 		return total;
 	}
 
 	/**
 	 * Returns the mean pixel intensity value.
-	 * 
+	 *
 	 * @param img Input image.  Not modified.
 	 * @return Mean pixel intensity value
 	 */
-	public static double mean( GrayS8 img ) {
+	public double mean( GrayS8 img ) {
 		return sum(img)/(double)(img.width*img.height);
 	}
 
@@ -596,35 +597,35 @@ public class ImageStatistics {
 	 * <p>
 	 * Returns the sum of all the pixels in the image.
 	 * </p>
-	 * 
+	 *
 	 * @param img Input image. Not modified.
 	 */
-	public static int sum( InterleavedS8 img ) {
+	public int sum( InterleavedS8 img ) {
 
 		final int rows = img.height;
 		final int columns = img.width*img.numBands;
 
 		int total = 0;
-		
+
 		for (int y = 0; y < rows; y++) {
 			int index = img.startIndex + y * img.stride;
-			
+
 			int indexEnd = index+columns;
 			for (; index < indexEnd; index++ ) {
 				total += img.data[index] ;
 			}
 		}
-		
+
 		return total;
 	}
 
 	/**
 	 * Returns the mean pixel intensity value.
-	 * 
+	 *
 	 * @param img Input image.  Not modified.
 	 * @return Mean pixel intensity value
 	 */
-	public static double mean( InterleavedS8 img ) {
+	public double mean( InterleavedS8 img ) {
 		return sum(img)/(double)(img.width*img.height*img.numBands);
 	}
 
@@ -632,10 +633,10 @@ public class ImageStatistics {
 	 * Computes the variance of pixel intensity values inside the image.
 	 *
 	 * @param img Input image. Not modified.
-	 * @param mean Mean pixel intensity value.   
-	 * @return Pixel variance   
+	 * @param mean Mean pixel intensity value.
+	 * @return Pixel variance
 	 */
-	public static double variance(GrayS8 img , double mean ) {
+	public double variance(GrayS8 img , double mean ) {
 
 		double variance = 0;
 
@@ -645,7 +646,7 @@ public class ImageStatistics {
 			int indexEnd = index+img.width;
 			// for(int x = 0; x < img.width; x++ ) {
 			for (; index < indexEnd; index++ ) {
-				double d = (img.data[index]) - mean; 
+				double d = (img.data[index]) - mean;
 				variance += d*d;
 			}
 		}
@@ -655,15 +656,15 @@ public class ImageStatistics {
 
 	/**
 	 * Computes the histogram of intensity values for the image.
-	 * 
+	 *
 	 * @param input (input) Image.
-	 * @param minValue (input) Minimum possible intensity value   
+	 * @param minValue (input) Minimum possible intensity value
 	 * @param histogram (output) Storage for histogram. Number of elements must be equal to max value.
 	 */
-	public static void histogram(GrayS8 input , int minValue , int histogram[] ) {
+	public void histogram(GrayS8 input , int minValue , int histogram[] ) {
 		for( int i = 0; i < histogram.length; i++ )
 			histogram[i] = 0;
-		
+
 		for( int y = 0; y < input.height; y++ ) {
 			int index = input.startIndex + y*input.stride;
 			int end = index + input.width;
@@ -677,21 +678,21 @@ public class ImageStatistics {
 
 	/**
 	 * Returns the minimum element value.
-	 * 
+	 *
 	 * @param input Input image. Not modified.
 	 * @return Minimum pixel value.
 	 */
-	public static int min( GrayU16 input ) {
+	public int min( GrayU16 input ) {
 		return minU( input.data, input.startIndex, input.height, input.width , input.stride );
 	}
 
 	/**
 	 * Returns the minimum element value.
-	 * 
+	 *
 	 * @param input Input image. Not modified.
 	 * @return Minimum pixel value.
 	 */
-	public static int min( InterleavedU16 input ) {
+	public int min( InterleavedU16 input ) {
 		return minU( input.data, input.startIndex, input.height, input.width*input.numBands , input.stride );
 	}
 
@@ -714,21 +715,21 @@ public class ImageStatistics {
 
 	/**
 	 * Returns the maximum element value.
-	 * 
+	 *
 	 * @param input Input image. Not modified.
 	 * @return Maximum pixel value.
 	 */
-	public static int max( GrayU16 input ) {
+	public int max( GrayU16 input ) {
 		return maxU( input.data, input.startIndex, input.height, input.width , input.stride );
 	}
 
 	/**
 	 * Returns the maximum element value.
-	 * 
+	 *
 	 * @param input Input image. Not modified.
 	 * @return Maximum pixel value.
 	 */
-	public static int max( InterleavedU16 input ) {
+	public int max( InterleavedU16 input ) {
 		return maxU( input.data, input.startIndex, input.height, input.width*input.numBands , input.stride );
 	}
 
@@ -751,21 +752,21 @@ public class ImageStatistics {
 
 	/**
 	 * Returns the maximum element value.
-	 * 
+	 *
 	 * @param input Input image. Not modified.
 	 * @return Maximum pixel value.
 	 */
-	public static int maxAbs( GrayU16 input ) {
+	public int maxAbs( GrayU16 input ) {
 		return maxAbsU( input.data, input.startIndex, input.height, input.width , input.stride );
 	}
 
 	/**
 	 * Returns the maximum element value.
-	 * 
+	 *
 	 * @param input Input image. Not modified.
 	 * @return Maximum pixel value.
 	 */
-	public static int maxAbs( InterleavedU16 input ) {
+	public int maxAbs( InterleavedU16 input ) {
 		return maxAbsU( input.data, input.startIndex, input.height, input.width*input.numBands , input.stride );
 	}
 
@@ -793,8 +794,8 @@ public class ImageStatistics {
 	 * @param imgB second image. Not modified.
 	 * @return error between the two images.
 	 */
-	public static double meanDiffSq(GrayU16 imgA, GrayU16 imgB ) {
-		InputSanityCheck.checkSameShape(imgA,imgB);
+	public double meanDiffSq(GrayU16 imgA, GrayU16 imgB, InputSanityCheck ISC ) {
+		ISC.checkSameShape(imgA,imgB);
 		return meanDiffSqU(imgA.data,imgA.startIndex,imgA.stride, imgB.data,imgB.startIndex,imgB.stride,
 				imgA.height, imgA.width);
 	}
@@ -806,8 +807,8 @@ public class ImageStatistics {
 	 * @param imgB second image. Not modified.
 	 * @return error between the two images.
 	 */
-	public static double meanDiffSq(InterleavedU16 imgA, InterleavedU16 imgB ) {
-		InputSanityCheck.checkSameShape(imgA,imgB);
+	public double meanDiffSq(InterleavedU16 imgA, InterleavedU16 imgB, InputSanityCheck ISC ) {
+		ISC.checkSameShape(imgA,imgB);
 		return meanDiffSqU(imgA.data,imgA.startIndex,imgA.stride, imgB.data,imgB.startIndex,imgB.stride,
 				imgA.height, imgA.width*imgA.numBands);
 	}
@@ -820,9 +821,9 @@ public class ImageStatistics {
 		for (int y = 0; y < rows; y++) {
 			int indexA = startIndexA + y * strideA;
 			int indexB = startIndexB + y * strideB;
-			
+
 			int indexEnd = indexA+columns;
-			
+
 			for (; indexA < indexEnd; indexA++,indexB++) {
 				int difference = (dataA[indexA]& 0xFFFF)-(dataB[indexB]& 0xFFFF);
 				total += difference*difference;
@@ -839,8 +840,8 @@ public class ImageStatistics {
 	 * @param imgB second image. Not modified.
 	 * @return error between the two images.
 	 */
-	public static double meanDiffAbs(GrayU16 imgA, GrayU16 imgB ) {
-		InputSanityCheck.checkSameShape(imgA,imgB);
+	public double meanDiffAbs(GrayU16 imgA, GrayU16 imgB, InputSanityCheck ISC ) {
+		ISC.checkSameShape(imgA,imgB);
 		return meanDiffAbsU(imgA.data,imgA.startIndex,imgA.stride, imgB.data,imgB.startIndex,imgB.stride,
 				imgA.height, imgA.width);
 	}
@@ -852,8 +853,8 @@ public class ImageStatistics {
 	 * @param imgB second image. Not modified.
 	 * @return error between the two images.
 	 */
-	public static double meanDiffAbs(InterleavedU16 imgA, InterleavedU16 imgB ) {
-		InputSanityCheck.checkSameShape(imgA,imgB);
+	public double meanDiffAbs(InterleavedU16 imgA, InterleavedU16 imgB, InputSanityCheck ISC ) {
+		ISC.checkSameShape(imgA,imgB);
 		return meanDiffAbsU(imgA.data,imgA.startIndex,imgA.stride, imgB.data,imgB.startIndex,imgB.stride,
 				imgA.height, imgA.width*imgA.numBands);
 	}
@@ -866,9 +867,9 @@ public class ImageStatistics {
 		for (int y = 0; y < rows; y++) {
 			int indexA = startIndexA + y * strideA;
 			int indexB = startIndexB + y * strideB;
-			
+
 			int indexEnd = indexA+columns;
-			
+
 			for (; indexA < indexEnd; indexA++,indexB++) {
 				int difference = (dataA[indexA]& 0xFFFF)-(dataB[indexB]& 0xFFFF);
 				total += Math.abs(difference);
@@ -882,35 +883,35 @@ public class ImageStatistics {
 	 * <p>
 	 * Returns the sum of all the pixels in the image.
 	 * </p>
-	 * 
+	 *
 	 * @param img Input image. Not modified.
 	 */
-	public static int sum( GrayU16 img ) {
+	public int sum( GrayU16 img ) {
 
 		final int rows = img.height;
 		final int columns = img.width;
 
 		int total = 0;
-		
+
 		for (int y = 0; y < rows; y++) {
 			int index = img.startIndex + y * img.stride;
-			
+
 			int indexEnd = index+columns;
 			for (; index < indexEnd; index++ ) {
 				total += img.data[index] & 0xFFFF;
 			}
 		}
-		
+
 		return total;
 	}
 
 	/**
 	 * Returns the mean pixel intensity value.
-	 * 
+	 *
 	 * @param img Input image.  Not modified.
 	 * @return Mean pixel intensity value
 	 */
-	public static double mean( GrayU16 img ) {
+	public double mean( GrayU16 img ) {
 		return sum(img)/(double)(img.width*img.height);
 	}
 
@@ -918,35 +919,35 @@ public class ImageStatistics {
 	 * <p>
 	 * Returns the sum of all the pixels in the image.
 	 * </p>
-	 * 
+	 *
 	 * @param img Input image. Not modified.
 	 */
-	public static int sum( InterleavedU16 img ) {
+	public int sum( InterleavedU16 img ) {
 
 		final int rows = img.height;
 		final int columns = img.width*img.numBands;
 
 		int total = 0;
-		
+
 		for (int y = 0; y < rows; y++) {
 			int index = img.startIndex + y * img.stride;
-			
+
 			int indexEnd = index+columns;
 			for (; index < indexEnd; index++ ) {
 				total += img.data[index] & 0xFFFF;
 			}
 		}
-		
+
 		return total;
 	}
 
 	/**
 	 * Returns the mean pixel intensity value.
-	 * 
+	 *
 	 * @param img Input image.  Not modified.
 	 * @return Mean pixel intensity value
 	 */
-	public static double mean( InterleavedU16 img ) {
+	public double mean( InterleavedU16 img ) {
 		return sum(img)/(double)(img.width*img.height*img.numBands);
 	}
 
@@ -954,10 +955,10 @@ public class ImageStatistics {
 	 * Computes the variance of pixel intensity values inside the image.
 	 *
 	 * @param img Input image. Not modified.
-	 * @param mean Mean pixel intensity value.   
-	 * @return Pixel variance   
+	 * @param mean Mean pixel intensity value.
+	 * @return Pixel variance
 	 */
-	public static double variance(GrayU16 img , double mean ) {
+	public double variance(GrayU16 img , double mean ) {
 
 		double variance = 0;
 
@@ -967,7 +968,7 @@ public class ImageStatistics {
 			int indexEnd = index+img.width;
 			// for(int x = 0; x < img.width; x++ ) {
 			for (; index < indexEnd; index++ ) {
-				double d = (img.data[index]& 0xFFFF) - mean; 
+				double d = (img.data[index]& 0xFFFF) - mean;
 				variance += d*d;
 			}
 		}
@@ -977,14 +978,14 @@ public class ImageStatistics {
 
 	/**
 	 * Computes the histogram of intensity values for the image.
-	 * 
+	 *
 	 * @param input (input) Image.
 	 * @param histogram (output) Storage for histogram. Number of elements must be equal to max value.
 	 */
-	public static void histogram(GrayU16 input , int histogram[] ) {
+	public void histogram(GrayU16 input , int histogram[] ) {
 		for( int i = 0; i < histogram.length; i++ )
 			histogram[i] = 0;
-		
+
 		for( int y = 0; y < input.height; y++ ) {
 			int index = input.startIndex + y*input.stride;
 			int end = index + input.width;
@@ -997,21 +998,21 @@ public class ImageStatistics {
 
 	/**
 	 * Returns the minimum element value.
-	 * 
+	 *
 	 * @param input Input image. Not modified.
 	 * @return Minimum pixel value.
 	 */
-	public static int min( GrayS16 input ) {
+	public int min( GrayS16 input ) {
 		return min( input.data, input.startIndex, input.height, input.width , input.stride );
 	}
 
 	/**
 	 * Returns the minimum element value.
-	 * 
+	 *
 	 * @param input Input image. Not modified.
 	 * @return Minimum pixel value.
 	 */
-	public static int min( InterleavedS16 input ) {
+	public int min( InterleavedS16 input ) {
 		return min( input.data, input.startIndex, input.height, input.width*input.numBands , input.stride );
 	}
 
@@ -1034,21 +1035,21 @@ public class ImageStatistics {
 
 	/**
 	 * Returns the maximum element value.
-	 * 
+	 *
 	 * @param input Input image. Not modified.
 	 * @return Maximum pixel value.
 	 */
-	public static int max( GrayS16 input ) {
+	public int max( GrayS16 input ) {
 		return max( input.data, input.startIndex, input.height, input.width , input.stride );
 	}
 
 	/**
 	 * Returns the maximum element value.
-	 * 
+	 *
 	 * @param input Input image. Not modified.
 	 * @return Maximum pixel value.
 	 */
-	public static int max( InterleavedS16 input ) {
+	public int max( InterleavedS16 input ) {
 		return max( input.data, input.startIndex, input.height, input.width*input.numBands , input.stride );
 	}
 
@@ -1071,21 +1072,21 @@ public class ImageStatistics {
 
 	/**
 	 * Returns the maximum element value.
-	 * 
+	 *
 	 * @param input Input image. Not modified.
 	 * @return Maximum pixel value.
 	 */
-	public static int maxAbs( GrayS16 input ) {
+	public int maxAbs( GrayS16 input ) {
 		return maxAbs( input.data, input.startIndex, input.height, input.width , input.stride );
 	}
 
 	/**
 	 * Returns the maximum element value.
-	 * 
+	 *
 	 * @param input Input image. Not modified.
 	 * @return Maximum pixel value.
 	 */
-	public static int maxAbs( InterleavedS16 input ) {
+	public int maxAbs( InterleavedS16 input ) {
 		return maxAbs( input.data, input.startIndex, input.height, input.width*input.numBands , input.stride );
 	}
 
@@ -1113,8 +1114,8 @@ public class ImageStatistics {
 	 * @param imgB second image. Not modified.
 	 * @return error between the two images.
 	 */
-	public static double meanDiffSq(GrayS16 imgA, GrayS16 imgB ) {
-		InputSanityCheck.checkSameShape(imgA,imgB);
+	public double meanDiffSq(GrayS16 imgA, GrayS16 imgB, InputSanityCheck ISC ) {
+		ISC.checkSameShape(imgA,imgB);
 		return meanDiffSq(imgA.data,imgA.startIndex,imgA.stride, imgB.data,imgB.startIndex,imgB.stride,
 				imgA.height, imgA.width);
 	}
@@ -1126,8 +1127,8 @@ public class ImageStatistics {
 	 * @param imgB second image. Not modified.
 	 * @return error between the two images.
 	 */
-	public static double meanDiffSq(InterleavedS16 imgA, InterleavedS16 imgB ) {
-		InputSanityCheck.checkSameShape(imgA,imgB);
+	public double meanDiffSq(InterleavedS16 imgA, InterleavedS16 imgB , InputSanityCheck ISC) {
+		ISC.checkSameShape(imgA,imgB);
 		return meanDiffSq(imgA.data,imgA.startIndex,imgA.stride, imgB.data,imgB.startIndex,imgB.stride,
 				imgA.height, imgA.width*imgA.numBands);
 	}
@@ -1140,9 +1141,9 @@ public class ImageStatistics {
 		for (int y = 0; y < rows; y++) {
 			int indexA = startIndexA + y * strideA;
 			int indexB = startIndexB + y * strideB;
-			
+
 			int indexEnd = indexA+columns;
-			
+
 			for (; indexA < indexEnd; indexA++,indexB++) {
 				int difference = (dataA[indexA])-(dataB[indexB]);
 				total += difference*difference;
@@ -1159,8 +1160,8 @@ public class ImageStatistics {
 	 * @param imgB second image. Not modified.
 	 * @return error between the two images.
 	 */
-	public static double meanDiffAbs(GrayS16 imgA, GrayS16 imgB ) {
-		InputSanityCheck.checkSameShape(imgA,imgB);
+	public double meanDiffAbs(GrayS16 imgA, GrayS16 imgB, InputSanityCheck ISC ) {
+		ISC.checkSameShape(imgA,imgB);
 		return meanDiffAbs(imgA.data,imgA.startIndex,imgA.stride, imgB.data,imgB.startIndex,imgB.stride,
 				imgA.height, imgA.width);
 	}
@@ -1172,8 +1173,8 @@ public class ImageStatistics {
 	 * @param imgB second image. Not modified.
 	 * @return error between the two images.
 	 */
-	public static double meanDiffAbs(InterleavedS16 imgA, InterleavedS16 imgB ) {
-		InputSanityCheck.checkSameShape(imgA,imgB);
+	public double meanDiffAbs(InterleavedS16 imgA, InterleavedS16 imgB , InputSanityCheck ISC) {
+		ISC.checkSameShape(imgA,imgB);
 		return meanDiffAbs(imgA.data,imgA.startIndex,imgA.stride, imgB.data,imgB.startIndex,imgB.stride,
 				imgA.height, imgA.width*imgA.numBands);
 	}
@@ -1186,9 +1187,9 @@ public class ImageStatistics {
 		for (int y = 0; y < rows; y++) {
 			int indexA = startIndexA + y * strideA;
 			int indexB = startIndexB + y * strideB;
-			
+
 			int indexEnd = indexA+columns;
-			
+
 			for (; indexA < indexEnd; indexA++,indexB++) {
 				int difference = (dataA[indexA])-(dataB[indexB]);
 				total += Math.abs(difference);
@@ -1202,35 +1203,35 @@ public class ImageStatistics {
 	 * <p>
 	 * Returns the sum of all the pixels in the image.
 	 * </p>
-	 * 
+	 *
 	 * @param img Input image. Not modified.
 	 */
-	public static int sum( GrayS16 img ) {
+	public int sum( GrayS16 img ) {
 
 		final int rows = img.height;
 		final int columns = img.width;
 
 		int total = 0;
-		
+
 		for (int y = 0; y < rows; y++) {
 			int index = img.startIndex + y * img.stride;
-			
+
 			int indexEnd = index+columns;
 			for (; index < indexEnd; index++ ) {
 				total += img.data[index] ;
 			}
 		}
-		
+
 		return total;
 	}
 
 	/**
 	 * Returns the mean pixel intensity value.
-	 * 
+	 *
 	 * @param img Input image.  Not modified.
 	 * @return Mean pixel intensity value
 	 */
-	public static double mean( GrayS16 img ) {
+	public double mean( GrayS16 img ) {
 		return sum(img)/(double)(img.width*img.height);
 	}
 
@@ -1238,35 +1239,35 @@ public class ImageStatistics {
 	 * <p>
 	 * Returns the sum of all the pixels in the image.
 	 * </p>
-	 * 
+	 *
 	 * @param img Input image. Not modified.
 	 */
-	public static int sum( InterleavedS16 img ) {
+	public int sum( InterleavedS16 img ) {
 
 		final int rows = img.height;
 		final int columns = img.width*img.numBands;
 
 		int total = 0;
-		
+
 		for (int y = 0; y < rows; y++) {
 			int index = img.startIndex + y * img.stride;
-			
+
 			int indexEnd = index+columns;
 			for (; index < indexEnd; index++ ) {
 				total += img.data[index] ;
 			}
 		}
-		
+
 		return total;
 	}
 
 	/**
 	 * Returns the mean pixel intensity value.
-	 * 
+	 *
 	 * @param img Input image.  Not modified.
 	 * @return Mean pixel intensity value
 	 */
-	public static double mean( InterleavedS16 img ) {
+	public double mean( InterleavedS16 img ) {
 		return sum(img)/(double)(img.width*img.height*img.numBands);
 	}
 
@@ -1274,10 +1275,10 @@ public class ImageStatistics {
 	 * Computes the variance of pixel intensity values inside the image.
 	 *
 	 * @param img Input image. Not modified.
-	 * @param mean Mean pixel intensity value.   
-	 * @return Pixel variance   
+	 * @param mean Mean pixel intensity value.
+	 * @return Pixel variance
 	 */
-	public static double variance(GrayS16 img , double mean ) {
+	public double variance(GrayS16 img , double mean ) {
 
 		double variance = 0;
 
@@ -1287,7 +1288,7 @@ public class ImageStatistics {
 			int indexEnd = index+img.width;
 			// for(int x = 0; x < img.width; x++ ) {
 			for (; index < indexEnd; index++ ) {
-				double d = (img.data[index]) - mean; 
+				double d = (img.data[index]) - mean;
 				variance += d*d;
 			}
 		}
@@ -1297,15 +1298,15 @@ public class ImageStatistics {
 
 	/**
 	 * Computes the histogram of intensity values for the image.
-	 * 
+	 *
 	 * @param input (input) Image.
-	 * @param minValue (input) Minimum possible intensity value   
+	 * @param minValue (input) Minimum possible intensity value
 	 * @param histogram (output) Storage for histogram. Number of elements must be equal to max value.
 	 */
-	public static void histogram(GrayS16 input , int minValue , int histogram[] ) {
+	public void histogram(GrayS16 input , int minValue , int histogram[] ) {
 		for( int i = 0; i < histogram.length; i++ )
 			histogram[i] = 0;
-		
+
 		for( int y = 0; y < input.height; y++ ) {
 			int index = input.startIndex + y*input.stride;
 			int end = index + input.width;
@@ -1319,21 +1320,21 @@ public class ImageStatistics {
 
 	/**
 	 * Returns the minimum element value.
-	 * 
+	 *
 	 * @param input Input image. Not modified.
 	 * @return Minimum pixel value.
 	 */
-	public static int min( GrayS32 input ) {
+	public int min( GrayS32 input ) {
 		return min( input.data, input.startIndex, input.height, input.width , input.stride );
 	}
 
 	/**
 	 * Returns the minimum element value.
-	 * 
+	 *
 	 * @param input Input image. Not modified.
 	 * @return Minimum pixel value.
 	 */
-	public static int min( InterleavedS32 input ) {
+	public int min( InterleavedS32 input ) {
 		return min( input.data, input.startIndex, input.height, input.width*input.numBands , input.stride );
 	}
 
@@ -1356,21 +1357,21 @@ public class ImageStatistics {
 
 	/**
 	 * Returns the maximum element value.
-	 * 
+	 *
 	 * @param input Input image. Not modified.
 	 * @return Maximum pixel value.
 	 */
-	public static int max( GrayS32 input ) {
+	public int max( GrayS32 input ) {
 		return max( input.data, input.startIndex, input.height, input.width , input.stride );
 	}
 
 	/**
 	 * Returns the maximum element value.
-	 * 
+	 *
 	 * @param input Input image. Not modified.
 	 * @return Maximum pixel value.
 	 */
-	public static int max( InterleavedS32 input ) {
+	public int max( InterleavedS32 input ) {
 		return max( input.data, input.startIndex, input.height, input.width*input.numBands , input.stride );
 	}
 
@@ -1393,21 +1394,21 @@ public class ImageStatistics {
 
 	/**
 	 * Returns the maximum element value.
-	 * 
+	 *
 	 * @param input Input image. Not modified.
 	 * @return Maximum pixel value.
 	 */
-	public static int maxAbs( GrayS32 input ) {
+	public int maxAbs( GrayS32 input ) {
 		return maxAbs( input.data, input.startIndex, input.height, input.width , input.stride );
 	}
 
 	/**
 	 * Returns the maximum element value.
-	 * 
+	 *
 	 * @param input Input image. Not modified.
 	 * @return Maximum pixel value.
 	 */
-	public static int maxAbs( InterleavedS32 input ) {
+	public int maxAbs( InterleavedS32 input ) {
 		return maxAbs( input.data, input.startIndex, input.height, input.width*input.numBands , input.stride );
 	}
 
@@ -1435,8 +1436,8 @@ public class ImageStatistics {
 	 * @param imgB second image. Not modified.
 	 * @return error between the two images.
 	 */
-	public static double meanDiffSq(GrayS32 imgA, GrayS32 imgB ) {
-		InputSanityCheck.checkSameShape(imgA,imgB);
+	public double meanDiffSq(GrayS32 imgA, GrayS32 imgB, InputSanityCheck ISC ) {
+		ISC.checkSameShape(imgA,imgB);
 		return meanDiffSq(imgA.data,imgA.startIndex,imgA.stride, imgB.data,imgB.startIndex,imgB.stride,
 				imgA.height, imgA.width);
 	}
@@ -1448,8 +1449,8 @@ public class ImageStatistics {
 	 * @param imgB second image. Not modified.
 	 * @return error between the two images.
 	 */
-	public static double meanDiffSq(InterleavedS32 imgA, InterleavedS32 imgB ) {
-		InputSanityCheck.checkSameShape(imgA,imgB);
+	public double meanDiffSq(InterleavedS32 imgA, InterleavedS32 imgB , InputSanityCheck ISC) {
+		ISC.checkSameShape(imgA,imgB);
 		return meanDiffSq(imgA.data,imgA.startIndex,imgA.stride, imgB.data,imgB.startIndex,imgB.stride,
 				imgA.height, imgA.width*imgA.numBands);
 	}
@@ -1462,9 +1463,9 @@ public class ImageStatistics {
 		for (int y = 0; y < rows; y++) {
 			int indexA = startIndexA + y * strideA;
 			int indexB = startIndexB + y * strideB;
-			
+
 			int indexEnd = indexA+columns;
-			
+
 			for (; indexA < indexEnd; indexA++,indexB++) {
 				int difference = (dataA[indexA])-(dataB[indexB]);
 				total += difference*difference;
@@ -1481,8 +1482,8 @@ public class ImageStatistics {
 	 * @param imgB second image. Not modified.
 	 * @return error between the two images.
 	 */
-	public static double meanDiffAbs(GrayS32 imgA, GrayS32 imgB ) {
-		InputSanityCheck.checkSameShape(imgA,imgB);
+	public double meanDiffAbs(GrayS32 imgA, GrayS32 imgB, InputSanityCheck ISC ) {
+		ISC.checkSameShape(imgA,imgB);
 		return meanDiffAbs(imgA.data,imgA.startIndex,imgA.stride, imgB.data,imgB.startIndex,imgB.stride,
 				imgA.height, imgA.width);
 	}
@@ -1494,8 +1495,8 @@ public class ImageStatistics {
 	 * @param imgB second image. Not modified.
 	 * @return error between the two images.
 	 */
-	public static double meanDiffAbs(InterleavedS32 imgA, InterleavedS32 imgB ) {
-		InputSanityCheck.checkSameShape(imgA,imgB);
+	public double meanDiffAbs(InterleavedS32 imgA, InterleavedS32 imgB , InputSanityCheck ISC) {
+		ISC.checkSameShape(imgA,imgB);
 		return meanDiffAbs(imgA.data,imgA.startIndex,imgA.stride, imgB.data,imgB.startIndex,imgB.stride,
 				imgA.height, imgA.width*imgA.numBands);
 	}
@@ -1508,9 +1509,9 @@ public class ImageStatistics {
 		for (int y = 0; y < rows; y++) {
 			int indexA = startIndexA + y * strideA;
 			int indexB = startIndexB + y * strideB;
-			
+
 			int indexEnd = indexA+columns;
-			
+
 			for (; indexA < indexEnd; indexA++,indexB++) {
 				int difference = (dataA[indexA])-(dataB[indexB]);
 				total += Math.abs(difference);
@@ -1524,35 +1525,35 @@ public class ImageStatistics {
 	 * <p>
 	 * Returns the sum of all the pixels in the image.
 	 * </p>
-	 * 
+	 *
 	 * @param img Input image. Not modified.
 	 */
-	public static int sum( GrayS32 img ) {
+	public int sum( GrayS32 img ) {
 
 		final int rows = img.height;
 		final int columns = img.width;
 
 		int total = 0;
-		
+
 		for (int y = 0; y < rows; y++) {
 			int index = img.startIndex + y * img.stride;
-			
+
 			int indexEnd = index+columns;
 			for (; index < indexEnd; index++ ) {
 				total += img.data[index] ;
 			}
 		}
-		
+
 		return total;
 	}
 
 	/**
 	 * Returns the mean pixel intensity value.
-	 * 
+	 *
 	 * @param img Input image.  Not modified.
 	 * @return Mean pixel intensity value
 	 */
-	public static double mean( GrayS32 img ) {
+	public double mean( GrayS32 img ) {
 		return sum(img)/(double)(img.width*img.height);
 	}
 
@@ -1560,35 +1561,35 @@ public class ImageStatistics {
 	 * <p>
 	 * Returns the sum of all the pixels in the image.
 	 * </p>
-	 * 
+	 *
 	 * @param img Input image. Not modified.
 	 */
-	public static int sum( InterleavedS32 img ) {
+	public int sum( InterleavedS32 img ) {
 
 		final int rows = img.height;
 		final int columns = img.width*img.numBands;
 
 		int total = 0;
-		
+
 		for (int y = 0; y < rows; y++) {
 			int index = img.startIndex + y * img.stride;
-			
+
 			int indexEnd = index+columns;
 			for (; index < indexEnd; index++ ) {
 				total += img.data[index] ;
 			}
 		}
-		
+
 		return total;
 	}
 
 	/**
 	 * Returns the mean pixel intensity value.
-	 * 
+	 *
 	 * @param img Input image.  Not modified.
 	 * @return Mean pixel intensity value
 	 */
-	public static double mean( InterleavedS32 img ) {
+	public double mean( InterleavedS32 img ) {
 		return sum(img)/(double)(img.width*img.height*img.numBands);
 	}
 
@@ -1596,10 +1597,10 @@ public class ImageStatistics {
 	 * Computes the variance of pixel intensity values inside the image.
 	 *
 	 * @param img Input image. Not modified.
-	 * @param mean Mean pixel intensity value.   
-	 * @return Pixel variance   
+	 * @param mean Mean pixel intensity value.
+	 * @return Pixel variance
 	 */
-	public static double variance(GrayS32 img , double mean ) {
+	public double variance(GrayS32 img , double mean ) {
 
 		double variance = 0;
 
@@ -1609,7 +1610,7 @@ public class ImageStatistics {
 			int indexEnd = index+img.width;
 			// for(int x = 0; x < img.width; x++ ) {
 			for (; index < indexEnd; index++ ) {
-				double d = (img.data[index]) - mean; 
+				double d = (img.data[index]) - mean;
 				variance += d*d;
 			}
 		}
@@ -1619,15 +1620,15 @@ public class ImageStatistics {
 
 	/**
 	 * Computes the histogram of intensity values for the image.
-	 * 
+	 *
 	 * @param input (input) Image.
-	 * @param minValue (input) Minimum possible intensity value   
+	 * @param minValue (input) Minimum possible intensity value
 	 * @param histogram (output) Storage for histogram. Number of elements must be equal to max value.
 	 */
-	public static void histogram(GrayS32 input , int minValue , int histogram[] ) {
+	public void histogram(GrayS32 input , int minValue , int histogram[] ) {
 		for( int i = 0; i < histogram.length; i++ )
 			histogram[i] = 0;
-		
+
 		for( int y = 0; y < input.height; y++ ) {
 			int index = input.startIndex + y*input.stride;
 			int end = index + input.width;
@@ -1641,21 +1642,21 @@ public class ImageStatistics {
 
 	/**
 	 * Returns the minimum element value.
-	 * 
+	 *
 	 * @param input Input image. Not modified.
 	 * @return Minimum pixel value.
 	 */
-	public static long min( GrayS64 input ) {
+	public long min( GrayS64 input ) {
 		return min( input.data, input.startIndex, input.height, input.width , input.stride );
 	}
 
 	/**
 	 * Returns the minimum element value.
-	 * 
+	 *
 	 * @param input Input image. Not modified.
 	 * @return Minimum pixel value.
 	 */
-	public static long min( InterleavedS64 input ) {
+	public long min( InterleavedS64 input ) {
 		return min( input.data, input.startIndex, input.height, input.width*input.numBands , input.stride );
 	}
 
@@ -1678,21 +1679,21 @@ public class ImageStatistics {
 
 	/**
 	 * Returns the maximum element value.
-	 * 
+	 *
 	 * @param input Input image. Not modified.
 	 * @return Maximum pixel value.
 	 */
-	public static long max( GrayS64 input ) {
+	public long max( GrayS64 input ) {
 		return max( input.data, input.startIndex, input.height, input.width , input.stride );
 	}
 
 	/**
 	 * Returns the maximum element value.
-	 * 
+	 *
 	 * @param input Input image. Not modified.
 	 * @return Maximum pixel value.
 	 */
-	public static long max( InterleavedS64 input ) {
+	public long max( InterleavedS64 input ) {
 		return max( input.data, input.startIndex, input.height, input.width*input.numBands , input.stride );
 	}
 
@@ -1715,21 +1716,21 @@ public class ImageStatistics {
 
 	/**
 	 * Returns the maximum element value.
-	 * 
+	 *
 	 * @param input Input image. Not modified.
 	 * @return Maximum pixel value.
 	 */
-	public static long maxAbs( GrayS64 input ) {
+	public long maxAbs( GrayS64 input ) {
 		return maxAbs( input.data, input.startIndex, input.height, input.width , input.stride );
 	}
 
 	/**
 	 * Returns the maximum element value.
-	 * 
+	 *
 	 * @param input Input image. Not modified.
 	 * @return Maximum pixel value.
 	 */
-	public static long maxAbs( InterleavedS64 input ) {
+	public long maxAbs( InterleavedS64 input ) {
 		return maxAbs( input.data, input.startIndex, input.height, input.width*input.numBands , input.stride );
 	}
 
@@ -1757,8 +1758,8 @@ public class ImageStatistics {
 	 * @param imgB second image. Not modified.
 	 * @return error between the two images.
 	 */
-	public static double meanDiffSq(GrayS64 imgA, GrayS64 imgB ) {
-		InputSanityCheck.checkSameShape(imgA,imgB);
+	public double meanDiffSq(GrayS64 imgA, GrayS64 imgB, InputSanityCheck ISC ) {
+		ISC.checkSameShape(imgA,imgB);
 		return meanDiffSq(imgA.data,imgA.startIndex,imgA.stride, imgB.data,imgB.startIndex,imgB.stride,
 				imgA.height, imgA.width);
 	}
@@ -1770,8 +1771,8 @@ public class ImageStatistics {
 	 * @param imgB second image. Not modified.
 	 * @return error between the two images.
 	 */
-	public static double meanDiffSq(InterleavedS64 imgA, InterleavedS64 imgB ) {
-		InputSanityCheck.checkSameShape(imgA,imgB);
+	public double meanDiffSq(InterleavedS64 imgA, InterleavedS64 imgB, InputSanityCheck ISC ) {
+		ISC.checkSameShape(imgA,imgB);
 		return meanDiffSq(imgA.data,imgA.startIndex,imgA.stride, imgB.data,imgB.startIndex,imgB.stride,
 				imgA.height, imgA.width*imgA.numBands);
 	}
@@ -1784,9 +1785,9 @@ public class ImageStatistics {
 		for (int y = 0; y < rows; y++) {
 			int indexA = startIndexA + y * strideA;
 			int indexB = startIndexB + y * strideB;
-			
+
 			int indexEnd = indexA+columns;
-			
+
 			for (; indexA < indexEnd; indexA++,indexB++) {
 				long difference = (dataA[indexA])-(dataB[indexB]);
 				total += difference*difference;
@@ -1803,8 +1804,8 @@ public class ImageStatistics {
 	 * @param imgB second image. Not modified.
 	 * @return error between the two images.
 	 */
-	public static double meanDiffAbs(GrayS64 imgA, GrayS64 imgB ) {
-		InputSanityCheck.checkSameShape(imgA,imgB);
+	public double meanDiffAbs(GrayS64 imgA, GrayS64 imgB , InputSanityCheck ISC) {
+		ISC.checkSameShape(imgA,imgB);
 		return meanDiffAbs(imgA.data,imgA.startIndex,imgA.stride, imgB.data,imgB.startIndex,imgB.stride,
 				imgA.height, imgA.width);
 	}
@@ -1816,8 +1817,8 @@ public class ImageStatistics {
 	 * @param imgB second image. Not modified.
 	 * @return error between the two images.
 	 */
-	public static double meanDiffAbs(InterleavedS64 imgA, InterleavedS64 imgB ) {
-		InputSanityCheck.checkSameShape(imgA,imgB);
+	public double meanDiffAbs(InterleavedS64 imgA, InterleavedS64 imgB, InputSanityCheck ISC ) {
+		ISC.checkSameShape(imgA,imgB);
 		return meanDiffAbs(imgA.data,imgA.startIndex,imgA.stride, imgB.data,imgB.startIndex,imgB.stride,
 				imgA.height, imgA.width*imgA.numBands);
 	}
@@ -1830,9 +1831,9 @@ public class ImageStatistics {
 		for (int y = 0; y < rows; y++) {
 			int indexA = startIndexA + y * strideA;
 			int indexB = startIndexB + y * strideB;
-			
+
 			int indexEnd = indexA+columns;
-			
+
 			for (; indexA < indexEnd; indexA++,indexB++) {
 				long difference = (dataA[indexA])-(dataB[indexB]);
 				total += Math.abs(difference);
@@ -1846,35 +1847,35 @@ public class ImageStatistics {
 	 * <p>
 	 * Returns the sum of all the pixels in the image.
 	 * </p>
-	 * 
+	 *
 	 * @param img Input image. Not modified.
 	 */
-	public static long sum( GrayS64 img ) {
+	public long sum( GrayS64 img ) {
 
 		final int rows = img.height;
 		final int columns = img.width;
 
 		long total = 0;
-		
+
 		for (int y = 0; y < rows; y++) {
 			int index = img.startIndex + y * img.stride;
-			
+
 			int indexEnd = index+columns;
 			for (; index < indexEnd; index++ ) {
 				total += img.data[index] ;
 			}
 		}
-		
+
 		return total;
 	}
 
 	/**
 	 * Returns the mean pixel intensity value.
-	 * 
+	 *
 	 * @param img Input image.  Not modified.
 	 * @return Mean pixel intensity value
 	 */
-	public static double mean( GrayS64 img ) {
+	public double mean( GrayS64 img ) {
 		return sum(img)/(double)(img.width*img.height);
 	}
 
@@ -1882,35 +1883,35 @@ public class ImageStatistics {
 	 * <p>
 	 * Returns the sum of all the pixels in the image.
 	 * </p>
-	 * 
+	 *
 	 * @param img Input image. Not modified.
 	 */
-	public static long sum( InterleavedS64 img ) {
+	public long sum( InterleavedS64 img ) {
 
 		final int rows = img.height;
 		final int columns = img.width*img.numBands;
 
 		long total = 0;
-		
+
 		for (int y = 0; y < rows; y++) {
 			int index = img.startIndex + y * img.stride;
-			
+
 			int indexEnd = index+columns;
 			for (; index < indexEnd; index++ ) {
 				total += img.data[index] ;
 			}
 		}
-		
+
 		return total;
 	}
 
 	/**
 	 * Returns the mean pixel intensity value.
-	 * 
+	 *
 	 * @param img Input image.  Not modified.
 	 * @return Mean pixel intensity value
 	 */
-	public static double mean( InterleavedS64 img ) {
+	public double mean( InterleavedS64 img ) {
 		return sum(img)/(double)(img.width*img.height*img.numBands);
 	}
 
@@ -1918,10 +1919,10 @@ public class ImageStatistics {
 	 * Computes the variance of pixel intensity values inside the image.
 	 *
 	 * @param img Input image. Not modified.
-	 * @param mean Mean pixel intensity value.   
-	 * @return Pixel variance   
+	 * @param mean Mean pixel intensity value.
+	 * @return Pixel variance
 	 */
-	public static double variance(GrayS64 img , double mean ) {
+	public double variance(GrayS64 img , double mean ) {
 
 		double variance = 0;
 
@@ -1931,7 +1932,7 @@ public class ImageStatistics {
 			int indexEnd = index+img.width;
 			// for(int x = 0; x < img.width; x++ ) {
 			for (; index < indexEnd; index++ ) {
-				double d = (img.data[index]) - mean; 
+				double d = (img.data[index]) - mean;
 				variance += d*d;
 			}
 		}
@@ -1941,15 +1942,15 @@ public class ImageStatistics {
 
 	/**
 	 * Computes the histogram of intensity values for the image.
-	 * 
+	 *
 	 * @param input (input) Image.
-	 * @param minValue (input) Minimum possible intensity value   
+	 * @param minValue (input) Minimum possible intensity value
 	 * @param histogram (output) Storage for histogram. Number of elements must be equal to max value.
 	 */
-	public static void histogram(GrayS64 input , int minValue , int histogram[] ) {
+	public void histogram(GrayS64 input , int minValue , int histogram[] ) {
 		for( int i = 0; i < histogram.length; i++ )
 			histogram[i] = 0;
-		
+
 		for( int y = 0; y < input.height; y++ ) {
 			int index = input.startIndex + y*input.stride;
 			int end = index + input.width;
@@ -1963,21 +1964,21 @@ public class ImageStatistics {
 
 	/**
 	 * Returns the minimum element value.
-	 * 
+	 *
 	 * @param input Input image. Not modified.
 	 * @return Minimum pixel value.
 	 */
-	public static float min( GrayF32 input ) {
+	public float min( GrayF32 input ) {
 		return min( input.data, input.startIndex, input.height, input.width , input.stride );
 	}
 
 	/**
 	 * Returns the minimum element value.
-	 * 
+	 *
 	 * @param input Input image. Not modified.
 	 * @return Minimum pixel value.
 	 */
-	public static float min( InterleavedF32 input ) {
+	public float min( InterleavedF32 input ) {
 		return min( input.data, input.startIndex, input.height, input.width*input.numBands , input.stride );
 	}
 
@@ -2000,21 +2001,21 @@ public class ImageStatistics {
 
 	/**
 	 * Returns the maximum element value.
-	 * 
+	 *
 	 * @param input Input image. Not modified.
 	 * @return Maximum pixel value.
 	 */
-	public static float max( GrayF32 input ) {
+	public float max( GrayF32 input ) {
 		return max( input.data, input.startIndex, input.height, input.width , input.stride );
 	}
 
 	/**
 	 * Returns the maximum element value.
-	 * 
+	 *
 	 * @param input Input image. Not modified.
 	 * @return Maximum pixel value.
 	 */
-	public static float max( InterleavedF32 input ) {
+	public float max( InterleavedF32 input ) {
 		return max( input.data, input.startIndex, input.height, input.width*input.numBands , input.stride );
 	}
 
@@ -2037,21 +2038,21 @@ public class ImageStatistics {
 
 	/**
 	 * Returns the maximum element value.
-	 * 
+	 *
 	 * @param input Input image. Not modified.
 	 * @return Maximum pixel value.
 	 */
-	public static float maxAbs( GrayF32 input ) {
+	public float maxAbs( GrayF32 input ) {
 		return maxAbs( input.data, input.startIndex, input.height, input.width , input.stride );
 	}
 
 	/**
 	 * Returns the maximum element value.
-	 * 
+	 *
 	 * @param input Input image. Not modified.
 	 * @return Maximum pixel value.
 	 */
-	public static float maxAbs( InterleavedF32 input ) {
+	public float maxAbs( InterleavedF32 input ) {
 		return maxAbs( input.data, input.startIndex, input.height, input.width*input.numBands , input.stride );
 	}
 
@@ -2079,8 +2080,8 @@ public class ImageStatistics {
 	 * @param imgB second image. Not modified.
 	 * @return error between the two images.
 	 */
-	public static double meanDiffSq(GrayF32 imgA, GrayF32 imgB ) {
-		InputSanityCheck.checkSameShape(imgA,imgB);
+	public double meanDiffSq(GrayF32 imgA, GrayF32 imgB , InputSanityCheck ISC) {
+		ISC.checkSameShape(imgA,imgB);
 		return meanDiffSq(imgA.data,imgA.startIndex,imgA.stride, imgB.data,imgB.startIndex,imgB.stride,
 				imgA.height, imgA.width);
 	}
@@ -2092,8 +2093,8 @@ public class ImageStatistics {
 	 * @param imgB second image. Not modified.
 	 * @return error between the two images.
 	 */
-	public static double meanDiffSq(InterleavedF32 imgA, InterleavedF32 imgB ) {
-		InputSanityCheck.checkSameShape(imgA,imgB);
+	public double meanDiffSq(InterleavedF32 imgA, InterleavedF32 imgB, InputSanityCheck ISC ) {
+		ISC.checkSameShape(imgA,imgB);
 		return meanDiffSq(imgA.data,imgA.startIndex,imgA.stride, imgB.data,imgB.startIndex,imgB.stride,
 				imgA.height, imgA.width*imgA.numBands);
 	}
@@ -2106,9 +2107,9 @@ public class ImageStatistics {
 		for (int y = 0; y < rows; y++) {
 			int indexA = startIndexA + y * strideA;
 			int indexB = startIndexB + y * strideB;
-			
+
 			int indexEnd = indexA+columns;
-			
+
 			for (; indexA < indexEnd; indexA++,indexB++) {
 				float difference = (dataA[indexA])-(dataB[indexB]);
 				total += difference*difference;
@@ -2125,8 +2126,8 @@ public class ImageStatistics {
 	 * @param imgB second image. Not modified.
 	 * @return error between the two images.
 	 */
-	public static double meanDiffAbs(GrayF32 imgA, GrayF32 imgB ) {
-		InputSanityCheck.checkSameShape(imgA,imgB);
+	public double meanDiffAbs(GrayF32 imgA, GrayF32 imgB , InputSanityCheck ISC) {
+		ISC.checkSameShape(imgA,imgB);
 		return meanDiffAbs(imgA.data,imgA.startIndex,imgA.stride, imgB.data,imgB.startIndex,imgB.stride,
 				imgA.height, imgA.width);
 	}
@@ -2138,8 +2139,8 @@ public class ImageStatistics {
 	 * @param imgB second image. Not modified.
 	 * @return error between the two images.
 	 */
-	public static double meanDiffAbs(InterleavedF32 imgA, InterleavedF32 imgB ) {
-		InputSanityCheck.checkSameShape(imgA,imgB);
+	public double meanDiffAbs(InterleavedF32 imgA, InterleavedF32 imgB , InputSanityCheck ISC) {
+		ISC.checkSameShape(imgA,imgB);
 		return meanDiffAbs(imgA.data,imgA.startIndex,imgA.stride, imgB.data,imgB.startIndex,imgB.stride,
 				imgA.height, imgA.width*imgA.numBands);
 	}
@@ -2152,9 +2153,9 @@ public class ImageStatistics {
 		for (int y = 0; y < rows; y++) {
 			int indexA = startIndexA + y * strideA;
 			int indexB = startIndexB + y * strideB;
-			
+
 			int indexEnd = indexA+columns;
-			
+
 			for (; indexA < indexEnd; indexA++,indexB++) {
 				float difference = (dataA[indexA])-(dataB[indexB]);
 				total += Math.abs(difference);
@@ -2168,35 +2169,35 @@ public class ImageStatistics {
 	 * <p>
 	 * Returns the sum of all the pixels in the image.
 	 * </p>
-	 * 
+	 *
 	 * @param img Input image. Not modified.
 	 */
-	public static float sum( GrayF32 img ) {
+	public float sum( GrayF32 img ) {
 
 		final int rows = img.height;
 		final int columns = img.width;
 
 		float total = 0;
-		
+
 		for (int y = 0; y < rows; y++) {
 			int index = img.startIndex + y * img.stride;
-			
+
 			int indexEnd = index+columns;
 			for (; index < indexEnd; index++ ) {
 				total += img.data[index] ;
 			}
 		}
-		
+
 		return total;
 	}
 
 	/**
 	 * Returns the mean pixel intensity value.
-	 * 
+	 *
 	 * @param img Input image.  Not modified.
 	 * @return Mean pixel intensity value
 	 */
-	public static float mean( GrayF32 img ) {
+	public float mean( GrayF32 img ) {
 		return sum(img)/(float)(img.width*img.height);
 	}
 
@@ -2204,35 +2205,35 @@ public class ImageStatistics {
 	 * <p>
 	 * Returns the sum of all the pixels in the image.
 	 * </p>
-	 * 
+	 *
 	 * @param img Input image. Not modified.
 	 */
-	public static float sum( InterleavedF32 img ) {
+	public float sum( InterleavedF32 img ) {
 
 		final int rows = img.height;
 		final int columns = img.width*img.numBands;
 
 		float total = 0;
-		
+
 		for (int y = 0; y < rows; y++) {
 			int index = img.startIndex + y * img.stride;
-			
+
 			int indexEnd = index+columns;
 			for (; index < indexEnd; index++ ) {
 				total += img.data[index] ;
 			}
 		}
-		
+
 		return total;
 	}
 
 	/**
 	 * Returns the mean pixel intensity value.
-	 * 
+	 *
 	 * @param img Input image.  Not modified.
 	 * @return Mean pixel intensity value
 	 */
-	public static double mean( InterleavedF32 img ) {
+	public double mean( InterleavedF32 img ) {
 		return sum(img)/(double)(img.width*img.height*img.numBands);
 	}
 
@@ -2240,10 +2241,10 @@ public class ImageStatistics {
 	 * Computes the variance of pixel intensity values inside the image.
 	 *
 	 * @param img Input image. Not modified.
-	 * @param mean Mean pixel intensity value.   
-	 * @return Pixel variance   
+	 * @param mean Mean pixel intensity value.
+	 * @return Pixel variance
 	 */
-	public static double variance(GrayF32 img , double mean ) {
+	public double variance(GrayF32 img , double mean ) {
 
 		double variance = 0;
 
@@ -2253,7 +2254,7 @@ public class ImageStatistics {
 			int indexEnd = index+img.width;
 			// for(int x = 0; x < img.width; x++ ) {
 			for (; index < indexEnd; index++ ) {
-				double d = (img.data[index]) - mean; 
+				double d = (img.data[index]) - mean;
 				variance += d*d;
 			}
 		}
@@ -2263,15 +2264,15 @@ public class ImageStatistics {
 
 	/**
 	 * Computes the histogram of intensity values for the image.
-	 * 
+	 *
 	 * @param input (input) Image.
-	 * @param minValue (input) Minimum possible intensity value   
+	 * @param minValue (input) Minimum possible intensity value
 	 * @param histogram (output) Storage for histogram. Number of elements must be equal to max value.
 	 */
-	public static void histogram(GrayF32 input , int minValue , int histogram[] ) {
+	public void histogram(GrayF32 input , int minValue , int histogram[] ) {
 		for( int i = 0; i < histogram.length; i++ )
 			histogram[i] = 0;
-		
+
 		for( int y = 0; y < input.height; y++ ) {
 			int index = input.startIndex + y*input.stride;
 			int end = index + input.width;
@@ -2285,21 +2286,21 @@ public class ImageStatistics {
 
 	/**
 	 * Returns the minimum element value.
-	 * 
+	 *
 	 * @param input Input image. Not modified.
 	 * @return Minimum pixel value.
 	 */
-	public static double min( GrayF64 input ) {
+	public double min( GrayF64 input ) {
 		return min( input.data, input.startIndex, input.height, input.width , input.stride );
 	}
 
 	/**
 	 * Returns the minimum element value.
-	 * 
+	 *
 	 * @param input Input image. Not modified.
 	 * @return Minimum pixel value.
 	 */
-	public static double min( InterleavedF64 input ) {
+	public double min( InterleavedF64 input ) {
 		return min( input.data, input.startIndex, input.height, input.width*input.numBands , input.stride );
 	}
 
@@ -2322,21 +2323,21 @@ public class ImageStatistics {
 
 	/**
 	 * Returns the maximum element value.
-	 * 
+	 *
 	 * @param input Input image. Not modified.
 	 * @return Maximum pixel value.
 	 */
-	public static double max( GrayF64 input ) {
+	public double max( GrayF64 input ) {
 		return max( input.data, input.startIndex, input.height, input.width , input.stride );
 	}
 
 	/**
 	 * Returns the maximum element value.
-	 * 
+	 *
 	 * @param input Input image. Not modified.
 	 * @return Maximum pixel value.
 	 */
-	public static double max( InterleavedF64 input ) {
+	public double max( InterleavedF64 input ) {
 		return max( input.data, input.startIndex, input.height, input.width*input.numBands , input.stride );
 	}
 
@@ -2359,21 +2360,21 @@ public class ImageStatistics {
 
 	/**
 	 * Returns the maximum element value.
-	 * 
+	 *
 	 * @param input Input image. Not modified.
 	 * @return Maximum pixel value.
 	 */
-	public static double maxAbs( GrayF64 input ) {
+	public double maxAbs( GrayF64 input ) {
 		return maxAbs( input.data, input.startIndex, input.height, input.width , input.stride );
 	}
 
 	/**
 	 * Returns the maximum element value.
-	 * 
+	 *
 	 * @param input Input image. Not modified.
 	 * @return Maximum pixel value.
 	 */
-	public static double maxAbs( InterleavedF64 input ) {
+	public double maxAbs( InterleavedF64 input ) {
 		return maxAbs( input.data, input.startIndex, input.height, input.width*input.numBands , input.stride );
 	}
 
@@ -2401,8 +2402,8 @@ public class ImageStatistics {
 	 * @param imgB second image. Not modified.
 	 * @return error between the two images.
 	 */
-	public static double meanDiffSq(GrayF64 imgA, GrayF64 imgB ) {
-		InputSanityCheck.checkSameShape(imgA,imgB);
+	public double meanDiffSq(GrayF64 imgA, GrayF64 imgB , InputSanityCheck ISC) {
+		ISC.checkSameShape(imgA,imgB);
 		return meanDiffSq(imgA.data,imgA.startIndex,imgA.stride, imgB.data,imgB.startIndex,imgB.stride,
 				imgA.height, imgA.width);
 	}
@@ -2414,8 +2415,8 @@ public class ImageStatistics {
 	 * @param imgB second image. Not modified.
 	 * @return error between the two images.
 	 */
-	public static double meanDiffSq(InterleavedF64 imgA, InterleavedF64 imgB ) {
-		InputSanityCheck.checkSameShape(imgA,imgB);
+	public double meanDiffSq(InterleavedF64 imgA, InterleavedF64 imgB, InputSanityCheck ISC ) {
+		ISC.checkSameShape(imgA,imgB);
 		return meanDiffSq(imgA.data,imgA.startIndex,imgA.stride, imgB.data,imgB.startIndex,imgB.stride,
 				imgA.height, imgA.width*imgA.numBands);
 	}
@@ -2428,9 +2429,9 @@ public class ImageStatistics {
 		for (int y = 0; y < rows; y++) {
 			int indexA = startIndexA + y * strideA;
 			int indexB = startIndexB + y * strideB;
-			
+
 			int indexEnd = indexA+columns;
-			
+
 			for (; indexA < indexEnd; indexA++,indexB++) {
 				double difference = (dataA[indexA])-(dataB[indexB]);
 				total += difference*difference;
@@ -2447,8 +2448,8 @@ public class ImageStatistics {
 	 * @param imgB second image. Not modified.
 	 * @return error between the two images.
 	 */
-	public static double meanDiffAbs(GrayF64 imgA, GrayF64 imgB ) {
-		InputSanityCheck.checkSameShape(imgA,imgB);
+	public double meanDiffAbs(GrayF64 imgA, GrayF64 imgB , InputSanityCheck ISC) {
+		ISC.checkSameShape(imgA,imgB);
 		return meanDiffAbs(imgA.data,imgA.startIndex,imgA.stride, imgB.data,imgB.startIndex,imgB.stride,
 				imgA.height, imgA.width);
 	}
@@ -2460,8 +2461,8 @@ public class ImageStatistics {
 	 * @param imgB second image. Not modified.
 	 * @return error between the two images.
 	 */
-	public static double meanDiffAbs(InterleavedF64 imgA, InterleavedF64 imgB ) {
-		InputSanityCheck.checkSameShape(imgA,imgB);
+	public double meanDiffAbs(InterleavedF64 imgA, InterleavedF64 imgB , InputSanityCheck ISC) {
+		ISC.checkSameShape(imgA,imgB);
 		return meanDiffAbs(imgA.data,imgA.startIndex,imgA.stride, imgB.data,imgB.startIndex,imgB.stride,
 				imgA.height, imgA.width*imgA.numBands);
 	}
@@ -2493,7 +2494,7 @@ public class ImageStatistics {
 	 * 
 	 * @param img Input image. Not modified.
 	 */
-	public static double sum( GrayF64 img ) {
+	public double sum( GrayF64 img ) {
 
 		final int rows = img.height;
 		final int columns = img.width;
@@ -2518,7 +2519,7 @@ public class ImageStatistics {
 	 * @param img Input image.  Not modified.
 	 * @return Mean pixel intensity value
 	 */
-	public static double mean( GrayF64 img ) {
+	public double mean( GrayF64 img ) {
 		return sum(img)/(double)(img.width*img.height);
 	}
 
@@ -2529,7 +2530,7 @@ public class ImageStatistics {
 	 * 
 	 * @param img Input image. Not modified.
 	 */
-	public static double sum( InterleavedF64 img ) {
+	public double sum( InterleavedF64 img ) {
 
 		final int rows = img.height;
 		final int columns = img.width*img.numBands;
@@ -2554,7 +2555,7 @@ public class ImageStatistics {
 	 * @param img Input image.  Not modified.
 	 * @return Mean pixel intensity value
 	 */
-	public static double mean( InterleavedF64 img ) {
+	public double mean( InterleavedF64 img ) {
 		return sum(img)/(double)(img.width*img.height*img.numBands);
 	}
 
@@ -2565,7 +2566,7 @@ public class ImageStatistics {
 	 * @param mean Mean pixel intensity value.   
 	 * @return Pixel variance   
 	 */
-	public static double variance(GrayF64 img , double mean ) {
+	public double variance(GrayF64 img , double mean ) {
 
 		double variance = 0;
 
@@ -2590,7 +2591,7 @@ public class ImageStatistics {
 	 * @param minValue (input) Minimum possible intensity value   
 	 * @param histogram (output) Storage for histogram. Number of elements must be equal to max value.
 	 */
-	public static void histogram(GrayF64 input , int minValue , int histogram[] ) {
+	public void histogram(GrayF64 input , int minValue , int histogram[] ) {
 		for( int i = 0; i < histogram.length; i++ )
 			histogram[i] = 0;
 		

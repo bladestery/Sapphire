@@ -37,7 +37,7 @@ import java.util.Arrays;
  * @author Peter Abeles
  */
 public class SegmentMeanShiftSearchColor<T extends ImageMultiBand> extends SegmentMeanShiftSearch<T> {
-
+	private ImageMiscOps IMO;
 	// Interpolation routine used to get sub-pixel samples
 	protected InterpolatePixelMB<T> interpolate;
 
@@ -87,9 +87,9 @@ public class SegmentMeanShiftSearchColor<T extends ImageMultiBand> extends Segme
 		pixelToMode.reshape(image.width, image.height);
 		quickMode.reshape(image.width, image.height);
 		// mark as -1 so it knows which pixels have been assigned a mode already and can skip them
-		ImageMiscOps.fill(pixelToMode, -1);
+		IMO.fill(pixelToMode, -1);
 		// mark all pixels are not being a mode
-		ImageMiscOps.fill(quickMode,-1);
+		IMO.fill(quickMode,-1);
 
 		// use mean shift to find the peak of each pixel in the image
 		int indexImg = 0;

@@ -38,7 +38,7 @@ import boofcv.struct.image.ImageType;
  * @author Peter Abeles
  */
 public class ImplInterpolatePixelConvolution_U8 implements InterpolatePixelS<GrayU8>  {
-
+	private ImageType IT;
 	// used to read outside the image border
 	private ImageBorder_S32 border;
 	// kernel used to perform interpolation
@@ -207,7 +207,7 @@ public class ImplInterpolatePixelConvolution_U8 implements InterpolatePixelS<Gra
 	}
 	@Override
 	public ImageType<GrayU8> getImageType() {
-		return ImageType.single(GrayU8.class);
+		return IT.single(GrayU8.class);
 	}
 
 }

@@ -40,7 +40,7 @@ import org.ejml.data.DenseMatrix64F;
  * @author Peter Abeles
  */
 public class StereoProcessingBase<T extends ImageGray> {
-
+	private GeneralizedImageOps GIO;
 	// applied rectification to input images
 	private ImageDistort<T,T> distortLeftRect;
 	private ImageDistort<T,T> distortRightRect;
@@ -81,8 +81,8 @@ public class StereoProcessingBase<T extends ImageGray> {
 	public StereoProcessingBase( Class<T> imageType ) {
 
 		// pre-declare input images
-		imageLeftRect = GeneralizedImageOps.createSingleBand(imageType, 1,1);
-		imageRightRect = GeneralizedImageOps.createSingleBand(imageType,1,1);
+		imageLeftRect = GIO.createSingleBand(imageType, 1,1);
+		imageRightRect = GIO.createSingleBand(imageType,1,1);
 	}
 
 	/**

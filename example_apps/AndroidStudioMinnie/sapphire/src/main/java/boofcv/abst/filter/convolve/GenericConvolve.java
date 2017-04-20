@@ -18,9 +18,23 @@
 
 package boofcv.abst.filter.convolve;
 
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.filter.blur.BlurImageOps;
+import boofcv.alg.filter.blur.GBlurImageOps;
+import boofcv.alg.filter.blur.impl.ImplMedianHistogramInner;
+import boofcv.alg.filter.blur.impl.ImplMedianSortEdgeNaive;
+import boofcv.alg.filter.blur.impl.ImplMedianSortNaive;
+import boofcv.alg.filter.convolve.ConvolveImageMean;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
+import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.BorderType;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.core.image.border.ImageBorder;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.convolve.KernelBase;
 import boofcv.struct.image.ImageGray;
 import boofcv.struct.image.ImageType;
@@ -38,6 +52,7 @@ import java.lang.reflect.Method;
 public class GenericConvolve<Input extends ImageGray, Output extends ImageGray>
 	implements ConvolveInterface<Input,Output>
 {
+	private static FactoryImageBorder FIB;
 	Method m;
 	KernelBase kernel;
 	BorderType type;
@@ -58,11 +73,13 @@ public class GenericConvolve<Input extends ImageGray, Output extends ImageGray>
 		if( type == BorderType.SKIP || type == BorderType.NORMALIZED )
 			this.borderRule = null;
 		else
-			borderRule = FactoryImageBorder.single((Class) params[1], type);
+			borderRule = FIB.single((Class) params[1], type);
 	}
 
 	@Override
-	public void process(Input input, Output output) {
+	public void process(Input input, Output output, GBlurImageOps GBIO, InputSanityCheck ISC, GeneralizedImageOps GIO, BlurImageOps BIO,
+						ConvolveImageMean CIM, FactoryKernelGaussian FKG, ConvolveNormalized CN, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB,
+						ConvolveNormalized_JustBorder CNJB, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM) {
 		try {
 			if( kernel.getDimension() == 1 ) {
 				switch( type ) {
@@ -113,12 +130,12 @@ public class GenericConvolve<Input extends ImageGray, Output extends ImageGray>
 	}
 
 	@Override
-	public ImageType<Input> getInputType() {
-		return ImageType.single(inputType);
+	public ImageType<Input> getInputType(ImageType IT) {
+		return IT.single(inputType);
 	}
 
 	@Override
-	public ImageType<Output> getOutputType() {
-		return ImageType.single(outputType);
+	public ImageType<Output> getOutputType(ImageType IT) {
+		return IT.single(outputType);
 	}
 }

@@ -58,9 +58,9 @@ import java.lang.reflect.Array;
  */
 @SuppressWarnings({"unchecked"})
 public abstract class ImageGray<T extends ImageGray> extends ImageBase<T> {
-
 	{
-		this.imageType = (ImageType)ImageType.single(getClass());
+		ImageType IT = new ImageType();
+		this.imageType = (ImageType)IT.single(getClass());
 	}
 
 	/**

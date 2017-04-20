@@ -37,6 +37,7 @@ import static org.junit.Assert.assertTrue;
  * @author Peter Abeles
  */
 public abstract class GenericTestsDetectDescribeMulti<T extends ImageGray, TD extends TupleDesc> {
+	private GeneralizedImageOps GIO;
 	int width = 100;
 	int height = 120;
 
@@ -50,7 +51,7 @@ public abstract class GenericTestsDetectDescribeMulti<T extends ImageGray, TD ex
 		this.imageType = imageType;
 		this.descType = descType;
 
-		image = GeneralizedImageOps.createSingleBand(imageType,width,height);
+		image = GIO.createSingleBand(imageType,width,height);
 		GImageMiscOps.fillUniform(image, rand, 0, 100);
 	}
 

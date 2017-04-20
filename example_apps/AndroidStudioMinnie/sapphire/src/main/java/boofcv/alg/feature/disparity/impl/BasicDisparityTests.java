@@ -32,6 +32,7 @@ import static org.junit.Assert.assertEquals;
  */
 @SuppressWarnings("unchecked")
 public abstract class BasicDisparityTests<Image extends ImageGray, Disparity extends ImageGray> {
+	private GeneralizedImageOps GIO;
 	Image left;
 	Image right;
 
@@ -44,8 +45,8 @@ public abstract class BasicDisparityTests<Image extends ImageGray, Disparity ext
 	Random rand = new Random();
 
 	public BasicDisparityTests( Class<Image> imageType ) {
-		left = GeneralizedImageOps.createSingleBand(imageType,w,h);
-		right = GeneralizedImageOps.createSingleBand(imageType,w,h);
+		left = GIO.createSingleBand(imageType,w,h);
+		right = GIO.createSingleBand(imageType,w,h);
 	}
 
 	public abstract void initialize( int minDisparity , int maxDisparity );
@@ -72,8 +73,8 @@ public abstract class BasicDisparityTests<Image extends ImageGray, Disparity ext
 
 		for( int y = 0; y < h; y++ ) {
 			for( int x = 0; x < w; x++ ) {
-				GeneralizedImageOps.set(left,x,y,10+x+y);
-				GeneralizedImageOps.set(right,x,y,10+x+disparity+y);
+				GIO.set(left,x,y,10+x+y);
+				GIO.set(right,x,y,10+x+disparity+y);
 			}
 		}
 
@@ -85,17 +86,17 @@ public abstract class BasicDisparityTests<Image extends ImageGray, Disparity ext
 		for( int y = borderY; y < h-borderY; y++ ) {
 			// borders should be zero since they are not modified
 			for( int x = 0; x < borderX; x++ ) {
-				double found = GeneralizedImageOps.get(output,x,y);
+				double found = GIO.get(output,x,y);
 				assertEquals("x = "+x+" y = "+y,0,found,1e-8);
 			}
 			for( int x = w-borderX; x < w; x++ ) {
-				double found = GeneralizedImageOps.get(output,x,y);
+				double found = GIO.get(output,x,y);
 				assertEquals("x = "+x+" y = "+y,0,found,1e-8);
 			}
 
 			// check the inside image
 			for( int x = borderX+disparity; x < w-borderX; x++ ) {
-				double found = GeneralizedImageOps.get(output,x,y);
+				double found = GIO.get(output,x,y);
 				assertEquals("x = "+x+" y = "+y,disparity,found,1e-8);
 			}
 		}
@@ -111,8 +112,8 @@ public abstract class BasicDisparityTests<Image extends ImageGray, Disparity ext
 
 		for( int y = 0; y < h; y++ ) {
 			for( int x = 0; x < w; x++ ) {
-				GeneralizedImageOps.set(left,x,y,10+x+y);
-				GeneralizedImageOps.set(right,x,y,10+x+disparity+y);
+				GIO.set(left,x,y,10+x+y);
+				GIO.set(right,x,y,10+x+disparity+y);
 			}
 		}
 
@@ -124,17 +125,17 @@ public abstract class BasicDisparityTests<Image extends ImageGray, Disparity ext
 		for( int y = borderY; y < h-borderY; y++ ) {
 			// borders should be zero since they are not modified
 			for( int x = 0; x < borderX+minDisparity; x++ ) {
-				double found = GeneralizedImageOps.get(output,x,y);
+				double found = GIO.get(output,x,y);
 				assertEquals("x = "+x+" y = "+y,0,found,1e-8);
 			}
 			for( int x = w-borderX; x < w; x++ ) {
-				double found = GeneralizedImageOps.get(output,x,y);
+				double found = GIO.get(output,x,y);
 				assertEquals("x = "+x+" y = "+y,0,found,1e-8);
 			}
 
 			// check inside image
 			for( int x = borderX+minDisparity; x < w-borderX; x++ ) {
-				double found = GeneralizedImageOps.get(output,x,y) + minDisparity;
+				double found = GIO.get(output,x,y) + minDisparity;
 				// the minimum disparity should  be the closest match
 				assertEquals("x = "+x+" y = "+y,minDisparity,found,1e-8);
 			}

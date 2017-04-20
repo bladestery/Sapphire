@@ -22,6 +22,8 @@ import boofcv.abst.filter.derivative.ImageGradient;
 import boofcv.alg.tracker.combined.CombinedTrack;
 import boofcv.alg.tracker.combined.CombinedTrackerScalePoint;
 import boofcv.alg.transform.pyramid.PyramidOps;
+import boofcv.core.image.GeneralizedImageOps;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.filter.derivative.FactoryDerivative;
 import boofcv.factory.transform.pyramid.FactoryPyramid;
 import boofcv.struct.feature.TupleDesc;
@@ -42,7 +44,9 @@ import java.util.List;
 // TODO Speed up combination of respawn and spawn
 public class PointTrackerCombined<I extends ImageGray, D extends ImageGray, Desc extends TupleDesc>
 		implements PointTracker<I> {
-
+	private static FactoryDerivative FD;
+	private static GeneralizedImageOps GIO;
+	private static FactoryImageBorder FIB;
 	CombinedTrackerScalePoint<I,D, Desc> tracker;
 
 	PyramidDiscrete<I> pyramid;
@@ -66,7 +70,7 @@ public class PointTrackerCombined<I extends ImageGray, D extends ImageGray, Desc
 
 		int pyramidScaling[] = tracker.getTrackerKlt().pyramidScaling;
 		pyramid = FactoryPyramid.discreteGaussian(pyramidScaling,-1,2,true,imageType);
-		gradient = FactoryDerivative.sobel(imageType, derivType);
+		gradient = FD.sobel(imageType, derivType, GIO, FIB);
 
 		reset();
 	}

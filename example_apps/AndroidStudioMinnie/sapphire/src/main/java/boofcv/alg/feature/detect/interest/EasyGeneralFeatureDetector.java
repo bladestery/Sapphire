@@ -20,8 +20,12 @@ package boofcv.alg.feature.detect.interest;
 
 import boofcv.abst.filter.derivative.ImageGradient;
 import boofcv.abst.filter.derivative.ImageHessian;
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
 import boofcv.alg.filter.derivative.GImageDerivativeOps;
 import boofcv.core.image.GeneralizedImageOps;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.filter.derivative.FactoryDerivative;
 import boofcv.struct.QueueCorner;
 import boofcv.struct.image.ImageGray;
@@ -32,7 +36,12 @@ import boofcv.struct.image.ImageGray;
  * @author Peter Abeles
  */
 public class EasyGeneralFeatureDetector<T extends ImageGray, D extends ImageGray> {
-
+	private static FactoryDerivative FD;
+	private static GeneralizedImageOps GIO;
+	private static FactoryImageBorder FIB;
+	private static InputSanityCheck ISC;
+	private static DerivativeHelperFunctions DHF;
+	private static ConvolveImageNoBorder CINB;
 	// Feature detector
 	protected GeneralFeatureDetector<T, D> detector;
 	// Computes image gradient
@@ -63,10 +72,10 @@ public class EasyGeneralFeatureDetector<T extends ImageGray, D extends ImageGray
 		}
 
 		if( detector.getRequiresGradient() || detector.getRequiresHessian()  ) {
-			gradient = FactoryDerivative.sobel(imageType, derivType);
+			gradient = FD.sobel(imageType, derivType, GIO, FIB);
 		}
 		if( detector.getRequiresHessian() ) {
-			hessian = FactoryDerivative.hessianSobel(derivType);
+			hessian = FD.hessianSobel(derivType, GIO);
 		}
 		declareDerivativeImages(gradient, hessian, derivType);
 	}
@@ -90,13 +99,13 @@ public class EasyGeneralFeatureDetector<T extends ImageGray, D extends ImageGray
 	 */
 	private void declareDerivativeImages(ImageGradient<T, D> gradient, ImageHessian<D> hessian, Class<D> derivType) {
 		if( gradient != null || hessian != null ) {
-			derivX = GeneralizedImageOps.createSingleBand(derivType, 1, 1);
-			derivY = GeneralizedImageOps.createSingleBand(derivType,1,1);
+			derivX = GIO.createSingleBand(derivType, 1, 1);
+			derivY = GIO.createSingleBand(derivType,1,1);
 		}
 		if( hessian != null ) {
-			derivXX = GeneralizedImageOps.createSingleBand(derivType,1,1);
-			derivYY = GeneralizedImageOps.createSingleBand(derivType,1,1);
-			derivXY = GeneralizedImageOps.createSingleBand(derivType,1,1);
+			derivXX = GIO.createSingleBand(derivType,1,1);
+			derivYY = GIO.createSingleBand(derivType,1,1);
+			derivXY = GIO.createSingleBand(derivType,1,1);
 		}
 	}
 
@@ -111,7 +120,7 @@ public class EasyGeneralFeatureDetector<T extends ImageGray, D extends ImageGray
 		initializeDerivatives(input);
 
 		if (detector.getRequiresGradient() || detector.getRequiresHessian())
-			gradient.process(input, derivX, derivY);
+			gradient.process(input, derivX, derivY, ISC, DHF, CINB);
 		if (detector.getRequiresHessian())
 			hessian.process(derivX, derivY, derivXX, derivYY, derivXY);
 

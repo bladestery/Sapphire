@@ -46,6 +46,7 @@ import java.util.List;
 public abstract class SquareBase_to_FiducialDetector<T extends ImageGray,Detector extends BaseDetectFiducialSquare<T>>
 	extends FiducialDetectorPnP<T>
 {
+	private ImageType IT;
 	Detector alg;
 
 	// type of image it can process
@@ -72,7 +73,7 @@ public abstract class SquareBase_to_FiducialDetector<T extends ImageGray,Detecto
 
 	public SquareBase_to_FiducialDetector(Detector alg) {
 		this.alg = alg;
-		this.type = ImageType.single(alg.getInputType());
+		this.type = IT.single(alg.getInputType());
 
 		// add corner points in target frame.  Used to compute homography.  Target's center is at its origin
 		// see comment in class JavaDoc above.  Note that the target's length is one below.  The scale factor

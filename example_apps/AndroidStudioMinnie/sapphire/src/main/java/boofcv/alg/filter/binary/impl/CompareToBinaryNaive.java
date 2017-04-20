@@ -29,6 +29,7 @@ import java.util.Random;
  * @author Peter Abeles
  */
 public class CompareToBinaryNaive extends CompareIdenticalFunctions {
+	private ImageMiscOps IMO;
 
 	protected Random rand = new Random(0xFF);
 
@@ -71,7 +72,7 @@ public class CompareToBinaryNaive extends CompareIdenticalFunctions {
 		GrayU8 input = new GrayU8(width, height);
 		GrayU8 output = new GrayU8(width, height);
 
-		ImageMiscOps.fillUniform(input, rand, 0, 1);
+		IMO.fillUniform(input, rand, 0, 1);
 
 		if(isSpecialFunction(candidate)) {
 			return new Object[][]{{input,1, output}};

@@ -33,7 +33,7 @@ import boofcv.struct.image.*;
  */
 @SuppressWarnings({"unchecked"})
 public class FactoryInterpolation {
-
+	private static FactoryImageBorder FIB;
 	/**
 	 * Returns {@link InterpolatePixelS} of the specified type.
 	 *
@@ -103,7 +103,7 @@ public class FactoryInterpolation {
 		}
 
 		if( borderType != null )
-			alg.setBorder(FactoryImageBorder.single(imageType, borderType));
+			alg.setBorder(FIB.single(imageType, borderType));
 		return alg;
 	}
 
@@ -184,7 +184,7 @@ public class FactoryInterpolation {
 			throw new RuntimeException("Unknown image type: "+ typeName(imageType));
 
 		if( borderType != null )
-			alg.setBorder(FactoryImageBorder.single(imageType, borderType));
+			alg.setBorder(FIB.single(imageType, borderType));
 
 		return alg;
 	}
@@ -228,7 +228,7 @@ public class FactoryInterpolation {
 			}
 
 			if( borderType != null )
-				alg.setBorder(FactoryImageBorder.interleaved(imageType.getImageClass(), borderType));
+				alg.setBorder(FIB.interleaved(imageType.getImageClass(), borderType));
 		} else {
 			throw new IllegalArgumentException("Only interleaved current supported here");
 		}
@@ -262,7 +262,7 @@ public class FactoryInterpolation {
 			}
 
 			if( borderType != null )
-				alg.setBorder(FactoryImageBorder.interleaved(imageType.getImageClass(), borderType));
+				alg.setBorder(FIB.interleaved(imageType.getImageClass(), borderType));
 		} else {
 			throw new IllegalArgumentException("Only interleaved current supported here");
 		}

@@ -34,6 +34,7 @@ import java.util.Random;
  */
 public class CompareToStandardConvolveDownNormalized extends CompareIdenticalFunctions
 {
+	private static FactoryKernelGaussian FKG;
 	protected Random rand = new Random(0xFF);
 
 	protected int width = 20;
@@ -54,7 +55,7 @@ public class CompareToStandardConvolveDownNormalized extends CompareIdenticalFun
 	protected Object[][] createInputParam(Method candidate, Method validation) {
 		Class<?> paramTypes[] = candidate.getParameterTypes();
 
-		Object kernel = FactoryKernelGaussian.gaussian((Class)paramTypes[0],-1,kernelRadius);
+		Object kernel = FKG.gaussian((Class)paramTypes[0],-1,kernelRadius);
 
 		int divW,divH;
 		if( candidate.getName().compareTo("horizontal") == 0) {

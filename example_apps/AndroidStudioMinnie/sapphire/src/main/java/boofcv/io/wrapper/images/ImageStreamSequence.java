@@ -41,6 +41,7 @@ import java.io.*;
 public class ImageStreamSequence<T extends ImageBase>
 		implements SimpleImageSequence<T>
 {
+	private static ImageType IT;
 	// If the data set was read from a file it can then be restarted
 	String fileName;
 
@@ -161,7 +162,7 @@ public class ImageStreamSequence<T extends ImageBase>
 	}
 
 	public static void main( String args[] ) throws FileNotFoundException {
-		ImageStreamSequence stream = new ImageStreamSequence("combined.mpng",true, ImageType.single(GrayU16.class));
+		ImageStreamSequence stream = new ImageStreamSequence("combined.mpng",true, IT.single(GrayU16.class));
 
 		while( stream.hasNext() ) {
 			System.out.println("Image");

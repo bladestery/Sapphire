@@ -16,9 +16,23 @@ import org.boofcv.android.DemoVideoDisplayActivity;
 import org.boofcv.android.R;
 
 import boofcv.abst.filter.binary.InputToBinary;
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.filter.blur.BlurImageOps;
+import boofcv.alg.filter.blur.GBlurImageOps;
+import boofcv.alg.filter.blur.impl.ImplMedianHistogramInner;
+import boofcv.alg.filter.blur.impl.ImplMedianSortEdgeNaive;
+import boofcv.alg.filter.blur.impl.ImplMedianSortNaive;
+import boofcv.alg.filter.convolve.ConvolveImageMean;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
 import boofcv.android.VisualizeImageData;
 import boofcv.android.gui.VideoImageProcessing;
+import boofcv.core.image.GeneralizedImageOps;
 import boofcv.factory.filter.binary.FactoryThresholdBinary;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.ImageType;
 
@@ -29,7 +43,21 @@ import boofcv.struct.image.ImageType;
  */
 public class ThresholdDisplayActivity extends DemoVideoDisplayActivity
 {
-
+	private static GBlurImageOps GBIO;
+	private static ImageType IT;
+	private static GeneralizedImageOps GIO;
+	private static InputSanityCheck ISC;
+	private static BlurImageOps BIO;
+	private static ConvolveImageMean CIM;
+	private static FactoryKernelGaussian FKG;
+	private static ConvolveNormalized CN;
+	private static ConvolveNormalizedNaive CNN;
+	private static ConvolveImageNoBorder CINB;
+	private static ConvolveNormalized_JustBorder CNJB;
+	private static ImplMedianHistogramInner IMHI;
+	private static ImplMedianSortEdgeNaive IMSEN;
+	private static ImplMedianSortNaive IMSN;
+	private static ImplConvolveMean ICM;
 	Spinner spinnerView;
 
 	final Object lock = new Object();
@@ -147,7 +175,7 @@ public class ThresholdDisplayActivity extends DemoVideoDisplayActivity
 		InputToBinary<GrayU8> filter;
 
 		public ThresholdingProcessing() {
-			super(ImageType.single(GrayU8.class));
+			super(IT.single(GrayU8.class));
 		}
 
 		@Override
@@ -168,7 +196,7 @@ public class ThresholdDisplayActivity extends DemoVideoDisplayActivity
 			}
 
 			if( filter != null ) {
-				filter.process(input, binary);
+				filter.process(input, binary, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM);
 			}
 			VisualizeImageData.binaryToBitmap(binary,false,  output, storage);
 		}

@@ -13,8 +13,13 @@ import org.boofcv.android.DemoVideoDisplayActivity;
 import org.boofcv.android.R;
 
 import boofcv.abst.filter.derivative.ImageGradient;
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
 import boofcv.android.VisualizeImageData;
 import boofcv.android.gui.VideoImageProcessing;
+import boofcv.core.image.GeneralizedImageOps;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.filter.derivative.FactoryDerivative;
 import boofcv.struct.image.GrayS16;
 import boofcv.struct.image.GrayU8;
@@ -29,7 +34,13 @@ import boofcv.struct.image.ImageType;
 public class GradientDisplayActivity extends DemoVideoDisplayActivity
 implements AdapterView.OnItemSelectedListener
 {
-
+	private static FactoryDerivative FD;
+	private static ImageType IT;
+	private static GeneralizedImageOps GIO;
+	private static FactoryImageBorder FIB;
+	private static InputSanityCheck ISC;
+	private static DerivativeHelperFunctions DHF;
+	private static ConvolveImageNoBorder CINB;
 	Spinner spinnerGradient;
 
 	Class imageType = GrayU8.class;
@@ -68,23 +79,23 @@ implements AdapterView.OnItemSelectedListener
 	private void startGradientProcess(int pos) {
 		switch( pos ) {
 			case 0:
-				setProcessing(new GradientProcessing(FactoryDerivative.three(imageType, derivType)) );
+				setProcessing(new GradientProcessing(FD.three(imageType, derivType, GIO, FIB)) );
 				break;
 
 			case 1:
-				setProcessing(new GradientProcessing(FactoryDerivative.sobel(imageType, derivType)) );
+				setProcessing(new GradientProcessing(FD.sobel(imageType, derivType, GIO, FIB)) );
 				break;
 
 			case 2:
-				setProcessing(new GradientProcessing(FactoryDerivative.prewitt(imageType, derivType)) );
+				setProcessing(new GradientProcessing(FD.prewitt(imageType, derivType, GIO, FIB)) );
 				break;
 
 			case 3:
-				setProcessing(new GradientProcessing(FactoryDerivative.two0(imageType, derivType)) );
+				setProcessing(new GradientProcessing(FD.two0(imageType, derivType, GIO, FIB)) );
 				break;
 
 			case 4:
-				setProcessing(new GradientProcessing(FactoryDerivative.two1(imageType, derivType)) );
+				setProcessing(new GradientProcessing(FD.two1(imageType, derivType, GIO, FIB)) );
 				break;
 
 			default:
@@ -101,7 +112,7 @@ implements AdapterView.OnItemSelectedListener
 		ImageGradient<GrayU8,GrayS16> gradient;
 
 		public GradientProcessing(ImageGradient<GrayU8,GrayS16> gradient) {
-			super(ImageType.single(GrayU8.class));
+			super( IT.single(GrayU8.class));
 			this.gradient = gradient;
 		}
 
@@ -115,7 +126,7 @@ implements AdapterView.OnItemSelectedListener
 
 		@Override
 		protected void process(GrayU8 input, Bitmap output, byte[] storage) {
-			gradient.process(input,derivX,derivY);
+			gradient.process(input,derivX,derivY, ISC, DHF, CINB);
 			VisualizeImageData.colorizeGradient(derivX,derivY,-1,output,storage);
 		}
 	}

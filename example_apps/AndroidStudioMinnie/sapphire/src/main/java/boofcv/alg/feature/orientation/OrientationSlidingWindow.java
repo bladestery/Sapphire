@@ -44,6 +44,8 @@ import boofcv.struct.image.ImageGray;
 public abstract class OrientationSlidingWindow<D extends ImageGray>
 		implements OrientationGradient<D>
 {
+	private static FactoryKernelGaussian FKG;
+	private static InputSanityCheck ISC;
 	// The actual radius being sampled in pixels
 	protected int pixelRadius;
 
@@ -93,7 +95,7 @@ public abstract class OrientationSlidingWindow<D extends ImageGray>
 	public void setObjectRadius(double objRadius) {
 		pixelRadius = (int)Math.ceil(objRadius*objectRadiusToScale);
 		if( isWeighted ) {
-			weights = FactoryKernelGaussian.gaussian(2,true, 32, -1, pixelRadius);
+			weights = FKG.gaussian(2,true, 32, -1, pixelRadius);
 		}
 		int w = pixelRadius*2+1;
 		angles = new double[ w*w ];
@@ -101,7 +103,7 @@ public abstract class OrientationSlidingWindow<D extends ImageGray>
 
 	@Override
 	public void setImage( D derivX, D derivY) {
-		InputSanityCheck.checkSameShape(derivX,derivY);
+		ISC.checkSameShape(derivX,derivY);
 
 		this.derivX = derivX;
 		this.derivY = derivY;

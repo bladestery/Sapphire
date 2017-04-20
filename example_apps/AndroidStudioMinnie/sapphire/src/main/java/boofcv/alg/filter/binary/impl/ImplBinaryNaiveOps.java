@@ -28,6 +28,7 @@ import boofcv.struct.image.GrayU8;
  * @see boofcv.alg.filter.binary.BinaryImageOps
  */
 public class ImplBinaryNaiveOps {
+	private static InputSanityCheck ISC;
 	public static void erode4(GrayU8 input, GrayU8 output) {
 		for (int y = 0; y < input.height; y++) {
 			for (int x = 0; x < input.width; x++) {
@@ -66,7 +67,7 @@ public class ImplBinaryNaiveOps {
 	}
 
 	public static void erode8(GrayU8 input, GrayU8 output) {
-		output = InputSanityCheck.checkDeclare(input, output);
+		output = ISC.checkDeclare(input, output);
 
 		for (int y = 0; y < input.height; y++) {
 			for (int x = 0; x < input.width; x++) {

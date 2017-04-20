@@ -46,6 +46,7 @@ import java.util.List;
 public class WrapVisOdomDualTrackPnP<T extends ImageGray>
 		implements StereoVisualOdometry<T>, AccessPointTracks3D
 {
+	private ImageType IT;
 	RefinePnPStereo refine;
 	PnPStereoEstimator pnp;
 	DistanceModelMonoPixels<Se3_F64,Point2D3D> distanceMono;
@@ -148,6 +149,6 @@ public class WrapVisOdomDualTrackPnP<T extends ImageGray>
 
 	@Override
 	public ImageType<T> getImageType() {
-		return ImageType.single(imageType);
+		return IT.single(imageType);
 	}
 }

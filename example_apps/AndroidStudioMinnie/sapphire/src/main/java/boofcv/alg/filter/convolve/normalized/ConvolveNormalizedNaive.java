@@ -19,6 +19,7 @@ package boofcv.alg.filter.convolve.normalized;
 
 import boofcv.struct.convolve.*;
 import boofcv.struct.image.*;
+import sapphire.app.SapphireObject;
 
 import javax.annotation.Generated;
 
@@ -33,9 +34,10 @@ import javax.annotation.Generated;
  * @author Peter Abeles
  */
 @Generated({"boofcv.alg.filter.convolve.normalized.GenerateConvolveNormalizedNaive"})
-public class ConvolveNormalizedNaive {
+public class ConvolveNormalizedNaive implements SapphireObject {
+	public ConvolveNormalizedNaive() {}
 
-	public static void horizontal(Kernel1D_F32 kernel, GrayF32 input, GrayF32 output ) {
+	public void horizontal(Kernel1D_F32 kernel, GrayF32 input, GrayF32 output ) {
 
 		final int offset = kernel.getOffset();
 
@@ -63,7 +65,7 @@ public class ConvolveNormalizedNaive {
 		}
 	}
 
-	public static void vertical(Kernel1D_F32 kernel, GrayF32 input, GrayF32 output ) {
+	public void vertical(Kernel1D_F32 kernel, GrayF32 input, GrayF32 output ) {
 
 		final int offset = kernel.getOffset();
 
@@ -91,7 +93,7 @@ public class ConvolveNormalizedNaive {
 		}
 	}
 
-	public static void convolve(Kernel2D_F32 kernel, GrayF32 input, GrayF32 output ) {
+	public void convolve(Kernel2D_F32 kernel, GrayF32 input, GrayF32 output ) {
 
 		final int offset = kernel.getOffset();
 
@@ -128,7 +130,7 @@ public class ConvolveNormalizedNaive {
 		}
 	}
 
-	public static void horizontal(Kernel1D_F64 kernel, GrayF64 input, GrayF64 output ) {
+	public void horizontal(Kernel1D_F64 kernel, GrayF64 input, GrayF64 output ) {
 
 		final int offset = kernel.getOffset();
 
@@ -156,7 +158,7 @@ public class ConvolveNormalizedNaive {
 		}
 	}
 
-	public static void vertical(Kernel1D_F64 kernel, GrayF64 input, GrayF64 output ) {
+	public void vertical(Kernel1D_F64 kernel, GrayF64 input, GrayF64 output ) {
 
 		final int offset = kernel.getOffset();
 
@@ -184,7 +186,7 @@ public class ConvolveNormalizedNaive {
 		}
 	}
 
-	public static void convolve(Kernel2D_F64 kernel, GrayF64 input, GrayF64 output ) {
+	public void convolve(Kernel2D_F64 kernel, GrayF64 input, GrayF64 output ) {
 
 		final int offset = kernel.getOffset();
 
@@ -221,7 +223,7 @@ public class ConvolveNormalizedNaive {
 		}
 	}
 
-	public static void horizontal(Kernel1D_I32 kernel, GrayU8 input, GrayI8 output ) {
+	public void horizontal(Kernel1D_I32 kernel, GrayU8 input, GrayI8 output ) {
 
 		final int offset = kernel.getOffset();
 
@@ -249,7 +251,7 @@ public class ConvolveNormalizedNaive {
 		}
 	}
 
-	public static void vertical(Kernel1D_I32 kernel, GrayU8 input, GrayI8 output ) {
+	public void vertical(Kernel1D_I32 kernel, GrayU8 input, GrayI8 output ) {
 
 		final int offset = kernel.getOffset();
 
@@ -277,7 +279,7 @@ public class ConvolveNormalizedNaive {
 		}
 	}
 
-	public static void convolve(Kernel2D_I32 kernel, GrayU8 input, GrayI8 output ) {
+	public void convolve(Kernel2D_I32 kernel, GrayU8 input, GrayI8 output ) {
 
 		final int offset = kernel.getOffset();
 
@@ -314,7 +316,7 @@ public class ConvolveNormalizedNaive {
 		}
 	}
 
-	public static void horizontal(Kernel1D_I32 kernel, GrayS16 input, GrayI16 output ) {
+	public void horizontal(Kernel1D_I32 kernel, GrayS16 input, GrayI16 output ) {
 
 		final int offset = kernel.getOffset();
 
@@ -342,7 +344,7 @@ public class ConvolveNormalizedNaive {
 		}
 	}
 
-	public static void vertical(Kernel1D_I32 kernel, GrayS16 input, GrayI16 output ) {
+	public void vertical(Kernel1D_I32 kernel, GrayS16 input, GrayI16 output ) {
 
 		final int offset = kernel.getOffset();
 
@@ -370,7 +372,7 @@ public class ConvolveNormalizedNaive {
 		}
 	}
 
-	public static void convolve(Kernel2D_I32 kernel, GrayS16 input, GrayI16 output ) {
+	public void convolve(Kernel2D_I32 kernel, GrayS16 input, GrayI16 output ) {
 
 		final int offset = kernel.getOffset();
 
@@ -407,7 +409,7 @@ public class ConvolveNormalizedNaive {
 		}
 	}
 
-	public static void horizontal(Kernel1D_I32 kernel, GrayS32 input, GrayS32 output ) {
+	public void horizontal(Kernel1D_I32 kernel, GrayS32 input, GrayS32 output ) {
 
 		final int offset = kernel.getOffset();
 
@@ -435,7 +437,7 @@ public class ConvolveNormalizedNaive {
 		}
 	}
 
-	public static void vertical(Kernel1D_I32 kernel, GrayS32 input, GrayS32 output ) {
+	public void vertical(Kernel1D_I32 kernel, GrayS32 input, GrayS32 output ) {
 
 		final int offset = kernel.getOffset();
 
@@ -463,7 +465,7 @@ public class ConvolveNormalizedNaive {
 		}
 	}
 
-	public static void convolve(Kernel2D_I32 kernel, GrayS32 input, GrayS32 output ) {
+	public void convolve(Kernel2D_I32 kernel, GrayS32 input, GrayS32 output ) {
 
 		final int offset = kernel.getOffset();
 
@@ -500,7 +502,7 @@ public class ConvolveNormalizedNaive {
 		}
 	}
 
-public static void vertical(Kernel1D_I32 kernelX, Kernel1D_I32 kernelY,
+public void vertical(Kernel1D_I32 kernelX, Kernel1D_I32 kernelY,
 								GrayU16 input, GrayI8 output ) {
 
 		final int offsetX = kernelX.getOffset();
@@ -542,7 +544,7 @@ public static void vertical(Kernel1D_I32 kernelX, Kernel1D_I32 kernelY,
 	}
 
 
-public static void vertical(Kernel1D_I32 kernelX, Kernel1D_I32 kernelY,
+public void vertical(Kernel1D_I32 kernelX, Kernel1D_I32 kernelY,
 								GrayS32 input, GrayI16 output ) {
 
 		final int offsetX = kernelX.getOffset();

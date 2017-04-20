@@ -20,8 +20,22 @@ package boofcv.abst.denoise;
 
 import boofcv.abst.filter.FilterImageInterface;
 import boofcv.abst.transform.wavelet.WaveletTransform;
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.denoise.DenoiseWavelet;
+import boofcv.alg.filter.blur.BlurImageOps;
+import boofcv.alg.filter.blur.GBlurImageOps;
+import boofcv.alg.filter.blur.impl.ImplMedianHistogramInner;
+import boofcv.alg.filter.blur.impl.ImplMedianSortEdgeNaive;
+import boofcv.alg.filter.blur.impl.ImplMedianSortNaive;
+import boofcv.alg.filter.convolve.ConvolveImageMean;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
 import boofcv.alg.transform.wavelet.UtilWavelet;
+import boofcv.core.image.GeneralizedImageOps;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.image.ImageDimension;
 import boofcv.struct.image.ImageGray;
 import boofcv.struct.image.ImageType;
@@ -36,7 +50,6 @@ import boofcv.struct.image.ImageType;
  */
 @SuppressWarnings({"unchecked"})
 public class WaveletDenoiseFilter<T extends ImageGray> implements FilterImageInterface<T, T> {
-
 	// performs the wavelet transform
 	private WaveletTransform<T,ImageGray,?> wavelet;
 
@@ -59,7 +72,9 @@ public class WaveletDenoiseFilter<T extends ImageGray> implements FilterImageInt
 	}
 
 	@Override
-	public void process(T original, T denoised ) {
+	public void process(T original, T denoised, GBlurImageOps GBIO, InputSanityCheck ISC, GeneralizedImageOps GIO, BlurImageOps BIO,
+						ConvolveImageMean CIM, FactoryKernelGaussian FKG, ConvolveNormalized CN, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB,
+						ConvolveNormalized_JustBorder CNJB, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM) {
 
 		// compute the wavelet transform
 		if( transform != null ) {
@@ -86,12 +101,12 @@ public class WaveletDenoiseFilter<T extends ImageGray> implements FilterImageInt
 	}
 
 	@Override
-	public ImageType<T> getInputType() {
-		return ImageType.single(wavelet.getOriginalType());
+	public ImageType<T> getInputType(ImageType IT) {
+		return IT.single(wavelet.getOriginalType());
 	}
 
 	@Override
-	public ImageType<T> getOutputType() {
-		return ImageType.single(wavelet.getOriginalType());
+	public ImageType<T> getOutputType(ImageType IT) {
+		return IT.single(wavelet.getOriginalType());
 	}
 }

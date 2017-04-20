@@ -32,12 +32,13 @@ import boofcv.struct.image.ImageType;
 public class WrapDescribePixelRegionNCC<T extends ImageGray>
 		implements DescribeRegionPoint<T,NccFeature>
 {
+	private ImageType IT;
 	DescribePointPixelRegionNCC<T> alg;
 	ImageType<T> imageType;
 
 	public WrapDescribePixelRegionNCC(DescribePointPixelRegionNCC<T> alg , Class<T> imageType) {
 		this.alg = alg;
-		this.imageType = ImageType.single(imageType);
+		this.imageType = IT.single(imageType);
 	}
 
 	@Override

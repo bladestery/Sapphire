@@ -68,6 +68,8 @@ import org.ddogleg.struct.GrowQueue_I32;
  * @author Peter Abeles
  */
 public abstract class WatershedVincentSoille1991 {
+	private static ImageMiscOps IMO;
+	private static InputSanityCheck ISC;
 
 	// values of pixels belonging to the watershed
 	public static final int WSHED = 0;
@@ -123,8 +125,8 @@ public abstract class WatershedVincentSoille1991 {
 		output.reshape(input.width+2,input.height+2);
 		distance.reshape(input.width+2,input.height+2);
 
-		ImageMiscOps.fill(output, INIT);
-		ImageMiscOps.fill(distance, 0);
+		IMO.fill(output, INIT);
+		IMO.fill(distance, 0);
 		fifo.reset();
 
 		// sort pixels
@@ -205,14 +207,14 @@ public abstract class WatershedVincentSoille1991 {
 	 *              value &le; numRegions.
 	 */
 	public void process(GrayU8 input , GrayS32 seeds ) {
-		InputSanityCheck.checkSameShape(input,seeds);
+		ISC.checkSameShape(input,seeds);
 
 		removedWatersheds = false;
 		output.reshape(input.width+2,input.height+2);
 		distance.reshape(input.width+2,input.height+2);
 
-		ImageMiscOps.fill(output, INIT);
-		ImageMiscOps.fill(distance, 0);
+		IMO.fill(output, INIT);
+		IMO.fill(distance, 0);
 		fifo.reset();
 
 		// copy the seeds into the output directory
@@ -272,7 +274,7 @@ public abstract class WatershedVincentSoille1991 {
 
 			// Ensure that all pixels have a distance of zero
 			// Could probably do this a bit more intelligently...
-			ImageMiscOps.fill(distance, 0);
+			IMO.fill(distance, 0);
 		}
 	}
 

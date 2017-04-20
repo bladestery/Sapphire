@@ -20,10 +20,15 @@ package boofcv.alg.feature.detdesc;
 
 import boofcv.abst.feature.detect.extract.NonMaxLimiter;
 import boofcv.abst.filter.derivative.ImageGradient;
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.feature.describe.DescribePointSift;
 import boofcv.alg.feature.detect.interest.SiftDetector;
 import boofcv.alg.feature.detect.interest.SiftScaleSpace;
 import boofcv.alg.feature.orientation.OrientationHistogramSift;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
+import boofcv.core.image.GeneralizedImageOps;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.filter.derivative.FactoryDerivative;
 import boofcv.struct.feature.BrightFeature;
 import boofcv.struct.feature.ScalePoint;
@@ -43,6 +48,12 @@ import org.ddogleg.struct.GrowQueue_F64;
  */
 public class CompleteSift extends SiftDetector
 {
+	private static FactoryDerivative FD;
+	private static GeneralizedImageOps GIO;
+	private static FactoryImageBorder FIB;
+	private static InputSanityCheck ISC;
+	private static DerivativeHelperFunctions DHF;
+	private static ConvolveImageNoBorder CINB;
 	// estimate orientation
 	OrientationHistogramSift<GrayF32> orientation;
 	// describes the keypoints
@@ -54,7 +65,7 @@ public class CompleteSift extends SiftDetector
 	GrowQueue_F64 orientations = new GrowQueue_F64();
 
 	// used to compute the image gradient
-	ImageGradient<GrayF32,GrayF32> gradient = FactoryDerivative.three(GrayF32.class,null);
+	ImageGradient<GrayF32,GrayF32> gradient = FD.three(GrayF32.class,null, GIO, FIB);
 
 	// spacial derivative for the current scale in the octave
 	GrayF32 derivX = new GrayF32(1,1);
@@ -101,7 +112,7 @@ public class CompleteSift extends SiftDetector
 		GrayF32 input = scaleSpace.getImageScale(scaleIndex);
 		derivX.reshape(input.width,input.height);
 		derivY.reshape(input.width,input.height);
-		gradient.process(input,derivX,derivY);
+		gradient.process(input,derivX,derivY, ISC, DHF, CINB);
 
 		// set up the orientation and description algorithms
 		orientation.setImageGradient(derivX,derivY);

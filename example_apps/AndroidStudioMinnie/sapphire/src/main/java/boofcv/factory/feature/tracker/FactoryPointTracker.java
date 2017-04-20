@@ -50,6 +50,8 @@ import boofcv.alg.interpolate.InterpolateRectangle;
 import boofcv.alg.tracker.combined.CombinedTrackerScalePoint;
 import boofcv.alg.tracker.klt.PkltConfig;
 import boofcv.alg.transform.ii.GIntegralImageOps;
+import boofcv.core.image.GeneralizedImageOps;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.feature.associate.FactoryAssociation;
 import boofcv.factory.feature.describe.FactoryDescribePointAlgs;
 import boofcv.factory.feature.describe.FactoryDescribeRegionPoint;
@@ -82,7 +84,10 @@ import java.util.Random;
  * @author Peter Abeles
  */
 public class FactoryPointTracker {
-
+	private static FactoryBlurFilter FBF;
+	private static FactoryDerivative FD;
+	private static GeneralizedImageOps GIO;
+	private static FactoryImageBorder FIB;
 	/**
 	 * Pyramid KLT feature tracker.
 	 *
@@ -134,7 +139,7 @@ public class FactoryPointTracker {
 		InterpolateRectangle<I> interpInput = FactoryInterpolation.<I>bilinearRectangle(imageType);
 		InterpolateRectangle<D> interpDeriv = FactoryInterpolation.<D>bilinearRectangle(derivType);
 
-		ImageGradient<I,D> gradient = FactoryDerivative.sobel(imageType, derivType);
+		ImageGradient<I,D> gradient = FD.sobel(imageType, derivType, GIO, FIB);
 
 		PyramidDiscrete<I> pyramid = FactoryPyramid.discreteGaussian(config.pyramidScaling,-1,2,true,imageType);
 
@@ -233,7 +238,7 @@ public class FactoryPointTracker {
 			derivType = GImageDerivativeOps.getDerivativeType(imageType);
 
 		DescribePointBrief<I> brief = FactoryDescribePointAlgs.brief(FactoryBriefDefinition.gaussian2(new Random(123), 16, 512),
-				FactoryBlurFilter.gaussian(imageType, 0, 4));
+				FBF.gaussian(imageType, 0, 4, GIO));
 
 		GeneralFeatureDetector<I, D> detectPoint = createShiTomasi(configExtract, derivType);
 		EasyGeneralFeatureDetector<I,D> easy = new EasyGeneralFeatureDetector<>(detectPoint, imageType, derivType);
@@ -268,7 +273,7 @@ public class FactoryPointTracker {
 								   Class<I> imageType )
 	{
 		DescribePointBrief<I> brief = FactoryDescribePointAlgs.brief(FactoryBriefDefinition.gaussian2(new Random(123), 16, 512),
-				FactoryBlurFilter.gaussian(imageType, 0, 4));
+				FBF.gaussian(imageType, 0, 4, GIO));
 
 		GeneralFeatureDetector<I,D> corner = FactoryDetectPoint.createFast(configFast, configExtract, imageType);
 		EasyGeneralFeatureDetector<I,D> easy = new EasyGeneralFeatureDetector<>(corner, imageType, null);

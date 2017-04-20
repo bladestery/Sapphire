@@ -47,6 +47,7 @@ import georegression.struct.shapes.RectangleLength2D_I32;
  * @author Peter Abeles
  */
 public class TrackerMeanShiftLikelihood<T extends ImageBase> {
+	private ImageMiscOps IMO;
 
 	// likelihood model for the target being tracked
 	private SparseImageSample_F32<T> targetModel;
@@ -98,7 +99,7 @@ public class TrackerMeanShiftLikelihood<T extends ImageBase> {
 
 
 		pdf.reshape(image.width,image.height);
-		ImageMiscOps.fill(pdf,-1);
+		IMO.fill(pdf,-1);
 
 		location.set(initial);
 
@@ -205,7 +206,7 @@ public class TrackerMeanShiftLikelihood<T extends ImageBase> {
 		location.y0 = y0;
 
 		// clean up the image for the next iteration
-		ImageMiscOps.fillRectangle(pdf,-1,dirty.x0,dirty.y0,dirty.x1-dirty.x0,dirty.y1-dirty.y0);
+		IMO.fillRectangle(pdf,-1,dirty.x0,dirty.y0,dirty.x1-dirty.x0,dirty.y1-dirty.y0);
 
 		return true;
 	}

@@ -31,7 +31,7 @@ import org.junit.Test;
  * @author Peter Abeles
  */
 public abstract class GenericBackgroundStationaryGaussianChecks extends GenericBackgroundModelStationaryChecks {
-
+	private ImageMiscOps IMO;
 	float initialVariance;
 
 	@Before
@@ -59,10 +59,10 @@ public abstract class GenericBackgroundStationaryGaussianChecks extends GenericB
 		alg.updateBackground(frame);
 
 		// the initial variance should be zero, which means any small change should be motion
-		ImageMiscOps.fill(expected, 0);
+		IMO.fill(expected, 0);
 		alg.segment(frame, segmented);
 		BoofTesting.assertEquals(expected, segmented, 1e-5f);
-		ImageMiscOps.fill(expected, 1);
+		IMO.fill(expected, 1);
 		GImageMiscOps.fill(frame, 21);
 		alg.segment(frame, segmented);
 		BoofTesting.assertEquals(expected, segmented, 1e-5f);
@@ -73,13 +73,13 @@ public abstract class GenericBackgroundStationaryGaussianChecks extends GenericB
 		GImageMiscOps.fill(frame, 20);
 		alg.updateBackground(frame);
 
-		ImageMiscOps.fill(expected, 0);
+		IMO.fill(expected, 0);
 		alg.segment(frame, segmented);
 		BoofTesting.assertEquals(expected, segmented, 1e-5f);
 		GImageMiscOps.fill(frame, 21);
 		alg.segment(frame, segmented);
 		BoofTesting.assertEquals(expected, segmented, 1e-5f);
-		ImageMiscOps.fill(expected, 1);
+		IMO.fill(expected, 1);
 		GImageMiscOps.fill(frame, 100);
 		alg.segment(frame, segmented);
 		BoofTesting.assertEquals(expected, segmented, 1e-5f);
@@ -115,7 +115,7 @@ public abstract class GenericBackgroundStationaryGaussianChecks extends GenericB
 		GrayU8 expected = new GrayU8(width,height);
 
 		alg.segment(frame,segmented);
-		ImageMiscOps.fill(expected, 1);
+		IMO.fill(expected, 1);
 		BoofTesting.assertEquals(expected,segmented,1e-5f);
 	}
 
@@ -141,7 +141,7 @@ public abstract class GenericBackgroundStationaryGaussianChecks extends GenericB
 		GrayU8 expected = new GrayU8(width,height);
 
 		alg.segment(frame,segmented);
-		ImageMiscOps.fill(expected, 0);
+		IMO.fill(expected, 0);
 		BoofTesting.assertEquals(expected,segmented,1e-5f);
 	}
 
@@ -168,14 +168,14 @@ public abstract class GenericBackgroundStationaryGaussianChecks extends GenericB
 		alg.setMinimumDifference(0);
 		GImageMiscOps.fill(frame, 21);
 		alg.segment(frame, segmented);
-		ImageMiscOps.fill(expected, 1);
+		IMO.fill(expected, 1);
 		BoofTesting.assertEquals(expected, segmented, 1e-5f);
 
 		// Turn it on and check
 		alg.setMinimumDifference(4);
 		GImageMiscOps.fill(frame, 21);
 		alg.segment(frame, segmented);
-		ImageMiscOps.fill(expected, 0);
+		IMO.fill(expected, 0);
 		BoofTesting.assertEquals(expected, segmented, 1e-5f);
 
 		GImageMiscOps.fill(frame, 23);
@@ -184,7 +184,7 @@ public abstract class GenericBackgroundStationaryGaussianChecks extends GenericB
 
 		GImageMiscOps.fill(frame, 24); // test a value just after the threshold
 		alg.segment(frame, segmented);
-		ImageMiscOps.fill(expected, 1);
+		IMO.fill(expected, 1);
 		BoofTesting.assertEquals(expected, segmented, 1e-5f);
 	}
 }

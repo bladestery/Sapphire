@@ -36,6 +36,7 @@ import java.util.List;
 public class PlToGrayMotion2D<T extends ImageGray,IT extends InvertibleTransform>
 	implements ImageMotion2D<Planar<T>,IT>, AccessPointTracks
 {
+	private GeneralizedImageOps GIO;
 	// motion estimation algorithm for a single band image
 	ImageMotion2D<T,IT> motion;
 	// if supposed, provides access to track points
@@ -45,7 +46,7 @@ public class PlToGrayMotion2D<T extends ImageGray,IT extends InvertibleTransform
 
 	public PlToGrayMotion2D(ImageMotion2D<T,IT> motion , Class<T> imageType ) {
 		this.motion = motion;
-		gray = GeneralizedImageOps.createSingleBand(imageType,1,1);
+		gray = GIO.createSingleBand(imageType,1,1);
 		if( motion instanceof AccessPointTracks ) {
 			access = (AccessPointTracks)motion;
 		}

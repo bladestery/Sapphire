@@ -19,10 +19,23 @@
 package boofcv.abst.filter.derivative;
 
 import boofcv.abst.filter.convolve.ConvolveInterface;
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.filter.blur.BlurImageOps;
+import boofcv.alg.filter.blur.GBlurImageOps;
+import boofcv.alg.filter.blur.impl.ImplMedianHistogramInner;
+import boofcv.alg.filter.blur.impl.ImplMedianSortEdgeNaive;
+import boofcv.alg.filter.blur.impl.ImplMedianSortNaive;
+import boofcv.alg.filter.convolve.ConvolveImageMean;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
 import boofcv.alg.filter.kernel.GKernelMath;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.BorderType;
 import boofcv.factory.filter.convolve.FactoryConvolve;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.BoofDefaults;
 import boofcv.struct.convolve.Kernel1D;
 import boofcv.struct.convolve.Kernel2D;
@@ -39,7 +52,20 @@ import boofcv.struct.image.ImageGray;
  * @author Peter Abeles
  */
 public class AnyImageDerivative<I extends ImageGray, D extends ImageGray> {
-
+	private static GeneralizedImageOps GIO;
+	private static GBlurImageOps GBIO;
+	private static InputSanityCheck ISC;
+	private static BlurImageOps BIO;
+	private static ConvolveImageMean CIM;
+	private static FactoryKernelGaussian FKG;
+	private static ConvolveNormalized CN;
+	private static ConvolveNormalizedNaive CNN;
+	private static ConvolveImageNoBorder CINB;
+	private static ConvolveNormalized_JustBorder CNJB;
+	private static ImplMedianHistogramInner IMHI;
+	private static ImplMedianSortEdgeNaive IMSEN;
+	private static ImplMedianSortNaive IMSN;
+	private static ImplConvolveMean ICM;
 	// filters for computing image derivatives
 	private ConvolveInterface<I, D> derivX;
 	private ConvolveInterface<I, D> derivY;
@@ -160,16 +186,16 @@ public class AnyImageDerivative<I extends ImageGray, D extends ImageGray> {
 
 				if( level == 0 ) {
 					if( isX[level]) {
-						derivX.process(inputImage,derivatives[level][index]);
+						derivX.process(inputImage,derivatives[level][index], GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM);
 					} else {
-						derivY.process(inputImage,derivatives[level][index]);
+						derivY.process(inputImage,derivatives[level][index], GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM);
 					}
 				} else {
 					D prev = derivatives[level-1][prevIndex];
 					if( isX[level]) {
-						derivDerivX.process(prev,derivatives[level][index]);
+						derivDerivX.process(prev,derivatives[level][index], GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM);
 					} else {
-						derivDerivY.process(prev,derivatives[level][index]);
+						derivDerivY.process(prev,derivatives[level][index], GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM);
 					}
 				}
 			}
@@ -189,7 +215,7 @@ public class AnyImageDerivative<I extends ImageGray, D extends ImageGray> {
 			stale[i] = new boolean[N];
 			for( int j = 0; j < N; j++ ) {
 				stale[i][j] = true;
-				derivatives[i][j] = GeneralizedImageOps.createSingleBand(derivType,1,1);
+				derivatives[i][j] = GIO.createSingleBand(derivType,1,1);
 			}
 		}
 	}

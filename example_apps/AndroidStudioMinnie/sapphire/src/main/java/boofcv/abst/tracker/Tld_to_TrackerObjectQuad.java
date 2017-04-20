@@ -33,13 +33,14 @@ import georegression.struct.shapes.Rectangle2D_F64;
 public class Tld_to_TrackerObjectQuad<T extends ImageGray, D extends ImageGray>
 		implements TrackerObjectQuad<T>
 {
+	private ImageType IT;
 	Rectangle2D_F64 rect = new Rectangle2D_F64();
 	TldTracker<T,D> tracker;
 	ImageType<T> type;
 
 	public Tld_to_TrackerObjectQuad(TldTracker<T, D> tracker , Class<T> imageType ) {
 		this.tracker = tracker;
-		this.type = ImageType.single(imageType);
+		this.type = IT.single(imageType);
 	}
 
 	@Override

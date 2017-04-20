@@ -30,9 +30,9 @@ import boofcv.struct.image.ImageType;
  * @author Peter Abeles
  */
 public class HornSchunck_U8 extends HornSchunck<GrayU8,GrayS16> {
-
+	private static ImageType IT;
 	public HornSchunck_U8(float alpha, int numIterations) {
-		super(alpha,numIterations, ImageType.single(GrayS16.class));
+		super(alpha,numIterations, IT.single(GrayS16.class));
 	}
 
 	@Override

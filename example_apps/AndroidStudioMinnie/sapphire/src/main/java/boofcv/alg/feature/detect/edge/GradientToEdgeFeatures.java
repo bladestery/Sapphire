@@ -18,14 +18,20 @@
 
 package boofcv.alg.feature.detect.edge;
 
+import android.renderscript.ScriptGroup;
+
 import boofcv.alg.InputSanityCheck;
 import boofcv.alg.feature.detect.edge.impl.ImplEdgeNonMaxSuppression;
 import boofcv.alg.feature.detect.edge.impl.ImplEdgeNonMaxSuppressionCrude;
 import boofcv.alg.feature.detect.edge.impl.ImplGradientToEdgeFeatures;
+import boofcv.core.image.GeneralizedImageOps;
+import boofcv.core.image.border.FactoryImageBorderAlgs;
+import boofcv.core.image.border.ImageBorderValue;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.GrayS16;
 import boofcv.struct.image.GrayS32;
 import boofcv.struct.image.GrayS8;
+import sapphire.app.SapphireObject;
 
 /**
  * <p>
@@ -46,18 +52,18 @@ import boofcv.struct.image.GrayS8;
  *
  * @author Peter Abeles
  */
-public class GradientToEdgeFeatures {
-
+public class GradientToEdgeFeatures implements SapphireObject {
+	public GradientToEdgeFeatures() {}
 	/**
 	 * Computes the edge intensity using a Euclidean norm.
 	 *
 	 * @param derivX Derivative along x-axis. Not modified.
 	 * @param derivY Derivative along y-axis. Not modified.
-	 * @param intensity Edge intensity.
+	 * @param intensity Edge intensity.ImplEdgeNonMaxSuppression
 	 */
-	static public void intensityE(GrayF32 derivX , GrayF32 derivY , GrayF32 intensity )
+	public void intensityE(GrayF32 derivX , GrayF32 derivY , GrayF32 intensity, InputSanityCheck ISC)
 	{
-		InputSanityCheck.checkSameShape(derivX,derivY,intensity);
+		ISC.checkSameShape(derivX,derivY,intensity);
 
 		ImplGradientToEdgeFeatures.intensityE(derivX,derivY,intensity);
 	}
@@ -69,9 +75,9 @@ public class GradientToEdgeFeatures {
 	 * @param derivY Derivative along y-axis. Not modified.
 	 * @param intensity Edge intensity.
 	 */
-	static public void intensityAbs(GrayF32 derivX , GrayF32 derivY , GrayF32 intensity )
+	public void intensityAbs(GrayF32 derivX , GrayF32 derivY , GrayF32 intensity, InputSanityCheck ISC )
 	{
-		InputSanityCheck.checkSameShape(derivX,derivY,intensity);
+		ISC.checkSameShape(derivX,derivY,intensity);
 
 		ImplGradientToEdgeFeatures.intensityAbs(derivX,derivY,intensity);
 	}
@@ -83,9 +89,9 @@ public class GradientToEdgeFeatures {
 	 * @param derivY Derivative along y-axis. Not modified.
 	 * @param angle Edge orientation in radians (-pi/2 to pi/2).
 	 */
-	static public void direction(GrayF32 derivX , GrayF32 derivY , GrayF32 angle )
+	public void direction(GrayF32 derivX , GrayF32 derivY , GrayF32 angle , InputSanityCheck ISC)
 	{
-		InputSanityCheck.checkSameShape(derivX,derivY,angle);
+		ISC.checkSameShape(derivX,derivY,angle);
 
 		ImplGradientToEdgeFeatures.direction(derivX,derivY,angle);
 	}
@@ -97,9 +103,9 @@ public class GradientToEdgeFeatures {
 	 * @param derivY Derivative along y-axis. Not modified.
 	 * @param angle Edge orientation in radians (-pi to pi).
 	 */
-	static public void direction2(GrayF32 derivX , GrayF32 derivY , GrayF32 angle )
+	public void direction2(GrayF32 derivX , GrayF32 derivY , GrayF32 angle , InputSanityCheck ISC)
 	{
-		InputSanityCheck.checkSameShape(derivX,derivY,angle);
+		ISC.checkSameShape(derivX,derivY,angle);
 
 		ImplGradientToEdgeFeatures.direction2(derivX,derivY,angle);
 	}
@@ -111,9 +117,9 @@ public class GradientToEdgeFeatures {
 	 * @param derivY Derivative along y-axis. Not modified.
 	 * @param intensity Edge intensity.
 	 */
-	static public void intensityE(GrayS16 derivX , GrayS16 derivY , GrayF32 intensity )
+	public void intensityE(GrayS16 derivX , GrayS16 derivY , GrayF32 intensity , InputSanityCheck ISC)
 	{
-		InputSanityCheck.checkSameShape(derivX,derivY,intensity);
+		ISC.checkSameShape(derivX,derivY,intensity);
 
 		ImplGradientToEdgeFeatures.intensityE(derivX,derivY,intensity);
 	}
@@ -125,9 +131,9 @@ public class GradientToEdgeFeatures {
 	 * @param derivY Derivative along y-axis. Not modified.
 	 * @param intensity Edge intensity.
 	 */
-	static public void intensityAbs(GrayS16 derivX , GrayS16 derivY , GrayF32 intensity )
+	public void intensityAbs(GrayS16 derivX , GrayS16 derivY , GrayF32 intensity , InputSanityCheck ISC)
 	{
-		InputSanityCheck.checkSameShape(derivX,derivY,intensity);
+		ISC.checkSameShape(derivX,derivY,intensity);
 
 		ImplGradientToEdgeFeatures.intensityAbs(derivX,derivY,intensity);
 	}
@@ -139,9 +145,9 @@ public class GradientToEdgeFeatures {
 	 * @param derivY Derivative along y-axis. Not modified.
 	 * @param angle Edge orientation in radians (-pi/2 to pi/2).
 	 */
-	static public void direction(GrayS16 derivX , GrayS16 derivY , GrayF32 angle )
+	public void direction(GrayS16 derivX , GrayS16 derivY , GrayF32 angle , InputSanityCheck ISC)
 	{
-		InputSanityCheck.checkSameShape(derivX,derivY,angle);
+		ISC.checkSameShape(derivX,derivY,angle);
 
 		ImplGradientToEdgeFeatures.direction(derivX,derivY,angle);
 	}
@@ -153,9 +159,9 @@ public class GradientToEdgeFeatures {
 	 * @param derivY Derivative along y-axis. Not modified.
 	 * @param angle Edge orientation in radians (-pi to pi).
 	 */
-	static public void direction2(GrayS16 derivX , GrayS16 derivY , GrayF32 angle )
+	public void direction2(GrayS16 derivX , GrayS16 derivY , GrayF32 angle , InputSanityCheck ISC)
 	{
-		InputSanityCheck.checkSameShape(derivX,derivY,angle);
+		ISC.checkSameShape(derivX,derivY,angle);
 
 		ImplGradientToEdgeFeatures.direction2(derivX,derivY,angle);
 	}
@@ -167,9 +173,9 @@ public class GradientToEdgeFeatures {
 	 * @param derivY Derivative along y-axis. Not modified.
 	 * @param intensity Edge intensity.
 	 */
-	static public void intensityE(GrayS32 derivX , GrayS32 derivY , GrayF32 intensity )
+	public void intensityE(GrayS32 derivX , GrayS32 derivY , GrayF32 intensity, InputSanityCheck ISC )
 	{
-		InputSanityCheck.checkSameShape(derivX,derivY,intensity);
+		ISC.checkSameShape(derivX,derivY,intensity);
 
 		ImplGradientToEdgeFeatures.intensityE(derivX,derivY,intensity);
 	}
@@ -181,9 +187,9 @@ public class GradientToEdgeFeatures {
 	 * @param derivY Derivative along y-axis. Not modified.
 	 * @param intensity Edge intensity.
 	 */
-	static public void intensityAbs(GrayS32 derivX , GrayS32 derivY , GrayF32 intensity )
+	public void intensityAbs(GrayS32 derivX , GrayS32 derivY , GrayF32 intensity , InputSanityCheck ISC)
 	{
-		InputSanityCheck.checkSameShape(derivX,derivY,intensity);
+		ISC.checkSameShape(derivX,derivY,intensity);
 
 		ImplGradientToEdgeFeatures.intensityAbs(derivX,derivY,intensity);
 	}
@@ -195,9 +201,9 @@ public class GradientToEdgeFeatures {
 	 * @param derivY Derivative along y-axis. Not modified.
 	 * @param angle Edge orientation in radians (-pi/2 to pi/2).
 	 */
-	static public void direction(GrayS32 derivX , GrayS32 derivY , GrayF32 angle )
+	public void direction(GrayS32 derivX , GrayS32 derivY , GrayF32 angle, InputSanityCheck ISC )
 	{
-		InputSanityCheck.checkSameShape(derivX,derivY,angle);
+		ISC.checkSameShape(derivX,derivY,angle);
 
 		ImplGradientToEdgeFeatures.direction(derivX,derivY,angle);
 	}
@@ -209,9 +215,9 @@ public class GradientToEdgeFeatures {
 	 * @param derivY Derivative along y-axis. Not modified.
 	 * @param angle Edge orientation in radians (-pi to pi).
 	 */
-	static public void direction2(GrayS32 derivX , GrayS32 derivY , GrayF32 angle )
+	public void direction2(GrayS32 derivX , GrayS32 derivY , GrayF32 angle , InputSanityCheck ISC)
 	{
-		InputSanityCheck.checkSameShape(derivX,derivY,angle);
+		ISC.checkSameShape(derivX,derivY,angle);
 
 		ImplGradientToEdgeFeatures.direction2(derivX,derivY,angle);
 	}
@@ -228,12 +234,12 @@ public class GradientToEdgeFeatures {
 	 * @param angle Input image containing edge orientations.  Orientations are assumed to be
 	 * from -pi/2 to pi/2. Not modified.
 	 * @param discrete  Output set of discretized angles.  Values will be from -1 to 2, inclusive. If null a new
-	 * image will be declared and returned. Modified.
+	 * image will be declared and returned. ModifiedImplEdgeNonMaxSuppression.
 	 * @return Discretized direction.
 	 */
-	static public GrayS8 discretizeDirection4(GrayF32 angle , GrayS8 discrete )
+	public GrayS8 discretizeDirection4(GrayF32 angle , GrayS8 discrete , InputSanityCheck ISC, GeneralizedImageOps GIO)
 	{
-		discrete = InputSanityCheck.checkDeclare(angle,discrete,GrayS8.class);
+		discrete = ISC.checkDeclare(angle,discrete,GrayS8.class, GIO);
 
 		final float A = (float)(Math.PI/8.0);
 		final float B = (float)(Math.PI/4.0);
@@ -275,9 +281,9 @@ public class GradientToEdgeFeatures {
 	 * image will be declared and returned. Modified.
 	 * @return Discretized direction.
 	 */
-	static public GrayS8 discretizeDirection8(GrayF32 angle , GrayS8 discrete )
+	public GrayS8 discretizeDirection8(GrayF32 angle , GrayS8 discrete , InputSanityCheck ISC, GeneralizedImageOps GIO)
 	{
-		discrete = InputSanityCheck.checkDeclare(angle,discrete,GrayS8.class);
+		discrete = ISC.checkDeclare(angle,discrete,GrayS8.class, GIO);
 
 		final float A = (float)(Math.PI/8.0);
 		final float B = (float)(Math.PI/4.0);
@@ -315,13 +321,13 @@ public class GradientToEdgeFeatures {
 	 * @param output Filtered intensity. If null a new image will be declared and returned. Modified.
 	 * @return Filtered edge intensity.
 	 */
-	static public GrayF32 nonMaxSuppression4(GrayF32 intensity , GrayS8 direction , GrayF32 output )
+	public GrayF32 nonMaxSuppression4(GrayF32 intensity , GrayS8 direction , GrayF32 output, ImageBorderValue IBV, ImplEdgeNonMaxSuppression IENMS, FactoryImageBorderAlgs FIBA, InputSanityCheck ISC)
 	{
-		InputSanityCheck.checkSameShape(intensity,direction);
-		output = InputSanityCheck.checkDeclare(intensity,output);
+		ISC.checkSameShape(intensity,direction);
+		output = ISC.checkDeclare(intensity,output);
 
-		ImplEdgeNonMaxSuppression.inner4(intensity,direction,output);
-		ImplEdgeNonMaxSuppression.border4(intensity,direction,output);
+		IENMS.inner4(intensity,direction,output);
+		IENMS.border4(intensity,direction,output, IBV, FIBA);
 
 		return output;
 	}
@@ -337,13 +343,13 @@ public class GradientToEdgeFeatures {
 	 * @param output Filtered intensity. If null a new image will be declared and returned. Modified.
 	 * @return Filtered edge intensity.
 	 */
-	static public GrayF32 nonMaxSuppression8(GrayF32 intensity , GrayS8 direction , GrayF32 output )
+	public GrayF32 nonMaxSuppression8(GrayF32 intensity , GrayS8 direction , GrayF32 output, ImageBorderValue IBV, ImplEdgeNonMaxSuppression IENMS, FactoryImageBorderAlgs FIBA, InputSanityCheck ISC)
 	{
-		InputSanityCheck.checkSameShape(intensity,direction);
-		output = InputSanityCheck.checkDeclare(intensity,output);
+		ISC.checkSameShape(intensity,direction);
+		output = ISC.checkDeclare(intensity,output);
 
-		ImplEdgeNonMaxSuppression.inner8(intensity,direction,output);
-		ImplEdgeNonMaxSuppression.border8(intensity,direction,output);
+		IENMS.inner8(intensity,direction,output);
+		IENMS.border8(intensity,direction,output, IBV, FIBA);
 
 		return output;
 	}
@@ -361,10 +367,10 @@ public class GradientToEdgeFeatures {
 	 * @param output Filtered intensity. If null a new image will be declared and returned. Modified.
 	 * @return Filtered edge intensity.
 	 */
-	static public GrayF32 nonMaxSuppressionCrude4(GrayF32 intensity , GrayF32 derivX , GrayF32 derivY, GrayF32 output )
+	public GrayF32 nonMaxSuppressionCrude4(GrayF32 intensity , GrayF32 derivX , GrayF32 derivY, GrayF32 output, InputSanityCheck ISC)
 	{
-		InputSanityCheck.checkSameShape(intensity,derivX,derivY);
-		output = InputSanityCheck.checkDeclare(intensity,output);
+		ISC.checkSameShape(intensity,derivX,derivY);
+		output = ISC.checkDeclare(intensity,output);
 
 		ImplEdgeNonMaxSuppressionCrude.inner4(intensity, derivX,derivY, output);
 		ImplEdgeNonMaxSuppressionCrude.border4(intensity,derivX,derivY, output);
@@ -385,10 +391,10 @@ public class GradientToEdgeFeatures {
 	 * @param output Filtered intensity. If null a new image will be declared and returned. Modified.
 	 * @return Filtered edge intensity.
 	 */
-	static public GrayF32 nonMaxSuppressionCrude4(GrayF32 intensity , GrayS16 derivX , GrayS16 derivY, GrayF32 output )
+	public GrayF32 nonMaxSuppressionCrude4(GrayF32 intensity , GrayS16 derivX , GrayS16 derivY, GrayF32 output, InputSanityCheck ISC)
 	{
-		InputSanityCheck.checkSameShape(intensity,derivX,derivY);
-		output = InputSanityCheck.checkDeclare(intensity,output);
+		ISC.checkSameShape(intensity,derivX,derivY);
+		output = ISC.checkDeclare(intensity,output);
 
 		ImplEdgeNonMaxSuppressionCrude.inner4(intensity, derivX,derivY, output);
 		ImplEdgeNonMaxSuppressionCrude.border4(intensity,derivX,derivY, output);
@@ -409,10 +415,10 @@ public class GradientToEdgeFeatures {
 	 * @param output Filtered intensity. If null a new image will be declared and returned. Modified.
 	 * @return Filtered edge intensity.
 	 */
-	static public GrayF32 nonMaxSuppressionCrude4(GrayF32 intensity , GrayS32 derivX , GrayS32 derivY, GrayF32 output )
+	public GrayF32 nonMaxSuppressionCrude4(GrayF32 intensity , GrayS32 derivX , GrayS32 derivY, GrayF32 output, InputSanityCheck ISC)
 	{
-		InputSanityCheck.checkSameShape(intensity,derivX,derivY);
-		output = InputSanityCheck.checkDeclare(intensity,output);
+		ISC.checkSameShape(intensity,derivX,derivY);
+		output = ISC.checkDeclare(intensity,output);
 
 		ImplEdgeNonMaxSuppressionCrude.inner4(intensity, derivX,derivY, output);
 		ImplEdgeNonMaxSuppressionCrude.border4(intensity,derivX,derivY, output);

@@ -37,7 +37,7 @@ import java.lang.reflect.Array;
  * @author Peter Abeles
  */
 public class ConvertBufferedImage {
-
+	private static GeneralizedImageOps GIO;
 	/**
 	 * Returns an image which doesn't have an alpha channel.  If the input image doesn't have an alpha
 	 * channel to start then its returned as is.  Otherwise a new image is created and the RGB channels are
@@ -351,7 +351,7 @@ public class ConvertBufferedImage {
 				throw new IllegalArgumentException("image dimension are different");
 			}
 		} else {
-			dst = GeneralizedImageOps.createSingleBand(type, src.getWidth(), src.getHeight());
+			dst = GIO.createSingleBand(type, src.getWidth(), src.getHeight());
 		}
 
 		try {

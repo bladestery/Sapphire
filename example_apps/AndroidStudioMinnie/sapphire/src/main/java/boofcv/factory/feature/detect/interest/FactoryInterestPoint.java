@@ -25,6 +25,8 @@ import boofcv.abst.feature.detect.interest.*;
 import boofcv.abst.filter.derivative.ImageGradient;
 import boofcv.abst.filter.derivative.ImageHessian;
 import boofcv.alg.feature.detect.interest.*;
+import boofcv.core.image.GeneralizedImageOps;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.feature.detect.extract.FactoryFeatureExtractor;
 import boofcv.factory.filter.derivative.FactoryDerivative;
 import boofcv.factory.transform.pyramid.FactoryPyramid;
@@ -44,7 +46,9 @@ import boofcv.struct.pyramid.PyramidFloat;
  * @see FactoryFeatureExtractor
  */
 public class FactoryInterestPoint {
-
+	private static FactoryDerivative FD;
+	private static GeneralizedImageOps GIO;
+	private static FactoryImageBorder FIB;
 	/**
 	 * Wraps {@link GeneralFeatureDetector} inside an {@link InterestPointDetector}.
 	 *
@@ -61,9 +65,9 @@ public class FactoryInterestPoint {
 		ImageHessian<D> hessian = null;
 
 		if (feature.getRequiresGradient() || feature.getRequiresHessian())
-			gradient = FactoryDerivative.sobel(inputType, derivType);
+			gradient = FD.sobel(inputType, derivType, GIO, FIB);
 		if (feature.getRequiresHessian())
-			hessian = FactoryDerivative.hessianSobel(derivType);
+			hessian = FD.hessianSobel(derivType, GIO);
 
 		return new GeneralToInterestPoint<>(feature, gradient, hessian, scale, derivType);
 	}

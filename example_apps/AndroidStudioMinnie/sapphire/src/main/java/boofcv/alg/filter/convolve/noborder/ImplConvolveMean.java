@@ -17,6 +17,7 @@
  */package boofcv.alg.filter.convolve.noborder;
 
 import boofcv.struct.image.*;
+import sapphire.app.SapphireObject;
 
 import javax.annotation.Generated;
 
@@ -31,9 +32,10 @@ import javax.annotation.Generated;
  * @author Peter Abeles
  */
 @Generated({"boofcv.alg.filter.convolve.noborder.GenerateImplConvolveMean"})
-public class ImplConvolveMean {
+public class ImplConvolveMean implements SapphireObject	{
+	public ImplConvolveMean() {}
 
-	public static void horizontal( GrayU8 input , GrayI8 output , int radius ) {
+	public void horizontal( GrayU8 input , GrayI8 output , int radius ) {
 		final int kernelWidth = radius*2 + 1;
 
 		final int divisor = kernelWidth;
@@ -62,7 +64,7 @@ public class ImplConvolveMean {
 		}
 	}
 
-	public static void vertical( GrayU8 input , GrayI8 output , int radius ) {
+	public void vertical( GrayU8 input , GrayI8 output , int radius ) {
 		final int kernelWidth = radius*2 + 1;
 
 		final int backStep = kernelWidth*input.stride;
@@ -98,7 +100,7 @@ public class ImplConvolveMean {
 		}
 	}
 
-	public static void horizontal( GrayS16 input , GrayI16 output , int radius ) {
+	public void horizontal( GrayS16 input , GrayI16 output , int radius ) {
 		final int kernelWidth = radius*2 + 1;
 
 		final int divisor = kernelWidth;
@@ -127,7 +129,7 @@ public class ImplConvolveMean {
 		}
 	}
 
-	public static void vertical( GrayS16 input , GrayI16 output , int radius ) {
+	public void vertical( GrayS16 input , GrayI16 output , int radius ) {
 		final int kernelWidth = radius*2 + 1;
 
 		final int backStep = kernelWidth*input.stride;
@@ -163,7 +165,7 @@ public class ImplConvolveMean {
 		}
 	}
 
-	public static void horizontal( GrayF32 input , GrayF32 output , int radius ) {
+	public void horizontal( GrayF32 input , GrayF32 output , int radius ) {
 		final int kernelWidth = radius*2 + 1;
 
 		final float divisor = kernelWidth;
@@ -191,7 +193,7 @@ public class ImplConvolveMean {
 		}
 	}
 
-	public static void vertical( GrayF32 input , GrayF32 output , int radius ) {
+	public void vertical( GrayF32 input , GrayF32 output , int radius ) {
 		final int kernelWidth = radius*2 + 1;
 
 		final int backStep = kernelWidth*input.stride;
@@ -226,7 +228,7 @@ public class ImplConvolveMean {
 		}
 	}
 
-	public static void horizontal( GrayF64 input , GrayF64 output , int radius ) {
+	public void horizontal( GrayF64 input , GrayF64 output , int radius ) {
 		final int kernelWidth = radius*2 + 1;
 
 		final double divisor = kernelWidth;
@@ -254,7 +256,7 @@ public class ImplConvolveMean {
 		}
 	}
 
-	public static void vertical( GrayF64 input , GrayF64 output , int radius ) {
+	public void vertical( GrayF64 input , GrayF64 output , int radius ) {
 		final int kernelWidth = radius*2 + 1;
 
 		final int backStep = kernelWidth*input.stride;

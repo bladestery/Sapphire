@@ -54,7 +54,7 @@ import boofcv.struct.image.Planar;
  * @author Peter Abeles
  */
 public class ColorYuv {
-
+	private static InputSanityCheck ISC;
 	/**
 	 * Conversion from RGB to YUV using same equations as Intel IPP.
 	 */
@@ -143,7 +143,7 @@ public class ColorYuv {
 	 */
 	public static void yuvToRgb_F32(Planar<GrayF32> yuv , Planar<GrayF32> rgb ) {
 
-		InputSanityCheck.checkSameShape(yuv,rgb);
+		ISC.checkSameShape(yuv,rgb);
 
 		GrayF32 Y = yuv.getBand(0);
 		GrayF32 U = yuv.getBand(1);
@@ -179,7 +179,7 @@ public class ColorYuv {
 	 */
 	public static void rgbToYuv_F32(Planar<GrayF32> rgb , Planar<GrayF32> yuv ) {
 
-		InputSanityCheck.checkSameShape(yuv,rgb);
+		ISC.checkSameShape(yuv,rgb);
 
 		GrayF32 R = rgb.getBand(0);
 		GrayF32 G = rgb.getBand(1);

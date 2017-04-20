@@ -32,7 +32,7 @@ import static org.junit.Assert.assertEquals;
  * @author Peter Abeles
  */
 public abstract class BasicDisparitySelectRectTests <ArrayData , D extends ImageGray> {
-
+	private GeneralizedImageOps GIO;
 	Class<ArrayData> arrayType;
 
 	int w=20;
@@ -46,7 +46,7 @@ public abstract class BasicDisparitySelectRectTests <ArrayData , D extends Image
 	protected BasicDisparitySelectRectTests( Class<ArrayData> arrayType , Class<D> disparityType ) {
 
 		this.arrayType = arrayType;
-		disparity = GeneralizedImageOps.createSingleBand(disparityType,w,h);
+		disparity = GIO.createSingleBand(disparityType,w,h);
 
 		alg = createAlg();
 	}
@@ -82,17 +82,17 @@ public abstract class BasicDisparitySelectRectTests <ArrayData , D extends Image
 		alg.process(y,s);
 
 		// make sure image borders are zero
-		assertEquals(0, GeneralizedImageOps.get(disparity, 0, y), 1e-8);
-		assertEquals(0, GeneralizedImageOps.get(disparity, 1, y), 1e-8);
-		assertEquals(0, GeneralizedImageOps.get(disparity, w-2, y), 1e-8);
-		assertEquals(0, GeneralizedImageOps.get(disparity, w-1, y), 1e-8);
+		assertEquals(0, GIO.get(disparity, 0, y), 1e-8);
+		assertEquals(0, GIO.get(disparity, 1, y), 1e-8);
+		assertEquals(0, GIO.get(disparity, w-2, y), 1e-8);
+		assertEquals(0, GIO.get(disparity, w-1, y), 1e-8);
 
 		// should ramp up to 5 here
 		for( int i = 0; i < 5; i++ )
-			assertEquals(i, GeneralizedImageOps.get(disparity, i+2, y), 1e-8);
+			assertEquals(i, GIO.get(disparity, i+2, y), 1e-8);
 		// should be at 5 for the remainder
 		for( int i = 5; i < w-4; i++ )
-			assertEquals(5, GeneralizedImageOps.get(disparity, i+2, y), 1e-8);
+			assertEquals(5, GIO.get(disparity, i+2, y), 1e-8);
 	}
 
 	private ArrayData copyToCorrectType( int scores[] ) {
@@ -137,15 +137,15 @@ public abstract class BasicDisparitySelectRectTests <ArrayData , D extends Image
 
 		// make sure image borders are zero
 		for( int i = 0; i < 2+minDisparity; i++ )
-			assertEquals(0, GeneralizedImageOps.get(disparity, i, y), 1e-8);
-		assertEquals(0, GeneralizedImageOps.get(disparity, w-2, y), 1e-8);
-		assertEquals(0, GeneralizedImageOps.get(disparity, w-1, y), 1e-8);
+			assertEquals(0, GIO.get(disparity, i, y), 1e-8);
+		assertEquals(0, GIO.get(disparity, w-2, y), 1e-8);
+		assertEquals(0, GIO.get(disparity, w-1, y), 1e-8);
 
 		// should ramp up to 7 starting at 2
 		for( int i = 0; i < 5; i++ )
-			assertEquals(i+2, minDisparity+GeneralizedImageOps.get(disparity, i+2+minDisparity, y), 1e-8);
+			assertEquals(i+2, minDisparity+GIO.get(disparity, i+2+minDisparity, y), 1e-8);
 		// should be at 7 for the remainder
 		for( int i = 5; i < w-4-minDisparity; i++ )
-			assertEquals(7, minDisparity+GeneralizedImageOps.get(disparity, i+2+minDisparity, y), 1e-8);
+			assertEquals(7, minDisparity+GIO.get(disparity, i+2+minDisparity, y), 1e-8);
 	}
 }

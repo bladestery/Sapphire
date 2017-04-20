@@ -49,7 +49,8 @@ import georegression.struct.se.Se3_F64;
  * @author Peter Abeles
  */
 public class DisparityCalculation<Desc extends TupleDesc> {
-
+	private ImageMiscOps IMO;
+	private ImageType IT;
 	DetectDescribePoint<GrayF32,Desc> detDesc;
 	AssociateDescription<Desc> associate;
 	CameraPinholeRadial intrinsic;
@@ -290,16 +291,16 @@ public class DisparityCalculation<Desc extends TupleDesc> {
 
 		// undistorted and rectify images
 		ImageDistort<GrayF32,GrayF32> distortLeft =
-				RectifyImageOps.rectifyImage(intrinsic, rect1, BorderType.ZERO, ImageType.single(GrayF32.class));
+				RectifyImageOps.rectifyImage(intrinsic, rect1, BorderType.ZERO, IT.single(GrayF32.class));
 		ImageDistort<GrayF32,GrayF32> distortRight =
-				RectifyImageOps.rectifyImage(intrinsic, rect2, BorderType.ZERO, ImageType.single(GrayF32.class));
+				RectifyImageOps.rectifyImage(intrinsic, rect2, BorderType.ZERO, IT.single(GrayF32.class));
 
 		// Apply the Laplacian for some lighting invariance
-		ImageMiscOps.fill(rectifiedLeft,0);
+		IMO.fill(rectifiedLeft,0);
 		distortLeft.apply(distortedLeft, rectifiedLeft);
 		LaplacianEdge.process(rectifiedLeft,edgeLeft);
 
-		ImageMiscOps.fill(rectifiedRight, 0);
+		IMO.fill(rectifiedRight, 0);
 		distortRight.apply(distortedRight, rectifiedRight);
 		LaplacianEdge.process(rectifiedRight,edgeRight);
 	}

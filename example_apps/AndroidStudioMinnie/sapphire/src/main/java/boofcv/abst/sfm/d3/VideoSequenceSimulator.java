@@ -42,7 +42,7 @@ import java.util.*;
  * @author
  */
 public class VideoSequenceSimulator<I extends ImageGray> {
-
+	private GeneralizedImageOps GIO;
 	protected int width,height;
 
 	Random rand = new Random(1234);
@@ -62,7 +62,7 @@ public class VideoSequenceSimulator<I extends ImageGray> {
 		this.width = width;
 		this.height = height;
 		workImage = new BufferedImage(width,height,BufferedImage.TYPE_INT_BGR);
-		outputImage = GeneralizedImageOps.createSingleBand(inputType,workImage.getWidth(),workImage.getHeight());
+		outputImage = GIO.createSingleBand(inputType,workImage.getWidth(),workImage.getHeight());
 	}
 
 	public void setIntrinsic( CameraPinholeRadial param ) {
@@ -186,7 +186,7 @@ public class VideoSequenceSimulator<I extends ImageGray> {
 				p.x = x;
 
 				if( Intersection2D_F64.containConvex(poly64,p)) {
-					GeneralizedImageOps.set(image,x,y,value);
+					GIO.set(image,x,y,value);
 				}
 			}
 		}

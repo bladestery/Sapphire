@@ -20,9 +20,14 @@ package boofcv.alg.flow;
 
 import boofcv.abst.filter.derivative.ImageGradient;
 import boofcv.abst.filter.derivative.ImageHessian;
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
 import boofcv.alg.interpolate.InterpolatePixelS;
 import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.misc.PixelMath;
+import boofcv.core.image.GeneralizedImageOps;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.filter.derivative.FactoryDerivative;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.ImageGray;
@@ -52,7 +57,13 @@ import java.util.Arrays;
  * @author Peter Abeles
  */
 public class BroxWarpingSpacial<T extends ImageGray> extends DenseFlowPyramidBase<T> {
-
+	private static ImageMiscOps IMO;
+	private static FactoryDerivative FD;
+	private static GeneralizedImageOps GIO;
+	private static FactoryImageBorder FIB;
+	private static InputSanityCheck ISC;
+	private static DerivativeHelperFunctions DHF;
+	private static ConvolveImageNoBorder CINB;
 	// regularization term
 	private static final double EPSILON = 0.001;
 
@@ -83,8 +94,8 @@ public class BroxWarpingSpacial<T extends ImageGray> extends DenseFlowPyramidBas
 	private GrayF32 deriv2YY = new GrayF32(1,1);
 	private GrayF32 deriv2XY = new GrayF32(1,1);
 
-	private ImageGradient<GrayF32, GrayF32> gradient = FactoryDerivative.three(GrayF32.class, GrayF32.class);
-	private ImageHessian<GrayF32> hessian = FactoryDerivative.hessianThree(GrayF32.class);
+	private ImageGradient<GrayF32, GrayF32> gradient = FD.three(GrayF32.class, GrayF32.class, GIO, FIB);
+	private ImageHessian<GrayF32> hessian = FD.hessianThree(GrayF32.class, GIO);
 
 	// flow estimation at the start of the iteration
 	protected GrayF32 flowU = new GrayF32(1,1); // flow along x-axis
@@ -153,8 +164,8 @@ public class BroxWarpingSpacial<T extends ImageGray> extends DenseFlowPyramidBas
 			resizeForLayer(layer1.width,layer2.height);
 
 			// compute image derivatives
-			gradient.process(layer1,deriv1X,deriv1Y);
-			gradient.process(layer2,deriv2X,deriv2Y);
+			gradient.process(layer1,deriv1X,deriv1Y, ISC, DHF, CINB);
+			gradient.process(layer2,deriv2X,deriv2Y, ISC, DHF, CINB);
 			hessian.process(deriv2X,deriv2Y,deriv2XX,deriv2YY,deriv2XY);
 
 			if( !first ) {
@@ -167,8 +178,8 @@ public class BroxWarpingSpacial<T extends ImageGray> extends DenseFlowPyramidBas
 				flowU.reshape(layer1.width, layer1.height);
 				flowV.reshape(layer1.width, layer1.height);
 
-				ImageMiscOps.fill(flowU,0);
-				ImageMiscOps.fill(flowV,0);
+				IMO.fill(flowU,0);
+				IMO.fill(flowV,0);
 			}
 
 			// compute flow for this layer
@@ -257,8 +268,8 @@ public class BroxWarpingSpacial<T extends ImageGray> extends DenseFlowPyramidBas
 			warpImageTaylor(deriv2YY, flowU, flowV, warpDeriv2YY);
 			warpImageTaylor(deriv2XY, flowU, flowV, warpDeriv2XY);
 
-			gradient.process(flowU,derivFlowUX,derivFlowUY);
-			gradient.process(flowV,derivFlowVX,derivFlowVY);
+			gradient.process(flowU,derivFlowUX,derivFlowUY, ISC, DHF, CINB);
+			gradient.process(flowV,derivFlowVX,derivFlowVY, ISC, DHF, CINB);
 
 			computePsiSmooth(derivFlowUX,derivFlowUY,derivFlowVX,derivFlowVY,psiSmooth);
 

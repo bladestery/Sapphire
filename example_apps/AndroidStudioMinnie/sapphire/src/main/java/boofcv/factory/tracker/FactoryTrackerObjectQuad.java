@@ -29,7 +29,9 @@ import boofcv.alg.tracker.meanshift.TrackerMeanShiftLikelihood;
 import boofcv.alg.tracker.sfot.SfotConfig;
 import boofcv.alg.tracker.sfot.SparseFlowObjectTracker;
 import boofcv.alg.tracker.tld.TldTracker;
+import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.BorderType;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.filter.derivative.FactoryDerivative;
 import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.struct.image.ImageBase;
@@ -44,8 +46,12 @@ import boofcv.struct.image.ImageType;
  * @author Peter Abeles
  */
 public class FactoryTrackerObjectQuad {
-
+	private static FactoryDerivative FD;
+	private static ImageType IT;
+	private static GeneralizedImageOps GIO;
+	private static FactoryImageBorder FIB;
 	/**
+	 *
 	 * Create an instance of {@link TldTracker  Tracking-Learning-Detection (TLD)} tracker for the
 	 * {@link TrackerObjectQuad} interface.
 	 * @param config Configuration for the tracker
@@ -61,7 +67,7 @@ public class FactoryTrackerObjectQuad {
 		Class<D> derivType = GImageDerivativeOps.getDerivativeType(imageType);
 
 		InterpolatePixelS<T> interpolate = FactoryInterpolation.bilinearPixelS(imageType, BorderType.EXTENDED);
-		ImageGradient<T,D> gradient =  FactoryDerivative.sobel(imageType, derivType);
+		ImageGradient<T,D> gradient =  FD.sobel(imageType, derivType, GIO, FIB);
 
 		TldTracker<T,D> tracker = new TldTracker<>(config.parameters, interpolate, gradient, imageType, derivType);
 
@@ -85,7 +91,7 @@ public class FactoryTrackerObjectQuad {
 		if( config == null )
 			config = new SfotConfig();
 
-		ImageGradient<T, D> gradient = FactoryDerivative.sobel(imageType,derivType);
+		ImageGradient<T, D> gradient = FD.sobel(imageType,derivType, GIO, FIB);
 
 		SparseFlowObjectTracker<T,D> tracker = new SparseFlowObjectTracker<>(config, imageType, derivType, gradient);
 
@@ -175,6 +181,6 @@ public class FactoryTrackerObjectQuad {
 
 		CirculantTracker<T> alg = FactoryTrackerObjectAlgs.circulant(config,imageType);
 
-		return new Circulant_to_TrackerObjectQuad<>(alg, ImageType.single(imageType));
+		return new Circulant_to_TrackerObjectQuad<>(alg, IT.single(imageType));
 	}
 }

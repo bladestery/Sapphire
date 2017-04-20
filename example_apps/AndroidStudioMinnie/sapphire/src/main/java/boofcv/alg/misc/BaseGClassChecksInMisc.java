@@ -32,7 +32,7 @@ import java.util.Random;
  * @author Peter Abeles
  */
 public abstract class BaseGClassChecksInMisc extends CompareEquivalentFunctions {
-
+	private GeneralizedImageOps GIO;
 	Random rand = new Random(234);
 	int width = 20;
 	int height = 30;
@@ -92,9 +92,9 @@ public abstract class BaseGClassChecksInMisc extends CompareEquivalentFunctions 
 
 	protected ImageBase createImage( Class imageType , Class bandType) {
 		if( ImageGray.class.isAssignableFrom(imageType) ) {
-			return GeneralizedImageOps.createSingleBand(imageType, width, height);
+			return GIO.createSingleBand(imageType, width, height);
 		} else if( ImageInterleaved.class.isAssignableFrom(imageType) ) {
-			return GeneralizedImageOps.createInterleaved(imageType, width, height, 3);
+			return GIO.createInterleaved(imageType, width, height, 3);
 		} else if( bandType != null ) {
 			return new Planar(bandType,width,height,3);
 		}

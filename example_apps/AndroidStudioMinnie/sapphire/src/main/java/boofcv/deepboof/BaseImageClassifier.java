@@ -38,13 +38,14 @@ import java.util.List;
  * @author Peter Abeles
  */
 public abstract class BaseImageClassifier implements ImageClassifier<Planar<GrayF32>> {
+	private ImageType IT;
 
 	protected FunctionSequence<Tensor_F32,Function<Tensor_F32>> network;
 
 	// List of all the categories
 	protected List<String> categories = new ArrayList<>();
 
-	protected ImageType<Planar<GrayF32>> imageType = ImageType.pl(3,GrayF32.class);
+	protected ImageType<Planar<GrayF32>> imageType = IT.pl(3,GrayF32.class);
 
 	// Resizes input image for the network
 	protected ClipAndReduce<Planar<GrayF32>> massage = new ClipAndReduce<>(true,imageType);

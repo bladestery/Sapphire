@@ -19,6 +19,7 @@
 package boofcv.alg.filter.derivative;
 
 import boofcv.alg.InputSanityCheck;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
 import boofcv.alg.filter.derivative.impl.GradientThree_Standard;
 import boofcv.core.image.border.ImageBorder_F32;
 import boofcv.core.image.border.ImageBorder_S32;
@@ -47,7 +48,6 @@ import boofcv.struct.image.GrayU8;
  * @author Peter Abeles
  */
 public class GradientThree {
-
 	public static Kernel1D_I32 kernelDeriv_I32 = new Kernel1D_I32(new int[]{-1,0,1},3);
 	public static Kernel1D_F32 kernelDeriv_F32 = new Kernel1D_F32(new float[]{-0.5f,0,0.5f},3);
 
@@ -71,13 +71,14 @@ public class GradientThree {
 	 */
 	public static void process(GrayU8 orig,
 							   GrayS16 derivX,
-							   GrayS16 derivY, ImageBorder_S32 border ) {
-		InputSanityCheck.checkSameShape(orig, derivX, derivY);
+							   GrayS16 derivY, ImageBorder_S32 border, InputSanityCheck ISC, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB) {
+		ISC.checkSameShape(orig, derivX, derivY);
 		GradientThree_Standard.process(orig, derivX, derivY);
 
 		if( border != null ) {
-			DerivativeHelperFunctions.processBorderHorizontal(orig, derivX , kernelDeriv_I32, border);
-			DerivativeHelperFunctions.processBorderVertical(orig, derivY , kernelDeriv_I32, border);
+			System.out.println(DHF);
+			DHF.processBorderHorizontal(orig, derivX , kernelDeriv_I32, border, CINB, ISC);
+			DHF.processBorderVertical(orig, derivY , kernelDeriv_I32, border, CINB, ISC);
 		}
 	}
 
@@ -91,13 +92,13 @@ public class GradientThree {
 	 */
 	public static void process(GrayU8 orig,
 							   GrayS32 derivX,
-							   GrayS32 derivY, ImageBorder_S32 border ) {
-		InputSanityCheck.checkSameShape(orig, derivX, derivY);
+							   GrayS32 derivY, ImageBorder_S32 border, InputSanityCheck ISC, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB) {
+		ISC.checkSameShape(orig, derivX, derivY);
 		GradientThree_Standard.process(orig, derivX, derivY);
 
 		if( border != null ) {
-			DerivativeHelperFunctions.processBorderHorizontal(orig, derivX , kernelDeriv_I32, border);
-			DerivativeHelperFunctions.processBorderVertical(orig, derivY , kernelDeriv_I32, border);
+			DHF.processBorderHorizontal(orig, derivX , kernelDeriv_I32, border, CINB, ISC);
+			DHF.processBorderVertical(orig, derivY , kernelDeriv_I32, border, CINB, ISC);
 		}
 	}
 
@@ -111,13 +112,13 @@ public class GradientThree {
 	 */
 	public static void process(GrayS16 orig,
 							   GrayS16 derivX,
-							   GrayS16 derivY, ImageBorder_S32 border) {
-		InputSanityCheck.checkSameShape(orig, derivX, derivY);
+							   GrayS16 derivY, ImageBorder_S32 border, InputSanityCheck ISC, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB) {
+		ISC.checkSameShape(orig, derivX, derivY);
 		GradientThree_Standard.process(orig, derivX, derivY);
 
 		if( border != null ) {
-			DerivativeHelperFunctions.processBorderHorizontal(orig, derivX , kernelDeriv_I32, border);
-			DerivativeHelperFunctions.processBorderVertical(orig, derivY , kernelDeriv_I32, border);
+			DHF.processBorderHorizontal(orig, derivX , kernelDeriv_I32, border, CINB, ISC);
+			DHF.processBorderVertical(orig, derivY , kernelDeriv_I32, border, CINB, ISC);
 		}
 	}
 
@@ -131,13 +132,13 @@ public class GradientThree {
 	 */
 	public static void process(GrayF32 orig,
 							   GrayF32 derivX,
-							   GrayF32 derivY, ImageBorder_F32 border) {
-		InputSanityCheck.checkSameShape(orig, derivX, derivY);
+							   GrayF32 derivY, ImageBorder_F32 border, InputSanityCheck ISC, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB) {
+		ISC.checkSameShape(orig, derivX, derivY);
 		GradientThree_Standard.process(orig, derivX, derivY);
 
 		if( border != null ) {
-			DerivativeHelperFunctions.processBorderHorizontal(orig, derivX , kernelDeriv_F32, border);
-			DerivativeHelperFunctions.processBorderVertical(orig, derivY , kernelDeriv_F32, border);
+			DHF.processBorderHorizontal(orig, derivX , kernelDeriv_F32, border, CINB, ISC);
+			DHF.processBorderVertical(orig, derivY , kernelDeriv_F32, border, CINB, ISC);
 		}
 	}
 

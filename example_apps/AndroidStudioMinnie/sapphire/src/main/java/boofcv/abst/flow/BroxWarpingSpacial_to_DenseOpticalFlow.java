@@ -32,6 +32,7 @@ import boofcv.struct.image.ImageType;
 public class BroxWarpingSpacial_to_DenseOpticalFlow<T extends ImageGray>
 	implements DenseOpticalFlow<T>
 {
+	private ImageType IT;
 	BroxWarpingSpacial<T> brox;
 	Class<T> imageType;
 
@@ -61,6 +62,6 @@ public class BroxWarpingSpacial_to_DenseOpticalFlow<T extends ImageGray>
 
 	@Override
 	public ImageType<T> getInputType() {
-		return ImageType.single(imageType);
+		return IT.single(imageType);
 	}
 }

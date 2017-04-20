@@ -33,7 +33,7 @@ import static org.junit.Assert.assertTrue;
  * @author Peter Abeles
  */
 public class GenericOrientationGradientTests<D extends ImageGray> {
-
+	private GeneralizedImageOps GIO;
 	int width = 30;
 	int height = 40;
 
@@ -55,8 +55,8 @@ public class GenericOrientationGradientTests<D extends ImageGray> {
 
 		Class<D> imageType = alg.getImageType();
 
-		derivX = GeneralizedImageOps.createSingleBand(imageType, width, height);
-		derivY = GeneralizedImageOps.createSingleBand(imageType, width, height);
+		derivX = GIO.createSingleBand(imageType, width, height);
+		derivY = GIO.createSingleBand(imageType, width, height);
 	}
 
 	/**

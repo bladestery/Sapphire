@@ -19,9 +19,11 @@
 package boofcv.alg.feature.detect.edge.impl;
 
 import boofcv.core.image.border.FactoryImageBorderAlgs;
+import boofcv.core.image.border.ImageBorderValue;
 import boofcv.core.image.border.ImageBorder_F32;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.GrayS8;
+import sapphire.app.SapphireObject;
 
 
 /**
@@ -33,12 +35,12 @@ import boofcv.struct.image.GrayS8;
  *
  * @author Peter Abeles
  */
-public class ImplEdgeNonMaxSuppression {
-
+public class ImplEdgeNonMaxSuppression implements SapphireObject {
+	public ImplEdgeNonMaxSuppression() {}
 	/**
 	 * Only processes the inner image.  Ignoring the border.
 	 */
-	static public void inner4(GrayF32 intensity , GrayS8 direction , GrayF32 output )
+	public void inner4(GrayF32 intensity , GrayS8 direction , GrayF32 output)
 	{
 		final int w = intensity.width;
 		final int h = intensity.height-1;
@@ -78,12 +80,12 @@ public class ImplEdgeNonMaxSuppression {
 	/**
 	 * Slow algorithm which processes the whole image.
 	 */
-	static public void naive4(GrayF32 _intensity , GrayS8 direction , GrayF32 output )
+	public void naive4(GrayF32 _intensity , GrayS8 direction , GrayF32 output, ImageBorderValue IBV, FactoryImageBorderAlgs FIBA)
 	{
 		final int w = _intensity.width;
 		final int h = _intensity.height;
 
-		ImageBorder_F32 intensity = (ImageBorder_F32)FactoryImageBorderAlgs.value(_intensity, 0);
+		ImageBorder_F32 intensity = (ImageBorder_F32)FIBA.value(_intensity, 0, IBV);
 
 		for( int y = 0; y < h; y++ ) {
 			for( int x = 0; x < w; x++ ) {
@@ -118,12 +120,12 @@ public class ImplEdgeNonMaxSuppression {
 	/**
 	 * Just processes the image border.
 	 */
-	static public void border4(GrayF32 _intensity , GrayS8 direction , GrayF32 output )
+	public void border4(GrayF32 _intensity , GrayS8 direction , GrayF32 output, ImageBorderValue IBV, FactoryImageBorderAlgs FIBA)
 	{
 		int w = _intensity.width;
 		int h = _intensity.height-1;
 
-		ImageBorder_F32 intensity = (ImageBorder_F32)FactoryImageBorderAlgs.value(_intensity, 0);
+		ImageBorder_F32 intensity = (ImageBorder_F32)FIBA.value(_intensity, 0, IBV);
 
 		// top border
 		for( int x = 0; x < w; x++ ) {
@@ -234,7 +236,7 @@ public class ImplEdgeNonMaxSuppression {
 	/**
 	 * Only processes the inner image.  Ignoring the border.
 	 */
-	static public void inner8(GrayF32 intensity , GrayS8 direction , GrayF32 output )
+	public void inner8(GrayF32 intensity , GrayS8 direction , GrayF32 output )
 	{
 		final int w = intensity.width;
 		final int h = intensity.height-1;
@@ -274,12 +276,12 @@ public class ImplEdgeNonMaxSuppression {
 	/**
 	 * Slow algorithm which processes the whole image.
 	 */
-	static public void naive8(GrayF32 _intensity , GrayS8 direction , GrayF32 output )
+	public void naive8(GrayF32 _intensity , GrayS8 direction , GrayF32 output, ImageBorderValue IBV, FactoryImageBorderAlgs FIBA)
 	{
 		final int w = _intensity.width;
 		final int h = _intensity.height;
 
-		ImageBorder_F32 intensity = (ImageBorder_F32)FactoryImageBorderAlgs.value(_intensity, 0);
+		ImageBorder_F32 intensity = (ImageBorder_F32)FIBA.value(_intensity, 0, IBV);
 
 		for( int y = 0; y < h; y++ ) {
 			for( int x = 0; x < w; x++ ) {
@@ -314,12 +316,12 @@ public class ImplEdgeNonMaxSuppression {
 	/**
 	 * Just processes the image border.
 	 */
-	static public void border8(GrayF32 _intensity , GrayS8 direction , GrayF32 output )
+	public void border8(GrayF32 _intensity , GrayS8 direction , GrayF32 output, ImageBorderValue IBV, FactoryImageBorderAlgs FIBA)
 	{
 		int w = _intensity.width;
 		int h = _intensity.height-1;
 
-		ImageBorder_F32 intensity = (ImageBorder_F32)FactoryImageBorderAlgs.value(_intensity, 0);
+		ImageBorder_F32 intensity = (ImageBorder_F32)FIBA.value(_intensity, 0, IBV);
 
 		// top border
 		for( int x = 0; x < w; x++ ) {

@@ -53,6 +53,7 @@ import georegression.transform.se.SePointOps_F64;
 public abstract class FiducialSquareActivity extends DemoVideoDisplayActivity
 		implements View.OnTouchListener
 {
+	private ImageType IT;
 	public static final String TAG = "FiducialSquareActivity";
 
 	final Object lock = new Object();
@@ -182,7 +183,7 @@ public abstract class FiducialSquareActivity extends DemoVideoDisplayActivity
 		Rect bounds = new Rect();
 
 		protected FiducialProcessor() {
-			super(ImageType.pl(3, GrayU8.class));
+			super(IT.pl(3, GrayU8.class));
 
 			paintSelected.setColor(Color.argb(0xFF / 2, 0xFF, 0, 0));
 
