@@ -32,6 +32,8 @@ import georegression.struct.point.Point2D_F64;
 import georegression.struct.point.Point2D_I32;
 import georegression.struct.shapes.EllipseQuadratic_F64;
 import georegression.struct.shapes.EllipseRotated_F64;
+import sapphire.app.SapphireObject;
+
 import org.ddogleg.struct.FastQueue;
 
 import java.util.List;
@@ -62,9 +64,7 @@ import java.util.List;
  *
  * @author Peter Abeles
  */
-public class BinaryEllipseDetectorPixel {
-	private static LinearContourLabelChang2004 cF;
-	private static ImageMiscOps IMO;
+public class BinaryEllipseDetectorPixel implements SapphireObject {
 	// maximum distance from the ellipse in pixels
 	private double maxDistanceFromEllipse = 3.0;
 
@@ -113,7 +113,7 @@ public class BinaryEllipseDetectorPixel {
 	 * Finds all valid ellipses in the binary image
 	 * @param binary binary image
 	 */
-	public void process( GrayU8 binary ) {
+	public void process( GrayU8 binary, LinearContourLabelChang2004 cF, ImageMiscOps IMO) {
 		found.reset();
 		labeled.reshape(binary.width, binary.height);
 

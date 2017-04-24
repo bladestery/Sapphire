@@ -15,9 +15,14 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
+import org.boofcv.android.DemoManager;
 import org.boofcv.android.DemoVideoDisplayActivity;
 import org.boofcv.android.R;
 import org.ddogleg.struct.FastQueue;
+
+import java.net.InetSocketAddress;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
 import boofcv.abst.filter.binary.InputToBinary;
 import boofcv.alg.InputSanityCheck;
@@ -45,6 +50,10 @@ import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.ImageType;
 import georegression.metric.UtilAngle;
 import georegression.struct.shapes.EllipseRotated_F64;
+import sapphire.kernel.server.KernelServerImpl;
+import sapphire.oms.OMSServer;
+
+import static sapphire.kernel.common.GlobalKernelReferences.nodeServer;
 
 /**
  * Detects ellipses in an image which are black.
@@ -54,21 +63,6 @@ import georegression.struct.shapes.EllipseRotated_F64;
 public class DetectBlackEllipseActivity extends DemoVideoDisplayActivity
 		implements AdapterView.OnItemSelectedListener , View.OnTouchListener
 {
-	private static ImageType IT;
-	private static GBlurImageOps GBIO;
-	private static GeneralizedImageOps GIO;
-	private static InputSanityCheck ISC;
-	private static BlurImageOps BIO;
-	private static ConvolveImageMean CIM;
-	private static FactoryKernelGaussian FKG;
-	private static ConvolveNormalized CN;
-	private static ConvolveNormalizedNaive CNN;
-	private static ConvolveImageNoBorder CINB;
-	private static ConvolveNormalized_JustBorder CNJB;
-	private static ImplMedianHistogramInner IMHI;
-	private static ImplMedianSortEdgeNaive IMSEN;
-	private static ImplMedianSortNaive IMSN;
-	private static ImplConvolveMean ICM;
 	Paint paint;
 
 	Spinner spinnerThresholder;
@@ -78,14 +72,43 @@ public class DetectBlackEllipseActivity extends DemoVideoDisplayActivity
 
 	boolean showInput = true;
 
-	BinaryEllipseDetector<GrayU8> detector;
-	InputToBinary<GrayU8> inputToBinary;
+	//BinaryEllipseDetector<GrayU8> detector;
+	//InputToBinary<GrayU8> inputToBinary;
 
-	GrayU8 binary = new GrayU8(1,1);
+	GrayU8 binary;
 
+	OMSServer server;
+	DemoManager dm;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		InetSocketAddress host, omsHost;
+
+		try {
+			Registry registry = LocateRegistry.getRegistry("157.82.159.30", 22346);
+			server = (OMSServer) registry.lookup("SapphireOMS");
+			System.out.println(server);
+
+			host = new InetSocketAddress("192.168.0.7", 22346);
+			omsHost = new InetSocketAddress("157.82.159.30", 22346);
+			nodeServer = new KernelServerImpl(host, omsHost);
+			System.out.println(nodeServer);
+
+			System.setProperty("java.rmi.server.hostname", host.getAddress().getHostAddress());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		try {
+			//Server is initiated with appObject to perform remote RPCs
+			dm = (DemoManager) server.getAppEntryPoint();
+			System.out.println("Got AppEntryPoint");
+			//dm.LatencyCheck();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(0);
+		}
 
 		paint = new Paint();
 		paint.setARGB(0xFF,0xFF,0,0);
@@ -116,7 +139,7 @@ public class DetectBlackEllipseActivity extends DemoVideoDisplayActivity
 		ConfigEllipseDetector config = new ConfigEllipseDetector();
 		config.maxIterations = 1;
 		config.numSampleContour = 20;
-		detector = FactoryShapeDetector.ellipse(config,GrayU8.class);
+		dm.ellipse(config);
 		setSelection(spinnerThresholder.getSelectedItemPosition());
 		setProcessing(new EllipseProcessing());
 	}
@@ -140,11 +163,11 @@ public class DetectBlackEllipseActivity extends DemoVideoDisplayActivity
 
 		switch( active ) {
 			case 0 :
-				inputToBinary = FactoryThresholdBinary.globalOtsu(0, 255, true, GrayU8.class);
+				dm.globalOtsu(0, 255, true);
 				break;
 
 			case 1:
-				inputToBinary = FactoryThresholdBinary.localSquare(10,0.95,true,GrayU8.class);
+				dm.localSquare(10,0.95,true);
 				break;
 
 			default:
@@ -175,23 +198,23 @@ public class DetectBlackEllipseActivity extends DemoVideoDisplayActivity
 		RectF r = new RectF();
 
 		protected EllipseProcessing() {
-			super(IT.single(GrayU8.class));
+			super(dm.single(GrayU8.class));
 		}
 
 		@Override
 		protected void declareImages(int width, int height) {
 			super.declareImages(width, height);
-			binary.reshape(width,height);
+			dm.reshape(width,height);
 		}
 
 		@Override
 		protected void process(GrayU8 image, Bitmap output, byte[] storage) {
 
 			synchronized ( this ) {
-				inputToBinary.process(image,binary, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM);
+				dm.inputProcess(image);
 			}
 
-			detector.process(image,binary);
+			binary = dm.detectorProcess(image);
 
 			if( showInput ) {
 				ConvertBitmap.boofToBitmap(image,output,storage);
@@ -201,7 +224,7 @@ public class DetectBlackEllipseActivity extends DemoVideoDisplayActivity
 
 			Canvas canvas = new Canvas(output);
 
-			FastQueue<EllipseRotated_F64> found = detector.getFoundEllipses();
+			FastQueue<EllipseRotated_F64> found = dm.getFoundEllipses();
 
 			for( EllipseRotated_F64 ellipse : found.toList() )  {
 

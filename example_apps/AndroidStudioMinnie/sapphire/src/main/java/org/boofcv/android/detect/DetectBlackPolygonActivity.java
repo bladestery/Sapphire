@@ -26,6 +26,8 @@ import org.ddogleg.struct.FastQueue;
 import boofcv.abst.filter.binary.InputToBinary;
 import boofcv.alg.InputSanityCheck;
 import boofcv.alg.color.ColorHsv;
+import boofcv.alg.filter.binary.GThresholdImageOps;
+import boofcv.alg.filter.binary.ThresholdImageOps;
 import boofcv.alg.filter.blur.BlurImageOps;
 import boofcv.alg.filter.blur.GBlurImageOps;
 import boofcv.alg.filter.blur.impl.ImplMedianHistogramInner;
@@ -37,6 +39,8 @@ import boofcv.alg.filter.convolve.ConvolveNormalized;
 import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
+import boofcv.alg.misc.GImageStatistics;
+import boofcv.alg.misc.ImageStatistics;
 import boofcv.alg.shapes.polygon.BinaryPolygonDetector;
 import boofcv.android.ConvertBitmap;
 import boofcv.android.VisualizeImageData;
@@ -50,6 +54,7 @@ import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.ImageType;
 import georegression.struct.point.Point2D_F64;
 import georegression.struct.shapes.Polygon2D_F64;
+import sapphire.compiler.FSDGenerator;
 
 /**
  * Detects polygons in an image which are convex and black.
@@ -73,6 +78,12 @@ public class DetectBlackPolygonActivity extends DemoVideoDisplayActivity
 	private static ImplMedianSortEdgeNaive IMSEN;
 	private static ImplMedianSortNaive IMSN;
 	private static ImplConvolveMean ICM;
+	private static FactoryShapeDetector FSD;
+	private static FactoryThresholdBinary FTB;
+	private static GThresholdImageOps GTIO;
+	private static GImageStatistics GIS;
+	private static ImageStatistics IS;
+	private static ThresholdImageOps TIO;
 	static final int MAX_SIDES = 20;
 	static final int MIN_SIDES = 3;
 
@@ -177,7 +188,7 @@ public class DetectBlackPolygonActivity extends DemoVideoDisplayActivity
 		ConfigPolygonDetector configPoly = new ConfigPolygonDetector(minSides,maxSides);
 		configPoly.convex = convex;
 
-		detector = FactoryShapeDetector.polygon(configPoly,GrayU8.class);
+		detector = FSD.polygon(configPoly,GrayU8.class);
 		setSelection(spinnerThresholder.getSelectedItemPosition());
 		setProcessing(new PolygonProcessing());
 	}
@@ -231,11 +242,11 @@ public class DetectBlackPolygonActivity extends DemoVideoDisplayActivity
 
 		switch( active ) {
 			case 0 :
-				inputToBinary = FactoryThresholdBinary.globalOtsu(0, 255, true, GrayU8.class);
+				inputToBinary = FTB.globalOtsu(0, 255, true, GrayU8.class, IT);
 				break;
 
 			case 1:
-				inputToBinary = FactoryThresholdBinary.localSquare(10,0.95,true,GrayU8.class);
+				inputToBinary = FTB.localSquare(10,0.95,true,GrayU8.class, IT);
 				break;
 
 			default:
@@ -281,7 +292,7 @@ public class DetectBlackPolygonActivity extends DemoVideoDisplayActivity
 			}
 
 			synchronized ( this ) {
-				inputToBinary.process(image,binary, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM);
+				inputToBinary.process(image,binary, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO);
 			}
 
 			detector.process(image,binary);

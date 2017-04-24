@@ -135,8 +135,9 @@ public class CannyEdgeActivity extends DemoVideoDisplayActivity
 			if( threshold <= 0.03f )
 				threshold = 0.03f;
 
-			dm.process(input,threshold/3.0f,threshold,null);
-			List<EdgeContour> contours = dm.getContours();
+			//dm.process(input,threshold/3.0f,threshold,null);
+			//List<EdgeContour> contours = dm.getContours();
+			List<EdgeContour> contours = dm.edgeProcess(input,threshold/3.0f,threshold,null);
 
 			// random colors for each line
 			if( colorize ) {

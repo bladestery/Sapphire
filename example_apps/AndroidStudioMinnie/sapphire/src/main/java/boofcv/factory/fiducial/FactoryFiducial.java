@@ -35,6 +35,7 @@ import boofcv.factory.filter.binary.FactoryThresholdBinary;
 import boofcv.factory.filter.binary.ThresholdType;
 import boofcv.factory.shape.FactoryShapeDetector;
 import boofcv.struct.image.ImageGray;
+import boofcv.struct.image.ImageType;
 
 /**
  * Factory for creating fiducial detectors which implement {@link FiducialDetector}.
@@ -42,6 +43,9 @@ import boofcv.struct.image.ImageGray;
  * @author Peter Abeles
  */
 public class FactoryFiducial {
+	private static FactoryThresholdBinary FTB;
+	private static ImageType IT;
+	private static FactoryShapeDetector FSD;
 
 	/**
 	 * Detector for square binary based fiducials.
@@ -66,8 +70,8 @@ public class FactoryFiducial {
 
 		configFiducial.squareDetector.clockwise = false;
 
-		final InputToBinary<T> binary = FactoryThresholdBinary.threshold(configThreshold, imageType);
-		final BinaryPolygonDetector<T> squareDetector = FactoryShapeDetector.
+		final InputToBinary<T> binary = FTB.threshold(configThreshold, imageType, IT);
+		final BinaryPolygonDetector<T> squareDetector = FSD.
 				polygon(configFiducial.squareDetector,imageType);
 
 		final DetectFiducialSquareBinary<T> alg =
@@ -102,9 +106,9 @@ public class FactoryFiducial {
 
 		configFiducial.squareDetector.clockwise = false;
 
-		InputToBinary<T> binary = FactoryThresholdBinary.threshold(configThreshold, imageType);
+		InputToBinary<T> binary = FTB.threshold(configThreshold, imageType, IT);
 		BinaryPolygonDetector<T> squareDetector =
-				FactoryShapeDetector.polygon(configFiducial.squareDetector, imageType);
+				FSD.polygon(configFiducial.squareDetector, imageType);
 		DetectFiducialSquareImage<T> alg = new DetectFiducialSquareImage<>(binary,
 				squareDetector, configFiducial.borderWidthFraction, configFiducial.minimumBlackBorderFraction,
 				configFiducial.maxErrorFraction, imageType);

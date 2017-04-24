@@ -27,6 +27,7 @@ import boofcv.alg.shapes.polygon.RefineBinaryPolygon;
 import boofcv.factory.filter.binary.FactoryThresholdBinary;
 import boofcv.factory.shape.FactoryShapeDetector;
 import boofcv.struct.image.GrayF32;
+import boofcv.struct.image.ImageType;
 import georegression.struct.point.Point2D_F64;
 
 import java.util.ArrayList;
@@ -38,7 +39,9 @@ import java.util.List;
  * @author Peter Abeles
  */
 public class CalibrationDetectorChessboard implements DetectorFiducialCalibration {
-
+	private static FactoryShapeDetector FSD;
+	private static FactoryThresholdBinary FTB;
+	private static ImageType IT;
 	DetectChessboardFiducial<GrayF32> alg;
 
 	List<Point2D_F64> layoutPoints;
@@ -47,17 +50,17 @@ public class CalibrationDetectorChessboard implements DetectorFiducialCalibratio
 	public CalibrationDetectorChessboard(ConfigChessboard config) {
 
 		RefineBinaryPolygon<GrayF32> refineLine =
-				FactoryShapeDetector.refinePolygon(config.configRefineLines,GrayF32.class);
+				FSD.refinePolygon(config.configRefineLines,GrayF32.class);
 		RefineBinaryPolygon<GrayF32> refineCorner = config.refineWithCorners ?
-				FactoryShapeDetector.refinePolygon(config.configRefineLines,GrayF32.class) : null;
+				FSD.refinePolygon(config.configRefineLines,GrayF32.class) : null;
 
 		config.square.refine = null;
 
 		BinaryPolygonDetector<GrayF32> detectorSquare =
-				FactoryShapeDetector.polygon(config.square,GrayF32.class);
+				FSD.polygon(config.square,GrayF32.class);
 
 		InputToBinary<GrayF32> inputToBinary =
-				FactoryThresholdBinary.threshold(config.thresholding,GrayF32.class);
+				FTB.threshold(config.thresholding,GrayF32.class, IT);
 
 		alg = new DetectChessboardFiducial<>(
 				config.numRows, config.numCols, config.maximumCornerDistance,detectorSquare,

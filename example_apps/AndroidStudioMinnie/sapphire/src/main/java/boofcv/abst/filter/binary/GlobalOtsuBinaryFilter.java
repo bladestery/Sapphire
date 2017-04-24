@@ -39,6 +39,7 @@ import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.ImageGray;
 import boofcv.struct.image.ImageType;
+import sapphire.app.SapphireObject;
 
 /**
  * Computes a threshold using Otsu's equation.
@@ -47,15 +48,13 @@ import boofcv.struct.image.ImageType;
  *
  * @author Peter Abeles
  */
-public class GlobalOtsuBinaryFilter<T extends ImageGray> implements InputToBinary<T> {
+public class GlobalOtsuBinaryFilter<T extends ImageGray> implements InputToBinary<T>, SapphireObject {
 	ImageType<T> inputType;
-	private static GThresholdImageOps GTIO;
-	private static ThresholdImageOps TIO;
-	private static GImageStatistics GIS;
-	private static ImageStatistics IS;
 	boolean down;
 	int minValue;
 	int maxValue;
+
+	public GlobalOtsuBinaryFilter() {}
 
 	/**
 	 * @see GThresholdImageOps#computeOtsu
@@ -71,7 +70,8 @@ public class GlobalOtsuBinaryFilter<T extends ImageGray> implements InputToBinar
 	@Override
 	public void process(T input, GrayU8 output, GBlurImageOps GBIO, InputSanityCheck ISC, GeneralizedImageOps GIO, BlurImageOps BIO,
 						ConvolveImageMean CIM, FactoryKernelGaussian FKG, ConvolveNormalized CN, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB,
-						ConvolveNormalized_JustBorder CNJB, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM) {
+						ConvolveNormalized_JustBorder CNJB, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM,
+						GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO) {
 		double threshold = GTIO.computeOtsu(input,minValue,maxValue, GIS, IS);
 		GTIO.threshold(input,output,threshold,down, TIO, ISC, GIO);
 	}

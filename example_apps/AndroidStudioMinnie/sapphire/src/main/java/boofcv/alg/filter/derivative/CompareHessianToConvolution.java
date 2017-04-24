@@ -21,6 +21,8 @@ package boofcv.alg.filter.derivative;
 import boofcv.abst.filter.FilterImageInterface;
 import boofcv.abst.filter.FilterSequence;
 import boofcv.alg.InputSanityCheck;
+import boofcv.alg.filter.binary.GThresholdImageOps;
+import boofcv.alg.filter.binary.ThresholdImageOps;
 import boofcv.alg.filter.blur.BlurImageOps;
 import boofcv.alg.filter.blur.GBlurImageOps;
 import boofcv.alg.filter.blur.impl.ImplMedianHistogramInner;
@@ -32,6 +34,8 @@ import boofcv.alg.filter.convolve.ConvolveNormalized;
 import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
+import boofcv.alg.misc.GImageStatistics;
+import boofcv.alg.misc.ImageStatistics;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.BorderIndex1D_Extend;
 import boofcv.core.image.border.BorderType;
@@ -70,6 +74,10 @@ public class CompareHessianToConvolution {
 	private static ImplMedianSortEdgeNaive IMSEN;
 	private static ImplMedianSortNaive IMSN;
 	private static ImplConvolveMean ICM;
+	private static GThresholdImageOps GTIO;
+	private static GImageStatistics GIS;
+	private static ImageStatistics IS;
+	private static ThresholdImageOps TIO;
 
 	Method m;
 	FilterImageInterface outputFilters[] = new FilterImageInterface[2];
@@ -142,9 +150,9 @@ public class CompareHessianToConvolution {
 		for( int i = 0; i < expectedOutput.length; i++ ) {
 			expectedOutput[i] = (ImageGray)images[0].createNew(width,height);
 		}
-		outputFilters[0].process(images[0],expectedOutput[0], GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM);
-		outputFilters[1].process(images[1],expectedOutput[1], GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM);
-		outputFilters[1].process(images[0],expectedOutput[2], GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM);
+		outputFilters[0].process(images[0],expectedOutput[0], GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO);
+		outputFilters[1].process(images[1],expectedOutput[1], GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO);
+		outputFilters[1].process(images[0],expectedOutput[2], GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO);
 
 		// compute results from the test function
 		Object testInputs[] = new Object[ param.length ];

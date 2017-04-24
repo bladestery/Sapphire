@@ -7,6 +7,9 @@ import org.ddogleg.struct.FastQueue;
 
 import java.util.List;
 
+import boofcv.abst.filter.binary.GlobalOtsuBinaryFilter;
+import boofcv.abst.filter.binary.InputToBinary;
+import boofcv.abst.filter.binary.LocalSquareBinaryFilter;
 import boofcv.alg.InputSanityCheck;
 import boofcv.alg.feature.detect.edge.CannyEdge;
 import boofcv.alg.feature.detect.edge.EdgeContour;
@@ -35,21 +38,26 @@ import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
 import boofcv.alg.misc.GImageStatistics;
 import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.misc.ImageStatistics;
+import boofcv.alg.shapes.ellipse.BinaryEllipseDetector;
 import boofcv.android.VisualizeImageData;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.core.image.border.FactoryImageBorderAlgs;
 import boofcv.core.image.border.ImageBorderValue;
 import boofcv.factory.feature.detect.edge.FactoryEdgeDetectors;
+import boofcv.factory.filter.binary.FactoryThresholdBinary;
 import boofcv.factory.filter.blur.FactoryBlurFilter;
 import boofcv.factory.filter.derivative.FactoryDerivative;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
+import boofcv.factory.shape.ConfigEllipseDetector;
+import boofcv.factory.shape.FactoryShapeDetector;
 import boofcv.struct.ConnectRule;
 import boofcv.struct.image.GrayS16;
 import boofcv.struct.image.GrayS32;
 import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.ImageGray;
 import boofcv.struct.image.ImageType;
+import georegression.struct.shapes.EllipseRotated_F64;
 import sapphire.app.SapphireObject;
 
 import static sapphire.runtime.Sapphire.new_;
@@ -73,17 +81,14 @@ public class DemoManager implements SapphireObject<sapphire.policy.offload.CodeO
     private FactoryImageBorderAlgs FIBA;
     private GGradientToEdgeFeatures GGTEF;
     private ImageStatistics IS;
-
     private GThresholdImageOps GTIO;
     private ThresholdImageOps TIO;
     private BinaryImageOps BIO;
-    private LinearContourLabelChang2004 findContours;
     private GImageStatistics GIS;
     private InputSanityCheck ISC;
     private ImplBinaryInnerOps IBIO;
     private ImplBinaryBorderOps IBBO;
     private BlurImageOps BlIO;
-
     private ConvolveImageMean CIM;
     private FactoryKernelGaussian FKG;
     private ConvolveNormalized CN;
@@ -95,10 +100,17 @@ public class DemoManager implements SapphireObject<sapphire.policy.offload.CodeO
     private ImplMedianSortNaive IMSN;
     private ImplConvolveMean ICM;
     private DerivativeHelperFunctions DHF;
+    private FactoryShapeDetector FSD;
+    private FactoryThresholdBinary FTB;
 
     CannyEdge<GrayU8,GrayS16> canny;
+    LinearContourLabelChang2004 contour8;
+    LinearContourLabelChang2004 contour4;
+    BinaryEllipseDetector<GrayU8> detector;
+    InputToBinary<GrayU8> inputToBinary;
+    GrayU8 blackBinary;
 
-    public DemoManager() {    //private VisualizeImageData VID;
+    public DemoManager() {
         FED = (FactoryEdgeDetectors) new_(FactoryEdgeDetectors.class);
         IT = (ImageType) new_(ImageType.class);
         FBF = (FactoryBlurFilter) new_(FactoryBlurFilter.class);
@@ -116,7 +128,6 @@ public class DemoManager implements SapphireObject<sapphire.policy.offload.CodeO
         GTIO = (GThresholdImageOps) new_(GThresholdImageOps.class);
         TIO = (ThresholdImageOps) new_(ThresholdImageOps.class);
         BIO = (BinaryImageOps) new_(BinaryImageOps.class);
-        findContours = (LinearContourLabelChang2004) new_(LinearContourLabelChang2004.class, ConnectRule.EIGHT);
         GIS = (GImageStatistics) new_(GImageStatistics.class);
         ISC = (InputSanityCheck) new_(InputSanityCheck.class);
         IBIO = (ImplBinaryInnerOps) new_(ImplBinaryInnerOps.class);
@@ -133,6 +144,18 @@ public class DemoManager implements SapphireObject<sapphire.policy.offload.CodeO
         IMSN = (ImplMedianSortNaive) new_(ImplMedianSortNaive.class);
         ICM = (ImplConvolveMean) new_(ImplConvolveMean.class);
         DHF = (DerivativeHelperFunctions) new_(DerivativeHelperFunctions.class);
+        FSD = (FactoryShapeDetector) new_(FactoryShapeDetector.class);
+        FTB = (FactoryThresholdBinary) new_(FactoryThresholdBinary.class);
+
+        contour8 = new LinearContourLabelChang2004(ConnectRule.EIGHT);
+        contour4 = new LinearContourLabelChang2004(ConnectRule.FOUR);
+        blackBinary = new GrayU8(1,1);
+    }
+
+    public void LatencyCheck() {}
+
+    public <I extends ImageGray> ImageType<I> single(Class<I> imageType ) {
+        return IT.single(imageType);
     }
 
     public void canny( int blurRadius , boolean saveTrace , boolean dynamicThreshold) {
@@ -144,8 +167,30 @@ public class DemoManager implements SapphireObject<sapphire.policy.offload.CodeO
         return FED.canny(blurRadius, saveTrace, dynamicThreshold, imageType, derivType, FBF, FD, GIO, IT, FIB);
     }
 
+    public List<EdgeContour> edgeProcess(GrayU8 input , float threshLow, float threshHigh , GrayU8 output) {
+        canny.process(input, threshLow, threshHigh, output,
+                IMO, GBIO, IBV, GTEF, IENMS, FIBA, GGTEF, IS, ISC, GIO, BlIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, DHF, GTIO, GIS, TIO);
+        return canny.getContours();
+    }
+
     public void process(GrayU8 input , float threshLow, float threshHigh , GrayU8 output) {
-        canny.process(input, threshLow, threshHigh, output, IMO, GBIO, IBV, GTEF, IENMS, FIBA, GGTEF, IS, ISC, GIO, BlIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, DHF);
+        canny.process(input, threshLow, threshHigh, output,
+                IMO, GBIO, IBV, GTEF, IENMS, FIBA, GGTEF, IS, ISC, GIO, BlIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, DHF, GTIO, GIS, TIO);
+    }
+
+    public List<EdgeContour> getContours() {
+        return canny.getContours();
+    }
+
+    public GrayU8 contourFilter(ImageGray input, int minValue, int maxValue, boolean down) {
+        int mean = GTIO.computeOtsu(input, minValue, maxValue, GIS, IS);
+        GrayU8 binary = TIO.threshold((GrayU8) input, null, mean, down, ISC, GIO);
+        return BIO.removePointNoise(binary, null, ISC, IBIO, IBBO, IBV);
+    }
+
+    public FastQueue<Contour> contourProcess(GrayU8 binary, GrayS32 labeled) {
+        contour8.process(binary, labeled, IMO);
+        return contour8.getContours();
     }
 
     public int computeOtsu(ImageGray input , int minValue , int maxValue ) {
@@ -162,19 +207,55 @@ public class DemoManager implements SapphireObject<sapphire.policy.offload.CodeO
     }
 
     public void findContoursProcess(GrayU8 binary , GrayS32 labeled ) {
-        findContours.process(binary, labeled, IMO);
+        contour8.process(binary, labeled, IMO);
     }
 
     public FastQueue<Contour> findContoursGetContours() {
-        return findContours.getContours();
+        return contour8.getContours();
     }
 
-    public List<EdgeContour> getContours() {
-        return canny.getContours();
+    public void ellipse(ConfigEllipseDetector config) {
+        detector = Ellipse(config, GrayU8.class);
     }
 
-    public <I extends ImageGray> ImageType<I> single(Class<I> imageType ) {
-        return IT.single(imageType);
+    public <T extends ImageGray>
+    BinaryEllipseDetector<T> Ellipse(ConfigEllipseDetector config , Class<T> imageType) {
+        return FSD.ellipse(config, imageType);
+    }
+
+    public GrayU8 detectorProcess(GrayU8 image) {
+        detector.process(image, blackBinary, contour4, IMO);
+        return blackBinary;
+    }
+
+    public FastQueue<EllipseRotated_F64> getFoundEllipses() {
+        return detector.getFoundEllipses();
+    }
+
+    public void globalOtsu(int minValue, int maxValue, boolean down) {
+        inputToBinary = GlobalOtsu(minValue, maxValue, down, GrayU8.class);
+    }
+
+    public <T extends ImageGray>
+    InputToBinary<T> GlobalOtsu(int minValue, int maxValue, boolean down, Class<T> inputType) {
+        return FTB.globalOtsu(minValue, maxValue, down, inputType, IT);
+    }
+
+    public void localSquare(int radius, double scale, boolean down) {
+        inputToBinary = LocalSquare(radius, scale, down, GrayU8.class);
+    }
+
+    public <T extends ImageGray>
+    InputToBinary<T> LocalSquare(int radius, double scale, boolean down, Class<T> inputType) {
+        return FTB.localSquare(radius, scale, down, inputType, IT);
+    }
+
+    public void inputProcess(GrayU8 image) {
+        inputToBinary.process(image, blackBinary, GBIO, ISC, GIO, BlIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO);
+    }
+
+    public void reshape(int width, int height) {
+        blackBinary.reshape(width, height);
     }
 
 }

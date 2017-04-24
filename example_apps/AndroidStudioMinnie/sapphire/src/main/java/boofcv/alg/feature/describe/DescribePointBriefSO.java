@@ -21,6 +21,8 @@ package boofcv.alg.feature.describe;
 import boofcv.abst.filter.blur.BlurFilter;
 import boofcv.alg.InputSanityCheck;
 import boofcv.alg.feature.describe.brief.BinaryCompareDefinition_I32;
+import boofcv.alg.filter.binary.GThresholdImageOps;
+import boofcv.alg.filter.binary.ThresholdImageOps;
 import boofcv.alg.filter.blur.BlurImageOps;
 import boofcv.alg.filter.blur.GBlurImageOps;
 import boofcv.alg.filter.blur.impl.ImplMedianHistogramInner;
@@ -33,6 +35,8 @@ import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
 import boofcv.alg.interpolate.InterpolatePixelS;
+import boofcv.alg.misc.GImageStatistics;
+import boofcv.alg.misc.ImageStatistics;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.misc.BoofMiscOps;
@@ -73,6 +77,11 @@ public class DescribePointBriefSO<T extends ImageGray> {
 	private static ImplMedianSortEdgeNaive IMSEN;
 	private static ImplMedianSortNaive IMSN;
 	private static ImplConvolveMean ICM;
+	private static GThresholdImageOps GTIO;
+	private static GImageStatistics GIS;
+	private static ImageStatistics IS;
+	private static ThresholdImageOps TIO;
+
 	// describes the BRIEF feature
 	protected BinaryCompareDefinition_I32 definition;
 
@@ -105,7 +114,7 @@ public class DescribePointBriefSO<T extends ImageGray> {
 
 	public void setImage(T image) {
 		blur.reshape(image.width,image.height);
-		filterBlur.process(image,blur, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM);
+		filterBlur.process(image,blur, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO);
 		interp.setImage(blur);
 	}
 

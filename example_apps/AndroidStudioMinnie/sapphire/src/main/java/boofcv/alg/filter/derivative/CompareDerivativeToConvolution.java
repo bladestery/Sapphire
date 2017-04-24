@@ -21,6 +21,8 @@ package boofcv.alg.filter.derivative;
 import boofcv.abst.filter.FilterImageInterface;
 import boofcv.abst.filter.FilterSequence;
 import boofcv.alg.InputSanityCheck;
+import boofcv.alg.filter.binary.GThresholdImageOps;
+import boofcv.alg.filter.binary.ThresholdImageOps;
 import boofcv.alg.filter.blur.BlurImageOps;
 import boofcv.alg.filter.blur.GBlurImageOps;
 import boofcv.alg.filter.blur.impl.ImplMedianHistogramInner;
@@ -32,6 +34,8 @@ import boofcv.alg.filter.convolve.ConvolveNormalized;
 import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
+import boofcv.alg.misc.GImageStatistics;
+import boofcv.alg.misc.ImageStatistics;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.BorderType;
 import boofcv.core.image.border.FactoryImageBorder;
@@ -68,6 +72,10 @@ public class CompareDerivativeToConvolution {
 	private static ImplMedianSortEdgeNaive IMSEN;
 	private static ImplMedianSortNaive IMSN;
 	private static ImplConvolveMean ICM;
+	private static GThresholdImageOps GTIO;
+	private static GImageStatistics GIS;
+	private static ImageStatistics IS;
+	private static ThresholdImageOps TIO;
 	Method m;
 	FilterImageInterface outputFilters[];
 	Border borders[];
@@ -132,7 +140,7 @@ public class CompareDerivativeToConvolution {
 		ImageGray expectedOutput[] = new ImageGray[param.length-2];
 		for( int i = 0; i < expectedOutput.length; i++ ) {
 			expectedOutput[i] = (ImageGray)outputImages[i].createNew(inputImage.width,inputImage.height);
-			outputFilters[i].process(inputImage,expectedOutput[i], GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM);
+			outputFilters[i].process(inputImage,expectedOutput[i], GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO);
 		}
 
 		// compute results from the test function

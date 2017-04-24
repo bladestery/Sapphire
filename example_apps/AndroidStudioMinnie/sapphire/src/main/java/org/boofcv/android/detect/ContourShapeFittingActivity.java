@@ -73,7 +73,7 @@ public class ContourShapeFittingActivity extends DemoVideoDisplayActivity
 			server = (OMSServer) registry.lookup("SapphireOMS");
 			System.out.println(server);
 
-			host = new InetSocketAddress("192.168.26.27", 22346);
+			host = new InetSocketAddress("192.168.0.7", 22346);
 			omsHost = new InetSocketAddress("157.82.159.30", 22346);
 			nodeServer = new KernelServerImpl(host, omsHost);
 			System.out.println(nodeServer);
@@ -87,6 +87,7 @@ public class ContourShapeFittingActivity extends DemoVideoDisplayActivity
 			//Server is initiated with appObject to perform remote RPCs
 			dm = (DemoManager) server.getAppEntryPoint();
 			System.out.println("Got AppEntryPoint");
+			//dm.LatencyCheck();
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(0);
@@ -175,20 +176,22 @@ public class ContourShapeFittingActivity extends DemoVideoDisplayActivity
 		protected void process(GrayU8 input, Bitmap output, byte[] storage) {
 
 			// Select a reasonable threshold
-			int mean = dm.computeOtsu(input,0,255);
+			//int mean = dm.computeOtsu(input,0,255);
 
 			// create a binary image by thresholding
-			dm.threshold(input, binary, mean, down);
+			//binary = dm.threshold(input, null, mean, down);
 
 			// reduce noise with some filtering
-			dm.removePointNoise(binary, filtered1);
+			//filtered1 = dm.removePointNoise(binary, null);
+			filtered1 = dm.contourFilter(input, 0, 255, down);
 
 			// draw binary image for output
 			VisualizeImageData.binaryToBitmap(filtered1, false, output, storage);
 
 			// draw the ellipses
-			dm.findContoursProcess(filtered1,contourOutput);
-			List<Contour> contours = dm.findContoursGetContours().toList();
+			//dm.findContoursProcess(filtered1,contourOutput);
+			//List<Contour> contours = dm.findContoursGetContours().toList();
+			List<Contour> contours = dm.contourProcess(filtered1, contourOutput).toList();
 
 			Canvas canvas = new Canvas(output);
 

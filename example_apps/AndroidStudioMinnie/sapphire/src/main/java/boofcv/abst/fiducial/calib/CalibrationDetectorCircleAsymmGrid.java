@@ -29,6 +29,7 @@ import boofcv.alg.shapes.ellipse.BinaryEllipseDetector;
 import boofcv.factory.filter.binary.FactoryThresholdBinary;
 import boofcv.factory.shape.FactoryShapeDetector;
 import boofcv.struct.image.GrayF32;
+import boofcv.struct.image.ImageType;
 import georegression.struct.point.Point2D_F64;
 import org.ddogleg.struct.FastQueue;
 
@@ -44,7 +45,9 @@ import java.util.List;
  * @author Peter Abeles
  */
 public class CalibrationDetectorCircleAsymmGrid implements DetectorFiducialCalibration {
-
+	private static FactoryThresholdBinary FTB;
+	private static ImageType IT;
+	private static FactoryShapeDetector FSD;
 	// Detectors the grids
 	private DetectAsymmetricCircleGrid<GrayF32> detector;
 	// extracts key points from detected grid
@@ -64,10 +67,10 @@ public class CalibrationDetectorCircleAsymmGrid implements DetectorFiducialCalib
 	public CalibrationDetectorCircleAsymmGrid(ConfigCircleAsymmetricGrid config ) {
 
 		InputToBinary<GrayF32> inputToBinary =
-				FactoryThresholdBinary.threshold(config.thresholding,GrayF32.class);
+				FTB.threshold(config.thresholding,GrayF32.class, IT);
 
 		BinaryEllipseDetector<GrayF32> ellipseDetector =
-				FactoryShapeDetector.ellipse(config.ellipse,GrayF32.class);
+				FSD.ellipse(config.ellipse,GrayF32.class);
 
 		spaceToRadius = (config.centerDistance/config.circleRadius);
 

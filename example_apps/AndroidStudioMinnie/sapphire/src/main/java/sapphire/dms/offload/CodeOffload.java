@@ -39,6 +39,7 @@ public class CodeOffload extends SapphirePolicy{
         @Override
         public void onCreate(SapphireGroupPolicy group) {
             this.group = (CodeOffloadGroupPolicy) group;
+            //UpdateLatency();
             //init = false;
         }
 
@@ -72,7 +73,13 @@ public class CodeOffload extends SapphirePolicy{
         public Object onRPC(String method, ArrayList<Object> params) throws Exception {
             Object ret = null;
             long startTime, elapsedTime;
+            /*
             System.out.println(method);
+            if (method.contains("LatencyCheck")) {
+                UpdateLatency();
+                return ret;
+            }
+            *?
             /*
             if (!init) {
                 KernelServer kernelserver = (KernelServer) UnicastRemoteObject.exportObject(nodeServer, 0);

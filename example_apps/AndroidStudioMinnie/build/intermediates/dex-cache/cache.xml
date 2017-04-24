@@ -18,7 +18,7 @@
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="507e7ba1b65c95345b3b2e7aa405aab2d8d75d77">
+        sha1="126be4821cc382f6cf26ce18afd498a9236886fc">
         <dex dex="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_f79d4b3849251d0df0108ee58c382645257e0f81/classes.dex" />
     </item>
     <item

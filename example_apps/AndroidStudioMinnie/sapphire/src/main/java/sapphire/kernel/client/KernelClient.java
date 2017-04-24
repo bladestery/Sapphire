@@ -105,7 +105,7 @@ public class KernelClient {
 	 */
 	public Object makeKernelRPC(KernelObjectStub stub, KernelRPC rpc) throws KernelObjectNotFoundException, Exception {
 		InetSocketAddress host = stub.$__getHostname();
-		logger.info("Making RPC to " + host.toString() + " RPC: " + rpc.toString());
+		//logger.info("Making RPC to " + host.toString() + " RPC: " + rpc.toString());
 
 		// Check whether this object is local.
 		KernelServer server;

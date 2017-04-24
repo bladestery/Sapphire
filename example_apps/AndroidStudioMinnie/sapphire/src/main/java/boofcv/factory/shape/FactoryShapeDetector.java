@@ -28,6 +28,7 @@ import boofcv.alg.shapes.polygon.RefinePolygonCornersToImage;
 import boofcv.alg.shapes.polygon.RefinePolygonLineToImage;
 import boofcv.alg.shapes.polyline.SplitMergeLineFitLoop;
 import boofcv.struct.image.ImageGray;
+import sapphire.app.SapphireObject;
 
 /**
  * Factory for detecting higher level shapes
@@ -35,7 +36,8 @@ import boofcv.struct.image.ImageGray;
  *
  * @author Peter Abeles
  */
-public class FactoryShapeDetector {
+public class FactoryShapeDetector implements SapphireObject {
+	public FactoryShapeDetector() {}
 
 	/**
 	 * Creates an ellipse detector which will detect all ellipses in the image initially using a binary image and
@@ -45,7 +47,7 @@ public class FactoryShapeDetector {
 	 * @param imageType Input image type
 	 * @return Detecto
 	 */
-	public static <T extends ImageGray>
+	public <T extends ImageGray>
 	BinaryEllipseDetector<T> ellipse(ConfigEllipseDetector config , Class<T> imageType )
 	{
 		if( config == null )
@@ -84,7 +86,7 @@ public class FactoryShapeDetector {
 	 * @param imageType Input image type
 	 * @return Detector
 	 */
-	public static <T extends ImageGray>
+	public <T extends ImageGray>
 	BinaryPolygonDetector<T> polygon( ConfigPolygonDetector config, Class<T> imageType)
 	{
 		config.checkValidity();
@@ -111,7 +113,7 @@ public class FactoryShapeDetector {
 				config.minimumEdgeIntensity, imageType);
 	}
 
-	public static <T extends ImageGray>
+	public <T extends ImageGray>
 	RefineBinaryPolygon<T> refinePolygon( ConfigRefinePolygonLineToImage config , Class<T> imageType ) {
 		return new RefinePolygonLineToImage<>(
 				config.cornerOffset, config.lineSamples,
@@ -120,7 +122,7 @@ public class FactoryShapeDetector {
 				imageType);
 	}
 
-	public static <T extends ImageGray>
+	public <T extends ImageGray>
 	RefineBinaryPolygon<T> refinePolygon( ConfigRefinePolygonCornersToImage config , Class<T> imageType ) {
 		return new RefinePolygonCornersToImage<>(
 				config.endPointDistance,

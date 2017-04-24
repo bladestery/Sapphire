@@ -26,6 +26,7 @@ import boofcv.alg.shapes.polygon.BinaryPolygonDetector;
 import boofcv.factory.filter.binary.FactoryThresholdBinary;
 import boofcv.factory.shape.FactoryShapeDetector;
 import boofcv.struct.image.GrayF32;
+import boofcv.struct.image.ImageType;
 import georegression.struct.point.Point2D_F64;
 
 import java.util.ArrayList;
@@ -37,7 +38,9 @@ import java.util.List;
  * @author Peter Abeles
  */
 public class CalibrationDetectorSquareGrid implements DetectorFiducialCalibration {
-
+	private static FactoryThresholdBinary FTB;
+	private static ImageType IT;
+	private static FactoryShapeDetector FSD;
 
 	DetectSquareGridFiducial<GrayF32> detect;
 
@@ -55,10 +58,10 @@ public class CalibrationDetectorSquareGrid implements DetectorFiducialCalibratio
 		double spaceToSquareRatio = config.spaceWidth/config.squareWidth;
 
 		InputToBinary<GrayF32> inputToBinary =
-				FactoryThresholdBinary.threshold(config.thresholding,GrayF32.class);
+				FTB.threshold(config.thresholding,GrayF32.class, IT);
 
 		BinaryPolygonDetector<GrayF32> detectorSquare =
-				FactoryShapeDetector.polygon(config.square,GrayF32.class);
+				FSD.polygon(config.square,GrayF32.class);
 
 		detect = new DetectSquareGridFiducial<>(config.numRows,config.numCols,
 				spaceToSquareRatio,inputToBinary,detectorSquare);

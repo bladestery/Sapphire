@@ -19,10 +19,14 @@
 package boofcv.alg.shapes.ellipse;
 
 import boofcv.alg.filter.binary.Contour;
+import boofcv.alg.filter.binary.LinearContourLabelChang2004;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.struct.distort.PixelTransform2_F32;
 import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.ImageGray;
 import georegression.struct.shapes.EllipseRotated_F64;
+import sapphire.app.SapphireObject;
+
 import org.ddogleg.struct.FastQueue;
 
 import java.util.List;
@@ -35,8 +39,7 @@ import java.util.List;
  *
  * @author Peter Abeles
  */
-public class BinaryEllipseDetector<T extends ImageGray> {
-
+public class BinaryEllipseDetector<T extends ImageGray> implements SapphireObject {
 	BinaryEllipseDetectorPixel ellipseDetector;
 	SnapToEllipseEdge<T> ellipseRefiner;
 	EdgeIntensityEllipse<T> intensityCheck;
@@ -94,10 +97,10 @@ public class BinaryEllipseDetector<T extends ImageGray> {
 	 * @param gray Grayscale image
 	 * @param binary Binary image of grayscale. 1 = ellipse and 0 = ignored background
 	 */
-	public void process(T gray, GrayU8 binary) {
+	public void process(T gray, GrayU8 binary, LinearContourLabelChang2004 cF, ImageMiscOps IMO) {
 		refined.reset();
 
-		ellipseDetector.process(binary);
+		ellipseDetector.process(binary, cF, IMO);
 		if( ellipseRefiner != null)
 			ellipseRefiner.setImage(gray);
 		intensityCheck.setImage(gray);

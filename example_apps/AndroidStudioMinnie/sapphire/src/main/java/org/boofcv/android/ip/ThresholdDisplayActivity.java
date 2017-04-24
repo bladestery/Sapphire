@@ -17,6 +17,8 @@ import org.boofcv.android.R;
 
 import boofcv.abst.filter.binary.InputToBinary;
 import boofcv.alg.InputSanityCheck;
+import boofcv.alg.filter.binary.GThresholdImageOps;
+import boofcv.alg.filter.binary.ThresholdImageOps;
 import boofcv.alg.filter.blur.BlurImageOps;
 import boofcv.alg.filter.blur.GBlurImageOps;
 import boofcv.alg.filter.blur.impl.ImplMedianHistogramInner;
@@ -28,6 +30,8 @@ import boofcv.alg.filter.convolve.ConvolveNormalized;
 import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
+import boofcv.alg.misc.GImageStatistics;
+import boofcv.alg.misc.ImageStatistics;
 import boofcv.android.VisualizeImageData;
 import boofcv.android.gui.VideoImageProcessing;
 import boofcv.core.image.GeneralizedImageOps;
@@ -58,6 +62,11 @@ public class ThresholdDisplayActivity extends DemoVideoDisplayActivity
 	private static ImplMedianSortEdgeNaive IMSEN;
 	private static ImplMedianSortNaive IMSN;
 	private static ImplConvolveMean ICM;
+	private static FactoryThresholdBinary FTB;
+	private static GThresholdImageOps GTIO;
+	private static GImageStatistics GIS;
+	private static ImageStatistics IS;
+	private static ThresholdImageOps TIO;
 	Spinner spinnerView;
 
 	final Object lock = new Object();
@@ -152,19 +161,19 @@ public class ThresholdDisplayActivity extends DemoVideoDisplayActivity
 
 		switch (selectedAlg) {
 			case 0:
-				return FactoryThresholdBinary.globalOtsu(0,255,down,GrayU8.class);
+				return FTB.globalOtsu(0,255,down,GrayU8.class, IT);
 
 			case 1:
-				return FactoryThresholdBinary.globalEntropy(0, 255, down, GrayU8.class);
+				return FTB.globalEntropy(0, 255, down, GrayU8.class, IT);
 
 			case 2:
-				return FactoryThresholdBinary.localSquare(radius,0.95,down,GrayU8.class);
+				return FTB.localSquare(radius,0.95,down,GrayU8.class, IT);
 
 			case 3:
-				return FactoryThresholdBinary.localGaussian(radius,0.95,down,GrayU8.class);
+				return FTB.localGaussian(radius,0.95,down,GrayU8.class, IT);
 
 			case 4:
-				return FactoryThresholdBinary.localSauvola(radius,0.3f,down,GrayU8.class);
+				return FTB.localSauvola(radius,0.3f,down,GrayU8.class, IT);
 		}
 
 		throw new RuntimeException("Unknown selection "+selectedAlg);
@@ -196,7 +205,7 @@ public class ThresholdDisplayActivity extends DemoVideoDisplayActivity
 			}
 
 			if( filter != null ) {
-				filter.process(input, binary, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM);
+				filter.process(input, binary, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO);
 			}
 			VisualizeImageData.binaryToBitmap(binary,false,  output, storage);
 		}
