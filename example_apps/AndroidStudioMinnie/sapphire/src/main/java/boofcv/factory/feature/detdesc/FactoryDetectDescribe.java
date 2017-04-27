@@ -56,6 +56,7 @@ import boofcv.struct.image.ImageType;
  * @author Peter Abeles
  */
 public class FactoryDetectDescribe {
+	private static FactoryFeatureExtractor FFE;
 
 	/**
 	 * Creates a new SIFT feature detector and describer.
@@ -85,7 +86,7 @@ public class FactoryDetectDescribe {
 				configDesc.sigmaToPixels, configDesc.weightingSigmaFraction,
 				configDesc.maxDescriptorElementValue,GrayF32.class);
 
-		NonMaxSuppression nns = FactoryFeatureExtractor.nonmax(configDetector.extract);
+		NonMaxSuppression nns = FFE.nonmax(configDetector.extract);
 		NonMaxLimiter nonMax = new NonMaxLimiter(nns,configDetector.maxFeaturesPerScale);
 		CompleteSift dds = new CompleteSift(scaleSpace,configDetector.edgeR,nonMax,orientation,describe);
 		return new DetectDescribe_CompleteSift<>(dds);

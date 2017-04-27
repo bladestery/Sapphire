@@ -20,7 +20,11 @@ package boofcv.abst.filter.derivative;
 
 import boofcv.alg.InputSanityCheck;
 import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
 import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
+import boofcv.alg.filter.derivative.GradientSobel;
+import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
+import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
 import boofcv.core.image.border.BorderType;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.struct.image.ImageGray;
@@ -76,11 +80,12 @@ public class ImageGradientThenReduce<Input extends ImageMultiBand,
 	}
 
 	@Override
-	public void process(Input inputImage, Output derivX, Output derivY, InputSanityCheck ISC, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB) {
+	public void process(Input inputImage, Output derivX, Output derivY, InputSanityCheck ISC, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG,
+						GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO) {
 		middleX.reshape(inputImage.width,inputImage.height);
 		middleY.reshape(inputImage.width,inputImage.height);
 
-		gradient.process(inputImage, middleX, middleY, ISC, DHF, CINB);
+		gradient.process(inputImage, middleX, middleY, ISC,DHF, CINB, CJBG,GSO,GSUO);
 		reduce.process(middleX,middleY, derivX,derivY);
 	}
 }

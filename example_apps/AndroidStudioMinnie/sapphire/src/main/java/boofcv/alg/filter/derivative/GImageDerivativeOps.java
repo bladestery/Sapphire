@@ -22,6 +22,9 @@ import boofcv.abst.filter.derivative.AnyImageDerivative;
 import boofcv.alg.InputSanityCheck;
 import boofcv.alg.feature.detect.intensity.impl.ImplSsdCorner_F32;
 import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
+import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
+import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.*;
 import boofcv.struct.convolve.Kernel1D;
@@ -41,6 +44,9 @@ public class GImageDerivativeOps {
 	private static InputSanityCheck ISC;
 	private static DerivativeHelperFunctions DHF;
 	private static ConvolveImageNoBorder CINB;
+	private static GradientSobel_Outer GSO;
+	private static ConvolveJustBorder_General CJBG;
+	private static GradientSobel_UnrolledOuter GSUO;
 	public static <I extends ImageGray, D extends ImageGray>
 	void laplace( I input , D output ) {
 		if( input instanceof GrayF32) {
@@ -101,22 +107,22 @@ public class GImageDerivativeOps {
 				break;
 			case SOBEL:
 				if( input instanceof GrayF32) {
-					GradientSobel.process((GrayF32)input,(GrayF32)derivX,(GrayF32)derivY,(ImageBorder_F32)border);
+					GradientSobel.process((GrayF32)input,(GrayF32)derivX,(GrayF32)derivY,(ImageBorder_F32)border,ISC,DHF, CINB, CJBG,GSO,GSUO);
 				} else if( input instanceof GrayU8) {
-					GradientSobel.process((GrayU8)input,(GrayS16)derivX,(GrayS16)derivY,(ImageBorder_S32)border);
+					GradientSobel.process((GrayU8)input,(GrayS16)derivX,(GrayS16)derivY,(ImageBorder_S32)border, ISC,DHF, CINB, CJBG,GSO,GSUO);
 				} else if( input instanceof GrayS16) {
-					GradientSobel.process((GrayS16)input,(GrayS16)derivX,(GrayS16)derivY,(ImageBorder_S32)border);
+					GradientSobel.process((GrayS16)input,(GrayS16)derivX,(GrayS16)derivY,(ImageBorder_S32)border, ISC,DHF, CINB, CJBG,GSO,GSUO);
 				} else {
 					throw new IllegalArgumentException("Unknown input image type: "+input.getClass().getSimpleName());
 				}
 				break;
 			case THREE:
 				if( input instanceof GrayF32) {
-					GradientThree.process((GrayF32)input,(GrayF32)derivX,(GrayF32)derivY,(ImageBorder_F32)border, ISC, DHF, CINB);
+					GradientThree.process((GrayF32)input,(GrayF32)derivX,(GrayF32)derivY,(ImageBorder_F32)border, ISC, DHF, CINB, CJBG, GSO, GSUO);
 				} else if( input instanceof GrayU8) {
-					GradientThree.process((GrayU8)input,(GrayS16)derivX,(GrayS16)derivY,(ImageBorder_S32)border, ISC, DHF, CINB);
+					GradientThree.process((GrayU8)input,(GrayS16)derivX,(GrayS16)derivY,(ImageBorder_S32)border, ISC, DHF, CINB, CJBG, GSO, GSUO);
 				} else if( input instanceof GrayS16) {
-					GradientThree.process((GrayS16)input,(GrayS16)derivX,(GrayS16)derivY,(ImageBorder_S32)border, ISC, DHF, CINB);
+					GradientThree.process((GrayS16)input,(GrayS16)derivX,(GrayS16)derivY,(ImageBorder_S32)border, ISC, DHF, CINB, CJBG, GSO, GSUO);
 				} else {
 					throw new IllegalArgumentException("Unknown input image type: "+input.getClass().getSimpleName());
 				}

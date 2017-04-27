@@ -47,21 +47,24 @@ public final class ImageGradient_Reflection_Stub extends boofcv.abst.filter.deri
         }
     }
 
-    // Implementation of process(ImageGray, ImageGray, ImageGray, InputSanityCheck, DerivativeHelperFunctions, ConvolveImageNoBorder)
-    public void process(boofcv.struct.image.ImageGray $param_ImageGray_1, boofcv.struct.image.ImageGray $param_ImageGray_2, boofcv.struct.image.ImageGray $param_ImageGray_3, boofcv.alg.InputSanityCheck $param_InputSanityCheck_4, boofcv.alg.filter.derivative.DerivativeHelperFunctions $param_DerivativeHelperFunctions_5, boofcv.alg.filter.convolve.ConvolveImageNoBorder $param_ConvolveImageNoBorder_6) {
+    // Implementation of process(ImageGray, ImageGray, ImageGray, InputSanityCheck, DerivativeHelperFunctions, ConvolveImageNoBorder, ConvolveJustBorder_General, GradientSobel_Outer, GradientSobel_UnrolledOuter)
+    public void process(boofcv.struct.image.ImageGray $param_ImageGray_1, boofcv.struct.image.ImageGray $param_ImageGray_2, boofcv.struct.image.ImageGray $param_ImageGray_3, boofcv.alg.InputSanityCheck $param_InputSanityCheck_4, boofcv.alg.filter.derivative.DerivativeHelperFunctions $param_DerivativeHelperFunctions_5, boofcv.alg.filter.convolve.ConvolveImageNoBorder $param_ConvolveImageNoBorder_6, boofcv.alg.filter.convolve.border.ConvolveJustBorder_General $param_ConvolveJustBorder_General_7, boofcv.alg.filter.derivative.impl.GradientSobel_Outer $param_GradientSobel_Outer_8, boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter $param_GradientSobel_UnrolledOuter_9) {
         java.lang.Object $__result = null;
         try {
             if ($__directInvocation)
-                super.process( $param_ImageGray_1,  $param_ImageGray_2,  $param_ImageGray_3,  $param_InputSanityCheck_4,  $param_DerivativeHelperFunctions_5,  $param_ConvolveImageNoBorder_6);
+                super.process( $param_ImageGray_1,  $param_ImageGray_2,  $param_ImageGray_3,  $param_InputSanityCheck_4,  $param_DerivativeHelperFunctions_5,  $param_ConvolveImageNoBorder_6,  $param_ConvolveJustBorder_General_7,  $param_GradientSobel_Outer_8,  $param_GradientSobel_UnrolledOuter_9);
             else {
                 java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
-                String $__method = "public void boofcv.abst.filter.derivative.ImageGradient_Reflection.process(Input,Output,Output,boofcv.alg.InputSanityCheck,boofcv.alg.filter.derivative.DerivativeHelperFunctions,boofcv.alg.filter.convolve.ConvolveImageNoBorder)";
+                String $__method = "public void boofcv.abst.filter.derivative.ImageGradient_Reflection.process(Input,Output,Output,boofcv.alg.InputSanityCheck,boofcv.alg.filter.derivative.DerivativeHelperFunctions,boofcv.alg.filter.convolve.ConvolveImageNoBorder,boofcv.alg.filter.convolve.border.ConvolveJustBorder_General,boofcv.alg.filter.derivative.impl.GradientSobel_Outer,boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter)";
                 $__params.add($param_ImageGray_1);
                 $__params.add($param_ImageGray_2);
                 $__params.add($param_ImageGray_3);
                 $__params.add($param_InputSanityCheck_4);
                 $__params.add($param_DerivativeHelperFunctions_5);
                 $__params.add($param_ConvolveImageNoBorder_6);
+                $__params.add($param_ConvolveJustBorder_General_7);
+                $__params.add($param_GradientSobel_Outer_8);
+                $__params.add($param_GradientSobel_UnrolledOuter_9);
                 $__result = $__client.onRPC($__method, $__params);
             }
         } catch (Exception e) {

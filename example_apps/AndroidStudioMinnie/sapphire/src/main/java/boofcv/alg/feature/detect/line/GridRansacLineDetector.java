@@ -60,7 +60,6 @@ import java.util.List;
  * @author Peter Abeles
  */
 public abstract class GridRansacLineDetector<D extends ImageGray> {
-	private static InputSanityCheck ISC;
 	// size of a region's width/height in pixels
 	protected int regionSize;
 	// the minimum number of points which must be fit to be accepted
@@ -101,7 +100,7 @@ public abstract class GridRansacLineDetector<D extends ImageGray> {
 	 * @param derivY Image derivative along x-axis. Not modified.
 	 * @param binaryEdges True values indicate that a pixel is an edge pixel. Not modified.
 	 */
-	public void process( D derivX , D derivY , GrayU8 binaryEdges )
+	public void process( D derivX , D derivY , GrayU8 binaryEdges, InputSanityCheck ISC)
 	{
 		ISC.checkSameShape(derivX,derivY,binaryEdges);
 

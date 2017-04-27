@@ -38,6 +38,7 @@ import boofcv.struct.image.*;
 public class ConvolveWithBorder {
 	private static InputSanityCheck ISC;
 	private static ConvolveImageNoBorder CINB;
+	private static ConvolveJustBorder_General CJBG;
 	/**
 	 * Performs a horizontal 1D convolution across the image.  Borders are handled as specified by the 'border'
 	 * parameter.
@@ -53,7 +54,7 @@ public class ConvolveWithBorder {
 
 		border.setImage(image);
 		CINB.horizontal(kernel,image,dest, ISC);
-		ConvolveJustBorder_General.horizontal(kernel, border,dest);
+		CJBG.horizontal(kernel, border,dest);
 	}
 
 	/**
@@ -71,7 +72,7 @@ public class ConvolveWithBorder {
 
 		border.setImage(image);
 		CINB.vertical(kernel,image,dest, ISC);
-		ConvolveJustBorder_General.vertical(kernel, border,dest);
+		CJBG.vertical(kernel, border,dest);
 	}
 
 	/**
@@ -89,7 +90,7 @@ public class ConvolveWithBorder {
 
 		border.setImage(image);
 		CINB.convolve(kernel,image,dest, ISC);
-		ConvolveJustBorder_General.convolve(kernel,border,dest);
+		CJBG.convolve(kernel,border,dest);
 	}
 
 	/**
@@ -107,7 +108,7 @@ public class ConvolveWithBorder {
 
 		border.setImage(image);
 		CINB.horizontal(kernel,image,dest, ISC);
-		ConvolveJustBorder_General.horizontal(kernel, border,dest);
+		CJBG.horizontal(kernel, border,dest);
 	}
 
 	/**
@@ -125,7 +126,7 @@ public class ConvolveWithBorder {
 
 		border.setImage(image);
 		CINB.vertical(kernel,image,dest, ISC);
-		ConvolveJustBorder_General.vertical(kernel, border,dest);
+		CJBG.vertical(kernel, border,dest);
 	}
 
 	/**
@@ -143,7 +144,7 @@ public class ConvolveWithBorder {
 
 		border.setImage(image);
 		CINB.convolve(kernel,image,dest, ISC);
-		ConvolveJustBorder_General.convolve(kernel,border,dest);
+		CJBG.convolve(kernel,border,dest);
 	}
 
 	/**
@@ -161,7 +162,7 @@ public class ConvolveWithBorder {
 
 		border.setImage(image);
 		CINB.horizontal(kernel, image, dest, ISC);
-		ConvolveJustBorder_General.horizontal(kernel, border, dest);
+		CJBG.horizontal(kernel, border, dest);
 	}
 
 	/**
@@ -179,7 +180,7 @@ public class ConvolveWithBorder {
 
 		border.setImage(image);
 		CINB.vertical(kernel,image,dest, ISC);
-		ConvolveJustBorder_General.vertical(kernel, border,dest);
+		CJBG.vertical(kernel, border,dest);
 	}
 
 	/**
@@ -197,7 +198,7 @@ public class ConvolveWithBorder {
 
 		border.setImage(image);
 		CINB.convolve(kernel,image,dest, ISC);
-		ConvolveJustBorder_General.convolve(kernel,border,dest);
+		CJBG.convolve(kernel,border,dest);
 	}
 
 	/**
@@ -215,7 +216,7 @@ public class ConvolveWithBorder {
 
 		border.setImage(image);
 		CINB.horizontal(kernel,image,dest, ISC);
-		ConvolveJustBorder_General.horizontal(kernel, border, dest);
+		CJBG.horizontal(kernel, border, dest);
 	}
 
 	/**
@@ -233,7 +234,7 @@ public class ConvolveWithBorder {
 
 		border.setImage(image);
 		CINB.vertical(kernel,image,dest, ISC);
-		ConvolveJustBorder_General.vertical(kernel, border,dest);
+		CJBG.vertical(kernel, border,dest);
 	}
 
 	/**
@@ -251,6 +252,6 @@ public class ConvolveWithBorder {
 
 		border.setImage(image);
 		CINB.convolve(kernel,image,dest, ISC);
-		ConvolveJustBorder_General.convolve(kernel,border,dest);
+		CJBG.convolve(kernel,border,dest);
 	}
 }

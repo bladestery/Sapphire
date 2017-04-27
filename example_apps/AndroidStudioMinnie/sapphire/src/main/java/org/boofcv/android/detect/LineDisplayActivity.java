@@ -16,10 +16,14 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import org.boofcv.android.DemoManager;
 import org.boofcv.android.DemoVideoDisplayActivity;
 import org.boofcv.android.R;
 import org.ddogleg.struct.FastQueue;
 
+import java.net.InetSocketAddress;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.List;
 
 import boofcv.abst.feature.detect.line.DetectLine;
@@ -35,6 +39,10 @@ import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.ImageType;
 import georegression.struct.line.LineParametric2D_F32;
 import georegression.struct.line.LineSegment2D_F32;
+import sapphire.kernel.server.KernelServerImpl;
+import sapphire.oms.OMSServer;
+
+import static sapphire.kernel.common.GlobalKernelReferences.nodeServer;
 
 /**
  * Displays detected lines.  User can adjust the number of lines it will display.  Default is set to three to
@@ -44,7 +52,6 @@ import georegression.struct.line.LineSegment2D_F32;
  */
 public class LineDisplayActivity extends DemoVideoDisplayActivity
 		implements AdapterView.OnItemSelectedListener {
-	private ImageType IT;
 	Paint paint;
 
 	EditText editLines;
@@ -55,8 +62,38 @@ public class LineDisplayActivity extends DemoVideoDisplayActivity
 	// the number of lines its configured to detect
 	int numLines = 3;
 
+	OMSServer server;
+	DemoManager dm;
+
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		InetSocketAddress host, omsHost;
+
+		try {
+			Registry registry = LocateRegistry.getRegistry("157.82.159.30", 22346);
+			server = (OMSServer) registry.lookup("SapphireOMS");
+			System.out.println(server);
+
+			host = new InetSocketAddress("192.168.0.7", 22346);
+			omsHost = new InetSocketAddress("157.82.159.30", 22346);
+			nodeServer = new KernelServerImpl(host, omsHost);
+			System.out.println(nodeServer);
+
+			System.setProperty("java.rmi.server.hostname", host.getAddress().getHostAddress());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		try {
+			//Server is initiated with appObject to perform remote RPCs
+			dm = (DemoManager) server.getAppEntryPoint();
+			System.out.println("Got AppEntryPoint");
+			//dm.LatencyCheck();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(0);
+		}
 
 		paint = new Paint();
 		paint.setColor(Color.RED);
@@ -112,29 +149,38 @@ public class LineDisplayActivity extends DemoVideoDisplayActivity
 	}
 
 	private void createLineDetector() {
-		DetectLine<GrayU8> detector = null;
-		DetectLineSegment<GrayU8> detectorSegment = null;
+		//DetectLine<GrayU8> detector = null;
+		//DetectLineSegment<GrayU8> detectorSegment = null;
 
 		switch( active ) {
 			case 0:
-				detector = FactoryDetectLineAlgs.houghFoot(
-						new ConfigHoughFoot(5,6,5,40,numLines),GrayU8.class,GrayS16.class);
+				dm.houghFoot(new ConfigHoughFoot(5,6,5,40,numLines));
+				//detector = FactoryDetectLineAlgs.houghFoot(
+				//		new ConfigHoughFoot(5,6,5,40,numLines),GrayU8.class,GrayS16.class);
 				break;
 
 			case 1:
-				detector = FactoryDetectLineAlgs.houghPolar(
-						new ConfigHoughPolar(5,6,2,Math.PI/120.0,40,numLines),GrayU8.class,GrayS16.class);
+				dm.houghPolar(new ConfigHoughPolar(5,6,2,Math.PI/120.0,40,numLines));
+				//detector = FactoryDetectLineAlgs.houghPolar(
+				//		new ConfigHoughPolar(5,6,2,Math.PI/120.0,40,numLines),GrayU8.class,GrayS16.class);
+				break;
+
+			case 2:
+				dm.lineRansac();
 				break;
 
 			default:
 				throw new RuntimeException("Unknown selection");
 		}
 
+		setProcessing(new LineProcessing());
+		/*
 		if( detector != null )
 			setProcessing(new LineProcessing(detector));
 		else {
 			setProcessing(new LineProcessing(detectorSegment));
 		}
+		*/
 	}
 
 	private void checkUpdateLines() {
@@ -164,24 +210,28 @@ public class LineDisplayActivity extends DemoVideoDisplayActivity
 	public void onNothingSelected(AdapterView<?> adapterView) {}
 
 	protected class LineProcessing extends VideoRenderProcessing<GrayU8> {
-		DetectLine<GrayU8> detector;
-		DetectLineSegment<GrayU8> detectorSegment = null;
+		//DetectLine<GrayU8> detector;
+		//DetectLineSegment<GrayU8> detectorSegment = null;
 
 		FastQueue<LineSegment2D_F32> lines = new FastQueue<LineSegment2D_F32>(LineSegment2D_F32.class,true);
 
 		Bitmap bitmap;
 		byte[] storage;
 
+		public LineProcessing() {
+			super( dm.single(GrayU8.class));
+		}
+		/*
 		public LineProcessing(DetectLine<GrayU8> detector) {
-			super( IT.single(GrayU8.class));
+			super( dm.single(GrayU8.class));
 			this.detector = detector;
 		}
 
 		public LineProcessing(DetectLineSegment<GrayU8> detectorSegment) {
-			super( IT.single(GrayU8.class));
+			super( dm.single(GrayU8.class));
 			this.detectorSegment = detectorSegment;
 		}
-
+		*/
 		@Override
 		protected void declareImages(int width, int height) {
 			super.declareImages(width, height);
@@ -191,9 +241,39 @@ public class LineDisplayActivity extends DemoVideoDisplayActivity
 
 		@Override
 		protected void process(GrayU8 gray) {
+			switch( active ) {
+				case 0:
+				case 1:
+					List<LineParametric2D_F32> found = dm.lineDetect(gray);
+					synchronized ( lockGui ) {
+						ConvertBitmap.grayToBitmap(gray,bitmap,storage);
+						lines.reset();
+						for( LineParametric2D_F32 p : found ) {
+							LineSegment2D_F32 ls = LineImageOps.convert(p, gray.width,gray.height);
+							lines.grow().set(ls.a,ls.b);
+						}
+					}
+					break;
 
+				case 2:
+					List<LineSegment2D_F32> segFound = dm.segDetect(gray);
+					synchronized ( lockGui ) {
+						ConvertBitmap.grayToBitmap(gray,bitmap,storage);
+						lines.reset();
+						for( LineSegment2D_F32 p : segFound ) {
+							lines.grow().set(p.a,p.b);
+						}
+					}
+					break;
+
+				default:
+					throw new RuntimeException("Unknown selection");
+			}
+
+
+			/*
 			if( detector != null ) {
-				List<LineParametric2D_F32> found = detector.detect(gray);
+				List<LineParametric2D_F32> found = dm.lineDetect(gray);
 
 				synchronized ( lockGui ) {
 					ConvertBitmap.grayToBitmap(gray,bitmap,storage);
@@ -214,6 +294,7 @@ public class LineDisplayActivity extends DemoVideoDisplayActivity
 					}
 				}
 			}
+			*/
 		}
 
 		@Override

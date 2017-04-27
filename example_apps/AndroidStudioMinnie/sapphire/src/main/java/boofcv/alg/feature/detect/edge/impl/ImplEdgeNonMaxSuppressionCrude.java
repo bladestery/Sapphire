@@ -25,6 +25,7 @@ import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.GrayI;
 import boofcv.struct.image.GrayS16;
 import boofcv.struct.image.GrayS32;
+import sapphire.app.SapphireObject;
 
 
 /**
@@ -40,13 +41,12 @@ import boofcv.struct.image.GrayS32;
  *
  * @author Peter Abeles
  */
-public class ImplEdgeNonMaxSuppressionCrude {
-	private static ImageBorderValue IBV;
-	private static FactoryImageBorderAlgs FIBA;
+public class ImplEdgeNonMaxSuppressionCrude implements SapphireObject {
+	public ImplEdgeNonMaxSuppressionCrude() {}
 	/**
 	 * Only processes the inner image.  Ignoring the border.
 	 */
-	static public void inner4(GrayF32 intensity , GrayF32 derivX , GrayF32 derivY, GrayF32 output )
+	public void inner4(GrayF32 intensity , GrayF32 derivX , GrayF32 derivY, GrayF32 output )
 	{
 		final int w = intensity.width;
 		final int h = intensity.height-1;
@@ -79,7 +79,7 @@ public class ImplEdgeNonMaxSuppressionCrude {
 	/**
 	 * Only processes the inner image.  Ignoring the border.
 	 */
-	static public void inner4(GrayF32 intensity , GrayS16 derivX , GrayS16 derivY, GrayF32 output )
+	public void inner4(GrayF32 intensity , GrayS16 derivX , GrayS16 derivY, GrayF32 output )
 	{
 		final int w = intensity.width;
 		final int h = intensity.height-1;
@@ -112,7 +112,7 @@ public class ImplEdgeNonMaxSuppressionCrude {
 	/**
 	 * Only processes the inner image.  Ignoring the border.
 	 */
-	static public void inner4(GrayF32 intensity , GrayS32 derivX , GrayS32 derivY, GrayF32 output )
+	public void inner4(GrayF32 intensity , GrayS32 derivX , GrayS32 derivY, GrayF32 output )
 	{
 		final int w = intensity.width;
 		final int h = intensity.height-1;
@@ -145,7 +145,7 @@ public class ImplEdgeNonMaxSuppressionCrude {
 	/**
 	 * Just processes the image border.
 	 */
-	static public void border4(GrayF32 _intensity , GrayF32 derivX , GrayF32 derivY , GrayF32 output )
+	public void border4(GrayF32 _intensity , GrayF32 derivX , GrayF32 derivY , GrayF32 output, FactoryImageBorderAlgs FIBA, ImageBorderValue IBV)
 	{
 		int w = _intensity.width;
 		int h = _intensity.height-1;
@@ -227,7 +227,7 @@ public class ImplEdgeNonMaxSuppressionCrude {
 	}	/**
 	 * Just processes the image border.
 	 */
-	static public void border4(GrayF32 _intensity , GrayI derivX , GrayI derivY , GrayF32 output )
+	public void border4(GrayF32 _intensity , GrayI derivX , GrayI derivY , GrayF32 output , FactoryImageBorderAlgs FIBA, ImageBorderValue IBV)
 	{
 		int w = _intensity.width;
 		int h = _intensity.height-1;

@@ -22,8 +22,12 @@ import boofcv.abst.filter.derivative.ImageGradient;
 import boofcv.abst.filter.derivative.ImageHessian;
 import boofcv.alg.InputSanityCheck;
 import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
 import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
 import boofcv.alg.filter.derivative.GImageDerivativeOps;
+import boofcv.alg.filter.derivative.GradientSobel;
+import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
+import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.filter.derivative.FactoryDerivative;
@@ -42,6 +46,9 @@ public class EasyGeneralFeatureDetector<T extends ImageGray, D extends ImageGray
 	private static InputSanityCheck ISC;
 	private static DerivativeHelperFunctions DHF;
 	private static ConvolveImageNoBorder CINB;
+	private static ConvolveJustBorder_General CJBG;
+	private static GradientSobel_Outer GSO;
+	private static GradientSobel_UnrolledOuter GSUO;
 	// Feature detector
 	protected GeneralFeatureDetector<T, D> detector;
 	// Computes image gradient
@@ -120,7 +127,7 @@ public class EasyGeneralFeatureDetector<T extends ImageGray, D extends ImageGray
 		initializeDerivatives(input);
 
 		if (detector.getRequiresGradient() || detector.getRequiresHessian())
-			gradient.process(input, derivX, derivY, ISC, DHF, CINB);
+			gradient.process(input, derivX, derivY, ISC,DHF, CINB, CJBG,GSO,GSUO);
 		if (detector.getRequiresHessian())
 			hessian.process(derivX, derivY, derivXX, derivYY, derivXY);
 

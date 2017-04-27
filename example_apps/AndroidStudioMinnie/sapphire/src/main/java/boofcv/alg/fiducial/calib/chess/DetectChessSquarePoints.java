@@ -18,8 +18,14 @@
 
 package boofcv.alg.fiducial.calib.chess;
 
+import android.renderscript.ScriptGroup;
+
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.fiducial.calib.squares.*;
+import boofcv.alg.filter.binary.LinearContourLabelChang2004;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.shapes.polygon.BinaryPolygonDetector;
+import boofcv.struct.ConnectRule;
 import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.ImageGray;
 import georegression.struct.point.Point2D_F64;
@@ -37,7 +43,10 @@ import java.util.List;
  * @author Peter Abeles
  */
 public class DetectChessSquarePoints<T extends ImageGray> {
+	private static InputSanityCheck ISC;
+	private static ImageMiscOps IMO;
 
+	private LinearContourLabelChang2004 cF = new LinearContourLabelChang2004(ConnectRule.FOUR);
 	// detector for squares
 	BinaryPolygonDetector<T> detectorSquare;
 
@@ -93,7 +102,7 @@ public class DetectChessSquarePoints<T extends ImageGray> {
 	public boolean process( T input , GrayU8 binary ) {
 		boundPolygon.vertexes.reset();
 
-		detectorSquare.process(input, binary);
+		detectorSquare.process(input, binary, ISC, IMO, cF);
 
 		FastQueue<Polygon2D_F64> found = detectorSquare.getFoundPolygons();
 		FastQueue<BinaryPolygonDetector.Info> foundInfo = detectorSquare.getPolygonInfo();

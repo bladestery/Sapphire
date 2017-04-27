@@ -20,6 +20,9 @@ package boofcv.alg.filter.derivative;
 
 import boofcv.alg.InputSanityCheck;
 import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
+import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
+import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
 import boofcv.alg.filter.derivative.impl.GradientThree_Standard;
 import boofcv.core.image.border.ImageBorder_F32;
 import boofcv.core.image.border.ImageBorder_S32;
@@ -71,14 +74,15 @@ public class GradientThree {
 	 */
 	public static void process(GrayU8 orig,
 							   GrayS16 derivX,
-							   GrayS16 derivY, ImageBorder_S32 border, InputSanityCheck ISC, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB) {
+							   GrayS16 derivY, ImageBorder_S32 border, InputSanityCheck ISC, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG,
+							   GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO) {
 		ISC.checkSameShape(orig, derivX, derivY);
 		GradientThree_Standard.process(orig, derivX, derivY);
 
 		if( border != null ) {
 			System.out.println(DHF);
-			DHF.processBorderHorizontal(orig, derivX , kernelDeriv_I32, border, CINB, ISC);
-			DHF.processBorderVertical(orig, derivY , kernelDeriv_I32, border, CINB, ISC);
+			DHF.processBorderHorizontal(orig, derivX , kernelDeriv_I32, border, CINB, ISC, CJBG);
+			DHF.processBorderVertical(orig, derivY , kernelDeriv_I32, border, CINB, ISC, CJBG);
 		}
 	}
 
@@ -92,13 +96,14 @@ public class GradientThree {
 	 */
 	public static void process(GrayU8 orig,
 							   GrayS32 derivX,
-							   GrayS32 derivY, ImageBorder_S32 border, InputSanityCheck ISC, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB) {
+							   GrayS32 derivY, ImageBorder_S32 border, InputSanityCheck ISC, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG,
+							   GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO) {
 		ISC.checkSameShape(orig, derivX, derivY);
 		GradientThree_Standard.process(orig, derivX, derivY);
 
 		if( border != null ) {
-			DHF.processBorderHorizontal(orig, derivX , kernelDeriv_I32, border, CINB, ISC);
-			DHF.processBorderVertical(orig, derivY , kernelDeriv_I32, border, CINB, ISC);
+			DHF.processBorderHorizontal(orig, derivX , kernelDeriv_I32, border, CINB, ISC, CJBG);
+			DHF.processBorderVertical(orig, derivY , kernelDeriv_I32, border, CINB, ISC, CJBG);
 		}
 	}
 
@@ -112,13 +117,14 @@ public class GradientThree {
 	 */
 	public static void process(GrayS16 orig,
 							   GrayS16 derivX,
-							   GrayS16 derivY, ImageBorder_S32 border, InputSanityCheck ISC, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB) {
+							   GrayS16 derivY, ImageBorder_S32 border, InputSanityCheck ISC, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG,
+							   GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO) {
 		ISC.checkSameShape(orig, derivX, derivY);
 		GradientThree_Standard.process(orig, derivX, derivY);
 
 		if( border != null ) {
-			DHF.processBorderHorizontal(orig, derivX , kernelDeriv_I32, border, CINB, ISC);
-			DHF.processBorderVertical(orig, derivY , kernelDeriv_I32, border, CINB, ISC);
+			DHF.processBorderHorizontal(orig, derivX , kernelDeriv_I32, border, CINB, ISC, CJBG);
+			DHF.processBorderVertical(orig, derivY , kernelDeriv_I32, border, CINB, ISC, CJBG);
 		}
 	}
 
@@ -132,13 +138,14 @@ public class GradientThree {
 	 */
 	public static void process(GrayF32 orig,
 							   GrayF32 derivX,
-							   GrayF32 derivY, ImageBorder_F32 border, InputSanityCheck ISC, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB) {
+							   GrayF32 derivY, ImageBorder_F32 border, InputSanityCheck ISC, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG,
+							   GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO) {
 		ISC.checkSameShape(orig, derivX, derivY);
 		GradientThree_Standard.process(orig, derivX, derivY);
 
 		if( border != null ) {
-			DHF.processBorderHorizontal(orig, derivX , kernelDeriv_F32, border, CINB, ISC);
-			DHF.processBorderVertical(orig, derivY , kernelDeriv_F32, border, CINB, ISC);
+			DHF.processBorderHorizontal(orig, derivX , kernelDeriv_F32, border, CINB, ISC, CJBG);
+			DHF.processBorderVertical(orig, derivY , kernelDeriv_F32, border, CINB, ISC, CJBG);
 		}
 	}
 

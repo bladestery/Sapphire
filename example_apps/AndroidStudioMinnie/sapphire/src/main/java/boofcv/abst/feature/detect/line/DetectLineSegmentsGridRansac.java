@@ -29,13 +29,18 @@ import boofcv.alg.feature.detect.line.LineImageOps;
 import boofcv.alg.filter.binary.GThresholdImageOps;
 import boofcv.alg.filter.binary.ThresholdImageOps;
 import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
 import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
+import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
+import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.struct.feature.MatrixOfList;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.ImageGray;
 import georegression.struct.line.LineSegment2D_F32;
+import sapphire.app.SapphireObject;
+import sapphire.compiler.GTEFGenerator;
 
 import java.util.List;
 
@@ -44,17 +49,8 @@ import java.util.List;
  */
 // TODO update description in FactoryDetectLineAlgs
 public class DetectLineSegmentsGridRansac<T extends ImageGray, D extends ImageGray>
-		implements DetectLineSegment<T>
+		implements DetectLineSegment<T>, SapphireObject
 {
-	private static GThresholdImageOps GTIO;
-	private static GeneralizedImageOps GIO;
-	private static GradientToEdgeFeatures GTEF;
-	private static GGradientToEdgeFeatures GGTEF;
-	private static ThresholdImageOps TIO;
-	private static InputSanityCheck ISC;
-
-	private static DerivativeHelperFunctions DHF;
-	private static ConvolveImageNoBorder CINB;
 	GridRansacLineDetector<D> detectorGrid;
 	ConnectLinesGrid connect;
 
@@ -71,7 +67,8 @@ public class DetectLineSegmentsGridRansac<T extends ImageGray, D extends ImageGr
 										ConnectLinesGrid connect,
 										ImageGradient<T,D> gradient,
 										double edgeThreshold ,
-										Class<T> imageType , Class<D> derivType ) {
+										Class<T> imageType , Class<D> derivType,
+										GeneralizedImageOps GIO) {
 		this.detectorGrid = detectorGrid;
 		this.connect = connect;
 		this.gradient = gradient;
@@ -84,18 +81,20 @@ public class DetectLineSegmentsGridRansac<T extends ImageGray, D extends ImageGr
 	}
 
 	@Override
-	public List<LineSegment2D_F32> detect(T input) {
+	public List<LineSegment2D_F32> detect(T input, InputSanityCheck ISC, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB,
+										  GradientToEdgeFeatures GTEF, ThresholdImageOps TIO, GeneralizedImageOps GIO, GGradientToEdgeFeatures GGTEF,
+										  GThresholdImageOps GTIO, ConvolveJustBorder_General CJBG, GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO) {
 
 		derivX.reshape(input.width,input.height);
 		derivY.reshape(input.width,input.height);
 		edgeIntensity.reshape(input.width,input.height);
 		detected.reshape(input.width,input.height);
 
-		gradient.process(input,derivX,derivY, ISC, DHF, CINB);
+		gradient.process(input,derivX,derivY, ISC, DHF, CINB, CJBG, GSO, GSUO);
 		GGTEF.intensityAbs(derivX, derivY, edgeIntensity, GTEF, ISC);
 		GTIO.threshold(edgeIntensity, detected, edgeThreshold, false, TIO, ISC, GIO);
 
-		detectorGrid.process(derivX,derivY,detected);
+		detectorGrid.process(derivX,derivY,detected, ISC);
 
 		MatrixOfList<LineSegment2D_F32> grid = detectorGrid.getFoundLines();
 		if( connect != null ) {

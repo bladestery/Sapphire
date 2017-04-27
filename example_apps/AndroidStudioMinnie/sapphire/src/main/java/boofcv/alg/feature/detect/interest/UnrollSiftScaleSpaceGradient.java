@@ -21,7 +21,11 @@ package boofcv.alg.feature.detect.interest;
 import boofcv.abst.filter.derivative.ImageGradient;
 import boofcv.alg.InputSanityCheck;
 import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
 import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
+import boofcv.alg.filter.derivative.GradientSobel;
+import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
+import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.filter.derivative.FactoryDerivative;
@@ -43,6 +47,9 @@ public class UnrollSiftScaleSpaceGradient {
 	private static InputSanityCheck ISC;
 	private static DerivativeHelperFunctions DHF;
 	private static ConvolveImageNoBorder CINB;
+	private static ConvolveJustBorder_General CJBG;
+	private static GradientSobel_Outer GSO;
+	private static GradientSobel_UnrolledOuter GSUO;
 	// input scale space
 	SiftScaleSpace scaleSpace;
 
@@ -83,7 +90,7 @@ public class UnrollSiftScaleSpaceGradient {
 				scale.derivX.reshape(scaleImage.width,scaleImage.height);
 				scale.derivY.reshape(scaleImage.width,scaleImage.height);
 
-				gradient.process(scaleImage,scale.derivX,scale.derivY, ISC, DHF, CINB);
+				gradient.process(scaleImage,scale.derivX,scale.derivY, ISC,DHF, CINB, CJBG,GSO,GSUO);
 				scale.imageToInput = pixelCurrentToInput;
 				scale.sigma = sigma;
 

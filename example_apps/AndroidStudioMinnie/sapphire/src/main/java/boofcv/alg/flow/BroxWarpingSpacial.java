@@ -22,7 +22,10 @@ import boofcv.abst.filter.derivative.ImageGradient;
 import boofcv.abst.filter.derivative.ImageHessian;
 import boofcv.alg.InputSanityCheck;
 import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
 import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
+import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
+import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
 import boofcv.alg.interpolate.InterpolatePixelS;
 import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.misc.PixelMath;
@@ -64,6 +67,9 @@ public class BroxWarpingSpacial<T extends ImageGray> extends DenseFlowPyramidBas
 	private static InputSanityCheck ISC;
 	private static DerivativeHelperFunctions DHF;
 	private static ConvolveImageNoBorder CINB;
+	private static ConvolveJustBorder_General CJBG;
+	private static GradientSobel_Outer GSO;
+	private static GradientSobel_UnrolledOuter GSUO;
 	// regularization term
 	private static final double EPSILON = 0.001;
 
@@ -164,8 +170,8 @@ public class BroxWarpingSpacial<T extends ImageGray> extends DenseFlowPyramidBas
 			resizeForLayer(layer1.width,layer2.height);
 
 			// compute image derivatives
-			gradient.process(layer1,deriv1X,deriv1Y, ISC, DHF, CINB);
-			gradient.process(layer2,deriv2X,deriv2Y, ISC, DHF, CINB);
+			gradient.process(layer1,deriv1X,deriv1Y, ISC,DHF, CINB, CJBG,GSO,GSUO);
+			gradient.process(layer2,deriv2X,deriv2Y,ISC,DHF, CINB, CJBG,GSO,GSUO);
 			hessian.process(deriv2X,deriv2Y,deriv2XX,deriv2YY,deriv2XY);
 
 			if( !first ) {
@@ -268,8 +274,8 @@ public class BroxWarpingSpacial<T extends ImageGray> extends DenseFlowPyramidBas
 			warpImageTaylor(deriv2YY, flowU, flowV, warpDeriv2YY);
 			warpImageTaylor(deriv2XY, flowU, flowV, warpDeriv2XY);
 
-			gradient.process(flowU,derivFlowUX,derivFlowUY, ISC, DHF, CINB);
-			gradient.process(flowV,derivFlowVX,derivFlowVY, ISC, DHF, CINB);
+			gradient.process(flowU,derivFlowUX,derivFlowUY, ISC,DHF, CINB, CJBG,GSO,GSUO);
+			gradient.process(flowV,derivFlowVX,derivFlowVY, ISC,DHF, CINB, CJBG,GSO,GSUO);
 
 			computePsiSmooth(derivFlowUX,derivFlowUY,derivFlowVX,derivFlowVY,psiSmooth);
 

@@ -21,6 +21,7 @@ package boofcv.alg.filter.derivative.impl;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.GrayS16;
 import boofcv.struct.image.GrayU8;
+import sapphire.app.SapphireObject;
 
 
 /**
@@ -33,12 +34,13 @@ import boofcv.struct.image.GrayU8;
  * @author Peter Abeles
  * @see boofcv.alg.filter.derivative.GradientSobel
  */
-public class GradientSobel_UnrolledOuter {
+public class GradientSobel_UnrolledOuter implements SapphireObject {
+	public GradientSobel_UnrolledOuter() {}
 
 	/**
 	 * Can only process images which are NOT sub-images.
 	 */
-	public static void process_I8(GrayU8 orig,
+	public void process_I8(GrayU8 orig,
 								  GrayS16 derivX,
 								  GrayS16 derivY) {
 		final byte[] data = orig.data;
@@ -119,7 +121,7 @@ public class GradientSobel_UnrolledOuter {
 	/**
 	 * Can only process images which are NOT sub-images.
 	 */
-	public static void process_F32(GrayF32 orig,
+	public void process_F32(GrayF32 orig,
 								   GrayF32 derivX,
 								   GrayF32 derivY) {
 		final float[] data = orig.data;
@@ -201,7 +203,7 @@ public class GradientSobel_UnrolledOuter {
 	/**
 	 * Can process any but regular and sub-images.
 	 */
-	public static void process_F32_sub(GrayF32 orig,
+	public void process_F32_sub(GrayF32 orig,
 									   GrayF32 derivX,
 									   GrayF32 derivY) {
 		final float[] data = orig.data;

@@ -65,6 +65,7 @@ import boofcv.struct.image.GrayU8;
  */
 public class HessianSobel {
 	private static InputSanityCheck ISC;
+	private static ConvolveJustBorder_General CJBG;
 	public static Kernel2D_I32 kernelYY_I32 = new Kernel2D_I32(5, new int[]
 			{1, 4, 6 , 4, 1,
 			 0, 0, 0 , 0, 0,
@@ -119,9 +120,9 @@ public class HessianSobel {
 
 		if( border != null ) {
 			border.setImage(orig);
-			ConvolveJustBorder_General.convolve(kernelXX_I32, border,derivXX);
-			ConvolveJustBorder_General.convolve(kernelYY_I32, border,derivYY);
-			ConvolveJustBorder_General.convolve(kernelXY_I32, border,derivXY);
+			CJBG.convolve(kernelXX_I32, border,derivXX);
+			CJBG.convolve(kernelYY_I32, border,derivYY);
+			CJBG.convolve(kernelXY_I32, border,derivXY);
 		}
 	}
 
@@ -142,9 +143,9 @@ public class HessianSobel {
 
 		if( border != null ) {
 			border.setImage(orig);
-			ConvolveJustBorder_General.convolve(kernelXX_F32, border , derivXX);
-			ConvolveJustBorder_General.convolve(kernelYY_F32, border , derivYY);
-			ConvolveJustBorder_General.convolve(kernelXY_F32, border , derivXY);
+			CJBG.convolve(kernelXX_F32, border , derivXX);
+			CJBG.convolve(kernelYY_F32, border , derivYY);
+			CJBG.convolve(kernelXY_F32, border , derivXY);
 		}
 	}
 }

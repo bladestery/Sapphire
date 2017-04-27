@@ -32,10 +32,14 @@ import boofcv.alg.filter.blur.impl.ImplMedianSortNaive;
 import boofcv.alg.filter.convolve.ConvolveImageMean;
 import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
 import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
 import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
 import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
+import boofcv.alg.filter.derivative.GradientSobel;
+import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
+import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
 import boofcv.alg.interpolate.InterpolatePixelS;
 import boofcv.alg.misc.GImageStatistics;
 import boofcv.alg.misc.ImageStatistics;
@@ -75,6 +79,9 @@ public class PyramidOps {
 	private static GImageStatistics GIS;
 	private static ImageStatistics IS;
 	private static ThresholdImageOps TIO;
+	private static ConvolveJustBorder_General CJBG;
+	private static GradientSobel_Outer GSO;
+	private static GradientSobel_UnrolledOuter GSUO;
 
 	/**
 	 * Creates an array of single band images for each layer in the provided pyramid.  Each image will
@@ -159,7 +166,7 @@ public class PyramidOps {
 	{
 		for( int i = 0; i < input.getNumLayers(); i++ ) {
 			I imageIn = input.getLayer(i);
-			gradient.process(imageIn,derivX[i],derivY[i], ISC, DHF, CINB);
+			gradient.process(imageIn,derivX[i],derivY[i], ISC,DHF, CINB, CJBG,GSO,GSUO);
 		}
 	}
 

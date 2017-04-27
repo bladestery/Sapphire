@@ -251,18 +251,20 @@ public final class FactoryDerivative_Stub extends boofcv.factory.filter.derivati
         return ((boofcv.abst.filter.derivative.ImageHessian) $__result);
     }
 
-    // Implementation of gradientSB(DerivativeType, Class, Class)
-    public boofcv.abst.filter.derivative.ImageGradient gradientSB(boofcv.alg.filter.derivative.DerivativeType $param_DerivativeType_1, java.lang.Class $param_Class_2, java.lang.Class $param_Class_3) {
+    // Implementation of gradientSB(DerivativeType, Class, Class, GeneralizedImageOps, FactoryImageBorder)
+    public boofcv.abst.filter.derivative.ImageGradient gradientSB(boofcv.alg.filter.derivative.DerivativeType $param_DerivativeType_1, java.lang.Class $param_Class_2, java.lang.Class $param_Class_3, boofcv.core.image.GeneralizedImageOps $param_GeneralizedImageOps_4, boofcv.core.image.border.FactoryImageBorder $param_FactoryImageBorder_5) {
         java.lang.Object $__result = null;
         try {
             if ($__directInvocation)
-                $__result = super.gradientSB( $param_DerivativeType_1,  $param_Class_2,  $param_Class_3);
+                $__result = super.gradientSB( $param_DerivativeType_1,  $param_Class_2,  $param_Class_3,  $param_GeneralizedImageOps_4,  $param_FactoryImageBorder_5);
             else {
                 java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
-                String $__method = "public <I,D> boofcv.abst.filter.derivative.ImageGradient<I, D> boofcv.factory.filter.derivative.FactoryDerivative.gradientSB(boofcv.alg.filter.derivative.DerivativeType,java.lang.Class<I>,java.lang.Class<D>)";
+                String $__method = "public <I,D> boofcv.abst.filter.derivative.ImageGradient<I, D> boofcv.factory.filter.derivative.FactoryDerivative.gradientSB(boofcv.alg.filter.derivative.DerivativeType,java.lang.Class<I>,java.lang.Class<D>,boofcv.core.image.GeneralizedImageOps,boofcv.core.image.border.FactoryImageBorder)";
                 $__params.add($param_DerivativeType_1);
                 $__params.add($param_Class_2);
                 $__params.add($param_Class_3);
+                $__params.add($param_GeneralizedImageOps_4);
+                $__params.add($param_FactoryImageBorder_5);
                 $__result = $__client.onRPC($__method, $__params);
             }
         } catch (Exception e) {
@@ -271,18 +273,19 @@ public final class FactoryDerivative_Stub extends boofcv.factory.filter.derivati
         return ((boofcv.abst.filter.derivative.ImageGradient) $__result);
     }
 
-    // Implementation of gradientReduce(ImageGradient, DerivativeReduceType, Class)
-    public boofcv.abst.filter.derivative.ImageGradient gradientReduce(boofcv.abst.filter.derivative.ImageGradient $param_ImageGradient_1, boofcv.alg.filter.derivative.DerivativeReduceType $param_DerivativeReduceType_2, java.lang.Class $param_Class_3) {
+    // Implementation of gradientReduce(ImageGradient, DerivativeReduceType, Class, ImageType)
+    public boofcv.abst.filter.derivative.ImageGradient gradientReduce(boofcv.abst.filter.derivative.ImageGradient $param_ImageGradient_1, boofcv.alg.filter.derivative.DerivativeReduceType $param_DerivativeReduceType_2, java.lang.Class $param_Class_3, boofcv.struct.image.ImageType $param_ImageType_4) {
         java.lang.Object $__result = null;
         try {
             if ($__directInvocation)
-                $__result = super.gradientReduce( $param_ImageGradient_1,  $param_DerivativeReduceType_2,  $param_Class_3);
+                $__result = super.gradientReduce( $param_ImageGradient_1,  $param_DerivativeReduceType_2,  $param_Class_3,  $param_ImageType_4);
             else {
                 java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
-                String $__method = "public <I,M,D> boofcv.abst.filter.derivative.ImageGradient<I, D> boofcv.factory.filter.derivative.FactoryDerivative.gradientReduce(boofcv.abst.filter.derivative.ImageGradient<I, M>,boofcv.alg.filter.derivative.DerivativeReduceType,java.lang.Class<D>)";
+                String $__method = "public <I,M,D> boofcv.abst.filter.derivative.ImageGradient<I, D> boofcv.factory.filter.derivative.FactoryDerivative.gradientReduce(boofcv.abst.filter.derivative.ImageGradient<I, M>,boofcv.alg.filter.derivative.DerivativeReduceType,java.lang.Class<D>,boofcv.struct.image.ImageType)";
                 $__params.add($param_ImageGradient_1);
                 $__params.add($param_DerivativeReduceType_2);
                 $__params.add($param_Class_3);
+                $__params.add($param_ImageType_4);
                 $__result = $__client.onRPC($__method, $__params);
             }
         } catch (Exception e) {
@@ -291,19 +294,22 @@ public final class FactoryDerivative_Stub extends boofcv.factory.filter.derivati
         return ((boofcv.abst.filter.derivative.ImageGradient) $__result);
     }
 
-    // Implementation of gradientPL(DerivativeType, int, Class, Class)
-    public boofcv.abst.filter.derivative.ImageGradient gradientPL(boofcv.alg.filter.derivative.DerivativeType $param_DerivativeType_1, int $param_int_2, java.lang.Class $param_Class_3, java.lang.Class $param_Class_4) {
+    // Implementation of gradientPL(DerivativeType, int, Class, Class, ImageType, GeneralizedImageOps, FactoryImageBorder)
+    public boofcv.abst.filter.derivative.ImageGradient gradientPL(boofcv.alg.filter.derivative.DerivativeType $param_DerivativeType_1, int $param_int_2, java.lang.Class $param_Class_3, java.lang.Class $param_Class_4, boofcv.struct.image.ImageType $param_ImageType_5, boofcv.core.image.GeneralizedImageOps $param_GeneralizedImageOps_6, boofcv.core.image.border.FactoryImageBorder $param_FactoryImageBorder_7) {
         java.lang.Object $__result = null;
         try {
             if ($__directInvocation)
-                $__result = super.gradientPL( $param_DerivativeType_1,  $param_int_2,  $param_Class_3,  $param_Class_4);
+                $__result = super.gradientPL( $param_DerivativeType_1,  $param_int_2,  $param_Class_3,  $param_Class_4,  $param_ImageType_5,  $param_GeneralizedImageOps_6,  $param_FactoryImageBorder_7);
             else {
                 java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
-                String $__method = "public <I,D> boofcv.abst.filter.derivative.ImageGradient<boofcv.struct.image.Planar<I>, boofcv.struct.image.Planar<D>> boofcv.factory.filter.derivative.FactoryDerivative.gradientPL(boofcv.alg.filter.derivative.DerivativeType,int,java.lang.Class<I>,java.lang.Class<D>)";
+                String $__method = "public <I,D> boofcv.abst.filter.derivative.ImageGradient<boofcv.struct.image.Planar<I>, boofcv.struct.image.Planar<D>> boofcv.factory.filter.derivative.FactoryDerivative.gradientPL(boofcv.alg.filter.derivative.DerivativeType,int,java.lang.Class<I>,java.lang.Class<D>,boofcv.struct.image.ImageType,boofcv.core.image.GeneralizedImageOps,boofcv.core.image.border.FactoryImageBorder)";
                 $__params.add($param_DerivativeType_1);
                 $__params.add($param_int_2);
                 $__params.add($param_Class_3);
                 $__params.add($param_Class_4);
+                $__params.add($param_ImageType_5);
+                $__params.add($param_GeneralizedImageOps_6);
+                $__params.add($param_FactoryImageBorder_7);
                 $__result = $__client.onRPC($__method, $__params);
             }
         } catch (Exception e) {
@@ -312,18 +318,21 @@ public final class FactoryDerivative_Stub extends boofcv.factory.filter.derivati
         return ((boofcv.abst.filter.derivative.ImageGradient) $__result);
     }
 
-    // Implementation of gradient(DerivativeType, ImageType, ImageType)
-    public boofcv.abst.filter.derivative.ImageGradient gradient(boofcv.alg.filter.derivative.DerivativeType $param_DerivativeType_1, boofcv.struct.image.ImageType $param_ImageType_2, boofcv.struct.image.ImageType $param_ImageType_3) {
+    // Implementation of gradient(DerivativeType, ImageType, ImageType, ImageType, GeneralizedImageOps, FactoryImageBorder)
+    public boofcv.abst.filter.derivative.ImageGradient gradient(boofcv.alg.filter.derivative.DerivativeType $param_DerivativeType_1, boofcv.struct.image.ImageType $param_ImageType_2, boofcv.struct.image.ImageType $param_ImageType_3, boofcv.struct.image.ImageType $param_ImageType_4, boofcv.core.image.GeneralizedImageOps $param_GeneralizedImageOps_5, boofcv.core.image.border.FactoryImageBorder $param_FactoryImageBorder_6) {
         java.lang.Object $__result = null;
         try {
             if ($__directInvocation)
-                $__result = super.gradient( $param_DerivativeType_1,  $param_ImageType_2,  $param_ImageType_3);
+                $__result = super.gradient( $param_DerivativeType_1,  $param_ImageType_2,  $param_ImageType_3,  $param_ImageType_4,  $param_GeneralizedImageOps_5,  $param_FactoryImageBorder_6);
             else {
                 java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
-                String $__method = "public <I,D> boofcv.abst.filter.derivative.ImageGradient<I, D> boofcv.factory.filter.derivative.FactoryDerivative.gradient(boofcv.alg.filter.derivative.DerivativeType,boofcv.struct.image.ImageType<I>,boofcv.struct.image.ImageType<D>)";
+                String $__method = "public <I,D> boofcv.abst.filter.derivative.ImageGradient<I, D> boofcv.factory.filter.derivative.FactoryDerivative.gradient(boofcv.alg.filter.derivative.DerivativeType,boofcv.struct.image.ImageType<I>,boofcv.struct.image.ImageType<D>,boofcv.struct.image.ImageType,boofcv.core.image.GeneralizedImageOps,boofcv.core.image.border.FactoryImageBorder)";
                 $__params.add($param_DerivativeType_1);
                 $__params.add($param_ImageType_2);
                 $__params.add($param_ImageType_3);
+                $__params.add($param_ImageType_4);
+                $__params.add($param_GeneralizedImageOps_5);
+                $__params.add($param_FactoryImageBorder_6);
                 $__result = $__client.onRPC($__method, $__params);
             }
         } catch (Exception e) {

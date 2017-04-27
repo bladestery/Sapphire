@@ -35,6 +35,7 @@ import boofcv.struct.image.GrayU8;
  */
 public class GradientPrewitt {
 	private static InputSanityCheck ISC;
+	private static ConvolveJustBorder_General CJBG;
 	public static Kernel2D_I32 kernelDerivX_I32 = new Kernel2D_I32(3, new int[]{-1,0,1,-1,0,1,-1,0,1});
 	public static Kernel2D_I32 kernelDerivY_I32 = new Kernel2D_I32(3, new int[]{-1,-1,-1,0,0,0,1,1,1});
 	public static Kernel2D_F32 kernelDerivX_F32 = new Kernel2D_F32(
@@ -66,8 +67,8 @@ public class GradientPrewitt {
 
 		if( border != null ) {
 			border.setImage(orig);
-			ConvolveJustBorder_General.convolve(kernelDerivX_I32, border,derivX);
-			ConvolveJustBorder_General.convolve(kernelDerivY_I32, border,derivY);
+			CJBG.convolve(kernelDerivX_I32, border,derivX);
+			CJBG.convolve(kernelDerivY_I32, border,derivY);
 		}
 	}
 
@@ -85,8 +86,8 @@ public class GradientPrewitt {
 
 		if( border != null ) {
 			border.setImage(orig);
-			ConvolveJustBorder_General.convolve(kernelDerivX_I32, border,derivX);
-			ConvolveJustBorder_General.convolve(kernelDerivY_I32, border,derivY);
+			CJBG.convolve(kernelDerivX_I32, border,derivX);
+			CJBG.convolve(kernelDerivY_I32, border,derivY);
 		}
 	}
 
@@ -105,8 +106,8 @@ public class GradientPrewitt {
 
 		if( border != null ) {
 			border.setImage(orig);
-			ConvolveJustBorder_General.convolve(kernelDerivX_F32, border, derivX);
-			ConvolveJustBorder_General.convolve(kernelDerivY_F32, border, derivY);
+			CJBG.convolve(kernelDerivX_F32, border, derivX);
+			CJBG.convolve(kernelDerivY_F32, border, derivY);
 		}
 	}
 }

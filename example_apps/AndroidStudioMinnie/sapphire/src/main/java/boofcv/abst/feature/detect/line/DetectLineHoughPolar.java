@@ -25,18 +25,28 @@ import boofcv.abst.filter.derivative.ImageGradient;
 import boofcv.alg.InputSanityCheck;
 import boofcv.alg.feature.detect.edge.GGradientToEdgeFeatures;
 import boofcv.alg.feature.detect.edge.GradientToEdgeFeatures;
+import boofcv.alg.feature.detect.edge.impl.ImplEdgeNonMaxSuppression;
+import boofcv.alg.feature.detect.edge.impl.ImplEdgeNonMaxSuppressionCrude;
 import boofcv.alg.feature.detect.line.HoughTransformLinePolar;
 import boofcv.alg.feature.detect.line.ImageLinePruneMerge;
 import boofcv.alg.filter.binary.ThresholdImageOps;
 import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
 import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
+import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
+import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.core.image.GeneralizedImageOps;
+import boofcv.core.image.border.FactoryImageBorderAlgs;
+import boofcv.core.image.border.ImageBorderValue;
 import boofcv.factory.feature.detect.extract.FactoryFeatureExtractor;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.ImageGray;
 import boofcv.struct.image.ImageType;
 import georegression.struct.line.LineParametric2D_F32;
+import sapphire.app.SapphireObject;
+
 import org.ddogleg.struct.FastQueue;
 
 import java.util.ArrayList;
@@ -57,15 +67,7 @@ import java.util.List;
  *
  * @author Peter Abeles
  */
-public class DetectLineHoughPolar<I extends ImageGray, D extends ImageGray> implements DetectLine<I> {
-	private static ImageType IT;
-	private static GradientToEdgeFeatures GTEF;
-	private static GGradientToEdgeFeatures GGTEF;
-	private static ThresholdImageOps TIO;
-	private static InputSanityCheck ISC;
-	private static GeneralizedImageOps GIO;
-	private static DerivativeHelperFunctions DHF;
-	private static ConvolveImageNoBorder CINB;
+public class DetectLineHoughPolar<I extends ImageGray, D extends ImageGray> implements DetectLine<I>, SapphireObject {
 	// transform algorithm
 	HoughTransformLinePolar alg;
 
@@ -90,7 +92,7 @@ public class DetectLineHoughPolar<I extends ImageGray, D extends ImageGray> impl
 
 	GrayF32 suppressed = new GrayF32(1,1);
 //	GrayF32 angle = new GrayF32(1,1);
-//	ImageSInt8 direction = new ImageSInt8(1,1);
+//	ImageSInt8 direction = new ImageSInt8(1,1);ISC,
 
 	// angle tolerance for post processing pruning
 	float pruneAngleTol;
@@ -127,7 +129,9 @@ public class DetectLineHoughPolar<I extends ImageGray, D extends ImageGray> impl
 								double resolutionAngle ,
 								float thresholdEdge,
 								int maxLines ,
-								ImageGradient<I, D> gradient)
+								ImageGradient<I, D> gradient,
+								ImageType IT,
+								FactoryFeatureExtractor FFE)
 	{
 		pruneAngleTol = (float)((localMaxRadius+1)*resolutionAngle);
 		pruneRangeTol = (float)((localMaxRadius+1)*resolutionRange);
@@ -137,13 +141,15 @@ public class DetectLineHoughPolar<I extends ImageGray, D extends ImageGray> impl
 		this.resolutionRange = resolutionRange;
 		this.resolutionAngle = resolutionAngle;
 		this.maxLines = maxLines <= 0 ? Integer.MAX_VALUE : maxLines;
-		extractor = FactoryFeatureExtractor.nonmax(new ConfigExtract(localMaxRadius, minCounts, 0, false));
+		extractor = FFE.nonmax(new ConfigExtract(localMaxRadius, minCounts, 0, false));
 		derivX = gradient.getDerivativeType(IT).createImage(1, 1);
 		derivY = gradient.getDerivativeType(IT).createImage(1, 1);
 	}
 
 	@Override
-	public List<LineParametric2D_F32> detect(I input) {
+	public List<LineParametric2D_F32> detect(I input, InputSanityCheck ISC, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB,
+											 GradientToEdgeFeatures GTEF, GeneralizedImageOps GIO, ThresholdImageOps TIO, GGradientToEdgeFeatures GGTEF, ConvolveJustBorder_General CJBG,
+											 GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO, ImageMiscOps IMO, ImplEdgeNonMaxSuppressionCrude IENMSC, FactoryImageBorderAlgs FIBA, ImageBorderValue IBV) {
 		// see if the input image shape has changed.
 		if( derivX.width != input.width || derivY.height != input.height ) {
 			double r = Math.sqrt(input.width*input.width + input.height*input.height);
@@ -160,7 +166,7 @@ public class DetectLineHoughPolar<I extends ImageGray, D extends ImageGray> impl
 			suppressed.reshape(input.width, input.height);
 		}
 
-		gradient.process(input, derivX, derivY, ISC, DHF, CINB);
+		gradient.process(input, derivX, derivY, ISC, DHF, CINB, CJBG, GSO, GSUO);
 		GGTEF.intensityAbs(derivX, derivY, intensity, GTEF, ISC);
 
 		// non-max suppression reduces the number of line pixels, reducing the number of false positives
@@ -171,11 +177,11 @@ public class DetectLineHoughPolar<I extends ImageGray, D extends ImageGray> impl
 //		GradientToEdgeFeatures.discretizeDirection4(angle, direction);
 //		GradientToEdgeFeatures.nonMaxSuppression4(intensity,direction, suppressed);
 
-		GGTEF.nonMaxSuppressionCrude4(intensity,derivX,derivY,suppressed, GTEF, ISC);
+		GGTEF.nonMaxSuppressionCrude4(intensity,derivX,derivY,suppressed, GTEF, ISC, IENMSC, FIBA, IBV );
 
 		TIO.threshold(suppressed, binary, thresholdEdge, false, ISC, GIO);
 
-		alg.transform(binary);
+		alg.transform(binary, IMO);
 		FastQueue<LineParametric2D_F32> lines = alg.extractLines();
 
 		List<LineParametric2D_F32> ret = new ArrayList<>();

@@ -36,6 +36,8 @@ import georegression.metric.Area2D_F64;
 import georegression.struct.point.Point2D_F64;
 import georegression.struct.point.Point2D_I32;
 import georegression.struct.shapes.Polygon2D_F64;
+import sapphire.app.SapphireObject;
+
 import org.ddogleg.struct.FastQueue;
 import org.ddogleg.struct.GrowQueue_B;
 import org.ddogleg.struct.GrowQueue_I32;
@@ -71,9 +73,7 @@ import java.util.List;
  *
  * @author Peter Abeles
  */
-public class BinaryPolygonDetector<T extends ImageGray> {
-	private static InputSanityCheck ISC;
-	private static ImageMiscOps IMO;
+public class BinaryPolygonDetector<T extends ImageGray> implements SapphireObject {
 	// minimum size of a shape's contour as a fraction of the image width
 	private double minContourFraction;
 	private int minimumContour; // this is image.width*minContourFraction
@@ -82,7 +82,7 @@ public class BinaryPolygonDetector<T extends ImageGray> {
 	// does the polygon have to be convex
 	private boolean convex;
 
-	private LinearContourLabelChang2004 contourFinder = new LinearContourLabelChang2004(ConnectRule.FOUR);
+	//private LinearContourLabelChang2004 contourFinder = new LinearContourLabelChang2004(ConnectRule.FOUR);
 	private GrayS32 labeled = new GrayS32(1,1);
 
 	// finds the initial polygon around a target candidate
@@ -221,7 +221,7 @@ public class BinaryPolygonDetector<T extends ImageGray> {
 	 *
 	 * @param gray Input image
 	 */
-	public void process(T gray, GrayU8 binary) {
+	public void process(T gray, GrayU8 binary, InputSanityCheck ISC, ImageMiscOps IMO, LinearContourLabelChang2004 cF) {
 		if( verbose ) System.out.println("ENTER  BinaryPolygonDetector.process()");
 		ISC.checkSameShape(binary, gray);
 
@@ -234,7 +234,7 @@ public class BinaryPolygonDetector<T extends ImageGray> {
 
 		edgeIntensity.setImage(gray);
 
-		findCandidateShapes(gray, binary);
+		findCandidateShapes(gray, binary, IMO, cF);
 		if( verbose ) System.out.println("EXIT  BinaryPolygonDetector.process()");
 	}
 
@@ -261,7 +261,7 @@ public class BinaryPolygonDetector<T extends ImageGray> {
 	 * Finds blobs in the binary image.  Then looks for blobs that meet size and shape requirements.  See code
 	 * below for the requirements.  Those that remain are considered to be target candidates.
 	 */
-	private void findCandidateShapes( T gray , GrayU8 binary ) {
+	private void findCandidateShapes( T gray , GrayU8 binary, ImageMiscOps IMO, LinearContourLabelChang2004 cF) {
 
 		int maxSidesConsider = (int)Math.ceil(maxSides*1.5);
 
@@ -269,10 +269,10 @@ public class BinaryPolygonDetector<T extends ImageGray> {
 		fitPolygon.setAbortSplits(2*maxSides);
 
 		// find binary blobs
-		contourFinder.process(binary, labeled, IMO);
+		cF.process(binary, labeled, IMO);
 
 		// find blobs where all 4 edges are lines
-		FastQueue<Contour> blobs = contourFinder.getContours();
+		FastQueue<Contour> blobs = cF.getContours();
 		for (int i = 0; i < blobs.size; i++) {
 			Contour c = blobs.get(i);
 
@@ -543,7 +543,7 @@ public class BinaryPolygonDetector<T extends ImageGray> {
 
 	public List<Contour> getUsedContours(){return foundContours;}
 
-	public List<Contour> getAllContours(){return contourFinder.getContours().toList();}
+	public List<Contour> getAllContours(LinearContourLabelChang2004 cF){return cF.getContours().toList();}
 
 	public Class<T> getInputType() {
 		return inputType;

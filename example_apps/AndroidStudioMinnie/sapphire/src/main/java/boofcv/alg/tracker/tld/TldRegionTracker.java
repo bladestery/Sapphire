@@ -21,7 +21,11 @@ package boofcv.alg.tracker.tld;
 import boofcv.abst.filter.derivative.ImageGradient;
 import boofcv.alg.InputSanityCheck;
 import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
 import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
+import boofcv.alg.filter.derivative.GradientSobel;
+import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
+import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
 import boofcv.alg.tracker.klt.KltTrackFault;
 import boofcv.alg.tracker.klt.PyramidKltFeature;
 import boofcv.alg.tracker.klt.PyramidKltTracker;
@@ -53,6 +57,9 @@ public class TldRegionTracker< Image extends ImageGray, Derivative extends Image
 	private static InputSanityCheck ISC;
 	private static DerivativeHelperFunctions DHF;
 	private static ConvolveImageNoBorder CINB;
+	private static ConvolveJustBorder_General CJBG;
+	private static GradientSobel_Outer GSO;
+	private static GradientSobel_UnrolledOuter GSUO;
 	// maximum allowed median forwards-backwards error in pixels squared
 	private double maxErrorFB;
 
@@ -133,7 +140,7 @@ public class TldRegionTracker< Image extends ImageGray, Derivative extends Image
 		}
 
 		for( int i = 0; i < image.getNumLayers(); i++ ) {
-			gradient.process(image.getLayer(i), previousDerivX[i], previousDerivY[i], ISC, DHF, CINB);
+			gradient.process(image.getLayer(i), previousDerivX[i], previousDerivY[i], ISC, DHF, CINB, CJBG, GSO, GSUO);
 		}
 
 		previousImage.setTo(image);
@@ -201,7 +208,7 @@ public class TldRegionTracker< Image extends ImageGray, Derivative extends Image
 	protected void updateCurrent(ImagePyramid<Image> image) {
 		this.currentImage = image;
 		for( int i = 0; i < image.getNumLayers(); i++ ) {
-			gradient.process(image.getLayer(i), currentDerivX[i], currentDerivY[i], ISC, DHF, CINB);
+			gradient.process(image.getLayer(i), currentDerivX[i], currentDerivY[i], ISC, DHF, CINB, CJBG, GSO, GSUO);
 		}
 	}
 

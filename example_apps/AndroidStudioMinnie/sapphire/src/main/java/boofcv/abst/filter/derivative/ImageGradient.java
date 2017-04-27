@@ -20,7 +20,10 @@ package boofcv.abst.filter.derivative;
 
 import boofcv.alg.InputSanityCheck;
 import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
 import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
+import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
+import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
 import boofcv.struct.image.ImageBase;
 
 
@@ -39,6 +42,7 @@ public interface ImageGradient<Input extends ImageBase, Output extends ImageBase
 	 * @param derivX First order image derivative along the x-axis. Modified.
 	 * @param derivY First order image derivative along the y-axis. Modified.
 	 */
-	public void process(Input inputImage , Output derivX, Output derivY, InputSanityCheck ISC, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB);
+	public void process(Input inputImage , Output derivX, Output derivY, InputSanityCheck ISC, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG,
+						GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO);
 
 }

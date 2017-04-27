@@ -19,24 +19,35 @@
 package boofcv.abst.feature.detect.line;
 
 
+import android.renderscript.ScriptGroup;
+
 import boofcv.abst.feature.detect.extract.ConfigExtract;
 import boofcv.abst.feature.detect.extract.NonMaxSuppression;
 import boofcv.abst.filter.derivative.ImageGradient;
 import boofcv.alg.InputSanityCheck;
 import boofcv.alg.feature.detect.edge.GGradientToEdgeFeatures;
 import boofcv.alg.feature.detect.edge.GradientToEdgeFeatures;
+import boofcv.alg.feature.detect.edge.impl.ImplEdgeNonMaxSuppressionCrude;
 import boofcv.alg.feature.detect.line.HoughTransformLineFootOfNorm;
 import boofcv.alg.feature.detect.line.ImageLinePruneMerge;
 import boofcv.alg.filter.binary.ThresholdImageOps;
 import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
 import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
+import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
+import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.core.image.GeneralizedImageOps;
+import boofcv.core.image.border.FactoryImageBorderAlgs;
+import boofcv.core.image.border.ImageBorderValue;
 import boofcv.factory.feature.detect.extract.FactoryFeatureExtractor;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.ImageGray;
 import boofcv.struct.image.ImageType;
 import georegression.struct.line.LineParametric2D_F32;
+import sapphire.app.SapphireObject;
+
 import org.ddogleg.struct.FastQueue;
 
 import java.util.ArrayList;
@@ -58,15 +69,7 @@ import java.util.List;
  *
  * @author Peter Abeles
  */
-public class DetectLineHoughFoot <I extends ImageGray, D extends ImageGray> implements DetectLine<I> {
-	private static ImageType IT;
-	private static GradientToEdgeFeatures GTEF;
-	private static GGradientToEdgeFeatures GGTEF;
-	private static ThresholdImageOps TIO;
-	private static InputSanityCheck ISC;
-	private static GeneralizedImageOps GIO;
-	private static DerivativeHelperFunctions DHF;
-	private static ConvolveImageNoBorder CINB;
+public class DetectLineHoughFoot <I extends ImageGray, D extends ImageGray> implements DetectLine<I>, SapphireObject {
 	// transform algorithm
 	HoughTransformLineFootOfNorm alg;
 
@@ -107,12 +110,13 @@ public class DetectLineHoughFoot <I extends ImageGray, D extends ImageGray> impl
 								int minDistanceFromOrigin ,
 								float thresholdEdge ,
 								int maxLines ,
-								ImageGradient<I,D> gradient )
+								ImageGradient<I,D> gradient ,
+								ImageType IT, FactoryFeatureExtractor FFE)
 	{
 		this.gradient = gradient;
 		this.thresholdEdge = thresholdEdge;
 		this.maxLines = maxLines;
-		NonMaxSuppression extractor = FactoryFeatureExtractor.nonmaxCandidate(
+		NonMaxSuppression extractor = FFE.nonmaxCandidate(
 				new ConfigExtract(localMaxRadius, minCounts, 0, false));
 		alg = new HoughTransformLineFootOfNorm(extractor,minDistanceFromOrigin);
 		derivX = gradient.getDerivativeType(IT).createImage(1,1);
@@ -120,18 +124,19 @@ public class DetectLineHoughFoot <I extends ImageGray, D extends ImageGray> impl
 	}
 
 	@Override
-	public List<LineParametric2D_F32> detect(I input) {
+	public List<LineParametric2D_F32> detect(I input, InputSanityCheck ISC, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB,
+											 GradientToEdgeFeatures GTEF, GeneralizedImageOps GIO, ThresholdImageOps TIO, GGradientToEdgeFeatures GGTEF, ConvolveJustBorder_General CJBG,
+											 GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO, ImageMiscOps IMO, ImplEdgeNonMaxSuppressionCrude IENMSC, FactoryImageBorderAlgs FIBA, ImageBorderValue IBV) {
 		derivX.reshape(input.width,input.height);
 		derivY.reshape(input.width,input.height);
 		intensity.reshape(input.width,input.height);
 		binary.reshape(input.width,input.height);
-
-		gradient.process(input,derivX,derivY, ISC, DHF, CINB);
+		gradient.process(input,derivX,derivY, ISC, DHF, CINB, CJBG, GSO, GSUO);
 		GGTEF.intensityAbs(derivX, derivY, intensity, GTEF, ISC);
 
 		TIO.threshold(intensity, binary, thresholdEdge, false, ISC, GIO);
 
-		alg.transform(derivX,derivY,binary);
+		alg.transform(derivX,derivY,binary, ISC, IMO);
 		FastQueue<LineParametric2D_F32> lines = alg.extractLines();
 
 		List<LineParametric2D_F32> ret = new ArrayList<>();

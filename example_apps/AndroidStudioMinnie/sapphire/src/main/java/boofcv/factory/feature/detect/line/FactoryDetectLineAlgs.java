@@ -29,12 +29,16 @@ import boofcv.alg.feature.detect.line.GridRansacLineDetector;
 import boofcv.alg.feature.detect.line.gridline.*;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.FactoryImageBorder;
+import boofcv.factory.feature.detect.extract.FactoryFeatureExtractor;
 import boofcv.factory.filter.derivative.FactoryDerivative;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.GrayS16;
 import boofcv.struct.image.ImageGray;
+import boofcv.struct.image.ImageType;
 import georegression.fitting.line.ModelManagerLinePolar2D_F32;
 import georegression.struct.line.LinePolar2D_F32;
+import sapphire.app.SapphireObject;
+
 import org.ddogleg.fitting.modelset.ModelMatcher;
 import org.ddogleg.fitting.modelset.ransac.Ransac;
 
@@ -43,10 +47,9 @@ import org.ddogleg.fitting.modelset.ransac.Ransac;
  *
  * @author Peter Abeles
  */
-public class FactoryDetectLineAlgs {
-	private static FactoryDerivative FD;
-	private static GeneralizedImageOps GIO;
-	private static FactoryImageBorder FIB;
+public class FactoryDetectLineAlgs implements SapphireObject {
+	public FactoryDetectLineAlgs() {}
+
 	/**
 	 * Detects line segments inside an image using the {@link DetectLineSegmentsGridRansac} algorithm.
 	 *
@@ -60,13 +63,14 @@ public class FactoryDetectLineAlgs {
 	 * @param derivType Image derivative type.
 	 * @return Line segment detector
 	 */
-	public static <I extends ImageGray, D extends ImageGray>
+	public <I extends ImageGray, D extends ImageGray>
 	DetectLineSegmentsGridRansac<I,D> lineRansac(int regionSize ,
 												 double thresholdEdge ,
 												 double thresholdAngle ,
 												 boolean connectLines,
 												 Class<I> imageType ,
-												 Class<D> derivType ) {
+												 Class<D> derivType ,
+												 FactoryDerivative FD, GeneralizedImageOps GIO, FactoryImageBorder FIB) {
 
 		ImageGradient<I,D> gradient = FD.sobel(imageType,derivType, GIO, FIB);
 
@@ -90,7 +94,7 @@ public class FactoryDetectLineAlgs {
 		if( connectLines )
 			connect = new ConnectLinesGrid(Math.PI*0.01,1,8);
 
-		return new DetectLineSegmentsGridRansac<>(alg, connect, gradient, thresholdEdge, imageType, derivType);
+		return new DetectLineSegmentsGridRansac<>(alg, connect, gradient, thresholdEdge, imageType, derivType, GIO);
 	}
 
 	/**
@@ -106,10 +110,11 @@ public class FactoryDetectLineAlgs {
 	 * @param <D> Image derivative type.
 	 * @return Line detector.
 	 */
-	public static <I extends ImageGray, D extends ImageGray>
+	public <I extends ImageGray, D extends ImageGray>
 	DetectLineHoughFoot<I,D> houghFoot(ConfigHoughFoot config ,
 									   Class<I> imageType ,
-									   Class<D> derivType ) {
+									   Class<D> derivType ,
+									   FactoryDerivative FD, GeneralizedImageOps GIO, FactoryImageBorder FIB, ImageType IT, FactoryFeatureExtractor FFE) {
 
 		if( config == null )
 			config = new ConfigHoughFoot();
@@ -117,7 +122,7 @@ public class FactoryDetectLineAlgs {
 		ImageGradient<I,D> gradient = FD.sobel(imageType,derivType, GIO, FIB);
 
 		return new DetectLineHoughFoot<>(config.localMaxRadius, config.minCounts, config.minDistanceFromOrigin,
-				config.thresholdEdge, config.maxLines, gradient);
+				config.thresholdEdge, config.maxLines, gradient, IT, FFE);
 	}
 
 	/**
@@ -133,10 +138,11 @@ public class FactoryDetectLineAlgs {
 	 * @param <D> Image derivative type.
 	 * @return Line detector.
 	 */
-	public static <I extends ImageGray, D extends ImageGray>
+	public <I extends ImageGray, D extends ImageGray>
 	DetectLineHoughFootSubimage<I,D> houghFootSub(ConfigHoughFootSubimage config ,
 												  Class<I> imageType ,
-												  Class<D> derivType ) {
+												  Class<D> derivType ,
+												  FactoryDerivative FD, GeneralizedImageOps GIO, FactoryImageBorder FIB, ImageType IT, FactoryFeatureExtractor FFE) {
 
 		if( config == null )
 			config = new ConfigHoughFootSubimage();
@@ -145,7 +151,7 @@ public class FactoryDetectLineAlgs {
 
 		return new DetectLineHoughFootSubimage<>(config.localMaxRadius,
 				config.minCounts, config.minDistanceFromOrigin, config.thresholdEdge,
-				config.totalHorizontalDivisions, config.totalVerticalDivisions, config.maxLines, gradient);
+				config.totalHorizontalDivisions, config.totalVerticalDivisions, config.maxLines, gradient, IT, FFE);
 	}
 
 	/**
@@ -160,10 +166,11 @@ public class FactoryDetectLineAlgs {
 	 * @param <D> Image derivative type.
 	 * @return Line detector.
 	 */
-	public static <I extends ImageGray, D extends ImageGray>
+	public <I extends ImageGray, D extends ImageGray>
 	DetectLineHoughPolar<I,D> houghPolar(ConfigHoughPolar config ,
 										 Class<I> imageType ,
-										 Class<D> derivType ) {
+										 Class<D> derivType ,
+										 FactoryDerivative FD, GeneralizedImageOps GIO, FactoryImageBorder FIB,  ImageType IT, FactoryFeatureExtractor FFE) {
 
 		if( config == null )
 			throw new IllegalArgumentException("This is no default since minCounts must be specified");
@@ -171,7 +178,7 @@ public class FactoryDetectLineAlgs {
 		ImageGradient<I,D> gradient = FD.sobel(imageType,derivType, GIO, FIB);
 
 		return new DetectLineHoughPolar<>(config.localMaxRadius, config.minCounts, config.resolutionRange,
-				config.resolutionAngle, config.thresholdEdge, config.maxLines, gradient);
+				config.resolutionAngle, config.thresholdEdge, config.maxLines, gradient, IT, FFE);
 	}
 
 }

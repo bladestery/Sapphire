@@ -29,20 +29,23 @@ public final class GradientToEdgeFeatures_Stub extends boofcv.alg.feature.detect
 
 
 
-    // Implementation of nonMaxSuppressionCrude4(GrayF32, GrayS32, GrayS32, GrayF32, InputSanityCheck)
-    public boofcv.struct.image.GrayF32 nonMaxSuppressionCrude4(boofcv.struct.image.GrayF32 $param_GrayF32_1, boofcv.struct.image.GrayS32 $param_GrayS32_2, boofcv.struct.image.GrayS32 $param_GrayS32_3, boofcv.struct.image.GrayF32 $param_GrayF32_4, boofcv.alg.InputSanityCheck $param_InputSanityCheck_5) {
+    // Implementation of nonMaxSuppressionCrude4(GrayF32, GrayS32, GrayS32, GrayF32, InputSanityCheck, ImplEdgeNonMaxSuppressionCrude, FactoryImageBorderAlgs, ImageBorderValue)
+    public boofcv.struct.image.GrayF32 nonMaxSuppressionCrude4(boofcv.struct.image.GrayF32 $param_GrayF32_1, boofcv.struct.image.GrayS32 $param_GrayS32_2, boofcv.struct.image.GrayS32 $param_GrayS32_3, boofcv.struct.image.GrayF32 $param_GrayF32_4, boofcv.alg.InputSanityCheck $param_InputSanityCheck_5, boofcv.alg.feature.detect.edge.impl.ImplEdgeNonMaxSuppressionCrude $param_ImplEdgeNonMaxSuppressionCrude_6, boofcv.core.image.border.FactoryImageBorderAlgs $param_FactoryImageBorderAlgs_7, boofcv.core.image.border.ImageBorderValue $param_ImageBorderValue_8) {
         java.lang.Object $__result = null;
         try {
             if ($__directInvocation)
-                $__result = super.nonMaxSuppressionCrude4( $param_GrayF32_1,  $param_GrayS32_2,  $param_GrayS32_3,  $param_GrayF32_4,  $param_InputSanityCheck_5);
+                $__result = super.nonMaxSuppressionCrude4( $param_GrayF32_1,  $param_GrayS32_2,  $param_GrayS32_3,  $param_GrayF32_4,  $param_InputSanityCheck_5,  $param_ImplEdgeNonMaxSuppressionCrude_6,  $param_FactoryImageBorderAlgs_7,  $param_ImageBorderValue_8);
             else {
                 java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
-                String $__method = "public boofcv.struct.image.GrayF32 boofcv.alg.feature.detect.edge.GradientToEdgeFeatures.nonMaxSuppressionCrude4(boofcv.struct.image.GrayF32,boofcv.struct.image.GrayS32,boofcv.struct.image.GrayS32,boofcv.struct.image.GrayF32,boofcv.alg.InputSanityCheck)";
+                String $__method = "public boofcv.struct.image.GrayF32 boofcv.alg.feature.detect.edge.GradientToEdgeFeatures.nonMaxSuppressionCrude4(boofcv.struct.image.GrayF32,boofcv.struct.image.GrayS32,boofcv.struct.image.GrayS32,boofcv.struct.image.GrayF32,boofcv.alg.InputSanityCheck,boofcv.alg.feature.detect.edge.impl.ImplEdgeNonMaxSuppressionCrude,boofcv.core.image.border.FactoryImageBorderAlgs,boofcv.core.image.border.ImageBorderValue)";
                 $__params.add($param_GrayF32_1);
                 $__params.add($param_GrayS32_2);
                 $__params.add($param_GrayS32_3);
                 $__params.add($param_GrayF32_4);
                 $__params.add($param_InputSanityCheck_5);
+                $__params.add($param_ImplEdgeNonMaxSuppressionCrude_6);
+                $__params.add($param_FactoryImageBorderAlgs_7);
+                $__params.add($param_ImageBorderValue_8);
                 $__result = $__client.onRPC($__method, $__params);
             }
         } catch (Exception e) {
@@ -51,20 +54,23 @@ public final class GradientToEdgeFeatures_Stub extends boofcv.alg.feature.detect
         return ((boofcv.struct.image.GrayF32) $__result);
     }
 
-    // Implementation of nonMaxSuppressionCrude4(GrayF32, GrayS16, GrayS16, GrayF32, InputSanityCheck)
-    public boofcv.struct.image.GrayF32 nonMaxSuppressionCrude4(boofcv.struct.image.GrayF32 $param_GrayF32_1, boofcv.struct.image.GrayS16 $param_GrayS16_2, boofcv.struct.image.GrayS16 $param_GrayS16_3, boofcv.struct.image.GrayF32 $param_GrayF32_4, boofcv.alg.InputSanityCheck $param_InputSanityCheck_5) {
+    // Implementation of nonMaxSuppressionCrude4(GrayF32, GrayS16, GrayS16, GrayF32, InputSanityCheck, ImplEdgeNonMaxSuppressionCrude, FactoryImageBorderAlgs, ImageBorderValue)
+    public boofcv.struct.image.GrayF32 nonMaxSuppressionCrude4(boofcv.struct.image.GrayF32 $param_GrayF32_1, boofcv.struct.image.GrayS16 $param_GrayS16_2, boofcv.struct.image.GrayS16 $param_GrayS16_3, boofcv.struct.image.GrayF32 $param_GrayF32_4, boofcv.alg.InputSanityCheck $param_InputSanityCheck_5, boofcv.alg.feature.detect.edge.impl.ImplEdgeNonMaxSuppressionCrude $param_ImplEdgeNonMaxSuppressionCrude_6, boofcv.core.image.border.FactoryImageBorderAlgs $param_FactoryImageBorderAlgs_7, boofcv.core.image.border.ImageBorderValue $param_ImageBorderValue_8) {
         java.lang.Object $__result = null;
         try {
             if ($__directInvocation)
-                $__result = super.nonMaxSuppressionCrude4( $param_GrayF32_1,  $param_GrayS16_2,  $param_GrayS16_3,  $param_GrayF32_4,  $param_InputSanityCheck_5);
+                $__result = super.nonMaxSuppressionCrude4( $param_GrayF32_1,  $param_GrayS16_2,  $param_GrayS16_3,  $param_GrayF32_4,  $param_InputSanityCheck_5,  $param_ImplEdgeNonMaxSuppressionCrude_6,  $param_FactoryImageBorderAlgs_7,  $param_ImageBorderValue_8);
             else {
                 java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
-                String $__method = "public boofcv.struct.image.GrayF32 boofcv.alg.feature.detect.edge.GradientToEdgeFeatures.nonMaxSuppressionCrude4(boofcv.struct.image.GrayF32,boofcv.struct.image.GrayS16,boofcv.struct.image.GrayS16,boofcv.struct.image.GrayF32,boofcv.alg.InputSanityCheck)";
+                String $__method = "public boofcv.struct.image.GrayF32 boofcv.alg.feature.detect.edge.GradientToEdgeFeatures.nonMaxSuppressionCrude4(boofcv.struct.image.GrayF32,boofcv.struct.image.GrayS16,boofcv.struct.image.GrayS16,boofcv.struct.image.GrayF32,boofcv.alg.InputSanityCheck,boofcv.alg.feature.detect.edge.impl.ImplEdgeNonMaxSuppressionCrude,boofcv.core.image.border.FactoryImageBorderAlgs,boofcv.core.image.border.ImageBorderValue)";
                 $__params.add($param_GrayF32_1);
                 $__params.add($param_GrayS16_2);
                 $__params.add($param_GrayS16_3);
                 $__params.add($param_GrayF32_4);
                 $__params.add($param_InputSanityCheck_5);
+                $__params.add($param_ImplEdgeNonMaxSuppressionCrude_6);
+                $__params.add($param_FactoryImageBorderAlgs_7);
+                $__params.add($param_ImageBorderValue_8);
                 $__result = $__client.onRPC($__method, $__params);
             }
         } catch (Exception e) {
@@ -73,20 +79,23 @@ public final class GradientToEdgeFeatures_Stub extends boofcv.alg.feature.detect
         return ((boofcv.struct.image.GrayF32) $__result);
     }
 
-    // Implementation of nonMaxSuppressionCrude4(GrayF32, GrayF32, GrayF32, GrayF32, InputSanityCheck)
-    public boofcv.struct.image.GrayF32 nonMaxSuppressionCrude4(boofcv.struct.image.GrayF32 $param_GrayF32_1, boofcv.struct.image.GrayF32 $param_GrayF32_2, boofcv.struct.image.GrayF32 $param_GrayF32_3, boofcv.struct.image.GrayF32 $param_GrayF32_4, boofcv.alg.InputSanityCheck $param_InputSanityCheck_5) {
+    // Implementation of nonMaxSuppressionCrude4(GrayF32, GrayF32, GrayF32, GrayF32, InputSanityCheck, ImplEdgeNonMaxSuppressionCrude, FactoryImageBorderAlgs, ImageBorderValue)
+    public boofcv.struct.image.GrayF32 nonMaxSuppressionCrude4(boofcv.struct.image.GrayF32 $param_GrayF32_1, boofcv.struct.image.GrayF32 $param_GrayF32_2, boofcv.struct.image.GrayF32 $param_GrayF32_3, boofcv.struct.image.GrayF32 $param_GrayF32_4, boofcv.alg.InputSanityCheck $param_InputSanityCheck_5, boofcv.alg.feature.detect.edge.impl.ImplEdgeNonMaxSuppressionCrude $param_ImplEdgeNonMaxSuppressionCrude_6, boofcv.core.image.border.FactoryImageBorderAlgs $param_FactoryImageBorderAlgs_7, boofcv.core.image.border.ImageBorderValue $param_ImageBorderValue_8) {
         java.lang.Object $__result = null;
         try {
             if ($__directInvocation)
-                $__result = super.nonMaxSuppressionCrude4( $param_GrayF32_1,  $param_GrayF32_2,  $param_GrayF32_3,  $param_GrayF32_4,  $param_InputSanityCheck_5);
+                $__result = super.nonMaxSuppressionCrude4( $param_GrayF32_1,  $param_GrayF32_2,  $param_GrayF32_3,  $param_GrayF32_4,  $param_InputSanityCheck_5,  $param_ImplEdgeNonMaxSuppressionCrude_6,  $param_FactoryImageBorderAlgs_7,  $param_ImageBorderValue_8);
             else {
                 java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
-                String $__method = "public boofcv.struct.image.GrayF32 boofcv.alg.feature.detect.edge.GradientToEdgeFeatures.nonMaxSuppressionCrude4(boofcv.struct.image.GrayF32,boofcv.struct.image.GrayF32,boofcv.struct.image.GrayF32,boofcv.struct.image.GrayF32,boofcv.alg.InputSanityCheck)";
+                String $__method = "public boofcv.struct.image.GrayF32 boofcv.alg.feature.detect.edge.GradientToEdgeFeatures.nonMaxSuppressionCrude4(boofcv.struct.image.GrayF32,boofcv.struct.image.GrayF32,boofcv.struct.image.GrayF32,boofcv.struct.image.GrayF32,boofcv.alg.InputSanityCheck,boofcv.alg.feature.detect.edge.impl.ImplEdgeNonMaxSuppressionCrude,boofcv.core.image.border.FactoryImageBorderAlgs,boofcv.core.image.border.ImageBorderValue)";
                 $__params.add($param_GrayF32_1);
                 $__params.add($param_GrayF32_2);
                 $__params.add($param_GrayF32_3);
                 $__params.add($param_GrayF32_4);
                 $__params.add($param_InputSanityCheck_5);
+                $__params.add($param_ImplEdgeNonMaxSuppressionCrude_6);
+                $__params.add($param_FactoryImageBorderAlgs_7);
+                $__params.add($param_ImageBorderValue_8);
                 $__result = $__client.onRPC($__method, $__params);
             }
         } catch (Exception e) {

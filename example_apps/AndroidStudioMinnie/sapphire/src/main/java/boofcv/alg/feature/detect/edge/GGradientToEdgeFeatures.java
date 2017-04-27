@@ -19,6 +19,9 @@
 package boofcv.alg.feature.detect.edge;
 
 import boofcv.alg.InputSanityCheck;
+import boofcv.alg.feature.detect.edge.impl.ImplEdgeNonMaxSuppressionCrude;
+import boofcv.core.image.border.FactoryImageBorderAlgs;
+import boofcv.core.image.border.ImageBorderValue;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.GrayS16;
 import boofcv.struct.image.GrayS32;
@@ -130,14 +133,14 @@ public class GGradientToEdgeFeatures implements SapphireObject{
 	 * @param output Filtered intensity. Modified.
 	 */
 	public <D extends ImageGray>
-	void nonMaxSuppressionCrude4(GrayF32 intensity , D derivX , D derivY , GrayF32 output, GradientToEdgeFeatures GTEF, InputSanityCheck ISC)
+	void nonMaxSuppressionCrude4(GrayF32 intensity , D derivX , D derivY , GrayF32 output, GradientToEdgeFeatures GTEF, InputSanityCheck ISC, ImplEdgeNonMaxSuppressionCrude IENMSC, FactoryImageBorderAlgs FIBA, ImageBorderValue IBV)
 	{
 		if( derivX instanceof GrayF32) {
-			GTEF.nonMaxSuppressionCrude4(intensity, (GrayF32) derivX, (GrayF32) derivY,output, ISC);
+			GTEF.nonMaxSuppressionCrude4(intensity, (GrayF32) derivX, (GrayF32) derivY,output, ISC, IENMSC, FIBA, IBV);
 		} else if( derivX instanceof GrayS16) {
-			GTEF.nonMaxSuppressionCrude4(intensity, (GrayS16) derivX, (GrayS16) derivY,output, ISC);
+			GTEF.nonMaxSuppressionCrude4(intensity, (GrayS16) derivX, (GrayS16) derivY,output, ISC, IENMSC, FIBA, IBV);
 		} else if( derivX instanceof GrayS32) {
-			GTEF.nonMaxSuppressionCrude4(intensity, (GrayS32) derivX, (GrayS32) derivY,output, ISC);
+			GTEF.nonMaxSuppressionCrude4(intensity, (GrayS32) derivX, (GrayS32) derivY,output, ISC, IENMSC, FIBA, IBV);
 		} else {
 			throw new IllegalArgumentException("Unknown input type");
 		}

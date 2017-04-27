@@ -22,7 +22,10 @@ import boofcv.abst.filter.derivative.ImageGradient;
 import boofcv.alg.InputSanityCheck;
 import boofcv.alg.feature.dense.DescribeDenseSiftAlg;
 import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
 import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
+import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
+import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.filter.derivative.FactoryDerivative;
@@ -48,6 +51,9 @@ public class DescribeImageDenseSift<T extends ImageGray, D extends ImageGray>
 	private static InputSanityCheck ISC;
 	private static DerivativeHelperFunctions DHF;
 	private static ConvolveImageNoBorder CINB;
+	private static ConvolveJustBorder_General CJBG;
+	private static GradientSobel_Outer GSO;
+	private static GradientSobel_UnrolledOuter GSUO;
 	// dense SIFT implementation
 	DescribeDenseSiftAlg<D> alg;
 
@@ -94,7 +100,7 @@ public class DescribeImageDenseSift<T extends ImageGray, D extends ImageGray>
 
 		derivX.reshape(input.width,input.height);
 		derivY.reshape(input.width,input.height);
-		gradient.process(input,derivX,derivY, ISC, DHF, CINB);
+		gradient.process(input,derivX,derivY, ISC,DHF, CINB, CJBG,GSO,GSUO);
 
 		alg.setImageGradient(derivX,derivY);
 		alg.process();

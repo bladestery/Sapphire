@@ -68,6 +68,59 @@ public final class DemoManager_Stub extends org.boofcv.android.DemoManager imple
         return ((boofcv.struct.image.ImageType) $__result);
     }
 
+    // Implementation of setNumberOfSides(int, int)
+    public void setNumberOfSides(int $param_int_1, int $param_int_2) {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                super.setNumberOfSides( $param_int_1,  $param_int_2);
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public void org.boofcv.android.DemoManager.setNumberOfSides(int,int)";
+                $__params.add($param_int_1);
+                $__params.add($param_int_2);
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Implementation of setConvex(boolean)
+    public void setConvex(boolean $param_boolean_1) {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                super.setConvex( $param_boolean_1);
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public void org.boofcv.android.DemoManager.setConvex(boolean)";
+                $__params.add($param_boolean_1);
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Implementation of segDetect(GrayU8)
+    public java.util.List segDetect(boofcv.struct.image.GrayU8 $param_GrayU8_1) {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                $__result = super.segDetect( $param_GrayU8_1);
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public java.util.List<georegression.struct.line.LineSegment2D_F32> org.boofcv.android.DemoManager.segDetect(boofcv.struct.image.GrayU8)";
+                $__params.add($param_GrayU8_1);
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ((java.util.List) $__result);
+    }
+
     // Implementation of reshape(int, int)
     public void reshape(int $param_int_1, int $param_int_2) {
         java.lang.Object $__result = null;
@@ -125,6 +178,41 @@ public final class DemoManager_Stub extends org.boofcv.android.DemoManager imple
         }
     }
 
+    // Implementation of polygon(ConfigPolygonDetector)
+    public void polygon(boofcv.factory.shape.ConfigPolygonDetector $param_ConfigPolygonDetector_1) {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                super.polygon( $param_ConfigPolygonDetector_1);
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public void org.boofcv.android.DemoManager.polygon(boofcv.factory.shape.ConfigPolygonDetector)";
+                $__params.add($param_ConfigPolygonDetector_1);
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Implementation of polyProcess(GrayU8)
+    public boofcv.struct.image.GrayU8 polyProcess(boofcv.struct.image.GrayU8 $param_GrayU8_1) {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                $__result = super.polyProcess( $param_GrayU8_1);
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public boofcv.struct.image.GrayU8 org.boofcv.android.DemoManager.polyProcess(boofcv.struct.image.GrayU8)";
+                $__params.add($param_GrayU8_1);
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ((boofcv.struct.image.GrayU8) $__result);
+    }
+
     // Implementation of localSquare(int, double, boolean)
     public void localSquare(int $param_int_1, double $param_double_2, boolean $param_boolean_3) {
         java.lang.Object $__result = null;
@@ -144,6 +232,40 @@ public final class DemoManager_Stub extends org.boofcv.android.DemoManager imple
         }
     }
 
+    // Implementation of lineRansac()
+    public void lineRansac() {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                super.lineRansac();
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public void org.boofcv.android.DemoManager.lineRansac()";
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Implementation of lineDetect(GrayU8)
+    public java.util.List lineDetect(boofcv.struct.image.GrayU8 $param_GrayU8_1) {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                $__result = super.lineDetect( $param_GrayU8_1);
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public java.util.List<georegression.struct.line.LineParametric2D_F32> org.boofcv.android.DemoManager.lineDetect(boofcv.struct.image.GrayU8)";
+                $__params.add($param_GrayU8_1);
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ((java.util.List) $__result);
+    }
+
     // Implementation of inputProcess(GrayU8)
     public void inputProcess(boofcv.struct.image.GrayU8 $param_GrayU8_1) {
         java.lang.Object $__result = null;
@@ -154,6 +276,40 @@ public final class DemoManager_Stub extends org.boofcv.android.DemoManager imple
                 java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
                 String $__method = "public void org.boofcv.android.DemoManager.inputProcess(boofcv.struct.image.GrayU8)";
                 $__params.add($param_GrayU8_1);
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Implementation of houghPolar(ConfigHoughPolar)
+    public void houghPolar(boofcv.factory.feature.detect.line.ConfigHoughPolar $param_ConfigHoughPolar_1) {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                super.houghPolar( $param_ConfigHoughPolar_1);
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public void org.boofcv.android.DemoManager.houghPolar(boofcv.factory.feature.detect.line.ConfigHoughPolar)";
+                $__params.add($param_ConfigHoughPolar_1);
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Implementation of houghFoot(ConfigHoughFoot)
+    public void houghFoot(boofcv.factory.feature.detect.line.ConfigHoughFoot $param_ConfigHoughFoot_1) {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                super.houghFoot( $param_ConfigHoughFoot_1);
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public void org.boofcv.android.DemoManager.houghFoot(boofcv.factory.feature.detect.line.ConfigHoughFoot)";
+                $__params.add($param_ConfigHoughFoot_1);
                 $__result = $__client.onRPC($__method, $__params);
             }
         } catch (Exception e) {
@@ -178,6 +334,23 @@ public final class DemoManager_Stub extends org.boofcv.android.DemoManager imple
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    // Implementation of getFoundPolygons()
+    public org.ddogleg.struct.FastQueue getFoundPolygons() {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                $__result = super.getFoundPolygons();
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public org.ddogleg.struct.FastQueue<georegression.struct.shapes.Polygon2D_F64> org.boofcv.android.DemoManager.getFoundPolygons()";
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ((org.ddogleg.struct.FastQueue) $__result);
     }
 
     // Implementation of getFoundEllipses()
@@ -406,6 +579,25 @@ public final class DemoManager_Stub extends org.boofcv.android.DemoManager imple
         }
     }
 
+    // Implementation of Polygon(ConfigPolygonDetector, Class)
+    public boofcv.alg.shapes.polygon.BinaryPolygonDetector Polygon(boofcv.factory.shape.ConfigPolygonDetector $param_ConfigPolygonDetector_1, java.lang.Class $param_Class_2) {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                $__result = super.Polygon( $param_ConfigPolygonDetector_1,  $param_Class_2);
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public <T> boofcv.alg.shapes.polygon.BinaryPolygonDetector<T> org.boofcv.android.DemoManager.Polygon(boofcv.factory.shape.ConfigPolygonDetector,java.lang.Class<T>)";
+                $__params.add($param_ConfigPolygonDetector_1);
+                $__params.add($param_Class_2);
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ((boofcv.alg.shapes.polygon.BinaryPolygonDetector) $__result);
+    }
+
     // Implementation of LocalSquare(int, double, boolean, Class)
     public boofcv.abst.filter.binary.InputToBinary LocalSquare(int $param_int_1, double $param_double_2, boolean $param_boolean_3, java.lang.Class $param_Class_4) {
         java.lang.Object $__result = null;
@@ -427,6 +619,29 @@ public final class DemoManager_Stub extends org.boofcv.android.DemoManager imple
         return ((boofcv.abst.filter.binary.InputToBinary) $__result);
     }
 
+    // Implementation of LineRansac(int, double, double, boolean, Class, Class)
+    public boofcv.abst.feature.detect.line.DetectLineSegmentsGridRansac LineRansac(int $param_int_1, double $param_double_2, double $param_double_3, boolean $param_boolean_4, java.lang.Class $param_Class_5, java.lang.Class $param_Class_6) {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                $__result = super.LineRansac( $param_int_1,  $param_double_2,  $param_double_3,  $param_boolean_4,  $param_Class_5,  $param_Class_6);
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public <I,D> boofcv.abst.feature.detect.line.DetectLineSegmentsGridRansac<I, D> org.boofcv.android.DemoManager.LineRansac(int,double,double,boolean,java.lang.Class<I>,java.lang.Class<D>)";
+                $__params.add($param_int_1);
+                $__params.add($param_double_2);
+                $__params.add($param_double_3);
+                $__params.add($param_boolean_4);
+                $__params.add($param_Class_5);
+                $__params.add($param_Class_6);
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ((boofcv.abst.feature.detect.line.DetectLineSegmentsGridRansac) $__result);
+    }
+
     // Implementation of LatencyCheck()
     public void LatencyCheck() {
         java.lang.Object $__result = null;
@@ -441,6 +656,46 @@ public final class DemoManager_Stub extends org.boofcv.android.DemoManager imple
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    // Implementation of HoughPolar(ConfigHoughPolar, Class, Class)
+    public boofcv.abst.feature.detect.line.DetectLineHoughPolar HoughPolar(boofcv.factory.feature.detect.line.ConfigHoughPolar $param_ConfigHoughPolar_1, java.lang.Class $param_Class_2, java.lang.Class $param_Class_3) {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                $__result = super.HoughPolar( $param_ConfigHoughPolar_1,  $param_Class_2,  $param_Class_3);
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public <I,D> boofcv.abst.feature.detect.line.DetectLineHoughPolar<I, D> org.boofcv.android.DemoManager.HoughPolar(boofcv.factory.feature.detect.line.ConfigHoughPolar,java.lang.Class<I>,java.lang.Class<D>)";
+                $__params.add($param_ConfigHoughPolar_1);
+                $__params.add($param_Class_2);
+                $__params.add($param_Class_3);
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ((boofcv.abst.feature.detect.line.DetectLineHoughPolar) $__result);
+    }
+
+    // Implementation of HoughFoot(ConfigHoughFoot, Class, Class)
+    public boofcv.abst.feature.detect.line.DetectLineHoughFoot HoughFoot(boofcv.factory.feature.detect.line.ConfigHoughFoot $param_ConfigHoughFoot_1, java.lang.Class $param_Class_2, java.lang.Class $param_Class_3) {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                $__result = super.HoughFoot( $param_ConfigHoughFoot_1,  $param_Class_2,  $param_Class_3);
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public <I,D> boofcv.abst.feature.detect.line.DetectLineHoughFoot<I, D> org.boofcv.android.DemoManager.HoughFoot(boofcv.factory.feature.detect.line.ConfigHoughFoot,java.lang.Class<I>,java.lang.Class<D>)";
+                $__params.add($param_ConfigHoughFoot_1);
+                $__params.add($param_Class_2);
+                $__params.add($param_Class_3);
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ((boofcv.abst.feature.detect.line.DetectLineHoughFoot) $__result);
     }
 
     // Implementation of GlobalOtsu(int, int, boolean, Class)

@@ -44,7 +44,7 @@ import boofcv.struct.image.ImageGray;
  * @author Peter Abeles
  */
 public class FactoryInterestPointAlgs {
-
+	private static FactoryFeatureExtractor FFE;
 	/**
 	 * Creates a {@link FeaturePyramid} which is uses a hessian blob detector.
 	 *
@@ -62,7 +62,7 @@ public class FactoryInterestPointAlgs {
 										Class<T> imageType,
 										Class<D> derivType) {
 		GeneralFeatureIntensity<T, D> intensity = new WrapperHessianBlobIntensity<>(HessianBlobIntensity.Type.DETERMINANT, derivType);
-		NonMaxSuppression extractor = FactoryFeatureExtractor.nonmax(
+		NonMaxSuppression extractor = FFE.nonmax(
 				new ConfigExtract(extractRadius, detectThreshold, extractRadius, true));
 		GeneralFeatureDetector<T, D> detector = new GeneralFeatureDetector<>(intensity, extractor);
 		detector.setMaxFeatures(maxFeatures);
@@ -90,7 +90,7 @@ public class FactoryInterestPointAlgs {
 									   Class<D> derivType) {
 		GradientCornerIntensity<D> harris = FactoryIntensityPointAlg.harris(extractRadius, 0.04f, false, derivType);
 		GeneralFeatureIntensity<T, D> intensity = new WrapperGradientCornerIntensity<>(harris);
-		NonMaxSuppression extractor = FactoryFeatureExtractor.nonmax(
+		NonMaxSuppression extractor = FFE.nonmax(
 				new ConfigExtract(extractRadius, detectThreshold, extractRadius, true));
 		GeneralFeatureDetector<T, D> detector = new GeneralFeatureDetector<>(intensity, extractor);
 		detector.setMaxFeatures(maxFeatures);
@@ -117,7 +117,7 @@ public class FactoryInterestPointAlgs {
 											   Class<T> imageType,
 											   Class<D> derivType) {
 		GeneralFeatureIntensity<T, D> intensity = new WrapperHessianBlobIntensity<>(HessianBlobIntensity.Type.DETERMINANT, derivType);
-		NonMaxSuppression extractor = FactoryFeatureExtractor.nonmax(
+		NonMaxSuppression extractor = FFE.nonmax(
 				new ConfigExtract(extractRadius, detectThreshold, extractRadius, true));
 		GeneralFeatureDetector<T, D> detector = new GeneralFeatureDetector<>(intensity, extractor);
 		detector.setMaxFeatures(maxFeatures);
@@ -147,7 +147,7 @@ public class FactoryInterestPointAlgs {
 											  Class<D> derivType) {
 		GradientCornerIntensity<D> harris = FactoryIntensityPointAlg.harris(extractRadius, 0.04f, false, derivType);
 		GeneralFeatureIntensity<T, D> intensity = new WrapperGradientCornerIntensity<>(harris);
-		NonMaxSuppression extractor = FactoryFeatureExtractor.nonmax(
+		NonMaxSuppression extractor = FFE.nonmax(
 				new ConfigExtract(extractRadius, detectThreshold, extractRadius, true));
 		GeneralFeatureDetector<T, D> detector = new GeneralFeatureDetector<>(intensity, extractor);
 		detector.setMaxFeatures(maxFeatures);
@@ -173,7 +173,7 @@ public class FactoryInterestPointAlgs {
 		config.checkValidity();
 
 		// ignore border is overwritten by Fast Hessian at detection time
-		NonMaxSuppression extractor = FactoryFeatureExtractor.nonmax(
+		NonMaxSuppression extractor = FFE.nonmax(
 				new ConfigExtract(config.extractRadius, config.detectThreshold, 0, true));
 		return new FastHessianFeatureDetector<>(extractor, config.maxFeaturesPerScale,
 				config.initialSampleSize, config.initialSize, config.numberScalesPerOctave,
@@ -191,7 +191,7 @@ public class FactoryInterestPointAlgs {
 		if( configDetector == null )
 			configDetector = new ConfigSiftDetector();
 
-		NonMaxLimiter nonmax = FactoryFeatureExtractor.nonmaxLimiter(
+		NonMaxLimiter nonmax = FFE.nonmaxLimiter(
 				configDetector.extract,configDetector.maxFeaturesPerScale);
 		SiftScaleSpace ss = new SiftScaleSpace(configSS.firstOctave,configSS.lastOctave,
 				configSS.numScales,configSS.sigma0);

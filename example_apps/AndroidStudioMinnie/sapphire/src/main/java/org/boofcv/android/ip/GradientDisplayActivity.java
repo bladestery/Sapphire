@@ -15,7 +15,10 @@ import org.boofcv.android.R;
 import boofcv.abst.filter.derivative.ImageGradient;
 import boofcv.alg.InputSanityCheck;
 import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
 import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
+import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
+import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
 import boofcv.android.VisualizeImageData;
 import boofcv.android.gui.VideoImageProcessing;
 import boofcv.core.image.GeneralizedImageOps;
@@ -41,6 +44,9 @@ implements AdapterView.OnItemSelectedListener
 	private static InputSanityCheck ISC;
 	private static DerivativeHelperFunctions DHF;
 	private static ConvolveImageNoBorder CINB;
+	private static ConvolveJustBorder_General CJBG;
+	private static GradientSobel_Outer GSO;
+	private static GradientSobel_UnrolledOuter GSUO;
 	Spinner spinnerGradient;
 
 	Class imageType = GrayU8.class;
@@ -126,7 +132,7 @@ implements AdapterView.OnItemSelectedListener
 
 		@Override
 		protected void process(GrayU8 input, Bitmap output, byte[] storage) {
-			gradient.process(input,derivX,derivY, ISC, DHF, CINB);
+			gradient.process(input,derivX,derivY, ISC,DHF, CINB, CJBG,GSO,GSUO);
 			VisualizeImageData.colorizeGradient(derivX,derivY,-1,output,storage);
 		}
 	}

@@ -19,9 +19,12 @@
 package boofcv.alg.filter.derivative;
 
 import boofcv.alg.InputSanityCheck;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
 import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
 import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
 import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
+import boofcv.core.image.GeneralizedImageOps;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.core.image.border.ImageBorder_F32;
 import boofcv.core.image.border.ImageBorder_S32;
 import boofcv.struct.convolve.Kernel2D;
@@ -62,7 +65,6 @@ import boofcv.struct.image.GrayU8;
  * @author Peter Abeles
  */
 public class GradientSobel {
-	private static InputSanityCheck ISC;
 	public static Kernel2D_I32 kernelDerivX_I32 = new Kernel2D_I32(3, new int[]{-1,0,1,-2,0,2,-1,0,1});
 	public static Kernel2D_I32 kernelDerivY_I32 = new Kernel2D_I32(3, new int[]{-1,-2,-1,0,0,0,1,2,1});
 	public static Kernel2D_F32 kernelDerivX_F32 = new Kernel2D_F32(
@@ -88,14 +90,16 @@ public class GradientSobel {
 	 * @param derivY Storage for image derivative along the y-axis. Modified.
 	 * @param border Specifies how the image border is handled. If null the border is not processed.
 	 */
-	public static void process(GrayU8 orig, GrayS16 derivX, GrayS16 derivY, ImageBorder_S32<GrayU8> border ) {
+	public static void process(GrayU8 orig, GrayS16 derivX, GrayS16 derivY, ImageBorder_S32<GrayU8> border,
+							   InputSanityCheck ISC, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG,
+							   GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO) {
 		ISC.checkSameShape(orig, derivX, derivY);
-		GradientSobel_Outer.process_I8_sub(orig, derivX, derivY);
+		GSO.process_I8_sub(orig, derivX, derivY);
 
 		if( border != null ) {
 			border.setImage(orig);
-			ConvolveJustBorder_General.convolve(kernelDerivX_I32, border,derivX);
-			ConvolveJustBorder_General.convolve(kernelDerivY_I32, border,derivY);
+			CJBG.convolve(kernelDerivX_I32, border,derivX);
+			CJBG.convolve(kernelDerivY_I32, border,derivY);
 		}
 	}
 
@@ -107,14 +111,16 @@ public class GradientSobel {
 	 * @param derivY Storage for image derivative along the y-axis. Modified.
 	 * @param border Specifies how the image border is handled. If null the border is not processed.
 	 */
-	public static void process(GrayS16 orig, GrayS16 derivX, GrayS16 derivY, ImageBorder_S32<GrayS16> border ) {
+	public static void process(GrayS16 orig, GrayS16 derivX, GrayS16 derivY, ImageBorder_S32<GrayS16> border,
+							   InputSanityCheck ISC, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG,
+							   GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO) {
 		ISC.checkSameShape(orig, derivX, derivY);
-		GradientSobel_Outer.process_I8_sub(orig, derivX, derivY);
+		GSO.process_I8_sub(orig, derivX, derivY);
 
 		if( border != null ) {
 			border.setImage(orig);
-			ConvolveJustBorder_General.convolve(kernelDerivX_I32, border,derivX);
-			ConvolveJustBorder_General.convolve(kernelDerivY_I32, border,derivY);
+			CJBG.convolve(kernelDerivX_I32, border,derivX);
+			CJBG.convolve(kernelDerivY_I32, border,derivY);
 		}
 	}
 
@@ -126,16 +132,18 @@ public class GradientSobel {
 	 * @param derivY Storage for image derivative along the y-axis. Modified.
 	 * @param border Specifies how the image border is handled. If null the border is not processed.
 	 */
-	public static void process(GrayF32 orig, GrayF32 derivX, GrayF32 derivY, ImageBorder_F32 border) {
+	public static void process(GrayF32 orig, GrayF32 derivX, GrayF32 derivY, ImageBorder_F32 border,
+							   InputSanityCheck ISC, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG,
+							   GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO) {
 		ISC.checkSameShape(orig, derivX, derivY);
 
 //		GradientSobel_Outer.process_F32(orig, derivX, derivY);
-		GradientSobel_UnrolledOuter.process_F32_sub(orig, derivX, derivY);
+		GSUO.process_F32_sub(orig, derivX, derivY);
 
 		if( border != null ) {
 			border.setImage(orig);
-			ConvolveJustBorder_General.convolve(kernelDerivX_F32, border,derivX);
-			ConvolveJustBorder_General.convolve(kernelDerivY_F32, border,derivY);
+			CJBG.convolve(kernelDerivX_F32, border,derivX);
+			CJBG.convolve(kernelDerivY_F32, border,derivY);
 		}
 	}
 }

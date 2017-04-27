@@ -100,6 +100,7 @@
     <string-array name="line_features">
         <item>Hough Foot</item>
         <item>Hough Polar</item>
+        <item>GridRansac</item>
     </string-array>
 
     <string-array name="threshold_styles">

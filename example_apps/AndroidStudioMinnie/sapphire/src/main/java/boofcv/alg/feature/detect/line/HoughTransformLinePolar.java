@@ -31,6 +31,8 @@ import georegression.struct.line.LineParametric2D_F32;
 import georegression.struct.line.LinePolar2D_F32;
 import georegression.struct.point.Point2D_F64;
 import georegression.struct.point.Point2D_I16;
+import sapphire.app.SapphireObject;
+
 import org.ddogleg.struct.FastQueue;
 import org.ddogleg.struct.GrowQueue_F32;
 
@@ -62,8 +64,8 @@ import org.ddogleg.struct.GrowQueue_F32;
  *
  * @author Peter Abeles
  */
-public class HoughTransformLinePolar {
-	private ImageMiscOps IMO;
+public class HoughTransformLinePolar implements SapphireObject{
+
 	// extracts line from the transform
 	NonMaxSuppression extractor;
 	// stores returned lines
@@ -112,7 +114,7 @@ public class HoughTransformLinePolar {
 	 *
 	 * @param binary Binary image that indicates which pixels lie on edges.
 	 */
-	public void transform( GrayU8 binary )
+	public void transform( GrayU8 binary, ImageMiscOps IMO)
 	{
 		IMO.fill(transform, 0);
 

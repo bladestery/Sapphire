@@ -23,7 +23,11 @@ import android.renderscript.ScriptGroup;
 import boofcv.alg.InputSanityCheck;
 import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
 import boofcv.alg.filter.convolve.GConvolveImageOps;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
 import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
+import boofcv.alg.filter.derivative.GradientSobel;
+import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
+import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.BorderType;
 import boofcv.core.image.border.FactoryImageBorder;
@@ -82,7 +86,8 @@ public class ImageGradient_Gaussian<I extends ImageGray, D extends ImageGray>
 
 	@SuppressWarnings({"unchecked"})
 	@Override
-	public void process(I inputImage , D derivX, D derivY , InputSanityCheck ISC, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB) {
+	public void process(I inputImage , D derivX, D derivY , InputSanityCheck ISC, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG,
+						GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO) {
 
 		if( storage == null ) {
 			storage = (I)inputImage.createNew(inputImage.width,inputImage.height );

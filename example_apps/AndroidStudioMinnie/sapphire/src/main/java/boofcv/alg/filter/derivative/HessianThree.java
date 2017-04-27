@@ -60,6 +60,7 @@ public class HessianThree {
 	private static InputSanityCheck ISC;
 	private static DerivativeHelperFunctions DHF;
 	private static ConvolveImageNoBorder CINB;
+	private static ConvolveJustBorder_General CJBG;
 	public static Kernel1D_I32 kernelXXYY_I32 = new Kernel1D_I32(new int[]{1,0,-2,0,1},5);
 	public static Kernel2D_I32 kernelCross_I32 = new Kernel2D_I32(3, new int[]{1,0,-1,0,0,0,-1,0,1});
 
@@ -84,9 +85,9 @@ public class HessianThree {
 		HessianThree_Standard.process(orig, derivXX, derivYY,derivXY);
 
 		if( border != null ) {
-			DHF.processBorderHorizontal(orig, derivXX ,kernelXXYY_I32, border, CINB, ISC );
-			DHF.processBorderVertical(orig, derivYY ,kernelXXYY_I32, border, CINB, ISC );
-			ConvolveJustBorder_General.convolve(kernelCross_I32, border,derivXY);
+			DHF.processBorderHorizontal(orig, derivXX ,kernelXXYY_I32, border, CINB, ISC, CJBG);
+			DHF.processBorderVertical(orig, derivYY ,kernelXXYY_I32, border, CINB, ISC, CJBG);
+			CJBG.convolve(kernelCross_I32, border,derivXY);
 		}
 	}
 
@@ -106,9 +107,9 @@ public class HessianThree {
 		HessianThree_Standard.process(orig, derivXX, derivYY, derivXY);
 
 		if( border != null ) {
-			DHF.processBorderHorizontal(orig, derivXX ,kernelXXYY_F32, border , CINB, ISC);
-			DHF.processBorderVertical(orig, derivYY ,kernelXXYY_F32, border , CINB, ISC);
-			ConvolveJustBorder_General.convolve(kernelCross_F32,border,derivXY);
+			DHF.processBorderHorizontal(orig, derivXX ,kernelXXYY_F32, border , CINB, ISC, CJBG);
+			DHF.processBorderVertical(orig, derivYY ,kernelXXYY_F32, border , CINB, ISC, CJBG);
+			CJBG.convolve(kernelCross_F32,border,derivXY);
 		}
 	}
 }

@@ -367,13 +367,13 @@ public class GradientToEdgeFeatures implements SapphireObject {
 	 * @param output Filtered intensity. If null a new image will be declared and returned. Modified.
 	 * @return Filtered edge intensity.
 	 */
-	public GrayF32 nonMaxSuppressionCrude4(GrayF32 intensity , GrayF32 derivX , GrayF32 derivY, GrayF32 output, InputSanityCheck ISC)
+	public GrayF32 nonMaxSuppressionCrude4(GrayF32 intensity , GrayF32 derivX , GrayF32 derivY, GrayF32 output, InputSanityCheck ISC, ImplEdgeNonMaxSuppressionCrude IENMSC, FactoryImageBorderAlgs FIBA, ImageBorderValue IBV)
 	{
 		ISC.checkSameShape(intensity,derivX,derivY);
 		output = ISC.checkDeclare(intensity,output);
 
-		ImplEdgeNonMaxSuppressionCrude.inner4(intensity, derivX,derivY, output);
-		ImplEdgeNonMaxSuppressionCrude.border4(intensity,derivX,derivY, output);
+		IENMSC.inner4(intensity, derivX,derivY, output);
+		IENMSC.border4(intensity,derivX,derivY, output, FIBA, IBV);
 
 		return output;
 	}
@@ -391,13 +391,13 @@ public class GradientToEdgeFeatures implements SapphireObject {
 	 * @param output Filtered intensity. If null a new image will be declared and returned. Modified.
 	 * @return Filtered edge intensity.
 	 */
-	public GrayF32 nonMaxSuppressionCrude4(GrayF32 intensity , GrayS16 derivX , GrayS16 derivY, GrayF32 output, InputSanityCheck ISC)
+	public GrayF32 nonMaxSuppressionCrude4(GrayF32 intensity , GrayS16 derivX , GrayS16 derivY, GrayF32 output, InputSanityCheck ISC, ImplEdgeNonMaxSuppressionCrude IENMSC, FactoryImageBorderAlgs FIBA, ImageBorderValue IBV)
 	{
 		ISC.checkSameShape(intensity,derivX,derivY);
 		output = ISC.checkDeclare(intensity,output);
 
-		ImplEdgeNonMaxSuppressionCrude.inner4(intensity, derivX,derivY, output);
-		ImplEdgeNonMaxSuppressionCrude.border4(intensity,derivX,derivY, output);
+		IENMSC.inner4(intensity, derivX,derivY, output);
+		IENMSC.border4(intensity,derivX,derivY, output, FIBA, IBV);
 
 		return output;
 	}
@@ -415,13 +415,13 @@ public class GradientToEdgeFeatures implements SapphireObject {
 	 * @param output Filtered intensity. If null a new image will be declared and returned. Modified.
 	 * @return Filtered edge intensity.
 	 */
-	public GrayF32 nonMaxSuppressionCrude4(GrayF32 intensity , GrayS32 derivX , GrayS32 derivY, GrayF32 output, InputSanityCheck ISC)
+	public GrayF32 nonMaxSuppressionCrude4(GrayF32 intensity , GrayS32 derivX , GrayS32 derivY, GrayF32 output, InputSanityCheck ISC, ImplEdgeNonMaxSuppressionCrude IENMSC, FactoryImageBorderAlgs FIBA, ImageBorderValue IBV)
 	{
 		ISC.checkSameShape(intensity,derivX,derivY);
 		output = ISC.checkDeclare(intensity,output);
 
-		ImplEdgeNonMaxSuppressionCrude.inner4(intensity, derivX,derivY, output);
-		ImplEdgeNonMaxSuppressionCrude.border4(intensity,derivX,derivY, output);
+		IENMSC.inner4(intensity, derivX,derivY, output);
+		IENMSC.border4(intensity,derivX,derivY, output, FIBA, IBV);
 
 		return output;
 	}

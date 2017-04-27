@@ -22,7 +22,10 @@ import boofcv.abst.filter.derivative.ImageGradient;
 import boofcv.alg.InputSanityCheck;
 import boofcv.alg.feature.detect.edge.impl.ImplEdgeNonMaxSuppression;
 import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
 import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
+import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
+import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
 import boofcv.alg.sfm.robust.DistanceScaleTranslateRotate2DSq;
 import boofcv.alg.sfm.robust.GenerateScaleTranslateRotate2D;
 import boofcv.alg.sfm.robust.ModelManagerScaleTranslateRotate2D;
@@ -59,6 +62,9 @@ public class SparseFlowObjectTracker<Image extends ImageGray, Derivative extends
 	private static InputSanityCheck ISC;
 	private static DerivativeHelperFunctions DHF;
 	private static ConvolveImageNoBorder CINB;
+	private static ConvolveJustBorder_General CJBG;
+	private static GradientSobel_Outer GSO;
+	private static GradientSobel_UnrolledOuter GSUO;
 	// for the current image
 	private ImagePyramid<Image> currentImage;
 	private Derivative[] currentDerivX;
@@ -124,7 +130,7 @@ public class SparseFlowObjectTracker<Image extends ImageGray, Derivative extends
 		previousImage.process(input);
 		for( int i = 0; i < previousImage.getNumLayers(); i++ ) {
 			Image layer = previousImage.getLayer(i);
-			gradient.process(layer,previousDerivX[i],previousDerivY[i], ISC, DHF, CINB);
+			gradient.process(layer,previousDerivX[i],previousDerivY[i], ISC, DHF, CINB, CJBG, GSO, GSUO);
 		}
 
 		trackLost = false;
@@ -202,7 +208,7 @@ public class SparseFlowObjectTracker<Image extends ImageGray, Derivative extends
 		currentImage.process(input);
 		for( int i = 0; i < currentImage.getNumLayers(); i++ ) {
 			Image layer = currentImage.getLayer(i);
-			gradient.process(layer,currentDerivX[i],currentDerivY[i], ISC, DHF, CINB);
+			gradient.process(layer,currentDerivX[i],currentDerivY[i], ISC, DHF, CINB, CJBG, GSO, GSUO);
 		}
 
 		// convert to float to avoid excessive conversions from double to float

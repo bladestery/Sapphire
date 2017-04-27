@@ -19,6 +19,8 @@
 package boofcv.alg.feature.detect.line;
 
 
+import android.renderscript.ScriptGroup;
+
 import boofcv.abst.feature.detect.extract.NonMaxSuppression;
 import boofcv.alg.InputSanityCheck;
 import boofcv.alg.misc.ImageMiscOps;
@@ -26,6 +28,8 @@ import boofcv.struct.QueueCorner;
 import boofcv.struct.image.*;
 import georegression.struct.line.LineParametric2D_F32;
 import georegression.struct.point.Point2D_I16;
+import sapphire.app.SapphireObject;
+
 import org.ddogleg.struct.FastQueue;
 import org.ddogleg.struct.GrowQueue_F32;
 
@@ -48,9 +52,7 @@ import org.ddogleg.struct.GrowQueue_F32;
  *
  * @author Peter Abeles
  */
-public class HoughTransformLineFootOfNorm {
-	private static ImageMiscOps IMO;
-	private static InputSanityCheck ISC;
+public class HoughTransformLineFootOfNorm implements SapphireObject {
 	// extracts line from the transform
 	NonMaxSuppression extractor;
 	// stores returned lines
@@ -90,7 +92,7 @@ public class HoughTransformLineFootOfNorm {
 	 * @param derivY Image derivative along y-axis.
 	 * @param binary Non-zero pixels are considered to be line pixels.
 	 */
-	public <D extends ImageGray> void transform(D derivX , D derivY , GrayU8 binary )
+	public <D extends ImageGray> void transform(D derivX , D derivY , GrayU8 binary, InputSanityCheck ISC, ImageMiscOps IMO)
 	{
 		ISC.checkSameShape(derivX,derivY,binary);
 

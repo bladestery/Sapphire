@@ -22,7 +22,10 @@ import java.io.InputStream;
 
 import boofcv.alg.InputSanityCheck;
 import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
 import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
+import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
+import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
 import boofcv.core.image.border.BorderType;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.struct.image.ImageGray;
@@ -48,9 +51,10 @@ public class ImageGradient_PL<T extends ImageGray, D extends ImageGray>
 	}
 
 	@Override
-	public void process(Planar<T> inputImage, Planar<D> derivX, Planar<D> derivY, InputSanityCheck ISC, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB) {
+	public void process(Planar<T> inputImage, Planar<D> derivX, Planar<D> derivY, InputSanityCheck ISC, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG,
+						GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO) {
 		for (int i = 0; i < inputImage.getNumBands(); i++) {
-			bandGradient.process(inputImage.getBand(i), derivX.getBand(i), derivY.getBand(i), ISC, DHF, CINB);
+			bandGradient.process(inputImage.getBand(i), derivX.getBand(i), derivY.getBand(i), ISC,DHF, CINB, CJBG,GSO,GSUO);
 		}
 	}
 

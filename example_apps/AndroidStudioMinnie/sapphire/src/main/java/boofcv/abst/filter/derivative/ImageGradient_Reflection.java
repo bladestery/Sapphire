@@ -20,7 +20,10 @@ package boofcv.abst.filter.derivative;
 
 import boofcv.alg.InputSanityCheck;
 import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
 import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
+import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
+import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
 import boofcv.core.image.border.BorderType;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.core.image.border.ImageBorder;
@@ -54,9 +57,11 @@ public class ImageGradient_Reflection<Input extends ImageGray, Output extends Im
 	}
 
 	@Override
-	public void process(Input inputImage , Output derivX, Output derivY, InputSanityCheck ISC, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB) {
+	public void process(Input inputImage , Output derivX, Output derivY,
+						InputSanityCheck ISC, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG,
+						GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO) {
 		try {
-			m.invoke(null,inputImage, derivX, derivY, border, ISC, DHF, CINB);
+			m.invoke(null,inputImage, derivX, derivY, border, ISC, DHF, CINB, CJBG, GSO, GSUO);
 		} catch (IllegalAccessException | InvocationTargetException e) {
 			throw new RuntimeException(e);
 		}

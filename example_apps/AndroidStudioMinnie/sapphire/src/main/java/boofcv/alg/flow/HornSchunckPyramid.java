@@ -21,7 +21,11 @@ package boofcv.alg.flow;
 import boofcv.abst.filter.derivative.ImageGradient;
 import boofcv.alg.InputSanityCheck;
 import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
 import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
+import boofcv.alg.filter.derivative.GradientSobel;
+import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
+import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
 import boofcv.alg.interpolate.InterpolatePixelS;
 import boofcv.alg.misc.ImageMiscOps;
 import boofcv.core.image.GeneralizedImageOps;
@@ -59,6 +63,9 @@ public class HornSchunckPyramid< T extends ImageGray>
 	private static InputSanityCheck ISC;
 	private static DerivativeHelperFunctions DHF;
 	private static ConvolveImageNoBorder CINB;
+	private static ConvolveJustBorder_General CJBG;
+	private static GradientSobel_Outer GSO;
+	private static GradientSobel_UnrolledOuter GSUO;
 	// used to weight the error of image brightness and smoothness of velocity flow
 	private float alpha2;
 
@@ -136,7 +143,7 @@ public class HornSchunckPyramid< T extends ImageGray>
 			warpImage2.reshape(layer1.width,layer1.height);
 
 			// compute the gradient for the second image
-			gradient.process(layer2,deriv2X,deriv2Y, ISC, DHF, CINB);
+			gradient.process(layer2,deriv2X,deriv2Y, ISC,DHF, CINB, CJBG,GSO,GSUO);
 
 			if( !first ) {
 				// interpolate initial flow from previous layer

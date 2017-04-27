@@ -51,6 +51,7 @@ import boofcv.struct.image.ImageGray;
 public class FactoryDetectPoint {
 	private static FactoryBlurFilter FBF;
 	private static GeneralizedImageOps GIO;
+	private static FactoryFeatureExtractor FFE;
 	/**
 	 * Detects Harris corners.
 	 *
@@ -178,7 +179,7 @@ public class FactoryDetectPoint {
 	GeneralFeatureDetector<T, D> createGeneral(GeneralFeatureIntensity<T, D> intensity,
 											   ConfigGeneralDetector config ) {
 		config.ignoreBorder += config.radius;
-		NonMaxSuppression extractor = FactoryFeatureExtractor.nonmax(config);
+		NonMaxSuppression extractor = FFE.nonmax(config);
 		GeneralFeatureDetector<T, D> det = new GeneralFeatureDetector<>(intensity, extractor);
 		det.setMaxFeatures(config.maxFeatures);
 

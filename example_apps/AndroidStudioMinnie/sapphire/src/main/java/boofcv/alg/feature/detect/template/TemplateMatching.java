@@ -36,7 +36,7 @@ import org.ddogleg.struct.FastQueue;
  * @author Peter Abeles
  */
 public class TemplateMatching<T extends ImageBase> {
-
+	private static FactoryFeatureExtractor FFE;
 	// computes an intensity image identifying matches
 	private TemplateMatchingIntensity<T> match;
 	// searches for local matches in intensity image
@@ -69,7 +69,7 @@ public class TemplateMatching<T extends ImageBase> {
 	public TemplateMatching(TemplateMatchingIntensity<T> match) {
 		this.match = match;
 
-		extractor = FactoryFeatureExtractor.nonmax(new ConfigExtract(2, -Float.MAX_VALUE, 0, true));
+		extractor = FFE.nonmax(new ConfigExtract(2, -Float.MAX_VALUE, 0, true));
 	}
 
 	/**

@@ -49,6 +49,7 @@ public class FactoryInterestPoint {
 	private static FactoryDerivative FD;
 	private static GeneralizedImageOps GIO;
 	private static FactoryImageBorder FIB;
+	private static FactoryFeatureExtractor FFE;
 	/**
 	 * Wraps {@link GeneralFeatureDetector} inside an {@link InterestPointDetector}.
 	 *
@@ -144,7 +145,7 @@ public class FactoryInterestPoint {
 
 		SiftScaleSpace scaleSpace =
 				new SiftScaleSpace(configSS.firstOctave,configSS.lastOctave,configSS.numScales,configSS.sigma0);
-		NonMaxSuppression nonmax = FactoryFeatureExtractor.nonmax(configDet.extract);
+		NonMaxSuppression nonmax = FFE.nonmax(configDet.extract);
 		NonMaxLimiter limiter = new NonMaxLimiter(nonmax,configDet.maxFeaturesPerScale);
 		SiftDetector detector = new SiftDetector(scaleSpace,configDet.edgeR,limiter);
 

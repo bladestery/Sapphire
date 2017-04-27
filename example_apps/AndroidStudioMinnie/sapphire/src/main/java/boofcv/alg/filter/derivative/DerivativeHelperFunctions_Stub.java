@@ -29,21 +29,22 @@ public final class DerivativeHelperFunctions_Stub extends boofcv.alg.filter.deri
 
 
 
-    // Implementation of processBorderVertical(GrayU8, GrayS32, Kernel1D_I32, ImageBorder_S32, ConvolveImageNoBorder, InputSanityCheck)
-    public void processBorderVertical(boofcv.struct.image.GrayU8 $param_GrayU8_1, boofcv.struct.image.GrayS32 $param_GrayS32_2, boofcv.struct.convolve.Kernel1D_I32 $param_Kernel1D_I32_3, boofcv.core.image.border.ImageBorder_S32 $param_ImageBorder_S32_4, boofcv.alg.filter.convolve.ConvolveImageNoBorder $param_ConvolveImageNoBorder_5, boofcv.alg.InputSanityCheck $param_InputSanityCheck_6) {
+    // Implementation of processBorderVertical(GrayU8, GrayS32, Kernel1D_I32, ImageBorder_S32, ConvolveImageNoBorder, InputSanityCheck, ConvolveJustBorder_General)
+    public void processBorderVertical(boofcv.struct.image.GrayU8 $param_GrayU8_1, boofcv.struct.image.GrayS32 $param_GrayS32_2, boofcv.struct.convolve.Kernel1D_I32 $param_Kernel1D_I32_3, boofcv.core.image.border.ImageBorder_S32 $param_ImageBorder_S32_4, boofcv.alg.filter.convolve.ConvolveImageNoBorder $param_ConvolveImageNoBorder_5, boofcv.alg.InputSanityCheck $param_InputSanityCheck_6, boofcv.alg.filter.convolve.border.ConvolveJustBorder_General $param_ConvolveJustBorder_General_7) {
         java.lang.Object $__result = null;
         try {
             if ($__directInvocation)
-                super.processBorderVertical( $param_GrayU8_1,  $param_GrayS32_2,  $param_Kernel1D_I32_3,  $param_ImageBorder_S32_4,  $param_ConvolveImageNoBorder_5,  $param_InputSanityCheck_6);
+                super.processBorderVertical( $param_GrayU8_1,  $param_GrayS32_2,  $param_Kernel1D_I32_3,  $param_ImageBorder_S32_4,  $param_ConvolveImageNoBorder_5,  $param_InputSanityCheck_6,  $param_ConvolveJustBorder_General_7);
             else {
                 java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
-                String $__method = "public void boofcv.alg.filter.derivative.DerivativeHelperFunctions.processBorderVertical(boofcv.struct.image.GrayU8,boofcv.struct.image.GrayS32,boofcv.struct.convolve.Kernel1D_I32,boofcv.core.image.border.ImageBorder_S32,boofcv.alg.filter.convolve.ConvolveImageNoBorder,boofcv.alg.InputSanityCheck)";
+                String $__method = "public void boofcv.alg.filter.derivative.DerivativeHelperFunctions.processBorderVertical(boofcv.struct.image.GrayU8,boofcv.struct.image.GrayS32,boofcv.struct.convolve.Kernel1D_I32,boofcv.core.image.border.ImageBorder_S32,boofcv.alg.filter.convolve.ConvolveImageNoBorder,boofcv.alg.InputSanityCheck,boofcv.alg.filter.convolve.border.ConvolveJustBorder_General)";
                 $__params.add($param_GrayU8_1);
                 $__params.add($param_GrayS32_2);
                 $__params.add($param_Kernel1D_I32_3);
                 $__params.add($param_ImageBorder_S32_4);
                 $__params.add($param_ConvolveImageNoBorder_5);
                 $__params.add($param_InputSanityCheck_6);
+                $__params.add($param_ConvolveJustBorder_General_7);
                 $__result = $__client.onRPC($__method, $__params);
             }
         } catch (Exception e) {
@@ -51,21 +52,22 @@ public final class DerivativeHelperFunctions_Stub extends boofcv.alg.filter.deri
         }
     }
 
-    // Implementation of processBorderVertical(GrayU8, GrayS16, Kernel1D_I32, ImageBorder_S32, ConvolveImageNoBorder, InputSanityCheck)
-    public void processBorderVertical(boofcv.struct.image.GrayU8 $param_GrayU8_1, boofcv.struct.image.GrayS16 $param_GrayS16_2, boofcv.struct.convolve.Kernel1D_I32 $param_Kernel1D_I32_3, boofcv.core.image.border.ImageBorder_S32 $param_ImageBorder_S32_4, boofcv.alg.filter.convolve.ConvolveImageNoBorder $param_ConvolveImageNoBorder_5, boofcv.alg.InputSanityCheck $param_InputSanityCheck_6) {
+    // Implementation of processBorderVertical(GrayU8, GrayS16, Kernel1D_I32, ImageBorder_S32, ConvolveImageNoBorder, InputSanityCheck, ConvolveJustBorder_General)
+    public void processBorderVertical(boofcv.struct.image.GrayU8 $param_GrayU8_1, boofcv.struct.image.GrayS16 $param_GrayS16_2, boofcv.struct.convolve.Kernel1D_I32 $param_Kernel1D_I32_3, boofcv.core.image.border.ImageBorder_S32 $param_ImageBorder_S32_4, boofcv.alg.filter.convolve.ConvolveImageNoBorder $param_ConvolveImageNoBorder_5, boofcv.alg.InputSanityCheck $param_InputSanityCheck_6, boofcv.alg.filter.convolve.border.ConvolveJustBorder_General $param_ConvolveJustBorder_General_7) {
         java.lang.Object $__result = null;
         try {
             if ($__directInvocation)
-                super.processBorderVertical( $param_GrayU8_1,  $param_GrayS16_2,  $param_Kernel1D_I32_3,  $param_ImageBorder_S32_4,  $param_ConvolveImageNoBorder_5,  $param_InputSanityCheck_6);
+                super.processBorderVertical( $param_GrayU8_1,  $param_GrayS16_2,  $param_Kernel1D_I32_3,  $param_ImageBorder_S32_4,  $param_ConvolveImageNoBorder_5,  $param_InputSanityCheck_6,  $param_ConvolveJustBorder_General_7);
             else {
                 java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
-                String $__method = "public void boofcv.alg.filter.derivative.DerivativeHelperFunctions.processBorderVertical(boofcv.struct.image.GrayU8,boofcv.struct.image.GrayS16,boofcv.struct.convolve.Kernel1D_I32,boofcv.core.image.border.ImageBorder_S32,boofcv.alg.filter.convolve.ConvolveImageNoBorder,boofcv.alg.InputSanityCheck)";
+                String $__method = "public void boofcv.alg.filter.derivative.DerivativeHelperFunctions.processBorderVertical(boofcv.struct.image.GrayU8,boofcv.struct.image.GrayS16,boofcv.struct.convolve.Kernel1D_I32,boofcv.core.image.border.ImageBorder_S32,boofcv.alg.filter.convolve.ConvolveImageNoBorder,boofcv.alg.InputSanityCheck,boofcv.alg.filter.convolve.border.ConvolveJustBorder_General)";
                 $__params.add($param_GrayU8_1);
                 $__params.add($param_GrayS16_2);
                 $__params.add($param_Kernel1D_I32_3);
                 $__params.add($param_ImageBorder_S32_4);
                 $__params.add($param_ConvolveImageNoBorder_5);
                 $__params.add($param_InputSanityCheck_6);
+                $__params.add($param_ConvolveJustBorder_General_7);
                 $__result = $__client.onRPC($__method, $__params);
             }
         } catch (Exception e) {
@@ -73,21 +75,22 @@ public final class DerivativeHelperFunctions_Stub extends boofcv.alg.filter.deri
         }
     }
 
-    // Implementation of processBorderVertical(GrayS16, GrayS16, Kernel1D_I32, ImageBorder_S32, ConvolveImageNoBorder, InputSanityCheck)
-    public void processBorderVertical(boofcv.struct.image.GrayS16 $param_GrayS16_1, boofcv.struct.image.GrayS16 $param_GrayS16_2, boofcv.struct.convolve.Kernel1D_I32 $param_Kernel1D_I32_3, boofcv.core.image.border.ImageBorder_S32 $param_ImageBorder_S32_4, boofcv.alg.filter.convolve.ConvolveImageNoBorder $param_ConvolveImageNoBorder_5, boofcv.alg.InputSanityCheck $param_InputSanityCheck_6) {
+    // Implementation of processBorderVertical(GrayS16, GrayS16, Kernel1D_I32, ImageBorder_S32, ConvolveImageNoBorder, InputSanityCheck, ConvolveJustBorder_General)
+    public void processBorderVertical(boofcv.struct.image.GrayS16 $param_GrayS16_1, boofcv.struct.image.GrayS16 $param_GrayS16_2, boofcv.struct.convolve.Kernel1D_I32 $param_Kernel1D_I32_3, boofcv.core.image.border.ImageBorder_S32 $param_ImageBorder_S32_4, boofcv.alg.filter.convolve.ConvolveImageNoBorder $param_ConvolveImageNoBorder_5, boofcv.alg.InputSanityCheck $param_InputSanityCheck_6, boofcv.alg.filter.convolve.border.ConvolveJustBorder_General $param_ConvolveJustBorder_General_7) {
         java.lang.Object $__result = null;
         try {
             if ($__directInvocation)
-                super.processBorderVertical( $param_GrayS16_1,  $param_GrayS16_2,  $param_Kernel1D_I32_3,  $param_ImageBorder_S32_4,  $param_ConvolveImageNoBorder_5,  $param_InputSanityCheck_6);
+                super.processBorderVertical( $param_GrayS16_1,  $param_GrayS16_2,  $param_Kernel1D_I32_3,  $param_ImageBorder_S32_4,  $param_ConvolveImageNoBorder_5,  $param_InputSanityCheck_6,  $param_ConvolveJustBorder_General_7);
             else {
                 java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
-                String $__method = "public void boofcv.alg.filter.derivative.DerivativeHelperFunctions.processBorderVertical(boofcv.struct.image.GrayS16,boofcv.struct.image.GrayS16,boofcv.struct.convolve.Kernel1D_I32,boofcv.core.image.border.ImageBorder_S32,boofcv.alg.filter.convolve.ConvolveImageNoBorder,boofcv.alg.InputSanityCheck)";
+                String $__method = "public void boofcv.alg.filter.derivative.DerivativeHelperFunctions.processBorderVertical(boofcv.struct.image.GrayS16,boofcv.struct.image.GrayS16,boofcv.struct.convolve.Kernel1D_I32,boofcv.core.image.border.ImageBorder_S32,boofcv.alg.filter.convolve.ConvolveImageNoBorder,boofcv.alg.InputSanityCheck,boofcv.alg.filter.convolve.border.ConvolveJustBorder_General)";
                 $__params.add($param_GrayS16_1);
                 $__params.add($param_GrayS16_2);
                 $__params.add($param_Kernel1D_I32_3);
                 $__params.add($param_ImageBorder_S32_4);
                 $__params.add($param_ConvolveImageNoBorder_5);
                 $__params.add($param_InputSanityCheck_6);
+                $__params.add($param_ConvolveJustBorder_General_7);
                 $__result = $__client.onRPC($__method, $__params);
             }
         } catch (Exception e) {
@@ -95,21 +98,22 @@ public final class DerivativeHelperFunctions_Stub extends boofcv.alg.filter.deri
         }
     }
 
-    // Implementation of processBorderVertical(GrayF32, GrayF32, Kernel1D_F32, ImageBorder_F32, ConvolveImageNoBorder, InputSanityCheck)
-    public void processBorderVertical(boofcv.struct.image.GrayF32 $param_GrayF32_1, boofcv.struct.image.GrayF32 $param_GrayF32_2, boofcv.struct.convolve.Kernel1D_F32 $param_Kernel1D_F32_3, boofcv.core.image.border.ImageBorder_F32 $param_ImageBorder_F32_4, boofcv.alg.filter.convolve.ConvolveImageNoBorder $param_ConvolveImageNoBorder_5, boofcv.alg.InputSanityCheck $param_InputSanityCheck_6) {
+    // Implementation of processBorderVertical(GrayF32, GrayF32, Kernel1D_F32, ImageBorder_F32, ConvolveImageNoBorder, InputSanityCheck, ConvolveJustBorder_General)
+    public void processBorderVertical(boofcv.struct.image.GrayF32 $param_GrayF32_1, boofcv.struct.image.GrayF32 $param_GrayF32_2, boofcv.struct.convolve.Kernel1D_F32 $param_Kernel1D_F32_3, boofcv.core.image.border.ImageBorder_F32 $param_ImageBorder_F32_4, boofcv.alg.filter.convolve.ConvolveImageNoBorder $param_ConvolveImageNoBorder_5, boofcv.alg.InputSanityCheck $param_InputSanityCheck_6, boofcv.alg.filter.convolve.border.ConvolveJustBorder_General $param_ConvolveJustBorder_General_7) {
         java.lang.Object $__result = null;
         try {
             if ($__directInvocation)
-                super.processBorderVertical( $param_GrayF32_1,  $param_GrayF32_2,  $param_Kernel1D_F32_3,  $param_ImageBorder_F32_4,  $param_ConvolveImageNoBorder_5,  $param_InputSanityCheck_6);
+                super.processBorderVertical( $param_GrayF32_1,  $param_GrayF32_2,  $param_Kernel1D_F32_3,  $param_ImageBorder_F32_4,  $param_ConvolveImageNoBorder_5,  $param_InputSanityCheck_6,  $param_ConvolveJustBorder_General_7);
             else {
                 java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
-                String $__method = "public void boofcv.alg.filter.derivative.DerivativeHelperFunctions.processBorderVertical(boofcv.struct.image.GrayF32,boofcv.struct.image.GrayF32,boofcv.struct.convolve.Kernel1D_F32,boofcv.core.image.border.ImageBorder_F32,boofcv.alg.filter.convolve.ConvolveImageNoBorder,boofcv.alg.InputSanityCheck)";
+                String $__method = "public void boofcv.alg.filter.derivative.DerivativeHelperFunctions.processBorderVertical(boofcv.struct.image.GrayF32,boofcv.struct.image.GrayF32,boofcv.struct.convolve.Kernel1D_F32,boofcv.core.image.border.ImageBorder_F32,boofcv.alg.filter.convolve.ConvolveImageNoBorder,boofcv.alg.InputSanityCheck,boofcv.alg.filter.convolve.border.ConvolveJustBorder_General)";
                 $__params.add($param_GrayF32_1);
                 $__params.add($param_GrayF32_2);
                 $__params.add($param_Kernel1D_F32_3);
                 $__params.add($param_ImageBorder_F32_4);
                 $__params.add($param_ConvolveImageNoBorder_5);
                 $__params.add($param_InputSanityCheck_6);
+                $__params.add($param_ConvolveJustBorder_General_7);
                 $__result = $__client.onRPC($__method, $__params);
             }
         } catch (Exception e) {
@@ -117,21 +121,22 @@ public final class DerivativeHelperFunctions_Stub extends boofcv.alg.filter.deri
         }
     }
 
-    // Implementation of processBorderHorizontal(GrayU8, GrayS32, Kernel1D_I32, ImageBorder_S32, ConvolveImageNoBorder, InputSanityCheck)
-    public void processBorderHorizontal(boofcv.struct.image.GrayU8 $param_GrayU8_1, boofcv.struct.image.GrayS32 $param_GrayS32_2, boofcv.struct.convolve.Kernel1D_I32 $param_Kernel1D_I32_3, boofcv.core.image.border.ImageBorder_S32 $param_ImageBorder_S32_4, boofcv.alg.filter.convolve.ConvolveImageNoBorder $param_ConvolveImageNoBorder_5, boofcv.alg.InputSanityCheck $param_InputSanityCheck_6) {
+    // Implementation of processBorderHorizontal(GrayU8, GrayS32, Kernel1D_I32, ImageBorder_S32, ConvolveImageNoBorder, InputSanityCheck, ConvolveJustBorder_General)
+    public void processBorderHorizontal(boofcv.struct.image.GrayU8 $param_GrayU8_1, boofcv.struct.image.GrayS32 $param_GrayS32_2, boofcv.struct.convolve.Kernel1D_I32 $param_Kernel1D_I32_3, boofcv.core.image.border.ImageBorder_S32 $param_ImageBorder_S32_4, boofcv.alg.filter.convolve.ConvolveImageNoBorder $param_ConvolveImageNoBorder_5, boofcv.alg.InputSanityCheck $param_InputSanityCheck_6, boofcv.alg.filter.convolve.border.ConvolveJustBorder_General $param_ConvolveJustBorder_General_7) {
         java.lang.Object $__result = null;
         try {
             if ($__directInvocation)
-                super.processBorderHorizontal( $param_GrayU8_1,  $param_GrayS32_2,  $param_Kernel1D_I32_3,  $param_ImageBorder_S32_4,  $param_ConvolveImageNoBorder_5,  $param_InputSanityCheck_6);
+                super.processBorderHorizontal( $param_GrayU8_1,  $param_GrayS32_2,  $param_Kernel1D_I32_3,  $param_ImageBorder_S32_4,  $param_ConvolveImageNoBorder_5,  $param_InputSanityCheck_6,  $param_ConvolveJustBorder_General_7);
             else {
                 java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
-                String $__method = "public void boofcv.alg.filter.derivative.DerivativeHelperFunctions.processBorderHorizontal(boofcv.struct.image.GrayU8,boofcv.struct.image.GrayS32,boofcv.struct.convolve.Kernel1D_I32,boofcv.core.image.border.ImageBorder_S32,boofcv.alg.filter.convolve.ConvolveImageNoBorder,boofcv.alg.InputSanityCheck)";
+                String $__method = "public void boofcv.alg.filter.derivative.DerivativeHelperFunctions.processBorderHorizontal(boofcv.struct.image.GrayU8,boofcv.struct.image.GrayS32,boofcv.struct.convolve.Kernel1D_I32,boofcv.core.image.border.ImageBorder_S32,boofcv.alg.filter.convolve.ConvolveImageNoBorder,boofcv.alg.InputSanityCheck,boofcv.alg.filter.convolve.border.ConvolveJustBorder_General)";
                 $__params.add($param_GrayU8_1);
                 $__params.add($param_GrayS32_2);
                 $__params.add($param_Kernel1D_I32_3);
                 $__params.add($param_ImageBorder_S32_4);
                 $__params.add($param_ConvolveImageNoBorder_5);
                 $__params.add($param_InputSanityCheck_6);
+                $__params.add($param_ConvolveJustBorder_General_7);
                 $__result = $__client.onRPC($__method, $__params);
             }
         } catch (Exception e) {
@@ -139,21 +144,22 @@ public final class DerivativeHelperFunctions_Stub extends boofcv.alg.filter.deri
         }
     }
 
-    // Implementation of processBorderHorizontal(GrayU8, GrayS16, Kernel1D_I32, ImageBorder_S32, ConvolveImageNoBorder, InputSanityCheck)
-    public void processBorderHorizontal(boofcv.struct.image.GrayU8 $param_GrayU8_1, boofcv.struct.image.GrayS16 $param_GrayS16_2, boofcv.struct.convolve.Kernel1D_I32 $param_Kernel1D_I32_3, boofcv.core.image.border.ImageBorder_S32 $param_ImageBorder_S32_4, boofcv.alg.filter.convolve.ConvolveImageNoBorder $param_ConvolveImageNoBorder_5, boofcv.alg.InputSanityCheck $param_InputSanityCheck_6) {
+    // Implementation of processBorderHorizontal(GrayU8, GrayS16, Kernel1D_I32, ImageBorder_S32, ConvolveImageNoBorder, InputSanityCheck, ConvolveJustBorder_General)
+    public void processBorderHorizontal(boofcv.struct.image.GrayU8 $param_GrayU8_1, boofcv.struct.image.GrayS16 $param_GrayS16_2, boofcv.struct.convolve.Kernel1D_I32 $param_Kernel1D_I32_3, boofcv.core.image.border.ImageBorder_S32 $param_ImageBorder_S32_4, boofcv.alg.filter.convolve.ConvolveImageNoBorder $param_ConvolveImageNoBorder_5, boofcv.alg.InputSanityCheck $param_InputSanityCheck_6, boofcv.alg.filter.convolve.border.ConvolveJustBorder_General $param_ConvolveJustBorder_General_7) {
         java.lang.Object $__result = null;
         try {
             if ($__directInvocation)
-                super.processBorderHorizontal( $param_GrayU8_1,  $param_GrayS16_2,  $param_Kernel1D_I32_3,  $param_ImageBorder_S32_4,  $param_ConvolveImageNoBorder_5,  $param_InputSanityCheck_6);
+                super.processBorderHorizontal( $param_GrayU8_1,  $param_GrayS16_2,  $param_Kernel1D_I32_3,  $param_ImageBorder_S32_4,  $param_ConvolveImageNoBorder_5,  $param_InputSanityCheck_6,  $param_ConvolveJustBorder_General_7);
             else {
                 java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
-                String $__method = "public void boofcv.alg.filter.derivative.DerivativeHelperFunctions.processBorderHorizontal(boofcv.struct.image.GrayU8,boofcv.struct.image.GrayS16,boofcv.struct.convolve.Kernel1D_I32,boofcv.core.image.border.ImageBorder_S32,boofcv.alg.filter.convolve.ConvolveImageNoBorder,boofcv.alg.InputSanityCheck)";
+                String $__method = "public void boofcv.alg.filter.derivative.DerivativeHelperFunctions.processBorderHorizontal(boofcv.struct.image.GrayU8,boofcv.struct.image.GrayS16,boofcv.struct.convolve.Kernel1D_I32,boofcv.core.image.border.ImageBorder_S32,boofcv.alg.filter.convolve.ConvolveImageNoBorder,boofcv.alg.InputSanityCheck,boofcv.alg.filter.convolve.border.ConvolveJustBorder_General)";
                 $__params.add($param_GrayU8_1);
                 $__params.add($param_GrayS16_2);
                 $__params.add($param_Kernel1D_I32_3);
                 $__params.add($param_ImageBorder_S32_4);
                 $__params.add($param_ConvolveImageNoBorder_5);
                 $__params.add($param_InputSanityCheck_6);
+                $__params.add($param_ConvolveJustBorder_General_7);
                 $__result = $__client.onRPC($__method, $__params);
             }
         } catch (Exception e) {
@@ -161,21 +167,22 @@ public final class DerivativeHelperFunctions_Stub extends boofcv.alg.filter.deri
         }
     }
 
-    // Implementation of processBorderHorizontal(GrayS16, GrayS16, Kernel1D_I32, ImageBorder_S32, ConvolveImageNoBorder, InputSanityCheck)
-    public void processBorderHorizontal(boofcv.struct.image.GrayS16 $param_GrayS16_1, boofcv.struct.image.GrayS16 $param_GrayS16_2, boofcv.struct.convolve.Kernel1D_I32 $param_Kernel1D_I32_3, boofcv.core.image.border.ImageBorder_S32 $param_ImageBorder_S32_4, boofcv.alg.filter.convolve.ConvolveImageNoBorder $param_ConvolveImageNoBorder_5, boofcv.alg.InputSanityCheck $param_InputSanityCheck_6) {
+    // Implementation of processBorderHorizontal(GrayS16, GrayS16, Kernel1D_I32, ImageBorder_S32, ConvolveImageNoBorder, InputSanityCheck, ConvolveJustBorder_General)
+    public void processBorderHorizontal(boofcv.struct.image.GrayS16 $param_GrayS16_1, boofcv.struct.image.GrayS16 $param_GrayS16_2, boofcv.struct.convolve.Kernel1D_I32 $param_Kernel1D_I32_3, boofcv.core.image.border.ImageBorder_S32 $param_ImageBorder_S32_4, boofcv.alg.filter.convolve.ConvolveImageNoBorder $param_ConvolveImageNoBorder_5, boofcv.alg.InputSanityCheck $param_InputSanityCheck_6, boofcv.alg.filter.convolve.border.ConvolveJustBorder_General $param_ConvolveJustBorder_General_7) {
         java.lang.Object $__result = null;
         try {
             if ($__directInvocation)
-                super.processBorderHorizontal( $param_GrayS16_1,  $param_GrayS16_2,  $param_Kernel1D_I32_3,  $param_ImageBorder_S32_4,  $param_ConvolveImageNoBorder_5,  $param_InputSanityCheck_6);
+                super.processBorderHorizontal( $param_GrayS16_1,  $param_GrayS16_2,  $param_Kernel1D_I32_3,  $param_ImageBorder_S32_4,  $param_ConvolveImageNoBorder_5,  $param_InputSanityCheck_6,  $param_ConvolveJustBorder_General_7);
             else {
                 java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
-                String $__method = "public void boofcv.alg.filter.derivative.DerivativeHelperFunctions.processBorderHorizontal(boofcv.struct.image.GrayS16,boofcv.struct.image.GrayS16,boofcv.struct.convolve.Kernel1D_I32,boofcv.core.image.border.ImageBorder_S32,boofcv.alg.filter.convolve.ConvolveImageNoBorder,boofcv.alg.InputSanityCheck)";
+                String $__method = "public void boofcv.alg.filter.derivative.DerivativeHelperFunctions.processBorderHorizontal(boofcv.struct.image.GrayS16,boofcv.struct.image.GrayS16,boofcv.struct.convolve.Kernel1D_I32,boofcv.core.image.border.ImageBorder_S32,boofcv.alg.filter.convolve.ConvolveImageNoBorder,boofcv.alg.InputSanityCheck,boofcv.alg.filter.convolve.border.ConvolveJustBorder_General)";
                 $__params.add($param_GrayS16_1);
                 $__params.add($param_GrayS16_2);
                 $__params.add($param_Kernel1D_I32_3);
                 $__params.add($param_ImageBorder_S32_4);
                 $__params.add($param_ConvolveImageNoBorder_5);
                 $__params.add($param_InputSanityCheck_6);
+                $__params.add($param_ConvolveJustBorder_General_7);
                 $__result = $__client.onRPC($__method, $__params);
             }
         } catch (Exception e) {
@@ -183,21 +190,22 @@ public final class DerivativeHelperFunctions_Stub extends boofcv.alg.filter.deri
         }
     }
 
-    // Implementation of processBorderHorizontal(GrayF32, GrayF32, Kernel1D_F32, ImageBorder_F32, ConvolveImageNoBorder, InputSanityCheck)
-    public void processBorderHorizontal(boofcv.struct.image.GrayF32 $param_GrayF32_1, boofcv.struct.image.GrayF32 $param_GrayF32_2, boofcv.struct.convolve.Kernel1D_F32 $param_Kernel1D_F32_3, boofcv.core.image.border.ImageBorder_F32 $param_ImageBorder_F32_4, boofcv.alg.filter.convolve.ConvolveImageNoBorder $param_ConvolveImageNoBorder_5, boofcv.alg.InputSanityCheck $param_InputSanityCheck_6) {
+    // Implementation of processBorderHorizontal(GrayF32, GrayF32, Kernel1D_F32, ImageBorder_F32, ConvolveImageNoBorder, InputSanityCheck, ConvolveJustBorder_General)
+    public void processBorderHorizontal(boofcv.struct.image.GrayF32 $param_GrayF32_1, boofcv.struct.image.GrayF32 $param_GrayF32_2, boofcv.struct.convolve.Kernel1D_F32 $param_Kernel1D_F32_3, boofcv.core.image.border.ImageBorder_F32 $param_ImageBorder_F32_4, boofcv.alg.filter.convolve.ConvolveImageNoBorder $param_ConvolveImageNoBorder_5, boofcv.alg.InputSanityCheck $param_InputSanityCheck_6, boofcv.alg.filter.convolve.border.ConvolveJustBorder_General $param_ConvolveJustBorder_General_7) {
         java.lang.Object $__result = null;
         try {
             if ($__directInvocation)
-                super.processBorderHorizontal( $param_GrayF32_1,  $param_GrayF32_2,  $param_Kernel1D_F32_3,  $param_ImageBorder_F32_4,  $param_ConvolveImageNoBorder_5,  $param_InputSanityCheck_6);
+                super.processBorderHorizontal( $param_GrayF32_1,  $param_GrayF32_2,  $param_Kernel1D_F32_3,  $param_ImageBorder_F32_4,  $param_ConvolveImageNoBorder_5,  $param_InputSanityCheck_6,  $param_ConvolveJustBorder_General_7);
             else {
                 java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
-                String $__method = "public void boofcv.alg.filter.derivative.DerivativeHelperFunctions.processBorderHorizontal(boofcv.struct.image.GrayF32,boofcv.struct.image.GrayF32,boofcv.struct.convolve.Kernel1D_F32,boofcv.core.image.border.ImageBorder_F32,boofcv.alg.filter.convolve.ConvolveImageNoBorder,boofcv.alg.InputSanityCheck)";
+                String $__method = "public void boofcv.alg.filter.derivative.DerivativeHelperFunctions.processBorderHorizontal(boofcv.struct.image.GrayF32,boofcv.struct.image.GrayF32,boofcv.struct.convolve.Kernel1D_F32,boofcv.core.image.border.ImageBorder_F32,boofcv.alg.filter.convolve.ConvolveImageNoBorder,boofcv.alg.InputSanityCheck,boofcv.alg.filter.convolve.border.ConvolveJustBorder_General)";
                 $__params.add($param_GrayF32_1);
                 $__params.add($param_GrayF32_2);
                 $__params.add($param_Kernel1D_F32_3);
                 $__params.add($param_ImageBorder_F32_4);
                 $__params.add($param_ConvolveImageNoBorder_5);
                 $__params.add($param_InputSanityCheck_6);
+                $__params.add($param_ConvolveJustBorder_General_7);
                 $__result = $__client.onRPC($__method, $__params);
             }
         } catch (Exception e) {

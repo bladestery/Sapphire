@@ -23,6 +23,7 @@ import boofcv.abst.geo.RefineEpipolar;
 import boofcv.alg.InputSanityCheck;
 import boofcv.alg.distort.*;
 import boofcv.alg.filter.binary.GThresholdImageOps;
+import boofcv.alg.filter.binary.LinearContourLabelChang2004;
 import boofcv.alg.filter.binary.ThresholdImageOps;
 import boofcv.alg.filter.blur.BlurImageOps;
 import boofcv.alg.filter.blur.GBlurImageOps;
@@ -38,6 +39,7 @@ import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
 import boofcv.alg.geo.h.HomographyLinear4;
 import boofcv.alg.interpolate.InterpolatePixelS;
 import boofcv.alg.misc.GImageStatistics;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.misc.ImageStatistics;
 import boofcv.alg.shapes.polygon.BinaryPolygonDetector;
 import boofcv.core.image.GeneralizedImageOps;
@@ -48,6 +50,7 @@ import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.factory.geo.EpipolarError;
 import boofcv.factory.geo.FactoryMultiView;
 import boofcv.factory.interpolate.FactoryInterpolation;
+import boofcv.struct.ConnectRule;
 import boofcv.struct.distort.*;
 import boofcv.struct.geo.AssociatedPair;
 import boofcv.struct.image.GrayF32;
@@ -104,6 +107,10 @@ public abstract class BaseDetectFiducialSquare<T extends ImageGray> {
 	private static GImageStatistics GIS;
 	private static ImageStatistics IS;
 	private static ThresholdImageOps TIO;
+	private static ImageMiscOps IMO;
+
+	private LinearContourLabelChang2004 cF = new LinearContourLabelChang2004(ConnectRule.FOUR);
+
 	// Storage for the found fiducials
 	private FastQueue<FoundFiducial> found = new FastQueue<>(FoundFiducial.class, true);
 
@@ -234,7 +241,7 @@ public abstract class BaseDetectFiducialSquare<T extends ImageGray> {
 		binary.reshape(gray.width,gray.height);
 
 		inputToBinary.process(gray,binary, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO);
-		squareDetector.process(gray,binary);
+		squareDetector.process(gray,binary, ISC, IMO, cF);
 		// These are in undistorted pixels
 		FastQueue<Polygon2D_F64> candidates = squareDetector.getFoundPolygons();
 

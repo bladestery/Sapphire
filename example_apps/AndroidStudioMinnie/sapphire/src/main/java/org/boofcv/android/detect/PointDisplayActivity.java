@@ -40,6 +40,7 @@ import georegression.struct.point.Point2D_I16;
 public class PointDisplayActivity extends DemoVideoDisplayActivity
 		implements AdapterView.OnItemSelectedListener  {
 	private ImageType IT;
+	private static FactoryFeatureExtractor FFE;
 	Spinner spinner;
 
 	Paint paintMax,paintMin;
@@ -77,9 +78,9 @@ public class PointDisplayActivity extends DemoVideoDisplayActivity
 		ConfigExtract configCorner = new ConfigExtract(2,20,3,true,false,true);
 		ConfigExtract configBlob = new ConfigExtract(2,20,3,true,true,true);
 
-		nonmaxMax = FactoryFeatureExtractor.nonmax(configCorner);
-		nonmaxCandidate = FactoryFeatureExtractor.nonmaxCandidate(configCorner);
-		nonmaxMinMax = FactoryFeatureExtractor.nonmax(configBlob);
+		nonmaxMax = FFE.nonmax(configCorner);
+		nonmaxCandidate = FFE.nonmaxCandidate(configCorner);
+		nonmaxMinMax = FFE.nonmax(configBlob);
 	}
 
 	@Override

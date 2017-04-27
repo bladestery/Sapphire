@@ -21,7 +21,9 @@ package boofcv.alg.filter.derivative.impl;
 import boofcv.abst.filter.derivative.ImageGradient;
 import boofcv.alg.InputSanityCheck;
 import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
 import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
+import boofcv.alg.filter.derivative.GradientSobel;
 import boofcv.alg.misc.GImageMiscOps;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.BorderType;
@@ -47,6 +49,9 @@ public abstract class GeneralGradientSparse {
 	private static InputSanityCheck ISC;
 	private static DerivativeHelperFunctions DHF;
 	private static ConvolveImageNoBorder CINB;
+	private static ConvolveJustBorder_General CJBG;
+	private static GradientSobel_Outer GSO;
+	private static GradientSobel_UnrolledOuter GSUO;
 	Random rand = new Random(234);
 
 	Class imageType,derivType;
@@ -77,7 +82,7 @@ public abstract class GeneralGradientSparse {
 	@Test
 	public void compareToFullImage_noBorder() {
 
-		createGradient().process(image,derivX,derivY, ISC, DHF, CINB);
+		createGradient().process(image,derivX,derivY, ISC, DHF, CINB, CJBG, GSO, GSUO);
 		SparseImageGradient alg = createAlg(null);
 
 		alg.setImage(image);
@@ -106,7 +111,7 @@ public abstract class GeneralGradientSparse {
 
 		ImageGradient gradient = createGradient();
 		gradient.setBorderType(BorderType.EXTENDED, FIB);
-		gradient.process(image, derivX, derivY, ISC, DHF, CINB);
+		gradient.process(image, derivX, derivY, ISC, DHF, CINB, CJBG, GSO, GSUO);
 
 		SparseImageGradient alg = createAlg(border);
 

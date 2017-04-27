@@ -25,18 +25,27 @@ import boofcv.abst.filter.derivative.ImageGradient;
 import boofcv.alg.InputSanityCheck;
 import boofcv.alg.feature.detect.edge.GGradientToEdgeFeatures;
 import boofcv.alg.feature.detect.edge.GradientToEdgeFeatures;
+import boofcv.alg.feature.detect.edge.impl.ImplEdgeNonMaxSuppressionCrude;
 import boofcv.alg.feature.detect.line.HoughTransformLineFootOfNorm;
 import boofcv.alg.feature.detect.line.ImageLinePruneMerge;
 import boofcv.alg.filter.binary.ThresholdImageOps;
 import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
 import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
+import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
+import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.core.image.GeneralizedImageOps;
+import boofcv.core.image.border.FactoryImageBorderAlgs;
+import boofcv.core.image.border.ImageBorderValue;
 import boofcv.factory.feature.detect.extract.FactoryFeatureExtractor;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.ImageGray;
 import boofcv.struct.image.ImageType;
 import georegression.struct.line.LineParametric2D_F32;
+import sapphire.app.SapphireObject;
+
 import org.ddogleg.struct.FastQueue;
 
 import java.util.ArrayList;
@@ -63,16 +72,8 @@ import java.util.List;
  * @author Peter Abeles
  */
 public class DetectLineHoughFootSubimage<I extends ImageGray, D extends ImageGray>
-		implements DetectLine<I>
+		implements DetectLine<I>, SapphireObject
 {
-	private static ImageType IT;
-	private static GradientToEdgeFeatures GTEF;
-	private static GGradientToEdgeFeatures GGTEF;
-	private static ThresholdImageOps TIO;
-	private static InputSanityCheck ISC;
-	private static GeneralizedImageOps GIO;
-	private static DerivativeHelperFunctions DHF;
-	private static ConvolveImageNoBorder CINB;
 	int totalHorizontalDivisions;
 	int totalVerticalDivisions;
 
@@ -120,14 +121,15 @@ public class DetectLineHoughFootSubimage<I extends ImageGray, D extends ImageGra
 									   int totalHorizontalDivisions ,
 									   int totalVerticalDivisions ,
 									   int maxLines ,
-									   ImageGradient<I, D> gradient)
+									   ImageGradient<I, D> gradient,
+									   ImageType IT, FactoryFeatureExtractor FFE)
 	{
 		this.gradient = gradient;
 		this.thresholdEdge = thresholdEdge;
 		this.totalHorizontalDivisions = totalHorizontalDivisions;
 		this.totalVerticalDivisions = totalVerticalDivisions;
 		this.maxLines = maxLines;
-		NonMaxSuppression extractor = FactoryFeatureExtractor.nonmaxCandidate(
+		NonMaxSuppression extractor = FFE.nonmaxCandidate(
 				new ConfigExtract(localMaxRadius, minCounts, 0, false));
 		alg = new HoughTransformLineFootOfNorm(extractor,minDistanceFromOrigin);
 		derivX = gradient.getDerivativeType(IT).createImage(1, 1);
@@ -135,13 +137,15 @@ public class DetectLineHoughFootSubimage<I extends ImageGray, D extends ImageGra
 	}
 
 	@Override
-	public List<LineParametric2D_F32> detect(I input) {
+	public List<LineParametric2D_F32> detect(I input, InputSanityCheck ISC, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB,
+											 GradientToEdgeFeatures GTEF, GeneralizedImageOps GIO, ThresholdImageOps TIO, GGradientToEdgeFeatures GGTEF, ConvolveJustBorder_General CJBG,
+											 GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO, ImageMiscOps IMO, ImplEdgeNonMaxSuppressionCrude IENMSC, FactoryImageBorderAlgs FIBA, ImageBorderValue IBV) {
 		derivX.reshape(input.width,input.height);
 		derivY.reshape(input.width,input.height);
 		intensity.reshape(input.width,input.height);
 		binary.reshape(input.width,input.height);
 
-		gradient.process(input,derivX,derivY, ISC, DHF, CINB);
+		gradient.process(input,derivX,derivY, ISC, DHF, CINB, CJBG, GSO, GSUO);
 		GGTEF.intensityAbs(derivX, derivY, intensity, GTEF, ISC);
 
 		TIO.threshold(intensity, binary, thresholdEdge, false, ISC, GIO);
@@ -157,7 +161,7 @@ public class DetectLineHoughFootSubimage<I extends ImageGray, D extends ImageGra
 				int x0 = input.width*j/totalVerticalDivisions;
 				int x1 = input.width*(j+1)/totalVerticalDivisions;
 
-				processSubimage(x0,y0,x1,y1,ret);
+				processSubimage(x0,y0,x1,y1,ret, IMO, ISC);
 			}
 		}
 
@@ -178,13 +182,13 @@ public class DetectLineHoughFootSubimage<I extends ImageGray, D extends ImageGra
 		return post.createList();
 	}
 
-	private void processSubimage( int x0 , int y0 , int x1 , int y1 ,
-								  List<LineParametric2D_F32> found ) {
+	private void processSubimage(int x0 , int y0 , int x1 , int y1 ,
+								 List<LineParametric2D_F32> found, ImageMiscOps IMO, InputSanityCheck ISC) {
 		D derivX = (D)this.derivX.subimage(x0,y0,x1,y1);
 		D derivY = (D)this.derivY.subimage(x0,y0,x1,y1);
 		GrayU8 binary = this.binary.subimage(x0,y0,x1,y1);
 
-		alg.transform(derivX, derivY, binary);
+		alg.transform(derivX, derivY, binary, ISC, IMO);
 		FastQueue<LineParametric2D_F32> lines = alg.extractLines();
 		float intensity[] = alg.getFoundIntensity();
 

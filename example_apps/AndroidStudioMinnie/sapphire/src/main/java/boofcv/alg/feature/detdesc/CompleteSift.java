@@ -26,7 +26,10 @@ import boofcv.alg.feature.detect.interest.SiftDetector;
 import boofcv.alg.feature.detect.interest.SiftScaleSpace;
 import boofcv.alg.feature.orientation.OrientationHistogramSift;
 import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
 import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
+import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
+import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.filter.derivative.FactoryDerivative;
@@ -54,6 +57,9 @@ public class CompleteSift extends SiftDetector
 	private static InputSanityCheck ISC;
 	private static DerivativeHelperFunctions DHF;
 	private static ConvolveImageNoBorder CINB;
+	private static ConvolveJustBorder_General CJBG;
+	private static GradientSobel_Outer GSO;
+	private static GradientSobel_UnrolledOuter GSUO;
 	// estimate orientation
 	OrientationHistogramSift<GrayF32> orientation;
 	// describes the keypoints
@@ -112,7 +118,7 @@ public class CompleteSift extends SiftDetector
 		GrayF32 input = scaleSpace.getImageScale(scaleIndex);
 		derivX.reshape(input.width,input.height);
 		derivY.reshape(input.width,input.height);
-		gradient.process(input,derivX,derivY, ISC, DHF, CINB);
+		gradient.process(input,derivX,derivY, ISC,DHF, CINB, CJBG,GSO,GSUO);
 
 		// set up the orientation and description algorithms
 		orientation.setImageGradient(derivX,derivY);

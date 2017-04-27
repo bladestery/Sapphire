@@ -18,8 +18,14 @@
 
 package boofcv.alg.feature.detect.intensity;
 
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
+import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
 import boofcv.alg.filter.derivative.GradientSobel;
 import boofcv.alg.filter.derivative.HessianThree;
+import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
+import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
 import boofcv.core.image.border.*;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.GrayS16;
@@ -30,7 +36,12 @@ import boofcv.struct.image.GrayS16;
  * @author Peter Abeles
  */
 public abstract class GenericCornerIntensityGradientTests extends GenericCornerIntensityTests {
-
+	private static InputSanityCheck ISC;
+	private static GradientSobel_Outer GSO;
+	private static ConvolveJustBorder_General CJBG;
+	private static GradientSobel_UnrolledOuter GSUO;
+	private static DerivativeHelperFunctions DHF;
+	private static ConvolveImageNoBorder CINB;
 	protected GrayS16 derivX_I16 = new GrayS16(width,height);
 	protected GrayS16 derivY_I16 = new GrayS16(width,height);
 	protected GrayS16 derivXX_I16 = new GrayS16(width,height);
@@ -48,8 +59,8 @@ public abstract class GenericCornerIntensityGradientTests extends GenericCornerI
 
 	@Override
 	protected void computeDerivatives() {
-		GradientSobel.process(imageF,derivX_F32,derivY_F32, borderF32);
-		GradientSobel.process(imageI,derivX_I16,derivY_I16, borderI32);
+		GradientSobel.process(imageF,derivX_F32,derivY_F32, borderF32, ISC,DHF, CINB, CJBG,GSO,GSUO);
+		GradientSobel.process(imageI,derivX_I16,derivY_I16, borderI32, ISC,DHF, CINB, CJBG,GSO,GSUO);
 		HessianThree.process(imageF,derivXX_F32,derivYY_F32,derivXY_F32,borderF32);
 		HessianThree.process(imageI,derivXX_I16,derivYY_I16,derivXY_I16,borderI32);
 	}

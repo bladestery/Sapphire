@@ -7,6 +7,11 @@ import org.ddogleg.struct.FastQueue;
 
 import java.util.List;
 
+import boofcv.abst.feature.detect.line.DetectLine;
+import boofcv.abst.feature.detect.line.DetectLineHoughFoot;
+import boofcv.abst.feature.detect.line.DetectLineHoughPolar;
+import boofcv.abst.feature.detect.line.DetectLineSegment;
+import boofcv.abst.feature.detect.line.DetectLineSegmentsGridRansac;
 import boofcv.abst.filter.binary.GlobalOtsuBinaryFilter;
 import boofcv.abst.filter.binary.InputToBinary;
 import boofcv.abst.filter.binary.LocalSquareBinaryFilter;
@@ -16,6 +21,7 @@ import boofcv.alg.feature.detect.edge.EdgeContour;
 import boofcv.alg.feature.detect.edge.GGradientToEdgeFeatures;
 import boofcv.alg.feature.detect.edge.GradientToEdgeFeatures;
 import boofcv.alg.feature.detect.edge.impl.ImplEdgeNonMaxSuppression;
+import boofcv.alg.feature.detect.edge.impl.ImplEdgeNonMaxSuppressionCrude;
 import boofcv.alg.filter.binary.BinaryImageOps;
 import boofcv.alg.filter.binary.Contour;
 import boofcv.alg.filter.binary.GThresholdImageOps;
@@ -31,25 +37,35 @@ import boofcv.alg.filter.blur.impl.ImplMedianSortNaive;
 import boofcv.alg.filter.convolve.ConvolveImageMean;
 import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
 import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
 import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
 import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
+import boofcv.alg.filter.derivative.GradientSobel;
+import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
+import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
 import boofcv.alg.misc.GImageStatistics;
 import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.misc.ImageStatistics;
 import boofcv.alg.shapes.ellipse.BinaryEllipseDetector;
+import boofcv.alg.shapes.polygon.BinaryPolygonDetector;
 import boofcv.android.VisualizeImageData;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.core.image.border.FactoryImageBorderAlgs;
 import boofcv.core.image.border.ImageBorderValue;
 import boofcv.factory.feature.detect.edge.FactoryEdgeDetectors;
+import boofcv.factory.feature.detect.extract.FactoryFeatureExtractor;
+import boofcv.factory.feature.detect.line.ConfigHoughFoot;
+import boofcv.factory.feature.detect.line.ConfigHoughPolar;
+import boofcv.factory.feature.detect.line.FactoryDetectLineAlgs;
 import boofcv.factory.filter.binary.FactoryThresholdBinary;
 import boofcv.factory.filter.blur.FactoryBlurFilter;
 import boofcv.factory.filter.derivative.FactoryDerivative;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.factory.shape.ConfigEllipseDetector;
+import boofcv.factory.shape.ConfigPolygonDetector;
 import boofcv.factory.shape.FactoryShapeDetector;
 import boofcv.struct.ConnectRule;
 import boofcv.struct.image.GrayS16;
@@ -57,7 +73,10 @@ import boofcv.struct.image.GrayS32;
 import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.ImageGray;
 import boofcv.struct.image.ImageType;
+import georegression.struct.line.LineParametric2D_F32;
+import georegression.struct.line.LineSegment2D_F32;
 import georegression.struct.shapes.EllipseRotated_F64;
+import georegression.struct.shapes.Polygon2D_F64;
 import sapphire.app.SapphireObject;
 
 import static sapphire.runtime.Sapphire.new_;
@@ -102,13 +121,23 @@ public class DemoManager implements SapphireObject<sapphire.policy.offload.CodeO
     private DerivativeHelperFunctions DHF;
     private FactoryShapeDetector FSD;
     private FactoryThresholdBinary FTB;
+    private FactoryDetectLineAlgs FDLA;
+    private FactoryFeatureExtractor FFE;
+    private ConvolveJustBorder_General CJBG;
+    private GradientSobel_Outer GSO;
+    private GradientSobel_UnrolledOuter GSUO;
+    private ImplEdgeNonMaxSuppressionCrude IENMSC;
 
     CannyEdge<GrayU8,GrayS16> canny;
     LinearContourLabelChang2004 contour8;
     LinearContourLabelChang2004 contour4;
     BinaryEllipseDetector<GrayU8> detector;
     InputToBinary<GrayU8> inputToBinary;
+    BinaryPolygonDetector<GrayU8> polyDetector;
     GrayU8 blackBinary;
+    DetectLine<GrayU8> lineDetector;
+    DetectLineSegment<GrayU8> segDetector;
+
 
     public DemoManager() {
         FED = (FactoryEdgeDetectors) new_(FactoryEdgeDetectors.class);
@@ -146,6 +175,12 @@ public class DemoManager implements SapphireObject<sapphire.policy.offload.CodeO
         DHF = (DerivativeHelperFunctions) new_(DerivativeHelperFunctions.class);
         FSD = (FactoryShapeDetector) new_(FactoryShapeDetector.class);
         FTB = (FactoryThresholdBinary) new_(FactoryThresholdBinary.class);
+        FDLA = (FactoryDetectLineAlgs) new_(FactoryDetectLineAlgs.class);
+        FFE = (FactoryFeatureExtractor) new_(FactoryFeatureExtractor.class);
+        CJBG = (ConvolveJustBorder_General) new_(ConvolveJustBorder_General.class);
+        GSO = (GradientSobel_Outer) new_(GradientSobel_Outer.class);
+        GSUO = (GradientSobel_UnrolledOuter) new_(GradientSobel_UnrolledOuter.class);
+        IENMSC = (ImplEdgeNonMaxSuppressionCrude) new_(ImplEdgeNonMaxSuppressionCrude.class);
 
         contour8 = new LinearContourLabelChang2004(ConnectRule.EIGHT);
         contour4 = new LinearContourLabelChang2004(ConnectRule.FOUR);
@@ -169,13 +204,15 @@ public class DemoManager implements SapphireObject<sapphire.policy.offload.CodeO
 
     public List<EdgeContour> edgeProcess(GrayU8 input , float threshLow, float threshHigh , GrayU8 output) {
         canny.process(input, threshLow, threshHigh, output,
-                IMO, GBIO, IBV, GTEF, IENMS, FIBA, GGTEF, IS, ISC, GIO, BlIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, DHF, GTIO, GIS, TIO);
+                IMO, GBIO, IBV, GTEF, IENMS, FIBA, GGTEF, IS, ISC, GIO, BlIO, CIM, FKG, CN, CNN, CINB,
+                CNJB, IMHI, IMSEN, IMSN, ICM, DHF, GTIO, GIS, TIO, CJBG, GSO, GSUO);
         return canny.getContours();
     }
 
     public void process(GrayU8 input , float threshLow, float threshHigh , GrayU8 output) {
         canny.process(input, threshLow, threshHigh, output,
-                IMO, GBIO, IBV, GTEF, IENMS, FIBA, GGTEF, IS, ISC, GIO, BlIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, DHF, GTIO, GIS, TIO);
+                IMO, GBIO, IBV, GTEF, IENMS, FIBA, GGTEF, IS, ISC, GIO, BlIO, CIM, FKG, CN, CNN, CINB,
+                CNJB, IMHI, IMSEN, IMSN, ICM, DHF, GTIO, GIS, TIO, CJBG, GSO, GSUO);
     }
 
     public List<EdgeContour> getContours() {
@@ -256,6 +293,76 @@ public class DemoManager implements SapphireObject<sapphire.policy.offload.CodeO
 
     public void reshape(int width, int height) {
         blackBinary.reshape(width, height);
+    }
+
+    public void polygon(ConfigPolygonDetector config) {
+        polyDetector = Polygon(config, GrayU8.class);
+    }
+
+    public <T extends ImageGray>
+    BinaryPolygonDetector<T> Polygon(ConfigPolygonDetector config, Class<T> imageType) {
+        return FSD.polygon(config,imageType);
+    }
+
+    public void setConvex(boolean convex) {
+        polyDetector.setConvex(convex);
+    }
+
+    public void setNumberOfSides( int min , int max ) {
+        polyDetector.setNumberOfSides(min, max);
+    }
+
+    public GrayU8 polyProcess(GrayU8 image) {
+        polyDetector.process(image, blackBinary, ISC, IMO, contour4);
+        return blackBinary;
+    }
+
+    public FastQueue<Polygon2D_F64> getFoundPolygons() {
+        return polyDetector.getFoundPolygons();
+    }
+
+    public void houghFoot(ConfigHoughFoot config) {
+        lineDetector = HoughFoot(config,GrayU8.class,GrayS16.class);
+    }
+
+    public <I extends ImageGray, D extends ImageGray>
+    DetectLineHoughFoot<I,D> HoughFoot(ConfigHoughFoot config ,
+                                       Class<I> imageType ,
+                                       Class<D> derivType ) {
+        return FDLA.houghFoot(config, imageType, derivType, FD, GIO, FIB, IT, FFE);
+    }
+
+    public void houghPolar(ConfigHoughPolar config) {
+        lineDetector = HoughPolar(config,GrayU8.class,GrayS16.class);
+    }
+
+    public <I extends ImageGray, D extends ImageGray>
+    DetectLineHoughPolar<I,D> HoughPolar(ConfigHoughPolar config ,
+                                         Class<I> imageType ,
+                                         Class<D> derivType ) {
+        return FDLA.houghPolar(config, imageType, derivType, FD, GIO, FIB, IT, FFE);
+    }
+
+    public List<LineParametric2D_F32> lineDetect(GrayU8 gray) {
+        return lineDetector.detect(gray, ISC, DHF, CINB, GTEF, GIO, TIO, GGTEF, CJBG, GSO, GSUO, IMO, IENMSC, FIBA, IBV);
+    }
+
+    public void lineRansac() {
+        segDetector = LineRansac(40,30,2.36, true, GrayU8.class, GrayS16.class);
+    }
+
+    public <I extends ImageGray, D extends ImageGray>
+    DetectLineSegmentsGridRansac<I,D> LineRansac(int regionSize ,
+                                                 double thresholdEdge ,
+                                                 double thresholdAngle ,
+                                                 boolean connectLines,
+                                                 Class<I> imageType ,
+                                                 Class<D> derivType) {
+        return FDLA.lineRansac(regionSize, thresholdEdge, thresholdAngle, connectLines, imageType, derivType, FD, GIO, FIB);
+    }
+
+    public List<LineSegment2D_F32> segDetect (GrayU8 gray) {
+        return segDetector.detect(gray, ISC, DHF, CINB, GTEF, TIO, GIO, GGTEF, GTIO, CJBG, GSO, GSUO);
     }
 
 }

@@ -21,13 +21,21 @@ package boofcv.alg.feature.dense;
 import boofcv.abst.filter.derivative.ImageGradient;
 import boofcv.alg.InputSanityCheck;
 import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
 import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
 import boofcv.alg.filter.derivative.DerivativeReduceType;
 import boofcv.alg.filter.derivative.DerivativeType;
+import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
+import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
+import boofcv.core.image.GeneralizedImageOps;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.filter.derivative.FactoryDerivative;
 import boofcv.struct.feature.TupleDesc_F64;
 import boofcv.struct.image.*;
 import georegression.struct.point.Point2D_I32;
+import sapphire.compiler.FIBAGenerator;
+import sapphire.compiler.GIOGenerator;
+
 import org.ddogleg.struct.FastQueue;
 import org.hamcrest.Factory;
 
@@ -42,6 +50,11 @@ public abstract class BaseDenseHog<Input extends ImageBase> {
 	private static InputSanityCheck ISC;
 	private static DerivativeHelperFunctions DHF;
 	private static ConvolveImageNoBorder CINB;
+	private static GeneralizedImageOps GIO;
+	private static FactoryImageBorder FIB;
+	private static ConvolveJustBorder_General CJBG;
+	private static GradientSobel_Outer GSO;
+	private static GradientSobel_UnrolledOuter GSUO;
 	ImageGradient<Input, GrayF32> gradient;
 
 	// gradient of each pixel
@@ -113,12 +126,12 @@ public abstract class BaseDenseHog<Input extends ImageBase> {
 			throw new IllegalArgumentException("Input image type must be F32");
 
 		if( imageType.getFamily() == ImageType.Family.GRAY) {
-			gradient = FD.gradient(DerivativeType.THREE,imageType, typeF32);
+			gradient = FD.gradient(DerivativeType.THREE,imageType, typeF32, IT, GIO, FIB);
 		} else if( imageType.getFamily() == ImageType.Family.PLANAR ) {
 			ImageType<Planar<GrayF32>> typePF32 = IT.pl(imageType.getNumBands(),GrayF32.class);
 			ImageGradient<Planar<GrayF32>,Planar<GrayF32>> gradientMB =
-					FD.gradient(DerivativeType.THREE,typePF32, typePF32);
-			gradient = (ImageGradient)FD.gradientReduce(gradientMB, DerivativeReduceType.MAX_F, GrayF32.class);
+					FD.gradient(DerivativeType.THREE,typePF32, typePF32, IT, GIO, FIB);
+			gradient = (ImageGradient)FD.gradientReduce(gradientMB, DerivativeReduceType.MAX_F, GrayF32.class, IT);
 		} else {
 			throw new IllegalArgumentException("Unsupported image type "+imageType);
 		}
@@ -135,7 +148,7 @@ public abstract class BaseDenseHog<Input extends ImageBase> {
 		derivY.reshape(input.width,input.height);
 
 		// pixel gradient
-		gradient.process(input,derivX,derivY, ISC, DHF, CINB);
+		gradient.process(input,derivX,derivY, ISC, DHF, CINB, CJBG, GSO, GSUO);
 	}
 
 	public abstract void process();

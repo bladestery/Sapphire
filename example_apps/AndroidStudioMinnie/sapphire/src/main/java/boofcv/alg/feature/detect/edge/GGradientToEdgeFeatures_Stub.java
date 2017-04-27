@@ -29,21 +29,24 @@ public final class GGradientToEdgeFeatures_Stub extends boofcv.alg.feature.detec
 
 
 
-    // Implementation of nonMaxSuppressionCrude4(GrayF32, ImageGray, ImageGray, GrayF32, GradientToEdgeFeatures, InputSanityCheck)
-    public void nonMaxSuppressionCrude4(boofcv.struct.image.GrayF32 $param_GrayF32_1, boofcv.struct.image.ImageGray $param_ImageGray_2, boofcv.struct.image.ImageGray $param_ImageGray_3, boofcv.struct.image.GrayF32 $param_GrayF32_4, boofcv.alg.feature.detect.edge.GradientToEdgeFeatures $param_GradientToEdgeFeatures_5, boofcv.alg.InputSanityCheck $param_InputSanityCheck_6) {
+    // Implementation of nonMaxSuppressionCrude4(GrayF32, ImageGray, ImageGray, GrayF32, GradientToEdgeFeatures, InputSanityCheck, ImplEdgeNonMaxSuppressionCrude, FactoryImageBorderAlgs, ImageBorderValue)
+    public void nonMaxSuppressionCrude4(boofcv.struct.image.GrayF32 $param_GrayF32_1, boofcv.struct.image.ImageGray $param_ImageGray_2, boofcv.struct.image.ImageGray $param_ImageGray_3, boofcv.struct.image.GrayF32 $param_GrayF32_4, boofcv.alg.feature.detect.edge.GradientToEdgeFeatures $param_GradientToEdgeFeatures_5, boofcv.alg.InputSanityCheck $param_InputSanityCheck_6, boofcv.alg.feature.detect.edge.impl.ImplEdgeNonMaxSuppressionCrude $param_ImplEdgeNonMaxSuppressionCrude_7, boofcv.core.image.border.FactoryImageBorderAlgs $param_FactoryImageBorderAlgs_8, boofcv.core.image.border.ImageBorderValue $param_ImageBorderValue_9) {
         java.lang.Object $__result = null;
         try {
             if ($__directInvocation)
-                super.nonMaxSuppressionCrude4( $param_GrayF32_1,  $param_ImageGray_2,  $param_ImageGray_3,  $param_GrayF32_4,  $param_GradientToEdgeFeatures_5,  $param_InputSanityCheck_6);
+                super.nonMaxSuppressionCrude4( $param_GrayF32_1,  $param_ImageGray_2,  $param_ImageGray_3,  $param_GrayF32_4,  $param_GradientToEdgeFeatures_5,  $param_InputSanityCheck_6,  $param_ImplEdgeNonMaxSuppressionCrude_7,  $param_FactoryImageBorderAlgs_8,  $param_ImageBorderValue_9);
             else {
                 java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
-                String $__method = "public <D> void boofcv.alg.feature.detect.edge.GGradientToEdgeFeatures.nonMaxSuppressionCrude4(boofcv.struct.image.GrayF32,D,D,boofcv.struct.image.GrayF32,boofcv.alg.feature.detect.edge.GradientToEdgeFeatures,boofcv.alg.InputSanityCheck)";
+                String $__method = "public <D> void boofcv.alg.feature.detect.edge.GGradientToEdgeFeatures.nonMaxSuppressionCrude4(boofcv.struct.image.GrayF32,D,D,boofcv.struct.image.GrayF32,boofcv.alg.feature.detect.edge.GradientToEdgeFeatures,boofcv.alg.InputSanityCheck,boofcv.alg.feature.detect.edge.impl.ImplEdgeNonMaxSuppressionCrude,boofcv.core.image.border.FactoryImageBorderAlgs,boofcv.core.image.border.ImageBorderValue)";
                 $__params.add($param_GrayF32_1);
                 $__params.add($param_ImageGray_2);
                 $__params.add($param_ImageGray_3);
                 $__params.add($param_GrayF32_4);
                 $__params.add($param_GradientToEdgeFeatures_5);
                 $__params.add($param_InputSanityCheck_6);
+                $__params.add($param_ImplEdgeNonMaxSuppressionCrude_7);
+                $__params.add($param_FactoryImageBorderAlgs_8);
+                $__params.add($param_ImageBorderValue_9);
                 $__result = $__client.onRPC($__method, $__params);
             }
         } catch (Exception e) {

@@ -25,6 +25,7 @@ import boofcv.struct.convolve.Kernel2D_I32;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.GrayI16;
 import boofcv.struct.image.GrayS32;
+import sapphire.app.SapphireObject;
 
 /**
  * <p>
@@ -38,9 +39,10 @@ import boofcv.struct.image.GrayS32;
  * 
  * @author Peter Abeles
  */
-public class ConvolveJustBorder_General {
+public class ConvolveJustBorder_General implements SapphireObject {
+	public ConvolveJustBorder_General() {}
 
-	public static void horizontal(Kernel1D_F32 kernel, ImageBorder_F32 input, GrayF32 output ) {
+	public void horizontal(Kernel1D_F32 kernel, ImageBorder_F32 input, GrayF32 output ) {
 		final float[] dataDst = output.data;
 		final float[] dataKer = kernel.data;
 
@@ -72,7 +74,7 @@ public class ConvolveJustBorder_General {
 		}
 	}
 
-	public static void vertical(Kernel1D_F32 kernel, ImageBorder_F32 input, GrayF32 output ) {
+	public void vertical(Kernel1D_F32 kernel, ImageBorder_F32 input, GrayF32 output ) {
 		final float[] dataDst = output.data;
 		final float[] dataKer = kernel.data;
 
@@ -104,7 +106,7 @@ public class ConvolveJustBorder_General {
 		}
 	}
 
-	public static void convolve(Kernel2D_F32 kernel, ImageBorder_F32 input, GrayF32 output ) {
+	public void convolve(Kernel2D_F32 kernel, ImageBorder_F32 input, GrayF32 output ) {
 		final float[] dataDst = output.data;
 		final float[] dataKer = kernel.data;
 
@@ -170,7 +172,7 @@ public class ConvolveJustBorder_General {
 		}
 	}
 
-	public static void horizontal(Kernel1D_I32 kernel, ImageBorder_S32 input, GrayI16 output ) {
+	public void horizontal(Kernel1D_I32 kernel, ImageBorder_S32 input, GrayI16 output ) {
 		final short[] dataDst = output.data;
 		final int[] dataKer = kernel.data;
 
@@ -202,7 +204,7 @@ public class ConvolveJustBorder_General {
 		}
 	}
 
-	public static void vertical(Kernel1D_I32 kernel, ImageBorder_S32 input, GrayI16 output ) {
+	public void vertical(Kernel1D_I32 kernel, ImageBorder_S32 input, GrayI16 output ) {
 		final short[] dataDst = output.data;
 		final int[] dataKer = kernel.data;
 
@@ -234,7 +236,7 @@ public class ConvolveJustBorder_General {
 		}
 	}
 
-	public static void convolve(Kernel2D_I32 kernel, ImageBorder_S32 input, GrayI16 output ) {
+	public void convolve(Kernel2D_I32 kernel, ImageBorder_S32 input, GrayI16 output ) {
 		final short[] dataDst = output.data;
 		final int[] dataKer = kernel.data;
 
@@ -300,7 +302,7 @@ public class ConvolveJustBorder_General {
 		}
 	}
 
-	public static void horizontal(Kernel1D_I32 kernel, ImageBorder_S32 input, GrayS32 output ) {
+	public void horizontal(Kernel1D_I32 kernel, ImageBorder_S32 input, GrayS32 output ) {
 		final int[] dataDst = output.data;
 		final int[] dataKer = kernel.data;
 
@@ -332,7 +334,7 @@ public class ConvolveJustBorder_General {
 		}
 	}
 
-	public static void vertical(Kernel1D_I32 kernel, ImageBorder_S32 input, GrayS32 output ) {
+	public void vertical(Kernel1D_I32 kernel, ImageBorder_S32 input, GrayS32 output ) {
 		final int[] dataDst = output.data;
 		final int[] dataKer = kernel.data;
 
@@ -364,7 +366,7 @@ public class ConvolveJustBorder_General {
 		}
 	}
 
-	public static void convolve(Kernel2D_I32 kernel, ImageBorder_S32 input, GrayS32 output ) {
+	public void convolve(Kernel2D_I32 kernel, ImageBorder_S32 input, GrayS32 output ) {
 		final int[] dataDst = output.data;
 		final int[] dataKer = kernel.data;
 

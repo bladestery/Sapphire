@@ -26,7 +26,10 @@ import boofcv.abst.filter.derivative.*;
 import boofcv.alg.InputSanityCheck;
 import boofcv.alg.enhance.GEnhanceImageOps;
 import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
 import boofcv.alg.filter.derivative.*;
+import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
+import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.core.image.border.ImageBorder_F32;
@@ -45,9 +48,6 @@ import java.lang.reflect.Method;
  * @author Peter Abeles
  */
 public class FactoryDerivative implements SapphireObject {
-	private static GeneralizedImageOps GIO;
-	private static ImageType IT;
-	private static FactoryImageBorder FIB;
 	public FactoryDerivative() {}
 	/**
 	 * Computes the image gradient inside a multi-band image then reduces the output to a single
@@ -64,7 +64,7 @@ public class FactoryDerivative implements SapphireObject {
 	public <I extends ImageMultiBand, M extends ImageMultiBand, D extends ImageGray>
 	ImageGradient<I,D> gradientReduce( ImageGradient<I,M> gradient ,
 									   DerivativeReduceType type,
-									   Class<D> outputType )
+									   Class<D> outputType, ImageType IT)
 	{
 
 		String name;
@@ -106,7 +106,7 @@ public class FactoryDerivative implements SapphireObject {
 	 * @return gradient filter
 	 */
 	public <I extends ImageGray, D extends ImageGray>
-	ImageGradient<I,D> gradientSB( DerivativeType type , Class<I> inputType , Class<D> derivType )
+	ImageGradient<I,D> gradientSB( DerivativeType type , Class<I> inputType , Class<D> derivType, GeneralizedImageOps GIO, FactoryImageBorder FIB)
 	{
 		if( derivType == null )
 			derivType = GImageDerivativeOps.getDerivativeType(inputType);
@@ -155,16 +155,16 @@ public class FactoryDerivative implements SapphireObject {
 	 */
 	public <I extends ImageGray, D extends ImageGray>
 	ImageGradient<Planar<I>,Planar<D>>
-	gradientPL(DerivativeType type , int numBands , Class<I> inputType , Class<D> derivType )
+	gradientPL(DerivativeType type , int numBands , Class<I> inputType , Class<D> derivType, ImageType IT, GeneralizedImageOps GIO, FactoryImageBorder FIB)
 	{
-		ImageGradient<I,D> g = gradientSB(type,inputType,derivType);
+		ImageGradient<I,D> g = gradientSB(type,inputType,derivType, GIO, FIB);
 		return new ImageGradient_PL<>(g, numBands, IT);
 	}
 
 
 	public <I extends ImageBase, D extends ImageBase>
 	ImageGradient<I,D>
-	gradient(DerivativeType type , ImageType<I> inputType , ImageType<D> derivType )
+	gradient(DerivativeType type , ImageType<I> inputType , ImageType<D> derivType, ImageType IT, GeneralizedImageOps GIO, FactoryImageBorder FIB)
 	{
 		if( derivType != null ) {
 			if( inputType.getFamily() != derivType.getFamily() )
@@ -174,13 +174,13 @@ public class FactoryDerivative implements SapphireObject {
 		switch( inputType.getFamily() ) {
 			case GRAY: {
 				Class derivClass = derivType != null ? derivType.getImageClass() : null;
-				return gradientSB(type,inputType.getImageClass(),derivClass);
+				return gradientSB(type,inputType.getImageClass(),derivClass, GIO, FIB);
 			}
 
 			case PLANAR: {
 				int numBands = inputType.getNumBands();
 				Class derivClass = derivType != null ? derivType.getImageClass() : null;
-				return gradientPL(type,numBands,inputType.getImageClass(),derivClass);
+				return gradientPL(type,numBands,inputType.getImageClass(),derivClass, IT, GIO, FIB);
 			}
 
 			case INTERLEAVED:
@@ -207,7 +207,7 @@ public class FactoryDerivative implements SapphireObject {
 		if( derivType == null )
 			derivType = GImageDerivativeOps.getDerivativeType(inputType);
 
-		Method m = findDerivative(GradientSobel.class,inputType,derivType, GIO);
+		Method m = findSobelDerivative(GradientSobel.class,inputType,derivType, GIO);
 		return new ImageGradient_Reflection<>(m, FIB);
 	}
 
@@ -318,6 +318,24 @@ public class FactoryDerivative implements SapphireObject {
 		return m;
 	}
 
+	private static Method findSobelDerivative(Class<?> derivativeClass,
+										 Class<?> inputType , Class<?> derivType, GeneralizedImageOps GIO) {
+		Method m;
+		try {
+			Class<?> borderType = GIO.isFloatingPoint(inputType) ? ImageBorder_F32.class : ImageBorder_S32.class;
+			Class<?> ISC = InputSanityCheck.class;
+			Class<?> DHF = DerivativeHelperFunctions.class;
+			Class<?> CINB = ConvolveImageNoBorder.class;
+			Class <?> CJBG = ConvolveJustBorder_General.class;
+			Class<?> GSO = GradientSobel_Outer.class;
+			Class <?> GSUO = GradientSobel_UnrolledOuter.class;
+			m = derivativeClass.getDeclaredMethod("process", inputType,derivType,derivType,borderType, ISC, DHF, CINB, CJBG, GSO, GSUO);
+		} catch (NoSuchMethodException e) {
+			throw new RuntimeException("Input and derivative types are probably not compatible",e);
+		}
+		return m;
+	}
+
 	private static Method findThreeDerivative(Class<?> derivativeClass,
 										 Class<?> inputType , Class<?> derivType, GeneralizedImageOps GIO) {
 		Method m;
@@ -326,7 +344,10 @@ public class FactoryDerivative implements SapphireObject {
 			Class<?> ISC = InputSanityCheck.class;
 			Class<?> DHF = DerivativeHelperFunctions.class;
 			Class<?> CINB = ConvolveImageNoBorder.class;
-			m = derivativeClass.getDeclaredMethod("process", inputType,derivType,derivType,borderType, ISC, DHF, CINB);
+			Class <?> CJBG = ConvolveJustBorder_General.class;
+			Class<?> GSO = GradientSobel_Outer.class;
+			Class <?> GSUO = GradientSobel_UnrolledOuter.class;
+			m = derivativeClass.getDeclaredMethod("process", inputType,derivType,derivType,borderType, ISC, DHF, CINB, CJBG, GSO, GSUO);
 		} catch (NoSuchMethodException e) {
 			throw new RuntimeException("Input and derivative types are probably not compatible",e);
 		}

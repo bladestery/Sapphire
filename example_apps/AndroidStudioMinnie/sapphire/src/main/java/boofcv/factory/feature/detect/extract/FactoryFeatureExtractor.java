@@ -23,6 +23,7 @@ import boofcv.abst.feature.detect.intensity.GeneralFeatureIntensity;
 import boofcv.alg.feature.detect.extract.*;
 import boofcv.alg.feature.detect.interest.GeneralFeatureDetector;
 import boofcv.struct.image.ImageGray;
+import sapphire.app.SapphireObject;
 
 /**
  * Creates {@link boofcv.abst.feature.detect.extract.NonMaxSuppression} for finding local maximums in feature intensity images.
@@ -30,7 +31,8 @@ import boofcv.struct.image.ImageGray;
  * @author Peter Abeles
  * @see boofcv.factory.feature.detect.intensity.FactoryIntensityPoint
  */
-public class FactoryFeatureExtractor {
+public class FactoryFeatureExtractor implements SapphireObject {
+	public FactoryFeatureExtractor() {}
 	/**
 	 * Creates a generalized feature detector/extractor that adds n-best capability to {@link boofcv.abst.feature.detect.extract.NonMaxSuppression}
 	 * and performs other house keeping tasks. Handles calling {@link GeneralFeatureIntensity} itself.
@@ -41,7 +43,7 @@ public class FactoryFeatureExtractor {
 	 * @param maxFeatures Maximum number of features it should return. -1 to return them all.
 	 * @return General feature detector
 	 */
-	public static <I extends ImageGray, D extends ImageGray>
+	public <I extends ImageGray, D extends ImageGray>
 	GeneralFeatureDetector<I, D> general(GeneralFeatureIntensity<I, D> intensity,
 										 NonMaxSuppression extractor,
 										 int maxFeatures ) {
@@ -57,7 +59,7 @@ public class FactoryFeatureExtractor {
 	 * @param config Configuration for extractor
 	 * @return A feature extractor.
 	 */
-	public static NonMaxSuppression nonmax( ConfigExtract config ) {
+	public NonMaxSuppression nonmax( ConfigExtract config ) {
 
 		if( config == null )
 			config = new ConfigExtract();
@@ -96,7 +98,7 @@ public class FactoryFeatureExtractor {
 	 * @param config Configuration for extractor
 	 * @return A feature extractor.
 	 */
-	public static NonMaxSuppression nonmaxCandidate(ConfigExtract config ) {
+	public NonMaxSuppression nonmaxCandidate(ConfigExtract config ) {
 
 		if( config == null )
 			config = new ConfigExtract();
@@ -126,7 +128,7 @@ public class FactoryFeatureExtractor {
 	 * @param maxFeatures maximum allowed features
 	 * @return The NonMaxLimiter
 	 */
-	public static NonMaxLimiter nonmaxLimiter( ConfigExtract config , int maxFeatures ) {
+	public NonMaxLimiter nonmaxLimiter( ConfigExtract config , int maxFeatures ) {
 		NonMaxSuppression nonmax = nonmax(config);
 		return new NonMaxLimiter(nonmax,maxFeatures);
 	}

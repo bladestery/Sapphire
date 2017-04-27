@@ -19,9 +19,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import org.boofcv.android.DemoManager;
 import org.boofcv.android.DemoVideoDisplayActivity;
 import org.boofcv.android.R;
 import org.ddogleg.struct.FastQueue;
+
+import java.net.InetSocketAddress;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
 import boofcv.abst.filter.binary.InputToBinary;
 import boofcv.alg.InputSanityCheck;
@@ -55,6 +60,10 @@ import boofcv.struct.image.ImageType;
 import georegression.struct.point.Point2D_F64;
 import georegression.struct.shapes.Polygon2D_F64;
 import sapphire.compiler.FSDGenerator;
+import sapphire.kernel.server.KernelServerImpl;
+import sapphire.oms.OMSServer;
+
+import static sapphire.kernel.common.GlobalKernelReferences.nodeServer;
 
 /**
  * Detects polygons in an image which are convex and black.
@@ -63,27 +72,6 @@ import sapphire.compiler.FSDGenerator;
  */
 public class DetectBlackPolygonActivity extends DemoVideoDisplayActivity
 		implements AdapterView.OnItemSelectedListener , View.OnTouchListener {
-	private static ImageType IT;
-	private static GeneralizedImageOps GIO;
-	private static InputSanityCheck ISC;
-	private static GBlurImageOps GBIO;
-	private static BlurImageOps BIO;
-	private static ConvolveImageMean CIM;
-	private static FactoryKernelGaussian FKG;
-	private static ConvolveNormalized CN;
-	private static ConvolveNormalizedNaive CNN;
-	private static ConvolveImageNoBorder CINB;
-	private static ConvolveNormalized_JustBorder CNJB;
-	private static ImplMedianHistogramInner IMHI;
-	private static ImplMedianSortEdgeNaive IMSEN;
-	private static ImplMedianSortNaive IMSN;
-	private static ImplConvolveMean ICM;
-	private static FactoryShapeDetector FSD;
-	private static FactoryThresholdBinary FTB;
-	private static GThresholdImageOps GTIO;
-	private static GImageStatistics GIS;
-	private static ImageStatistics IS;
-	private static ThresholdImageOps TIO;
 	static final int MAX_SIDES = 20;
 	static final int MIN_SIDES = 3;
 
@@ -105,12 +93,16 @@ public class DetectBlackPolygonActivity extends DemoVideoDisplayActivity
 
 	boolean showInput = true;
 
-	BinaryPolygonDetector<GrayU8> detector;
-	InputToBinary<GrayU8> inputToBinary;
+	//BinaryPolygonDetector<GrayU8> detector;
+	//InputToBinary<GrayU8> inputToBinary;
 
-	GrayU8 binary = new GrayU8(1,1);
+	//GrayU8 binary = new GrayU8(1,1);
+	GrayU8 binary;
 
 	int colors[] = new int[ MAX_SIDES - MIN_SIDES + 1];
+
+	OMSServer server;
+	DemoManager dm;
 
 	public DetectBlackPolygonActivity() {
 		double rgb[] = new double[3];
@@ -129,6 +121,33 @@ public class DetectBlackPolygonActivity extends DemoVideoDisplayActivity
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		InetSocketAddress host, omsHost;
+
+		try {
+			Registry registry = LocateRegistry.getRegistry("157.82.159.30", 22346);
+			server = (OMSServer) registry.lookup("SapphireOMS");
+			System.out.println(server);
+
+			host = new InetSocketAddress("192.168.0.7", 22346);
+			omsHost = new InetSocketAddress("157.82.159.30", 22346);
+			nodeServer = new KernelServerImpl(host, omsHost);
+			System.out.println(nodeServer);
+
+			System.setProperty("java.rmi.server.hostname", host.getAddress().getHostAddress());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		try {
+			//Server is initiated with appObject to perform remote RPCs
+			dm = (DemoManager) server.getAppEntryPoint();
+			System.out.println("Got AppEntryPoint");
+			//dm.LatencyCheck();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(0);
+		}
 
 		paint = new Paint();
 		paint.setStyle(Paint.Style.STROKE);
@@ -176,7 +195,7 @@ public class DetectBlackPolygonActivity extends DemoVideoDisplayActivity
 			public void onClick(View v) {
 				convex = toggleConvex.isChecked();
 				synchronized ( DetectBlackPolygonActivity.this ) {
-					detector.setConvex(convex);
+					dm.setConvex(convex);
 				}
 			}
 		});
@@ -188,7 +207,7 @@ public class DetectBlackPolygonActivity extends DemoVideoDisplayActivity
 		ConfigPolygonDetector configPoly = new ConfigPolygonDetector(minSides,maxSides);
 		configPoly.convex = convex;
 
-		detector = FSD.polygon(configPoly,GrayU8.class);
+		dm.polygon(configPoly);
 		setSelection(spinnerThresholder.getSelectedItemPosition());
 		setProcessing(new PolygonProcessing());
 	}
@@ -231,7 +250,7 @@ public class DetectBlackPolygonActivity extends DemoVideoDisplayActivity
 		this.maxSides = max;
 
 		synchronized ( this ) {
-			detector.setNumberOfSides(minSides,maxSides);
+			dm.setNumberOfSides(minSides,maxSides);
 		}
 	}
 
@@ -242,11 +261,11 @@ public class DetectBlackPolygonActivity extends DemoVideoDisplayActivity
 
 		switch( active ) {
 			case 0 :
-				inputToBinary = FTB.globalOtsu(0, 255, true, GrayU8.class, IT);
+				dm.globalOtsu(0, 255, true);
 				break;
 
 			case 1:
-				inputToBinary = FTB.localSquare(10,0.95,true,GrayU8.class, IT);
+				dm.localSquare(10,0.95,true);
 				break;
 
 			default:
@@ -275,27 +294,27 @@ public class DetectBlackPolygonActivity extends DemoVideoDisplayActivity
 	protected class PolygonProcessing extends VideoImageProcessing<GrayU8> {
 
 		protected PolygonProcessing() {
-			super( IT.single(GrayU8.class));
+			super( dm.single(GrayU8.class));
 		}
 
 		@Override
 		protected void declareImages(int width, int height) {
 			super.declareImages(width, height);
-			binary.reshape(width,height);
+			dm.reshape(width,height);
 		}
 
 		@Override
 		protected void process(GrayU8 image, Bitmap output, byte[] storage) {
 			if( sidesUpdated ) {
 				sidesUpdated = false;
-				detector.setNumberOfSides(minSides,maxSides);
+				dm.setNumberOfSides(minSides,maxSides);
 			}
 
 			synchronized ( this ) {
-				inputToBinary.process(image,binary, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO);
+				dm.inputProcess(image);
 			}
 
-			detector.process(image,binary);
+			binary = dm.polyProcess(image);
 
 			if( showInput ) {
 				ConvertBitmap.boofToBitmap(image,output,storage);
@@ -305,7 +324,7 @@ public class DetectBlackPolygonActivity extends DemoVideoDisplayActivity
 
 			Canvas canvas = new Canvas(output);
 
-			FastQueue<Polygon2D_F64> found = detector.getFoundPolygons();
+			FastQueue<Polygon2D_F64> found = dm.getFoundPolygons();
 
 			for( Polygon2D_F64 s : found.toList() )  {
 				paint.setColor(colors[s.size()-MIN_SIDES]);

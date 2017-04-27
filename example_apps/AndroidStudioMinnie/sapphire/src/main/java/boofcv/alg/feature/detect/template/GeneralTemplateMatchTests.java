@@ -44,6 +44,7 @@ import static org.junit.Assert.*;
 public abstract class GeneralTemplateMatchTests<T extends ImageGray> {
 	private ImageStatistics IS;
 	private GeneralizedImageOps GIO;
+	private static FactoryFeatureExtractor FFE;
 	Random rand = new Random(344);
 
 	// image and template being matched
@@ -310,7 +311,7 @@ public abstract class GeneralTemplateMatchTests<T extends ImageGray> {
 		int y0 = alg.getBorderY0();
 
 		// solutions should be local maximums
-		NonMaxSuppression extractor = FactoryFeatureExtractor.nonmax(new ConfigExtract(2, -Float.MAX_VALUE, 0, true));
+		NonMaxSuppression extractor = FFE.nonmax(new ConfigExtract(2, -Float.MAX_VALUE, 0, true));
 
 		QueueCorner found = new QueueCorner(10);
 

@@ -40,10 +40,10 @@ import sapphire.app.SapphireObject;
 public class DerivativeHelperFunctions implements SapphireObject {
 	public DerivativeHelperFunctions() {}
 	public void processBorderHorizontal(GrayU8 orig , GrayS16 deriv ,
-											   Kernel1D_I32 kernel , ImageBorder_S32 borderType , ConvolveImageNoBorder CINB, InputSanityCheck ISC)
+											   Kernel1D_I32 kernel , ImageBorder_S32 borderType , ConvolveImageNoBorder CINB, InputSanityCheck ISC, ConvolveJustBorder_General CJBG)
 	{
 		borderType.setImage(orig);
-		ConvolveJustBorder_General.horizontal(kernel, borderType,deriv);
+		CJBG.horizontal(kernel, borderType,deriv);
 
 		GrayU8 origSub;
 		GrayS16 derivSub;
@@ -57,10 +57,10 @@ public class DerivativeHelperFunctions implements SapphireObject {
 	}
 
 	public void processBorderHorizontal(GrayU8 orig , GrayS32 deriv ,
-											   Kernel1D_I32 kernel , ImageBorder_S32 borderType, ConvolveImageNoBorder CINB, InputSanityCheck ISC )
+											   Kernel1D_I32 kernel , ImageBorder_S32 borderType, ConvolveImageNoBorder CINB, InputSanityCheck ISC , ConvolveJustBorder_General CJBG)
 	{
 		borderType.setImage(orig);
-		ConvolveJustBorder_General.horizontal(kernel, borderType,deriv);
+		CJBG.horizontal(kernel, borderType,deriv);
 
 		GrayU8 origSub;
 		GrayS32 derivSub;
@@ -74,10 +74,10 @@ public class DerivativeHelperFunctions implements SapphireObject {
 	}
 
 	public void processBorderHorizontal(GrayS16 orig , GrayS16 deriv ,
-											   Kernel1D_I32 kernel , ImageBorder_S32 borderType, ConvolveImageNoBorder CINB , InputSanityCheck ISC )
+											   Kernel1D_I32 kernel , ImageBorder_S32 borderType, ConvolveImageNoBorder CINB , InputSanityCheck ISC , ConvolveJustBorder_General CJBG)
 	{
 		borderType.setImage(orig);
-		ConvolveJustBorder_General.horizontal(kernel, borderType,deriv);
+		CJBG.horizontal(kernel, borderType,deriv);
 
 		GrayS16 origSub;
 		GrayS16 derivSub;
@@ -91,10 +91,10 @@ public class DerivativeHelperFunctions implements SapphireObject {
 	}
 
 	public void processBorderVertical(GrayU8 orig , GrayS16 deriv ,
-											 Kernel1D_I32 kernel , ImageBorder_S32 borderType, ConvolveImageNoBorder CINB, InputSanityCheck ISC )
+											 Kernel1D_I32 kernel , ImageBorder_S32 borderType, ConvolveImageNoBorder CINB, InputSanityCheck ISC , ConvolveJustBorder_General CJBG)
 	{
 		borderType.setImage(orig);
-		ConvolveJustBorder_General.vertical(kernel,borderType,deriv);
+		CJBG.vertical(kernel,borderType,deriv);
 
 		GrayU8 origSub;
 		GrayS16 derivSub;
@@ -108,10 +108,10 @@ public class DerivativeHelperFunctions implements SapphireObject {
 	}
 
 	public void processBorderVertical(GrayU8 orig , GrayS32 deriv ,
-											 Kernel1D_I32 kernel , ImageBorder_S32 borderType, ConvolveImageNoBorder CINB , InputSanityCheck ISC)
+											 Kernel1D_I32 kernel , ImageBorder_S32 borderType, ConvolveImageNoBorder CINB , InputSanityCheck ISC, ConvolveJustBorder_General CJBG)
 	{
 		borderType.setImage(orig);
-		ConvolveJustBorder_General.vertical(kernel,borderType,deriv);
+		CJBG.vertical(kernel,borderType,deriv);
 
 		GrayU8 origSub;
 		GrayS32 derivSub;
@@ -125,10 +125,10 @@ public class DerivativeHelperFunctions implements SapphireObject {
 	}
 
 	public void processBorderVertical(GrayS16 orig , GrayS16 deriv ,
-											 Kernel1D_I32 kernel , ImageBorder_S32 borderType, ConvolveImageNoBorder CINB, InputSanityCheck ISC )
+											 Kernel1D_I32 kernel , ImageBorder_S32 borderType, ConvolveImageNoBorder CINB, InputSanityCheck ISC , ConvolveJustBorder_General CJBG)
 	{
 		borderType.setImage(orig);
-		ConvolveJustBorder_General.vertical(kernel, borderType ,deriv);
+		CJBG.vertical(kernel, borderType ,deriv);
 
 		GrayS16 origSub;
 		GrayS16 derivSub;
@@ -142,10 +142,10 @@ public class DerivativeHelperFunctions implements SapphireObject {
 	}
 
 	public void processBorderHorizontal(GrayF32 orig , GrayF32 deriv ,
-											   Kernel1D_F32 kernel , ImageBorder_F32 borderType, ConvolveImageNoBorder CINB, InputSanityCheck ISC  )
+											   Kernel1D_F32 kernel , ImageBorder_F32 borderType, ConvolveImageNoBorder CINB, InputSanityCheck ISC  , ConvolveJustBorder_General CJBG)
 	{
 		borderType.setImage(orig);
-		ConvolveJustBorder_General.horizontal(kernel, borderType , deriv );
+		CJBG.horizontal(kernel, borderType , deriv );
 
 		GrayF32 origSub;
 		GrayF32 derivSub;
@@ -159,10 +159,10 @@ public class DerivativeHelperFunctions implements SapphireObject {
 	}
 
 	public void processBorderVertical(GrayF32 orig , GrayF32 deriv ,
-											 Kernel1D_F32 kernel , ImageBorder_F32 borderType, ConvolveImageNoBorder CINB, InputSanityCheck ISC )
+											 Kernel1D_F32 kernel , ImageBorder_F32 borderType, ConvolveImageNoBorder CINB, InputSanityCheck ISC , ConvolveJustBorder_General CJBG)
 	{
 		borderType.setImage(orig);
-		ConvolveJustBorder_General.vertical(kernel, borderType ,deriv );
+		CJBG.vertical(kernel, borderType ,deriv );
 
 		GrayF32 origSub;
 		GrayF32 derivSub;

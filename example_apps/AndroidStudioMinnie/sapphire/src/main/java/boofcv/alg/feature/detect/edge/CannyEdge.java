@@ -32,10 +32,13 @@ import boofcv.alg.filter.blur.impl.ImplMedianSortNaive;
 import boofcv.alg.filter.convolve.ConvolveImageMean;
 import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
 import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
 import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
 import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
+import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
+import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
 import boofcv.alg.misc.GImageStatistics;
 import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.misc.ImageStatistics;
@@ -135,7 +138,8 @@ public class CannyEdge<T extends ImageGray, D extends ImageGray> implements Sapp
 						GGradientToEdgeFeatures GGTEF, ImageStatistics IS, InputSanityCheck ISC, GeneralizedImageOps GIO, BlurImageOps BIO,
 						ConvolveImageMean CIM, FactoryKernelGaussian FKG, ConvolveNormalized CN, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB,
 						ConvolveNormalized_JustBorder CNJB, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM,
-						DerivativeHelperFunctions DHF, GThresholdImageOps GTIO, GImageStatistics GIS, ThresholdImageOps TIO) {
+						DerivativeHelperFunctions DHF, GThresholdImageOps GTIO, GImageStatistics GIS, ThresholdImageOps TIO, ConvolveJustBorder_General CJBG,
+						GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO) {
 
 		if( threshLow < 0 || threshHigh < 0 )
 			throw new IllegalArgumentException("Threshold must be >= zero!");
@@ -157,7 +161,7 @@ public class CannyEdge<T extends ImageGray, D extends ImageGray> implements Sapp
 
 		// run canny edge detector
 		blur.process(input,blurred, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO);
-		gradient.process(blurred, derivX, derivY, ISC, DHF, CINB);
+		gradient.process(blurred, derivX, derivY, ISC, DHF, CINB, CJBG, GSO, GSUO);
 		GGTEF.intensityAbs(derivX, derivY, intensity, GTEF, ISC);
 		GGTEF.direction(derivX, derivY, angle, GTEF, ISC);
 		GTEF.discretizeDirection4(angle, direction, ISC, GIO);
