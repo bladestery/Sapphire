@@ -35,7 +35,9 @@ import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
 import boofcv.alg.filter.derivative.GImageDerivativeOps;
+import boofcv.alg.misc.GImageMiscOps;
 import boofcv.alg.misc.GImageStatistics;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.misc.ImageStatistics;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.BorderType;
@@ -77,6 +79,8 @@ public class NoCacheScaleSpace<I extends ImageGray, D extends ImageGray>
 	private static GImageStatistics GIS;
 	private static ImageStatistics IS;
 	private static ThresholdImageOps TIO;
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
 	// reference to the original input image
 	private I originalImage;
 
@@ -142,8 +146,8 @@ public class NoCacheScaleSpace<I extends ImageGray, D extends ImageGray>
 		ConvolveInterface<I, I> blurY = FactoryConvolve.convolve(kernel,inputType,inputType, borderBlur ,false);
 
 		// compute the scale image
-		blurX.process(originalImage,workImage, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO);
-		blurY.process(workImage,scaledImage, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO);
+		blurX.process(originalImage,workImage, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO);
+		blurY.process(workImage,scaledImage, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO);
 
 		anyDeriv.setInput(scaledImage);
 	}

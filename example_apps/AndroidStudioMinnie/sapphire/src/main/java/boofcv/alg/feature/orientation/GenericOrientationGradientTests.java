@@ -20,6 +20,7 @@ package boofcv.alg.feature.orientation;
 
 import boofcv.abst.feature.orientation.OrientationGradient;
 import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.struct.image.ImageGray;
 import georegression.metric.UtilAngle;
@@ -34,6 +35,8 @@ import static org.junit.Assert.assertTrue;
  */
 public class GenericOrientationGradientTests<D extends ImageGray> {
 	private GeneralizedImageOps GIO;
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
 	int width = 30;
 	int height = 40;
 
@@ -86,12 +89,12 @@ public class GenericOrientationGradientTests<D extends ImageGray> {
 			double c = Math.cos(angle);
 			double s = Math.sin(angle);
 
-			GImageMiscOps.fill(derivX,0);
-			GImageMiscOps.fill(derivY, 0);
+			GIMO.fill(derivX,0, IMO);
+			GIMO.fill(derivY, 0, IMO);
 			// only fill in the around around the region so that it also checks to see if the estimate
 			// is localized
-			GImageMiscOps.fillRectangle(derivX,c*100,x-regionSize/2,y-regionSize/2,regionSize,regionSize);
-			GImageMiscOps.fillRectangle(derivY,s*100,x-regionSize/2,y-regionSize/2,regionSize,regionSize);
+			GIMO.fillRectangle(derivX,c*100,x-regionSize/2,y-regionSize/2,regionSize,regionSize, IMO);
+			GIMO.fillRectangle(derivY,s*100,x-regionSize/2,y-regionSize/2,regionSize,regionSize, IMO);
 
 			alg.setImage(derivX,derivY);
 
@@ -108,10 +111,10 @@ public class GenericOrientationGradientTests<D extends ImageGray> {
 		double c = Math.cos(angle);
 		double s = Math.sin(angle);
 
-		GImageMiscOps.fill(derivX,0);
-		GImageMiscOps.fill(derivY,0);
-		GImageMiscOps.fillRectangle(derivX,c*100,5,0,regionSize+5,regionSize);
-		GImageMiscOps.fillRectangle(derivY,s*100,5,0,regionSize+5,regionSize);
+		GIMO.fill(derivX,0, IMO);
+		GIMO.fill(derivY,0, IMO);
+		GIMO.fillRectangle(derivX,c*100,5,0,regionSize+5,regionSize, IMO);
+		GIMO.fillRectangle(derivY,s*100,5,0,regionSize+5,regionSize, IMO);
 
 		D subX = (D)derivX.subimage(5,0,regionSize+5,regionSize, null);
 		D subY = (D)derivY.subimage(5,0,regionSize+5,regionSize, null);
@@ -134,8 +137,8 @@ public class GenericOrientationGradientTests<D extends ImageGray> {
 		double c = Math.cos(angle);
 		double s = Math.sin(angle);
 
-		GImageMiscOps.fill(derivX,c*100);
-		GImageMiscOps.fill(derivY,s*100);
+		GIMO.fill(derivX,c*100, IMO);
+		GIMO.fill(derivY,s*100, IMO);
 
 		alg.setImage(derivX,derivY);
 		alg.setObjectRadius(10);

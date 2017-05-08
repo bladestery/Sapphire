@@ -18,7 +18,14 @@
 
 package boofcv.abst.feature.detect.intensity;
 
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
 import boofcv.alg.filter.derivative.LaplacianEdge;
+import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.struct.QueueCorner;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.GrayU8;
@@ -33,12 +40,13 @@ public class WrapperLaplacianBlobIntensity<I extends ImageGray>
 		extends BaseGeneralFeatureIntensity<I,ImageGray> {
 
 	@Override
-	public void process(I image, ImageGray derivX, ImageGray derivY, ImageGray derivXX, ImageGray derivYY, ImageGray derivXY) {
-		init(image.width,image.height);
+	public void process(I image, ImageGray derivX, ImageGray derivY, ImageGray derivXX, ImageGray derivYY, ImageGray derivXY, GImageMiscOps GIMO, ImageMiscOps IMO,
+						InputSanityCheck ISC, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CNO) {
+		init(image.width,image.height, GIMO, IMO);
 		if( image instanceof GrayU8) {
-			LaplacianEdge.process((GrayU8)image,intensity);
+			LaplacianEdge.process((GrayU8)image,intensity, ISC);
 		} else if( image instanceof GrayF32) {
-			LaplacianEdge.process((GrayF32)image,intensity);
+			LaplacianEdge.process((GrayF32)image,intensity, ISC);
 		} else {
 			throw new IllegalArgumentException("Unsupported input image type");
 		}

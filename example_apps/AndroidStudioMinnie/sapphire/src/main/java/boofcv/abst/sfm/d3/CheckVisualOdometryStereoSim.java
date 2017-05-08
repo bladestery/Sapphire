@@ -19,6 +19,7 @@
 package boofcv.abst.sfm.d3;
 
 import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.struct.calib.CameraPinholeRadial;
 import boofcv.struct.calib.StereoParameters;
@@ -40,6 +41,8 @@ public abstract class CheckVisualOdometryStereoSim<I extends ImageGray>
 	extends VideoSequenceSimulator<I>
 {
 	private GeneralizedImageOps GIO;
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
 	StereoParameters param = createStereoParam();
 
 	I left;
@@ -75,11 +78,11 @@ public abstract class CheckVisualOdometryStereoSim<I extends ImageGray>
 		I leftLarge = GIO.createSingleBand(inputType,width,height);
 		I rightLarge = GIO.createSingleBand(inputType,width,height);
 
-		GImageMiscOps.fillUniform(leftSmall,rand,0,100);
-		GImageMiscOps.fillUniform(leftSmall,rand,0,100);
+		GIMO.fillUniform(leftSmall,rand,0,100, IMO);
+		GIMO.fillUniform(leftSmall,rand,0,100, IMO);
 
-		GImageMiscOps.fillUniform(leftLarge,rand,0,100);
-		GImageMiscOps.fillUniform(rightLarge,rand,0,100);
+		GIMO.fillUniform(leftLarge,rand,0,100, IMO);
+		GIMO.fillUniform(rightLarge,rand,0,100, IMO);
 
 		StereoParameters paramSmall = createStereoParam();
 		paramSmall.left.width = paramSmall.right.width = leftSmall.width;

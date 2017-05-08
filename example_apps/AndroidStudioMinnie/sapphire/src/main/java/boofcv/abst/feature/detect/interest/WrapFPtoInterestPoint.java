@@ -18,7 +18,18 @@
 
 package boofcv.abst.feature.detect.interest;
 
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.feature.detect.interest.FeaturePyramid;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
+import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
+import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
+import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
+import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.struct.feature.ScalePoint;
 import boofcv.struct.image.ImageGray;
 import boofcv.struct.pyramid.PyramidFloat;
@@ -45,7 +56,8 @@ public class WrapFPtoInterestPoint<T extends ImageGray, D extends ImageGray> imp
 	}
 
 	@Override
-	public void detect(T input) {
+	public void detect(T input, InputSanityCheck ISC, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG, GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO,
+					   GImageMiscOps GIMO, ImageMiscOps IMO, ConvolveNormalizedNaive CNN, ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN) {
 		ss.process(input);
 
 		detector.detect(ss);

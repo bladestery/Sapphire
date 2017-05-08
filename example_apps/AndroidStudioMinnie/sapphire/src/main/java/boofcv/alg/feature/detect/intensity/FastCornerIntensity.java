@@ -23,6 +23,7 @@ import boofcv.misc.DiscretizedCircle;
 import boofcv.struct.QueueCorner;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.ImageGray;
+import sapphire.app.SapphireObject;
 
 /**
  * <p>
@@ -64,7 +65,7 @@ import boofcv.struct.image.ImageGray;
  *
  * @author Peter Abeles
  */
-public abstract class FastCornerIntensity<T extends ImageGray> implements FeatureIntensity<T> {
+public abstract class FastCornerIntensity<T extends ImageGray> implements FeatureIntensity<T>, SapphireObject {
 
 	// radius of the circle being sampled
 	protected static final int radius = 3;

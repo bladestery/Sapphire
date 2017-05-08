@@ -20,6 +20,7 @@ package boofcv.alg.misc;
 
 import boofcv.misc.BoofMiscOps;
 import boofcv.struct.image.*;
+import sapphire.app.SapphireObject;
 
 import java.util.Random;
 
@@ -28,8 +29,8 @@ import java.util.Random;
  *
  * @author Peter Abeles
  */
-public class GImageMiscOps {
-	private static ImageMiscOps IMO;
+public class GImageMiscOps implements SapphireObject {
+	public GImageMiscOps() {}
 
 	/**
 	 * Copies a rectangular region from one image into another.<br>
@@ -44,8 +45,8 @@ public class GImageMiscOps {
 	 * @param input Input image
 	 * @param output output image
 	 */
-	public static void copy( int srcX , int srcY , int dstX , int dstY , int width , int height ,
-							 ImageBase input , ImageBase output ) {
+	public void copy( int srcX , int srcY , int dstX , int dstY , int width , int height ,
+							 ImageBase input , ImageBase output, ImageMiscOps IMO) {
 		if( input instanceof ImageGray) {
 			if( GrayI8.class.isAssignableFrom(input.getClass()) ) {
 				IMO.copy(srcX, srcY, dstX, dstY, width, height, (GrayI8) input, (GrayI8) output);
@@ -66,7 +67,7 @@ public class GImageMiscOps {
 			Planar mi = (Planar)input;
 			Planar mo = (Planar)output;
 			for( int i = 0; i < mi.getNumBands(); i++ )
-				copy(srcX,srcY,dstX,dstY,width,height,mi.getBand(i),mo.getBand(i));
+				copy(srcX,srcY,dstX,dstY,width,height,mi.getBand(i),mo.getBand(i), IMO);
 		} else {
 			throw new IllegalArgumentException("Unknown image type: " + input.getClass().getSimpleName());
 		}
@@ -78,7 +79,7 @@ public class GImageMiscOps {
 	 * @param input Input image. Not modified.
 	 * @param value fill value
 	 */
-	public static void fill( ImageBase input , double value ) {
+	public void fill( ImageBase input , double value, ImageMiscOps IMO) {
 		if( input instanceof ImageGray) {
 			if( GrayI8.class.isAssignableFrom(input.getClass()) ) {
 				IMO.fill((GrayI8) input, (int) value);
@@ -114,7 +115,7 @@ public class GImageMiscOps {
 		} else if( input instanceof Planar) {
 			Planar m = (Planar)input;
 			for( int i = 0; i < m.getNumBands(); i++ )
-				fill(m.getBand(i),value);
+				fill(m.getBand(i),value, IMO);
 		} else {
 			throw new IllegalArgumentException("Unknown image type: " + input.getClass().getSimpleName());
 		}
@@ -126,7 +127,7 @@ public class GImageMiscOps {
 	 * @param input Input image. Not modified.
 	 * @param values Array which contains the values each band is to be filled with.
 	 */
-	public static void fill( ImageBase input , double[] values ) {
+	public void fill( ImageBase input , double[] values, ImageMiscOps IMO) {
 		if( input instanceof ImageGray) {
 			if( GrayI8.class.isAssignableFrom(input.getClass()) ) {
 				IMO.fill((GrayI8) input, (int) values[0]);
@@ -162,7 +163,7 @@ public class GImageMiscOps {
 		} else if( input instanceof Planar) {
 			Planar m = (Planar)input;
 			for( int i = 0; i < m.getNumBands(); i++ )
-				fill(m.getBand(i),values[i]);
+				fill(m.getBand(i),values[i], IMO);
 		} else {
 			throw new IllegalArgumentException("Unknown image type: " + input.getClass().getSimpleName());
 		}
@@ -175,7 +176,7 @@ public class GImageMiscOps {
 	 * @param band Which band is to be filled with the specified value
 	 * @param value The value that the image is being filled with.
 	 */
-	public static void fillBand( ImageMultiBand input , int band , double value ) {
+	public void fillBand( ImageMultiBand input , int band , double value, ImageMiscOps IMO) {
 		if( input instanceof ImageInterleaved ) {
 			if( InterleavedI8.class.isAssignableFrom(input.getClass()) ) {
 				IMO.fillBand((InterleavedI8) input, band, (int) value);
@@ -194,7 +195,7 @@ public class GImageMiscOps {
 			}
 		} else if( input instanceof Planar) {
 			Planar m = (Planar)input;
-			fill(m.getBand(band),value);
+			fill(m.getBand(band),value, IMO);
 		} else {
 			throw new IllegalArgumentException("Unknown image type: " + input.getClass().getSimpleName());
 		}
@@ -207,7 +208,7 @@ public class GImageMiscOps {
 	 * @param band Which band the image is to be inserted into
 	 * @param output The multi-band image which the input image is to be inserted into
 	 */
-	public static void insertBand(ImageGray input , int band , ImageMultiBand output ) {
+	public void insertBand(ImageGray input , int band , ImageMultiBand output, ImageMiscOps IMO) {
 		if( output instanceof ImageInterleaved ) {
 			if( InterleavedI8.class.isAssignableFrom(output.getClass()) ) {
 				IMO.insertBand((GrayI8) input, band, (InterleavedI8) output);
@@ -239,7 +240,7 @@ public class GImageMiscOps {
 	 * @param value The value that the image is being filled with.
 	 * @param radius Border width.
 	 */
-	public static void fillBorder( ImageBase input , double value , int radius ) {
+	public void fillBorder( ImageBase input , double value , int radius, ImageMiscOps IMO) {
 		if( input instanceof ImageGray) {
 			if( GrayI8.class.isAssignableFrom(input.getClass()) ) {
 				IMO.fillBorder((GrayI8) input, (int) value, radius);
@@ -259,7 +260,7 @@ public class GImageMiscOps {
 		} else if( input instanceof Planar) {
 			Planar m = (Planar)input;
 			for( int i = 0; i < m.getNumBands(); i++ )
-				fillBorder(m.getBand(i), value, radius);
+				fillBorder(m.getBand(i), value, radius, IMO);
 		} else {
 			throw new IllegalArgumentException("Unknown image type: " + input.getClass().getSimpleName());
 		}
@@ -275,7 +276,7 @@ public class GImageMiscOps {
 	 * @param width Rectangle width
 	 * @param height Rectangle height
 	 */
-	public static void fillRectangle( ImageBase input , double value, int x0, int y0, int width, int height ) {
+	public void fillRectangle( ImageBase input , double value, int x0, int y0, int width, int height, ImageMiscOps IMO) {
 		if( input instanceof ImageGray) {
 			if( GrayI8.class.isAssignableFrom(input.getClass()) ) {
 				IMO.fillRectangle((GrayI8) input, (int) value, x0, y0, width, height);
@@ -295,7 +296,7 @@ public class GImageMiscOps {
 		} else if( input instanceof Planar) {
 			Planar m = (Planar) input;
 			for (int i = 0; i < m.getNumBands(); i++)
-				fillRectangle(m.getBand(i), value, x0, y0, width, height);
+				fillRectangle(m.getBand(i), value, x0, y0, width, height, IMO);
 		} else if( input instanceof ImageInterleaved ) {
 			if( InterleavedI8.class.isAssignableFrom(input.getClass()) ) {
 				IMO.fillRectangle((InterleavedI8) input, (byte) value, x0, y0, width, height);
@@ -329,7 +330,7 @@ public class GImageMiscOps {
 	 * @param lowerBound Lower bound of value clip
 	 * @param upperBound Upper bound of value clip
 	 */
-	public static void fillGaussian( ImageBase input , Random rand , double mean , double sigma , double lowerBound , double upperBound ) {
+	public void fillGaussian( ImageBase input , Random rand , double mean , double sigma , double lowerBound , double upperBound, ImageMiscOps IMO) {
 		if( input instanceof ImageGray) {
 			if( GrayI8.class.isAssignableFrom(input.getClass()) ) {
 				IMO.fillGaussian((GrayI8) input, rand, mean, sigma, (int) lowerBound, (int) upperBound);
@@ -349,7 +350,7 @@ public class GImageMiscOps {
 		} else if( input instanceof Planar) {
 			Planar m = (Planar) input;
 			for (int i = 0; i < m.getNumBands(); i++)
-				fillGaussian(input, rand, mean, sigma, lowerBound, upperBound);
+				fillGaussian(input, rand, mean, sigma, lowerBound, upperBound, IMO);
 		} else if( input instanceof ImageInterleaved ) {
 			if( InterleavedI8.class.isAssignableFrom(input.getClass()) ) {
 				IMO.fillGaussian((InterleavedI8) input, rand, mean, sigma, (int) lowerBound, (int) upperBound);
@@ -379,7 +380,7 @@ public class GImageMiscOps {
 	 * @param min Minimum value of the distribution.  Inclusive.
 	 * @param max Maximum value of the distribution.  Inclusive.
 	 */
-	public static void fillUniform( ImageBase input , Random rand , double min , double max ) {
+	public void fillUniform( ImageBase input , Random rand , double min , double max, ImageMiscOps IMO) {
 		if( input instanceof ImageGray) {
 			if( GrayI8.class.isAssignableFrom(input.getClass()) ) {
 				IMO.fillUniform((GrayI8) input, rand, (int) min, ((int) max) - 1);
@@ -415,7 +416,7 @@ public class GImageMiscOps {
 		} else if( input instanceof Planar) {
 			Planar m = (Planar)input;
 			for( int i = 0; i < m.getNumBands(); i++ )
-				fillUniform(m.getBand(i), rand , min, max);
+				fillUniform(m.getBand(i), rand , min, max, IMO);
 		} else {
 			throw new IllegalArgumentException("Unknown image type: " + input.getClass().getSimpleName());
 		}
@@ -431,8 +432,8 @@ public class GImageMiscOps {
 	 * @param lowerBound Allowed lower bound
 	 * @param upperBound Allowed upper bound
 	 */
-	public static void addGaussian( ImageBase input, Random rand , double sigma ,
-									double lowerBound , double upperBound  )
+	public void addGaussian( ImageBase input, Random rand , double sigma ,
+									double lowerBound , double upperBound , ImageMiscOps IMO)
 	{
 		if( input instanceof ImageGray) {
 			if( GrayU8.class == input.getClass() ) {
@@ -457,7 +458,7 @@ public class GImageMiscOps {
 		} else if( input instanceof Planar) {
 			Planar m = (Planar) input;
 			for (int i = 0; i < m.getNumBands(); i++)
-				addGaussian(m.getBand(i), rand, sigma, lowerBound, upperBound);
+				addGaussian(m.getBand(i), rand, sigma, lowerBound, upperBound, IMO);
 		} else if( input instanceof ImageInterleaved ) {
 			if( InterleavedU8.class == input.getClass() ) {
 				IMO.addGaussian((InterleavedU8) input, rand, sigma, (int) lowerBound, (int) upperBound);
@@ -486,7 +487,7 @@ public class GImageMiscOps {
 	/**
 	 * Adds uniform i.i.d noise to each pixel in the image.  Noise range is min &le; X < max.
 	 */
-	public static void addUniform( ImageBase input, Random rand , double min , double max  ) {
+	public void addUniform( ImageBase input, Random rand , double min , double max , ImageMiscOps IMO) {
 		if( input instanceof ImageGray) {
 			if( GrayU8.class == input.getClass() ) {
 				IMO.addUniform((GrayU8) input, rand, (int) min, (int) max);
@@ -510,7 +511,7 @@ public class GImageMiscOps {
 		} else if( input instanceof Planar) {
 			Planar m = (Planar) input;
 			for (int i = 0; i < m.getNumBands(); i++)
-				addUniform(m.getBand(i), rand, min, max);
+				addUniform(m.getBand(i), rand, min, max, IMO);
 		} else if( input instanceof ImageInterleaved ) {
 			if( InterleavedU8.class == input.getClass() ) {
 				IMO.addUniform((InterleavedU8) input, rand, (int) min, (int) max);
@@ -539,7 +540,7 @@ public class GImageMiscOps {
 	/**
 	 * Flips the image from top to bottom
 	 */
-	public static void flipVertical( ImageBase img ) {
+	public void flipVertical( ImageBase img, ImageMiscOps IMO) {
 		if( img instanceof ImageGray) {
 			if( GrayI8.class.isAssignableFrom(img.getClass()) ) {
 				IMO.flipVertical((GrayI8) img);
@@ -561,7 +562,7 @@ public class GImageMiscOps {
 		} else if( img instanceof Planar) {
 			Planar m = (Planar)img;
 			for( int i = 0; i < m.getNumBands(); i++ )
-				flipVertical(m.getBand(i));
+				flipVertical(m.getBand(i), IMO);
 		} else {
 			throw new IllegalArgumentException("Unknown image type: " + img.getClass().getSimpleName());
 		}
@@ -570,7 +571,7 @@ public class GImageMiscOps {
 	/**
 	 * Flips the image from left to right
 	 */
-	public static void flipHorizontal( ImageBase img ) {
+	public void flipHorizontal( ImageBase img, ImageMiscOps IMO) {
 		if( img instanceof ImageGray) {
 			if( GrayI8.class.isAssignableFrom(img.getClass()) ) {
 				IMO.flipHorizontal((GrayI8) img);
@@ -592,7 +593,7 @@ public class GImageMiscOps {
 		} else if( img instanceof Planar) {
 			Planar m = (Planar)img;
 			for( int i = 0; i < m.getNumBands(); i++ )
-				flipHorizontal(m.getBand(i));
+				flipHorizontal(m.getBand(i), IMO);
 		} else {
 			throw new IllegalArgumentException("Unknown image type: " + img.getClass().getSimpleName());
 		}
@@ -602,7 +603,7 @@ public class GImageMiscOps {
 	 * In-place 90 degree image rotation in the clockwise direction.  Only works on
 	 * square images.
 	 */
-	public static void rotateCW( ImageBase image ) {
+	public void rotateCW( ImageBase image, ImageMiscOps IMO) {
 		if( image instanceof ImageGray) {
 			if( GrayI8.class.isAssignableFrom(image.getClass()) ) {
 				IMO.rotateCW((GrayI8) image);
@@ -624,7 +625,7 @@ public class GImageMiscOps {
 		} else if( image instanceof Planar) {
 			Planar a = (Planar)image;
 			for( int i = 0; i < a.getNumBands(); i++ )
-				rotateCW(a.getBand(i));
+				rotateCW(a.getBand(i), IMO);
 		} else {
 			throw new IllegalArgumentException("Unknown image type: " + image.getClass().getSimpleName());
 		}
@@ -633,7 +634,7 @@ public class GImageMiscOps {
 	/**
 	 * Rotates the image 90 degrees in the clockwise direction.
 	 */
-	public static void rotateCW( ImageBase imageA , ImageBase imageB ) {
+	public void rotateCW( ImageBase imageA , ImageBase imageB, ImageMiscOps IMO) {
 		if( imageA instanceof ImageGray) {
 			if( GrayI8.class.isAssignableFrom(imageA.getClass()) ) {
 				IMO.rotateCW((GrayI8) imageA, (GrayI8) imageB);
@@ -656,7 +657,7 @@ public class GImageMiscOps {
 			Planar a = (Planar)imageA;
 			Planar b = (Planar)imageB;
 			for( int i = 0; i < a.getNumBands(); i++ )
-				rotateCW(a.getBand(i), b.getBand(i));
+				rotateCW(a.getBand(i), b.getBand(i), IMO);
 		} else {
 			throw new IllegalArgumentException("Unknown image type: " + imageA.getClass().getSimpleName());
 		}
@@ -666,7 +667,7 @@ public class GImageMiscOps {
 	 * In-place 90 degree image rotation in the counter-clockwise direction.  Only works on
 	 * square images.
 	 */
-	public static void rotateCCW( ImageBase image ) {
+	public void rotateCCW( ImageBase image, ImageMiscOps IMO) {
 		if( image instanceof ImageGray) {
 			if( GrayI8.class.isAssignableFrom(image.getClass()) ) {
 				IMO.rotateCCW((GrayI8) image);
@@ -688,7 +689,7 @@ public class GImageMiscOps {
 		} else if( image instanceof Planar) {
 			Planar a = (Planar)image;
 			for( int i = 0; i < a.getNumBands(); i++ )
-				rotateCCW(a.getBand(i));
+				rotateCCW(a.getBand(i), IMO);
 		} else {
 			throw new IllegalArgumentException("Unknown image type: " + image.getClass().getSimpleName());
 		}
@@ -697,7 +698,7 @@ public class GImageMiscOps {
 	/**
 	 * Rotates the image 90 degrees in the counter-clockwise direction.
 	 */
-	public static void rotateCCW( ImageBase imageA , ImageBase imageB ) {
+	public void rotateCCW( ImageBase imageA , ImageBase imageB, ImageMiscOps IMO) {
 		if( imageA instanceof ImageGray) {
 			if( GrayI8.class.isAssignableFrom(imageA.getClass()) ) {
 				IMO.rotateCCW((GrayI8) imageA, (GrayI8) imageB);
@@ -720,7 +721,7 @@ public class GImageMiscOps {
 			Planar a = (Planar)imageA;
 			Planar b = (Planar)imageB;
 			for( int i = 0; i < a.getNumBands(); i++ )
-				rotateCCW(a.getBand(i), b.getBand(i));
+				rotateCCW(a.getBand(i), b.getBand(i), IMO);
 		} else {
 			throw new IllegalArgumentException("Unknown image type: " + imageA.getClass().getSimpleName());
 		}

@@ -22,6 +22,7 @@ import boofcv.alg.feature.disparity.DisparityScoreSadRect;
 import boofcv.alg.feature.disparity.DisparitySparseScoreSadRect;
 import boofcv.alg.feature.disparity.DisparitySparseSelect;
 import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.GrayU8;
@@ -37,6 +38,8 @@ import static org.junit.Assert.assertEquals;
  */
 public abstract class ChecksImplDisparitySparseScoreSadRect<Image extends ImageGray,ArrayData> {
 	private GeneralizedImageOps GIO;
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
 	Random rand = new Random(234);
 
 	DisparitySparseSelect<ArrayData> selectAlg;
@@ -70,11 +73,11 @@ public abstract class ChecksImplDisparitySparseScoreSadRect<Image extends ImageG
 		Image right = GIO.createSingleBand(imageType,w, h);
 
 		if( left.getDataType().isSigned() ) {
-			GImageMiscOps.fillUniform(left, rand, -20, 20);
-			GImageMiscOps.fillUniform(right, rand, -20, 20);
+			GIMO.fillUniform(left, rand, -20, 20, IMO);
+			GIMO.fillUniform(right, rand, -20, 20, IMO);
 		} else {
-			GImageMiscOps.fillUniform(left, rand, 0, 20);
-			GImageMiscOps.fillUniform(right, rand, 0, 20);
+			GIMO.fillUniform(left, rand, 0, 20, IMO);
+			GIMO.fillUniform(right, rand, 0, 20, IMO);
 		}
 
 		compareToDense(left, right, 0);

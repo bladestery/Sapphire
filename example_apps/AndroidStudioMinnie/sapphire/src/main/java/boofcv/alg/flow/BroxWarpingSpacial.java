@@ -101,7 +101,7 @@ public class BroxWarpingSpacial<T extends ImageGray> extends DenseFlowPyramidBas
 	private GrayF32 deriv2XY = new GrayF32(1,1);
 
 	private ImageGradient<GrayF32, GrayF32> gradient = FD.three(GrayF32.class, GrayF32.class, GIO, FIB);
-	private ImageHessian<GrayF32> hessian = FD.hessianThree(GrayF32.class, GIO);
+	private ImageHessian<GrayF32> hessian = FD.hessianThree(GrayF32.class, GIO, FIB);
 
 	// flow estimation at the start of the iteration
 	protected GrayF32 flowU = new GrayF32(1,1); // flow along x-axis
@@ -172,7 +172,7 @@ public class BroxWarpingSpacial<T extends ImageGray> extends DenseFlowPyramidBas
 			// compute image derivatives
 			gradient.process(layer1,deriv1X,deriv1Y, ISC,DHF, CINB, CJBG,GSO,GSUO);
 			gradient.process(layer2,deriv2X,deriv2Y,ISC,DHF, CINB, CJBG,GSO,GSUO);
-			hessian.process(deriv2X,deriv2Y,deriv2XX,deriv2YY,deriv2XY);
+			hessian.process(deriv2X,deriv2Y,deriv2XX,deriv2YY,deriv2XY, ISC, DHF, CINB, CJBG, GSO, GSUO);
 
 			if( !first ) {
 				// interpolate initial flow from previous layer

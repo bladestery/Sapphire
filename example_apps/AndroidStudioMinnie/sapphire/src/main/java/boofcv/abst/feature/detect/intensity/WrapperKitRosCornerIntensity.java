@@ -18,7 +18,14 @@
 
 package boofcv.abst.feature.detect.intensity;
 
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.feature.detect.intensity.KitRosCornerIntensity;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
+import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.struct.QueueCorner;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.ImageGray;
@@ -45,11 +52,12 @@ public class WrapperKitRosCornerIntensity<I extends ImageGray,D extends ImageGra
 	}
 
 	@Override
-	public void process(I image , D derivX, D derivY, D derivXX, D derivYY, D derivXY ) {
-		init(image.width,image.height);
+	public void process(I image , D derivX, D derivY, D derivXX, D derivYY, D derivXY, GImageMiscOps GIMO, ImageMiscOps IMO,
+						InputSanityCheck ISC, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN) {
+		init(image.width,image.height, GIMO, IMO);
 
 		try {
-			m.invoke(null,intensity,derivX,derivY,derivXX,derivYY,derivXY);
+			m.invoke(null,intensity,derivX,derivY,derivXX,derivYY,derivXY,ISC);
 		} catch (IllegalAccessException | InvocationTargetException e) {
 			throw new RuntimeException(e);
 		}

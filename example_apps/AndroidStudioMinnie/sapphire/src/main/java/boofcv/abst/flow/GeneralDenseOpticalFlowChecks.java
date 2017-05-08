@@ -19,12 +19,14 @@
 package boofcv.abst.flow;
 
 import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.struct.flow.ImageFlow;
 import boofcv.struct.image.ImageGray;
 import boofcv.testing.BoofTesting;
 import org.junit.Test;
 
+import java.awt.Image;
 import java.util.Random;
 
 import static org.junit.Assert.*;
@@ -35,6 +37,8 @@ import static org.junit.Assert.*;
 public abstract class GeneralDenseOpticalFlowChecks<T extends ImageGray>
 {
 	private GeneralizedImageOps GIO;
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
 	Random rand = new Random(234);
 	Class<T> imageType;
 
@@ -52,7 +56,7 @@ public abstract class GeneralDenseOpticalFlowChecks<T extends ImageGray>
 
 		found = new ImageFlow(20,25);
 
-		GImageMiscOps.fillUniform(orig,rand,0,256);
+		GIMO.fillUniform(orig,rand,0,256, IMO);
 	}
 
 	public void setJustCorrectSign(boolean justCorrectSign) {

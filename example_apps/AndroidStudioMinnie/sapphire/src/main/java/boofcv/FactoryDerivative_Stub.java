@@ -134,17 +134,18 @@ public final class FactoryDerivative_Stub extends boofcv.factory.filter.derivati
         return ((boofcv.abst.filter.derivative.ImageGradient) $__result);
     }
 
-    // Implementation of hessianThree(Class, GeneralizedImageOps)
-    public boofcv.abst.filter.derivative.ImageHessian hessianThree(java.lang.Class $param_Class_1, boofcv.core.image.GeneralizedImageOps $param_GeneralizedImageOps_2) {
+    // Implementation of hessianThree(Class, GeneralizedImageOps, FactoryImageBorder)
+    public boofcv.abst.filter.derivative.ImageHessian hessianThree(java.lang.Class $param_Class_1, boofcv.core.image.GeneralizedImageOps $param_GeneralizedImageOps_2, boofcv.core.image.border.FactoryImageBorder $param_FactoryImageBorder_3) {
         java.lang.Object $__result = null;
         try {
             if ($__directInvocation)
-                $__result = super.hessianThree( $param_Class_1,  $param_GeneralizedImageOps_2);
+                $__result = super.hessianThree( $param_Class_1,  $param_GeneralizedImageOps_2,  $param_FactoryImageBorder_3);
             else {
                 java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
-                String $__method = "public <D> boofcv.abst.filter.derivative.ImageHessian<D> boofcv.factory.filter.derivative.FactoryDerivative.hessianThree(java.lang.Class<D>,boofcv.core.image.GeneralizedImageOps)";
+                String $__method = "public <D> boofcv.abst.filter.derivative.ImageHessian<D> boofcv.factory.filter.derivative.FactoryDerivative.hessianThree(java.lang.Class<D>,boofcv.core.image.GeneralizedImageOps,boofcv.core.image.border.FactoryImageBorder)";
                 $__params.add($param_Class_1);
                 $__params.add($param_GeneralizedImageOps_2);
+                $__params.add($param_FactoryImageBorder_3);
                 $__result = $__client.onRPC($__method, $__params);
             }
         } catch (Exception e) {
@@ -153,17 +154,18 @@ public final class FactoryDerivative_Stub extends boofcv.factory.filter.derivati
         return ((boofcv.abst.filter.derivative.ImageHessian) $__result);
     }
 
-    // Implementation of hessianSobel(Class, GeneralizedImageOps)
-    public boofcv.abst.filter.derivative.ImageHessian hessianSobel(java.lang.Class $param_Class_1, boofcv.core.image.GeneralizedImageOps $param_GeneralizedImageOps_2) {
+    // Implementation of hessianSobel(Class, GeneralizedImageOps, FactoryImageBorder)
+    public boofcv.abst.filter.derivative.ImageHessian hessianSobel(java.lang.Class $param_Class_1, boofcv.core.image.GeneralizedImageOps $param_GeneralizedImageOps_2, boofcv.core.image.border.FactoryImageBorder $param_FactoryImageBorder_3) {
         java.lang.Object $__result = null;
         try {
             if ($__directInvocation)
-                $__result = super.hessianSobel( $param_Class_1,  $param_GeneralizedImageOps_2);
+                $__result = super.hessianSobel( $param_Class_1,  $param_GeneralizedImageOps_2,  $param_FactoryImageBorder_3);
             else {
                 java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
-                String $__method = "public <D> boofcv.abst.filter.derivative.ImageHessian<D> boofcv.factory.filter.derivative.FactoryDerivative.hessianSobel(java.lang.Class<D>,boofcv.core.image.GeneralizedImageOps)";
+                String $__method = "public <D> boofcv.abst.filter.derivative.ImageHessian<D> boofcv.factory.filter.derivative.FactoryDerivative.hessianSobel(java.lang.Class<D>,boofcv.core.image.GeneralizedImageOps,boofcv.core.image.border.FactoryImageBorder)";
                 $__params.add($param_Class_1);
                 $__params.add($param_GeneralizedImageOps_2);
+                $__params.add($param_FactoryImageBorder_3);
                 $__result = $__client.onRPC($__method, $__params);
             }
         } catch (Exception e) {
@@ -172,17 +174,18 @@ public final class FactoryDerivative_Stub extends boofcv.factory.filter.derivati
         return ((boofcv.abst.filter.derivative.ImageHessian) $__result);
     }
 
-    // Implementation of hessianPrewitt(Class, GeneralizedImageOps)
-    public boofcv.abst.filter.derivative.ImageHessian hessianPrewitt(java.lang.Class $param_Class_1, boofcv.core.image.GeneralizedImageOps $param_GeneralizedImageOps_2) {
+    // Implementation of hessianPrewitt(Class, GeneralizedImageOps, FactoryImageBorder)
+    public boofcv.abst.filter.derivative.ImageHessian hessianPrewitt(java.lang.Class $param_Class_1, boofcv.core.image.GeneralizedImageOps $param_GeneralizedImageOps_2, boofcv.core.image.border.FactoryImageBorder $param_FactoryImageBorder_3) {
         java.lang.Object $__result = null;
         try {
             if ($__directInvocation)
-                $__result = super.hessianPrewitt( $param_Class_1,  $param_GeneralizedImageOps_2);
+                $__result = super.hessianPrewitt( $param_Class_1,  $param_GeneralizedImageOps_2,  $param_FactoryImageBorder_3);
             else {
                 java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
-                String $__method = "public <D> boofcv.abst.filter.derivative.ImageHessian<D> boofcv.factory.filter.derivative.FactoryDerivative.hessianPrewitt(java.lang.Class<D>,boofcv.core.image.GeneralizedImageOps)";
+                String $__method = "public <D> boofcv.abst.filter.derivative.ImageHessian<D> boofcv.factory.filter.derivative.FactoryDerivative.hessianPrewitt(java.lang.Class<D>,boofcv.core.image.GeneralizedImageOps,boofcv.core.image.border.FactoryImageBorder)";
                 $__params.add($param_Class_1);
                 $__params.add($param_GeneralizedImageOps_2);
+                $__params.add($param_FactoryImageBorder_3);
                 $__result = $__client.onRPC($__method, $__params);
             }
         } catch (Exception e) {
@@ -231,18 +234,19 @@ public final class FactoryDerivative_Stub extends boofcv.factory.filter.derivati
         return ((boofcv.abst.filter.derivative.ImageHessianDirect) $__result);
     }
 
-    // Implementation of hessian(Class, Class, GeneralizedImageOps)
-    public boofcv.abst.filter.derivative.ImageHessian hessian(java.lang.Class $param_Class_1, java.lang.Class $param_Class_2, boofcv.core.image.GeneralizedImageOps $param_GeneralizedImageOps_3) {
+    // Implementation of hessian(Class, Class, GeneralizedImageOps, FactoryImageBorder)
+    public boofcv.abst.filter.derivative.ImageHessian hessian(java.lang.Class $param_Class_1, java.lang.Class $param_Class_2, boofcv.core.image.GeneralizedImageOps $param_GeneralizedImageOps_3, boofcv.core.image.border.FactoryImageBorder $param_FactoryImageBorder_4) {
         java.lang.Object $__result = null;
         try {
             if ($__directInvocation)
-                $__result = super.hessian( $param_Class_1,  $param_Class_2,  $param_GeneralizedImageOps_3);
+                $__result = super.hessian( $param_Class_1,  $param_Class_2,  $param_GeneralizedImageOps_3,  $param_FactoryImageBorder_4);
             else {
                 java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
-                String $__method = "public <D> boofcv.abst.filter.derivative.ImageHessian<D> boofcv.factory.filter.derivative.FactoryDerivative.hessian(java.lang.Class<?>,java.lang.Class<D>,boofcv.core.image.GeneralizedImageOps)";
+                String $__method = "public <D> boofcv.abst.filter.derivative.ImageHessian<D> boofcv.factory.filter.derivative.FactoryDerivative.hessian(java.lang.Class<?>,java.lang.Class<D>,boofcv.core.image.GeneralizedImageOps,boofcv.core.image.border.FactoryImageBorder)";
                 $__params.add($param_Class_1);
                 $__params.add($param_Class_2);
                 $__params.add($param_GeneralizedImageOps_3);
+                $__params.add($param_FactoryImageBorder_4);
                 $__result = $__client.onRPC($__method, $__params);
             }
         } catch (Exception e) {

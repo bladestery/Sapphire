@@ -21,6 +21,7 @@ package boofcv.alg.background.moving;
 import boofcv.alg.interpolate.InterpolatePixelMB;
 import boofcv.alg.interpolate.InterpolationType;
 import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.core.image.FactoryGImageMultiBand;
 import boofcv.core.image.GImageMultiBand;
 import boofcv.core.image.border.BorderType;
@@ -40,6 +41,8 @@ import georegression.struct.InvertibleTransform;
 public class BackgroundMovingGaussian_IL<T extends ImageInterleaved, Motion extends InvertibleTransform<Motion>>
 		extends BackgroundMovingGaussian<T,Motion>
 {
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
 	private ImageType IT;
 	// interpolates the input image
 	protected InterpolatePixelMB<T> interpolateInput;
@@ -90,7 +93,7 @@ public class BackgroundMovingGaussian_IL<T extends ImageInterleaved, Motion exte
 	@Override
 	public void initialize(int backgroundWidth, int backgroundHeight, Motion homeToWorld) {
 		background.reshape(backgroundWidth,backgroundHeight);
-		GImageMiscOps.fill(background, -1);
+		GIMO.fill(background, -1, IMO);
 
 		this.homeToWorld.set(homeToWorld);
 		this.homeToWorld.invert(worldToHome);
@@ -101,7 +104,7 @@ public class BackgroundMovingGaussian_IL<T extends ImageInterleaved, Motion exte
 
 	@Override
 	public void reset() {
-		GImageMiscOps.fill(background, -1);
+		GIMO.fill(background, -1, IMO);
 	}
 
 	@Override

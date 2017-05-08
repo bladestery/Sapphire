@@ -20,6 +20,7 @@ package boofcv.alg.feature.disparity.impl;
 
 import boofcv.alg.feature.disparity.DisparitySelect;
 import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.struct.image.ImageGray;
 import org.junit.Test;
@@ -33,6 +34,8 @@ import static org.junit.Assert.assertEquals;
  */
 public abstract class BasicDisparitySelectRectTests <ArrayData , D extends ImageGray> {
 	private GeneralizedImageOps GIO;
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
 	Class<ArrayData> arrayType;
 
 	int w=20;
@@ -66,7 +69,7 @@ public abstract class BasicDisparitySelectRectTests <ArrayData , D extends Image
 
 		int y = 3;
 
-		GImageMiscOps.fill(disparity, 0);
+		GIMO.fill(disparity, 0, IMO);
 		alg.configure(disparity,0,maxDisparity,2);
 
 		int scores[] = new int[w*maxDisparity];
@@ -122,7 +125,7 @@ public abstract class BasicDisparitySelectRectTests <ArrayData , D extends Image
 
 		int y = 3;
 
-		GImageMiscOps.fill(disparity,0);
+		GIMO.fill(disparity,0, IMO);
 		alg.configure(disparity,minDisparity,maxDisparity,r);
 
 		int scores[] = new int[w*range];

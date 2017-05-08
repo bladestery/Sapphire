@@ -22,7 +22,18 @@ import boofcv.abst.feature.describe.DescribeRegionPoint;
 import boofcv.abst.feature.detect.interest.DetectorInterestPointMulti;
 import boofcv.abst.feature.detect.interest.FoundPointSO;
 import boofcv.abst.feature.orientation.OrientationImage;
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.descriptor.UtilFeature;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
+import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
+import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
+import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
+import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.struct.feature.TupleDesc;
 import boofcv.struct.image.ImageGray;
 import georegression.struct.point.Point2D_F64;
@@ -41,6 +52,17 @@ import org.ddogleg.struct.FastQueue;
  */
 public class DetectDescribeMultiFusion<T extends ImageGray, TD extends TupleDesc>
 		implements DetectDescribeMulti<T,TD> {
+	private static InputSanityCheck ISC;
+	private static DerivativeHelperFunctions DHF;
+	private static ConvolveImageNoBorder CINB;
+	private static ConvolveJustBorder_General CJBG;
+	private static GradientSobel_Outer GSO;
+	private static GradientSobel_UnrolledOuter GSUO;
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
+	private static ConvolveNormalizedNaive CNN;
+	private static ConvolveNormalized_JustBorder CNJB;
+	private static ConvolveNormalized CN;
 
 	// feature detector
 	private DetectorInterestPointMulti<T> detector;
@@ -69,7 +91,7 @@ public class DetectDescribeMultiFusion<T extends ImageGray, TD extends TupleDesc
 	@Override
 	public void process(T image) {
 		// detect features and setup describe and orientation
-		detector.detect(image);
+		detector.detect(image, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN);
 
 		describe.setImage(image);
 		if( orientation != null )

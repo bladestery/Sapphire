@@ -18,7 +18,18 @@
 
 package boofcv.abst.feature.detect.interest;
 
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.feature.detect.interest.SiftDetector;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
+import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
+import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
+import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
+import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.core.image.GConvertImage;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.ImageBase;
@@ -44,7 +55,8 @@ public class WrapSiftDetector<T extends ImageBase>
 	}
 
 	@Override
-	public void detect(T image) {
+	public void detect(T image, InputSanityCheck ISC, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG, GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO,
+					   GImageMiscOps GIMO, ImageMiscOps IMO, ConvolveNormalizedNaive CNN, ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN) {
 
 		GrayF32 input;
 		if( image instanceof GrayF32) {

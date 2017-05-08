@@ -18,9 +18,12 @@
 
 package boofcv.alg.background.moving;
 
+import java.awt.Image;
+
 import boofcv.alg.interpolate.InterpolatePixelMB;
 import boofcv.alg.interpolate.InterpolationType;
 import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.core.image.FactoryGImageMultiBand;
 import boofcv.core.image.GImageMultiBand;
 import boofcv.core.image.border.BorderType;
@@ -37,7 +40,8 @@ import georegression.struct.InvertibleTransform;
 public class BackgroundMovingGaussian_PL<T extends ImageGray, Motion extends InvertibleTransform<Motion>>
 		extends BackgroundMovingGaussian<Planar<T>,Motion>
 {
-
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
 	// interpolates the input image
 	protected InterpolatePixelMB<Planar<T>> interpolateInput;
 	// interpolates the background image
@@ -88,8 +92,8 @@ public class BackgroundMovingGaussian_PL<T extends ImageGray, Motion extends Inv
 	public void initialize(int backgroundWidth, int backgroundHeight, Motion homeToWorld) {
 		background.reshape(backgroundWidth,backgroundHeight);
 		for (int i = 0; i < background.getNumBands(); i+=2) {
-			GImageMiscOps.fill(background.getBand(i),0);
-			GImageMiscOps.fill(background.getBand(i+1),-1);
+			GIMO.fill(background.getBand(i),0, IMO);
+			GIMO.fill(background.getBand(i+1),-1, IMO);
 		}
 
 		this.homeToWorld.set(homeToWorld);
@@ -102,8 +106,8 @@ public class BackgroundMovingGaussian_PL<T extends ImageGray, Motion extends Inv
 	@Override
 	public void reset() {
 		for (int i = 0; i < background.getNumBands(); i+=2) {
-			GImageMiscOps.fill(background.getBand(i),0);
-			GImageMiscOps.fill(background.getBand(i+1),-1);
+			GIMO.fill(background.getBand(i),0, IMO);
+			GIMO.fill(background.getBand(i+1),-1, IMO);
 		}
 	}
 

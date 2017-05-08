@@ -18,6 +18,12 @@
 
 package boofcv.abst.filter.derivative;
 
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
+import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
+import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
+import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
 import boofcv.struct.image.ImageGray;
 
 
@@ -38,6 +44,8 @@ public interface ImageHessian<Output extends ImageGray> extends ImageDerivative<
 	 * @param derivYY Second derivative y-axis y-axis
 	 * @param derivXY Second derivative x-axis y-axis
 	 */
-	public void process( Output inputDerivX , Output inputDerivY, Output derivXX, Output derivYY, Output derivXY  );
+	public void process(Output inputDerivX , Output inputDerivY, Output derivXX, Output derivYY, Output derivXY ,
+						InputSanityCheck ISC, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG,
+						GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO );
 
 }

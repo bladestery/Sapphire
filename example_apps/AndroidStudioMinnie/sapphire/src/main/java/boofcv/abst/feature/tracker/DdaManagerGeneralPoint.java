@@ -19,8 +19,19 @@
 package boofcv.abst.feature.tracker;
 
 import boofcv.abst.feature.describe.DescribeRegionPoint;
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.descriptor.UtilFeature;
 import boofcv.alg.feature.detect.interest.EasyGeneralFeatureDetector;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
+import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
+import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
+import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
+import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.struct.QueueCorner;
 import boofcv.struct.feature.TupleDesc;
 import boofcv.struct.image.ImageGray;
@@ -60,10 +71,11 @@ public class DdaManagerGeneralPoint<I extends ImageGray, D extends ImageGray, De
 	}
 
 	@Override
-	public void detectFeatures(I input, FastQueue<Point2D_F64> locDst, FastQueue<Desc> featDst) {
+	public void detectFeatures(I input, FastQueue<Point2D_F64> locDst, FastQueue<Desc> featDst, InputSanityCheck ISC, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG, GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO,
+							   GImageMiscOps GIMO, ImageMiscOps IMO, ConvolveNormalizedNaive CNN, ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN) {
 
 		// detect features in the image
-		detector.detect(input,null);
+		detector.detect(input,null, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN);
 		describe.setImage(input);
 
 		QueueCorner found = detector.getMaximums();

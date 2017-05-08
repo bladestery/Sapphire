@@ -33,9 +33,12 @@ import boofcv.alg.feature.detect.intensity.GradientCornerIntensity;
 import boofcv.alg.feature.detect.intensity.HessianBlobIntensity;
 import boofcv.alg.feature.detect.interest.*;
 import boofcv.alg.filter.derivative.GImageDerivativeOps;
+import boofcv.alg.misc.ImageMiscOps;
+import boofcv.core.image.GeneralizedImageOps;
 import boofcv.factory.feature.detect.extract.FactoryFeatureExtractor;
 import boofcv.factory.feature.detect.intensity.FactoryIntensityPointAlg;
 import boofcv.factory.filter.derivative.FactoryDerivativeSparse;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.image.ImageGray;
 
 /**
@@ -45,6 +48,9 @@ import boofcv.struct.image.ImageGray;
  */
 public class FactoryInterestPointAlgs {
 	private static FactoryFeatureExtractor FFE;
+	private static FactoryIntensityPointAlg FIPA;
+	private static GeneralizedImageOps GIO;
+	private static FactoryKernelGaussian FKG;
 	/**
 	 * Creates a {@link FeaturePyramid} which is uses a hessian blob detector.
 	 *
@@ -88,7 +94,7 @@ public class FactoryInterestPointAlgs {
 									   int maxFeatures,
 									   Class<T> imageType,
 									   Class<D> derivType) {
-		GradientCornerIntensity<D> harris = FactoryIntensityPointAlg.harris(extractRadius, 0.04f, false, derivType);
+		GradientCornerIntensity<D> harris = FIPA.harris(extractRadius, 0.04f, false, derivType, GIO, FKG);
 		GeneralFeatureIntensity<T, D> intensity = new WrapperGradientCornerIntensity<>(harris);
 		NonMaxSuppression extractor = FFE.nonmax(
 				new ConfigExtract(extractRadius, detectThreshold, extractRadius, true));
@@ -145,7 +151,7 @@ public class FactoryInterestPointAlgs {
 											  int maxFeatures,
 											  Class<T> imageType,
 											  Class<D> derivType) {
-		GradientCornerIntensity<D> harris = FactoryIntensityPointAlg.harris(extractRadius, 0.04f, false, derivType);
+		GradientCornerIntensity<D> harris = FIPA.harris(extractRadius, 0.04f, false, derivType, GIO, FKG);
 		GeneralFeatureIntensity<T, D> intensity = new WrapperGradientCornerIntensity<>(harris);
 		NonMaxSuppression extractor = FFE.nonmax(
 				new ConfigExtract(extractRadius, detectThreshold, extractRadius, true));

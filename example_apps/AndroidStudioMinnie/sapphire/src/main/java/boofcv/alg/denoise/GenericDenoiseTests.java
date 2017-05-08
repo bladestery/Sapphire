@@ -21,6 +21,7 @@ package boofcv.alg.denoise;
 import boofcv.alg.InputSanityCheck;
 import boofcv.alg.misc.GImageMiscOps;
 import boofcv.alg.misc.GImageStatistics;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.misc.ImageStatistics;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.struct.image.ImageGray;
@@ -43,6 +44,8 @@ public abstract class GenericDenoiseTests<T extends ImageGray> {
 	private static GImageStatistics GIS;
 	private static ImageStatistics IS;
 	private static InputSanityCheck ISC;
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
 	Random rand = new Random(10);
 	int width = 20;
 	int height = 30;
@@ -81,12 +84,12 @@ public abstract class GenericDenoiseTests<T extends ImageGray> {
 		imageDenoised = GIO.createSingleBand(imageType, width, height);
 
 		// render a simple scene
-		GImageMiscOps.fill(image, 20);
-		GImageMiscOps.fillRectangle(image,10,5,5,10,10);
-		GImageMiscOps.fillRectangle(image,10,15,15,20,20);
+		GIMO.fill(image, 20, IMO);
+		GIMO.fillRectangle(image,10,5,5,10,10, IMO);
+		GIMO.fillRectangle(image,10,15,15,20,20, IMO);
 
 		// create the noisy image
 		imageNoisy = (T)image.clone();
-		GImageMiscOps.addGaussian(imageNoisy,rand,noiseSigma,0,255);
+		GIMO.addGaussian(imageNoisy,rand,noiseSigma,0,255, IMO);
 	}
 }

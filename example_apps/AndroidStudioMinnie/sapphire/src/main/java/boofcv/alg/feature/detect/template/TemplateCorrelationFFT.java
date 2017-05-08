@@ -20,6 +20,7 @@ package boofcv.alg.feature.detect.template;
 
 import boofcv.abst.transform.fft.DiscreteFourierTransform;
 import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.misc.ImageStatistics;
 import boofcv.alg.misc.PixelMath;
 import boofcv.alg.transform.fft.DiscreteFourierTransformOps;
@@ -35,6 +36,8 @@ public class TemplateCorrelationFFT
 		implements TemplateMatchingIntensity<GrayF32>
 {
 	private ImageStatistics IS;
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
 	DiscreteFourierTransform<GrayF32,InterleavedF32> dft =
 			DiscreteFourierTransformOps.createTransformF32();
 
@@ -111,7 +114,7 @@ public class TemplateCorrelationFFT
 
 		// insert the template into the enlarged image
 		// want it to be at (0,0) coordinate.  This requires wrapping it around the corners
-		GImageMiscOps.fill(enlargedTemplate,0);
+		GIMO.fill(enlargedTemplate,0, IMO);
 //		int x0 = 0;//enlargedTemplate.width-template.width;
 //		int y0 = 0;//enlargedTemplate.height-template.height;
 //		int x1 = x0 + template.width;

@@ -20,6 +20,7 @@ package boofcv.abst.sfm.d3;
 
 import boofcv.alg.geo.PerspectiveOps;
 import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.misc.BoofMiscOps;
 import boofcv.struct.ImageRectangle;
@@ -43,6 +44,8 @@ import java.util.*;
  */
 public class VideoSequenceSimulator<I extends ImageGray> {
 	private GeneralizedImageOps GIO;
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
 	protected int width,height;
 
 	Random rand = new Random(1234);
@@ -106,7 +109,7 @@ public class VideoSequenceSimulator<I extends ImageGray> {
 	}
 
 	public I render( Se3_F64 worldToCamera ) {
-		GImageMiscOps.fill(outputImage, 0);
+		GIMO.fill(outputImage, 0, IMO);
 
 		for( Square s : squares ) {
 			Point2D_F64 p1 = PerspectiveOps.renderPixel(worldToCamera,K,s.a);
@@ -132,7 +135,7 @@ public class VideoSequenceSimulator<I extends ImageGray> {
 
 	public void renderDepth(Se3_F64 worldToCamera , ImageGray depthImage , double units ) {
 
-		GImageMiscOps.fill(depthImage,0);
+		GIMO.fill(depthImage,0, IMO);
 		for( Square s : squares ) {
 			Point2D_F64 p1 = PerspectiveOps.renderPixel(worldToCamera,K,s.a);
 			Point2D_F64 p2 = PerspectiveOps.renderPixel(worldToCamera,K,s.b);

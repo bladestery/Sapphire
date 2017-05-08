@@ -21,6 +21,17 @@ import org.ddogleg.struct.FastQueue;
 import boofcv.abst.feature.detect.interest.ConfigFastHessian;
 import boofcv.abst.feature.detect.interest.ConfigSiftDetector;
 import boofcv.abst.feature.detect.interest.InterestPointDetector;
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
+import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
+import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
+import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
+import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.android.ConvertBitmap;
 import boofcv.android.gui.VideoRenderProcessing;
 import boofcv.factory.feature.detect.interest.FactoryInterestPoint;
@@ -35,6 +46,17 @@ import georegression.struct.point.Point2D_F64;
 public class ScalePointDisplayActivity extends DemoVideoDisplayActivity
 		implements AdapterView.OnItemSelectedListener  {
 	private ImageType IT;
+	private static InputSanityCheck ISC;
+	private static DerivativeHelperFunctions DHF;
+	private static ConvolveImageNoBorder CINB;
+	private static ConvolveJustBorder_General CJBG;
+	private static GradientSobel_Outer GSO;
+	private static GradientSobel_UnrolledOuter GSUO;
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
+	private static ConvolveNormalizedNaive CNN;
+	private static ConvolveNormalized_JustBorder CNJB;
+	private static ConvolveNormalized CN;
 	Spinner spinner;
 
 	Paint paintMax;
@@ -132,7 +154,7 @@ public class ScalePointDisplayActivity extends DemoVideoDisplayActivity
 
 		@Override
 		protected void process(GrayU8 gray) {
-			detector.detect(gray);
+			detector.detect(gray, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN);
 			synchronized ( lockGui ) {
 				ConvertBitmap.grayToBitmap(gray,bitmap,storage);
 

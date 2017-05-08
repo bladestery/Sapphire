@@ -19,6 +19,7 @@
 package boofcv.alg.flow;
 
 import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.factory.transform.pyramid.FactoryPyramid;
 import boofcv.struct.flow.ImageFlow;
@@ -38,6 +39,8 @@ import static org.junit.Assert.assertTrue;
  */
 public abstract class ChecksDenseOpticalFlowBlockPyramid<T extends ImageGray> {
 	private GeneralizedImageOps GIO;
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
 	Class<T> imageType;
 	Random rand = new Random(234);
 	T image;
@@ -55,7 +58,7 @@ public abstract class ChecksDenseOpticalFlowBlockPyramid<T extends ImageGray> {
 		DenseOpticalFlowBlockPyramid<T> alg = createAlg(2,3,10);
 
 		ImagePyramid<T> pyramid = FactoryPyramid.discreteGaussian(new int[]{1,2,4},0,2,false,imageType);
-		GImageMiscOps.fillUniform(image,rand,0,200);
+		GIMO.fillUniform(image,rand,0,200, IMO);
 		pyramid.process(image);
 
 		alg.process(pyramid,pyramid);
@@ -75,7 +78,7 @@ public abstract class ChecksDenseOpticalFlowBlockPyramid<T extends ImageGray> {
 		int r = 2;
 		DenseOpticalFlowBlockPyramid<T> alg = createAlg(1,r,10);
 
-		GImageMiscOps.fillUniform(image,rand,0,200);
+		GIMO.fillUniform(image,rand,0,200, IMO);
 		alg.extractTemplate(3,4,image);
 
 		for( int i = -r; i <= r; i++ ) {
@@ -96,8 +99,8 @@ public abstract class ChecksDenseOpticalFlowBlockPyramid<T extends ImageGray> {
 		int w = r*2+1;
 		DenseOpticalFlowBlockPyramid<T> alg = createAlg(1,r,10);
 
-		GImageMiscOps.fillUniform(image,rand,0,200);
-		GImageMiscOps.fillUniform(alg.template,rand,0,200);
+		GIMO.fillUniform(image,rand,0,200, IMO);
+		GIMO.fillUniform(alg.template,rand,0,200, IMO);
 
 		float found = alg.computeError(5,6,image);
 

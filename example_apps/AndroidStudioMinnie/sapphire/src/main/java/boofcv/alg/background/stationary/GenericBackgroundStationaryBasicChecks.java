@@ -35,6 +35,7 @@ import static org.junit.Assert.assertTrue;
 public abstract class GenericBackgroundStationaryBasicChecks extends GenericBackgroundModelStationaryChecks {
 	private ImageStatistics IS;
 	private ImageMiscOps IMO;
+	private static GImageMiscOps GIMO;
 
 	@Test
 	public void checkLearnRate() {
@@ -109,13 +110,13 @@ public abstract class GenericBackgroundStationaryBasicChecks extends GenericBack
 
 		// build a background model around these images
 		for (int i = 0; i < 5; i++) {
-			GImageMiscOps.fill(frame, 100);
+			GIMO.fill(frame, 100, IMO);
 			alg.updateBackground(frame);
 		}
 
 		GrayU8 segmented = new GrayU8(width,height);
 
-		GImageMiscOps.fill(frame, 103);
+		GIMO.fill(frame, 103, IMO);
 		alg.setThreshold(2.5f);
 		alg.segment(frame, segmented);
 		assertTrue(width * height <= IS.sum(segmented));

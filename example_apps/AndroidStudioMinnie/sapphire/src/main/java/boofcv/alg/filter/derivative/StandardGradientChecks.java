@@ -19,6 +19,7 @@
 package boofcv.alg.filter.derivative;
 
 import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.BorderIndex1D_Wrap;
 import boofcv.core.image.border.ImageBorder1D_F32;
@@ -39,6 +40,8 @@ import static org.junit.Assert.assertEquals;
  */
 public class StandardGradientChecks {
 	private GeneralizedImageOps GIO;
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
 	Random rand = new Random(234);
 	int width = 20;
 	int height = 30;
@@ -84,7 +87,7 @@ public class StandardGradientChecks {
 		ImageGray derivXY = GIO.createSingleBand(params[1], width, height);
 		ImageGray derivYX = GIO.createSingleBand(params[1], width, height);
 
-		GImageMiscOps.fillUniform(input, rand, 0, 40);
+		GIMO.fillUniform(input, rand, 0, 40, IMO);
 
 		Object border;
 		if( params[3] == ImageBorder_F32.class ) {

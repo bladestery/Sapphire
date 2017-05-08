@@ -22,6 +22,7 @@ import boofcv.alg.interpolate.InterpolatePixelMB;
 import boofcv.alg.interpolate.InterpolatePixelS;
 import boofcv.alg.interpolate.InterpolationType;
 import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.core.image.FactoryGImageGray;
 import boofcv.core.image.GImageGray;
 import boofcv.core.image.border.BorderType;
@@ -39,6 +40,8 @@ public class BackgroundMovingGaussian_SB <T extends ImageGray, Motion extends In
 		extends BackgroundMovingGaussian<T,Motion>
 {
 	private static ImageType IT;
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
 	// interpolates the input image
 	protected InterpolatePixelS<T> interpolateInput;
 	// interpolates the background image
@@ -79,8 +82,8 @@ public class BackgroundMovingGaussian_SB <T extends ImageGray, Motion extends In
 	@Override
 	public void initialize(int backgroundWidth, int backgroundHeight, Motion homeToWorld) {
 		background.reshape(backgroundWidth,backgroundHeight);
-		GImageMiscOps.fill(background.getBand(0),0);
-		GImageMiscOps.fill(background.getBand(1),-1);
+		GIMO.fill(background.getBand(0),0, IMO);
+		GIMO.fill(background.getBand(1),-1, IMO);
 
 		this.homeToWorld.set(homeToWorld);
 		this.homeToWorld.invert(worldToHome);
@@ -91,8 +94,8 @@ public class BackgroundMovingGaussian_SB <T extends ImageGray, Motion extends In
 
 	@Override
 	public void reset() {
-		GImageMiscOps.fill(background.getBand(0),0);
-		GImageMiscOps.fill(background.getBand(1),-1);
+		GIMO.fill(background.getBand(0),0, IMO);
+		GIMO.fill(background.getBand(1),-1, IMO);
 	}
 
 	@Override

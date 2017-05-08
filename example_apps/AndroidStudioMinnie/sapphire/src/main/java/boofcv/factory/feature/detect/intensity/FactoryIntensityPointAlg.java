@@ -18,14 +18,20 @@
 
 package boofcv.factory.feature.detect.intensity;
 
+import org.hamcrest.Factory;
+
 import boofcv.alg.feature.detect.intensity.FastCornerIntensity;
 import boofcv.alg.feature.detect.intensity.HarrisCornerIntensity;
 import boofcv.alg.feature.detect.intensity.ShiTomasiCornerIntensity;
 import boofcv.alg.feature.detect.intensity.impl.*;
+import boofcv.core.image.GeneralizedImageOps;
+import boofcv.factory.filter.kernel.FactoryKernel;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.GrayS16;
 import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.ImageGray;
+import sapphire.app.SapphireObject;
 
 /**
  * Factory for creating various types of interest point intensity algorithms.
@@ -35,7 +41,8 @@ import boofcv.struct.image.ImageGray;
  * @author Peter Abeles
  */
 @SuppressWarnings({"unchecked"})
-public class FactoryIntensityPointAlg {
+public class FactoryIntensityPointAlg implements SapphireObject {
+	public FactoryIntensityPointAlg() {}
 
 	/**
 	 * Common interface for creating a {@link boofcv.alg.feature.detect.intensity.FastCornerIntensity} from different image types.
@@ -45,7 +52,7 @@ public class FactoryIntensityPointAlg {
 	 * @param imageType Type of input image it is computed form.
 	 * @return Fast corner
 	 */
-	public static <T extends ImageGray>
+	 public <T extends ImageGray>
 	FastCornerIntensity<T> fast(int pixelTol, int minCont, Class<T> imageType)
 	{
 		FastHelper<T> helper;
@@ -79,20 +86,20 @@ public class FactoryIntensityPointAlg {
 	 * @param weighted Is the gradient weighted using a Gaussian distribution?  Weighted is much slower than unweighted.
 	 * @param derivType Image derivative type it is computed from.  @return Harris corner
 	 */
-	public static <D extends ImageGray>
-	HarrisCornerIntensity<D> harris(int windowRadius, float kappa, boolean weighted, Class<D> derivType)
+	 public <D extends ImageGray>
+	HarrisCornerIntensity<D> harris(int windowRadius, float kappa, boolean weighted, Class<D> derivType, GeneralizedImageOps GIO, FactoryKernelGaussian FKG)
 	{
 		if( derivType == GrayF32.class ) {
 			if( weighted )
-				return (HarrisCornerIntensity<D>)new ImplHarrisCornerWeighted_F32(windowRadius,kappa);
+				return (HarrisCornerIntensity<D>)new ImplHarrisCornerWeighted_F32(windowRadius,kappa, FKG);
 			else
-				return (HarrisCornerIntensity<D>)new ImplHarrisCorner_F32(windowRadius,kappa);
+				return (HarrisCornerIntensity<D>)new ImplHarrisCorner_F32(windowRadius,kappa, GIO);
 
 		} else if( derivType == GrayS16.class ) {
 			if( weighted )
-				return (HarrisCornerIntensity<D>)new ImplHarrisCornerWeighted_S16(windowRadius,kappa);
+				return (HarrisCornerIntensity<D>)new ImplHarrisCornerWeighted_S16(windowRadius,kappa, FKG);
 			else
-				return (HarrisCornerIntensity<D>)new ImplHarrisCorner_S16(windowRadius,kappa);
+				return (HarrisCornerIntensity<D>)new ImplHarrisCorner_S16(windowRadius,kappa, GIO);
 
 		}else
 			throw new IllegalArgumentException("Unknown image type "+derivType);
@@ -107,19 +114,19 @@ public class FactoryIntensityPointAlg {
 	 * @param derivType Image derivative type it is computed from.
 	 * @return KLT corner
 	 */
-	public static <D extends ImageGray>
-	ShiTomasiCornerIntensity<D> shiTomasi(int windowRadius, boolean weighted, Class<D> derivType)
+	 public <D extends ImageGray>
+	ShiTomasiCornerIntensity<D> shiTomasi(int windowRadius, boolean weighted, Class<D> derivType, GeneralizedImageOps GIO, FactoryKernelGaussian FKG)
 	{
 		if( derivType == GrayF32.class ) {
 			if( weighted )
-				return (ShiTomasiCornerIntensity<D>)new ImplShiTomasiCornerWeighted_F32(windowRadius);
+				return (ShiTomasiCornerIntensity<D>)new ImplShiTomasiCornerWeighted_F32(windowRadius, FKG);
 			else
-				return (ShiTomasiCornerIntensity<D>)new ImplShiTomasiCorner_F32(windowRadius);
+				return (ShiTomasiCornerIntensity<D>)new ImplShiTomasiCorner_F32(windowRadius, GIO);
 		} else if( derivType == GrayS16.class ) {
 			if( weighted )
-				return (ShiTomasiCornerIntensity<D>)new ImplShiTomasiCornerWeighted_S16(windowRadius);
+				return (ShiTomasiCornerIntensity<D>)new ImplShiTomasiCornerWeighted_S16(windowRadius, FKG);
 			else
-				return (ShiTomasiCornerIntensity<D>)new ImplShiTomasiCorner_S16(windowRadius);
+				return (ShiTomasiCornerIntensity<D>)new ImplShiTomasiCorner_S16(windowRadius, GIO);
 		} else
 			throw new IllegalArgumentException("Unknown image type "+derivType);
 	}

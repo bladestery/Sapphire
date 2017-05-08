@@ -19,6 +19,7 @@
 package boofcv.alg.transform.wavelet.impl;
 
 import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.BorderIndex1D;
 import boofcv.core.image.border.BorderIndex1D_Reflect;
@@ -40,6 +41,8 @@ import java.util.Random;
  */
 public abstract class PermuteWaveletCompare {
 	private GeneralizedImageOps GIO;
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
 	Random rand = new Random(234);
 
 	Class inputType;
@@ -81,7 +84,7 @@ public abstract class PermuteWaveletCompare {
 		ImageGray found = GIO.createSingleBand(outputType, widthOut, heightOut);
 		ImageGray expected = GIO.createSingleBand(outputType, widthOut, heightOut);
 
-		GImageMiscOps.fillUniform(input, rand, 0, 50);
+		GIMO.fillUniform(input, rand, 0, 50, IMO);
 
 //		System.out.println("In [ "+widthIn+" , "+heightIn+" ]  Out [ "+widthOut+" , "+heightOut+" ]");
 
@@ -90,8 +93,8 @@ public abstract class PermuteWaveletCompare {
 			for( int o = 0; o <= 2; o++ ) {
 				for( int l = 2+o; l <= 5; l++ ) {
 //					System.out.println("type "+type+" o = "+o+" l = "+l);
-					GImageMiscOps.fill(found, 0);
-					GImageMiscOps.fill(expected,0);
+					GIMO.fill(found, 0, IMO);
+					GIMO.fill(expected,0, IMO);
 					// create a random wavelet.  does not have to be a real once
 					// since it just is checking that two functions produce the same output
 					WaveletDescription<?> desc = createDesc(-o,l,type);

@@ -18,6 +18,13 @@
 
 package boofcv.abst.filter.derivative;
 
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
+import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
+import boofcv.alg.filter.derivative.GradientSobel;
+import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
+import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
 import boofcv.core.image.border.BorderType;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.core.image.border.ImageBorder;
@@ -37,22 +44,23 @@ import java.lang.reflect.Method;
 public class ImageHessian_Reflection<Output extends ImageGray>
 		implements ImageHessian<Output>
 {
-	private static FactoryImageBorder FIB;
 	// How the image border should be handled
 	BorderType borderType = BoofDefaults.DERIV_BORDER_TYPE;
 	ImageBorder<Output> border;
 	// the image hessian function
 	private Method m;
 
-	public ImageHessian_Reflection(Method m ) {
+	public ImageHessian_Reflection(Method m , FactoryImageBorder FIB) {
 		this.m = m;
 		setBorderType(borderType, FIB);
 	}
 
 	@Override
-	public void process(Output inputDerivX, Output inputDerivY , Output derivXX, Output derivYY, Output derivXY) {
+	public void process(Output inputDerivX, Output inputDerivY , Output derivXX, Output derivYY, Output derivXY,
+						InputSanityCheck ISC, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG,
+						GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO) {
 		try {
-			m.invoke(null,inputDerivX, inputDerivY, derivXX, derivYY, derivXY, border);
+			m.invoke(null,inputDerivX, inputDerivY, derivXX, derivYY, derivXY, border, ISC,DHF, CINB, CJBG,GSO,GSUO);
 		} catch (IllegalAccessException | InvocationTargetException e) {
 			throw new RuntimeException(e);
 		}

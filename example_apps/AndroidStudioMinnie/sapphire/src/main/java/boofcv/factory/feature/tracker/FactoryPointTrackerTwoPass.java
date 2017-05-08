@@ -78,7 +78,7 @@ public class FactoryPointTrackerTwoPass {
 							   double scale,
 							   Class<I> imageType) {
 
-		EasyGeneralFeatureDetector<I,D> easy = new EasyGeneralFeatureDetector<>(detector, imageType, null);
+		EasyGeneralFeatureDetector<I,D> easy = new EasyGeneralFeatureDetector<>(detector, imageType, null, FD, GIO, FIB);
 
 		DdaManagerGeneralPoint<I,D,Desc> manager = new DdaManagerGeneralPoint<>(easy, describe, scale);
 

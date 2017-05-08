@@ -21,6 +21,14 @@ package boofcv.alg.feature.detect.interest;
 import boofcv.abst.feature.detect.interest.InterestPointScaleSpacePyramid;
 import boofcv.abst.filter.ImageFunctionSparse;
 import boofcv.abst.filter.derivative.AnyImageDerivative;
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
+import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
+import boofcv.core.image.GeneralizedImageOps;
 import boofcv.struct.QueueCorner;
 import boofcv.struct.feature.ScalePoint;
 import boofcv.struct.image.GrayF32;
@@ -54,6 +62,13 @@ import static boofcv.alg.feature.detect.interest.FastHessianFeatureDetector.poly
 @SuppressWarnings({"unchecked"})
 public class FeatureLaplacePyramid<T extends ImageGray, D extends ImageGray>
 		implements InterestPointScaleSpacePyramid<T> {
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
+	private static InputSanityCheck ISC;
+	private static ConvolveImageNoBorder CINB;
+	private static ConvolveNormalizedNaive CNN;
+	private static ConvolveNormalized_JustBorder CNJB;
+	private static ConvolveNormalized CN;
 
 	// used to compute feature intensity across scale space
 	private ImageFunctionSparse<T> sparseLaplace;
@@ -150,7 +165,7 @@ public class FeatureLaplacePyramid<T extends ImageGray, D extends ImageGray>
 			derivXY = computeDerivative.getDerivative(true, false);
 		}
 
-		detector.process(image, derivX, derivY, derivXX, derivYY, derivXY);
+		detector.process(image, derivX, derivY, derivXX, derivYY, derivXY, GIMO, IMO, ISC, CNN, CINB, CNJB, CN);
 
 		List<Point2D_I16> m = maximums;
 		m.clear();

@@ -34,7 +34,9 @@ import boofcv.alg.filter.convolve.ConvolveNormalized;
 import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
+import boofcv.alg.misc.GImageMiscOps;
 import boofcv.alg.misc.GImageStatistics;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.misc.ImageStatistics;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
@@ -71,6 +73,8 @@ public class WrapperMedianCornerIntensity<I extends ImageGray, D extends ImageGr
 	private static GImageStatistics GIS;
 	private static ImageStatistics IS;
 	private static ThresholdImageOps TIO;
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
 	Method m;
 	BlurStorageFilter<I> medianFilter;
 	I medianImage;
@@ -86,8 +90,9 @@ public class WrapperMedianCornerIntensity<I extends ImageGray, D extends ImageGr
 	}
 
 	@Override
-	public void process(I input, D derivX , D derivY , D derivXX , D derivYY , D derivXY ) {
-		init(input.width,input.height);
+	public void process(I input, D derivX , D derivY , D derivXX , D derivYY , D derivXY, GImageMiscOps GIMO, ImageMiscOps IMO,
+						InputSanityCheck ISC, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN) {
+		init(input.width,input.height, GIMO, IMO);
 
 		if( medianImage == null ) {
 			medianImage = (I)input.createNew(input.width,input.height);
@@ -95,7 +100,7 @@ public class WrapperMedianCornerIntensity<I extends ImageGray, D extends ImageGr
 			medianImage.reshape(input.width,input.height);
 		}
 		
-		medianFilter.process(input,medianImage, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO);
+		medianFilter.process(input,medianImage, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO);
 		try {
 			m.invoke(null,intensity,input,medianImage);
 		} catch (IllegalAccessException | InvocationTargetException e) {

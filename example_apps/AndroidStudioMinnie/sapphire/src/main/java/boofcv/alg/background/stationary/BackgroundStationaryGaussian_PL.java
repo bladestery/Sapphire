@@ -35,6 +35,7 @@ public class BackgroundStationaryGaussian_PL<T extends ImageGray>
 		extends BackgroundStationaryGaussian<Planar<T>>
 {
 	private static ImageMiscOps IMO;
+	private static GImageMiscOps GIMO;
 	private static InputSanityCheck ISC;
 	// wrappers which provide abstraction across image types
 	protected GImageMultiBand inputWrapper;
@@ -82,7 +83,7 @@ public class BackgroundStationaryGaussian_PL<T extends ImageGray>
 			// initialize the mean to the current image and the initial variance is whatever it is set to
 			for (int band = 0; band < background.getNumBands(); band += 2) {
 				GConvertImage.convert(frame.getBand(band / 2), background.getBand(band));
-				GImageMiscOps.fill(background.getBand(band + 1), initialVariance);
+				GIMO.fill(background.getBand(band + 1), initialVariance, IMO);
 			}
 			return;
 		} else {

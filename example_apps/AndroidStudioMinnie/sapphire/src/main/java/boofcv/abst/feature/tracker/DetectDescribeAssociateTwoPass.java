@@ -19,6 +19,17 @@
 package boofcv.abst.feature.tracker;
 
 import boofcv.abst.feature.associate.AssociateDescription2D;
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
+import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
+import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
+import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
+import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.struct.feature.AssociatedIndex;
 import boofcv.struct.feature.TupleDesc;
 import boofcv.struct.image.ImageGray;
@@ -36,6 +47,17 @@ import org.ddogleg.struct.FastQueue;
 public class DetectDescribeAssociateTwoPass<I extends ImageGray, Desc extends TupleDesc>
 	extends DetectDescribeAssociate<I,Desc> implements PointTrackerTwoPass<I>
 {
+	private static InputSanityCheck ISC;
+	private static DerivativeHelperFunctions DHF;
+	private static ConvolveImageNoBorder CINB;
+	private static ConvolveJustBorder_General CJBG;
+	private static GradientSobel_Outer GSO;
+	private static GradientSobel_UnrolledOuter GSUO;
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
+	private static ConvolveNormalizedNaive CNN;
+	private static ConvolveNormalized_JustBorder CNJB;
+	private static ConvolveNormalized CN;
 	// associate used in the second pass
 	AssociateDescription2D<Desc> associate2;
 	// has source been set in associate for the second pass
@@ -69,7 +91,7 @@ public class DetectDescribeAssociateTwoPass<I extends ImageGray, Desc extends Tu
 		featDst.reset();
 		locDst.reset();
 
-		manager.detectFeatures(input, locDst, featDst);
+		manager.detectFeatures(input, locDst, featDst, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN);
 
 		// skip if there are no features
 		if( !tracksAll.isEmpty() ) {

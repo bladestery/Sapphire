@@ -18,6 +18,7 @@
 
 package boofcv.alg.feature.detect.line;
 
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.feature.detect.line.gridline.Edgel;
 import boofcv.alg.feature.detect.line.gridline.GridLineModelDistance;
 import boofcv.alg.feature.detect.line.gridline.GridLineModelFitter;
@@ -54,9 +55,9 @@ public abstract class CommonGridRansacLineDetectorChecks< D extends ImageGray> {
 	}
 
 	@Test
-	public void checkObvious() {
+	public void checkObvious(InputSanityCheck ISC) {
 		for(int size = 11; size <= 19; size += 2 )
-			checkObvious(size);
+			checkObvious(size, ISC);
 	}
 
 	public abstract GridRansacLineDetector<D> createDetector( int regionSize, int maxDetectLines ,
@@ -67,7 +68,7 @@ public abstract class CommonGridRansacLineDetectorChecks< D extends ImageGray> {
 	 * for issues related to that
 	 * @param regionSize
 	 */
-	protected void checkObvious( int regionSize ) {
+	protected void checkObvious( int regionSize, InputSanityCheck ISC) {
 //		System.out.println("regionSize = "+regionSize);
 		int where = 25;
 		GrayU8 edgeImage = new GrayU8(width,height);
@@ -87,7 +88,7 @@ public abstract class CommonGridRansacLineDetectorChecks< D extends ImageGray> {
 				new Ransac<>(123123, manager, fitter, distance, 25, 1);
 		GridRansacLineDetector<D> alg = createDetector(regionSize,5,matcher);
 
-		alg.process(derivX,derivY,edgeImage);
+		alg.process(derivX,derivY,edgeImage, ISC);
 
 		MatrixOfList<LineSegment2D_F32> lines = alg.getFoundLines();
 

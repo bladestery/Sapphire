@@ -22,6 +22,7 @@ import android.graphics.Canvas;
 import android.hardware.Camera;
 import android.view.View;
 import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.core.encoding.ConvertNV21;
 import boofcv.struct.image.*;
 import georegression.struct.point.Point2D_F64;
@@ -44,7 +45,8 @@ import georegression.struct.point.Point2D_F64;
  * @author Peter Abeles
  */
 public abstract class VideoRenderProcessing<T extends ImageBase> extends Thread implements VideoProcessing {
-
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
 	// Type of BoofCV iamge
 	ImageType<T> imageType;
 
@@ -178,13 +180,13 @@ public abstract class VideoRenderProcessing<T extends ImageBase> extends Thread 
 
 			if( previewRotation == 180 ) {
 				if( flipHorizontal ) {
-					GImageMiscOps.flipVertical(image);
+					GIMO.flipVertical(image, IMO);
 				} else {
-					GImageMiscOps.flipVertical(image);
-					GImageMiscOps.flipHorizontal(image);
+					GIMO.flipVertical(image, IMO);
+					GIMO.flipHorizontal(image, IMO);
 				}
 			} else if( flipHorizontal )
-				GImageMiscOps.flipHorizontal(image);
+				GIMO.flipHorizontal(image, IMO);
 		}
 		// wake up the thread and tell it to do some processing
 		thread.interrupt();

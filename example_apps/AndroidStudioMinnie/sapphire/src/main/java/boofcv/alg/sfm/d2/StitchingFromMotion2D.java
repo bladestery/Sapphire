@@ -22,6 +22,7 @@ import boofcv.abst.sfm.d2.ImageMotion2D;
 import boofcv.alg.distort.DistortImageOps;
 import boofcv.alg.distort.ImageDistort;
 import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.struct.distort.PixelTransform2_F32;
 import boofcv.struct.image.ImageBase;
 import georegression.metric.Area2D_F64;
@@ -48,6 +49,8 @@ import georegression.struct.shapes.RectangleLength2D_I32;
 
 public class StitchingFromMotion2D<I extends ImageBase, IT extends InvertibleTransform>
 {
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
 	// REFERENCE FRAME NOTES:
 	//
 	// World references to the stitched image
@@ -152,7 +155,7 @@ public class StitchingFromMotion2D<I extends ImageBase, IT extends InvertibleTra
 	 */
 	public void reset() {
 		if( stitchedImage != null )
-			GImageMiscOps.fill(stitchedImage, 0);
+			GIMO.fill(stitchedImage, 0, IMO);
 		motion.reset();
 		worldToCurr.reset();
 		first = true;
@@ -234,7 +237,7 @@ public class StitchingFromMotion2D<I extends ImageBase, IT extends InvertibleTra
 		PixelTransform2_F32 newToOld = converter.convertPixel(oldWorldToNewWorld,null);
 
 		// fill in the background color
-		GImageMiscOps.fill(workImage, 0);
+		GIMO.fill(workImage, 0, IMO);
 		// render the transform
 		distorter.setModel(newToOld);
 		distorter.apply(stitchedImage, workImage);
@@ -263,7 +266,7 @@ public class StitchingFromMotion2D<I extends ImageBase, IT extends InvertibleTra
 
 		// copy the old image into the new one
 		workImage.reshape(widthStitch,heightStitch);
-		GImageMiscOps.fill(workImage, 0);
+		GIMO.fill(workImage, 0, IMO);
 		if( newToOldStitch != null ) {
 			PixelTransform2_F32 newToOld = converter.convertPixel(newToOldStitch,null);
 			distorter.setModel(newToOld);
@@ -278,7 +281,7 @@ public class StitchingFromMotion2D<I extends ImageBase, IT extends InvertibleTra
 		} else {
 			int overlapWidth = Math.min(widthStitch,stitchedImage.width);
 			int overlapHeight = Math.min(heightStitch,stitchedImage.height);
-			GImageMiscOps.copy(0,0,0,0,overlapWidth,overlapHeight,stitchedImage,workImage);
+			GIMO.copy(0,0,0,0,overlapWidth,overlapHeight,stitchedImage,workImage, IMO);
 		}
 		stitchedImage.reshape(widthStitch,heightStitch);
 		I tmp = stitchedImage;

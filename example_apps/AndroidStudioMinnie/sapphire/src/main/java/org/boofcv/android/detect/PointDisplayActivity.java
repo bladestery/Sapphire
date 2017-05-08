@@ -12,8 +12,13 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
+import org.boofcv.android.DemoManager;
 import org.boofcv.android.DemoVideoDisplayActivity;
 import org.boofcv.android.R;
+
+import java.net.InetSocketAddress;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
 import boofcv.abst.feature.detect.extract.ConfigExtract;
 import boofcv.abst.feature.detect.extract.NonMaxSuppression;
@@ -30,6 +35,10 @@ import boofcv.struct.image.GrayS16;
 import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.ImageType;
 import georegression.struct.point.Point2D_I16;
+import sapphire.kernel.server.KernelServerImpl;
+import sapphire.oms.OMSServer;
+
+import static sapphire.kernel.common.GlobalKernelReferences.nodeServer;
 
 /**
  * Displays detected point features.  Scale-space algorithms are excluded and have their own activity.  User
@@ -39,19 +48,48 @@ import georegression.struct.point.Point2D_I16;
  */
 public class PointDisplayActivity extends DemoVideoDisplayActivity
 		implements AdapterView.OnItemSelectedListener  {
-	private ImageType IT;
-	private static FactoryFeatureExtractor FFE;
 	Spinner spinner;
 
 	Paint paintMax,paintMin;
-	NonMaxSuppression nonmaxMax;
-	NonMaxSuppression nonmaxMinMax;
-	NonMaxSuppression nonmaxCandidate;
+	//NonMaxSuppression nonmaxMax;
+	//NonMaxSuppression nonmaxMinMax;
+	//NonMaxSuppression nonmaxCandidate;
 
 	int active = -1;
 
+	OMSServer server;
+	DemoManager dm;
+
+
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		InetSocketAddress host, omsHost;
+
+		try {
+			Registry registry = LocateRegistry.getRegistry("157.82.159.58", 22346);
+			server = (OMSServer) registry.lookup("SapphireOMS");
+			System.out.println(server);
+
+			host = new InetSocketAddress("192.168.0.7", 22346);
+			omsHost = new InetSocketAddress("157.82.159.58", 22346);
+			nodeServer = new KernelServerImpl(host, omsHost);
+			System.out.println(nodeServer);
+
+			System.setProperty("java.rmi.server.hostname", host.getAddress().getHostAddress());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		try {
+			//Server is initiated with appObject to perform remote RPCs
+			dm = (DemoManager) server.getAppEntryPoint();
+			System.out.println("Got AppEntryPoint");
+			//dm.LatencyCheck();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exitShapeFit(0);
+		}
 
 		paintMax = new Paint();
 		paintMax.setColor(Color.RED);
@@ -77,10 +115,7 @@ public class PointDisplayActivity extends DemoVideoDisplayActivity
 
 		ConfigExtract configCorner = new ConfigExtract(2,20,3,true,false,true);
 		ConfigExtract configBlob = new ConfigExtract(2,20,3,true,true,true);
-
-		nonmaxMax = FFE.nonmax(configCorner);
-		nonmaxCandidate = FFE.nonmaxCandidate(configCorner);
-		nonmaxMinMax = FFE.nonmax(configBlob);
+		dm.nonmax(configCorner, configBlob);
 	}
 
 	@Override
@@ -100,46 +135,43 @@ public class PointDisplayActivity extends DemoVideoDisplayActivity
 			return;
 		active = which;
 
-		GeneralFeatureIntensity<GrayU8, GrayS16> intensity;
-		NonMaxSuppression nonmax = nonmaxMax;
+		//GeneralFeatureIntensity<GrayU8, GrayS16> intensity;
+		//NonMaxSuppression nonmax = nonmaxMax;
 
 		switch( which ) {
 			case 0:
-				intensity = FactoryIntensityPoint.shiTomasi(2,false,GrayS16.class);
+				dm.shiTomasi(2, false);
 				break;
 
 			case 1:
-				intensity = FactoryIntensityPoint.harris(2, 0.04f, false, GrayS16.class);
+				dm.harris(2, 0.04f, false);
 				break;
 
 			case 2:
-				intensity = FactoryIntensityPoint.fast(25,9,GrayU8.class);
-				nonmax = nonmaxCandidate;
+				dm.fast(25,9);
 				break;
 
 			case 3:
-				intensity = (GeneralFeatureIntensity)FactoryIntensityPoint.laplacian();
-				nonmax = nonmaxMinMax;
+				dm.laplacian();
 				break;
 
 			case 4:
-				intensity = FactoryIntensityPoint.kitros(GrayS16.class);
+				dm.kitros();
 				break;
 
 			case 5:
-				intensity = FactoryIntensityPoint.hessian(HessianBlobIntensity.Type.DETERMINANT,GrayS16.class);
+				dm.hessianDet();
 				break;
 
 			case 6:
-				intensity = FactoryIntensityPoint.hessian(HessianBlobIntensity.Type.TRACE,GrayS16.class);
-				nonmax = nonmaxMinMax;
+				dm.hessianTrace();
 				break;
 
 			default:
 				throw new RuntimeException("Unknown selection");
 		}
 
-		setProcessing(new PointProcessing(intensity,nonmax));
+		setProcessing(new PointProcessing());
 	}
 
 	@Override
@@ -151,9 +183,9 @@ public class PointDisplayActivity extends DemoVideoDisplayActivity
 	public void onNothingSelected(AdapterView<?> adapterView) {}
 
 	protected class PointProcessing extends VideoRenderProcessing<GrayU8> {
-		EasyGeneralFeatureDetector<GrayU8,GrayS16> detector;
+		//EasyGeneralFeatureDetector<GrayU8,GrayS16> detector;
 
-		NonMaxSuppression nonmax;
+		//NonMaxSuppression nonmax;
 
 		Bitmap bitmap;
 		byte[] storage;
@@ -163,14 +195,10 @@ public class PointDisplayActivity extends DemoVideoDisplayActivity
 		QueueCorner minimumsGUI = new QueueCorner();
 
 
-		public PointProcessing(GeneralFeatureIntensity<GrayU8, GrayS16> intensity,
-							   NonMaxSuppression nonmax) {
-			super(IT.single(GrayU8.class));
-			GeneralFeatureDetector<GrayU8,GrayS16> general =
-			new GeneralFeatureDetector<GrayU8, GrayS16>(intensity,nonmax);
-
-			detector = new EasyGeneralFeatureDetector<GrayU8,GrayS16>(general,GrayU8.class,GrayS16.class);
-			this.nonmax = nonmax;
+		public PointProcessing() {
+			super(dm.single(GrayU8.class));
+			dm.general_point();
+			//this.nonmax = nonmax;
 		}
 
 		@Override
@@ -183,9 +211,8 @@ public class PointDisplayActivity extends DemoVideoDisplayActivity
 		@Override
 		protected void process(GrayU8 gray) {
 			// adjust the non-max region based on image size
-			nonmax.setSearchRadius( 3*gray.width/320 );
-			detector.getDetector().setMaxFeatures( 200*gray.width/320 );
-			detector.detect(gray,null);
+			//nonmax.setSearchRadius( 3*gray.width/320 );
+			dm.set_pointDetect(gray);
 
 			synchronized ( lockGui ) {
 				ConvertBitmap.grayToBitmap(gray,bitmap,storage);
@@ -193,8 +220,8 @@ public class PointDisplayActivity extends DemoVideoDisplayActivity
 				maximumsGUI.reset();
 				minimumsGUI.reset();
 
-				QueueCorner maximums = detector.getMaximums();
-				QueueCorner minimums = detector.getMinimums();
+				QueueCorner maximums = dm.pointgetMaximums();
+				QueueCorner minimums = dm.pointgetMinimums();
 
 				for( int i = 0; i < maximums.size; i++ ) {
 					Point2D_I16 p = maximums.get(i);

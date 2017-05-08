@@ -257,9 +257,9 @@ public class FactoryDerivative implements SapphireObject {
 	}
 
 	public <D extends ImageGray>
-	ImageHessian<D> hessian( Class<?> gradientType , Class<D> derivType, GeneralizedImageOps GIO) {
-		Method m = findHessianFromGradient(gradientType,derivType, GIO);
-		return new ImageHessian_Reflection<>(m);
+	ImageHessian<D> hessian( Class<?> gradientType , Class<D> derivType, GeneralizedImageOps GIO, FactoryImageBorder FIB) {
+		Method m = FindHessianFromGradient(gradientType,derivType, GIO);
+		return new ImageHessian_Reflection<>(m, FIB);
 	}
 
 	public <I extends ImageGray, D extends ImageGray>
@@ -269,29 +269,29 @@ public class FactoryDerivative implements SapphireObject {
 		return new ImageGradient_Gaussian<>(sigma, radius, inputType, derivType);
 	}
 
-	public <D extends ImageGray> ImageHessian<D> hessianSobel(Class<D> derivType, GeneralizedImageOps GIO) {
+	public <D extends ImageGray> ImageHessian<D> hessianSobel(Class<D> derivType, GeneralizedImageOps GIO, FactoryImageBorder FIB) {
 		if( derivType == GrayF32.class )
-			return (ImageHessian<D>)hessian(GradientSobel.class,GrayF32.class, GIO);
+			return (ImageHessian<D>)hessian(GradientSobel.class,GrayF32.class, GIO, FIB);
 		else if( derivType == GrayS16.class )
-			return (ImageHessian<D>)hessian(GradientSobel.class,GrayS16.class, GIO);
+			return (ImageHessian<D>)hessian(GradientSobel.class,GrayS16.class, GIO, FIB);
 		else
 			throw new IllegalArgumentException("Not supported yet");
 	}
 
-	public <D extends ImageGray> ImageHessian<D> hessianPrewitt(Class<D> derivType, GeneralizedImageOps GIO) {
+	public <D extends ImageGray> ImageHessian<D> hessianPrewitt(Class<D> derivType, GeneralizedImageOps GIO, FactoryImageBorder FIB) {
 		if( derivType == GrayF32.class )
-			return (ImageHessian<D>)hessian(GradientPrewitt.class,GrayF32.class, GIO);
+			return (ImageHessian<D>)hessian(GradientPrewitt.class,GrayF32.class, GIO, FIB);
 		else if( derivType == GrayS16.class )
-			return (ImageHessian<D>)hessian(GradientPrewitt.class,GrayS16.class, GIO);
+			return (ImageHessian<D>)hessian(GradientPrewitt.class,GrayS16.class, GIO, FIB);
 		else
 			throw new IllegalArgumentException("Not supported yet");
 	}
 
-	public <D extends ImageGray> ImageHessian<D> hessianThree(Class<D> derivType, GeneralizedImageOps GIO) {
+	public <D extends ImageGray> ImageHessian<D> hessianThree(Class<D> derivType, GeneralizedImageOps GIO, FactoryImageBorder FIB) {
 		if( derivType == GrayF32.class )
-			return (ImageHessian<D>)hessian(GradientThree.class,GrayF32.class, GIO);
+			return (ImageHessian<D>)hessian(GradientThree.class,GrayF32.class, GIO, FIB);
 		else if( derivType == GrayS16.class )
-			return (ImageHessian<D>)hessian(GradientThree.class,GrayS16.class, GIO);
+			return (ImageHessian<D>)hessian(GradientThree.class,GrayS16.class, GIO, FIB);
 		else
 			throw new IllegalArgumentException("Not supported yet");
 	}
@@ -372,6 +372,24 @@ public class FactoryDerivative implements SapphireObject {
 		try {
 			Class<?> borderType = GIO.isFloatingPoint(imageType) ? ImageBorder_F32.class : ImageBorder_S32.class;
 			m = HessianFromGradient.class.getDeclaredMethod("hessian"+name, imageType,imageType,imageType,imageType,imageType,borderType);
+		} catch (NoSuchMethodException e) {
+			throw new RuntimeException("Input and derivative types are probably not compatible",e);
+		}
+		return m;
+	}
+
+	private static Method FindHessianFromGradient(Class<?> derivativeClass, Class<?> imageType, GeneralizedImageOps GIO ) {
+		String name = derivativeClass.getSimpleName().substring(8);
+		Method m;
+		try {
+			Class<?> borderType = GIO.isFloatingPoint(imageType) ? ImageBorder_F32.class : ImageBorder_S32.class;
+			Class<?> ISC = InputSanityCheck.class;
+			Class<?> DHF = DerivativeHelperFunctions.class;
+			Class<?> CINB = ConvolveImageNoBorder.class;
+			Class <?> CJBG = ConvolveJustBorder_General.class;
+			Class<?> GSO = GradientSobel_Outer.class;
+			Class <?> GSUO = GradientSobel_UnrolledOuter.class;
+			m = HessianFromGradient.class.getDeclaredMethod("hessian"+name, imageType,imageType,imageType,imageType,imageType,borderType, ISC, DHF, CINB, CJBG, GSO, GSUO);
 		} catch (NoSuchMethodException e) {
 			throw new RuntimeException("Input and derivative types are probably not compatible",e);
 		}

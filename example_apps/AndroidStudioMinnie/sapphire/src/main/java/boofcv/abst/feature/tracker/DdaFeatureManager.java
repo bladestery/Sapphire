@@ -19,6 +19,17 @@
 package boofcv.abst.feature.tracker;
 
 import boofcv.abst.feature.describe.DescriptorInfo;
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
+import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
+import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
+import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
+import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.struct.feature.TupleDesc;
 import boofcv.struct.image.ImageGray;
 import georegression.struct.point.Point2D_F64;
@@ -41,5 +52,6 @@ public interface DdaFeatureManager<I extends ImageGray, Desc extends TupleDesc>
 	 * @param locDst Location of detected feature.  Add references to list.
 	 * @param featDst Description of each detected feature.  Add references to list.
 	 */
-	void detectFeatures( I input , FastQueue<Point2D_F64> locDst , FastQueue<Desc> featDst );
+	void detectFeatures(I input , FastQueue<Point2D_F64> locDst , FastQueue<Desc> featDst, InputSanityCheck ISC, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG, GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO,
+						GImageMiscOps GIMO, ImageMiscOps IMO, ConvolveNormalizedNaive CNN, ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN);
 }

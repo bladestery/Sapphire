@@ -125,7 +125,7 @@ public class DetectBlackPolygonActivity extends DemoVideoDisplayActivity
 		InetSocketAddress host, omsHost;
 
 		try {
-			Registry registry = LocateRegistry.getRegistry("157.82.159.30", 22346);
+			Registry registry = LocateRegistry.getRegistry("157.82.159.58", 22346);
 			server = (OMSServer) registry.lookup("SapphireOMS");
 			System.out.println(server);
 

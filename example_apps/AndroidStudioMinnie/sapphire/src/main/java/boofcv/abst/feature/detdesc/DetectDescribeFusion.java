@@ -21,6 +21,17 @@ package boofcv.abst.feature.detdesc;
 import boofcv.abst.feature.describe.DescribeRegionPoint;
 import boofcv.abst.feature.detect.interest.InterestPointDetector;
 import boofcv.abst.feature.orientation.OrientationImage;
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
+import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
+import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
+import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
+import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.struct.feature.TupleDesc;
 import boofcv.struct.image.ImageGray;
 import georegression.struct.point.Point2D_F64;
@@ -96,7 +107,8 @@ public class DetectDescribeFusion<T extends ImageGray, TD extends TupleDesc>
 	}
 
 	@Override
-	public void detect(T input) {
+	public void detect(T input, InputSanityCheck ISC, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG, GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO,
+					   GImageMiscOps GIMO, ImageMiscOps IMO, ConvolveNormalizedNaive CNN, ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN) {
 		descs.reset();
 		featureRadiuses.reset();
 		featureAngles.reset();
@@ -107,7 +119,7 @@ public class DetectDescribeFusion<T extends ImageGray, TD extends TupleDesc>
 		}
 		describe.setImage(input);
 
-		detector.detect(input);
+		detector.detect(input, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN);
 
 		int N = detector.getNumberOfFeatures();
 

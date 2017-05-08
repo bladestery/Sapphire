@@ -21,6 +21,7 @@ package boofcv.alg.feature.disparity.impl;
 import boofcv.alg.feature.disparity.DisparityScoreWindowFive;
 import boofcv.alg.feature.disparity.DisparitySelect;
 import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.GrayS16;
@@ -36,6 +37,8 @@ import java.util.Random;
  */
 public abstract class ChecksImplDisparityScoreSadRectFive<Image extends ImageGray,Disparity extends ImageGray> {
 	private GeneralizedImageOps GIO;
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
 	Random rand = new Random(234);
 
 	DisparitySelect compDisp;
@@ -99,11 +102,11 @@ public abstract class ChecksImplDisparityScoreSadRectFive<Image extends ImageGra
 		Image right = GIO.createSingleBand(imageType,w, h);
 
 		if( left.getDataType().isSigned() ) {
-			GImageMiscOps.fillUniform(left, rand, -20, 20);
-			GImageMiscOps.fillUniform(right, rand, -20, 20);
+			GIMO.fillUniform(left, rand, -20, 20, IMO);
+			GIMO.fillUniform(right, rand, -20, 20, IMO);
 		} else {
-			GImageMiscOps.fillUniform(left, rand, 0, 20);
-			GImageMiscOps.fillUniform(right, rand, 0, 20);
+			GIMO.fillUniform(left, rand, 0, 20, IMO);
+			GIMO.fillUniform(right, rand, 0, 20, IMO);
 		}
 
 		int radiusX = 3;

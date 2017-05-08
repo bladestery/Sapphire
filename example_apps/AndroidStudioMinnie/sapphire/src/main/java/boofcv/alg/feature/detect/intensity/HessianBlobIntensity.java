@@ -42,7 +42,6 @@ import boofcv.struct.image.GrayS16;
  * @author Peter Abeles
  */
 public class HessianBlobIntensity {
-	private static InputSanityCheck ISC;
 	/**
 	 * Different types of Hessian blob detectors
 	 */
@@ -66,7 +65,7 @@ public class HessianBlobIntensity {
 	 * @param hessianYY Second derivative along y-axis. Not modified.
 	 * @param hessianXY Second derivative along x-axis and y-axis. Not modified.
 	 */
-	public static void determinant(GrayF32 featureIntensity , GrayF32 hessianXX, GrayF32 hessianYY , GrayF32 hessianXY )
+	public static void determinant(GrayF32 featureIntensity , GrayF32 hessianXX, GrayF32 hessianYY , GrayF32 hessianXY , InputSanityCheck ISC)
 	{
 		ISC.checkSameShape(featureIntensity,hessianXX,hessianYY,hessianXY);
 
@@ -80,7 +79,7 @@ public class HessianBlobIntensity {
 	 * @param hessianXX Second derivative along x-axis. Not modified.
 	 * @param hessianYY Second derivative along y-axis. Not modified.
 	 */
-	public static void trace(GrayF32 featureIntensity , GrayF32 hessianXX, GrayF32 hessianYY )
+	public static void trace(GrayF32 featureIntensity , GrayF32 hessianXX, GrayF32 hessianYY , InputSanityCheck ISC)
 	{
 		ISC.checkSameShape(featureIntensity,hessianXX,hessianYY);
 
@@ -95,7 +94,7 @@ public class HessianBlobIntensity {
 	 * @param hessianYY Second derivative along y-axis. Not modified.
 	 * @param hessianXY Second derivative along x-axis and y-axis. Not modified.
 	 */
-	public static void determinant(GrayF32 featureIntensity , GrayS16 hessianXX, GrayS16 hessianYY , GrayS16 hessianXY )
+	public static void determinant(GrayF32 featureIntensity , GrayS16 hessianXX, GrayS16 hessianYY , GrayS16 hessianXY, InputSanityCheck ISC)
 	{
 		ISC.checkSameShape(featureIntensity,hessianXX,hessianYY,hessianXY);
 
@@ -109,7 +108,7 @@ public class HessianBlobIntensity {
 	 * @param hessianXX Second derivative along x-axis. Not modified.
 	 * @param hessianYY Second derivative along y-axis. Not modified.
 	 */
-	public static void trace(GrayF32 featureIntensity , GrayS16 hessianXX, GrayS16 hessianYY )
+	public static void trace(GrayF32 featureIntensity , GrayS16 hessianXX, GrayS16 hessianYY , InputSanityCheck ISC)
 	{
 		ISC.checkSameShape(featureIntensity,hessianXX,hessianYY);
 

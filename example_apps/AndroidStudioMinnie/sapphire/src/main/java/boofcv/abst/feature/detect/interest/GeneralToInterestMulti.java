@@ -18,8 +18,22 @@
 
 package boofcv.abst.feature.detect.interest;
 
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.feature.detect.interest.EasyGeneralFeatureDetector;
 import boofcv.alg.feature.detect.interest.GeneralFeatureDetector;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
+import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
+import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
+import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
+import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
+import boofcv.core.image.GeneralizedImageOps;
+import boofcv.core.image.border.FactoryImageBorder;
+import boofcv.factory.filter.derivative.FactoryDerivative;
 import boofcv.struct.QueueCorner;
 import boofcv.struct.image.ImageGray;
 import georegression.struct.point.Point2D_F64;
@@ -50,8 +64,8 @@ public class GeneralToInterestMulti<T extends ImageGray, D extends ImageGray>
 
 	public GeneralToInterestMulti(GeneralFeatureDetector<T, D> detector,
 								  double radius,
-								  Class<T> imageType, Class<D> derivType) {
-		this.detector = new EasyGeneralFeatureDetector<>(detector, imageType, derivType);
+								  Class<T> imageType, Class<D> derivType, FactoryDerivative FD, GeneralizedImageOps GIO, FactoryImageBorder FIB ) {
+		this.detector = new EasyGeneralFeatureDetector<>(detector, imageType, derivType, FD, GIO, FIB);
 		this.radius = radius;
 
 		if( detector.isDetectMinimums() && detector.isDetectMaximums()) {
@@ -64,11 +78,12 @@ public class GeneralToInterestMulti<T extends ImageGray, D extends ImageGray>
 	}
 
 	@Override
-	public void detect(T input) {
+	public void detect(T input, InputSanityCheck ISC, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG, GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO,
+					   GImageMiscOps GIMO, ImageMiscOps IMO, ConvolveNormalizedNaive CNN, ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN) {
 		foundMin.reset();
 		foundMax.reset();
 
-		detector.detect(input,null);
+		detector.detect(input,null, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN);
 
 		QueueCorner min = detector.getMinimums();
 		for( int i = 0; i < min.size; i++ ) {

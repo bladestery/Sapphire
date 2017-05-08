@@ -19,6 +19,7 @@
 package boofcv.core.image.border;
 
 import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.struct.image.ImageBase;
 import boofcv.struct.image.ImageType;
 import org.junit.Test;
@@ -34,7 +35,8 @@ import java.util.Random;
  * @author Peter Abeles
  */
 public abstract class GenericImageBorderTests<T extends ImageBase> {
-
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
 	Random rand = new Random(234);
 	List<ImageType<T>> imageTypes = new ArrayList<>();
 
@@ -74,7 +76,7 @@ public abstract class GenericImageBorderTests<T extends ImageBase> {
 			init(imageType);
 
 			T img = imageType.createImage(width, height);
-			GImageMiscOps.fillUniform(img, rand, 0, 100);
+			GIMO.fillUniform(img, rand, 0, 100, IMO);
 
 			ImageBorder<T> border = wrap(img);
 
@@ -110,7 +112,7 @@ public abstract class GenericImageBorderTests<T extends ImageBase> {
 		for( ImageType<T> imageType : imageTypes ) {
 			init(imageType);
 			T img = imageType.createImage(width, height);
-			GImageMiscOps.fillUniform(img, rand, 0, 100);
+			GIMO.fillUniform(img, rand, 0, 100,  IMO);
 
 			ImageBorder<T> border = wrap(img);
 

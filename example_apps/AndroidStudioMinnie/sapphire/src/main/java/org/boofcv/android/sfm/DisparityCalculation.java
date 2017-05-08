@@ -18,15 +18,25 @@ import boofcv.abst.feature.detdesc.DetectDescribePoint;
 import boofcv.abst.feature.disparity.StereoDisparity;
 import boofcv.abst.geo.Estimate1ofEpipolar;
 import boofcv.abst.geo.TriangulateTwoViewsCalibrated;
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.descriptor.UtilFeature;
 import boofcv.alg.distort.ImageDistort;
 import boofcv.alg.distort.LensDistortionOps;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
+import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
 import boofcv.alg.filter.derivative.LaplacianEdge;
+import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
+import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
 import boofcv.alg.geo.PerspectiveOps;
 import boofcv.alg.geo.RectifyImageOps;
 import boofcv.alg.geo.rectify.RectifyCalibrated;
 import boofcv.alg.geo.robust.DistanceSe3SymmetricSq;
 import boofcv.alg.geo.robust.Se3FromEssentialGenerator;
+import boofcv.alg.misc.GImageMiscOps;
 import boofcv.alg.misc.ImageMiscOps;
 import boofcv.core.image.border.BorderType;
 import boofcv.factory.geo.EnumEpipolar;
@@ -49,7 +59,17 @@ import georegression.struct.se.Se3_F64;
  * @author Peter Abeles
  */
 public class DisparityCalculation<Desc extends TupleDesc> {
-	private ImageMiscOps IMO;
+	private static InputSanityCheck ISC;
+	private static DerivativeHelperFunctions DHF;
+	private static ConvolveImageNoBorder CINB;
+	private static ConvolveJustBorder_General CJBG;
+	private static GradientSobel_Outer GSO;
+	private static GradientSobel_UnrolledOuter GSUO;
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
+	private static ConvolveNormalizedNaive CNN;
+	private static ConvolveNormalized_JustBorder CNJB;
+	private static ConvolveNormalized CN;
 	private ImageType IT;
 	DetectDescribePoint<GrayF32,Desc> detDesc;
 	AssociateDescription<Desc> associate;
@@ -104,14 +124,14 @@ public class DisparityCalculation<Desc extends TupleDesc> {
 
 	public void setSource( GrayF32 image ) {
 		distortedLeft.setTo(image);
-		detDesc.detect(image);
+		detDesc.detect(image, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN);
 		describeImage(listSrc, locationSrc);
 		associate.setSource(listSrc);
 	}
 
 	public void setDestination( GrayF32 image ) {
 		distortedRight.setTo(image);
-		detDesc.detect(image);
+		detDesc.detect(image, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN);
 		describeImage(listDst, locationDst);
 		associate.setDestination(listDst);
 
@@ -298,11 +318,11 @@ public class DisparityCalculation<Desc extends TupleDesc> {
 		// Apply the Laplacian for some lighting invariance
 		IMO.fill(rectifiedLeft,0);
 		distortLeft.apply(distortedLeft, rectifiedLeft);
-		LaplacianEdge.process(rectifiedLeft,edgeLeft);
+		LaplacianEdge.process(rectifiedLeft,edgeLeft, ISC);
 
 		IMO.fill(rectifiedRight, 0);
 		distortRight.apply(distortedRight, rectifiedRight);
-		LaplacianEdge.process(rectifiedRight,edgeRight);
+		LaplacianEdge.process(rectifiedRight,edgeRight, ISC);
 	}
 
 	public List<AssociatedPair> getInliersPixel() {

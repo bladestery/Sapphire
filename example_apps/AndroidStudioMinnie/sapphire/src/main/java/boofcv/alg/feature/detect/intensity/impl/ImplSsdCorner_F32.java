@@ -18,6 +18,7 @@
 
 package boofcv.alg.feature.detect.intensity.impl;
 
+import boofcv.core.image.GeneralizedImageOps;
 import boofcv.struct.image.GrayF32;
 
 import javax.annotation.Generated;
@@ -44,8 +45,8 @@ public abstract class ImplSsdCorner_F32 extends ImplSsdCornerBase<GrayF32,GrayF3
 	// defines the A matrix, from which the eigenvalues are computed
 	protected float totalXX, totalYY, totalXY;
 
-	public ImplSsdCorner_F32( int windowRadius) {
-		super(windowRadius,GrayF32.class);
+	public ImplSsdCorner_F32(int windowRadius, GeneralizedImageOps GIO) {
+		super(windowRadius,GrayF32.class, GIO);
 	}
 
 	@Override

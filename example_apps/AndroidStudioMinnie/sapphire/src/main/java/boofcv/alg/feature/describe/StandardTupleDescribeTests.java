@@ -19,6 +19,7 @@
 package boofcv.alg.feature.describe;
 
 import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.struct.feature.TupleDesc_F64;
 import boofcv.struct.image.GrayF32;
 import boofcv.testing.BoofTesting;
@@ -35,6 +36,8 @@ import static org.junit.Assert.assertFalse;
  * @author Peter Abeles
  */
 public abstract class StandardTupleDescribeTests {
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
 	Random rand = new Random(234);
 	int width = 50;
 	int height = 60;
@@ -47,7 +50,7 @@ public abstract class StandardTupleDescribeTests {
 	GrayF32 image = new GrayF32(width,height);
 
 	public StandardTupleDescribeTests() {
-		GImageMiscOps.fillUniform(image, rand, 0, 100);
+		GIMO.fillUniform(image, rand, 0, 100, IMO);
 	}
 
 	public abstract TupleDesc_F64 describe( int x , int y , double theta , GrayF32 image );

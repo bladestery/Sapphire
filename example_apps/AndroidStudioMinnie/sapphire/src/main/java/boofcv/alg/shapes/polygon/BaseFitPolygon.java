@@ -20,6 +20,7 @@ package boofcv.alg.shapes.polygon;
 
 import boofcv.abst.distort.FDistort;
 import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.gui.ListDisplayPanel;
 import boofcv.gui.image.ShowImages;
@@ -41,6 +42,8 @@ import java.util.Random;
  */
 public class BaseFitPolygon {
 	private GeneralizedImageOps GIO;
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
 	boolean showRendered = false;
 
 	Random rand = new Random(234);
@@ -78,8 +81,8 @@ public class BaseFitPolygon {
 
 		int bg = black ? white : 0;
 		int fg = black ? 0 : white;
-		GImageMiscOps.fill(work, bg);
-		GImageMiscOps.fillRectangle(work, fg, x0, y0, x1 - x0, y1 - y0);
+		GIMO.fill(work, bg, IMO);
+		GIMO.fillRectangle(work, fg, x0, y0, x1 - x0, y1 - y0, IMO);
 
 		if( affine != null ) {
 			new FDistort(work, image).border(bg).affine(affine).apply();

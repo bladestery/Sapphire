@@ -19,6 +19,7 @@
 package boofcv.alg.feature.detect.intensity.impl;
 
 import boofcv.alg.feature.detect.intensity.HarrisCornerIntensity;
+import boofcv.core.image.GeneralizedImageOps;
 import boofcv.struct.image.GrayS16;
 
 /**
@@ -33,8 +34,8 @@ public class ImplHarrisCorner_S16 extends ImplSsdCorner_S16 implements HarrisCor
 	// tuning parameter
 	float kappa;
 
-	public ImplHarrisCorner_S16(int windowRadius, float kappa) {
-		super(windowRadius);
+	public ImplHarrisCorner_S16(int windowRadius, float kappa, GeneralizedImageOps GIO) {
+		super(windowRadius, GIO);
 		this.kappa = kappa;
 	}
 

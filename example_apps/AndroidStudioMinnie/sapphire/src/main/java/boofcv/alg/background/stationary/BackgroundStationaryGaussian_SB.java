@@ -38,6 +38,7 @@ public class BackgroundStationaryGaussian_SB<T extends ImageGray>
 	private static InputSanityCheck ISC;
 	private static ImageType IT;
 	private static ImageMiscOps IMO;
+	private static GImageMiscOps GIMO;
 	// wrappers which provide abstraction across image types
 	protected GImageGray inputWrapper;
 
@@ -68,7 +69,7 @@ public class BackgroundStationaryGaussian_SB<T extends ImageGray>
 		if( background.width == 1 ) {
 			background.reshape(frame.width, frame.height);
 			GConvertImage.convert(frame, background.getBand(0));
-			GImageMiscOps.fill(background.getBand(1),initialVariance);
+			GIMO.fill(background.getBand(1),initialVariance, IMO);
 			return;
 		} else {
 			ISC.checkSameShape(background, frame);

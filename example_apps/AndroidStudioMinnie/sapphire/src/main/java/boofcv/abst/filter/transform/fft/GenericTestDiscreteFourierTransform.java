@@ -21,6 +21,7 @@ package boofcv.abst.filter.transform.fft;
 import boofcv.abst.transform.fft.DiscreteFourierTransform;
 import boofcv.alg.misc.GImageMiscOps;
 import boofcv.alg.misc.GImageStatistics;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.misc.ImageStatistics;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.struct.image.ImageGray;
@@ -38,6 +39,8 @@ import static org.junit.Assert.*;
 public abstract class GenericTestDiscreteFourierTransform<T extends ImageGray, I extends ImageInterleaved> {
 	private static GeneralizedImageOps GIO;
 	private static GImageStatistics GIS;
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
 	private static ImageStatistics IS;
 	protected Random rand = new Random(234);
 
@@ -76,7 +79,7 @@ public abstract class GenericTestDiscreteFourierTransform<T extends ImageGray, I
 		I transform = createTransform(width,height);
 		T found = createImage(width,height);
 
-		GImageMiscOps.fillUniform(input,rand,-20,20);
+		GIMO.fillUniform(input,rand,-20,20, IMO);
 
 		DiscreteFourierTransform<T,I> alg = createAlgorithm();
 
@@ -94,7 +97,7 @@ public abstract class GenericTestDiscreteFourierTransform<T extends ImageGray, I
 		T input = createImage(20,25);
 		I transform = createTransform(20,25);
 
-		GImageMiscOps.fillUniform(input,rand,-20,20);
+		GIMO.fillUniform(input,rand,-20,20, IMO);
 		double value = GIS.sum(input, IS);
 		// NOTE: the value probably depends on when the scaling is invoked.  Must need to be more robust here
 
@@ -132,7 +135,7 @@ public abstract class GenericTestDiscreteFourierTransform<T extends ImageGray, I
 			I transform = createTransform(s,s+1);
 			T found = createImage(s,s+1);
 
-			GImageMiscOps.fillUniform(input,rand,-20,20);
+			GIMO.fillUniform(input,rand,-20,20, IMO);
 
 			alg.forward(input,transform);
 			alg.inverse(transform, found);
@@ -148,7 +151,7 @@ public abstract class GenericTestDiscreteFourierTransform<T extends ImageGray, I
 	public void format_even() {
 		T input = createImage(10,1);
 		I transform = createTransform(10,1);
-		GImageMiscOps.fillUniform(input,rand,-20,20);
+		GIMO.fillUniform(input,rand,-20,20, IMO);
 
 		DiscreteFourierTransform<T,I> alg = createAlgorithm();
 
@@ -164,7 +167,7 @@ public abstract class GenericTestDiscreteFourierTransform<T extends ImageGray, I
 	public void format_odd() {
 		T input = createImage(7,1);
 		I transform = createTransform(7,1);
-		GImageMiscOps.fillUniform(input,rand,-20,20);
+		GIMO.fillUniform(input,rand,-20,20, IMO);
 
 		DiscreteFourierTransform<T,I> alg = createAlgorithm();
 
@@ -181,7 +184,7 @@ public abstract class GenericTestDiscreteFourierTransform<T extends ImageGray, I
 		I transform = createTransform(w,h);
 		T found = createImage(w,h);
 
-		GImageMiscOps.fillUniform(input,rand,-20,20);
+		GIMO.fillUniform(input,rand,-20,20, IMO);
 
 		DiscreteFourierTransform<T,I> alg = createAlgorithm();
 		alg.forward(input,transform);
@@ -220,7 +223,7 @@ public abstract class GenericTestDiscreteFourierTransform<T extends ImageGray, I
 		I transform = createTransform(w,h);
 		T found = createImage(w,h);
 
-		GImageMiscOps.fillUniform(input,rand,-20,20);
+		GIMO.fillUniform(input,rand,-20,20, IMO);
 
 		DiscreteFourierTransform<T,I> alg = createAlgorithm();
 		T inputOrig = (T)input.clone();
@@ -254,7 +257,7 @@ public abstract class GenericTestDiscreteFourierTransform<T extends ImageGray, I
 		I transform = createTransform(width,height);
 		T found = createImage(width,height);
 
-		GImageMiscOps.fillUniform(input,rand,-20,20);
+		GIMO.fillUniform(input,rand,-20,20, IMO);
 
 		DiscreteFourierTransform<T,I> alg = createAlgorithm();
 		assertFalse(alg.isModifyInputs());

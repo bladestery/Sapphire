@@ -23,6 +23,7 @@ import boofcv.alg.distort.ImageDistortCache_SB;
 import boofcv.alg.distort.PixelTransformAffine_F32;
 import boofcv.alg.interpolate.InterpolatePixelS;
 import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.BorderType;
 import boofcv.core.image.border.FactoryImageBorder;
@@ -41,6 +42,8 @@ import java.util.Random;
 public abstract class CommonImageDistortCacheTests<T extends ImageGray> {
 	private static GeneralizedImageOps GIO;
 	private static FactoryImageBorder FIB;
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
 	Class<T> imageType;
 	
 	Random rand = new Random(234234);
@@ -63,7 +66,7 @@ public abstract class CommonImageDistortCacheTests<T extends ImageGray> {
 		dst0 = GIO.createSingleBand(imageType,200,300);
 		dst1 = GIO.createSingleBand(imageType,200,300);
 
-		GImageMiscOps.addGaussian(src, rand, 10, 0, 255);
+		GIMO.addGaussian(src, rand, 10, 0, 255, IMO);
 	}
 
 	@Test

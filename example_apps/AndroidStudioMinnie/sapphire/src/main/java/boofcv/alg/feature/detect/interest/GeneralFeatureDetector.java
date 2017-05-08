@@ -20,11 +20,20 @@ package boofcv.alg.feature.detect.interest;
 
 import boofcv.abst.feature.detect.extract.NonMaxSuppression;
 import boofcv.abst.feature.detect.intensity.GeneralFeatureIntensity;
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.feature.detect.extract.SelectNBestFeatures;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
+import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
+import boofcv.core.image.GeneralizedImageOps;
 import boofcv.struct.QueueCorner;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.ImageGray;
 import georegression.struct.point.Point2D_I16;
+import sapphire.app.SapphireObject;
 
 /**
  * <p>
@@ -44,7 +53,7 @@ import georegression.struct.point.Point2D_I16;
  *
  * @author Peter Abeles
  */
-public class GeneralFeatureDetector<I extends ImageGray, D extends ImageGray>
+public class GeneralFeatureDetector<I extends ImageGray, D extends ImageGray> implements SapphireObject
 {
 	// list of feature locations found by the extractor
 	protected QueueCorner foundMaximum = new QueueCorner(10);
@@ -104,8 +113,8 @@ public class GeneralFeatureDetector<I extends ImageGray, D extends ImageGray>
 	 * @param derivXY Second derivative.  Only needed if {@link #getRequiresHessian()} ()} is true.
 	 * @param derivYY Second derivative.  Only needed if {@link #getRequiresHessian()} ()} is true.
 	 */
-	public void process(I image, D derivX, D derivY, D derivXX, D derivYY, D derivXY) {
-		intensity.process(image, derivX, derivY, derivXX, derivYY, derivXY);
+	public void process(I image, D derivX, D derivY, D derivXX, D derivYY, D derivXY, GImageMiscOps GIMO, ImageMiscOps IMO, InputSanityCheck ISC, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN) {
+		intensity.process(image, derivX, derivY, derivXX, derivYY, derivXY, GIMO, IMO, ISC, CNN, CINB, CNJB, CN);
 		GrayF32 intensityImage = intensity.getIntensity();
 
 		int numSelectMin = -1;

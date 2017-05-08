@@ -21,6 +21,7 @@ package boofcv.alg.interpolate.impl;
 import boofcv.alg.interpolate.InterpolatePixelMB;
 import boofcv.alg.interpolate.InterpolatePixelS;
 import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.core.image.border.ImageBorder;
@@ -42,6 +43,8 @@ import static org.junit.Assert.*;
  */
 public abstract class GeneralChecksInterpolationPixelMB< T extends ImageMultiBand> {
 	private static GeneralizedImageOps GIO;
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
 	private static FactoryImageBorder FIB;
 	protected Random rand = new Random(0xff34);
 
@@ -72,7 +75,7 @@ public abstract class GeneralChecksInterpolationPixelMB< T extends ImageMultiBan
 	@Test
 	public void get() {
 		T img = createImage(width, height,numBands);
-		GImageMiscOps.fillUniform(img, rand, 0, 100);
+		GIMO.fillUniform(img, rand, 0, 100, IMO);
 
 		BoofTesting.checkSubImage(this, "get", false, img);
 	}
@@ -108,7 +111,7 @@ public abstract class GeneralChecksInterpolationPixelMB< T extends ImageMultiBan
 	@Test
 	public void get_edges() {
 		T img = createImage(width, height,numBands);
-		GImageMiscOps.fillUniform(img, rand, 0, 100);
+		GIMO.fillUniform(img, rand, 0, 100, IMO);
 
 		BoofTesting.checkSubImage(this, "get_edges", false, img);
 	}
@@ -166,7 +169,7 @@ public abstract class GeneralChecksInterpolationPixelMB< T extends ImageMultiBan
 	@Test
 	public void get_fast() {
 		T img = createImage(width, height, numBands);
-		GImageMiscOps.fillUniform(img, rand, 0, 100);
+		GIMO.fillUniform(img, rand, 0, 100, IMO);
 
 		BoofTesting.checkSubImage(this, "get_fast", false, img);
 	}
@@ -187,7 +190,7 @@ public abstract class GeneralChecksInterpolationPixelMB< T extends ImageMultiBan
 	@Test
 	public void get_outside_border() {
 		T img = createImage(width, height, numBands);
-		GImageMiscOps.fillUniform(img, rand, 0, 100);
+		GIMO.fillUniform(img, rand, 0, 100, IMO);
 
 		BoofTesting.checkSubImage(this, "get_outside_border", false, img);
 	}
@@ -222,7 +225,7 @@ public abstract class GeneralChecksInterpolationPixelMB< T extends ImageMultiBan
 	@Test
 	public void isInFastBounds() {
 		T img = createImage(width, height, numBands);
-		GImageMiscOps.fillUniform(img, rand, 0, 100);
+		GIMO.fillUniform(img, rand, 0, 100, IMO);
 		InterpolatePixelMB<T> interp = wrap(img, 0, 100);
 
 		for( int y = 0; y < height; y++ ) {
@@ -283,7 +286,7 @@ public abstract class GeneralChecksInterpolationPixelMB< T extends ImageMultiBan
 	@Test
 	public void checkPixelValueBoundsHonored() {
 		T img = createImage(20, 30, numBands);
-		GImageMiscOps.fillUniform(img, rand, 0, 100);
+		GIMO.fillUniform(img, rand, 0, 100, IMO);
 		InterpolatePixelMB<T> interp = wrap(img, 0, 100);
 		interp.setBorder((ImageBorder)FIB.interleavedValue((ImageInterleaved)img, 0));
 
@@ -307,7 +310,7 @@ public abstract class GeneralChecksInterpolationPixelMB< T extends ImageMultiBan
 	@Test
 	public void checkSubImage() {
 		T imgA = createImage(30, 40, numBands);
-		GImageMiscOps.fillUniform(imgA, rand, 0, 100);
+		GIMO.fillUniform(imgA, rand, 0, 100, IMO);
 
 		InterpolatePixelMB<T> interpA = wrap(imgA, 0, 100);
 
@@ -347,7 +350,7 @@ public abstract class GeneralChecksInterpolationPixelMB< T extends ImageMultiBan
 	public void compareToSingleBand() {
 
 		T origMB = createImage(30, 40, 2);
-		GImageMiscOps.fillUniform(origMB, rand, 0, 100);
+		GIMO.fillUniform(origMB, rand, 0, 100, IMO);
 
 		ImageDataType dataType = origMB.getImageType().getDataType();
 		ImageGray band0 = GIO.createSingleBand(dataType,origMB.width,origMB.height);

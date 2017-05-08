@@ -7,6 +7,9 @@ import org.ddogleg.struct.FastQueue;
 
 import java.util.List;
 
+import boofcv.abst.feature.detect.extract.ConfigExtract;
+import boofcv.abst.feature.detect.extract.NonMaxSuppression;
+import boofcv.abst.feature.detect.intensity.GeneralFeatureIntensity;
 import boofcv.abst.feature.detect.line.DetectLine;
 import boofcv.abst.feature.detect.line.DetectLineHoughFoot;
 import boofcv.abst.feature.detect.line.DetectLineHoughPolar;
@@ -22,6 +25,9 @@ import boofcv.alg.feature.detect.edge.GGradientToEdgeFeatures;
 import boofcv.alg.feature.detect.edge.GradientToEdgeFeatures;
 import boofcv.alg.feature.detect.edge.impl.ImplEdgeNonMaxSuppression;
 import boofcv.alg.feature.detect.edge.impl.ImplEdgeNonMaxSuppressionCrude;
+import boofcv.alg.feature.detect.intensity.HessianBlobIntensity;
+import boofcv.alg.feature.detect.interest.EasyGeneralFeatureDetector;
+import boofcv.alg.feature.detect.interest.GeneralFeatureDetector;
 import boofcv.alg.filter.binary.BinaryImageOps;
 import boofcv.alg.filter.binary.Contour;
 import boofcv.alg.filter.binary.GThresholdImageOps;
@@ -45,6 +51,7 @@ import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
 import boofcv.alg.filter.derivative.GradientSobel;
 import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
 import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
+import boofcv.alg.misc.GImageMiscOps;
 import boofcv.alg.misc.GImageStatistics;
 import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.misc.ImageStatistics;
@@ -57,6 +64,8 @@ import boofcv.core.image.border.FactoryImageBorderAlgs;
 import boofcv.core.image.border.ImageBorderValue;
 import boofcv.factory.feature.detect.edge.FactoryEdgeDetectors;
 import boofcv.factory.feature.detect.extract.FactoryFeatureExtractor;
+import boofcv.factory.feature.detect.intensity.FactoryIntensityPoint;
+import boofcv.factory.feature.detect.intensity.FactoryIntensityPointAlg;
 import boofcv.factory.feature.detect.line.ConfigHoughFoot;
 import boofcv.factory.feature.detect.line.ConfigHoughPolar;
 import boofcv.factory.feature.detect.line.FactoryDetectLineAlgs;
@@ -68,6 +77,7 @@ import boofcv.factory.shape.ConfigEllipseDetector;
 import boofcv.factory.shape.ConfigPolygonDetector;
 import boofcv.factory.shape.FactoryShapeDetector;
 import boofcv.struct.ConnectRule;
+import boofcv.struct.QueueCorner;
 import boofcv.struct.image.GrayS16;
 import boofcv.struct.image.GrayS32;
 import boofcv.struct.image.GrayU8;
@@ -127,16 +137,26 @@ public class DemoManager implements SapphireObject<sapphire.policy.offload.CodeO
     private GradientSobel_Outer GSO;
     private GradientSobel_UnrolledOuter GSUO;
     private ImplEdgeNonMaxSuppressionCrude IENMSC;
+    private FactoryIntensityPoint FIP;
+    private FactoryIntensityPointAlg FIPA;
+    private GImageMiscOps GIMO;
 
     CannyEdge<GrayU8,GrayS16> canny;
     LinearContourLabelChang2004 contour8;
     LinearContourLabelChang2004 contour4;
-    BinaryEllipseDetector<GrayU8> detector;
+    BinaryEllipseDetector<GrayU8> ellipseDetector;
     InputToBinary<GrayU8> inputToBinary;
     BinaryPolygonDetector<GrayU8> polyDetector;
     GrayU8 blackBinary;
     DetectLine<GrayU8> lineDetector;
     DetectLineSegment<GrayU8> segDetector;
+    GeneralFeatureDetector<GrayU8,GrayS16> general;
+    EasyGeneralFeatureDetector<GrayU8,GrayS16> pointDetector;
+    GeneralFeatureIntensity<GrayU8, GrayS16> intensity;
+    NonMaxSuppression nonmaxMax;
+    NonMaxSuppression nonmaxMinMax;
+    NonMaxSuppression nonmaxCandidate;
+    NonMaxSuppression nonmax;
 
 
     public DemoManager() {
@@ -181,6 +201,9 @@ public class DemoManager implements SapphireObject<sapphire.policy.offload.CodeO
         GSO = (GradientSobel_Outer) new_(GradientSobel_Outer.class);
         GSUO = (GradientSobel_UnrolledOuter) new_(GradientSobel_UnrolledOuter.class);
         IENMSC = (ImplEdgeNonMaxSuppressionCrude) new_(ImplEdgeNonMaxSuppressionCrude.class);
+        FIP = (FactoryIntensityPoint) new_(FactoryIntensityPoint.class);
+        FIPA = (FactoryIntensityPointAlg) new_(FactoryIntensityPointAlg.class);
+        GIMO = (GImageMiscOps) new_(GImageMiscOps.class);
 
         contour8 = new LinearContourLabelChang2004(ConnectRule.EIGHT);
         contour4 = new LinearContourLabelChang2004(ConnectRule.FOUR);
@@ -205,14 +228,14 @@ public class DemoManager implements SapphireObject<sapphire.policy.offload.CodeO
     public List<EdgeContour> edgeProcess(GrayU8 input , float threshLow, float threshHigh , GrayU8 output) {
         canny.process(input, threshLow, threshHigh, output,
                 IMO, GBIO, IBV, GTEF, IENMS, FIBA, GGTEF, IS, ISC, GIO, BlIO, CIM, FKG, CN, CNN, CINB,
-                CNJB, IMHI, IMSEN, IMSN, ICM, DHF, GTIO, GIS, TIO, CJBG, GSO, GSUO);
+                CNJB, IMHI, IMSEN, IMSN, ICM, DHF, GTIO, GIS, TIO, CJBG, GSO, GSUO, GIMO);
         return canny.getContours();
     }
 
     public void process(GrayU8 input , float threshLow, float threshHigh , GrayU8 output) {
         canny.process(input, threshLow, threshHigh, output,
                 IMO, GBIO, IBV, GTEF, IENMS, FIBA, GGTEF, IS, ISC, GIO, BlIO, CIM, FKG, CN, CNN, CINB,
-                CNJB, IMHI, IMSEN, IMSN, ICM, DHF, GTIO, GIS, TIO, CJBG, GSO, GSUO);
+                CNJB, IMHI, IMSEN, IMSN, ICM, DHF, GTIO, GIS, TIO, CJBG, GSO, GSUO, GIMO);
     }
 
     public List<EdgeContour> getContours() {
@@ -252,7 +275,7 @@ public class DemoManager implements SapphireObject<sapphire.policy.offload.CodeO
     }
 
     public void ellipse(ConfigEllipseDetector config) {
-        detector = Ellipse(config, GrayU8.class);
+        ellipseDetector = Ellipse(config, GrayU8.class);
     }
 
     public <T extends ImageGray>
@@ -261,12 +284,12 @@ public class DemoManager implements SapphireObject<sapphire.policy.offload.CodeO
     }
 
     public GrayU8 detectorProcess(GrayU8 image) {
-        detector.process(image, blackBinary, contour4, IMO);
+        ellipseDetector.process(image, blackBinary, contour4, IMO);
         return blackBinary;
     }
 
     public FastQueue<EllipseRotated_F64> getFoundEllipses() {
-        return detector.getFoundEllipses();
+        return ellipseDetector.getFoundEllipses();
     }
 
     public void globalOtsu(int minValue, int maxValue, boolean down) {
@@ -288,7 +311,7 @@ public class DemoManager implements SapphireObject<sapphire.policy.offload.CodeO
     }
 
     public void inputProcess(GrayU8 image) {
-        inputToBinary.process(image, blackBinary, GBIO, ISC, GIO, BlIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO);
+        inputToBinary.process(image, blackBinary, GBIO, ISC, GIO, BlIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO);
     }
 
     public void reshape(int width, int height) {
@@ -364,5 +387,79 @@ public class DemoManager implements SapphireObject<sapphire.policy.offload.CodeO
     public List<LineSegment2D_F32> segDetect (GrayU8 gray) {
         return segDetector.detect(gray, ISC, DHF, CINB, GTEF, TIO, GIO, GGTEF, GTIO, CJBG, GSO, GSUO);
     }
+
+    public void general(GeneralFeatureIntensity<GrayU8, GrayS16> intensity, NonMaxSuppression nonmax) {
+        general = new GeneralFeatureDetector<GrayU8, GrayS16>(intensity,nonmax);
+    }ShapeFit
+
+    public void point() {
+        pointDetector = new EasyGeneralFeatureDetector<GrayU8,GrayS16>(general,GrayU8.class,GrayS16.class, FD, GIO, FIB);
+    }
+
+    public void general_point() {
+        general = new GeneralFeatureDetector<GrayU8, GrayS16>(intensity,nonmax);
+        pointDetector = new EasyGeneralFeatureDetector<GrayU8,GrayS16>(general,GrayU8.class,GrayS16.class, FD, GIO, FIB);
+    }
+
+    public void setMaxFeatures(int numFeatures) {
+        general.setMaxFeatures(numFeatures);
+    }
+
+    public void pointDetect(GrayU8 gray) {
+        pointDetector.detect(gray, null, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN);
+    }
+
+    public void set_pointDetect(GrayU8 gray) {
+        nonmax.setSearchRadius( 3*gray.width/320 );
+        general.setMaxFeatures(200*gray.width/320);
+        pointDetector.detect(gray, null, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN);
+    }
+
+    public QueueCorner pointgetMaximums() {
+        return pointDetector.getMaximums();
+    }
+    public QueueCorner pointgetMinimums() { return pointDetector.getMinimums(); }
+
+    public void shiTomasi(int windowRadius, boolean weighted) {
+        nonmax = nonmaxMax;
+        intensity = FIP.shiTomasi(windowRadius,weighted,GrayS16.class, FIPA, GIO, FKG);
+    }
+
+    public void harris(int windowRadius, float kappa, boolean weighted) {
+        nonmax = nonmaxMax;
+        intensity = FIP.harris(windowRadius, kappa, weighted, GrayS16.class, FIPA, GIO, FKG);
+    }
+
+    public void fast( int pixelTol, int minCont) {
+        intensity = FIP.fast(pixelTol,minCont,GrayU8.class, FIPA);
+        nonmax = nonmaxCandidate;
+    }
+
+    public void laplacian() {
+        intensity = (GeneralFeatureIntensity)FIP.laplacian();
+        nonmax = nonmaxMinMax;
+    }
+
+    public void kitros() {
+        nonmax = nonmaxMax;
+        intensity = FIP.kitros(GrayS16.class);
+    }
+
+    public void hessianDet() {
+        nonmax = nonmaxMax;
+        intensity = FIP.hessian(HessianBlobIntensity.Type.DETERMINANT,GrayS16.class);
+    }
+
+    public void hessianTrace() {
+        intensity = FIP.hessian(HessianBlobIntensity.Type.TRACE,GrayS16.class);
+        nonmax = nonmaxMinMax;
+    }
+
+    public void nonmax(ConfigExtract configCorner, ConfigExtract configBlob) {
+        nonmaxMax = FFE.nonmax(configCorner);
+        nonmaxCandidate = FFE.nonmaxCandidate(configCorner);
+        nonmaxMinMax = FFE.nonmax(configBlob);
+    }
+
 
 }

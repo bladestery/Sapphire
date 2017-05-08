@@ -19,6 +19,8 @@
 package boofcv.struct;
 
 import georegression.struct.point.Point2D_I16;
+import sapphire.app.SapphireObject;
+
 import org.ddogleg.struct.FastQueue;
 
 
@@ -28,7 +30,7 @@ import org.ddogleg.struct.FastQueue;
  *
  * @author Peter Abeles
  */
-public class QueueCorner extends FastQueue<Point2D_I16> {
+public class QueueCorner extends FastQueue<Point2D_I16> implements SapphireObject{
 
 	public QueueCorner(int max) {
 		super(max,Point2D_I16.class,true);
@@ -38,11 +40,11 @@ public class QueueCorner extends FastQueue<Point2D_I16> {
 		super(10,Point2D_I16.class,true);
 	}
 
-	public final void add(int x, int y) {
+	public void add(int x, int y) {
 		grow().set((short)x,(short)y);
 	}
 
-	public final void add( Point2D_I16 pt ) {
+	public void add( Point2D_I16 pt ) {
 		grow().set(pt.x, pt.y);
 	}
 }

@@ -20,9 +20,11 @@ package boofcv.alg.sfm.d3;
 
 import boofcv.abst.sfm.d2.ImageMotion2D;
 import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.sfm.overhead.CreateSyntheticOverheadView;
 import boofcv.alg.sfm.overhead.OverheadView;
 import boofcv.alg.sfm.overhead.SelectOverheadParameters;
+import boofcv.core.image.GeneralizedImageOps;
 import boofcv.factory.sfm.FactorySfmMisc;
 import boofcv.struct.calib.CameraPinholeRadial;
 import boofcv.struct.image.ImageBase;
@@ -49,6 +51,8 @@ import org.ejml.data.DenseMatrix64F;
  */
 public class VisOdomMonoOverheadMotion2D<T extends ImageBase>
 {
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
 	// creates the overhead image
 	private CreateSyntheticOverheadView<T> createOverhead;
 	// estimates 2D motion inside the overhead image
@@ -121,7 +125,7 @@ public class VisOdomMonoOverheadMotion2D<T extends ImageBase>
 
 		// fill it so there aren't any artifacts in the left over
 		overhead.image.reshape(selectOverhead.getOverheadWidth(), selectOverhead.getOverheadHeight());
-		GImageMiscOps.fill(overhead.image,0);
+		GIMO.fill(overhead.image,0, IMO);
 	}
 
 	/**

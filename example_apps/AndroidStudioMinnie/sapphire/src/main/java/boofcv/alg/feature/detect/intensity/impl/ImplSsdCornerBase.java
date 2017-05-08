@@ -20,10 +20,15 @@ package boofcv.alg.feature.detect.intensity.impl;
 
 import boofcv.alg.InputSanityCheck;
 import boofcv.alg.feature.detect.intensity.GradientCornerIntensity;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
 import boofcv.alg.misc.ImageMiscOps;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.ImageGray;
+import sapphire.app.SapphireObject;
 
 /**
  * <p>
@@ -41,11 +46,8 @@ import boofcv.struct.image.ImageGray;
  * @author Peter Abeles
  */
 public abstract class ImplSsdCornerBase<D extends ImageGray, D2 extends ImageGray>
-		implements GradientCornerIntensity<D>
+		implements GradientCornerIntensity<D>, SapphireObject
 {
-	private static GeneralizedImageOps GIO;
-	private static ImageMiscOps IMO;
-	private static InputSanityCheck ISC;
 	// input image gradient
 	protected D derivX;
 	protected D derivY;
@@ -61,7 +63,7 @@ public abstract class ImplSsdCornerBase<D extends ImageGray, D2 extends ImageGra
 	// used to keep track of where it is in the image
 	protected int x, y;
 
-	public ImplSsdCornerBase( int windowRadius , Class<D2> secondDerivType ) {
+	public ImplSsdCornerBase( int windowRadius , Class<D2> secondDerivType, GeneralizedImageOps GIO) {
 		this.radius = windowRadius;
 
 		horizXX = GIO.createSingleBand(secondDerivType,1,1);
@@ -92,7 +94,7 @@ public abstract class ImplSsdCornerBase<D extends ImageGray, D2 extends ImageGra
 	}
 
 	@Override
-	public void process(D derivX, D derivY, GrayF32 intensity ) {
+	public void process(D derivX, D derivY, GrayF32 intensity, InputSanityCheck ISC, ImageMiscOps IMO, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN) {
 		ISC.checkSameShape(derivX,derivY,intensity);
 
 		setImageShape(derivX.getWidth(),derivX.getHeight());

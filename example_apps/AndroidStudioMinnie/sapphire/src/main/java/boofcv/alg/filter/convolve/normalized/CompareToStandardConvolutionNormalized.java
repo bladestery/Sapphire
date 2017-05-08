@@ -20,6 +20,7 @@ package boofcv.alg.filter.convolve.normalized;
 
 import boofcv.alg.filter.convolve.ConvolutionTestHelper;
 import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.factory.filter.kernel.FactoryKernel;
 import boofcv.struct.convolve.KernelBase;
 import boofcv.struct.image.ImageGray;
@@ -35,6 +36,8 @@ import java.util.Random;
  */
 public class CompareToStandardConvolutionNormalized extends CompareIdenticalFunctions
 {
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
 	protected Random rand = new Random(0xFF);
 
 	protected int width = 7;
@@ -79,7 +82,7 @@ public class CompareToStandardConvolutionNormalized extends CompareIdenticalFunc
 
 		ImageGray src = ConvolutionTestHelper.createImage(paramTypes[index], width, height);
 		ret[0][index++] = src;
-		GImageMiscOps.fillUniform(src, rand, 0, 120);
+		GIMO.fillUniform(src, rand, 0, 120, IMO);
 		ImageGray dst = ConvolutionTestHelper.createImage(paramTypes[index], width, height);
 		ret[0][index] = dst;
 

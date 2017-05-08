@@ -18,12 +18,15 @@
 
 package boofcv.alg.feature.detect.intensity.impl;
 
+import android.renderscript.ScriptGroup;
+
 import boofcv.alg.InputSanityCheck;
 import boofcv.alg.feature.detect.intensity.GradientCornerIntensity;
 import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
 import boofcv.alg.filter.convolve.ConvolveNormalized;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.convolve.Kernel1D_F32;
 import boofcv.struct.image.GrayF32;
@@ -32,12 +35,6 @@ import boofcv.struct.image.GrayF32;
  * @author Peter Abeles
  */
 public abstract class ImplSsdCornerWeighted_F32 implements GradientCornerIntensity<GrayF32> {
-	private static InputSanityCheck ISC;
-	private static FactoryKernelGaussian FKG;
-	private static ConvolveNormalized CN;
-	private static ConvolveNormalizedNaive CNN;
-	private static ConvolveImageNoBorder CINB;
-	private static ConvolveNormalized_JustBorder CNJB;
 	int radius;
 	Kernel1D_F32 kernel;
 	GrayF32 imgXX = new GrayF32(1,1);
@@ -48,13 +45,13 @@ public abstract class ImplSsdCornerWeighted_F32 implements GradientCornerIntensi
 	// defines the A matrix, from which the eignevalues are computed
 	protected float totalXX, totalYY, totalXY;
 
-	public ImplSsdCornerWeighted_F32(int radius) {
+	public ImplSsdCornerWeighted_F32(int radius, FactoryKernelGaussian FKG) {
 		this.radius = radius;
 		kernel = FKG.gaussian(Kernel1D_F32.class, -1, radius);
 	}
 
 	@Override
-	public void process(GrayF32 derivX, GrayF32 derivY, GrayF32 intensity ) {
+	public void process(GrayF32 derivX, GrayF32 derivY, GrayF32 intensity, InputSanityCheck ISC, ImageMiscOps IMO, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN) {
 		ISC.checkSameShape(derivX,derivY,intensity);
 
 		int w = derivX.width;
@@ -82,9 +79,9 @@ public abstract class ImplSsdCornerWeighted_F32 implements GradientCornerIntensi
 		}
 
 		// apply the the Gaussian weights
-		blur(imgXX,temp);
-		blur(imgYY,temp);
-		blur(imgXY,temp);
+		blur(imgXX,temp, ISC, CNN, CINB, CNJB, CN);
+		blur(imgYY,temp, ISC, CNN, CINB, CNJB, CN);
+		blur(imgXY,temp, ISC, CNN, CINB, CNJB, CN);
 
 		index = 0;
 		for( int y = 0; y < h; y++ ) {
@@ -100,7 +97,7 @@ public abstract class ImplSsdCornerWeighted_F32 implements GradientCornerIntensi
 
 	protected abstract float computeResponse();
 
-	private void blur(GrayF32 image , GrayF32 temp ) {
+	private void blur(GrayF32 image , GrayF32 temp, InputSanityCheck ISC, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN) {
 		CN.horizontal(kernel, image, temp, ISC,CNN, CINB, CNJB);
 		CN.vertical(kernel,temp,image, ISC,CNN, CINB, CNJB);
 	}

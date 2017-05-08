@@ -19,8 +19,15 @@
 package boofcv.abst.feature.tracker;
 
 import boofcv.abst.filter.derivative.ImageGradient;
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.feature.detect.interest.GeneralFeatureDetector;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
 import boofcv.alg.interpolate.InterpolateRectangle;
+import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.tracker.klt.*;
 import boofcv.alg.transform.pyramid.PyramidOps;
 import boofcv.struct.QueueCorner;
@@ -41,6 +48,13 @@ import java.util.List;
 public class PointTrackerKltPyramid<I extends ImageGray,D extends ImageGray>
 		implements PointTracker<I>
 {
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
+	private static InputSanityCheck ISC;
+	private static ConvolveNormalizedNaive CNN;
+	private static ConvolveImageNoBorder CINB;
+	private static ConvolveNormalized_JustBorder CNJB;
+	private static ConvolveNormalized CN;
 	// reference to input image
 	protected I input;
 
@@ -177,7 +191,7 @@ public class PointTrackerKltPyramid<I extends ImageGray,D extends ImageGray>
 
 		// find new tracks, but no more than the max
 		detector.setExcludeMaximum(excludeList);
-		detector.process(basePyramid.getLayer(0), derivX[0], derivY[0], null, null, null);
+		detector.process(basePyramid.getLayer(0), derivX[0], derivY[0], null, null, null, GIMO, IMO, ISC, CNN, CINB, CNJB, CN);
 
 		// extract the features
 		QueueCorner found = detector.getMaximums();

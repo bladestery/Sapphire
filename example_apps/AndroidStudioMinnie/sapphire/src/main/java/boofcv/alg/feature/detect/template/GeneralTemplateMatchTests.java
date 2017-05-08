@@ -21,6 +21,7 @@ package boofcv.alg.feature.detect.template;
 import boofcv.abst.feature.detect.extract.ConfigExtract;
 import boofcv.abst.feature.detect.extract.NonMaxSuppression;
 import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.misc.ImageStatistics;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.factory.feature.detect.extract.FactoryFeatureExtractor;
@@ -45,6 +46,8 @@ public abstract class GeneralTemplateMatchTests<T extends ImageGray> {
 	private ImageStatistics IS;
 	private GeneralizedImageOps GIO;
 	private static FactoryFeatureExtractor FFE;
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
 	Random rand = new Random(344);
 
 	// image and template being matched
@@ -65,7 +68,7 @@ public abstract class GeneralTemplateMatchTests<T extends ImageGray> {
 		template = GIO.createSingleBand(imageType, 5, 8);
 		mask = GIO.createSingleBand(imageType, 5, 8);
 
-		GImageMiscOps.fillUniform(template, rand, 50, 60);
+		GIMO.fillUniform(template, rand, 50, 60, IMO);
 	}
 
 	public void allTests() {
@@ -106,7 +109,7 @@ public abstract class GeneralTemplateMatchTests<T extends ImageGray> {
 
 	@Test
 	public void negativeCase_nomask() {
-		GImageMiscOps.fillUniform(image, rand, 0, 200);
+		GIMO.fillUniform(image, rand, 0, 200, IMO);
 
 		alg.setInputImage(image);
 		alg.process(template);
@@ -131,8 +134,8 @@ public abstract class GeneralTemplateMatchTests<T extends ImageGray> {
 
 	@Test
 	public void negativeCase_Mask() {
-		GImageMiscOps.fillUniform(image, rand, 0, 200);
-		GImageMiscOps.fill(mask,1);
+		GIMO.fillUniform(image, rand, 0, 200, IMO);
+		GIMO.fill(mask,1, IMO);
 
 		alg.setInputImage(image);
 		alg.process(template,mask);
@@ -160,8 +163,8 @@ public abstract class GeneralTemplateMatchTests<T extends ImageGray> {
 	 */
 	@Test
 	public void singleCase() {
-		GImageMiscOps.fill(image,0);
-//		GImageMiscOps.fillUniform(image, rand, 0, 50);
+		GIMO.fill(image,0, IMO);
+//		GIMO.fillUniform(image, rand, 0, 50);
 
 		int locationX = 10;
 		int locationY = 12;
@@ -173,7 +176,7 @@ public abstract class GeneralTemplateMatchTests<T extends ImageGray> {
 		checkExpected(new Point2D_I32(locationX, locationY));
 
 		// uniform mask should produce identical results
-		GImageMiscOps.fill(mask,1);
+		GIMO.fill(mask,1, IMO);
 		alg.process(template, mask);
 		checkExpected(new Point2D_I32(locationX, locationY));
 	}
@@ -183,15 +186,15 @@ public abstract class GeneralTemplateMatchTests<T extends ImageGray> {
 	 */
 	@Test
 	public void zeroMask() {
-		GImageMiscOps.fillUniform(image, rand, 0, 200);
+		GIMO.fillUniform(image, rand, 0, 200, IMO);
 
 		int locationX = 10;
 		int locationY = 12;
 
 		setTemplate(locationX, locationY);
 
-		GImageMiscOps.fill(mask,0);
-		GImageMiscOps.fill(alg.getIntensity(),0);
+		GIMO.fill(mask,0, IMO);
+		GIMO.fill(alg.getIntensity(),0, IMO);
 		alg.setInputImage(image);
 		alg.process(template, mask);
 		assertEquals(0, IS.maxAbs(alg.getIntensity()),1e-4f);
@@ -202,7 +205,7 @@ public abstract class GeneralTemplateMatchTests<T extends ImageGray> {
 	 */
 	@Test
 	public void multipleCases() {
-		GImageMiscOps.fillUniform(image, rand, 0, 200);
+		GIMO.fillUniform(image, rand, 0, 200, IMO);
 
 		Point2D_I32 a = new Point2D_I32(10, 12);
 		Point2D_I32 b = new Point2D_I32(20, 16);
@@ -215,7 +218,7 @@ public abstract class GeneralTemplateMatchTests<T extends ImageGray> {
 		checkExpected(a, b);
 
 		// uniform mask should produce identical results
-		GImageMiscOps.fill(mask,1);
+		GIMO.fill(mask,1, IMO);
 		alg.process(template, mask);
 		checkExpected(a, b);
 	}
@@ -225,10 +228,10 @@ public abstract class GeneralTemplateMatchTests<T extends ImageGray> {
 	 */
 	@Test
 	public void maskDifferentiate() {
-		GImageMiscOps.fillUniform(image, rand, 0, 200);
+		GIMO.fillUniform(image, rand, 0, 200, IMO);
 
 		T template = (T)image.createNew(12,12);
-		GImageMiscOps.fillUniform(template, rand, 0, 200);
+		GIMO.fillUniform(template, rand, 0, 200, IMO);
 
 		int x = 10, y = 12;
 		template.subimage(3,3,9,9,null).setTo(image.subimage(x-3,y-3,x+3,y+3,null));
@@ -239,8 +242,8 @@ public abstract class GeneralTemplateMatchTests<T extends ImageGray> {
 		float averageNoMask = fractionAverage(alg.getIntensity(),x,y);
 
 		T mask = (T)image.createNew(12,12);
-		GImageMiscOps.fill(mask,0);
-		GImageMiscOps.fill(mask.subimage(3,3,9, 9, null),1);
+		GIMO.fill(mask,0, IMO);
+		GIMO.fill(mask.subimage(3,3,9, 9, null),1, IMO);
 
 		alg.setInputImage(image);
 		alg.process(template,mask);
@@ -279,7 +282,7 @@ public abstract class GeneralTemplateMatchTests<T extends ImageGray> {
 	 */
 	@Test
 	public void subImage() {
-		GImageMiscOps.fillUniform(image, rand, 0, 200);
+		GIMO.fillUniform(image, rand, 0, 200, IMO);
 
 		Point2D_I32 a = new Point2D_I32(10, 12);
 		Point2D_I32 b = new Point2D_I32(20, 16);
@@ -296,7 +299,7 @@ public abstract class GeneralTemplateMatchTests<T extends ImageGray> {
 
 		// uniform mask should produce identical results
 		T subMask = BoofTesting.createSubImageOf(mask);
-		GImageMiscOps.fill(subMask,1);
+		GIMO.fill(subMask,1, IMO);
 		alg.setInputImage(subImage);
 		alg.process(subTemplate,subMask);
 		checkExpected(a, b);

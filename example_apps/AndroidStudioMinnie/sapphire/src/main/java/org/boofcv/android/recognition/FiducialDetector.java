@@ -22,7 +22,9 @@ import boofcv.alg.filter.convolve.ConvolveNormalized;
 import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
+import boofcv.alg.misc.GImageMiscOps;
 import boofcv.alg.misc.GImageStatistics;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.misc.ImageStatistics;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.factory.filter.binary.FactoryThresholdBinary;
@@ -61,6 +63,8 @@ public class FiducialDetector extends BaseDetectFiducialSquare<GrayU8> {
 	private static GImageStatistics GIS;
 	private static ImageStatistics IS;
 	private static ThresholdImageOps TIO;
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
 	private static final String TAG = "FiducialDetector";
 
 	// Width of black border (units = pixels)
@@ -121,7 +125,7 @@ public class FiducialDetector extends BaseDetectFiducialSquare<GrayU8> {
 		int off = (gray.width-binary.width)/2;
 		gray.subimage(off, off, gray.width - off, gray.width - off, grayNoBorder);
 
-		threshold.process(grayNoBorder, binary, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO);
+		threshold.process(grayNoBorder, binary, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO);
 		return true;
 	}
 

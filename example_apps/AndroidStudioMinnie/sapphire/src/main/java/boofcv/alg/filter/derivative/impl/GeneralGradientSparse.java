@@ -25,6 +25,7 @@ import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
 import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
 import boofcv.alg.filter.derivative.GradientSobel;
 import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.BorderType;
 import boofcv.core.image.border.FactoryImageBorder;
@@ -52,6 +53,8 @@ public abstract class GeneralGradientSparse {
 	private static ConvolveJustBorder_General CJBG;
 	private static GradientSobel_Outer GSO;
 	private static GradientSobel_UnrolledOuter GSUO;
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
 	Random rand = new Random(234);
 
 	Class imageType,derivType;
@@ -75,7 +78,7 @@ public abstract class GeneralGradientSparse {
 		image = GIO.createSingleBand(imageType,20,15);
 		derivX = GIO.createSingleBand(derivType,20,15);
 		derivY = GIO.createSingleBand(derivType,20,15);
-		GImageMiscOps.fillUniform(image, rand, 0, 255);
+		GIMO.fillUniform(image, rand, 0, 255, IMO);
 	}
 
 

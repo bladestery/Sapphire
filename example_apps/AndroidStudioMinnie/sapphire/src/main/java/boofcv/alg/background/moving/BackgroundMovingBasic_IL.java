@@ -21,6 +21,7 @@ package boofcv.alg.background.moving;
 import boofcv.alg.interpolate.InterpolatePixelMB;
 import boofcv.alg.interpolate.InterpolationType;
 import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.core.image.FactoryGImageMultiBand;
 import boofcv.core.image.GImageMultiBand;
 import boofcv.core.image.border.BorderType;
@@ -38,6 +39,8 @@ public class BackgroundMovingBasic_IL<T extends ImageInterleaved, Motion extends
 	extends BackgroundMovingBasic<T,Motion>
 {
 	private ImageType IT;
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
 	// where the background image is stored
 	protected InterleavedF32 background;
 	// interpolates the input image
@@ -84,7 +87,7 @@ public class BackgroundMovingBasic_IL<T extends ImageInterleaved, Motion extends
 	@Override
 	public void initialize(int backgroundWidth, int backgroundHeight, Motion homeToWorld) {
 		background.reshape(backgroundWidth,backgroundHeight);
-		GImageMiscOps.fill(background, Float.MAX_VALUE);
+		GIMO.fill(background, Float.MAX_VALUE, IMO);
 
 		this.homeToWorld.set(homeToWorld);
 		this.homeToWorld.invert(worldToHome);
@@ -95,7 +98,7 @@ public class BackgroundMovingBasic_IL<T extends ImageInterleaved, Motion extends
 
 	@Override
 	public void reset() {
-		GImageMiscOps.fill(background,Float.MAX_VALUE);
+		GIMO.fill(background,Float.MAX_VALUE, IMO);
 	}
 
 	@Override

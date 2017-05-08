@@ -20,8 +20,22 @@ package boofcv.abst.feature.detect.interest;
 
 import boofcv.abst.filter.derivative.ImageGradient;
 import boofcv.abst.filter.derivative.ImageHessian;
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.feature.detect.interest.EasyGeneralFeatureDetector;
 import boofcv.alg.feature.detect.interest.GeneralFeatureDetector;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
+import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
+import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
+import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
+import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
+import boofcv.core.image.GeneralizedImageOps;
+import boofcv.core.image.border.FactoryImageBorder;
+import boofcv.factory.filter.derivative.FactoryDerivative;
 import boofcv.struct.QueueCorner;
 import boofcv.struct.image.ImageGray;
 import georegression.struct.point.Point2D_F64;
@@ -48,8 +62,8 @@ public class GeneralToInterestPoint<T extends ImageGray, D extends ImageGray>
 
 	public GeneralToInterestPoint(GeneralFeatureDetector<T, D> detector,
 								  double radius,
-								  Class<T> imageType, Class<D> derivType) {
-		super(detector,imageType,derivType);
+								  Class<T> imageType, Class<D> derivType, FactoryDerivative FD, GeneralizedImageOps GIO, FactoryImageBorder FIB) {
+		super(detector,imageType,derivType, FD, GIO, FIB);
 		this.radius = radius;
 	}
 
@@ -57,14 +71,15 @@ public class GeneralToInterestPoint<T extends ImageGray, D extends ImageGray>
 								  ImageGradient<T, D> gradient,
 								  ImageHessian<D> hessian,
 								  double radius,
-								  Class<D> derivType) {
-		super(detector, gradient, hessian, derivType);
+								  Class<D> derivType, GeneralizedImageOps GIO) {
+		super(detector, gradient, hessian, derivType, GIO);
 		this.radius = radius;
 	}
 
 	@Override
-	public void detect(T input) {
-		super.detect(input,null);
+	public void detect(T input, InputSanityCheck ISC, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG, GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO,
+					   GImageMiscOps GIMO, ImageMiscOps IMO, ConvolveNormalizedNaive CNN, ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN) {
+		super.detect(input,null, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN);
 
 		foundPoints.reset();
 		if( getDetector().isDetectMaximums() ) {

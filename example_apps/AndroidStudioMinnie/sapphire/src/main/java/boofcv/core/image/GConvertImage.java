@@ -19,6 +19,7 @@
 package boofcv.core.image;
 
 import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.struct.image.*;
 
 import java.lang.reflect.Method;
@@ -34,6 +35,8 @@ import java.lang.reflect.Method;
 @SuppressWarnings("unchecked")
 public class GConvertImage {
 	private static GeneralizedImageOps GIO;
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
 	/**
 	 * <p>
 	 * Converts one type of between two types of images using a default method.  Both are the same image type
@@ -74,7 +77,7 @@ public class GConvertImage {
 			} else if( output instanceof ImageInterleaved ) {
 				ImageInterleaved il = (ImageInterleaved)output;
 				for (int i = 0; i < il.getNumBands(); i++) {
-					GImageMiscOps.insertBand(sb, i, il);
+					GIMO.insertBand(sb, i, il, IMO);
 				}
 			}
 		} else if( input instanceof ImageInterleaved && output instanceof ImageInterleaved )  {

@@ -39,6 +39,7 @@ import static org.junit.Assert.*;
  */
 public abstract class StandardPointTracker<T extends ImageGray> {
 	private ImageMiscOps IMO;
+	private static GImageMiscOps GIMO;
 	public PointTracker<T> tracker;
 	Random rand = new Random(234);
 	int width = 100;
@@ -220,7 +221,7 @@ public abstract class StandardPointTracker<T extends ImageGray> {
 		assertEquals(0,tracker.getDroppedTracks(null).size());
 
 		// make the image a poor match, causing tracks to be dropped
-		GImageMiscOps.fill(image, 0);
+		GIMO.fill(image, 0, IMO);
 		processImage((T)image);
 
 		int afterAll = tracker.getAllTracks(null).size();
@@ -374,7 +375,7 @@ public abstract class StandardPointTracker<T extends ImageGray> {
 		tracker.spawnTracks();
 
 		// create a situation where tracks might become inactive
-		GImageMiscOps.fill(image, 0);
+		GIMO.fill(image, 0, IMO);
 		processImage((T)image);
 
 		List<PointTrack> input = new ArrayList<>();
@@ -392,7 +393,7 @@ public abstract class StandardPointTracker<T extends ImageGray> {
 		tracker.spawnTracks();
 
 		// create a situation where tracks might be dropped
-		GImageMiscOps.fill(image, 0);
+		GIMO.fill(image, 0, IMO);
 		processImage((T)image);
 
 		List<PointTrack> input = new ArrayList<>();

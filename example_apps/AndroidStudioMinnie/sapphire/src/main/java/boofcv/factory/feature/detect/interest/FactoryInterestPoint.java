@@ -24,7 +24,18 @@ import boofcv.abst.feature.detect.extract.NonMaxSuppression;
 import boofcv.abst.feature.detect.interest.*;
 import boofcv.abst.filter.derivative.ImageGradient;
 import boofcv.abst.filter.derivative.ImageHessian;
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.feature.detect.interest.*;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
+import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
+import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
+import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
+import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.feature.detect.extract.FactoryFeatureExtractor;
@@ -68,9 +79,9 @@ public class FactoryInterestPoint {
 		if (feature.getRequiresGradient() || feature.getRequiresHessian())
 			gradient = FD.sobel(inputType, derivType, GIO, FIB);
 		if (feature.getRequiresHessian())
-			hessian = FD.hessianSobel(derivType, GIO);
+			hessian = FD.hessianSobel(derivType, GIO, FIB);
 
-		return new GeneralToInterestPoint<>(feature, gradient, hessian, scale, derivType);
+		return new GeneralToInterestPoint<>(feature, gradient, hessian, scale, derivType, GIO);
 	}
 
 	/**

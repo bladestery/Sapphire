@@ -57,7 +57,6 @@ import boofcv.struct.image.GrayU8;
 // TODO process image borders
 // TODO create a generator for these functions
 public class LaplacianEdge {
-	private static InputSanityCheck ISC;
 	public static Kernel2D_I32 kernel_I32 = new Kernel2D_I32(3, new int[]{0,1,0,1,-4,1,0,1,0});
 	public static Kernel2D_F32 kernel_F32 = new Kernel2D_F32(3, new float[]{0,1,0,1,-4,1,0,1,0});
 
@@ -67,7 +66,7 @@ public class LaplacianEdge {
 	 * @param orig  Input image.  Not modified.
 	 * @param deriv Where the Laplacian is written to. Modified.
 	 */
-	public static void process(GrayU8 orig, GrayS16 deriv) {
+	public static void process(GrayU8 orig, GrayS16 deriv, InputSanityCheck ISC) {
 		ISC.checkSameShape(orig, deriv);
 
 		final byte[] data = orig.data;
@@ -95,7 +94,7 @@ public class LaplacianEdge {
 		}
 	}
 
-	public static void process(GrayU8 orig, GrayF32 deriv) {
+	public static void process(GrayU8 orig, GrayF32 deriv, InputSanityCheck ISC) {
 		ISC.checkSameShape(orig, deriv);
 
 		final byte[] data = orig.data;
@@ -129,7 +128,7 @@ public class LaplacianEdge {
 	 * @param orig  Input image.  Not modified.
 	 * @param deriv Where the Laplacian is written to. Modified.
 	 */
-	public static void process(GrayF32 orig, GrayF32 deriv) {
+	public static void process(GrayF32 orig, GrayF32 deriv, InputSanityCheck ISC) {
 		ISC.checkSameShape(orig, deriv);
 
 		final float[] data = orig.data;

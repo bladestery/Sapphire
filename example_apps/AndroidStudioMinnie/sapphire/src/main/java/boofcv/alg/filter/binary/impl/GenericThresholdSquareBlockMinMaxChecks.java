@@ -20,6 +20,7 @@ package boofcv.alg.filter.binary.impl;
 
 import boofcv.alg.filter.binary.ThresholdSquareBlockMinMax;
 import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.misc.ImageStatistics;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.struct.image.GrayU8;
@@ -40,6 +41,8 @@ public abstract class GenericThresholdSquareBlockMinMaxChecks
 {
 	private GeneralizedImageOps GIO;
 	private ImageStatistics IS;
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
 
 	Class<T> imageType;
 	Random rand = new Random(234);
@@ -55,8 +58,8 @@ public abstract class GenericThresholdSquareBlockMinMaxChecks
 	public void thresholdSquare() {
 		T input = GIO.createSingleBand(imageType,100,120);
 
-		GImageMiscOps.fill(input,200);
-		GImageMiscOps.fillRectangle(input,20,40,45,30,32);
+		GIMO.fill(input,200, IMO);
+		GIMO.fillRectangle(input,20,40,45,30,32, IMO);
 
 		ThresholdSquareBlockMinMax<T,?> alg = createAlg(10,6,1.0,true);
 
@@ -81,7 +84,7 @@ public abstract class GenericThresholdSquareBlockMinMaxChecks
 	@Test
 	public void toggleDown() {
 		T input = GIO.createSingleBand(imageType,100,120);
-		GImageMiscOps.fillUniform(input,rand,0,255);
+		GIMO.fillUniform(input,rand,0,255, IMO);
 
 		GrayU8 down = new GrayU8(100,120);
 		GrayU8 up = new GrayU8(100,120);
@@ -109,7 +112,7 @@ public abstract class GenericThresholdSquareBlockMinMaxChecks
 	@Test
 	public void subImage() {
 		T input = GIO.createSingleBand(imageType,100,120);
-		GImageMiscOps.fillUniform(input,rand,0,255);
+		GIMO.fillUniform(input,rand,0,255, IMO);
 
 		GrayU8 expected = new GrayU8(100,120);
 

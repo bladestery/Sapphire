@@ -19,6 +19,18 @@
 package boofcv.abst.feature.tracker;
 
 import boofcv.abst.feature.associate.AssociateDescription2D;
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
+import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
+import boofcv.alg.filter.derivative.GradientSobel;
+import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
+import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
+import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.struct.feature.AssociatedIndex;
 import boofcv.struct.feature.TupleDesc;
 import boofcv.struct.image.ImageGray;
@@ -39,7 +51,17 @@ import java.util.List;
  */
 public class DetectDescribeAssociate<I extends ImageGray, Desc extends TupleDesc>
 		implements PointTracker<I> {
-
+	private static InputSanityCheck ISC;
+	private static ConvolveImageNoBorder CINB;
+	private static ConvolveJustBorder_General CJBG;
+	private static ImageMiscOps IMO;
+	private static GImageMiscOps GIMO;
+	private static DerivativeHelperFunctions DHF;
+	private static GradientSobel_Outer GSO;
+	private static GradientSobel_UnrolledOuter GSUO;
+	private static ConvolveNormalizedNaive CNN;
+	private static ConvolveNormalized_JustBorder CNJB;
+	private static ConvolveNormalized CN;
 	// associates features between two images together
 	protected AssociateDescription2D<Desc> associate;
 
@@ -131,7 +153,7 @@ public class DetectDescribeAssociate<I extends ImageGray, Desc extends TupleDesc
 		featDst.reset();
 		locDst.reset();
 
-		manager.detectFeatures(input, locDst, featDst);
+		manager.detectFeatures(input, locDst, featDst, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN);
 
 		// skip if there are no features
 		if( !tracksAll.isEmpty() ) {

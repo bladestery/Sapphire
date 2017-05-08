@@ -19,6 +19,7 @@
 package boofcv.alg.feature.detect.intensity.impl;
 
 import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.misc.DiscretizedCircle;
 import boofcv.struct.image.ImageGray;
@@ -31,6 +32,8 @@ import static org.junit.Assert.*;
  */
 public abstract class GenericImplFastHelperTests<T extends ImageGray> {
 	private GeneralizedImageOps GIO;
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
 	Class<T> imageType;
 	FastHelper<T> alg;
 	T image;
@@ -47,7 +50,7 @@ public abstract class GenericImplFastHelperTests<T extends ImageGray> {
 
 	@Test
 	public void scoreLower() {
-		GImageMiscOps.fill(image, 0);
+		GIMO.fill(image, 0, IMO);
 
 		alg.setImage(image,offsets);
 
@@ -71,7 +74,7 @@ public abstract class GenericImplFastHelperTests<T extends ImageGray> {
 
 	@Test
 	public void scoreUpper() {
-		GImageMiscOps.fill(image, 0);
+		GIMO.fill(image, 0, IMO);
 
 		alg.setImage(image,offsets);
 
@@ -95,7 +98,7 @@ public abstract class GenericImplFastHelperTests<T extends ImageGray> {
 
 	@Test
 	public void checkPixelLower() {
-		GImageMiscOps.fill(image, 0);
+		GIMO.fill(image, 0, IMO);
 
 		alg.setImage(image,offsets);
 		GIO.set(image,10,11,30);
@@ -112,7 +115,7 @@ public abstract class GenericImplFastHelperTests<T extends ImageGray> {
 
 	@Test
 	public void checkPixelUpper() {
-		GImageMiscOps.fill(image, 0);
+		GIMO.fill(image, 0, IMO);
 
 		alg.setImage(image,offsets);
 		GIO.set(image,10,11,30);

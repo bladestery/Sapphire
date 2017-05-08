@@ -42,6 +42,7 @@ import static org.junit.Assert.assertTrue;
  */
 public abstract class GenericBackgroundModelMovingChecks {
 	private ImageMiscOps IMO;
+	private static GImageMiscOps GIMO;
 	Random rand = new Random(234);
 
 	int width = 60;
@@ -88,7 +89,7 @@ public abstract class GenericBackgroundModelMovingChecks {
 		int x0 = 10, y0 = 12, x1 = 40, y1 = 38;
 
 		noise(100,2,frame);
-		GImageMiscOps.fillRectangle(frame,200,x0,y0,x1-x0,y1-y0);
+		GIMO.fillRectangle(frame,200,x0,y0,x1-x0,y1-y0, IMO);
 
 		Homography2D_F32 homeToCurrent = new Homography2D_F32();
 		GrayU8 segmented = new GrayU8(width,height);
@@ -276,10 +277,10 @@ public abstract class GenericBackgroundModelMovingChecks {
 		alg.initialize(width*2,height*2,homeToWorld);
 
 		Homography2D_F32 homeToCurrent = new Homography2D_F32();
-		GImageMiscOps.fill(frame,100);
+		GIMO.fill(frame,100, IMO);
 		alg.updateBackground(homeToCurrent,frame);
 		alg.reset();
-		GImageMiscOps.fill(frame,50);
+		GIMO.fill(frame,50, IMO);
 		alg.updateBackground(homeToCurrent,frame);
 
 		GrayU8 segmented = new GrayU8(width,height);
@@ -290,7 +291,7 @@ public abstract class GenericBackgroundModelMovingChecks {
 		alg.segment(homeToCurrent,frame,segmented);
 		BoofTesting.assertEquals(expected,segmented,1e-8);
 
-		GImageMiscOps.fill(frame,100);
+		GIMO.fill(frame,100, IMO);
 		IMO.fill(expected,1);
 
 		// it should be all changed.  really just a sanity check
@@ -351,7 +352,7 @@ public abstract class GenericBackgroundModelMovingChecks {
 	}
 
 	private void noise( double mean , double range , ImageBase image ) {
-		GImageMiscOps.fill(image,mean);
-		GImageMiscOps.addUniform(image,rand,-range,range);
+		GIMO.fill(image,mean, IMO);
+		GIMO.addUniform(image,rand,-range,range, IMO);
 	}
 }

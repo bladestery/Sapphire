@@ -19,6 +19,7 @@
 package boofcv.alg.segmentation.slic;
 
 import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.segmentation.ImageSegmentationOps;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.struct.ConnectRule;
@@ -40,6 +41,8 @@ import static org.junit.Assert.assertEquals;
  */
 public abstract class GeneralSegmentSlicColorChecks<T extends ImageBase> {
 	private GeneralizedImageOps GIO;
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
 	ImageType<T> imageType;
 
 	Random rand = new Random(234);
@@ -58,7 +61,7 @@ public abstract class GeneralSegmentSlicColorChecks<T extends ImageBase> {
 		T input = imageType.createImage(30,40);
 		GrayS32 output = new GrayS32(30,40);
 
-		GImageMiscOps.fillRectangle(input, 100, 0, 0, 15, 40);
+		GIMO.fillRectangle(input, 100, 0, 0, 15, 40, IMO);
 
 		SegmentSlic<T> alg = createAlg(12,200,10, ConnectRule.EIGHT );
 
@@ -79,7 +82,7 @@ public abstract class GeneralSegmentSlicColorChecks<T extends ImageBase> {
 	@Test
 	public void setColor() {
 		T input = imageType.createImage(30,40);
-		GImageMiscOps.fillUniform(input, rand, 0, 200);
+		GIMO.fillUniform(input, rand, 0, 200, IMO);
 
 		SegmentSlic<T> alg = createAlg(12,200,10, ConnectRule.EIGHT );
 
@@ -102,7 +105,7 @@ public abstract class GeneralSegmentSlicColorChecks<T extends ImageBase> {
 	@Test
 	public void addColor() {
 		T input = imageType.createImage(30,40);
-		GImageMiscOps.fillUniform(input, rand, 0, 200);
+		GIMO.fillUniform(input, rand, 0, 200, IMO);
 
 		SegmentSlic<T> alg = createAlg(12,200,10, ConnectRule.EIGHT );
 		alg.input = input;
@@ -131,7 +134,7 @@ public abstract class GeneralSegmentSlicColorChecks<T extends ImageBase> {
 	@Test
 	public void colorDistance() {
 		T input = imageType.createImage(30,40);
-		GImageMiscOps.fillUniform(input, rand, 0, 200);
+		GIMO.fillUniform(input, rand, 0, 200, IMO);
 
 		SegmentSlic<T> alg = createAlg(12,200,10, ConnectRule.EIGHT );
 		alg.input = input;
@@ -156,7 +159,7 @@ public abstract class GeneralSegmentSlicColorChecks<T extends ImageBase> {
 	@Test
 	public void getIntensity() {
 		T input = imageType.createImage(30,40);
-		GImageMiscOps.fillUniform(input, rand, 0, 200);
+		GIMO.fillUniform(input, rand, 0, 200, IMO);
 
 		SegmentSlic<T> alg = createAlg(12,200,10, ConnectRule.EIGHT );
 		alg.input = input;

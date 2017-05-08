@@ -20,6 +20,7 @@ package boofcv.abst.tracker;
 
 import boofcv.abst.distort.FDistort;
 import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.ImageDataType;
 import boofcv.struct.image.ImageType;
@@ -34,7 +35,8 @@ import georegression.struct.shapes.Quadrilateral_F64;
  * @author Peter Abeles
  */
 public abstract class ColorTrackerObjectRectangleTests extends GenericTrackerObjectRectangleTests<Planar<GrayU8>> {
-
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
 	Planar<GrayU8> original = new Planar<>(GrayU8.class,width,height,3);
 
 	boolean multiColor;
@@ -79,8 +81,8 @@ public abstract class ColorTrackerObjectRectangleTests extends GenericTrackerObj
 		int band1[] = new int[]{150,200,240,40};
 		int band2[] = new int[]{20,234,176,210};
 
-		GImageMiscOps.fill(original,0);
-		GImageMiscOps.fill(input,0);
+		GIMO.fill(original,0, IMO);
+		GIMO.fill(input,0, IMO);
 
 		for( int i = 0; i < 4; i++ ) {
 

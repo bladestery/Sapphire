@@ -19,6 +19,8 @@
 package boofcv.alg.feature.detect.intensity.impl;
 
 import boofcv.alg.feature.detect.intensity.HarrisCornerIntensity;
+import boofcv.factory.filter.kernel.FactoryKernel;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.image.GrayS16;
 
 /**
@@ -34,8 +36,8 @@ public class ImplHarrisCornerWeighted_S16 extends ImplSsdCornerWeighted_S16
 {
 	float kappa;
 
-	public ImplHarrisCornerWeighted_S16(int windowRadius, float kappa) {
-		super(windowRadius);
+	public ImplHarrisCornerWeighted_S16(int windowRadius, float kappa, FactoryKernelGaussian FKG) {
+		super(windowRadius, FKG);
 		this.kappa = kappa;
 	}
 

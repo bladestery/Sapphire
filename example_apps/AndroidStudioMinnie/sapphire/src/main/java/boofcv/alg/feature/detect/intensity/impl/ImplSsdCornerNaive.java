@@ -18,7 +18,13 @@
 
 package boofcv.alg.feature.detect.intensity.impl;
 
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.feature.detect.intensity.ShiTomasiCornerIntensity;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.convolve.Kernel2D_I32;
@@ -61,7 +67,7 @@ public class ImplSsdCornerNaive<T extends ImageGray> implements ShiTomasiCornerI
 	}
 
 	@Override
-	public void process(T derivX, T derivY, GrayF32 intensity ) {
+	public void process(T derivX, T derivY, GrayF32 intensity, InputSanityCheck ISC, ImageMiscOps IMO, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN) {
 
 		final int imgHeight = derivX.getHeight();
 		final int imgWidth = derivX.getWidth();

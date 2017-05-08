@@ -34,7 +34,9 @@ import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
 import boofcv.alg.filter.kernel.GKernelMath;
+import boofcv.alg.misc.GImageMiscOps;
 import boofcv.alg.misc.GImageStatistics;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.misc.ImageStatistics;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.BorderType;
@@ -74,6 +76,8 @@ public class AnyImageDerivative<I extends ImageGray, D extends ImageGray> {
 	private static GImageStatistics GIS;
 	private static ImageStatistics IS;
 	private static ThresholdImageOps TIO;
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
 	// filters for computing image derivatives
 	private ConvolveInterface<I, D> derivX;
 	private ConvolveInterface<I, D> derivY;
@@ -194,16 +198,16 @@ public class AnyImageDerivative<I extends ImageGray, D extends ImageGray> {
 
 				if( level == 0 ) {
 					if( isX[level]) {
-						derivX.process(inputImage,derivatives[level][index], GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO);
+						derivX.process(inputImage,derivatives[level][index], GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO);
 					} else {
-						derivY.process(inputImage,derivatives[level][index], GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO);
+						derivY.process(inputImage,derivatives[level][index], GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO);
 					}
 				} else {
 					D prev = derivatives[level-1][prevIndex];
 					if( isX[level]) {
-						derivDerivX.process(prev,derivatives[level][index], GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO);
+						derivDerivX.process(prev,derivatives[level][index], GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO);
 					} else {
-						derivDerivY.process(prev,derivatives[level][index], GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO);
+						derivDerivY.process(prev,derivatives[level][index], GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO);
 					}
 				}
 			}

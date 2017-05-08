@@ -18,7 +18,18 @@
 
 package boofcv.abst.feature.detdesc;
 
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.feature.detdesc.DetectDescribeSurfPlanar;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
+import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
+import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
+import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
+import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.transform.ii.GIntegralImageOps;
 import boofcv.core.image.GConvertImage;
 import boofcv.core.image.GeneralizedImageOps;
@@ -56,7 +67,8 @@ public class SurfPlanar_to_DetectDescribePoint<T extends ImageGray, II extends I
 	}
 
 	@Override
-	public void detect(Planar<T> input) {
+	public void detect(Planar<T> input, InputSanityCheck ISC, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG, GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO,
+					   GImageMiscOps GIMO, ImageMiscOps IMO, ConvolveNormalizedNaive CNN, ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CNO) {
 		gray.reshape(input.width,input.height);
 		grayII.reshape(input.width,input.height);
 		bandII.reshape(input.width,input.height);

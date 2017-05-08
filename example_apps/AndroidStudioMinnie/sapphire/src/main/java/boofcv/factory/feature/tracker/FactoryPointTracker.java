@@ -63,6 +63,7 @@ import boofcv.factory.feature.orientation.FactoryOrientation;
 import boofcv.factory.feature.orientation.FactoryOrientationAlgs;
 import boofcv.factory.filter.blur.FactoryBlurFilter;
 import boofcv.factory.filter.derivative.FactoryDerivative;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.factory.tracker.FactoryTrackerAlg;
 import boofcv.factory.transform.pyramid.FactoryPyramid;
@@ -88,6 +89,8 @@ public class FactoryPointTracker {
 	private static FactoryDerivative FD;
 	private static GeneralizedImageOps GIO;
 	private static FactoryImageBorder FIB;
+	private static FactoryIntensityPointAlg FIPA;
+	private static FactoryKernelGaussian FKG;
 	/**
 	 * Pyramid KLT feature tracker.
 	 *
@@ -241,7 +244,7 @@ public class FactoryPointTracker {
 				FBF.gaussian(imageType, 0, 4, GIO));
 
 		GeneralFeatureDetector<I, D> detectPoint = createShiTomasi(configExtract, derivType);
-		EasyGeneralFeatureDetector<I,D> easy = new EasyGeneralFeatureDetector<>(detectPoint, imageType, derivType);
+		EasyGeneralFeatureDetector<I,D> easy = new EasyGeneralFeatureDetector<>(detectPoint, imageType, derivType, FD, GIO, FIB);
 
 		ScoreAssociateHamming_B score = new ScoreAssociateHamming_B();
 
@@ -276,7 +279,7 @@ public class FactoryPointTracker {
 				FBF.gaussian(imageType, 0, 4, GIO));
 
 		GeneralFeatureDetector<I,D> corner = FactoryDetectPoint.createFast(configFast, configExtract, imageType);
-		EasyGeneralFeatureDetector<I,D> easy = new EasyGeneralFeatureDetector<>(corner, imageType, null);
+		EasyGeneralFeatureDetector<I,D> easy = new EasyGeneralFeatureDetector<>(corner, imageType, null, FD, GIO, FIB);
 
 		ScoreAssociateHamming_B score = new ScoreAssociateHamming_B();
 
@@ -313,7 +316,7 @@ public class FactoryPointTracker {
 		DescribePointPixelRegionNCC<I> alg = FactoryDescribePointAlgs.pixelRegionNCC(w, w, imageType);
 
 		GeneralFeatureDetector<I, D> corner = createShiTomasi(configExtract, derivType);
-		EasyGeneralFeatureDetector<I,D> easy = new EasyGeneralFeatureDetector<>(corner, imageType, derivType);
+		EasyGeneralFeatureDetector<I,D> easy = new EasyGeneralFeatureDetector<>(corner, imageType, derivType, FD, GIO, FIB);
 
 		ScoreAssociateNccFeature score = new ScoreAssociateNccFeature();
 
@@ -521,7 +524,7 @@ public class FactoryPointTracker {
 						double scale,
 						Class<I> imageType) {
 
-		EasyGeneralFeatureDetector<I,D> easy = new EasyGeneralFeatureDetector<>(detector, imageType, null);
+		EasyGeneralFeatureDetector<I,D> easy = new EasyGeneralFeatureDetector<>(detector, imageType, null, FD, GIO, FIB);
 
 		DdaManagerGeneralPoint<I,D,Desc> manager =
 				new DdaManagerGeneralPoint<>(easy, describe, scale);
@@ -538,7 +541,7 @@ public class FactoryPointTracker {
 	GeneralFeatureDetector<I, D> createShiTomasi(ConfigGeneralDetector config ,
 												 Class<D> derivType)
 	{
-		GradientCornerIntensity<D> cornerIntensity = FactoryIntensityPointAlg.shiTomasi(1, false, derivType);
+		GradientCornerIntensity<D> cornerIntensity = FIPA.shiTomasi(1, false, derivType, GIO, FKG);
 
 		return FactoryDetectPoint.createGeneral(cornerIntensity, config );
 	}

@@ -24,6 +24,7 @@ import boofcv.alg.distort.PixelTransformCached_F32;
 import boofcv.alg.distort.PointToPixelTransform_F32;
 import boofcv.alg.misc.GImageMiscOps;
 import boofcv.alg.misc.GPixelMath;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.misc.PixelMath;
 import boofcv.struct.distort.PixelTransform2_F32;
 import boofcv.struct.distort.Point2Transform2_F32;
@@ -41,6 +42,7 @@ import georegression.struct.point.Point3D_F32;
 import georegression.struct.se.Se3_F64;
 import org.ejml.data.DenseMatrix64F;
 
+import java.awt.Image;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,7 +54,8 @@ import java.util.List;
  * @author Peter Abeles
  */
 public class MultiCameraToEquirectangular<T extends ImageBase<T>> {
-
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
 	private EquirectangularTools_F32 tools = new EquirectangularTools_F32();
 	private int equiWidth, equHeight;
 
@@ -211,8 +214,8 @@ public class MultiCameraToEquirectangular<T extends ImageBase<T>> {
 			throw new IllegalArgumentException("Input camera image count doesn't equal the expected number");
 
 		// avoid divide by zero errors by initializing it to a small non-zero value
-		GImageMiscOps.fill(weightImage,1e-4);
-		GImageMiscOps.fill(averageImage,0);
+		GIMO.fill(weightImage,1e-4, IMO);
+		GIMO.fill(averageImage,0, IMO);
 
 		for (int i = 0; i < cameras.size(); i++) {
 			Camera c = cameras.get(i);

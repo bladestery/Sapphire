@@ -41,6 +41,7 @@ import static org.junit.Assert.assertEquals;
 public abstract class GenericBackgroundModelStationaryChecks {
 	private ImageMiscOps IMO;
 	private GeneralizedImageOps GIO;
+	private static GImageMiscOps GIMO;
 	Random rand = new Random(234);
 
 	int width = 60;
@@ -75,7 +76,7 @@ public abstract class GenericBackgroundModelStationaryChecks {
 		int x0 = 10, y0 = 12, x1 = 40, y1 = 38;
 
 		noise(100,2,frame);
-		GImageMiscOps.fillRectangle(frame, 200, x0, y0, x1 - x0, y1 - y0);
+		GIMO.fillRectangle(frame, 200, x0, y0, x1 - x0, y1 - y0, IMO);
 
 		GrayU8 segmented = new GrayU8(width,height);
 		alg.segment(frame, segmented);
@@ -109,10 +110,10 @@ public abstract class GenericBackgroundModelStationaryChecks {
 
 		BackgroundModelStationary<T> alg = create(frame.getImageType());
 
-		GImageMiscOps.fill(frame,100);
+		GIMO.fill(frame,100, IMO);
 		alg.updateBackground(frame);
 		alg.reset();
-		GImageMiscOps.fill(frame,50);
+		GIMO.fill(frame,50, IMO);
 		alg.updateBackground(frame);
 
 		GrayU8 segmented = new GrayU8(width,height);
@@ -123,7 +124,7 @@ public abstract class GenericBackgroundModelStationaryChecks {
 		alg.segment(frame,segmented);
 		BoofTesting.assertEquals(expected, segmented, 1e-8);
 
-		GImageMiscOps.fill(frame, 100);
+		GIMO.fill(frame, 100, IMO);
 		IMO.fill(expected, 1);
 
 		// it should be all changed.  really just a sanity check
@@ -257,7 +258,7 @@ public abstract class GenericBackgroundModelStationaryChecks {
 	}
 
 	protected void noise( double mean , double range , ImageBase image ) {
-		GImageMiscOps.fill(image, mean);
-		GImageMiscOps.addUniform(image, rand, -range, range);
+		GIMO.fill(image, mean, IMO);
+		GIMO.addUniform(image, rand, -range, range, IMO);
 	}
 }

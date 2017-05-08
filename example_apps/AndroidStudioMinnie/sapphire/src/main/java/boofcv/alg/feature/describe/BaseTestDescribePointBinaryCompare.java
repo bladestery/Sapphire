@@ -23,6 +23,7 @@ import boofcv.alg.feature.describe.brief.BinaryCompareDefinition_I32;
 import boofcv.alg.feature.describe.brief.FactoryBriefDefinition;
 import boofcv.alg.misc.GImageMiscOps;
 import boofcv.alg.misc.GPixelMath;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.core.image.FactoryGImageGray;
 import boofcv.core.image.GImageGray;
 import boofcv.core.image.GeneralizedImageOps;
@@ -42,6 +43,8 @@ import static org.junit.Assert.assertTrue;
  */
 public abstract class BaseTestDescribePointBinaryCompare<T extends ImageGray> {
 	private GeneralizedImageOps GIO;
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
 	Random rand = new Random(234);
 	int width = 30;
 	int height = 40;
@@ -55,7 +58,7 @@ public abstract class BaseTestDescribePointBinaryCompare<T extends ImageGray> {
 
 	protected  T createImage( int width , int height ) {
 		T ret = GIO.createSingleBand(imageType, width, height);
-		GImageMiscOps.fillUniform(ret, rand, 0, 50);
+		GIMO.fillUniform(ret, rand, 0, 50, IMO);
 		return ret;
 	}
 

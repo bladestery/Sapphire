@@ -68,6 +68,41 @@ public final class DemoManager_Stub extends org.boofcv.android.DemoManager imple
         return ((boofcv.struct.image.ImageType) $__result);
     }
 
+    // Implementation of shiTomasi(int, boolean)
+    public void shiTomasi(int $param_int_1, boolean $param_boolean_2) {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                super.shiTomasi( $param_int_1,  $param_boolean_2);
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public void org.boofcv.android.DemoManager.shiTomasi(int,boolean)";
+                $__params.add($param_int_1);
+                $__params.add($param_boolean_2);
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Implementation of set_pointDetect(GrayU8)
+    public void set_pointDetect(boofcv.struct.image.GrayU8 $param_GrayU8_1) {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                super.set_pointDetect( $param_GrayU8_1);
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public void org.boofcv.android.DemoManager.set_pointDetect(boofcv.struct.image.GrayU8)";
+                $__params.add($param_GrayU8_1);
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     // Implementation of setNumberOfSides(int, int)
     public void setNumberOfSides(int $param_int_1, int $param_int_2) {
         java.lang.Object $__result = null;
@@ -79,6 +114,23 @@ public final class DemoManager_Stub extends org.boofcv.android.DemoManager imple
                 String $__method = "public void org.boofcv.android.DemoManager.setNumberOfSides(int,int)";
                 $__params.add($param_int_1);
                 $__params.add($param_int_2);
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Implementation of setMaxFeatures(int)
+    public void setMaxFeatures(int $param_int_1) {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                super.setMaxFeatures( $param_int_1);
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public void org.boofcv.android.DemoManager.setMaxFeatures(int)";
+                $__params.add($param_int_1);
                 $__result = $__client.onRPC($__method, $__params);
             }
         } catch (Exception e) {
@@ -213,6 +265,91 @@ public final class DemoManager_Stub extends org.boofcv.android.DemoManager imple
         return ((boofcv.struct.image.GrayU8) $__result);
     }
 
+    // Implementation of pointgetMinimums()
+    public boofcv.struct.QueueCorner pointgetMinimums() {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                $__result = super.pointgetMinimums();
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public boofcv.struct.QueueCorner org.boofcv.android.DemoManager.pointgetMinimums()";
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ((boofcv.struct.QueueCorner) $__result);
+    }
+
+    // Implementation of pointgetMaximums()
+    public boofcv.struct.QueueCorner pointgetMaximums() {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                $__result = super.pointgetMaximums();
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public boofcv.struct.QueueCorner org.boofcv.android.DemoManager.pointgetMaximums()";
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ((boofcv.struct.QueueCorner) $__result);
+    }
+
+    // Implementation of pointDetect(GrayU8)
+    public void pointDetect(boofcv.struct.image.GrayU8 $param_GrayU8_1) {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                super.pointDetect( $param_GrayU8_1);
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public void org.boofcv.android.DemoManager.pointDetect(boofcv.struct.image.GrayU8)";
+                $__params.add($param_GrayU8_1);
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Implementation of point()
+    public void point() {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                super.point();
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public void org.boofcv.android.DemoManager.point()";
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Implementation of nonmax(ConfigExtract, ConfigExtract)
+    public void nonmax(boofcv.abst.feature.detect.extract.ConfigExtract $param_ConfigExtract_1, boofcv.abst.feature.detect.extract.ConfigExtract $param_ConfigExtract_2) {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                super.nonmax( $param_ConfigExtract_1,  $param_ConfigExtract_2);
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public void org.boofcv.android.DemoManager.nonmax(boofcv.abst.feature.detect.extract.ConfigExtract,boofcv.abst.feature.detect.extract.ConfigExtract)";
+                $__params.add($param_ConfigExtract_1);
+                $__params.add($param_ConfigExtract_2);
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     // Implementation of localSquare(int, double, boolean)
     public void localSquare(int $param_int_1, double $param_double_2, boolean $param_boolean_3) {
         java.lang.Object $__result = null;
@@ -266,6 +403,38 @@ public final class DemoManager_Stub extends org.boofcv.android.DemoManager imple
         return ((java.util.List) $__result);
     }
 
+    // Implementation of laplacian()
+    public void laplacian() {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                super.laplacian();
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public void org.boofcv.android.DemoManager.laplacian()";
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Implementation of kitros()
+    public void kitros() {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                super.kitros();
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public void org.boofcv.android.DemoManager.kitros()";
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     // Implementation of inputProcess(GrayU8)
     public void inputProcess(boofcv.struct.image.GrayU8 $param_GrayU8_1) {
         java.lang.Object $__result = null;
@@ -310,6 +479,57 @@ public final class DemoManager_Stub extends org.boofcv.android.DemoManager imple
                 java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
                 String $__method = "public void org.boofcv.android.DemoManager.houghFoot(boofcv.factory.feature.detect.line.ConfigHoughFoot)";
                 $__params.add($param_ConfigHoughFoot_1);
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Implementation of hessianTrace()
+    public void hessianTrace() {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                super.hessianTrace();
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public void org.boofcv.android.DemoManager.hessianTrace()";
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Implementation of hessianDet()
+    public void hessianDet() {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                super.hessianDet();
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public void org.boofcv.android.DemoManager.hessianDet()";
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Implementation of harris(int, float, boolean)
+    public void harris(int $param_int_1, float $param_float_2, boolean $param_boolean_3) {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                super.harris( $param_int_1,  $param_float_2,  $param_boolean_3);
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public void org.boofcv.android.DemoManager.harris(int,float,boolean)";
+                $__params.add($param_int_1);
+                $__params.add($param_float_2);
+                $__params.add($param_boolean_3);
                 $__result = $__client.onRPC($__method, $__params);
             }
         } catch (Exception e) {
@@ -387,6 +607,40 @@ public final class DemoManager_Stub extends org.boofcv.android.DemoManager imple
         return ((java.util.List) $__result);
     }
 
+    // Implementation of general_point()
+    public void general_point() {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                super.general_point();
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public void org.boofcv.android.DemoManager.general_point()";
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Implementation of general(GeneralFeatureIntensity, NonMaxSuppression)
+    public void general(boofcv.abst.feature.detect.intensity.GeneralFeatureIntensity $param_GeneralFeatureIntensity_1, boofcv.abst.feature.detect.extract.NonMaxSuppression $param_NonMaxSuppression_2) {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                super.general( $param_GeneralFeatureIntensity_1,  $param_NonMaxSuppression_2);
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public void org.boofcv.android.DemoManager.general(boofcv.abst.feature.detect.intensity.GeneralFeatureIntensity<boofcv.struct.image.GrayU8, boofcv.struct.image.GrayS16>,boofcv.abst.feature.detect.extract.NonMaxSuppression)";
+                $__params.add($param_GeneralFeatureIntensity_1);
+                $__params.add($param_NonMaxSuppression_2);
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     // Implementation of findContoursProcess(GrayU8, GrayS32)
     public void findContoursProcess(boofcv.struct.image.GrayU8 $param_GrayU8_1, boofcv.struct.image.GrayS32 $param_GrayS32_2) {
         java.lang.Object $__result = null;
@@ -420,6 +674,24 @@ public final class DemoManager_Stub extends org.boofcv.android.DemoManager imple
             e.printStackTrace();
         }
         return ((org.ddogleg.struct.FastQueue) $__result);
+    }
+
+    // Implementation of fast(int, int)
+    public void fast(int $param_int_1, int $param_int_2) {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                super.fast( $param_int_1,  $param_int_2);
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public void org.boofcv.android.DemoManager.fast(int,int)";
+                $__params.add($param_int_1);
+                $__params.add($param_int_2);
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     // Implementation of ellipse(ConfigEllipseDetector)

@@ -19,8 +19,10 @@
 package boofcv.abst.feature.detect.intensity;
 
 import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.ImageGray;
+import sapphire.app.SapphireObject;
 
 /**
  * Provides some basic functionality for implementing {@link GeneralFeatureIntensity}.
@@ -28,16 +30,16 @@ import boofcv.struct.image.ImageGray;
  * @author Peter Abeles
  */
 public abstract class BaseGeneralFeatureIntensity <I extends ImageGray, D extends ImageGray>
-		implements GeneralFeatureIntensity<I,D>
+		implements GeneralFeatureIntensity<I,D>, SapphireObject
 {
 	GrayF32 intensity = new GrayF32(1,1);
 
 
-	public void init( int width , int height) {
+	public void init(int width , int height, GImageMiscOps GIMO, ImageMiscOps IMO) {
 		if( intensity.width != width || intensity.height != height ) {
 			intensity.reshape(width,height);
 			// zero the image to make sure it's borders values are zero
-			GImageMiscOps.fill(intensity, 0);
+			GIMO.fill(intensity, 0, IMO);
 		}
 	}
 

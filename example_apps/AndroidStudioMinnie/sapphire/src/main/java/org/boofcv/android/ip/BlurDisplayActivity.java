@@ -13,6 +13,8 @@ import android.widget.Spinner;
 import org.boofcv.android.DemoVideoDisplayActivity;
 import org.boofcv.android.R;
 
+import java.awt.Image;
+
 import boofcv.abst.filter.blur.BlurFilter;
 import boofcv.alg.InputSanityCheck;
 import boofcv.alg.filter.binary.GThresholdImageOps;
@@ -28,7 +30,9 @@ import boofcv.alg.filter.convolve.ConvolveNormalized;
 import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
+import boofcv.alg.misc.GImageMiscOps;
 import boofcv.alg.misc.GImageStatistics;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.misc.ImageStatistics;
 import boofcv.android.ConvertBitmap;
 import boofcv.android.gui.VideoImageProcessing;
@@ -66,7 +70,8 @@ public class BlurDisplayActivity extends DemoVideoDisplayActivity
 	private static GImageStatistics GIS;
 	private static ImageStatistics IS;
 	private static ThresholdImageOps TIO;
-
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
 	Spinner spinnerView;
 
 	// amount of blur applied to the image
@@ -164,7 +169,7 @@ public class BlurDisplayActivity extends DemoVideoDisplayActivity
 		protected void process(GrayU8 input, Bitmap output, byte[] storage) {
 			if( radius > 0 ) {
 				synchronized ( filter ) {
-					filter.process(input, blurred, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO);
+					filter.process(input, blurred, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO);
 				}
 				ConvertBitmap.grayToBitmap(blurred, output, storage);
 			} else {

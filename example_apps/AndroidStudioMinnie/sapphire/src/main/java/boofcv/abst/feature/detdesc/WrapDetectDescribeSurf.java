@@ -19,8 +19,19 @@
 package boofcv.abst.feature.detdesc;
 
 import boofcv.abst.feature.orientation.OrientationIntegral;
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.feature.describe.DescribePointSurf;
 import boofcv.alg.feature.detect.interest.FastHessianFeatureDetector;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
+import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
+import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
+import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
+import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.transform.ii.GIntegralImageOps;
 import boofcv.struct.BoofDefaults;
 import boofcv.struct.feature.BrightFeature;
@@ -90,7 +101,8 @@ public class WrapDetectDescribeSurf
 	}
 
 	@Override
-	public void detect(T input) {
+	public void detect(T input, InputSanityCheck ISC, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG, GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO,
+					   GImageMiscOps GIMO, ImageMiscOps IMO, ConvolveNormalizedNaive CNN, ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN) {
 		if( ii != null ) {
 			ii.reshape(input.width,input.height);
 		}

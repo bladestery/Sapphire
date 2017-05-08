@@ -21,6 +21,7 @@ package boofcv.alg.interpolate.impl;
 import boofcv.alg.interpolate.InterpolatePixelS;
 import boofcv.alg.interpolate.InterpolateRectangle;
 import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.core.image.border.BorderType;
 import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.struct.image.GrayF32;
@@ -38,6 +39,8 @@ import static org.junit.Assert.assertTrue;
  * @author Peter Abeles
  */
 public abstract class GeneralBilinearRectangleChecks<T extends ImageGray> {
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
 	Class<T> imageType;
 
 	Random rand = new Random(0xff34);
@@ -119,7 +122,7 @@ public abstract class GeneralBilinearRectangleChecks<T extends ImageGray> {
 	@Test
 	public void checkSubImage() {
 		T imgA = createImage(width, height);
-		GImageMiscOps.fillUniform(imgA, rand, 0, 200);
+		GIMO.fillUniform(imgA, rand, 0, 200, IMO);
 
 		regionWidth = 20;
 		regionHeight = 25;
@@ -148,7 +151,7 @@ public abstract class GeneralBilinearRectangleChecks<T extends ImageGray> {
 	 */
 	public void checkRegion(int regionWidth, int regionHeight, float x, float y) {
 		T img = createImage(width, height);
-		GImageMiscOps.fillUniform(img, rand, 0, 20);
+		GIMO.fillUniform(img, rand, 0, 20, IMO);
 
 		this.regionWidth = regionWidth;
 		this.regionHeight = regionHeight;

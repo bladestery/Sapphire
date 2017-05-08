@@ -21,6 +21,7 @@ package boofcv.alg.feature.detect.intensity.impl;
 import boofcv.alg.feature.detect.intensity.DetectorFastNaive;
 import boofcv.alg.feature.detect.intensity.FastCornerIntensity;
 import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.misc.DiscretizedCircle;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.GrayU8;
@@ -36,6 +37,8 @@ import static org.junit.Assert.assertTrue;
  * @author Peter Abeles
  */
 public abstract class GenericImplFastIntensity {
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
 	Random rand = new Random(234);
 
 	int minContinuous;
@@ -53,7 +56,7 @@ public abstract class GenericImplFastIntensity {
 	public void compareToNaiveDetection() {
 
 		GrayU8 input = new GrayU8(40,50);
-		GImageMiscOps.fillUniform(input, rand, 0, 50);
+		GIMO.fillUniform(input, rand, 0, 50, IMO);
 		GrayF32 intensity = new GrayF32(input.width,input.height);
 
 		DetectorFastNaive validator = new DetectorFastNaive(3,minContinuous,detectDifference);

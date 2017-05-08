@@ -32,6 +32,7 @@ import org.junit.Test;
  */
 public abstract class GenericBackgroundStationaryGaussianChecks extends GenericBackgroundModelStationaryChecks {
 	private ImageMiscOps IMO;
+	private static GImageMiscOps GIMO;
 	float initialVariance;
 
 	@Before
@@ -55,7 +56,7 @@ public abstract class GenericBackgroundStationaryGaussianChecks extends GenericB
 		GrayU8 expected = new GrayU8(width,height);
 		T frame = imageType.createImage(width,height);
 
-		GImageMiscOps.fill(frame,20);
+		GIMO.fill(frame,20, IMO);
 		alg.updateBackground(frame);
 
 		// the initial variance should be zero, which means any small change should be motion
@@ -63,24 +64,24 @@ public abstract class GenericBackgroundStationaryGaussianChecks extends GenericB
 		alg.segment(frame, segmented);
 		BoofTesting.assertEquals(expected, segmented, 1e-5f);
 		IMO.fill(expected, 1);
-		GImageMiscOps.fill(frame, 21);
+		GIMO.fill(frame, 21, IMO);
 		alg.segment(frame, segmented);
 		BoofTesting.assertEquals(expected, segmented, 1e-5f);
 
 		// try giving it a larger initial variance
 		alg.setInitialVariance(10);
 		alg.reset();
-		GImageMiscOps.fill(frame, 20);
+		GIMO.fill(frame, 20, IMO);
 		alg.updateBackground(frame);
 
 		IMO.fill(expected, 0);
 		alg.segment(frame, segmented);
 		BoofTesting.assertEquals(expected, segmented, 1e-5f);
-		GImageMiscOps.fill(frame, 21);
+		GIMO.fill(frame, 21, IMO);
 		alg.segment(frame, segmented);
 		BoofTesting.assertEquals(expected, segmented, 1e-5f);
 		IMO.fill(expected, 1);
-		GImageMiscOps.fill(frame, 100);
+		GIMO.fill(frame, 100, IMO);
 		alg.segment(frame, segmented);
 		BoofTesting.assertEquals(expected, segmented, 1e-5f);
 	}
@@ -161,28 +162,28 @@ public abstract class GenericBackgroundStationaryGaussianChecks extends GenericB
 		GrayU8 expected = new GrayU8(width,height);
 		T frame = imageType.createImage(width,height);
 
-		GImageMiscOps.fill(frame, 20);
+		GIMO.fill(frame, 20, IMO);
 		alg.updateBackground(frame);
 
 		// Turn off minimum difference
 		alg.setMinimumDifference(0);
-		GImageMiscOps.fill(frame, 21);
+		GIMO.fill(frame, 21, IMO);
 		alg.segment(frame, segmented);
 		IMO.fill(expected, 1);
 		BoofTesting.assertEquals(expected, segmented, 1e-5f);
 
 		// Turn it on and check
 		alg.setMinimumDifference(4);
-		GImageMiscOps.fill(frame, 21);
+		GIMO.fill(frame, 21, IMO);
 		alg.segment(frame, segmented);
 		IMO.fill(expected, 0);
 		BoofTesting.assertEquals(expected, segmented, 1e-5f);
 
-		GImageMiscOps.fill(frame, 23);
+		GIMO.fill(frame, 23, IMO);
 		alg.segment(frame, segmented);
 		BoofTesting.assertEquals(expected, segmented, 1e-5f);
 
-		GImageMiscOps.fill(frame, 24); // test a value just after the threshold
+		GIMO.fill(frame, 24, IMO); // test a value just after the threshold
 		alg.segment(frame, segmented);
 		IMO.fill(expected, 1);
 		BoofTesting.assertEquals(expected, segmented, 1e-5f);

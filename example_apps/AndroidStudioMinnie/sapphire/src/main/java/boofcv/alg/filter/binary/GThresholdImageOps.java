@@ -32,7 +32,9 @@ import boofcv.alg.filter.convolve.ConvolveNormalized;
 import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
+import boofcv.alg.misc.GImageMiscOps;
 import boofcv.alg.misc.GImageStatistics;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.misc.ImageStatistics;
 import boofcv.core.image.GConvertImage;
 import boofcv.core.image.GeneralizedImageOps;
@@ -376,7 +378,7 @@ public class GThresholdImageOps implements SapphireObject {
 	GrayU8 localBlockMinMax(T input, GrayU8 output, int radius, double scale , boolean down, double textureThreshold, GBlurImageOps GBIO, InputSanityCheck ISC, GeneralizedImageOps GIO, BlurImageOps BIO,
 							ConvolveImageMean CIM, FactoryKernelGaussian FKG, ConvolveNormalized CN, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB,
 							ConvolveNormalized_JustBorder CNJB, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM,
-							GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO)
+							GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO, GImageMiscOps GIMO, ImageMiscOps IMO)
 	{
 		LocalSquareBlockMinMaxBinaryFilter<T> alg = new LocalSquareBlockMinMaxBinaryFilter<>(textureThreshold, radius * 2 + 1, scale, down,
 				(Class<T>) input.getClass(), IT);
@@ -384,7 +386,7 @@ public class GThresholdImageOps implements SapphireObject {
 		if( output == null )
 			output = new GrayU8(input.width,input.height);
 
-		alg.process(input,output, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO);
+		alg.process(input,output, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO);
 
 		return output;
 	}

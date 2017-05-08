@@ -33,6 +33,8 @@ import java.util.Random;
  */
 public abstract class BaseGClassChecksInMisc extends CompareEquivalentFunctions {
 	private GeneralizedImageOps GIO;
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
 	Random rand = new Random(234);
 	int width = 20;
 	int height = 30;
@@ -121,9 +123,9 @@ public abstract class BaseGClassChecksInMisc extends CompareEquivalentFunctions 
 		}
 
 		if( isSigned ) {
-			GImageMiscOps.fillUniform(img,rand,-10,10);
+			GIMO.fillUniform(img,rand,-10,10, IMO);
 		} else {
-			GImageMiscOps.fillUniform(img,rand,1,10);
+			GIMO.fillUniform(img,rand,1,10, IMO);
 		}
 	}
 }

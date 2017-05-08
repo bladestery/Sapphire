@@ -21,6 +21,7 @@ package boofcv.alg.feature.disparity.impl;
 import boofcv.alg.feature.disparity.DisparitySelect;
 import boofcv.alg.feature.disparity.SelectRectStandard;
 import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.struct.image.ImageGray;
 import org.junit.Test;
@@ -34,6 +35,8 @@ import static org.junit.Assert.assertEquals;
  */
 public abstract class ChecksSelectRectStandardBase<ArrayData,T extends ImageGray> {
 	private GeneralizedImageOps GIO;
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
 	Class<ArrayData> arrayType;
 
 	int w=20;
@@ -55,7 +58,7 @@ public abstract class ChecksSelectRectStandardBase<ArrayData,T extends ImageGray
 		this.minDisparity = min;
 		this.maxDisparity = max;
 		this.reject = (max-min)+1;
-		GImageMiscOps.fill(disparity, reject);
+		GIMO.fill(disparity, reject, IMO);
 	}
 
 	public abstract SelectRectStandard<ArrayData,T> createSelector( int maxError, int rightToLeftTolerance, double texture );

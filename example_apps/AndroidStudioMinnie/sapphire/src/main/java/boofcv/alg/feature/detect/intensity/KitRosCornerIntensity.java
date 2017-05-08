@@ -18,6 +18,8 @@
 
 package boofcv.alg.feature.detect.intensity;
 
+import android.renderscript.ScriptGroup;
+
 import boofcv.alg.InputSanityCheck;
 import boofcv.alg.feature.detect.intensity.impl.ImplKitRosCornerIntensity;
 import boofcv.struct.image.GrayF32;
@@ -37,10 +39,9 @@ import boofcv.struct.image.GrayS16;
  * @author Peter Abeles
  */
 public class KitRosCornerIntensity {
-	private static InputSanityCheck ISC;
 	public static void process(GrayF32 featureIntensity,
 							   GrayF32 derivX, GrayF32 derivY,
-							   GrayF32 hessianXX, GrayF32 hessianYY , GrayF32 hessianXY )
+							   GrayF32 hessianXX, GrayF32 hessianYY , GrayF32 hessianXY,InputSanityCheck ISC)
 	{
 		ISC.checkSameShape(derivX,derivY,hessianXX,hessianYY,hessianXY);
 		ISC.checkSameShape(derivX,featureIntensity);
@@ -50,7 +51,7 @@ public class KitRosCornerIntensity {
 
 	public static void process(GrayF32 featureIntensity,
 							   GrayS16 derivX, GrayS16 derivY,
-							   GrayS16 hessianXX, GrayS16 hessianYY , GrayS16 hessianXY )
+							   GrayS16 hessianXX, GrayS16 hessianYY , GrayS16 hessianXY, InputSanityCheck ISC )
 	{
 		ISC.checkSameShape(derivX,derivY,hessianXX,hessianYY,hessianXY);
 		ISC.checkSameShape(derivX,featureIntensity);

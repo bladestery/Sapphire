@@ -22,33 +22,31 @@ import boofcv.abst.filter.derivative.ImageGradient;
 import boofcv.abst.filter.derivative.ImageHessian;
 import boofcv.alg.InputSanityCheck;
 import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
 import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
 import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
 import boofcv.alg.filter.derivative.GImageDerivativeOps;
 import boofcv.alg.filter.derivative.GradientSobel;
 import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
 import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
+import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.filter.derivative.FactoryDerivative;
 import boofcv.struct.QueueCorner;
 import boofcv.struct.image.ImageGray;
+import sapphire.app.SapphireObject;
+import sun.java2d.loops.DrawGlyphListAA;
 
 /**
  * Detects features using {@link GeneralFeatureDetector} but Handles all the derivative computations automatically.
  *
  * @author Peter Abeles
  */
-public class EasyGeneralFeatureDetector<T extends ImageGray, D extends ImageGray> {
-	private static FactoryDerivative FD;
-	private static GeneralizedImageOps GIO;
-	private static FactoryImageBorder FIB;
-	private static InputSanityCheck ISC;
-	private static DerivativeHelperFunctions DHF;
-	private static ConvolveImageNoBorder CINB;
-	private static ConvolveJustBorder_General CJBG;
-	private static GradientSobel_Outer GSO;
-	private static GradientSobel_UnrolledOuter GSUO;
+public class EasyGeneralFeatureDetector<T extends ImageGray, D extends ImageGray> implements SapphireObject{
 	// Feature detector
 	protected GeneralFeatureDetector<T, D> detector;
 	// Computes image gradient
@@ -71,7 +69,7 @@ public class EasyGeneralFeatureDetector<T extends ImageGray, D extends ImageGray
 	 * @param derivType If null then the derivative will be selected using the image type.
 	 */
 	public EasyGeneralFeatureDetector(GeneralFeatureDetector<T, D> detector ,
-									  Class<T> imageType, Class<D> derivType ) {
+									  Class<T> imageType, Class<D> derivType, FactoryDerivative FD, GeneralizedImageOps GIO, FactoryImageBorder FIB ) {
 		this.detector = detector;
 
 		if( derivType == null ) {
@@ -82,9 +80,9 @@ public class EasyGeneralFeatureDetector<T extends ImageGray, D extends ImageGray
 			gradient = FD.sobel(imageType, derivType, GIO, FIB);
 		}
 		if( detector.getRequiresHessian() ) {
-			hessian = FD.hessianSobel(derivType, GIO);
+			hessian = FD.hessianSobel(derivType, GIO, FIB);
 		}
-		declareDerivativeImages(gradient, hessian, derivType);
+		declareDerivativeImages(gradient, hessian, derivType, GIO);
 	}
 
 	/**
@@ -93,18 +91,18 @@ public class EasyGeneralFeatureDetector<T extends ImageGray, D extends ImageGray
 	public EasyGeneralFeatureDetector(GeneralFeatureDetector<T, D> detector,
 									  ImageGradient<T, D> gradient,
 									  ImageHessian<D> hessian,
-									  Class<D> derivType ) {
+									  Class<D> derivType, GeneralizedImageOps GIO) {
 		this.detector = detector;
 		this.gradient = gradient;
 		this.hessian = hessian;
 
-		declareDerivativeImages(gradient, hessian, derivType);
+		declareDerivativeImages(gradient, hessian, derivType, GIO);
 	}
 
 	/**
 	 * Declare storage for image derivatives as needed
 	 */
-	private void declareDerivativeImages(ImageGradient<T, D> gradient, ImageHessian<D> hessian, Class<D> derivType) {
+	private void declareDerivativeImages(ImageGradient<T, D> gradient, ImageHessian<D> hessian, Class<D> derivType, GeneralizedImageOps GIO) {
 		if( gradient != null || hessian != null ) {
 			derivX = GIO.createSingleBand(derivType, 1, 1);
 			derivY = GIO.createSingleBand(derivType,1,1);
@@ -122,17 +120,18 @@ public class EasyGeneralFeatureDetector<T extends ImageGray, D extends ImageGray
 	 * @param input Image being processed.
 	 * @param exclude List of points that should not be returned.
 	 */
-	public void detect(T input, QueueCorner exclude ) {
+	public void detect(T input, QueueCorner exclude, InputSanityCheck ISC, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG, GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO,
+					   GImageMiscOps GIMO, ImageMiscOps IMO, ConvolveNormalizedNaive CNN, ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN) {
 
 		initializeDerivatives(input);
 
 		if (detector.getRequiresGradient() || detector.getRequiresHessian())
 			gradient.process(input, derivX, derivY, ISC,DHF, CINB, CJBG,GSO,GSUO);
 		if (detector.getRequiresHessian())
-			hessian.process(derivX, derivY, derivXX, derivYY, derivXY);
+			hessian.process(derivX, derivY, derivXX, derivYY, derivXY, ISC, DHF, CINB, CJBG, GSO, GSUO);
 
 		detector.setExcludeMaximum(exclude);
-		detector.process(input, derivX, derivY, derivXX, derivYY, derivXY);
+		detector.process(input, derivX, derivY, derivXX, derivYY, derivXY, GIMO, IMO, ISC, CNN, CINB, CNJB, CN);
 	}
 
 	/**

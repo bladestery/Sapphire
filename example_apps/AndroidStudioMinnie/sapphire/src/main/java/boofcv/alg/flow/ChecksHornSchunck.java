@@ -19,6 +19,7 @@
 package boofcv.alg.flow;
 
 import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.struct.flow.ImageFlow;
 import boofcv.struct.image.GrayF32;
@@ -26,6 +27,7 @@ import boofcv.struct.image.ImageGray;
 import boofcv.testing.BoofTesting;
 import org.junit.Test;
 
+import java.awt.Image;
 import java.util.Random;
 
 import static org.junit.Assert.assertTrue;
@@ -35,6 +37,8 @@ import static org.junit.Assert.assertTrue;
  */
 public abstract class ChecksHornSchunck<T extends ImageGray, D extends ImageGray> {
 	private GeneralizedImageOps GIO;
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
 	Class<T> imageType;
 	Class<D> derivType;
 
@@ -61,8 +65,8 @@ public abstract class ChecksHornSchunck<T extends ImageGray, D extends ImageGray
 		T image2 = GIO.createSingleBand(imageType,width,height);
 		ImageFlow output = new ImageFlow(width,height);
 
-		GImageMiscOps.fillRectangle(image1, 100, 10, 0, 20, 30);
-		GImageMiscOps.fillRectangle(image2, 100, 11, 0, 20, 30);
+		GIMO.fillRectangle(image1, 100, 10, 0, 20, 30, IMO);
+		GIMO.fillRectangle(image2, 100, 11, 0, 20, 30, IMO);
 
 
 		alg.process(image1, image2, output);
@@ -94,8 +98,8 @@ public abstract class ChecksHornSchunck<T extends ImageGray, D extends ImageGray
 		T image2 = GIO.createSingleBand(imageType,width,height);
 		D found = GIO.createSingleBand(derivType, width, height);
 
-		GImageMiscOps.fillUniform(image1,rand,0,200);
-		GImageMiscOps.fillUniform(image2,rand,0,200);
+		GIMO.fillUniform(image1,rand,0,200, IMO);
+		GIMO.fillUniform(image2,rand,0,200, IMO);
 
 		alg.computeDerivX(image1,image2,found);
 		GrayF32 expected = computeExpected(image1,image2,samples,signs);
@@ -122,8 +126,8 @@ public abstract class ChecksHornSchunck<T extends ImageGray, D extends ImageGray
 		T image2 = GIO.createSingleBand(imageType,width,height);
 		D found = GIO.createSingleBand(derivType, width, height);
 
-		GImageMiscOps.fillUniform(image1,rand,0,200);
-		GImageMiscOps.fillUniform(image2,rand,0,200);
+		GIMO.fillUniform(image1,rand,0,200, IMO);
+		GIMO.fillUniform(image2,rand,0,200, IMO);
 
 		alg.computeDerivY(image1,image2,found);
 		GrayF32 expected = computeExpected(image1,image2,samples,signs);
@@ -150,8 +154,8 @@ public abstract class ChecksHornSchunck<T extends ImageGray, D extends ImageGray
 		T image2 = GIO.createSingleBand(imageType,width,height);
 		D found = GIO.createSingleBand(derivType, width, height);
 
-		GImageMiscOps.fillUniform(image1,rand,0,200);
-		GImageMiscOps.fillUniform(image2,rand,0,200);
+		GIMO.fillUniform(image1,rand,0,200, IMO);
+		GIMO.fillUniform(image2,rand,0,200, IMO);
 
 		alg.computeDerivT(image1,image2,found);
 		GrayF32 expected = computeExpected(image1,image2,samples,signs);

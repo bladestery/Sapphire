@@ -19,6 +19,7 @@
 package boofcv.alg.feature.detect.interest;
 
 import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.struct.image.GrayF32;
 import georegression.geometry.UtilPoint2D_I32;
 import org.junit.Test;
@@ -35,6 +36,8 @@ import static org.junit.Assert.assertTrue;
  * @author Peter Abeles
  */
 public abstract class GenericFeatureDetectorTests {
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
 	Random rand = new Random(234);
 
 	int width = 80;
@@ -53,10 +56,10 @@ public abstract class GenericFeatureDetectorTests {
 		GrayF32 input = new GrayF32(width,height);
 
 		// give it a bunch of features that any of the detectors should be able to see
-		GImageMiscOps.fillRectangle(input,100,10,10,15,15);
-		GImageMiscOps.fillRectangle(input, 100, 30, 10, 35, 15);
-		GImageMiscOps.fillRectangle(input,100,10,30,15,35);
-		GImageMiscOps.fillRectangle(input,100,30,30,35,35);
+		GIMO.fillRectangle(input,100,10,10,15,15, IMO);
+		GIMO.fillRectangle(input, 100, 30, 10, 35, 15, IMO);
+		GIMO.fillRectangle(input,100,10,30,15,35, IMO);
+		GIMO.fillRectangle(input,100,30,30,35,35, IMO);
 
 		// limit it to "one" feature
 		Object alg = createDetector(1);
@@ -77,7 +80,7 @@ public abstract class GenericFeatureDetectorTests {
 		GrayF32 input = new GrayF32(width,height);
 
 		// provide a rectangle and circular feature
-		GImageMiscOps.fillRectangle(input,20,5,5,25,25);
+		GIMO.fillRectangle(input,20,5,5,25,25, IMO);
 		drawCircle(input, 10, 10, r * 2);
 
 		Object alg = createDetector(50);
@@ -157,12 +160,12 @@ public abstract class GenericFeatureDetectorTests {
 				int w = Math.min(10,input.width-x);
 
 				if( boo )
-					GImageMiscOps.fillRectangle(input, 50, x, y, w, h);
+					GIMO.fillRectangle(input, 50, x, y, w, h, IMO);
 				boo = !boo;
 			}
 			moo = !moo;
 		}
 
-		GImageMiscOps.addUniform(input,rand,-5,5);
+		GIMO.addUniform(input,rand,-5,5, IMO);
 	}
 }

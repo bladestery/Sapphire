@@ -18,7 +18,14 @@
 
 package boofcv.abst.feature.detect.intensity;
 
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.feature.detect.intensity.FastCornerIntensity;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
+import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.struct.QueueCorner;
 import boofcv.struct.image.ImageGray;
 
@@ -37,8 +44,9 @@ public class WrapperFastCornerIntensity<I extends ImageGray, D extends ImageGray
 	}
 
 	@Override
-	public void process(I input, D derivX , D derivY , D derivXX , D derivYY , D derivXY ) {
-		init(input.width,input.height);
+	public void process(I input, D derivX , D derivY , D derivXX , D derivYY , D derivXY , GImageMiscOps GIMO, ImageMiscOps IMO,
+						InputSanityCheck ISC, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN) {
+		init(input.width,input.height, GIMO, IMO);
 		alg.process(input,intensity);
 	}
 

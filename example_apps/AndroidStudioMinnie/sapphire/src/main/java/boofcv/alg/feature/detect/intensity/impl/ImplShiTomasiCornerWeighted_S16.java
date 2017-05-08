@@ -19,6 +19,7 @@
 package boofcv.alg.feature.detect.intensity.impl;
 
 import boofcv.alg.feature.detect.intensity.ShiTomasiCornerIntensity;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.image.GrayS16;
 
 /**
@@ -32,8 +33,8 @@ import boofcv.struct.image.GrayS16;
 public class ImplShiTomasiCornerWeighted_S16 extends ImplSsdCornerWeighted_S16
 		implements ShiTomasiCornerIntensity<GrayS16>
 {
-	public ImplShiTomasiCornerWeighted_S16(int radius) {
-		super(radius);
+	public ImplShiTomasiCornerWeighted_S16(int radius, FactoryKernelGaussian FKG) {
+		super(radius, FKG);
 	}
 
 	@Override

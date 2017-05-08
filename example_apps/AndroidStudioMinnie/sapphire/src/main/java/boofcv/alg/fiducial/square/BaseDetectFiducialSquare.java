@@ -38,6 +38,7 @@ import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
 import boofcv.alg.geo.h.HomographyLinear4;
 import boofcv.alg.interpolate.InterpolatePixelS;
+import boofcv.alg.misc.GImageMiscOps;
 import boofcv.alg.misc.GImageStatistics;
 import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.misc.ImageStatistics;
@@ -108,6 +109,7 @@ public abstract class BaseDetectFiducialSquare<T extends ImageGray> {
 	private static ImageStatistics IS;
 	private static ThresholdImageOps TIO;
 	private static ImageMiscOps IMO;
+	private static GImageMiscOps GIMO;
 
 	private LinearContourLabelChang2004 cF = new LinearContourLabelChang2004(ConnectRule.FOUR);
 
@@ -240,7 +242,7 @@ public abstract class BaseDetectFiducialSquare<T extends ImageGray> {
 	public void process( T gray ) {
 		binary.reshape(gray.width,gray.height);
 
-		inputToBinary.process(gray,binary, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO);
+		inputToBinary.process(gray,binary, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO);
 		squareDetector.process(gray,binary, ISC, IMO, cF);
 		// These are in undistorted pixels
 		FastQueue<Polygon2D_F64> candidates = squareDetector.getFoundPolygons();

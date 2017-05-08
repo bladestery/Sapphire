@@ -18,6 +18,7 @@
 
 package boofcv.alg.feature.detect.intensity.impl;
 
+import boofcv.core.image.GeneralizedImageOps;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.GrayS16;
 import boofcv.struct.image.GrayS32;
@@ -46,8 +47,8 @@ public abstract class ImplSsdCorner_S16 extends ImplSsdCornerBase<GrayS16,GrayS3
 	// defines the A matrix, from which the eigenvalues are computed
 	protected int totalXX, totalYY, totalXY;
 
-	public ImplSsdCorner_S16( int windowRadius) {
-		super(windowRadius,GrayS32.class);
+	public ImplSsdCorner_S16(int windowRadius, GeneralizedImageOps GIO) {
+		super(windowRadius,GrayS32.class, GIO);
 	}
 
 	@Override

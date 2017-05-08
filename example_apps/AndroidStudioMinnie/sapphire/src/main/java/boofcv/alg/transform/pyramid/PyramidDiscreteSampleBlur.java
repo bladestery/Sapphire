@@ -33,7 +33,9 @@ import boofcv.alg.filter.convolve.ConvolveNormalized;
 import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
+import boofcv.alg.misc.GImageMiscOps;
 import boofcv.alg.misc.GImageStatistics;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.misc.ImageStatistics;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.BorderType;
@@ -81,6 +83,8 @@ public class PyramidDiscreteSampleBlur<T extends ImageGray> extends PyramidDiscr
 	private static GImageStatistics GIS;
 	private static ImageStatistics IS;
 	private static ThresholdImageOps TIO;
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
 	// stores the results from the first convolution
 	private T temp;
 	GenericConvolveDown<T,T> horizontal;
@@ -142,8 +146,8 @@ public class PyramidDiscreteSampleBlur<T extends ImageGray> extends PyramidDiscr
 			vertical.setSkip(skip);
 
 			temp.reshape(input.width/skip,input.height);
-			horizontal.process(input,temp, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO);
-			vertical.process(temp,getLayer(0), GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO);
+			horizontal.process(input,temp, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO);
+			vertical.process(temp,getLayer(0), GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO);
 		}
 
 		for (int index = 1; index < getNumLayers(); index++) {
@@ -154,8 +158,8 @@ public class PyramidDiscreteSampleBlur<T extends ImageGray> extends PyramidDiscr
 			horizontal.setSkip(skip);
 			vertical.setSkip(skip);
 
-			horizontal.process(prev,temp, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO);
-			vertical.process(temp,getLayer(index), GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO);
+			horizontal.process(prev,temp, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO);
+			vertical.process(temp,getLayer(index), GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO);
 		}
 	}
 

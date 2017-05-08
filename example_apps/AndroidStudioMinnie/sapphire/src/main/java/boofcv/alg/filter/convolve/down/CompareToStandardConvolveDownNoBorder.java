@@ -21,6 +21,7 @@ package boofcv.alg.filter.convolve.down;
 import boofcv.alg.filter.convolve.ConvolutionTestHelper;
 import boofcv.alg.filter.convolve.ConvolveDownNoBorder;
 import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.factory.filter.kernel.FactoryKernel;
 import boofcv.struct.image.ImageGray;
 import boofcv.testing.CompareIdenticalFunctions;
@@ -35,6 +36,8 @@ import java.util.Random;
  */
 public class CompareToStandardConvolveDownNoBorder extends CompareIdenticalFunctions
 {
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
 	protected Random rand = new Random(0xFF);
 
 	protected int width = 20;
@@ -80,7 +83,7 @@ public class CompareToStandardConvolveDownNoBorder extends CompareIdenticalFunct
 		}
 
 		ImageGray src = ConvolutionTestHelper.createImage(paramTypes[1], width, height);
-		GImageMiscOps.fillUniform(src, rand, 0, 130);
+		GIMO.fillUniform(src, rand, 0, 130, IMO);
 		ImageGray dst = ConvolutionTestHelper.createImage(paramTypes[2], width/divW, height/divH);
 
 		Object[][] ret = new Object[1][paramTypes.length];

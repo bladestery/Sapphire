@@ -36,9 +36,6 @@ import boofcv.struct.image.*;
  * @author Peter Abeles
  */
 public class ConvolveWithBorder {
-	private static InputSanityCheck ISC;
-	private static ConvolveImageNoBorder CINB;
-	private static ConvolveJustBorder_General CJBG;
 	/**
 	 * Performs a horizontal 1D convolution across the image.  Borders are handled as specified by the 'border'
 	 * parameter.
@@ -49,7 +46,7 @@ public class ConvolveWithBorder {
 	 * @param border How the image borders are handled.
 	 */
 	public static void horizontal(Kernel1D_F32 kernel,
-								  GrayF32 image, GrayF32 dest , ImageBorder_F32 border ) {
+								  GrayF32 image, GrayF32 dest , ImageBorder_F32 border, InputSanityCheck ISC, ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG ) {
 		ISC.checkSameShape(image, dest);
 
 		border.setImage(image);
@@ -67,7 +64,7 @@ public class ConvolveWithBorder {
 	 * @param border How the image borders are handled.
 	 */
 	public static void vertical(Kernel1D_F32 kernel,
-								GrayF32 image, GrayF32 dest , ImageBorder_F32 border ) {
+								GrayF32 image, GrayF32 dest , ImageBorder_F32 border , InputSanityCheck ISC, ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG) {
 		ISC.checkSameShape(image, dest);
 
 		border.setImage(image);
@@ -85,7 +82,7 @@ public class ConvolveWithBorder {
 	 * @param border How the image borders are handled.
 	 */
 	public static void convolve(Kernel2D_F32 kernel,
-								GrayF32 image, GrayF32 dest , ImageBorder_F32 border ) {
+								GrayF32 image, GrayF32 dest , ImageBorder_F32 border, InputSanityCheck ISC, ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG ) {
 		ISC.checkSameShape(image, dest);
 
 		border.setImage(image);
@@ -103,7 +100,7 @@ public class ConvolveWithBorder {
 	 * @param border How the image borders are handled.
 	 */
 	public static void horizontal(Kernel1D_I32 kernel,
-								  GrayU8 image, GrayI16 dest , ImageBorder_S32 border ) {
+								  GrayU8 image, GrayI16 dest , ImageBorder_S32 border , InputSanityCheck ISC, ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG) {
 		ISC.checkSameShape(image, dest);
 
 		border.setImage(image);
@@ -121,7 +118,7 @@ public class ConvolveWithBorder {
 	 * @param border How the image borders are handled.
 	 */
 	public static void vertical(Kernel1D_I32 kernel,
-								GrayU8 image, GrayI16 dest , ImageBorder_S32 border ) {
+								GrayU8 image, GrayI16 dest , ImageBorder_S32 border , InputSanityCheck ISC, ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG) {
 		ISC.checkSameShape(image, dest);
 
 		border.setImage(image);
@@ -139,7 +136,7 @@ public class ConvolveWithBorder {
 	 * @param border How the image borders are handled.
 	 */
 	public static void convolve(Kernel2D_I32 kernel,
-								GrayU8 image, GrayI16 dest , ImageBorder_S32 border ) {
+								GrayU8 image, GrayI16 dest , ImageBorder_S32 border , InputSanityCheck ISC, ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG) {
 		ISC.checkSameShape(image, dest);
 
 		border.setImage(image);
@@ -157,7 +154,7 @@ public class ConvolveWithBorder {
 	 * @param border How the image borders are handled.
 	 */
 	public static void horizontal(Kernel1D_I32 kernel,
-								  GrayU8 image, GrayS32 dest , ImageBorder_S32 border ) {
+								  GrayU8 image, GrayS32 dest , ImageBorder_S32 border , InputSanityCheck ISC, ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG) {
 		ISC.checkSameShape(image, dest);
 
 		border.setImage(image);
@@ -175,7 +172,7 @@ public class ConvolveWithBorder {
 	 * @param border How the image borders are handled.
 	 */
 	public static void vertical(Kernel1D_I32 kernel,
-								GrayU8 image, GrayS32 dest , ImageBorder_S32 border ) {
+								GrayU8 image, GrayS32 dest , ImageBorder_S32 border , InputSanityCheck ISC, ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG) {
 		ISC.checkSameShape(image, dest);
 
 		border.setImage(image);
@@ -193,7 +190,7 @@ public class ConvolveWithBorder {
 	 * @param border How the image borders are handled.
 	 */
 	public static void convolve(Kernel2D_I32 kernel,
-								GrayU8 image, GrayS32 dest , ImageBorder_S32 border ) {
+								GrayU8 image, GrayS32 dest , ImageBorder_S32 border , InputSanityCheck ISC, ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG) {
 		ISC.checkSameShape(image, dest);
 
 		border.setImage(image);
@@ -211,7 +208,7 @@ public class ConvolveWithBorder {
 	 * @param border How the image borders are handled.
 	 */
 	public static void horizontal(Kernel1D_I32 kernel,
-								  GrayS16 image, GrayI16 dest , ImageBorder_S32 border ) {
+								  GrayS16 image, GrayI16 dest , ImageBorder_S32 border, InputSanityCheck ISC, ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG ) {
 		ISC.checkSameShape(image, dest);
 
 		border.setImage(image);
@@ -229,7 +226,7 @@ public class ConvolveWithBorder {
 	 * @param border How the image borders are handled.
 	 */
 	public static void vertical(Kernel1D_I32 kernel,
-								GrayS16 image, GrayI16 dest , ImageBorder_S32 border ) {
+								GrayS16 image, GrayI16 dest , ImageBorder_S32 border , InputSanityCheck ISC, ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG) {
 		ISC.checkSameShape(image, dest);
 
 		border.setImage(image);
@@ -247,7 +244,7 @@ public class ConvolveWithBorder {
 	 * @param border How the image borders are handled.
 	 */
 	public static void convolve(Kernel2D_I32 kernel,
-								GrayS16 image, GrayI16 dest , ImageBorder_S32 border ) {
+								GrayS16 image, GrayI16 dest , ImageBorder_S32 border, InputSanityCheck ISC, ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG) {
 		ISC.checkSameShape(image, dest);
 
 		border.setImage(image);

@@ -19,6 +19,7 @@
 package boofcv.alg.segmentation.fh04.impl;
 
 import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.segmentation.fh04.FhEdgeWeights;
 import boofcv.struct.ConnectRule;
 import boofcv.struct.image.ImageBase;
@@ -36,6 +37,8 @@ import static org.junit.Assert.assertEquals;
  * @author Peter Abeles
  */
 public abstract class GenericFhEdgeWeightsChecks<T extends ImageBase> {
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
 	ImageType<T> imageType;
 	ConnectRule rule;
 
@@ -54,7 +57,7 @@ public abstract class GenericFhEdgeWeightsChecks<T extends ImageBase> {
 	public void basicTest() {
 		T input = imageType.createImage(10,12);
 
-		GImageMiscOps.fillUniform(input, rand, 0, 200);
+		GIMO.fillUniform(input, rand, 0, 200, IMO);
 
 		FhEdgeWeights<T> alg = createAlg();
 		FastQueue<Edge> edges = new FastQueue<>(Edge.class, true);
@@ -122,7 +125,7 @@ public abstract class GenericFhEdgeWeightsChecks<T extends ImageBase> {
 	public void subimage() {
 
 		T input = imageType.createImage(10,12);
-		GImageMiscOps.fillUniform(input, rand, 0, 200);
+		GIMO.fillUniform(input, rand, 0, 200, IMO);
 		T inputSub = BoofTesting.createSubImageOf(input);
 
 		FhEdgeWeights<T> alg = createAlg();

@@ -20,6 +20,7 @@ package boofcv.alg.interpolate.impl;
 
 import boofcv.alg.interpolate.InterpolatePixelS;
 import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.core.image.border.ImageBorder;
 import boofcv.struct.image.ImageGray;
@@ -37,6 +38,8 @@ import static org.junit.Assert.*;
  */
 public abstract class GeneralChecksInterpolationPixelS< T extends ImageGray> {
 	private static FactoryImageBorder FIB;
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
 	protected Random rand = new Random(0xff34);
 
 	protected int width = 320;
@@ -55,7 +58,7 @@ public abstract class GeneralChecksInterpolationPixelS< T extends ImageGray> {
 	@Test
 	public void get() {
 		T img = createImage(width, height);
-		GImageMiscOps.fillUniform(img, rand, 0, 100);
+		GIMO.fillUniform(img, rand, 0, 100, IMO);
 
 		BoofTesting.checkSubImage(this, "get", false, img);
 	}
@@ -75,7 +78,7 @@ public abstract class GeneralChecksInterpolationPixelS< T extends ImageGray> {
 	@Test
 	public void get_edges() {
 		T img = createImage(width, height);
-		GImageMiscOps.fillUniform(img, rand, 0, 100);
+		GIMO.fillUniform(img, rand, 0, 100, IMO);
 
 		BoofTesting.checkSubImage(this, "get_edges", false, img);
 	}
@@ -138,7 +141,7 @@ public abstract class GeneralChecksInterpolationPixelS< T extends ImageGray> {
 	@Test
 	public void get_fast() {
 		T img = createImage(width, height);
-		GImageMiscOps.fillUniform(img, rand, 0, 100);
+		GIMO.fillUniform(img, rand, 0, 100, IMO);
 
 		BoofTesting.checkSubImage(this, "get_fast", false, img);
 	}
@@ -159,7 +162,7 @@ public abstract class GeneralChecksInterpolationPixelS< T extends ImageGray> {
 	@Test
 	public void get_outside_border() {
 		T img = createImage(width, height);
-		GImageMiscOps.fillUniform(img, rand, 0, 100);
+		GIMO.fillUniform(img, rand, 0, 100, IMO);
 
 		BoofTesting.checkSubImage(this, "get_outside_border", false, img);
 	}
@@ -189,7 +192,7 @@ public abstract class GeneralChecksInterpolationPixelS< T extends ImageGray> {
 	@Test
 	public void isInFastBounds() {
 		T img = createImage(width, height);
-		GImageMiscOps.fillUniform(img, rand, 0, 100);
+		GIMO.fillUniform(img, rand, 0, 100, IMO);
 		InterpolatePixelS<T> interp = wrap(img, 0, 100);
 
 		for( int y = 0; y < height; y++ ) {
@@ -247,7 +250,7 @@ public abstract class GeneralChecksInterpolationPixelS< T extends ImageGray> {
 	@Test
 	public void checkPixelValueBoundsHonored() {
 		T img = createImage(20, 30);
-		GImageMiscOps.fillUniform(img, rand, 0, 100);
+		GIMO.fillUniform(img, rand, 0, 100, IMO);
 		InterpolatePixelS<T> interp = wrap(img, 0, 100);
 		interp.setBorder(FIB.singleValue(img, 0));
 
@@ -269,7 +272,7 @@ public abstract class GeneralChecksInterpolationPixelS< T extends ImageGray> {
 	@Test
 	public void checkSubImage() {
 		T imgA = createImage(30, 40);
-		GImageMiscOps.fillUniform(imgA, rand, 0, 100);
+		GIMO.fillUniform(imgA, rand, 0, 100, IMO);
 
 		InterpolatePixelS<T> interpA = wrap(imgA, 0, 100);
 

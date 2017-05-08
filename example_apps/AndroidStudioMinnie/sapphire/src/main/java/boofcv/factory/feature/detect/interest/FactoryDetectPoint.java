@@ -32,6 +32,7 @@ import boofcv.factory.feature.detect.extract.FactoryFeatureExtractor;
 import boofcv.factory.feature.detect.intensity.FactoryIntensityPoint;
 import boofcv.factory.feature.detect.intensity.FactoryIntensityPointAlg;
 import boofcv.factory.filter.blur.FactoryBlurFilter;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.image.ImageGray;
 
 /**
@@ -52,6 +53,9 @@ public class FactoryDetectPoint {
 	private static FactoryBlurFilter FBF;
 	private static GeneralizedImageOps GIO;
 	private static FactoryFeatureExtractor FFE;
+	private static FactoryIntensityPointAlg FIPA;
+	private static FactoryKernelGaussian FKG;
+	private static FactoryIntensityPoint FIP;
 	/**
 	 * Detects Harris corners.
 	 *
@@ -67,7 +71,7 @@ public class FactoryDetectPoint {
 			configDetector = new ConfigGeneralDetector();
 
 		GradientCornerIntensity<D> cornerIntensity =
-				FactoryIntensityPointAlg.harris(configDetector.radius, 0.04f, weighted, derivType);
+				FIPA.harris(configDetector.radius, 0.04f, weighted, derivType, GIO, FKG);
 		return createGeneral(cornerIntensity, configDetector);
 	}
 
@@ -86,7 +90,7 @@ public class FactoryDetectPoint {
 			configDetector = new ConfigGeneralDetector();
 
 		GradientCornerIntensity<D> cornerIntensity =
-				FactoryIntensityPointAlg.shiTomasi(configDetector.radius, weighted, derivType);
+				FIPA.shiTomasi(configDetector.radius, weighted, derivType, GIO, FKG);
 		return createGeneral(cornerIntensity, configDetector);
 	}
 
@@ -125,7 +129,7 @@ public class FactoryDetectPoint {
 
 		ConfigGeneralDetector d = configDetector;
 
-		FastCornerIntensity<T> alg = FactoryIntensityPointAlg.fast(configFast.pixelTol, configFast.minContinuous, imageType);
+		FastCornerIntensity<T> alg = FIPA.fast(configFast.pixelTol, configFast.minContinuous, imageType);
 		GeneralFeatureIntensity<T, D> intensity = new WrapperFastCornerIntensity<>(alg);
 		ConfigGeneralDetector configExtract =
 				new ConfigGeneralDetector(d.maxFeatures,d.radius,d.threshold,0,true,false,true);
@@ -164,7 +168,7 @@ public class FactoryDetectPoint {
 		if( configDetector == null)
 			configDetector = new ConfigGeneralDetector();
 
-		GeneralFeatureIntensity<T, D> intensity = FactoryIntensityPoint.hessian(type, derivType);
+		GeneralFeatureIntensity<T, D> intensity = FIP.hessian(type, derivType);
 		return createGeneral(intensity, configDetector);
 	}
 

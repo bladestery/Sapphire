@@ -50,9 +50,9 @@ public class GImageDerivativeOps {
 	public static <I extends ImageGray, D extends ImageGray>
 	void laplace( I input , D output ) {
 		if( input instanceof GrayF32) {
-			LaplacianEdge.process((GrayF32)input,(GrayF32)output);
+			LaplacianEdge.process((GrayF32)input,(GrayF32)output, ISC);
 		} else if( input instanceof GrayU8) {
-			LaplacianEdge.process((GrayU8)input,(GrayS16)output);
+			LaplacianEdge.process((GrayU8)input,(GrayS16)output, ISC);
 		} else {
 			throw new IllegalArgumentException("Unknown input image type: "+input.getClass().getSimpleName());
 
@@ -209,15 +209,17 @@ public class GImageDerivativeOps {
 	 * @param borderType How it should handle borders.  null == skip border
 	 */
 	public static <D extends ImageGray>
-	void hessian( DerivativeType type , D derivX , D derivY , D derivXX , D derivYY , D derivXY , BorderType borderType ) {
+	void hessian( DerivativeType type , D derivX , D derivY , D derivXX , D derivYY , D derivXY , BorderType borderType,
+				  InputSanityCheck ISC, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG,
+				  GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO ) {
 		ImageBorder<D> border = BorderType.SKIP == borderType ? null : FIB.single(derivX, borderType);
 
 		switch( type ) {
 			case PREWITT:
 				if( derivX instanceof GrayF32) {
-					HessianFromGradient.hessianPrewitt((GrayF32) derivX, (GrayF32) derivY, (GrayF32) derivXX, (GrayF32) derivYY, (GrayF32) derivXY, (ImageBorder_F32) border);
+					HessianFromGradient.hessianPrewitt((GrayF32) derivX, (GrayF32) derivY, (GrayF32) derivXX, (GrayF32) derivYY, (GrayF32) derivXY, (ImageBorder_F32) border, ISC, DHF, CINB, CJBG, GSO, GSUO);
 				} else if( derivX instanceof GrayS16) {
-					HessianFromGradient.hessianPrewitt((GrayS16) derivX, (GrayS16) derivY, (GrayS16) derivXX, (GrayS16) derivYY, (GrayS16) derivXY, (ImageBorder_S32) border);
+					HessianFromGradient.hessianPrewitt((GrayS16) derivX, (GrayS16) derivY, (GrayS16) derivXX, (GrayS16) derivYY, (GrayS16) derivXY, (ImageBorder_S32) border, ISC, DHF, CINB, CJBG, GSO, GSUO);
 				} else {
 					throw new IllegalArgumentException("Unknown input image type: "+derivX.getClass().getSimpleName());
 				}
@@ -225,9 +227,9 @@ public class GImageDerivativeOps {
 
 			case SOBEL:
 				if( derivX instanceof GrayF32) {
-					HessianFromGradient.hessianSobel((GrayF32) derivX, (GrayF32) derivY, (GrayF32) derivXX, (GrayF32) derivYY, (GrayF32) derivXY, (ImageBorder_F32) border);
+					HessianFromGradient.hessianSobel((GrayF32) derivX, (GrayF32) derivY, (GrayF32) derivXX, (GrayF32) derivYY, (GrayF32) derivXY, (ImageBorder_F32) border, ISC, DHF, CINB, CJBG, GSO, GSUO);
 				} else if( derivX instanceof GrayS16) {
-					HessianFromGradient.hessianSobel((GrayS16) derivX, (GrayS16) derivY, (GrayS16) derivXX, (GrayS16) derivYY, (GrayS16) derivXY, (ImageBorder_S32) border);
+					HessianFromGradient.hessianSobel((GrayS16) derivX, (GrayS16) derivY, (GrayS16) derivXX, (GrayS16) derivYY, (GrayS16) derivXY, (ImageBorder_S32) border, ISC, DHF, CINB, CJBG, GSO, GSUO);
 				} else {
 					throw new IllegalArgumentException("Unknown input image type: "+derivX.getClass().getSimpleName());
 				}
@@ -235,9 +237,9 @@ public class GImageDerivativeOps {
 
 			case THREE:
 				if( derivX instanceof GrayF32) {
-					HessianFromGradient.hessianThree((GrayF32) derivX, (GrayF32) derivY, (GrayF32) derivXX, (GrayF32) derivYY, (GrayF32) derivXY, (ImageBorder_F32) border);
+					HessianFromGradient.hessianThree((GrayF32) derivX, (GrayF32) derivY, (GrayF32) derivXX, (GrayF32) derivYY, (GrayF32) derivXY, (ImageBorder_F32) border, ISC, DHF, CINB, CJBG, GSO, GSUO);
 				} else if( derivX instanceof GrayS16) {
-					HessianFromGradient.hessianThree((GrayS16) derivX, (GrayS16) derivY, (GrayS16) derivXX, (GrayS16) derivYY, (GrayS16) derivXY, (ImageBorder_S32) border);
+					HessianFromGradient.hessianThree((GrayS16) derivX, (GrayS16) derivY, (GrayS16) derivXX, (GrayS16) derivYY, (GrayS16) derivXY, (ImageBorder_S32) border, ISC, DHF, CINB, CJBG, GSO, GSUO);
 				} else {
 					throw new IllegalArgumentException("Unknown input image type: "+derivX.getClass().getSimpleName());
 				}

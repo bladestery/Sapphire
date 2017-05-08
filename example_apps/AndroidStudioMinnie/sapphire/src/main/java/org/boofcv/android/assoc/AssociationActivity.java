@@ -23,7 +23,18 @@ import java.util.List;
 import boofcv.abst.feature.associate.AssociateDescription;
 import boofcv.abst.feature.associate.ScoreAssociation;
 import boofcv.abst.feature.detdesc.DetectDescribePoint;
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.descriptor.UtilFeature;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
+import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
+import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
+import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
+import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.android.gui.VideoRenderProcessing;
 import boofcv.factory.feature.associate.FactoryAssociation;
 import boofcv.struct.feature.AssociatedIndex;
@@ -41,6 +52,17 @@ public class AssociationActivity extends DemoVideoDisplayActivity
 		implements AdapterView.OnItemSelectedListener
 {
 	private ImageType IT;
+	private static InputSanityCheck ISC;
+	private static DerivativeHelperFunctions DHF;
+	private static ConvolveImageNoBorder CINB;
+	private static ConvolveJustBorder_General CJBG;
+	private static GradientSobel_Outer GSO;
+	private static GradientSobel_UnrolledOuter GSUO;
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
+	private static ConvolveNormalizedNaive CNN;
+	private static ConvolveNormalized_JustBorder CNJB;
+	private static ConvolveNormalized CN;
 	Spinner spinnerDesc;
 	Spinner spinnerDet;
 
@@ -231,12 +253,12 @@ public class AssociationActivity extends DemoVideoDisplayActivity
 
 				// recompute image features with the newly selected algorithm
 				if( visualize.hasLeft ) {
-					detDesc.detect(visualize.graySrc);
+					detDesc.detect(visualize.graySrc, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN);
 					describeImage(listSrc, locationSrc);
 					computedFeatures = true;
 				}
 				if( visualize.hasRight ) {
-					detDesc.detect(visualize.grayDst);
+					detDesc.detect(visualize.grayDst, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN);
 					describeImage(listDst, locationDst);
 					computedFeatures = true;
 				}
@@ -251,11 +273,11 @@ public class AssociationActivity extends DemoVideoDisplayActivity
 				setProgressMessage("Detect/Describe image");
 
 			if( target == 1 ) {
-				detDesc.detect(gray);
+				detDesc.detect(gray, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN);
 				describeImage(listSrc, locationSrc);
 				computedFeatures = true;
 			} else if( target == 2 ) {
-				detDesc.detect(gray);
+				detDesc.detect(gray, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN);
 				describeImage(listDst, locationDst);
 				computedFeatures = true;
 			}

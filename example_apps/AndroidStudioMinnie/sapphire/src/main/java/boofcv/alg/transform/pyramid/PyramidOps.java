@@ -41,7 +41,9 @@ import boofcv.alg.filter.derivative.GradientSobel;
 import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
 import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
 import boofcv.alg.interpolate.InterpolatePixelS;
+import boofcv.alg.misc.GImageMiscOps;
 import boofcv.alg.misc.GImageStatistics;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.misc.ImageStatistics;
 import boofcv.alg.transform.pyramid.impl.ImplPyramidOps;
 import boofcv.core.image.GeneralizedImageOps;
@@ -82,7 +84,8 @@ public class PyramidOps {
 	private static ConvolveJustBorder_General CJBG;
 	private static GradientSobel_Outer GSO;
 	private static GradientSobel_UnrolledOuter GSUO;
-
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
 	/**
 	 * Creates an array of single band images for each layer in the provided pyramid.  Each image will
 	 * be the same size as the corresponding layer in the pyramid.
@@ -141,7 +144,7 @@ public class PyramidOps {
 	{
 		for( int i = 0; i < input.getNumLayers(); i++ ) {
 			I imageIn = input.getLayer(i);
-			filter.process(imageIn,output[i], GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO);
+			filter.process(imageIn,output[i], GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO);
 		}
 	}
 
@@ -186,7 +189,7 @@ public class PyramidOps {
 	void hessian(O[] derivX, O[] derivY , ImageHessian<O> hessian , O[] derivXX, O[] derivYY , O[] derivXY )
 	{
 		for( int i = 0; i < derivX.length; i++ ) {
-			hessian.process(derivX[i],derivY[i],derivXX[i],derivYY[i],derivXY[i]);
+			hessian.process(derivX[i],derivY[i],derivXX[i],derivYY[i],derivXY[i], ISC, DHF, CINB, CJBG, GSO, GSUO);
 		}
 	}
 

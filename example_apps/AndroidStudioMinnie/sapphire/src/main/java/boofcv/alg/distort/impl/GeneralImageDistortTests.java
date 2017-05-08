@@ -22,6 +22,7 @@ import boofcv.alg.distort.ImageDistort;
 import boofcv.alg.interpolate.InterpolatePixel;
 import boofcv.alg.interpolate.InterpolationType;
 import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.BorderType;
 import boofcv.factory.interpolate.FactoryInterpolation;
@@ -41,6 +42,8 @@ import static org.junit.Assert.assertEquals;
 @SuppressWarnings({"unchecked"})
 public abstract class GeneralImageDistortTests<T extends ImageBase> {
 	private GeneralizedImageOps GIO;
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
 	Random rand = new Random(123);
 
 	int width = 30;
@@ -69,8 +72,8 @@ public abstract class GeneralImageDistortTests<T extends ImageBase> {
 		T src = imageType.createImage(width,height);
 		T dst = imageType.createImage(width, height);
 
-		GImageMiscOps.fillUniform(src, rand, 0, 10);
-		GImageMiscOps.fill(dst, 50);
+		GIMO.fillUniform(src, rand, 0, 10, IMO);
+		GIMO.fill(dst, 50, IMO);
 
 		ImageDistort<T,T> tran = createDistort(new BasicTransform(),interp);
 		tran.apply(src, dst);
@@ -82,7 +85,7 @@ public abstract class GeneralImageDistortTests<T extends ImageBase> {
 
 		// sanity check
 		tran.setRenderAll(false);
-		GImageMiscOps.fill(dst, 50);
+		GIMO.fill(dst, 50, IMO);
 		tran.apply(src, dst);
 
 		for (int band = 0; band < imageType.getNumBands(); band++) {
@@ -101,8 +104,8 @@ public abstract class GeneralImageDistortTests<T extends ImageBase> {
 		T src = imageType.createImage(width,height);
 		T dst = imageType.createImage(width, height);
 
-		GImageMiscOps.fillUniform(src, rand, 0, 10);
-		GImageMiscOps.fill(dst,50);
+		GIMO.fillUniform(src, rand, 0, 10, IMO);
+		GIMO.fill(dst,50, IMO);
 
 		ImageDistort<T,T> tran = createDistort(new BasicTransform(),interp);
 		tran.setRenderAll(renderAll);
@@ -144,8 +147,8 @@ public abstract class GeneralImageDistortTests<T extends ImageBase> {
 		T src = imageType.createImage(width,height);
 		T dst = imageType.createImage(width, height);
 
-		GImageMiscOps.fillUniform(src, rand, 0, 10);
-		GImageMiscOps.fill(dst, 50);
+		GIMO.fillUniform(src, rand, 0, 10, IMO);
+		GIMO.fill(dst, 50, IMO);
 
 		ImageDistort<T,T> tran = createDistort(new BasicTransform(),interp);
 		tran.setRenderAll(renderAll);
@@ -191,8 +194,8 @@ public abstract class GeneralImageDistortTests<T extends ImageBase> {
 		T src = imageType.createImage(width,height);
 		T dst = imageType.createImage(width, height);
 
-		GImageMiscOps.fillUniform(src, rand, 0, 10);
-		GImageMiscOps.fill(dst, 50);
+		GIMO.fillUniform(src, rand, 0, 10, IMO);
+		GIMO.fill(dst, 50, IMO);
 
 		ImageDistort<T,T> tran = createDistort(new BasicTransform(),interp);
 		tran.setRenderAll(renderAll);
