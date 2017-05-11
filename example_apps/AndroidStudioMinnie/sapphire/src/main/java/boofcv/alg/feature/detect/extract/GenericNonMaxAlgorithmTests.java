@@ -19,6 +19,7 @@
 package boofcv.alg.feature.detect.extract;
 
 
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.misc.PixelMath;
 import boofcv.struct.QueueCorner;
@@ -39,6 +40,7 @@ import static org.junit.Assert.assertTrue;
  */
 public abstract class GenericNonMaxAlgorithmTests {
 	private ImageMiscOps IMO;
+	private static InputSanityCheck ISC;
 	Random rand = new Random(2134);
 
 	int width = 30;
@@ -219,7 +221,7 @@ public abstract class GenericNonMaxAlgorithmTests {
 					findLocalPeaks(inten, 0.6f, radius, 0);
 					naiveMin.reset();naiveMax.reset();
 					reg.process(inten, naiveMax);
-					PixelMath.invert(inten, inten);
+					PixelMath.invert(inten, inten, ISC);
 					reg.process(inten, naiveMin);
 
 					// check the number of corners

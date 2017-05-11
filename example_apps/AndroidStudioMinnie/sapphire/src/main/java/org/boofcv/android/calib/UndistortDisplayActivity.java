@@ -15,6 +15,7 @@ import org.boofcv.android.DemoMain;
 import org.boofcv.android.DemoVideoDisplayActivity;
 import org.boofcv.android.R;
 
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.distort.AdjustmentType;
 import boofcv.alg.distort.ImageDistort;
 import boofcv.alg.distort.LensDistortionOps;
@@ -24,6 +25,7 @@ import boofcv.android.ConvertBitmap;
 import boofcv.android.gui.VideoImageProcessing;
 import boofcv.core.image.ConvertImage;
 import boofcv.core.image.border.BorderType;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.distort.FactoryDistort;
 import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.struct.distort.Point2Transform2_F32;
@@ -40,6 +42,8 @@ public class UndistortDisplayActivity extends DemoVideoDisplayActivity
 		implements CompoundButton.OnCheckedChangeListener
 {
 	private ImageType IT;
+	private static FactoryImageBorder FIB;
+	private static InputSanityCheck ISC;
 	ToggleButton toggleDistort;
 	ToggleButton toggleColor;
 
@@ -71,7 +75,7 @@ public class UndistortDisplayActivity extends DemoVideoDisplayActivity
 			Point2Transform2_F32 fullView = LensDistortionOps.transform_F32(AdjustmentType.FULL_VIEW,
 					DemoMain.preference.intrinsic, null, false);
 			InterpolatePixelS<GrayU8> interp = FactoryInterpolation.
-					bilinearPixelS(GrayU8.class, BorderType.ZERO);
+					bilinearPixelS(GrayU8.class, BorderType.ZERO, FIB);
 			// for some reason not caching is faster on a low end phone.  Maybe it has to do with CPU memory
 			// cache misses when looking up a point?
 			removeDistortion = FactoryDistort.distortSB(false,interp,GrayU8.class);
@@ -127,7 +131,7 @@ public class UndistortDisplayActivity extends DemoVideoDisplayActivity
 				if( isColor )
 					ConvertBitmap.multiToBitmap(input,output,storage);
 				else {
-					ConvertImage.average(input,undistorted.getBand(0));
+					ConvertImage.average(input,undistorted.getBand(0), ISC);
 					ConvertBitmap.grayToBitmap(undistorted.getBand(0),output,storage);
 				}
 			} else {
@@ -138,7 +142,7 @@ public class UndistortDisplayActivity extends DemoVideoDisplayActivity
 
 					ConvertBitmap.multiToBitmap(undistorted,output,storage);
 				} else {
-					ConvertImage.average(input,undistorted.getBand(0));
+					ConvertImage.average(input,undistorted.getBand(0), ISC);
 					removeDistortion.apply(undistorted.getBand(0),undistorted.getBand(1));
 					ConvertBitmap.grayToBitmap(undistorted.getBand(1),output,storage);
 				}

@@ -33,7 +33,6 @@ import boofcv.struct.image.*;
  */
 @SuppressWarnings({"unchecked"})
 public class FactoryInterpolation {
-	private static FactoryImageBorder FIB;
 	/**
 	 * Returns {@link InterpolatePixelS} of the specified type.
 	 *
@@ -44,23 +43,23 @@ public class FactoryInterpolation {
 	 * @return Interpolation for single band image
 	 */
 	public static <T extends ImageGray> InterpolatePixelS<T>
-	createPixelS(double min, double max, InterpolationType type, BorderType borderType , ImageDataType dataType )
+	createPixelS(double min, double max, InterpolationType type, BorderType borderType , ImageDataType dataType, FactoryImageBorder FIB)
 	{
 
 		Class t = ImageDataType.typeToSingleClass(dataType);
 
-		return createPixelS(min,max,type,borderType,t);
+		return createPixelS(min,max,type,borderType,t, FIB);
 	}
 
 	public static <T extends ImageBase> InterpolatePixel<T>
-	createPixel(double min, double max, InterpolationType type, BorderType borderType, ImageType<T> imageType) {
+	createPixel(double min, double max, InterpolationType type, BorderType borderType, ImageType<T> imageType, FactoryImageBorder FIB) {
 		switch( imageType.getFamily() ) {
 			case GRAY:
 			case PLANAR:
-				return createPixelS(min, max, type, borderType, imageType.getImageClass());
+				return createPixelS(min, max, type, borderType, imageType.getImageClass(), FIB);
 
 			case INTERLEAVED:
-				return createPixelMB(min,max,type,borderType,(ImageType)imageType);
+				return createPixelMB(min,max,type,borderType,(ImageType)imageType, FIB);
 
 			default:
 				throw new IllegalArgumentException("Unknown family");
@@ -78,7 +77,7 @@ public class FactoryInterpolation {
 	 * @return Interpolation
 	 */
 	public static <T extends ImageGray> InterpolatePixelS<T>
-	createPixelS(double min, double max, InterpolationType type, BorderType borderType, Class<T> imageType)
+	createPixelS(double min, double max, InterpolationType type, BorderType borderType, Class<T> imageType, FactoryImageBorder FIB)
 	{
 		InterpolatePixelS<T> alg;
 
@@ -88,7 +87,7 @@ public class FactoryInterpolation {
 				break;
 
 			case BILINEAR:
-				return bilinearPixelS(imageType, borderType);
+				return bilinearPixelS(imageType, borderType, FIB);
 
 			case BICUBIC:
 				alg = bicubicS(-0.5f, (float) min, (float) max, imageType);
@@ -112,29 +111,29 @@ public class FactoryInterpolation {
 	 *
 	 * @param min Minimum possible pixel value.  Inclusive.
 	 * @param max Maximum possible pixel value.  Inclusive.
-	 * @param type Interpolation type
+	 * @param type Interpolation typedataType
 	 * @param imageType Type of input image
 	 */
 	public static <T extends ImageBase> InterpolatePixelMB<T>
-	createPixelMB(double min, double max, InterpolationType type, BorderType borderType, ImageType<T> imageType )
+	createPixelMB(double min, double max, InterpolationType type, BorderType borderType, ImageType<T> imageType, FactoryImageBorder FIB)
 	{
 		switch (imageType.getFamily()) {
 
 			case PLANAR:
-				return (InterpolatePixelMB) createPixelPL(createPixelS(min, max, type, borderType, imageType.getDataType()));
+				return (InterpolatePixelMB) createPixelPL(createPixelS(min, max, type, borderType, imageType.getDataType(), FIB));
 
 			case GRAY:{
-				InterpolatePixelS interpS = createPixelS(min,max,type,borderType,imageType.getImageClass());
+				InterpolatePixelS interpS = createPixelS(min,max,type,borderType,imageType.getImageClass(), FIB);
 				return new InterpolatePixel_S_to_MB(interpS);
 			}
 
 			case INTERLEAVED:
 				switch( type ) {
 					case NEAREST_NEIGHBOR:
-						return nearestNeighborPixelMB((ImageType) imageType, borderType);
+						return nearestNeighborPixelMB((ImageType) imageType, borderType, FIB);
 
 					case BILINEAR:
-						return bilinearPixelMB((ImageType)imageType,borderType);
+						return bilinearPixelMB((ImageType)imageType,borderType, FIB);
 
 					default:
 						throw new IllegalArgumentException("Interpolate type not yet support for ImageInterleaved");
@@ -159,15 +158,15 @@ public class FactoryInterpolation {
 		return new InterpolatePixel_PL_using_SB<>(singleBand);
 	}
 
-	public static <T extends ImageGray> InterpolatePixelS<T> bilinearPixelS(T image, BorderType borderType) {
+	public static <T extends ImageGray> InterpolatePixelS<T> bilinearPixelS(T image, BorderType borderType, FactoryImageBorder FIB) {
 
-		InterpolatePixelS<T> ret = bilinearPixelS((Class) image.getClass(), borderType);
+		InterpolatePixelS<T> ret = bilinearPixelS((Class) image.getClass(), borderType, FIB);
 		ret.setImage(image);
 
 		return ret;
 	}
 
-	public static <T extends ImageGray> InterpolatePixelS<T> bilinearPixelS(Class<T> imageType, BorderType borderType ) {
+	public static <T extends ImageGray> InterpolatePixelS<T> bilinearPixelS(Class<T> imageType, BorderType borderType, FactoryImageBorder FIB) {
 		InterpolatePixelS<T> alg;
 
 		if( imageType == GrayF32.class )
@@ -189,15 +188,15 @@ public class FactoryInterpolation {
 		return alg;
 	}
 
-	public static <T extends ImageMultiBand> InterpolatePixelMB<T> bilinearPixelMB(T image, BorderType borderType) {
+	public static <T extends ImageMultiBand> InterpolatePixelMB<T> bilinearPixelMB(T image, BorderType borderType, FactoryImageBorder FIB) {
 
-		InterpolatePixelMB<T> ret = bilinearPixelMB(image.getImageType(), borderType);
+		InterpolatePixelMB<T> ret = bilinearPixelMB(image.getImageType(), borderType, FIB);
 		ret.setImage(image);
 
 		return ret;
 	}
 
-	public static <T extends ImageMultiBand> InterpolatePixelMB<T> bilinearPixelMB(ImageType<T> imageType, BorderType borderType ) {
+	public static <T extends ImageMultiBand> InterpolatePixelMB<T> bilinearPixelMB(ImageType<T> imageType, BorderType borderType, FactoryImageBorder FIB) {
 		InterpolatePixelMB<T> alg;
 
 		int numBands = imageType.getNumBands();
@@ -236,7 +235,7 @@ public class FactoryInterpolation {
 		return alg;
 	}
 
-	public static <T extends ImageMultiBand> InterpolatePixelMB<T> nearestNeighborPixelMB(ImageType<T> imageType, BorderType borderType ) {
+	public static <T extends ImageMultiBand> InterpolatePixelMB<T> nearestNeighborPixelMB(ImageType<T> imageType, BorderType borderType, FactoryImageBorder FIB) {
 		InterpolatePixelMB<T> alg;
 
 		if( imageType.getFamily() == ImageType.Family.INTERLEAVED ) {

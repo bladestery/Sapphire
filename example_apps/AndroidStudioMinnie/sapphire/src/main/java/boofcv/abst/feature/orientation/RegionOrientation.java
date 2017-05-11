@@ -19,6 +19,8 @@
 package boofcv.abst.feature.orientation;
 
 
+import boofcv.alg.feature.detect.interest.FastHessianFeatureDetector;
+
 /**
  * Estimates the orientation of a region which is approximately circular. This is typically
  * used to rotationally invariant scale/size dependent features.
@@ -41,5 +43,5 @@ public interface RegionOrientation {
 	 *
 	 * @return Orientation in radians.  Angle zero points along x-axis and pi/2 along y-axis.
 	 */
-	double compute( double c_x , double c_y );
+	double compute(double c_x , double c_y);
 }

@@ -29,6 +29,8 @@ import boofcv.struct.feature.ScalePoint;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.ImageGray;
 import georegression.struct.point.Point2D_I16;
+import sapphire.app.SapphireObject;
+
 import org.ddogleg.struct.FastQueue;
 
 import java.util.List;
@@ -83,9 +85,8 @@ import java.util.List;
  *
  * @author Peter Abeles
  */
-public class FastHessianFeatureDetector<II extends ImageGray> {
-	private static ImageBorderValue IBV;
-	private static FactoryImageBorderAlgs FIBA;
+public class FastHessianFeatureDetector<II extends ImageGray> implements SapphireObject {
+	public FastHessianFeatureDetector() {}
 	// finds features from 2D intensity image
 	private NonMaxSuppression extractor;
 	// sorts feature by their intensity
@@ -155,7 +156,7 @@ public class FastHessianFeatureDetector<II extends ImageGray> {
 	 *
 	 * @param integral Image transformed into an integral image.
 	 */
-	public void detect( II integral ) {
+	public void detect( II integral, FactoryImageBorderAlgs FIBA, ImageBorderValue IBV) {
 		if( intensity == null ) {
 			intensity = new GrayF32[3];
 			for( int i = 0; i < intensity.length; i++ ) {
@@ -180,7 +181,7 @@ public class FastHessianFeatureDetector<II extends ImageGray> {
 			if( maxSize > integral.width || maxSize > integral.height )
 				break;
 			// detect features inside of this octave
-			detectOctave(integral,skip,sizes);
+			detectOctave(integral,skip,FIBA, IBV,sizes);
 			skip += skip;
 			octaveSize += sizeStep;
 			sizeStep += sizeStep;
@@ -197,7 +198,7 @@ public class FastHessianFeatureDetector<II extends ImageGray> {
 	 * @param skip Pixel skip factor
 	 * @param featureSize which feature sizes should be detected.
 	 */
-	protected void detectOctave( II integral , int skip , int ...featureSize ) {
+	protected void detectOctave( II integral , int skip , FactoryImageBorderAlgs FIBA, ImageBorderValue IBV, int ...featureSize) {
 
 		int w = integral.width/skip;
 		int h = integral.height/skip;
@@ -217,7 +218,7 @@ public class FastHessianFeatureDetector<II extends ImageGray> {
 
 			// find maximum in scale space
 			if( i >= 2 ) {
-				findLocalScaleSpaceMax(featureSize,i-1,skip);
+				findLocalScaleSpaceMax(featureSize,i-1,skip, FIBA, IBV);
 			}
 		}
 	}
@@ -229,7 +230,7 @@ public class FastHessianFeatureDetector<II extends ImageGray> {
 	 * @param level Which level in the scale-space
 	 * @param skip How many pixels are skipped over.
 	 */
-	private void findLocalScaleSpaceMax(int []size, int level, int skip) {
+	private void findLocalScaleSpaceMax(int []size, int level, int skip, FactoryImageBorderAlgs FIBA, ImageBorderValue IBV) {
 		int index0 = spaceIndex;
 		int index1 = (spaceIndex + 1) % 3;
 		int index2 = (spaceIndex + 2) % 3;
@@ -335,7 +336,7 @@ public class FastHessianFeatureDetector<II extends ImageGray> {
 	 * @param upper Value at x=1
 	 * @return x-coordinate of the peak
 	 */
-	public static float polyPeak( float lower , float middle , float upper )
+	public float polyPeak( float lower , float middle , float upper )
 	{
 //		if( lower >= middle || upper >= middle )
 //			throw new IllegalArgumentException("Crap");
@@ -347,7 +348,7 @@ public class FastHessianFeatureDetector<II extends ImageGray> {
 		return -b/(2.0f*a);
 	}
 
-	public static double polyPeak( double lower , double middle , double upper )
+	public double polyPeak( double lower , double middle , double upper )
 	{
 //		if( lower >= middle || upper >= middle )
 //			throw new IllegalArgumentException("Crap");
@@ -359,7 +360,7 @@ public class FastHessianFeatureDetector<II extends ImageGray> {
 		return -b/(2.0*a);
 	}
 
-	public static double polyPeak( double lower , double middle , double upper,
+	public double polyPeak( double lower , double middle , double upper,
 								   double lowerVal , double middleVal , double upperVal )
 	{
 		double offset = polyPeak(lower,middle,upper);

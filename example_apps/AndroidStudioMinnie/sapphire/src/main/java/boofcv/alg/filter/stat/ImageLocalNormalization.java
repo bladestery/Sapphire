@@ -28,6 +28,7 @@ import boofcv.alg.filter.convolve.ConvolveImageMean;
 import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
 import boofcv.alg.filter.convolve.ConvolveNormalized;
 import boofcv.alg.filter.convolve.GConvolveImageOps;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
 import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
@@ -68,6 +69,7 @@ public class ImageLocalNormalization<T extends GrayF> {
 	private static ImplMedianSortEdgeNaive IMSEN;
 	private static ImplMedianSortNaive IMSN;
 	private static ImplConvolveMean ICM;
+	private static ConvolveJustBorder_General CJBG;
 	// storage for the adjusted input which has a max pixel value of 1
 	protected T adjusted;
 	// storage for the local image mean
@@ -123,17 +125,17 @@ public class ImageLocalNormalization<T extends GrayF> {
 
 		// take advantage of 2D gaussian kernels being separable
 		if( border == null ) {
-			GConvolveImageOps.horizontalNormalized(kernel, adjusted, output);
-			GConvolveImageOps.verticalNormalized(kernel, output, localMean);
+			GConvolveImageOps.horizontalNormalized(kernel, adjusted, output, ISC, CNN, CINB, CNJB, CN);
+			GConvolveImageOps.verticalNormalized(kernel, output, localMean, ISC, CNN, CINB, CNJB, CN);
 			GPixelMath.pow2(adjusted, pow2);
-			GConvolveImageOps.horizontalNormalized(kernel, pow2, output);
-			GConvolveImageOps.verticalNormalized(kernel, output, localPow2);
+			GConvolveImageOps.horizontalNormalized(kernel, pow2, output, ISC, CNN, CINB, CNJB, CN);
+			GConvolveImageOps.verticalNormalized(kernel, output, localPow2, ISC, CNN, CINB, CNJB, CN);
 		} else {
-			GConvolveImageOps.horizontal(kernel, adjusted, output, border);
-			GConvolveImageOps.vertical(kernel, output, localMean, border);
+			GConvolveImageOps.horizontal(kernel, adjusted, output, border, ISC, CINB,CJBG);
+			GConvolveImageOps.vertical(kernel, output, localMean, border, ISC, CINB,CJBG);
 			GPixelMath.pow2(adjusted, pow2);
-			GConvolveImageOps.horizontal(kernel, pow2, output, border);
-			GConvolveImageOps.vertical(kernel, output, localPow2, border);
+			GConvolveImageOps.horizontal(kernel, pow2, output, border, ISC, CINB,CJBG);
+			GConvolveImageOps.vertical(kernel, output, localPow2, border, ISC, CINB,CJBG);
 		}
 
 		// Compute the final output

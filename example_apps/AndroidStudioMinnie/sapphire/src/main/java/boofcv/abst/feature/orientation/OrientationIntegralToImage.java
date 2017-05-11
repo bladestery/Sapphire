@@ -18,6 +18,7 @@
 
 package boofcv.abst.feature.orientation;
 
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.transform.ii.GIntegralImageOps;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.struct.image.ImageGray;
@@ -31,6 +32,7 @@ public class OrientationIntegralToImage<T extends ImageGray, II extends ImageGra
 	implements OrientationImage<T>
 {
 	private GeneralizedImageOps GIO;
+	private static InputSanityCheck ISC;
 	// algorithm which is being wrapped around
 	OrientationIntegral<II> alg;
 
@@ -51,7 +53,7 @@ public class OrientationIntegralToImage<T extends ImageGray, II extends ImageGra
 	@Override
 	public void setImage(T image) {
 		integralImage.reshape(image.width,image.height);
-		GIntegralImageOps.transform(image, integralImage);
+		GIntegralImageOps.transform(image, integralImage, ISC, GIO);
 		alg.setImage(integralImage);
 	}
 

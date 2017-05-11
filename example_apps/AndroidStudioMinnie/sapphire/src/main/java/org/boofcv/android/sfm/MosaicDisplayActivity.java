@@ -25,6 +25,7 @@ import boofcv.abst.sfm.d2.ImageMotion2D;
 import boofcv.alg.sfm.d2.StitchingFromMotion2D;
 import boofcv.android.ConvertBitmap;
 import boofcv.android.gui.VideoRenderProcessing;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.feature.tracker.FactoryPointTracker;
 import boofcv.factory.sfm.FactoryMotion2D;
 import boofcv.misc.BoofMiscOps;
@@ -44,6 +45,7 @@ import georegression.transform.homography.HomographyPointOps_F64;
 public class MosaicDisplayActivity extends DemoVideoDisplayActivity
 implements CompoundButton.OnCheckedChangeListener
 {
+	private static FactoryImageBorder FIB;
 	private ImageType IT;
 	Paint paintInlier;
 	Paint paintOutlier;
@@ -103,7 +105,7 @@ implements CompoundButton.OnCheckedChangeListener
 		ImageMotion2D<GrayU8,Affine2D_F64> motion = FactoryMotion2D.createMotion2D(100, 1.5, 2, 40,
 				0.5, 0.6, false,tracker, new Affine2D_F64());
 
-		return FactoryMotion2D.createVideoStitch(0.2,motion, IT.single(GrayU8.class));
+		return FactoryMotion2D.createVideoStitch(0.2,motion, IT.single(GrayU8.class), FIB);
 	}
 
 	@Override

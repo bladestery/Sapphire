@@ -66,7 +66,7 @@ public class OrientationHistogramSift<Deriv extends ImageGray>
 	// histograms containing the sum of each derivative
 	double histogramX[];
 	double histogramY[];
-	// Number of radians each bin corresponds to.  histAngleBin = 2*PI/histogram.length
+	// Number of radians each bin corresponds to.  histAngleBin = 2*PI/histogram.lengthFastHessianFeatureDetector
 	private double histAngleBin;
 
 	// peaks in histogram
@@ -132,7 +132,7 @@ public class OrientationHistogramSift<Deriv extends ImageGray>
 	 * @param c_y Location y-axis
 	 * @param sigma blur standard deviations of detected feature.  Also referred to as scale.
 	 */
-	public void process( double c_x , double c_y , double sigma )
+	public void process( double c_x , double c_y , double sigma, FastHessianFeatureDetector FHFD)
 	{
 		// convert to image coordinates
 		int x = (int)(c_x + 0.5);
@@ -142,7 +142,7 @@ public class OrientationHistogramSift<Deriv extends ImageGray>
 		computeHistogram(x, y, sigma );
 
 		// compute the descriptor
-		findHistogramPeaks();
+		findHistogramPeaks(FHFD);
 	}
 
 	/**
@@ -203,7 +203,7 @@ public class OrientationHistogramSift<Deriv extends ImageGray>
 	/**
 	 * Finds local peaks in histogram and selects orientations.  Location of peaks is interpolated.
 	 */
-	void findHistogramPeaks() {
+	void findHistogramPeaks(FastHessianFeatureDetector FHFD) {
 		// reset data structures
 		peaks.reset();
 		angles.reset();
@@ -238,7 +238,7 @@ public class OrientationHistogramSift<Deriv extends ImageGray>
 			int index = peaks.data[i];
 			current = histogramMag[index];
 			if( current >= threshold) {
-				double angle = computeAngle(index);
+				double angle = computeAngle(index, FHFD);
 
 				angles.push( angle );
 
@@ -256,7 +256,7 @@ public class OrientationHistogramSift<Deriv extends ImageGray>
 	 * @param index1 Histogram index of the peak
 	 * @return angle of the peak. -pi to pi
 	 */
-	double computeAngle( int index1 ) {
+	double computeAngle( int index1, FastHessianFeatureDetector FHFD) {
 
 		int index0 = CircularIndex.addOffset(index1,-1, histogramMag.length);
 		int index2 = CircularIndex.addOffset(index1, 1, histogramMag.length);
@@ -266,7 +266,7 @@ public class OrientationHistogramSift<Deriv extends ImageGray>
 		double v1 = histogramMag[index1];
 		double v2 = histogramMag[index2];
 
-		double offset = FastHessianFeatureDetector.polyPeak(v0,v1,v2);
+		double offset = FHFD.polyPeak(v0,v1,v2);
 
 		// interpolate using the index offset and angle of its neighbor
 		return interpolateAngle(index0, index1, index2, offset);

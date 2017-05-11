@@ -20,7 +20,13 @@ package boofcv.alg.feature.detect.interest;
 
 import boofcv.abst.feature.detect.extract.NonMaxLimiter;
 import boofcv.abst.filter.convolve.ImageConvolveSparse;
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
 import boofcv.alg.filter.kernel.KernelMath;
+import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.BorderType;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.core.image.border.ImageBorder;
@@ -29,9 +35,12 @@ import boofcv.struct.convolve.Kernel1D_F32;
 import boofcv.struct.convolve.Kernel2D_F32;
 import boofcv.struct.feature.ScalePoint;
 import boofcv.struct.image.GrayF32;
+import sapphire.app.SapphireObject;
+
 import org.ddogleg.struct.FastQueue;
 
-import static boofcv.alg.feature.detect.interest.FastHessianFeatureDetector.polyPeak;
+import boofcv.alg.feature.detect.interest.FastHessianFeatureDetector;
+import sapphire.compiler.FIBAGenerator;
 
 /**
  * <p>Implementation of SIFT [1] feature detector. Feature detection is first done by creating the first octave in
@@ -75,14 +84,13 @@ import static boofcv.alg.feature.detect.interest.FastHessianFeatureDetector.poly
  *
  * <p>
  * [1] Lowe, D. "Distinctive image features from scale-invariant keypoints".  International Journal of
- * Computer Vision, 60, 2 (2004), pp.91--110.
+ * Computer Vision, 60, 2 (2004), pp.91--110., InputSanityCheck ISC, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN
  * </p>
  *
  * @author Peter Abeles
  */
-public class SiftDetector {
-	private static FactoryImageBorder FIB;
-	// image pyramid that it processes
+public class SiftDetector implements SapphireObject {
+	// image pyramid that it processes, FIBA, IB
 	protected SiftScaleSpace scaleSpace;
 
 	// conversion factor to go from pixel coordinate in current octave to input image
@@ -118,7 +126,7 @@ public class SiftDetector {
 	 */
 	public SiftDetector(SiftScaleSpace scaleSpace ,
 						double edgeR ,
-						NonMaxLimiter extractor ) {
+						NonMaxLimiter extractor, FactoryImageBorder FIB, GeneralizedImageOps GIO) {
 		if( !extractor.getNonmax().canDetectMaximums() || !extractor.getNonmax().canDetectMinimums() )
 			throw new IllegalArgumentException("The extractor must be able to detect maximums and minimums");
 		if( edgeR < 1 ) {
@@ -134,21 +142,20 @@ public class SiftDetector {
 
 		this.edgeThreshold = (edgeR+1)*(edgeR+1)/edgeR;
 
-		createSparseDerivatives();
+		createSparseDerivatives(FIB, GIO);
 	}
 
 	/**
 	 * Define sparse image derivative operators.
 	 */
-	private void createSparseDerivatives() {
+	private void createSparseDerivatives(FactoryImageBorder FIB, GeneralizedImageOps GIO) {
 		Kernel1D_F32 kernelD = new Kernel1D_F32(new float[]{-1,0,1},3);
-
 		Kernel1D_F32 kernelDD = KernelMath.convolve1D_F32(kernelD, kernelD);
 		Kernel2D_F32 kernelXY = KernelMath.convolve2D(kernelD, kernelD);
 
-		derivXX = FactoryConvolveSparse.horizontal1D(GrayF32.class, kernelDD);
-		derivXY = FactoryConvolveSparse.convolve2D(GrayF32.class, kernelXY);
-		derivYY = FactoryConvolveSparse.vertical1D(GrayF32.class, kernelDD);
+		derivXX = FactoryConvolveSparse.horizontal1D(GrayF32.class, kernelDD, GIO);
+		derivXY = FactoryConvolveSparse.convolve2D(GrayF32.class, kernelXY, GIO);
+		derivYY = FactoryConvolveSparse.vertical1D(GrayF32.class, kernelDD, GIO);
 
 		ImageBorder<GrayF32> border = FIB.single(GrayF32.class, BorderType.EXTENDED);
 
@@ -162,9 +169,8 @@ public class SiftDetector {
 	 *
 	 * @param input Input image.  Not modified.
 	 */
-	public void process( GrayF32 input ) {
-
-		scaleSpace.initialize(input);
+	public void process(GrayF32 input, FastHessianFeatureDetector FHFD, FactoryImageBorder FIB, InputSanityCheck ISC, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN) {
+		scaleSpace.initialize(input, FIB, ISC, CNN, CINB, CNJB, CN);
 		detections.reset();
 
 		do {
@@ -185,9 +191,9 @@ public class SiftDetector {
 				dogTarget = scaleSpace.getDifferenceOfGaussian(j  );
 				dogUpper  = scaleSpace.getDifferenceOfGaussian(j+1);
 
-				detectFeatures(j);
+				detectFeatures(j, FHFD);
 			}
-		} while( scaleSpace.computeNextOctave() );
+		} while( scaleSpace.computeNextOctave(ISC, CNN, CINB, CNJB, CN) );
 	}
 
 	/**
@@ -196,7 +202,7 @@ public class SiftDetector {
 	 * @param scaleIndex Which scale in the octave is it detecting features inside up.
 	 *              Primarily provided here for use in child classes.
 	 */
-	protected void detectFeatures( int scaleIndex ) {
+	protected void detectFeatures( int scaleIndex, FastHessianFeatureDetector FHFD) {
 		extractor.process(dogTarget);
 		FastQueue<NonMaxLimiter.LocalExtreme> found = extractor.getLocalExtreme();
 
@@ -209,10 +215,10 @@ public class SiftDetector {
 
 			if( e.max ) {
 				if( isScaleSpaceExtremum(e.location.x, e.location.y, e.getValue(), 1f)) {
-					processFeatureCandidate(e.location.x,e.location.y,e.getValue(),e.max);
+					processFeatureCandidate(e.location.x,e.location.y,e.getValue(),e.max, FHFD);
 				}
 			} else if( isScaleSpaceExtremum(e.location.x, e.location.y, e.getValue(), -1f)) {
-				processFeatureCandidate(e.location.x,e.location.y,e.getValue(),e.max);
+				processFeatureCandidate(e.location.x,e.location.y,e.getValue(),e.max, FHFD);
 			}
 		}
 	}
@@ -259,7 +265,7 @@ public class SiftDetector {
 	 * @param value value of the extremum
 	 * @param maximum true if it was a maximum
 	 */
-	protected void processFeatureCandidate( int x , int y , float value ,boolean maximum ) {
+	protected void processFeatureCandidate( int x , int y , float value ,boolean maximum, FastHessianFeatureDetector FHFD) {
 		// suppress response along edges
 		if( isEdge(x,y) )
 			return;
@@ -281,11 +287,11 @@ public class SiftDetector {
 		ScalePoint p = detections.grow();
 
 		// Compute the interpolated coordinate of the point in the original image coordinates
-		p.x = pixelScaleToInput*(x + polyPeak(x0, value, x2));
-		p.y = pixelScaleToInput*(y + polyPeak(y0, value, y2));
+		p.x = pixelScaleToInput*(x + FHFD.polyPeak(x0, value, x2));
+		p.y = pixelScaleToInput*(y + FHFD.polyPeak(y0, value, y2));
 
 		// find the peak then do bilinear interpolate between the two appropriate sigmas
-		double sigmaInterp = polyPeak(s0, value, s2); // scaled from -1 to 1
+		double sigmaInterp = FHFD.polyPeak(s0, value, s2); // scaled from -1 to 1
 		if( sigmaInterp < 0 ) {
 			p.scale = sigmaLower*(-sigmaInterp) + (1+sigmaInterp)*sigmaTarget;
 		} else {

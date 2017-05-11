@@ -25,6 +25,7 @@ import boofcv.alg.interpolate.InterpolatePixelMB;
 import boofcv.alg.interpolate.InterpolatePixelS;
 import boofcv.alg.interpolate.InterpolationType;
 import boofcv.core.image.border.BorderType;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.struct.image.*;
 
@@ -46,9 +47,9 @@ public class FactoryDistort {
 	 */
 	public static <Input extends ImageBase, Output extends ImageBase>
 	ImageDistort<Input, Output> distort(boolean cached, InterpolationType interpolationType, BorderType borderType,
-										ImageType<Input> inputType, ImageType<Output> outputType) {
+										ImageType<Input> inputType, ImageType<Output> outputType, FactoryImageBorder FIB) {
 		InterpolatePixel<Input> interp =
-				FactoryInterpolation.createPixel(0,255, interpolationType,borderType,inputType);
+				FactoryInterpolation.createPixel(0,255, interpolationType,borderType,inputType, FIB);
 
 		return distort(cached, interp,outputType);
 	}

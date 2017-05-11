@@ -24,6 +24,7 @@ import boofcv.core.image.FactoryGImageGray;
 import boofcv.core.image.GImageGray;
 import boofcv.core.image.GImageGrayDistorted;
 import boofcv.core.image.border.BorderType;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.struct.distort.PixelTransform2_F32;
 import boofcv.struct.image.ImageGray;
@@ -54,9 +55,9 @@ public class BaseIntegralEdge<T extends ImageGray> {
 	 *
 	 * @param undistToDist Pixel transformation from undistorted pixels into the actual distorted input image..
 	 */
-	public void setTransform( PixelTransform2_F32 undistToDist ) {
+	public void setTransform(PixelTransform2_F32 undistToDist, FactoryImageBorder FIB) {
 		if( undistToDist != null ) {
-			InterpolatePixelS<T> interpolate = FactoryInterpolation.bilinearPixelS(imageType, BorderType.EXTENDED);
+			InterpolatePixelS<T> interpolate = FactoryInterpolation.bilinearPixelS(imageType, BorderType.EXTENDED, FIB);
 			integralImage = new GImageGrayDistorted<>(undistToDist, interpolate);
 		} else {
 			integralImage = FactoryGImageGray.create(imageType);

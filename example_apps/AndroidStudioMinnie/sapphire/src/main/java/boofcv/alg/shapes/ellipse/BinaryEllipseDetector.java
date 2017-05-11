@@ -21,6 +21,7 @@ package boofcv.alg.shapes.ellipse;
 import boofcv.alg.filter.binary.Contour;
 import boofcv.alg.filter.binary.LinearContourLabelChang2004;
 import boofcv.alg.misc.ImageMiscOps;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.struct.distort.PixelTransform2_F32;
 import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.ImageGray;
@@ -55,7 +56,7 @@ public class BinaryEllipseDetector<T extends ImageGray> implements SapphireObjec
 	boolean autoRefine = true;
 
 	/**
-	 * Configures the detector
+	 * Configures the detectorundistToDist
 	 *
 	 * @param ellipseDetector Detector which uses pixel precise edges
 	 * @param ellipseRefiner Sub pixel edge refinement.  If null the refinement step is skipped
@@ -84,11 +85,11 @@ public class BinaryEllipseDetector<T extends ImageGray> implements SapphireObjec
 	 * @param distToUndist Transform from distorted to undistorted image.
 	 * @param undistToDist Transform from undistorted to distorted image.
 	 */
-	public void setLensDistortion(PixelTransform2_F32 distToUndist , PixelTransform2_F32 undistToDist ) {
+	public void setLensDistortion(PixelTransform2_F32 distToUndist , PixelTransform2_F32 undistToDist, FactoryImageBorder FIB ) {
 		this.ellipseDetector.setLensDistortion(distToUndist);
 		if( this.ellipseRefiner != null )
-			this.ellipseRefiner.setTransform(undistToDist);
-		this.intensityCheck.setTransform(undistToDist);
+			this.ellipseRefiner.setTransform(undistToDist, FIB);
+		this.intensityCheck.setTransform(undistToDist, FIB);
 	}
 
 	/**

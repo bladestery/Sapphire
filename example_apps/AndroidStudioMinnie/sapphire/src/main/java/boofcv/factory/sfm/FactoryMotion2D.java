@@ -27,6 +27,7 @@ import boofcv.alg.interpolate.InterpolatePixel;
 import boofcv.alg.interpolate.InterpolationType;
 import boofcv.alg.sfm.d2.*;
 import boofcv.core.image.border.BorderType;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.distort.FactoryDistort;
 import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.struct.geo.AssociatedPair;
@@ -134,7 +135,7 @@ public class FactoryMotion2D {
 	@SuppressWarnings("unchecked")
 	public static <I extends ImageBase, IT extends InvertibleTransform>
 	StitchingFromMotion2D<I, IT>
-	createVideoStitch( double maxJumpFraction , ImageMotion2D<I,IT> motion2D , ImageType<I> imageType ) {
+	createVideoStitch(double maxJumpFraction , ImageMotion2D<I,IT> motion2D , ImageType<I> imageType, FactoryImageBorder FIB) {
 		StitchingTransform<IT> transform;
 
 		if( motion2D.getTransformType() == Affine2D_F64.class ) {
@@ -147,7 +148,7 @@ public class FactoryMotion2D {
 
 		if( imageType.getFamily() == ImageType.Family.GRAY || imageType.getFamily() == ImageType.Family.PLANAR ) {
 			interp = FactoryInterpolation.createPixelS(0, 255, InterpolationType.BILINEAR, BorderType.EXTENDED,
-					imageType.getImageClass());
+					imageType.getImageClass(), FIB);
 		} else {
 			throw new IllegalArgumentException("Unsupported image type");
 		}

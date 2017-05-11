@@ -18,6 +18,7 @@
 
 package boofcv.gui.feature;
 
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.misc.PixelMath;
 import boofcv.io.image.ConvertBufferedImage;
 import boofcv.struct.flow.ImageFlow;
@@ -29,7 +30,7 @@ import java.awt.image.BufferedImage;
  * @author Peter Abeles
  */
 public class VisualizeOpticalFlow {
-
+	private static InputSanityCheck ISC;
 	public static void colorizeDirection(ImageFlow flowImage, BufferedImage out) {
 
 		int tableSine[] = new int[360];
@@ -80,7 +81,7 @@ public class VisualizeOpticalFlow {
 			}
 		}
 
-		PixelMath.multiply(magnitude, 255 / max, magnitude);
+		PixelMath.multiply(magnitude, 255 / max, magnitude, ISC);
 
 		ConvertBufferedImage.convertTo(magnitude,out);
 	}
@@ -103,7 +104,7 @@ public class VisualizeOpticalFlow {
 			}
 		}
 
-		PixelMath.multiply(magnitude, 255 / maxValue, magnitude);
+		PixelMath.multiply(magnitude, 255 / maxValue, magnitude, ISC);
 		PixelMath.boundImage(magnitude,0,255);
 
 		ConvertBufferedImage.convertTo(magnitude,out);

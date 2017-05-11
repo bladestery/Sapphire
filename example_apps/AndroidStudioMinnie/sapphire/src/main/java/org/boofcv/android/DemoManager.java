@@ -7,9 +7,13 @@ import org.ddogleg.struct.FastQueue;
 
 import java.util.List;
 
+import boofcv.abst.feature.describe.ConfigSiftScaleSpace;
 import boofcv.abst.feature.detect.extract.ConfigExtract;
 import boofcv.abst.feature.detect.extract.NonMaxSuppression;
 import boofcv.abst.feature.detect.intensity.GeneralFeatureIntensity;
+import boofcv.abst.feature.detect.interest.ConfigFastHessian;
+import boofcv.abst.feature.detect.interest.ConfigSiftDetector;
+import boofcv.abst.feature.detect.interest.InterestPointDetector;
 import boofcv.abst.feature.detect.line.DetectLine;
 import boofcv.abst.feature.detect.line.DetectLineHoughFoot;
 import boofcv.abst.feature.detect.line.DetectLineHoughPolar;
@@ -27,6 +31,7 @@ import boofcv.alg.feature.detect.edge.impl.ImplEdgeNonMaxSuppression;
 import boofcv.alg.feature.detect.edge.impl.ImplEdgeNonMaxSuppressionCrude;
 import boofcv.alg.feature.detect.intensity.HessianBlobIntensity;
 import boofcv.alg.feature.detect.interest.EasyGeneralFeatureDetector;
+import boofcv.alg.feature.detect.interest.FastHessianFeatureDetector;
 import boofcv.alg.feature.detect.interest.GeneralFeatureDetector;
 import boofcv.alg.filter.binary.BinaryImageOps;
 import boofcv.alg.filter.binary.Contour;
@@ -66,6 +71,8 @@ import boofcv.factory.feature.detect.edge.FactoryEdgeDetectors;
 import boofcv.factory.feature.detect.extract.FactoryFeatureExtractor;
 import boofcv.factory.feature.detect.intensity.FactoryIntensityPoint;
 import boofcv.factory.feature.detect.intensity.FactoryIntensityPointAlg;
+import boofcv.factory.feature.detect.interest.FactoryInterestPoint;
+import boofcv.factory.feature.detect.interest.FactoryInterestPointAlgs;
 import boofcv.factory.feature.detect.line.ConfigHoughFoot;
 import boofcv.factory.feature.detect.line.ConfigHoughPolar;
 import boofcv.factory.feature.detect.line.FactoryDetectLineAlgs;
@@ -78,6 +85,7 @@ import boofcv.factory.shape.ConfigPolygonDetector;
 import boofcv.factory.shape.FactoryShapeDetector;
 import boofcv.struct.ConnectRule;
 import boofcv.struct.QueueCorner;
+import boofcv.struct.feature.ScalePoint;
 import boofcv.struct.image.GrayS16;
 import boofcv.struct.image.GrayS32;
 import boofcv.struct.image.GrayU8;
@@ -85,6 +93,7 @@ import boofcv.struct.image.ImageGray;
 import boofcv.struct.image.ImageType;
 import georegression.struct.line.LineParametric2D_F32;
 import georegression.struct.line.LineSegment2D_F32;
+import georegression.struct.point.Point2D_F64;
 import georegression.struct.shapes.EllipseRotated_F64;
 import georegression.struct.shapes.Polygon2D_F64;
 import sapphire.app.SapphireObject;
@@ -140,6 +149,9 @@ public class DemoManager implements SapphireObject<sapphire.policy.offload.CodeO
     private FactoryIntensityPoint FIP;
     private FactoryIntensityPointAlg FIPA;
     private GImageMiscOps GIMO;
+    private FactoryInterestPoint FIrP;
+    private FactoryInterestPointAlgs FIrPA;
+    private FastHessianFeatureDetector FHFD;
 
     CannyEdge<GrayU8,GrayS16> canny;
     LinearContourLabelChang2004 contour8;
@@ -157,6 +169,8 @@ public class DemoManager implements SapphireObject<sapphire.policy.offload.CodeO
     NonMaxSuppression nonmaxMinMax;
     NonMaxSuppression nonmaxCandidate;
     NonMaxSuppression nonmax;
+    InterestPointDetector<GrayU8> scaleDetector;
+    FastQueue<ScalePoint> foundGUI;
 
 
     public DemoManager() {
@@ -204,10 +218,14 @@ public class DemoManager implements SapphireObject<sapphire.policy.offload.CodeO
         FIP = (FactoryIntensityPoint) new_(FactoryIntensityPoint.class);
         FIPA = (FactoryIntensityPointAlg) new_(FactoryIntensityPointAlg.class);
         GIMO = (GImageMiscOps) new_(GImageMiscOps.class);
+        FIrP = (FactoryInterestPoint) new_(FactoryInterestPoint.class);
+        FIrPA = (FactoryInterestPointAlgs) new_(FactoryInterestPointAlgs.class);
+        FHFD = (FastHessianFeatureDetector) new_(FastHessianFeatureDetector.class);
 
         contour8 = new LinearContourLabelChang2004(ConnectRule.EIGHT);
         contour4 = new LinearContourLabelChang2004(ConnectRule.FOUR);
         blackBinary = new GrayU8(1,1);
+        foundGUI = new FastQueue<ScalePoint>(ScalePoint.class,true);
     }
 
     public void LatencyCheck() {}
@@ -390,7 +408,7 @@ public class DemoManager implements SapphireObject<sapphire.policy.offload.CodeO
 
     public void general(GeneralFeatureIntensity<GrayU8, GrayS16> intensity, NonMaxSuppression nonmax) {
         general = new GeneralFeatureDetector<GrayU8, GrayS16>(intensity,nonmax);
-    }ShapeFit
+    }
 
     public void point() {
         pointDetector = new EasyGeneralFeatureDetector<GrayU8,GrayS16>(general,GrayU8.class,GrayS16.class, FD, GIO, FIB);
@@ -406,13 +424,17 @@ public class DemoManager implements SapphireObject<sapphire.policy.offload.CodeO
     }
 
     public void pointDetect(GrayU8 gray) {
-        pointDetector.detect(gray, null, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN);
+        pointDetector.detect(gray, null, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN,
+                GBIO, GIO, BlIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO
+        );
     }
 
     public void set_pointDetect(GrayU8 gray) {
         nonmax.setSearchRadius( 3*gray.width/320 );
         general.setMaxFeatures(200*gray.width/320);
-        pointDetector.detect(gray, null, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN);
+        pointDetector.detect(gray, null, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN,
+                GBIO, GIO, BlIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO
+        );
     }
 
     public QueueCorner pointgetMaximums() {
@@ -461,5 +483,46 @@ public class DemoManager implements SapphireObject<sapphire.policy.offload.CodeO
         nonmaxMinMax = FFE.nonmax(configBlob);
     }
 
+    public void median(int radius) {
+        nonmax = nonmaxMax;
+        intensity = FIP.median(radius,GrayU8.class,FBF, GIO);
+    }
+
+    public void fastHessian(ConfigFastHessian config ) {
+        scaleDetector = FIrP.fastHessian(config, FIrPA, FFE);
+    }
+
+    public void sift(ConfigSiftScaleSpace configSS ,
+                     ConfigSiftDetector configDet) {
+        scaleDetector = FIrP.sift(configSS, configDet, GrayU8.class, FFE, FIB, FKG, GIO);
+    }
+
+    public void scaleDetect(GrayU8 gray) {
+        scaleDetector.detect(gray, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN,
+                GBIO, GIO, BlIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB);
+    }
+
+    public int getNumberOfFeatures() {
+        return scaleDetector.getNumberOfFeatures();
+    }
+
+    public Point2D_F64 getLocation(int featureIndex ) {
+        return scaleDetector.getLocation(featureIndex);
+    }
+
+    public double getRadius( int featureIndex ) {
+        return scaleDetector.getRadius(featureIndex);
+    }
+
+    public FastQueue<ScalePoint> getInterestPoints() {
+        foundGUI.reset();
+        int N = scaleDetector.getNumberOfFeatures();
+        for( int i = 0; i < N; i++ ) {
+            Point2D_F64 p = scaleDetector.getLocation(i);
+            double radius = scaleDetector.getRadius(i);
+            foundGUI.grow().set(p.x, p.y, radius);
+        }
+        return foundGUI;
+    }
 
 }

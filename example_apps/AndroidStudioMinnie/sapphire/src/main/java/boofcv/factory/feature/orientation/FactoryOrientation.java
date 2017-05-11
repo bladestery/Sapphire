@@ -27,6 +27,7 @@ import boofcv.alg.transform.ii.GIntegralImageOps;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.filter.derivative.FactoryDerivative;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.ImageGray;
 
@@ -40,6 +41,7 @@ public class FactoryOrientation {
 	private static FactoryDerivative FD;
 	private static GeneralizedImageOps GIO;
 	private static FactoryImageBorder FIB;
+	private static FactoryKernelGaussian FKG;
 	/**
 	 * Adds wrappers around implementations of {@link RegionOrientation} such that they can be used
 	 * as a {@link OrientationImage}.
@@ -79,7 +81,7 @@ public class FactoryOrientation {
 		OrientationHistogramSift<GrayF32> ori = FactoryOrientationAlgs.sift(configOri,GrayF32.class);
 
 		SiftScaleSpace ss = new SiftScaleSpace(
-				configSS.firstOctave,configSS.lastOctave,configSS.numScales,configSS.sigma0);
+				configSS.firstOctave,configSS.lastOctave,configSS.numScales,configSS.sigma0, FKG);
 		return new OrientationSiftToImage<>(ori, ss, imageType);
 	}
 }

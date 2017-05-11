@@ -214,7 +214,7 @@ public class FDistort
 	 */
 	public FDistort interp(InterpolationType type) {
 		distorter = null;
-		this.interp = FactoryInterpolation.createPixel(0, 255, type, BorderType.EXTENDED, inputType);
+		this.interp = FactoryInterpolation.createPixel(0, 255, type, BorderType.EXTENDED, inputType, FIB);
 
 		return this;
 	}

@@ -18,6 +18,7 @@
 
 package boofcv.alg.shapes.edge;
 
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.struct.distort.PixelTransform2_F32;
 import boofcv.struct.image.ImageGray;
 import georegression.struct.point.Point2D_F64;
@@ -31,7 +32,7 @@ import georegression.struct.shapes.Polygon2D_F64;
  * @author Peter Abeles
  */
 public class EdgeIntensityPolygon<T extends ImageGray>  {
-
+	private static FactoryImageBorder FIB;
 	// distance away from corner that sampling will start and end
 	private double cornerOffset;
 	// distance away from line in tangent direction it will sample
@@ -74,7 +75,7 @@ public class EdgeIntensityPolygon<T extends ImageGray>  {
 	 * @param undistToDist Pixel transformation from undistorted pixels into the actual distorted input image..
 	 */
 	public void setTransform( PixelTransform2_F32 undistToDist ) {
-		scorer.setTransform(undistToDist);
+		scorer.setTransform(undistToDist, FIB);
 	}
 
 	/**

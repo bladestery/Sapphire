@@ -21,6 +21,7 @@ package boofcv.abst.feature.detect.interest;
 import boofcv.abst.feature.detect.extract.ConfigExtract;
 import boofcv.alg.feature.detect.interest.SiftDetector;
 import boofcv.struct.Configuration;
+import sapphire.app.SapphireObject;
 
 /**
  * Configuration for {@link SiftDetector}

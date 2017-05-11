@@ -18,10 +18,15 @@
 
 package boofcv.abst.feature.orientation;
 
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.feature.detect.interest.FastHessianFeatureDetector;
 import boofcv.alg.feature.detect.interest.SiftScaleSpace;
 import boofcv.alg.feature.detect.interest.UnrollSiftScaleSpaceGradient;
 import boofcv.alg.feature.orientation.OrientationHistogramSift;
+import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.core.image.GConvertImage;
+import boofcv.core.image.GeneralizedImageOps;
 import boofcv.struct.BoofDefaults;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.ImageGray;
@@ -35,6 +40,11 @@ import boofcv.struct.image.ImageGray;
 public class OrientationSiftToImage<T extends ImageGray>
 		implements OrientationImage<T>
 {
+	private static FastHessianFeatureDetector FHFD;
+	private static GImageMiscOps GIMO;
+	private static InputSanityCheck ISC;
+	private static ImageMiscOps IMO;
+	private static GeneralizedImageOps GIO;
 	UnrollSiftScaleSpaceGradient scaleSpace;
 	OrientationHistogramSift<GrayF32> alg;
 	UnrollSiftScaleSpaceGradient.ImageScale image;
@@ -58,7 +68,7 @@ public class OrientationSiftToImage<T extends ImageGray>
 			input = (GrayF32)image;
 		} else {
 			imageFloat.reshape(image.width,image.height);
-			GConvertImage.convert(image,imageFloat);
+			GConvertImage.convert(image,imageFloat, ISC, GIO, GIMO, IMO);
 			input = imageFloat;
 		}
 
@@ -82,7 +92,7 @@ public class OrientationSiftToImage<T extends ImageGray>
 		alg.setImageGradient(image.derivX,image.derivY);
 
 		double imageToInput = image.imageToInput;
-		alg.process(c_x/imageToInput,c_y/imageToInput, sigma/imageToInput);
+		alg.process(c_x/imageToInput,c_y/imageToInput, sigma/imageToInput, FHFD);
 
 		return alg.getPeakOrientation();
 	}

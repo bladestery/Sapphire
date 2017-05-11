@@ -91,6 +91,7 @@ public class FactoryPointTracker {
 	private static FactoryImageBorder FIB;
 	private static FactoryIntensityPointAlg FIPA;
 	private static FactoryKernelGaussian FKG;
+	private static FactoryInterestPoint FIP;
 	/**
 	 * Pyramid KLT feature tracker.
 	 *
@@ -438,7 +439,7 @@ public class FactoryPointTracker {
 			derivType = GImageDerivativeOps.getDerivativeType(imageType);
 
 		GeneralFeatureDetector<I, D> corner = createShiTomasi(configExtract, derivType);
-		InterestPointDetector<I> detector = FactoryInterestPoint.wrapPoint(corner, 1, imageType, derivType);
+		InterestPointDetector<I> detector = FIP.wrapPoint(corner, 1, imageType, derivType, FD, GIO, FIB);
 
 		DescribeRegionPoint<I,BrightFeature> regionDesc
 				= FactoryDescribeRegionPoint.surfStable(configDescribe, imageType);

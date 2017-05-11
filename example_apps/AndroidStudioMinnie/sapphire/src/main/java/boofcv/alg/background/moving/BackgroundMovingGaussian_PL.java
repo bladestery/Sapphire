@@ -27,6 +27,7 @@ import boofcv.alg.misc.ImageMiscOps;
 import boofcv.core.image.FactoryGImageMultiBand;
 import boofcv.core.image.GImageMultiBand;
 import boofcv.core.image.border.BorderType;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.struct.distort.Point2Transform2Model_F32;
 import boofcv.struct.image.*;
@@ -42,6 +43,7 @@ public class BackgroundMovingGaussian_PL<T extends ImageGray, Motion extends Inv
 {
 	private static GImageMiscOps GIMO;
 	private static ImageMiscOps IMO;
+	private static FactoryImageBorder FIB;
 	// interpolates the input image
 	protected InterpolatePixelMB<Planar<T>> interpolateInput;
 	// interpolates the background image
@@ -76,11 +78,11 @@ public class BackgroundMovingGaussian_PL<T extends ImageGray, Motion extends Inv
 		int numBands = imageType.getNumBands();
 
 		this.interpolateInput = FactoryInterpolation.createPixelMB(0, 255,
-				InterpolationType.BILINEAR, BorderType.EXTENDED, imageType);
+				InterpolationType.BILINEAR, BorderType.EXTENDED, imageType, FIB);
 
 		background = new Planar<>(GrayF32.class,1,1,2*numBands);
 		this.interpolationBG = FactoryInterpolation.createPixelMB(
-				0, 255, interpType, BorderType.EXTENDED, background.getImageType());
+				0, 255, interpType, BorderType.EXTENDED, background.getImageType(), FIB);
 		this.interpolationBG.setImage(background);
 		inputWrapper = FactoryGImageMultiBand.create(imageType);
 

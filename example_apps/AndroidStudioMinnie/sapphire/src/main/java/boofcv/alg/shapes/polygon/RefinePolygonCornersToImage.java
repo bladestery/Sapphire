@@ -20,6 +20,7 @@ package boofcv.alg.shapes.polygon;
 
 import boofcv.alg.shapes.corner.RefineCornerLinesToImage;
 import boofcv.alg.shapes.edge.SnapToLineEdge;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.misc.CircularIndex;
 import boofcv.struct.distort.PixelTransform2_F32;
 import boofcv.struct.image.ImageGray;
@@ -39,7 +40,7 @@ import java.util.List;
  * @author Peter Abeles
  */
 public class RefinePolygonCornersToImage<T extends ImageGray> implements RefineBinaryPolygon<T> {
-
+	private static FactoryImageBorder FIB;
 	// number of pixels along the contour away should the end point be from the corner
 	private int pixelsAway;
 
@@ -97,12 +98,12 @@ public class RefinePolygonCornersToImage<T extends ImageGray> implements RefineB
 
 	@Override
 	public void setLensDistortion(int width, int height, PixelTransform2_F32 distToUndist, PixelTransform2_F32 undistToDist) {
-		this.refineCorner.getSnapToEdge().setTransform(undistToDist);
+		this.refineCorner.getSnapToEdge().setTransform(undistToDist, FIB);
 	}
 
 	@Override
 	public void clearLensDistortion() {
-		this.refineCorner.getSnapToEdge().setTransform(null);
+		this.refineCorner.getSnapToEdge().setTransform(null, FIB);
 	}
 
 	/**

@@ -35,22 +35,21 @@ import boofcv.alg.feature.detect.interest.*;
 import boofcv.alg.filter.derivative.GImageDerivativeOps;
 import boofcv.alg.misc.ImageMiscOps;
 import boofcv.core.image.GeneralizedImageOps;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.feature.detect.extract.FactoryFeatureExtractor;
 import boofcv.factory.feature.detect.intensity.FactoryIntensityPointAlg;
 import boofcv.factory.filter.derivative.FactoryDerivativeSparse;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.image.ImageGray;
+import sapphire.app.SapphireObject;
 
 /**
  * Factory for non-generic specific implementations of interest point detection algorithms.
  *
  * @author Peter Abeles
  */
-public class FactoryInterestPointAlgs {
-	private static FactoryFeatureExtractor FFE;
-	private static FactoryIntensityPointAlg FIPA;
-	private static GeneralizedImageOps GIO;
-	private static FactoryKernelGaussian FKG;
+public class FactoryInterestPointAlgs implements SapphireObject {
+	public FactoryInterestPointAlgs() {}
 	/**
 	 * Creates a {@link FeaturePyramid} which is uses a hessian blob detector.
 	 *
@@ -61,12 +60,13 @@ public class FactoryInterestPointAlgs {
 	 * @param derivType       Image derivative type.
 	 * @return CornerLaplaceScaleSpace
 	 */
-	public static <T extends ImageGray, D extends ImageGray>
+	public <T extends ImageGray, D extends ImageGray>
 	FeaturePyramid<T, D> hessianPyramid(int extractRadius,
 										float detectThreshold,
 										int maxFeatures,
 										Class<T> imageType,
-										Class<D> derivType) {
+										Class<D> derivType,
+										FactoryFeatureExtractor FFE) {
 		GeneralFeatureIntensity<T, D> intensity = new WrapperHessianBlobIntensity<>(HessianBlobIntensity.Type.DETERMINANT, derivType);
 		NonMaxSuppression extractor = FFE.nonmax(
 				new ConfigExtract(extractRadius, detectThreshold, extractRadius, true));
@@ -88,12 +88,13 @@ public class FactoryInterestPointAlgs {
 	 * @param derivType       Image derivative type.
 	 * @return CornerLaplaceScaleSpace
 	 */
-	public static <T extends ImageGray, D extends ImageGray>
+	public <T extends ImageGray, D extends ImageGray>
 	FeaturePyramid<T, D> harrisPyramid(int extractRadius,
 									   float detectThreshold,
 									   int maxFeatures,
 									   Class<T> imageType,
-									   Class<D> derivType) {
+									   Class<D> derivType, FactoryIntensityPointAlg FIPA, GeneralizedImageOps GIO, FactoryKernelGaussian FKG,
+									   FactoryFeatureExtractor FFE) {
 		GradientCornerIntensity<D> harris = FIPA.harris(extractRadius, 0.04f, false, derivType, GIO, FKG);
 		GeneralFeatureIntensity<T, D> intensity = new WrapperGradientCornerIntensity<>(harris);
 		NonMaxSuppression extractor = FFE.nonmax(
@@ -116,12 +117,13 @@ public class FactoryInterestPointAlgs {
 	 * @param derivType       Image derivative type.
 	 * @return CornerLaplaceScaleSpace
 	 */
-	public static <T extends ImageGray, D extends ImageGray>
+	public <T extends ImageGray, D extends ImageGray>
 	FeatureLaplacePyramid<T, D> hessianLaplace(int extractRadius,
 											   float detectThreshold,
 											   int maxFeatures,
 											   Class<T> imageType,
-											   Class<D> derivType) {
+											   Class<D> derivType,
+											   FactoryFeatureExtractor FFE) {
 		GeneralFeatureIntensity<T, D> intensity = new WrapperHessianBlobIntensity<>(HessianBlobIntensity.Type.DETERMINANT, derivType);
 		NonMaxSuppression extractor = FFE.nonmax(
 				new ConfigExtract(extractRadius, detectThreshold, extractRadius, true));
@@ -145,12 +147,13 @@ public class FactoryInterestPointAlgs {
 	 * @param derivType       Image derivative type.
 	 * @return CornerLaplaceScaleSpace
 	 */
-	public static <T extends ImageGray, D extends ImageGray>
+	public <T extends ImageGray, D extends ImageGray>
 	FeatureLaplacePyramid<T, D> harrisLaplace(int extractRadius,
 											  float detectThreshold,
 											  int maxFeatures,
 											  Class<T> imageType,
-											  Class<D> derivType) {
+											  Class<D> derivType, FactoryIntensityPointAlg FIPA, GeneralizedImageOps GIO, FactoryKernelGaussian FKG,
+											  FactoryFeatureExtractor FFE) {
 		GradientCornerIntensity<D> harris = FIPA.harris(extractRadius, 0.04f, false, derivType, GIO, FKG);
 		GeneralFeatureIntensity<T, D> intensity = new WrapperGradientCornerIntensity<>(harris);
 		NonMaxSuppression extractor = FFE.nonmax(
@@ -171,8 +174,8 @@ public class FactoryInterestPointAlgs {
 	 * @param <II> Integral Image
 	 * @return The feature detector
 	 */
-	public static <II extends ImageGray>
-	FastHessianFeatureDetector<II> fastHessian( ConfigFastHessian config ) {
+	public <II extends ImageGray>
+	FastHessianFeatureDetector<II> fastHessian( ConfigFastHessian config, FactoryFeatureExtractor FFE) {
 
 		if( config == null )
 			config = new ConfigFastHessian();
@@ -189,7 +192,8 @@ public class FactoryInterestPointAlgs {
 	/**
 	 * Creates a SIFT detector
 	 */
-	public static SiftDetector sift(ConfigSiftScaleSpace configSS , ConfigSiftDetector configDetector ) {
+	public SiftDetector sift(ConfigSiftScaleSpace configSS , ConfigSiftDetector configDetector, FactoryFeatureExtractor FFE, FactoryImageBorder FIB, FactoryKernelGaussian FKG,
+							 GeneralizedImageOps GIO) {
 
 		if( configSS == null )
 			configSS = new ConfigSiftScaleSpace();
@@ -200,7 +204,7 @@ public class FactoryInterestPointAlgs {
 		NonMaxLimiter nonmax = FFE.nonmaxLimiter(
 				configDetector.extract,configDetector.maxFeaturesPerScale);
 		SiftScaleSpace ss = new SiftScaleSpace(configSS.firstOctave,configSS.lastOctave,
-				configSS.numScales,configSS.sigma0);
-		return new SiftDetector(ss,configDetector.edgeR,nonmax);
+				configSS.numScales,configSS.sigma0, FKG);
+		return new SiftDetector(ss,configDetector.edgeR,nonmax, FIB, GIO);
 	}
 }

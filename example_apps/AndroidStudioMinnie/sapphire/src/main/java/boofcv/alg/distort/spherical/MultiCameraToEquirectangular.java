@@ -18,6 +18,7 @@
 
 package boofcv.alg.distort.spherical;
 
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.distort.ImageDistort;
 import boofcv.alg.distort.LensDistortionWideFOV;
 import boofcv.alg.distort.PixelTransformCached_F32;
@@ -56,6 +57,7 @@ import java.util.List;
 public class MultiCameraToEquirectangular<T extends ImageBase<T>> {
 	private static GImageMiscOps GIMO;
 	private static ImageMiscOps IMO;
+	private static InputSanityCheck ISC;
 	private EquirectangularTools_F32 tools = new EquirectangularTools_F32();
 	private int equiWidth, equHeight;
 
@@ -225,7 +227,7 @@ public class MultiCameraToEquirectangular<T extends ImageBase<T>> {
 			distort.apply(cameraImage,cameraRendered);
 
 			/// sum up the total weight for each pixel
-			PixelMath.add(weightImage,c.mask,weightImage);
+			PixelMath.add(weightImage,c.mask,weightImage, ISC);
 
 			// apply the weight for this image to the rendered image
 			GPixelMath.multiply(c.mask,cameraRendered,workImage);

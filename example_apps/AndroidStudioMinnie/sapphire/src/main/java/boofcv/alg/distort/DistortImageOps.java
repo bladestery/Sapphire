@@ -23,6 +23,7 @@ import boofcv.alg.distort.impl.DistortSupport;
 import boofcv.alg.interpolate.InterpolatePixelS;
 import boofcv.alg.interpolate.InterpolationType;
 import boofcv.core.image.border.BorderType;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.distort.FactoryDistort;
 import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.struct.ImageRectangle_F32;
@@ -47,7 +48,7 @@ import georegression.struct.shapes.RectangleLength2D_I32;
  * @author Peter Abeles
  */
 public class DistortImageOps {
-
+	private static FactoryImageBorder FIB;
 	/**
 	 * <p>
 	 * Applies an affine transformation from the input image to the output image.
@@ -112,7 +113,7 @@ public class DistortImageOps {
 
 		Class<Input> inputType = (Class<Input>)input.getClass();
 		Class<Output> outputType = (Class<Output>)input.getClass();
-		InterpolatePixelS<Input> interp = FactoryInterpolation.createPixelS(0, 255, interpType, borderType, inputType);
+		InterpolatePixelS<Input> interp = FactoryInterpolation.createPixelS(0, 255, interpType, borderType, inputType, FIB);
 
 		ImageDistort<Input,Output> distorter = FactoryDistort.distortSB(false, interp, outputType);
 		distorter.setRenderAll(!skip);
@@ -162,7 +163,7 @@ public class DistortImageOps {
 	{
 		Class<Input> inputBandType = input.getBandType();
 		Class<Output> outputBandType = output.getBandType();
-		InterpolatePixelS<Input> interp = FactoryInterpolation.createPixelS(0, 255, interpType, borderType, inputBandType);
+		InterpolatePixelS<Input> interp = FactoryInterpolation.createPixelS(0, 255, interpType, borderType, inputBandType, FIB);
 
 		ImageDistort<Input,Output> distorter = FactoryDistort.distortSB(false, interp, outputBandType);
 		distorter.setModel(transform);
@@ -189,7 +190,7 @@ public class DistortImageOps {
 												  InterpolationType interpType, BorderType borderType,
 												  Class<Input> inputType, Class<Output> outputType)
 	{
-		InterpolatePixelS<Input> interp = FactoryInterpolation.createPixelS(0, 255, interpType,borderType, inputType);
+		InterpolatePixelS<Input> interp = FactoryInterpolation.createPixelS(0, 255, interpType,borderType, inputType, FIB);
 		ImageDistort<Input,Output> distorter =
 				FactoryDistort.distortSB(true, interp, outputType);
 		distorter.setModel(new PointToPixelTransform_F32(transform));

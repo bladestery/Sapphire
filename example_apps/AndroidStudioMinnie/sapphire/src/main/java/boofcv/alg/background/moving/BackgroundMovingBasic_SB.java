@@ -60,9 +60,8 @@ public class BackgroundMovingBasic_SB<T extends ImageGray, Motion extends Invert
 									Class<T> imageType) {
 		super(learnRate, threshold, transform, IT.single(imageType));
 
-		this.interpolateInput = FactoryInterpolation.bilinearPixelS(imageType, BorderType.EXTENDED);
-
-		this.interpolationBG = FactoryInterpolation.createPixelS(0, 255, interpType, BorderType.EXTENDED, GrayF32.class);
+		this.interpolateInput = FactoryInterpolation.bilinearPixelS(imageType, BorderType.EXTENDED, FIB);
+		this.interpolationBG = FactoryInterpolation.createPixelS(0, 255, interpType, BorderType.EXTENDED, GrayF32.class, FIB);
 		this.interpolationBG.setBorder(FIB.single(GrayF32.class, BorderType.EXTENDED));
 		this.interpolationBG.setImage(background);
 

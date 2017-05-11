@@ -18,6 +18,8 @@
 
 package boofcv.alg.transform.ii;
 
+import boofcv.alg.InputSanityCheck;
+import boofcv.core.image.GeneralizedImageOps;
 import boofcv.struct.image.*;
 
 
@@ -53,17 +55,17 @@ public class GIntegralImageOps {
 	 * @return Integral image.
 	 */
 	public static <I extends ImageGray, T extends ImageGray>
-	T transform( I input , T transformed ) {
+	T transform(I input , T transformed , InputSanityCheck ISC, GeneralizedImageOps GIO) {
 		if( input instanceof GrayF32) {
-			return (T)IntegralImageOps.transform((GrayF32)input,(GrayF32)transformed);
+			return (T)IntegralImageOps.transform((GrayF32)input,(GrayF32)transformed, ISC);
 		} else if( input instanceof GrayF64) {
-			return (T)IntegralImageOps.transform((GrayF64)input,(GrayF64)transformed);
+			return (T)IntegralImageOps.transform((GrayF64)input,(GrayF64)transformed, ISC);
 		} else if( input instanceof GrayU8) {
-			return (T)IntegralImageOps.transform((GrayU8)input,(GrayS32)transformed);
+			return (T)IntegralImageOps.transform((GrayU8)input,(GrayS32)transformed, ISC, GIO);
 		} else if( input instanceof GrayS32) {
-			return (T)IntegralImageOps.transform((GrayS32)input,(GrayS32)transformed);
+			return (T)IntegralImageOps.transform((GrayS32)input,(GrayS32)transformed, ISC, GIO);
 		} else if( input instanceof GrayS64) {
-			return (T)IntegralImageOps.transform((GrayS64)input,(GrayS64)transformed);
+			return (T)IntegralImageOps.transform((GrayS64)input,(GrayS64)transformed, ISC, GIO);
 		} else {
 			throw new IllegalArgumentException("Unknown input type: "+input.getClass().getSimpleName());
 		}
@@ -80,15 +82,15 @@ public class GIntegralImageOps {
 	public static <T extends ImageGray>
 	T convolve( T integral ,
 				IntegralKernel kernel,
-				T output ) {
+				T output , InputSanityCheck ISC) {
 		if( integral instanceof GrayF32) {
-			return (T)IntegralImageOps.convolve((GrayF32)integral,kernel,(GrayF32)output);
+			return (T)IntegralImageOps.convolve((GrayF32)integral,kernel,(GrayF32)output, ISC);
 		} else if( integral instanceof GrayF64) {
-			return (T)IntegralImageOps.convolve((GrayF64)integral,kernel,(GrayF64)output);
+			return (T)IntegralImageOps.convolve((GrayF64)integral,kernel,(GrayF64)output, ISC);
 		} else if( integral instanceof GrayS32) {
-			return (T)IntegralImageOps.convolve((GrayS32)integral,kernel,(GrayS32)output);
+			return (T)IntegralImageOps.convolve((GrayS32)integral,kernel,(GrayS32)output, ISC);
 		} else if( integral instanceof GrayS64) {
-			return (T)IntegralImageOps.convolve((GrayS64)integral,kernel,(GrayS64)output);
+			return (T)IntegralImageOps.convolve((GrayS64)integral,kernel,(GrayS64)output, ISC);
 		} else {
 			throw new IllegalArgumentException("Unknown input type: "+integral.getClass().getSimpleName());
 		}
@@ -104,17 +106,17 @@ public class GIntegralImageOps {
 	 * @param borderY size of the image border along the vertical axis.
 	 */
 	public static <T extends ImageGray>
-	T convolveBorder( T integral ,
-					  IntegralKernel kernel,
-					  T output , int borderX , int borderY ) {
+	T convolveBorder(T integral ,
+					 IntegralKernel kernel,
+					 T output , int borderX , int borderY, InputSanityCheck ISC) {
 		if( integral instanceof GrayF32) {
-			return (T)IntegralImageOps.convolveBorder((GrayF32)integral,kernel,(GrayF32)output,borderX,borderY);
+			return (T)IntegralImageOps.convolveBorder((GrayF32)integral,kernel,(GrayF32)output,borderX,borderY, ISC);
 		} else if( integral instanceof GrayF64) {
-			return (T)IntegralImageOps.convolveBorder((GrayF64)integral,kernel,(GrayF64)output,borderX,borderY);
+			return (T)IntegralImageOps.convolveBorder((GrayF64)integral,kernel,(GrayF64)output,borderX,borderY, ISC);
 		} else if( integral instanceof GrayS32) {
-			return (T)IntegralImageOps.convolveBorder((GrayS32)integral,kernel,(GrayS32)output,borderX,borderY);
+			return (T)IntegralImageOps.convolveBorder((GrayS32)integral,kernel,(GrayS32)output,borderX,borderY, ISC);
 		} else if( integral instanceof GrayS64) {
-			return (T)IntegralImageOps.convolveBorder((GrayS64)integral,kernel,(GrayS64)output,borderX,borderY);
+			return (T)IntegralImageOps.convolveBorder((GrayS64)integral,kernel,(GrayS64)output,borderX,borderY, ISC);
 		} else {
 			throw new IllegalArgumentException("Unknown input type");
 		}

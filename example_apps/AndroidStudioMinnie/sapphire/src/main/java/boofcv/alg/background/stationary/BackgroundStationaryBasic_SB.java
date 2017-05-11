@@ -19,11 +19,13 @@
 package boofcv.alg.background.stationary;
 
 import boofcv.alg.InputSanityCheck;
+import boofcv.alg.misc.GImageMiscOps;
 import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.misc.ImageStatistics;
 import boofcv.core.image.FactoryGImageGray;
 import boofcv.core.image.GConvertImage;
 import boofcv.core.image.GImageGray;
+import boofcv.core.image.GeneralizedImageOps;
 import boofcv.struct.image.*;
 
 /**
@@ -37,6 +39,8 @@ public class BackgroundStationaryBasic_SB<T extends ImageGray>
 	private static ImageType IT;
 	private static ImageMiscOps IMO;
 	private static InputSanityCheck ISC;
+	private static GeneralizedImageOps GIO;
+	private static GImageMiscOps GIMO;
 	// storage for background image
 	protected GrayF32 background = new GrayF32(1,1);
 
@@ -68,7 +72,7 @@ public class BackgroundStationaryBasic_SB<T extends ImageGray>
 	public void updateBackground( T frame) {
 		if( background.width == 1 ) {
 			background.reshape(frame.width, frame.height);
-			GConvertImage.convert(frame, background);
+			GConvertImage.convert(frame, background, ISC, GIO, GIMO, IMO);
 			return;
 		} else {
 			ISC.checkSameShape(background,frame);

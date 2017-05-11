@@ -330,8 +330,8 @@ public class BroxWarpingSpacial<T extends ImageGray> extends DenseFlowPyramidBas
 			}
 
 			// update the flow with the motion increments
-			PixelMath.add(flowU,du, flowU);
-			PixelMath.add(flowV,dv, flowV);
+			PixelMath.add(flowU,du, flowU, ISC);
+			PixelMath.add(flowV,dv, flowV, ISC);
 		}
 	}
 

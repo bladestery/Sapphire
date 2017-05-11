@@ -68,7 +68,7 @@ public class FiducialSquareImageActivity extends FiducialSquareActivity
 		for (int i = 0; i < list.size(); i++) {
 			GrayU8 binary = manager.loadBinaryImage(list.get(i).id);
 			BIO.invert(binary,binary, ISC);
-			PixelMath.multiply(binary,255,0,255,binary);
+			PixelMath.multiply(binary,255,0,255,binary, ISC);
 			detector.addPatternImage(binary,125,list.get(i).sideLength);
 		}
 

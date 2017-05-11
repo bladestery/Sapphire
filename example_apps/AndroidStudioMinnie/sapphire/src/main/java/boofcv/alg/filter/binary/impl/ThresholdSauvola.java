@@ -104,11 +104,11 @@ public class ThresholdSauvola {
 		BIO.mean(input, inputMean, radius, tmp, ISC, CIM, CN, CNN, CINB, CNJB, ICM);
 
 		// standard deviation = sqrt( E[X^2] + E[X]^2)
-		PixelMath.pow2(input, inputPow2);
+		PixelMath.pow2(input, inputPow2, ISC);
 		BIO.mean(inputPow2,inputPow2Mean,radius,tmp, ISC, CIM, CN, CNN, CINB, CNJB, ICM);
-		PixelMath.pow2(inputMean,inputMeanPow2);
-		PixelMath.subtract(inputPow2Mean, inputMeanPow2, stdev);
-		PixelMath.sqrt(stdev, stdev);
+		PixelMath.pow2(inputMean,inputMeanPow2, ISC);
+		PixelMath.subtract(inputPow2Mean, inputMeanPow2, stdev, ISC);
+		PixelMath.sqrt(stdev, stdev, ISC);
 
 		float R = IS.max(stdev);
 

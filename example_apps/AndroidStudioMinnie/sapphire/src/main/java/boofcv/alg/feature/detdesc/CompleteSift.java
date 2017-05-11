@@ -22,11 +22,15 @@ import boofcv.abst.feature.detect.extract.NonMaxLimiter;
 import boofcv.abst.filter.derivative.ImageGradient;
 import boofcv.alg.InputSanityCheck;
 import boofcv.alg.feature.describe.DescribePointSift;
+import boofcv.alg.feature.detect.interest.FastHessianFeatureDetector;
 import boofcv.alg.feature.detect.interest.SiftDetector;
 import boofcv.alg.feature.detect.interest.SiftScaleSpace;
 import boofcv.alg.feature.orientation.OrientationHistogramSift;
 import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
 import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
 import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
 import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
 import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
@@ -60,6 +64,10 @@ public class CompleteSift extends SiftDetector
 	private static ConvolveJustBorder_General CJBG;
 	private static GradientSobel_Outer GSO;
 	private static GradientSobel_UnrolledOuter GSUO;
+	private static FastHessianFeatureDetector FHFD;
+	private static ConvolveNormalizedNaive CNN;
+	private static ConvolveNormalized_JustBorder CNJB;
+	private static ConvolveNormalized CN;
 	// estimate orientation
 	OrientationHistogramSift<GrayF32> orientation;
 	// describes the keypoints
@@ -89,7 +97,7 @@ public class CompleteSift extends SiftDetector
 	public CompleteSift(SiftScaleSpace scaleSpace, double edgeR, NonMaxLimiter extractor,
 						OrientationHistogramSift<GrayF32> orientation,
 						DescribePointSift<GrayF32> describe) {
-		super(scaleSpace, edgeR, extractor);
+		super(scaleSpace, edgeR, extractor, FIB, GIO);
 
 		this.orientation = orientation;
 		this.describe = describe;
@@ -104,15 +112,15 @@ public class CompleteSift extends SiftDetector
 	}
 
 	@Override
-	public void process(GrayF32 input) {
+	public void process(GrayF32 input, FastHessianFeatureDetector FHFD, FactoryImageBorder FIB, InputSanityCheck ISC, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN) {
 		features.reset();
 		locations.reset();
 		orientations.reset();
-		super.process(input);
+		super.process(input, FHFD, FIB, ISC, CNN, CINB, CNJB, CN);
 	}
 
 	@Override
-	protected void detectFeatures(int scaleIndex) {
+	protected void detectFeatures(int scaleIndex, FastHessianFeatureDetector FHFD) {
 
 		// compute image derivative for this scale
 		GrayF32 input = scaleSpace.getImageScale(scaleIndex);
@@ -124,7 +132,7 @@ public class CompleteSift extends SiftDetector
 		orientation.setImageGradient(derivX,derivY);
 		describe.setImageGradient(derivX,derivY);
 
-		super.detectFeatures(scaleIndex);
+		super.detectFeatures(scaleIndex, FHFD);
 	}
 
 	@Override
@@ -136,7 +144,7 @@ public class CompleteSift extends SiftDetector
 		double localSigma = p.scale / pixelScaleToInput;
 
 		// find potential orientations first
-		orientation.process(localX,localY,localSigma);
+		orientation.process(localX,localY,localSigma, FHFD);
 
 		// describe each feature
 		GrowQueue_F64 angles = orientation.getOrientations();

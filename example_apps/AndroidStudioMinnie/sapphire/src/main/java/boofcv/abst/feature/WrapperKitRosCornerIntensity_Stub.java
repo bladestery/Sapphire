@@ -29,15 +29,15 @@ public final class WrapperKitRosCornerIntensity_Stub extends boofcv.abst.feature
 
 
 
-    // Implementation of process(ImageGray, ImageGray, ImageGray, ImageGray, ImageGray, ImageGray, GImageMiscOps, ImageMiscOps, InputSanityCheck, ConvolveNormalizedNaive, ConvolveImageNoBorder, ConvolveNormalized_JustBorder, ConvolveNormalized)
-    public void process(boofcv.struct.image.ImageGray $param_ImageGray_1, boofcv.struct.image.ImageGray $param_ImageGray_2, boofcv.struct.image.ImageGray $param_ImageGray_3, boofcv.struct.image.ImageGray $param_ImageGray_4, boofcv.struct.image.ImageGray $param_ImageGray_5, boofcv.struct.image.ImageGray $param_ImageGray_6, boofcv.alg.misc.GImageMiscOps $param_GImageMiscOps_7, boofcv.alg.misc.ImageMiscOps $param_ImageMiscOps_8, boofcv.alg.InputSanityCheck $param_InputSanityCheck_9, boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive $param_ConvolveNormalizedNaive_10, boofcv.alg.filter.convolve.ConvolveImageNoBorder $param_ConvolveImageNoBorder_11, boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder $param_ConvolveNormalized_JustBorder_12, boofcv.alg.filter.convolve.ConvolveNormalized $param_ConvolveNormalized_13) {
+    // Implementation of process(ImageGray, ImageGray, ImageGray, ImageGray, ImageGray, ImageGray, GImageMiscOps, ImageMiscOps, InputSanityCheck, ConvolveNormalizedNaive, ConvolveImageNoBorder, ConvolveNormalized_JustBorder, ConvolveNormalized, GBlurImageOps, GeneralizedImageOps, BlurImageOps, ConvolveImageMean, FactoryKernelGaussian, ImplMedianHistogramInner, ImplMedianSortEdgeNaive, ImplMedianSortNaive, ImplConvolveMean, GThresholdImageOps, GImageStatistics, ImageStatistics, ThresholdImageOps)
+    public void process(boofcv.struct.image.ImageGray $param_ImageGray_1, boofcv.struct.image.ImageGray $param_ImageGray_2, boofcv.struct.image.ImageGray $param_ImageGray_3, boofcv.struct.image.ImageGray $param_ImageGray_4, boofcv.struct.image.ImageGray $param_ImageGray_5, boofcv.struct.image.ImageGray $param_ImageGray_6, boofcv.alg.misc.GImageMiscOps $param_GImageMiscOps_7, boofcv.alg.misc.ImageMiscOps $param_ImageMiscOps_8, boofcv.alg.InputSanityCheck $param_InputSanityCheck_9, boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive $param_ConvolveNormalizedNaive_10, boofcv.alg.filter.convolve.ConvolveImageNoBorder $param_ConvolveImageNoBorder_11, boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder $param_ConvolveNormalized_JustBorder_12, boofcv.alg.filter.convolve.ConvolveNormalized $param_ConvolveNormalized_13, boofcv.alg.filter.blur.GBlurImageOps $param_GBlurImageOps_14, boofcv.core.image.GeneralizedImageOps $param_GeneralizedImageOps_15, boofcv.alg.filter.blur.BlurImageOps $param_BlurImageOps_16, boofcv.alg.filter.convolve.ConvolveImageMean $param_ConvolveImageMean_17, boofcv.factory.filter.kernel.FactoryKernelGaussian $param_FactoryKernelGaussian_18, boofcv.alg.filter.blur.impl.ImplMedianHistogramInner $param_ImplMedianHistogramInner_19, boofcv.alg.filter.blur.impl.ImplMedianSortEdgeNaive $param_ImplMedianSortEdgeNaive_20, boofcv.alg.filter.blur.impl.ImplMedianSortNaive $param_ImplMedianSortNaive_21, boofcv.alg.filter.convolve.noborder.ImplConvolveMean $param_ImplConvolveMean_22, boofcv.alg.filter.binary.GThresholdImageOps $param_GThresholdImageOps_23, boofcv.alg.misc.GImageStatistics $param_GImageStatistics_24, boofcv.alg.misc.ImageStatistics $param_ImageStatistics_25, boofcv.alg.filter.binary.ThresholdImageOps $param_ThresholdImageOps_26) {
         java.lang.Object $__result = null;
         try {
             if ($__directInvocation)
-                super.process( $param_ImageGray_1,  $param_ImageGray_2,  $param_ImageGray_3,  $param_ImageGray_4,  $param_ImageGray_5,  $param_ImageGray_6,  $param_GImageMiscOps_7,  $param_ImageMiscOps_8,  $param_InputSanityCheck_9,  $param_ConvolveNormalizedNaive_10,  $param_ConvolveImageNoBorder_11,  $param_ConvolveNormalized_JustBorder_12,  $param_ConvolveNormalized_13);
+                super.process( $param_ImageGray_1,  $param_ImageGray_2,  $param_ImageGray_3,  $param_ImageGray_4,  $param_ImageGray_5,  $param_ImageGray_6,  $param_GImageMiscOps_7,  $param_ImageMiscOps_8,  $param_InputSanityCheck_9,  $param_ConvolveNormalizedNaive_10,  $param_ConvolveImageNoBorder_11,  $param_ConvolveNormalized_JustBorder_12,  $param_ConvolveNormalized_13,  $param_GBlurImageOps_14,  $param_GeneralizedImageOps_15,  $param_BlurImageOps_16,  $param_ConvolveImageMean_17,  $param_FactoryKernelGaussian_18,  $param_ImplMedianHistogramInner_19,  $param_ImplMedianSortEdgeNaive_20,  $param_ImplMedianSortNaive_21,  $param_ImplConvolveMean_22,  $param_GThresholdImageOps_23,  $param_GImageStatistics_24,  $param_ImageStatistics_25,  $param_ThresholdImageOps_26);
             else {
                 java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
-                String $__method = "public void boofcv.abst.feature.detect.intensity.WrapperKitRosCornerIntensity.process(I,D,D,D,D,D,boofcv.alg.misc.GImageMiscOps,boofcv.alg.misc.ImageMiscOps,boofcv.alg.InputSanityCheck,boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive,boofcv.alg.filter.convolve.ConvolveImageNoBorder,boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder,boofcv.alg.filter.convolve.ConvolveNormalized)";
+                String $__method = "public void boofcv.abst.feature.detect.intensity.WrapperKitRosCornerIntensity.process(I,D,D,D,D,D,boofcv.alg.misc.GImageMiscOps,boofcv.alg.misc.ImageMiscOps,boofcv.alg.InputSanityCheck,boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive,boofcv.alg.filter.convolve.ConvolveImageNoBorder,boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder,boofcv.alg.filter.convolve.ConvolveNormalized,boofcv.alg.filter.blur.GBlurImageOps,boofcv.core.image.GeneralizedImageOps,boofcv.alg.filter.blur.BlurImageOps,boofcv.alg.filter.convolve.ConvolveImageMean,boofcv.factory.filter.kernel.FactoryKernelGaussian,boofcv.alg.filter.blur.impl.ImplMedianHistogramInner,boofcv.alg.filter.blur.impl.ImplMedianSortEdgeNaive,boofcv.alg.filter.blur.impl.ImplMedianSortNaive,boofcv.alg.filter.convolve.noborder.ImplConvolveMean,boofcv.alg.filter.binary.GThresholdImageOps,boofcv.alg.misc.GImageStatistics,boofcv.alg.misc.ImageStatistics,boofcv.alg.filter.binary.ThresholdImageOps)";
                 $__params.add($param_ImageGray_1);
                 $__params.add($param_ImageGray_2);
                 $__params.add($param_ImageGray_3);
@@ -51,6 +51,19 @@ public final class WrapperKitRosCornerIntensity_Stub extends boofcv.abst.feature
                 $__params.add($param_ConvolveImageNoBorder_11);
                 $__params.add($param_ConvolveNormalized_JustBorder_12);
                 $__params.add($param_ConvolveNormalized_13);
+                $__params.add($param_GBlurImageOps_14);
+                $__params.add($param_GeneralizedImageOps_15);
+                $__params.add($param_BlurImageOps_16);
+                $__params.add($param_ConvolveImageMean_17);
+                $__params.add($param_FactoryKernelGaussian_18);
+                $__params.add($param_ImplMedianHistogramInner_19);
+                $__params.add($param_ImplMedianSortEdgeNaive_20);
+                $__params.add($param_ImplMedianSortNaive_21);
+                $__params.add($param_ImplConvolveMean_22);
+                $__params.add($param_GThresholdImageOps_23);
+                $__params.add($param_GImageStatistics_24);
+                $__params.add($param_ImageStatistics_25);
+                $__params.add($param_ThresholdImageOps_26);
                 $__result = $__client.onRPC($__method, $__params);
             }
         } catch (Exception e) {

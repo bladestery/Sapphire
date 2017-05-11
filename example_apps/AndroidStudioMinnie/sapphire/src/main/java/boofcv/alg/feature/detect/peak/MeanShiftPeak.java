@@ -21,6 +21,7 @@ package boofcv.alg.feature.detect.peak;
 import boofcv.alg.interpolate.InterpolatePixelS;
 import boofcv.alg.weights.WeightPixel_F32;
 import boofcv.core.image.border.BorderType;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.struct.image.ImageGray;
 
@@ -36,7 +37,7 @@ import boofcv.struct.image.ImageGray;
  * @author Peter Abeles
  */
 public class MeanShiftPeak<T extends ImageGray> {
-
+	private static FactoryImageBorder FIB;
 	// Input image and interpolation function
 	protected T image;
 	protected InterpolatePixelS<T> interpolate;
@@ -73,7 +74,7 @@ public class MeanShiftPeak<T extends ImageGray> {
 		this.maxIterations = maxIterations;
 		this.convergenceTol = convergenceTol;
 		this.weights = weights;
-		interpolate = FactoryInterpolation.bilinearPixelS(imageType, BorderType.EXTENDED);
+		interpolate = FactoryInterpolation.bilinearPixelS(imageType, BorderType.EXTENDED, FIB);
 	}
 
 	/**

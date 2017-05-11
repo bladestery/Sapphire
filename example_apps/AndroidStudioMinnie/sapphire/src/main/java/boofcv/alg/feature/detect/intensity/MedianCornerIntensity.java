@@ -33,15 +33,14 @@ import boofcv.struct.image.GrayU8;
  * @author Peter Abeles
  */
 public class MedianCornerIntensity {
-	private static InputSanityCheck ISC;
-	public static void process(GrayF32 intensity , GrayF32 originalImage, GrayF32 medianImage)
+	public static void process(GrayF32 intensity , GrayF32 originalImage, GrayF32 medianImage, InputSanityCheck ISC)
 	{
 		ISC.checkSameShape(intensity,originalImage,medianImage);
 
 		ImplMedianCornerIntensity.process(intensity,originalImage,medianImage);
 	}
 
-	public static void process(GrayF32 intensity , GrayU8 originalImage, GrayU8 medianImage)
+	public static void process(GrayF32 intensity , GrayU8 originalImage, GrayU8 medianImage, InputSanityCheck ISC)
 	{
 		ISC.checkSameShape(intensity,originalImage,medianImage);
 

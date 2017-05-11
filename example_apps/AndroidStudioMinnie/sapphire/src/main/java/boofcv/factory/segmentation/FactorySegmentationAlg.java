@@ -29,6 +29,7 @@ import boofcv.alg.segmentation.ms.*;
 import boofcv.alg.segmentation.slic.*;
 import boofcv.alg.segmentation.watershed.WatershedVincentSoille1991;
 import boofcv.core.image.border.BorderType;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.struct.ConnectRule;
 import boofcv.struct.image.ImageBase;
@@ -40,6 +41,7 @@ import boofcv.struct.image.ImageType;
  * @author Peter Abeles
  */
 public class FactorySegmentationAlg {
+	private static FactoryImageBorder FIB;
 
 	/**
 	 * Creates an instance of {@link boofcv.alg.segmentation.ComputeRegionMeanColor} for the specified image type.
@@ -92,12 +94,12 @@ public class FactorySegmentationAlg {
 		SegmentMeanShiftSearch<T> search;
 
 		if( imageType.getFamily() == ImageType.Family.GRAY) {
-			InterpolatePixelS interp = FactoryInterpolation.bilinearPixelS(imageType.getImageClass(), BorderType.EXTENDED);
+			InterpolatePixelS interp = FactoryInterpolation.bilinearPixelS(imageType.getImageClass(), BorderType.EXTENDED, FIB);
 			search = new SegmentMeanShiftSearchGray(maxIterations,convergenceTol,interp,
 					spacialRadius,spacialRadius,colorRadius,config.fast);
 		} else {
 			InterpolatePixelMB interp = FactoryInterpolation.createPixelMB(0,255,
-					InterpolationType.BILINEAR, BorderType.EXTENDED,(ImageType)imageType);
+					InterpolationType.BILINEAR, BorderType.EXTENDED,(ImageType)imageType, FIB);
 			search = new SegmentMeanShiftSearchColor(maxIterations,convergenceTol,interp,
 					spacialRadius,spacialRadius,colorRadius,config.fast,imageType);
 		}

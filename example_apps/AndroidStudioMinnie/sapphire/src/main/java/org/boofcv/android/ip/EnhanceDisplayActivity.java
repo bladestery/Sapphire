@@ -14,6 +14,7 @@ import android.widget.Spinner;
 import org.boofcv.android.DemoVideoDisplayActivity;
 import org.boofcv.android.R;
 
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.enhance.EnhanceImageOps;
 import boofcv.alg.misc.ImageStatistics;
 import boofcv.android.ConvertBitmap;
@@ -33,6 +34,7 @@ public class EnhanceDisplayActivity extends DemoVideoDisplayActivity
 {
 	private ImageType IT;
 	private ImageStatistics IS;
+	private static InputSanityCheck ISC;
 	Spinner spinnerView;
 	CheckBox checkColor;
 
@@ -167,7 +169,7 @@ public class EnhanceDisplayActivity extends DemoVideoDisplayActivity
 
 		@Override
 		protected void process(Planar<GrayU8> input, Bitmap output, byte[] storage) {
-			ConvertImage.average(input,gray);
+			ConvertImage.average(input,gray, ISC);
 			IS.histogram(gray, histogram);
 			EnhanceImageOps.equalize(histogram, transform);
 			for( int i = 0; i < 3; i++ )

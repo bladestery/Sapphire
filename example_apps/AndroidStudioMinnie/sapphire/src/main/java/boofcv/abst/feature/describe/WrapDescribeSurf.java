@@ -18,8 +18,11 @@
 
 package boofcv.abst.feature.describe;
 
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.feature.describe.DescribePointSurf;
+import boofcv.alg.misc.GImageMiscOps;
 import boofcv.alg.transform.ii.GIntegralImageOps;
+import boofcv.core.image.GeneralizedImageOps;
 import boofcv.struct.BoofDefaults;
 import boofcv.struct.feature.BrightFeature;
 import boofcv.struct.image.ImageGray;
@@ -32,6 +35,8 @@ import boofcv.struct.image.ImageType;
 public class WrapDescribeSurf<T extends ImageGray, II extends ImageGray>
 		implements DescribeRegionPoint<T,BrightFeature> {
 	private ImageType IT;
+	private static InputSanityCheck ISC;
+	private static GeneralizedImageOps GIO;
 	// computes SURF feature descriptor
 	DescribePointSurf<II> surf;
 	// integral image
@@ -57,7 +62,7 @@ public class WrapDescribeSurf<T extends ImageGray, II extends ImageGray>
 		}
 
 		// compute integral image
-		ii = GIntegralImageOps.transform(image,ii);
+		ii = GIntegralImageOps.transform(image,ii, ISC, GIO);
 		surf.setImage(ii);
 	}
 

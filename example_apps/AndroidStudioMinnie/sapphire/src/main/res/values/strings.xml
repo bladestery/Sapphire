@@ -90,6 +90,7 @@
         <item>KitRos</item>
         <item>Hessian Det</item>
         <item>Hessian Trace</item>
+        <item>Median</item>
     </string-array>
 
     <string-array name="scale_features">

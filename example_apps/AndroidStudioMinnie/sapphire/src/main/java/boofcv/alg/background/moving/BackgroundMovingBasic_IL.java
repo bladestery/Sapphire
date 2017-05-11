@@ -25,6 +25,7 @@ import boofcv.alg.misc.ImageMiscOps;
 import boofcv.core.image.FactoryGImageMultiBand;
 import boofcv.core.image.GImageMultiBand;
 import boofcv.core.image.border.BorderType;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.struct.distort.Point2Transform2Model_F32;
 import boofcv.struct.image.*;
@@ -41,6 +42,7 @@ public class BackgroundMovingBasic_IL<T extends ImageInterleaved, Motion extends
 	private ImageType IT;
 	private static GImageMiscOps GIMO;
 	private static ImageMiscOps IMO;
+	private static FactoryImageBorder FIB;
 	// where the background image is stored
 	protected InterleavedF32 background;
 	// interpolates the input image
@@ -60,13 +62,13 @@ public class BackgroundMovingBasic_IL<T extends ImageInterleaved, Motion extends
 									ImageType<T> imageType) {
 		super(learnRate, threshold,transform, imageType);
 
-		this.interpolationInput = FactoryInterpolation.createPixelMB(0, 255, interpType,BorderType.EXTENDED,imageType);
+		this.interpolationInput = FactoryInterpolation.createPixelMB(0, 255, interpType,BorderType.EXTENDED,imageType, FIB);
 
 		int numBands = imageType.getNumBands();
 		background = new InterleavedF32(1,1,numBands);
 
 		this.interpolationBG = FactoryInterpolation.createPixelMB(
-				0, 255, interpType, BorderType.EXTENDED, IT.il(numBands, InterleavedF32.class));
+				0, 255, interpType, BorderType.EXTENDED, IT.il(numBands, InterleavedF32.class), FIB);
 		this.interpolationBG.setImage(background);
 
 		pixelInput = new float[numBands];

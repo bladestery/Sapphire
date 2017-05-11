@@ -66,7 +66,7 @@ public class FactoryTrackerObjectQuad {
 
 		Class<D> derivType = GImageDerivativeOps.getDerivativeType(imageType);
 
-		InterpolatePixelS<T> interpolate = FactoryInterpolation.bilinearPixelS(imageType, BorderType.EXTENDED);
+		InterpolatePixelS<T> interpolate = FactoryInterpolation.bilinearPixelS(imageType, BorderType.EXTENDED, FIB);
 		ImageGradient<T,D> gradient =  FD.sobel(imageType, derivType, GIO, FIB);
 
 		TldTracker<T,D> tracker = new TldTracker<>(config.parameters, interpolate, gradient, imageType, derivType);
@@ -161,7 +161,7 @@ public class FactoryTrackerObjectQuad {
 	public static <T extends ImageBase>
 	TrackerObjectQuad<T> meanShiftComaniciu2003(ConfigComaniciu2003 config, ImageType<T> imageType ) {
 
-		TrackerMeanShiftComaniciu2003<T> alg = FactoryTrackerObjectAlgs.meanShiftComaniciu2003(config,imageType);
+		TrackerMeanShiftComaniciu2003<T> alg = FactoryTrackerObjectAlgs.meanShiftComaniciu2003(config,imageType, FIB);
 
 		return new Comaniciu2003_to_TrackerObjectQuad<>(alg, imageType);
 	}
@@ -179,7 +179,7 @@ public class FactoryTrackerObjectQuad {
 	public static <T extends ImageGray>
 	TrackerObjectQuad<T> circulant( ConfigCirculantTracker config , Class<T> imageType ) {
 
-		CirculantTracker<T> alg = FactoryTrackerObjectAlgs.circulant(config,imageType);
+		CirculantTracker<T> alg = FactoryTrackerObjectAlgs.circulant(config,imageType, FIB);
 
 		return new Circulant_to_TrackerObjectQuad<>(alg, IT.single(imageType));
 	}

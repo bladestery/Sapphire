@@ -22,6 +22,7 @@ import boofcv.alg.interpolate.InterpolatePixelS;
 import boofcv.alg.transform.pyramid.PyramidDiscreteSampleBlur;
 import boofcv.alg.transform.pyramid.PyramidFloatGaussianScale;
 import boofcv.core.image.border.BorderType;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.filter.kernel.FactoryKernel;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.factory.interpolate.FactoryInterpolation;
@@ -38,6 +39,7 @@ import boofcv.struct.pyramid.PyramidFloat;
  */
 public class FactoryPyramid {
 	private static FactoryKernelGaussian FKG;
+	private static FactoryImageBorder FIB;
 	/**
 	 * Creates an updater for discrete pyramids where a Gaussian is convolved across the input
 	 * prior to sub-sampling.
@@ -71,7 +73,7 @@ public class FactoryPyramid {
 	public static <T extends ImageGray>
 	PyramidFloat<T> floatGaussian( double scaleFactors[], double []sigmas , Class<T> imageType ) {
 
-		InterpolatePixelS<T> interp = FactoryInterpolation.bilinearPixelS(imageType, BorderType.EXTENDED);
+		InterpolatePixelS<T> interp = FactoryInterpolation.bilinearPixelS(imageType, BorderType.EXTENDED, FIB);
 
 		return new PyramidFloatGaussianScale<>(interp, scaleFactors, sigmas, imageType);
 	}

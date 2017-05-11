@@ -43,6 +43,7 @@ import boofcv.factory.feature.describe.FactoryDescribePointAlgs;
 import boofcv.factory.feature.detect.extract.FactoryFeatureExtractor;
 import boofcv.factory.feature.detect.interest.FactoryInterestPointAlgs;
 import boofcv.factory.feature.orientation.FactoryOrientationAlgs;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.feature.BrightFeature;
 import boofcv.struct.feature.TupleDesc;
 import boofcv.struct.image.GrayF32;
@@ -57,6 +58,8 @@ import boofcv.struct.image.ImageType;
  */
 public class FactoryDetectDescribe {
 	private static FactoryFeatureExtractor FFE;
+	private static FactoryInterestPointAlgs FIPA;
+	private static FactoryKernelGaussian FKG;
 
 	/**
 	 * Creates a new SIFT feature detector and describer.
@@ -78,7 +81,7 @@ public class FactoryDetectDescribe {
 		ConfigSiftDescribe configDesc = config.describe;
 
 		SiftScaleSpace scaleSpace = new SiftScaleSpace(
-				configSS.firstOctave,configSS.lastOctave,configSS.numScales,configSS.sigma0);
+				configSS.firstOctave,configSS.lastOctave,configSS.numScales,configSS.sigma0, FKG);
 		OrientationHistogramSift<GrayF32> orientation = new OrientationHistogramSift<>(
 				configOri.histogramSize,configOri.sigmaEnlarge,GrayF32.class);
 		DescribePointSift<GrayF32> describe = new DescribePointSift<>(
@@ -120,7 +123,7 @@ public class FactoryDetectDescribe {
 
 		Class<II> integralType = GIntegralImageOps.getIntegralType(imageType);
 
-		FastHessianFeatureDetector<II> detector = FactoryInterestPointAlgs.fastHessian(configDetector);
+		FastHessianFeatureDetector<II> detector = FIPA.fastHessian(configDetector, FFE);
 		DescribePointSurf<II> describe = FactoryDescribePointAlgs.surfSpeed(configDesc, integralType);
 		OrientationIntegral<II> orientation = FactoryOrientationAlgs.average_ii(configOrientation, integralType);
 
@@ -152,7 +155,7 @@ public class FactoryDetectDescribe {
 		Class bandType = imageType.getImageClass();
 		Class<II> integralType = GIntegralImageOps.getIntegralType(bandType);
 
-		FastHessianFeatureDetector<II> detector = FactoryInterestPointAlgs.fastHessian(configDetector);
+		FastHessianFeatureDetector<II> detector = FIPA.fastHessian(configDetector, FFE);
 		DescribePointSurf<II> describe = FactoryDescribePointAlgs.surfSpeed(configDesc, integralType);
 		OrientationIntegral<II> orientation = FactoryOrientationAlgs.average_ii(configOrientation, integralType);
 
@@ -198,7 +201,7 @@ public class FactoryDetectDescribe {
 
 		Class<II> integralType = GIntegralImageOps.getIntegralType(imageType);
 
-		FastHessianFeatureDetector<II> detector = FactoryInterestPointAlgs.fastHessian(configDetector);
+		FastHessianFeatureDetector<II> detector = FIPA.fastHessian(configDetector, FFE);
 		DescribePointSurfMod<II> describe = FactoryDescribePointAlgs.surfStability(configDescribe, integralType);
 		OrientationIntegral<II> orientation = FactoryOrientationAlgs.sliding_ii(configOrientation, integralType);
 
@@ -231,7 +234,7 @@ public class FactoryDetectDescribe {
 		Class bandType = imageType.getImageClass();
 		Class<II> integralType = GIntegralImageOps.getIntegralType(bandType);
 
-		FastHessianFeatureDetector<II> detector = FactoryInterestPointAlgs.fastHessian(configDetector);
+		FastHessianFeatureDetector<II> detector = FIPA.fastHessian(configDetector, FFE);
 		DescribePointSurfMod<II> describe = FactoryDescribePointAlgs.surfStability(configDescribe, integralType);
 		OrientationIntegral<II> orientation = FactoryOrientationAlgs.sliding_ii(configOrientation, integralType);
 

@@ -24,6 +24,7 @@ import boofcv.alg.sfm.overhead.CreateSyntheticOverheadView;
 import boofcv.alg.sfm.overhead.CreateSyntheticOverheadViewPL;
 import boofcv.alg.sfm.overhead.CreateSyntheticOverheadViewS;
 import boofcv.core.image.border.BorderType;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.struct.image.ImageBase;
 import boofcv.struct.image.ImageType;
@@ -35,14 +36,14 @@ import boofcv.struct.image.ImageType;
  */
 public class FactorySfmMisc {
 
-	public static <T extends ImageBase> CreateSyntheticOverheadView<T> createOverhead( ImageType<T> imageType ) {
+	public static <T extends ImageBase> CreateSyntheticOverheadView<T> createOverhead(ImageType<T> imageType, FactoryImageBorder FIB) {
 
 		Class classType = imageType.getImageClass();
 
 		switch( imageType.getFamily() ) {
 			case GRAY:
 			{
-				InterpolatePixelS interp = FactoryInterpolation.bilinearPixelS(classType, BorderType.EXTENDED);
+				InterpolatePixelS interp = FactoryInterpolation.bilinearPixelS(classType, BorderType.EXTENDED, FIB);
 				return new CreateSyntheticOverheadViewS(interp);
 			}
 

@@ -18,7 +18,11 @@
 
 package boofcv.abst.feature.dense;
 
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.core.image.GConvertImage;
+import boofcv.core.image.GeneralizedImageOps;
 import boofcv.struct.feature.TupleDesc;
 import boofcv.struct.image.ImageBase;
 import boofcv.struct.image.ImageType;
@@ -34,6 +38,10 @@ import java.util.List;
 public class DescribeImageDense_Convert<T extends ImageBase, Desc extends TupleDesc>
 		implements DescribeImageDense<T,Desc>
 {
+	private static InputSanityCheck ISC;
+	private static GImageMiscOps GIMO;
+	private static GeneralizedImageOps GIO;
+	private static ImageMiscOps IMO;
 	DescribeImageDense<ImageBase,Desc> describer;
 	ImageBase workspace;
 
@@ -67,7 +75,7 @@ public class DescribeImageDense_Convert<T extends ImageBase, Desc extends TupleD
 	@Override
 	public void process(T input) {
 		workspace.reshape(input.width,input.height);
-		GConvertImage.convert(input,workspace);
+		GConvertImage.convert(input,workspace, ISC, GIO, GIMO, IMO);
 		describer.process(workspace);
 	}
 

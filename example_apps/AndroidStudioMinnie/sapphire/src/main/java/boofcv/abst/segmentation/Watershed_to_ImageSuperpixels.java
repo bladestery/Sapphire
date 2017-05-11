@@ -19,11 +19,14 @@
 package boofcv.abst.segmentation;
 
 import boofcv.alg.InputSanityCheck;
+import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.segmentation.ComputeRegionMeanColor;
 import boofcv.alg.segmentation.ImageSegmentationOps;
 import boofcv.alg.segmentation.ms.MergeSmallRegions;
 import boofcv.alg.segmentation.watershed.WatershedVincentSoille1991;
 import boofcv.core.image.GConvertImage;
+import boofcv.core.image.GeneralizedImageOps;
 import boofcv.struct.ConnectRule;
 import boofcv.struct.feature.ColorQueue_F32;
 import boofcv.struct.image.GrayS32;
@@ -41,7 +44,10 @@ import org.ddogleg.struct.GrowQueue_I32;
  * @author Peter Abeles
  */
 public class Watershed_to_ImageSuperpixels<T extends ImageBase> implements ImageSuperpixels<T> {
+	private static GImageMiscOps GIMO;
 	private static InputSanityCheck ISC;
+	private static ImageMiscOps IMO;
+	private static GeneralizedImageOps GIO;
 	private WatershedVincentSoille1991 alg;
 	private ConnectRule rule;
 
@@ -71,7 +77,7 @@ public class Watershed_to_ImageSuperpixels<T extends ImageBase> implements Image
 		ISC.checkSameShape(input,output);
 		converted.reshape(input.width,input.height);
 
-		GConvertImage.convert(input,converted);
+		GConvertImage.convert(input,converted, ISC, GIO, GIMO, IMO);
 
 		// segment the image
 		alg.process(converted);

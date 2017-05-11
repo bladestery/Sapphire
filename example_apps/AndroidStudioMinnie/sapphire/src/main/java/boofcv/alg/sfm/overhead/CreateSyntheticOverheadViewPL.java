@@ -23,6 +23,7 @@ import boofcv.alg.interpolate.InterpolationType;
 import boofcv.core.image.FactoryGImageGray;
 import boofcv.core.image.GImageGray;
 import boofcv.core.image.border.BorderType;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.struct.image.ImageGray;
 import boofcv.struct.image.Planar;
@@ -36,6 +37,7 @@ import georegression.struct.point.Point2D_F32;
 public class CreateSyntheticOverheadViewPL<T extends ImageGray>
 		extends CreateSyntheticOverheadView<Planar<T>>
 {
+	private static FactoryImageBorder FIB;
 	// computes interpolated pixel value.
 	// have one for each band so that you don't need to constantly change the image it's set to
 	private InterpolatePixelS<T> interp[];
@@ -63,7 +65,7 @@ public class CreateSyntheticOverheadViewPL<T extends ImageGray>
 	public CreateSyntheticOverheadViewPL(InterpolationType type , int numBands , Class<T> imageType ) {
 		this.interp = new InterpolatePixelS[numBands];
 		for( int i = 0; i < numBands; i++ ) {
-			interp[i] = FactoryInterpolation.createPixelS(0, 255, type, BorderType.EXTENDED, imageType);
+			interp[i] = FactoryInterpolation.createPixelS(0, 255, type, BorderType.EXTENDED, imageType, FIB);
 		}
 		output = new GImageGray[interp.length];
 	}

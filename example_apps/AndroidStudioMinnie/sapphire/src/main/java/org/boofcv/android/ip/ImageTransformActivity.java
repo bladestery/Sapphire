@@ -14,6 +14,9 @@ import org.boofcv.android.R;
 
 import boofcv.abst.transform.fft.DiscreteFourierTransform;
 import boofcv.abst.transform.wavelet.WaveletTransform;
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.misc.ImageStatistics;
 import boofcv.alg.misc.PixelMath;
 import boofcv.alg.transform.fft.DiscreteFourierTransformOps;
@@ -22,6 +25,7 @@ import boofcv.android.ConvertBitmap;
 import boofcv.android.VisualizeImageData;
 import boofcv.android.gui.VideoImageProcessing;
 import boofcv.core.image.ConvertImage;
+import boofcv.core.image.GeneralizedImageOps;
 import boofcv.factory.transform.pyramid.FactoryPyramid;
 import boofcv.factory.transform.wavelet.FactoryWaveletTransform;
 import boofcv.factory.transform.wavelet.GFactoryWavelet;
@@ -43,6 +47,10 @@ import boofcv.struct.wavelet.WlCoef;
 public class ImageTransformActivity extends DemoVideoDisplayActivity
 		implements AdapterView.OnItemSelectedListener
 {
+	private static GImageMiscOps GIMO;
+	private static InputSanityCheck ISC;
+	private static ImageMiscOps IMO;
+	private static GeneralizedImageOps GIO;
 	private ImageStatistics IS;
 	private ImageType IT;
 	Spinner spinnerView;
@@ -114,14 +122,14 @@ public class ImageTransformActivity extends DemoVideoDisplayActivity
 
 		@Override
 		protected void process(GrayU8 input, Bitmap output, byte[] storage) {
-			ConvertImage.convert(input, grayF);
-			PixelMath.divide(grayF,255.0f,grayF);
+			ConvertImage.convert(input, grayF, ISC);
+			PixelMath.divide(grayF,255.0f,grayF, ISC);
 			dft.forward(grayF, transform);
 			DiscreteFourierTransformOps.shiftZeroFrequency(transform, true);
 			DiscreteFourierTransformOps.magnitude(transform, grayF);
-			PixelMath.log(grayF,grayF);
+			PixelMath.log(grayF,grayF, ISC);
 			float max = IS.maxAbs(grayF);
-			PixelMath.multiply(grayF, 255f / max, grayF);
+			PixelMath.multiply(grayF, 255f / max, grayF, ISC);
 			ConvertBitmap.grayToBitmap(grayF, output, storage);
 		}
 	}

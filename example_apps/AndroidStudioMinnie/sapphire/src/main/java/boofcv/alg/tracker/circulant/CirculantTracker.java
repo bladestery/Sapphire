@@ -20,6 +20,7 @@ package boofcv.alg.tracker.circulant;
 
 import boofcv.abst.feature.detect.peak.SearchLocalPeak;
 import boofcv.abst.transform.fft.DiscreteFourierTransform;
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.interpolate.InterpolatePixelS;
 import boofcv.alg.misc.PixelMath;
 import boofcv.alg.transform.fft.DiscreteFourierTransformOps;
@@ -63,7 +64,7 @@ import java.util.Random;
  * @author Peter Abeles
  */
 public class CirculantTracker<T extends ImageGray> {
-
+	private static InputSanityCheck ISC;
 	// --- Tuning parameters
 	// spatial bandwidth (proportional to target)
 	private double output_sigma_factor;
@@ -578,10 +579,10 @@ public class CirculantTracker<T extends ImageGray> {
 		}
 
 		// normalize values to be from -0.5 to 0.5
-		PixelMath.divide(output, maxPixelValue, output);
-		PixelMath.plus(output, -0.5f, output);
+		PixelMath.divide(output, maxPixelValue, output, ISC);
+		PixelMath.plus(output, -0.5f, output, ISC);
 		// apply the cosine window to it
-		PixelMath.multiply(output,cosine,output);
+		PixelMath.multiply(output,cosine,output, ISC);
 	}
 
 	/**

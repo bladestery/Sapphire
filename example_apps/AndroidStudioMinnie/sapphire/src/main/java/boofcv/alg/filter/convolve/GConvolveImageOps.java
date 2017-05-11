@@ -32,12 +32,7 @@ import boofcv.struct.image.*;
  * Image type agnostic convolution functions
  */
 public class GConvolveImageOps {
-	private static ConvolveImageNoBorder CINB;
-	private static InputSanityCheck ISC;
-	private static ConvolveNormalized CN;
-	private static ConvolveNormalizedNaive CNN;
-	private static ConvolveNormalized_JustBorder CNJB;
-	private static ConvolveJustBorder_General CJBG;
+
 	/**
 	 * Performs a horizontal 1D convolution across the image.  Borders are handled as specified by the 'border'
 	 * parameter.
@@ -48,7 +43,7 @@ public class GConvolveImageOps {
 	 * @param border How the image borders are handled.
 	 */
 	public static <In extends ImageGray, Out extends ImageGray, K extends Kernel1D, B extends ImageBorder<In>>
-	void horizontal(K kernel, In input, Out output , B border ) {
+	void horizontal(K kernel, In input, Out output , B border , InputSanityCheck ISC, ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG) {
 		if( input instanceof GrayF32) {
 			ConvolveWithBorder.horizontal((Kernel1D_F32)kernel,(GrayF32)input,(GrayF32)output,(ImageBorder_F32)border, ISC, CINB, CJBG);
 		} else if( input instanceof GrayU8) {
@@ -73,7 +68,7 @@ public class GConvolveImageOps {
 	 * @param border How the image borders are handled.
 	 */
 	public static <In extends ImageGray, Out extends ImageGray, K extends Kernel1D, B extends ImageBorder<In>>
-	void vertical(K kernel, In input, Out output , B border ) {
+	void vertical(K kernel, In input, Out output , B border, InputSanityCheck ISC, ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG) {
 		if( input instanceof GrayF32) {
 			ConvolveWithBorder.vertical((Kernel1D_F32) kernel, (GrayF32) input, (GrayF32) output, (ImageBorder_F32) border, ISC, CINB, CJBG);
 		} else if( input instanceof GrayU8) {
@@ -98,7 +93,7 @@ public class GConvolveImageOps {
 	 * @param border How the image borders are handled.
 	 */
 	public static <In extends ImageGray, Out extends ImageGray, K extends Kernel2D, B extends ImageBorder<In>>
-	void convolve(K kernel, In input, Out output , B border ) {
+	void convolve(K kernel, In input, Out output , B border, InputSanityCheck ISC, ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG) {
 		if( input instanceof GrayF32) {
 			ConvolveWithBorder.convolve((Kernel2D_F32) kernel, (GrayF32) input, (GrayF32) output, (ImageBorder_F32) border, ISC, CINB, CJBG);
 		} else if( input instanceof GrayU8) {
@@ -121,7 +116,7 @@ public class GConvolveImageOps {
 	 * @param kernel The kernel that is being convolved. Not modified.
 	 */
 	public static <In extends ImageGray, Out extends ImageGray, K extends Kernel1D>
-	void horizontal(K kernel, In input, In output ) {
+	void horizontal(K kernel, In input, In output, InputSanityCheck ISC, ConvolveImageNoBorder CINB) {
 		if( input instanceof GrayF32) {
 			CINB.horizontal((Kernel1D_F32)kernel,(GrayF32)input,(GrayF32)output, ISC);
 		} else if( input instanceof GrayU8) {
@@ -144,7 +139,7 @@ public class GConvolveImageOps {
 	 * @param kernel The kernel that is being convolved. Not modified.
 	 */
 	public static <In extends ImageGray, Out extends ImageGray, K extends Kernel1D>
-	void vertical(K kernel, In input, Out output ) {
+	void vertical(K kernel, In input, Out output, InputSanityCheck ISC, ConvolveImageNoBorder CINB) {
 		if( input instanceof GrayF32) {
 			CINB.vertical((Kernel1D_F32) kernel, (GrayF32) input, (GrayF32) output, ISC);
 		} else if( input instanceof GrayU8) {
@@ -167,7 +162,7 @@ public class GConvolveImageOps {
 	 * @param output   The results of the convolution
 	 */
 	public static <In extends ImageGray, Out extends ImageGray, K extends Kernel2D>
-	void convolve(K kernel, In input, Out output ) {
+	void convolve(K kernel, In input, Out output, InputSanityCheck ISC, ConvolveImageNoBorder CINB) {
 		if( input instanceof GrayF32) {
 			CINB.convolve((Kernel2D_F32) kernel, (GrayF32) input, (GrayF32) output, ISC);
 		} else if( input instanceof GrayU8) {
@@ -191,7 +186,7 @@ public class GConvolveImageOps {
 	 * @param kernel The kernel that is being convolved. Not modified.
 	 */
 	public static <In extends ImageGray, Out extends ImageGray, K extends Kernel1D>
-	void horizontalNormalized(K kernel, In input, Out output ) {
+	void horizontalNormalized(K kernel, In input, Out output, InputSanityCheck ISC, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN) {
 		if( input instanceof GrayF32) {
 			CN.horizontal((Kernel1D_F32) kernel, (GrayF32) input, (GrayF32) output, ISC, CNN, CINB, CNJB);
 		} else if( input instanceof GrayF64) {
@@ -214,7 +209,7 @@ public class GConvolveImageOps {
 	 * @param kernel The kernel that is being convolved. Not modified.
 	 */
 	public static <T extends ImageGray, K extends Kernel1D>
-	void verticalNormalized(K kernel, T input, T output ) {
+	void verticalNormalized(K kernel, T input, T output, InputSanityCheck ISC, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN) {
 		if( input instanceof GrayF32) {
 			CN.vertical((Kernel1D_F32) kernel, (GrayF32) input, (GrayF32) output, ISC, CNN, CINB, CNJB);
 		} else if( input instanceof GrayF64) {
@@ -237,7 +232,7 @@ public class GConvolveImageOps {
 	 * @param kernel The kernel that is being convolved. Not modified.
 	 */
 	public static <T extends ImageGray, K extends Kernel2D>
-	void CN(K kernel, T input, T output ) {
+	void CN(K kernel, T input, T output, InputSanityCheck ISC, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN) {
 		if( input instanceof GrayF32) {
 			CN.convolve((Kernel2D_F32) kernel, (GrayF32) input, (GrayF32) output, ISC, CNN, CINB, CNJB);
 		} else if( input instanceof GrayF64) {

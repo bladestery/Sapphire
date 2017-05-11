@@ -14,12 +14,19 @@ import boofcv.abst.feature.orientation.OrientationIntegral;
 import boofcv.alg.feature.detect.interest.GeneralFeatureDetector;
 import boofcv.alg.filter.derivative.GImageDerivativeOps;
 import boofcv.alg.transform.ii.GIntegralImageOps;
+import boofcv.core.image.GeneralizedImageOps;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.feature.describe.FactoryDescribeRegionPoint;
 import boofcv.factory.feature.detdesc.FactoryDetectDescribe;
+import boofcv.factory.feature.detect.extract.FactoryFeatureExtractor;
 import boofcv.factory.feature.detect.interest.FactoryDetectPoint;
 import boofcv.factory.feature.detect.interest.FactoryInterestPoint;
+import boofcv.factory.feature.detect.interest.FactoryInterestPointAlgs;
 import boofcv.factory.feature.orientation.FactoryOrientation;
 import boofcv.factory.feature.orientation.FactoryOrientationAlgs;
+import boofcv.factory.filter.derivative.FactoryDerivative;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
+import sapphire.compiler.FDGenerator;
 
 /**
  * Class which is intended to make it easier to create instances of DetectDescribePoint.  It will automatically
@@ -29,7 +36,13 @@ import boofcv.factory.feature.orientation.FactoryOrientationAlgs;
  * @author Peter Abeles
  */
 public class CreateDetectorDescriptor {
-
+	private static FactoryInterestPoint FIP;
+	private static FactoryInterestPointAlgs FIPA;
+	private static FactoryFeatureExtractor FFE;
+	private static FactoryImageBorder FIB;
+	private static FactoryDerivative FD;
+	private static GeneralizedImageOps GIO;
+	private static FactoryKernelGaussian FKG;
 	public static final int DETECT_FH = 0;
 	public static final int DETECT_SIFT = 1;
 	public static final int DETECT_SHITOMASI = 2;
@@ -79,10 +92,10 @@ public class CreateDetectorDescriptor {
 
 		switch( detect ) {
 			case DETECT_FH:
-				return FactoryInterestPoint.fastHessian(confDetectFH());
+				return FIP.fastHessian(confDetectFH(), FIPA, FFE);
 
 			case DETECT_SIFT:
-				return FactoryInterestPoint.sift(null,confDetectSift(),imageType);
+				return FIP.sift(null,confDetectSift(),imageType, FFE, FIB, FKG, GIO);
 
 			case DETECT_SHITOMASI:
 				general = FactoryDetectPoint.createShiTomasi(confCorner(),false,derivType);
@@ -101,7 +114,7 @@ public class CreateDetectorDescriptor {
 
 		}
 
-		return FactoryInterestPoint.wrapPoint(general,1.0,imageType,derivType);
+		return FIP.wrapPoint(general,1.0,imageType,derivType, FD, GIO, FIB);
 	}
 
 	public static DescribeRegionPoint createDescriptor( int describe , boolean scaleSpace , Class imageType ) {

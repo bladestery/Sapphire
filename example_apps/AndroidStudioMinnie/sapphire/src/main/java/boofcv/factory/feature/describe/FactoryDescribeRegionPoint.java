@@ -29,6 +29,7 @@ import boofcv.alg.feature.detect.interest.SiftScaleSpace;
 import boofcv.alg.transform.ii.GIntegralImageOps;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.factory.filter.blur.FactoryBlurFilter;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.feature.*;
 import boofcv.struct.image.*;
 
@@ -43,6 +44,7 @@ import java.util.Random;
 public class FactoryDescribeRegionPoint {
 	private static FactoryBlurFilter FBF;
 	private static GeneralizedImageOps GIO;
+	private static FactoryKernelGaussian FKG;
 	/**
 	 * <p>
 	 * Creates a SURF descriptor.  SURF descriptors are invariant to illumination, orientation, and scale.
@@ -165,7 +167,7 @@ public class FactoryDescribeRegionPoint {
 		configSS.checkValidity();
 
 		SiftScaleSpace ss = new SiftScaleSpace(configSS.firstOctave, configSS.lastOctave, configSS.numScales,
-				configSS.sigma0);
+				configSS.sigma0, FKG);
 
 		DescribePointSift<GrayF32> alg = FactoryDescribePointAlgs.sift(configDescribe,GrayF32.class);
 

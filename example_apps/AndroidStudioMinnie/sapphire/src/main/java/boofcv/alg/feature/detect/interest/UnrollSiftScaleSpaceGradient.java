@@ -21,7 +21,10 @@ package boofcv.alg.feature.detect.interest;
 import boofcv.abst.filter.derivative.ImageGradient;
 import boofcv.alg.InputSanityCheck;
 import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
 import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
 import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
 import boofcv.alg.filter.derivative.GradientSobel;
 import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
@@ -50,6 +53,9 @@ public class UnrollSiftScaleSpaceGradient {
 	private static ConvolveJustBorder_General CJBG;
 	private static GradientSobel_Outer GSO;
 	private static GradientSobel_UnrolledOuter GSUO;
+	private static ConvolveNormalizedNaive CNN;
+	private static ConvolveNormalized_JustBorder CNJB;
+	private static ConvolveNormalized CN;
 	// input scale space
 	SiftScaleSpace scaleSpace;
 
@@ -77,7 +83,7 @@ public class UnrollSiftScaleSpaceGradient {
 	 */
 	public void setImage(GrayF32 image) {
 
-		scaleSpace.initialize(image);
+		scaleSpace.initialize(image, FIB, ISC, CNN, CINB, CNJB, CN);
 
 		usedScales.clear();
 		do {
@@ -96,7 +102,7 @@ public class UnrollSiftScaleSpaceGradient {
 
 				usedScales.add(scale);
 			}
-		} while( scaleSpace.computeNextOctave() );
+		} while( scaleSpace.computeNextOctave(ISC, CNN, CINB, CNJB, CN) );
 	}
 
 

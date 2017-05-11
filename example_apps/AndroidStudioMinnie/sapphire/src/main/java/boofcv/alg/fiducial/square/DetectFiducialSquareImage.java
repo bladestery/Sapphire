@@ -27,6 +27,7 @@ import boofcv.alg.descriptor.DescriptorDistance;
 import boofcv.alg.filter.binary.GThresholdImageOps;
 import boofcv.alg.filter.binary.ThresholdImageOps;
 import boofcv.alg.filter.misc.AverageDownSampleOps;
+import boofcv.alg.misc.GImageMiscOps;
 import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.misc.ImageStatistics;
 import boofcv.alg.misc.PixelMath;
@@ -70,6 +71,7 @@ public class DetectFiducialSquareImage<T extends ImageGray>
 	private static ThresholdImageOps TIO;
 	private static InputSanityCheck ISC;
 	private static GeneralizedImageOps GIO;
+	private static GImageMiscOps GIMO;
 	// Width of black border (units = pixels)
 	private final static int w=16;
 	private final static int squareLength=w*4; // this must be a multiple of 16
@@ -133,8 +135,8 @@ public class DetectFiducialSquareImage<T extends ImageGray>
 		if ( inputBinary.width != squareLength || inputBinary.height != squareLength ) {
 			// need to create a new image and rescale it to better handle the resizing
 			GrayF32 inputGray = new GrayF32(inputBinary.width,inputBinary.height);
-			ConvertImage.convert(inputBinary,inputGray);
-			PixelMath.multiply(inputGray,255,inputGray);
+			ConvertImage.convert(inputBinary,inputGray, ISC);
+			PixelMath.multiply(inputGray,255,inputGray, ISC);
 
 			GrayF32 scaled = new GrayF32(squareLength,squareLength);
 

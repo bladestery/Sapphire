@@ -26,6 +26,7 @@ import boofcv.alg.feature.describe.brief.BinaryCompareDefinition_I32;
 import boofcv.alg.feature.describe.impl.*;
 import boofcv.alg.interpolate.InterpolatePixelS;
 import boofcv.core.image.border.BorderType;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.struct.feature.TupleDesc;
 import boofcv.struct.image.GrayF32;
@@ -42,6 +43,7 @@ import boofcv.struct.image.ImageType;
 @SuppressWarnings({"unchecked"})
 public class FactoryDescribePointAlgs {
 	private static ImageType IT;
+	private static FactoryImageBorder FIB;
 	public static <T extends ImageGray>
 	DescribePointSurf<T> surfSpeed(ConfigSurfDescribe.Speed config, Class<T> imageType) {
 		if( config == null )
@@ -91,7 +93,7 @@ public class FactoryDescribePointAlgs {
 	DescribePointBriefSO<T> briefso(BinaryCompareDefinition_I32 definition, BlurFilter<T> filterBlur) {
 		Class<T> imageType = filterBlur.getInputType(IT).getImageClass();
 
-		InterpolatePixelS<T> interp = FactoryInterpolation.bilinearPixelS(imageType, BorderType.EXTENDED);
+		InterpolatePixelS<T> interp = FactoryInterpolation.bilinearPixelS(imageType, BorderType.EXTENDED, FIB);
 
 		return new DescribePointBriefSO<>(definition, filterBlur, interp);
 	}

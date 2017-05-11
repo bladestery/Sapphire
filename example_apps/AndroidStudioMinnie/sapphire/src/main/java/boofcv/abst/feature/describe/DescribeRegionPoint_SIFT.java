@@ -18,10 +18,14 @@
 
 package boofcv.abst.feature.describe;
 
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.feature.describe.DescribePointSift;
 import boofcv.alg.feature.detect.interest.SiftScaleSpace;
 import boofcv.alg.feature.detect.interest.UnrollSiftScaleSpaceGradient;
+import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.core.image.GConvertImage;
+import boofcv.core.image.GeneralizedImageOps;
 import boofcv.struct.BoofDefaults;
 import boofcv.struct.feature.TupleDesc_F64;
 import boofcv.struct.image.GrayF32;
@@ -38,6 +42,10 @@ import boofcv.struct.image.ImageType;
 public class DescribeRegionPoint_SIFT <T extends ImageGray>
 	implements DescribeRegionPoint<T,TupleDesc_F64>
 {
+	private static GImageMiscOps GIMO;
+	private static InputSanityCheck ISC;
+	private static ImageMiscOps IMO;
+	private static GeneralizedImageOps GIO;
 	private ImageType IT;
 	// expected type of input image.  All image types are converted to floats since that's what
 	// the scale-space requires
@@ -68,7 +76,7 @@ public class DescribeRegionPoint_SIFT <T extends ImageGray>
 			input = (GrayF32)image;
 		} else {
 			imageFloat.reshape(image.width,image.height);
-			GConvertImage.convert(image,imageFloat);
+			GConvertImage.convert(image,imageFloat, ISC, GIO, GIMO, IMO);
 			input = imageFloat;
 		}
 

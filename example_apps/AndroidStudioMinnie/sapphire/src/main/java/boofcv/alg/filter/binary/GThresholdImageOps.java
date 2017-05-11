@@ -51,6 +51,10 @@ import sapphire.app.SapphireObject;
 public class GThresholdImageOps implements SapphireObject {
 	private static ImageType IT;
 	private static GImageStatistics GIS;
+	private static GeneralizedImageOps GIO;
+	private static GImageMiscOps GIMO;
+	private static InputSanityCheck ISC;
+	private static ImageMiscOps IMO;
 	
 	public GThresholdImageOps() {}
 
@@ -355,7 +359,7 @@ public class GThresholdImageOps implements SapphireObject {
 			alg.process((GrayF32)input,output);
 		} else {
 			GrayF32 conv = new GrayF32(input.width,input.height);
-			GConvertImage.convert(input, conv);
+			GConvertImage.convert(input, conv, ISC, GIO, GIMO, IMO);
 			alg.process(conv,output);
 		}
 

@@ -46,17 +46,18 @@ public final class BinaryEllipseDetector_Stub extends boofcv.alg.shapes.ellipse.
         }
     }
 
-    // Implementation of setLensDistortion(PixelTransform2_F32, PixelTransform2_F32)
-    public void setLensDistortion(boofcv.struct.distort.PixelTransform2_F32 $param_PixelTransform2_F32_1, boofcv.struct.distort.PixelTransform2_F32 $param_PixelTransform2_F32_2) {
+    // Implementation of setLensDistortion(PixelTransform2_F32, PixelTransform2_F32, FactoryImageBorder)
+    public void setLensDistortion(boofcv.struct.distort.PixelTransform2_F32 $param_PixelTransform2_F32_1, boofcv.struct.distort.PixelTransform2_F32 $param_PixelTransform2_F32_2, boofcv.core.image.border.FactoryImageBorder $param_FactoryImageBorder_3) {
         java.lang.Object $__result = null;
         try {
             if ($__directInvocation)
-                super.setLensDistortion( $param_PixelTransform2_F32_1,  $param_PixelTransform2_F32_2);
+                super.setLensDistortion( $param_PixelTransform2_F32_1,  $param_PixelTransform2_F32_2,  $param_FactoryImageBorder_3);
             else {
                 java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
-                String $__method = "public void boofcv.alg.shapes.ellipse.BinaryEllipseDetector.setLensDistortion(boofcv.struct.distort.PixelTransform2_F32,boofcv.struct.distort.PixelTransform2_F32)";
+                String $__method = "public void boofcv.alg.shapes.ellipse.BinaryEllipseDetector.setLensDistortion(boofcv.struct.distort.PixelTransform2_F32,boofcv.struct.distort.PixelTransform2_F32,boofcv.core.image.border.FactoryImageBorder)";
                 $__params.add($param_PixelTransform2_F32_1);
                 $__params.add($param_PixelTransform2_F32_2);
+                $__params.add($param_FactoryImageBorder_3);
                 $__result = $__client.onRPC($__method, $__params);
             }
         } catch (Exception e) {

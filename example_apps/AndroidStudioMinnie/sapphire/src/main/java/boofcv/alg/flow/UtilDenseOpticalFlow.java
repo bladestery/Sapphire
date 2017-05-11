@@ -22,6 +22,7 @@ import boofcv.alg.interpolate.InterpolatePixelS;
 import boofcv.alg.transform.pyramid.PyramidFloatGaussianScale;
 import boofcv.alg.transform.pyramid.PyramidFloatScale;
 import boofcv.core.image.border.BorderType;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.struct.image.ImageGray;
 import boofcv.struct.pyramid.PyramidFloat;
@@ -32,7 +33,7 @@ import boofcv.struct.pyramid.PyramidFloat;
  * @author Peter Abeles
  */
 public class UtilDenseOpticalFlow {
-
+	private static FactoryImageBorder FIB;
 	/**
 	 * <p>
 	 * Create a standard image pyramid used by dense optical flow parameters.  The first layer is the size
@@ -91,7 +92,7 @@ public class UtilDenseOpticalFlow {
 			numScales++;
 		}
 
-		InterpolatePixelS<T> interp = FactoryInterpolation.bilinearPixelS(imageType, BorderType.EXTENDED);
+		InterpolatePixelS<T> interp = FactoryInterpolation.bilinearPixelS(imageType, BorderType.EXTENDED, FIB);
 
 		if( sigma > 0 ) {
 			double layerSigma = sigma*Math.sqrt(Math.pow(scale,-2)-1);

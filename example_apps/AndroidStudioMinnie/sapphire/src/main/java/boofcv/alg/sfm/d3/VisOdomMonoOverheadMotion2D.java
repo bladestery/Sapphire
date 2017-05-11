@@ -25,6 +25,7 @@ import boofcv.alg.sfm.overhead.CreateSyntheticOverheadView;
 import boofcv.alg.sfm.overhead.OverheadView;
 import boofcv.alg.sfm.overhead.SelectOverheadParameters;
 import boofcv.core.image.GeneralizedImageOps;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.sfm.FactorySfmMisc;
 import boofcv.struct.calib.CameraPinholeRadial;
 import boofcv.struct.image.ImageBase;
@@ -53,6 +54,7 @@ public class VisOdomMonoOverheadMotion2D<T extends ImageBase>
 {
 	private static GImageMiscOps GIMO;
 	private static ImageMiscOps IMO;
+	private static FactoryImageBorder FIB;
 	// creates the overhead image
 	private CreateSyntheticOverheadView<T> createOverhead;
 	// estimates 2D motion inside the overhead image
@@ -96,7 +98,7 @@ public class VisOdomMonoOverheadMotion2D<T extends ImageBase>
 		selectOverhead = new SelectOverheadParameters(cellSize,maxCellsPerPixel,mapHeightFraction);
 		this.motion2D = motion2D;
 
-		createOverhead = FactorySfmMisc.createOverhead(imageType);
+		createOverhead = FactorySfmMisc.createOverhead(imageType, FIB);
 
 		overhead = new OverheadView<>(imageType.createImage(1, 1), 0, 0, cellSize);
 	}

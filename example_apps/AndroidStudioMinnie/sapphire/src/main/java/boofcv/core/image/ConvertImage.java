@@ -40,7 +40,6 @@ import javax.annotation.Generated;
  */
 @Generated("boofcv.core.image.GenerateConvertImage")
 public class ConvertImage {
-	private static InputSanityCheck ISC;
 	/**
 	 * <p>
 	 * Converts an {@link GrayU8} into a {@link GrayS8}.
@@ -50,7 +49,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayS8 convert(GrayU8 input, GrayS8 output) {
+	public static GrayS8 convert(GrayU8 input, GrayS8 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayS8(input.width, input.height);
 		} else {
@@ -71,7 +70,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static InterleavedS8 convert(InterleavedU8 input, InterleavedS8 output) {
+	public static InterleavedS8 convert(InterleavedU8 input, InterleavedS8 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new InterleavedS8(input.width, input.height, input.numBands);
 		} else {
@@ -92,7 +91,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayU16 convert(GrayU8 input, GrayU16 output) {
+	public static GrayU16 convert(GrayU8 input, GrayU16 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayU16(input.width, input.height);
 		} else {
@@ -113,7 +112,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static InterleavedU16 convert(InterleavedU8 input, InterleavedU16 output) {
+	public static InterleavedU16 convert(InterleavedU8 input, InterleavedU16 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new InterleavedU16(input.width, input.height, input.numBands);
 		} else {
@@ -134,7 +133,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayS16 convert(GrayU8 input, GrayS16 output) {
+	public static GrayS16 convert(GrayU8 input, GrayS16 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayS16(input.width, input.height);
 		} else {
@@ -155,7 +154,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static InterleavedS16 convert(InterleavedU8 input, InterleavedS16 output) {
+	public static InterleavedS16 convert(InterleavedU8 input, InterleavedS16 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new InterleavedS16(input.width, input.height, input.numBands);
 		} else {
@@ -176,7 +175,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayS32 convert(GrayU8 input, GrayS32 output) {
+	public static GrayS32 convert(GrayU8 input, GrayS32 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayS32(input.width, input.height);
 		} else {
@@ -197,7 +196,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static InterleavedS32 convert(InterleavedU8 input, InterleavedS32 output) {
+	public static InterleavedS32 convert(InterleavedU8 input, InterleavedS32 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new InterleavedS32(input.width, input.height, input.numBands);
 		} else {
@@ -218,7 +217,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayS64 convert(GrayU8 input, GrayS64 output) {
+	public static GrayS64 convert(GrayU8 input, GrayS64 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayS64(input.width, input.height);
 		} else {
@@ -239,7 +238,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static InterleavedS64 convert(InterleavedU8 input, InterleavedS64 output) {
+	public static InterleavedS64 convert(InterleavedU8 input, InterleavedS64 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new InterleavedS64(input.width, input.height, input.numBands);
 		} else {
@@ -260,7 +259,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayF32 convert(GrayU8 input, GrayF32 output) {
+	public static GrayF32 convert(GrayU8 input, GrayF32 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayF32(input.width, input.height);
 		} else {
@@ -281,7 +280,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static InterleavedF32 convert(InterleavedU8 input, InterleavedF32 output) {
+	public static InterleavedF32 convert(InterleavedU8 input, InterleavedF32 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new InterleavedF32(input.width, input.height, input.numBands);
 		} else {
@@ -302,7 +301,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayF64 convert(GrayU8 input, GrayF64 output) {
+	public static GrayF64 convert(GrayU8 input, GrayF64 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayF64(input.width, input.height);
 		} else {
@@ -323,7 +322,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static InterleavedF64 convert(InterleavedU8 input, InterleavedF64 output) {
+	public static InterleavedF64 convert(InterleavedU8 input, InterleavedF64 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new InterleavedF64(input.width, input.height, input.numBands);
 		} else {
@@ -343,7 +342,7 @@ public class ConvertImage {
 	 * @param output (Optional) The single band output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayU8 average(Planar<GrayU8> input , GrayU8 output ) {
+	public static GrayU8 average(Planar<GrayU8> input , GrayU8 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayU8(input.width, input.height);
 		} else {
@@ -362,7 +361,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static InterleavedU8 convert(Planar<GrayU8> input , InterleavedU8 output ) {
+	public static InterleavedU8 convert(Planar<GrayU8> input , InterleavedU8 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new InterleavedU8(input.width, input.height,input.getNumBands());
 		} else {
@@ -382,7 +381,7 @@ public class ConvertImage {
 	 * @param output (Optional) The single band output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayU8 average(InterleavedU8 input , GrayU8 output ) {
+	public static GrayU8 average(InterleavedU8 input , GrayU8 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayU8(input.width, input.height);
 		} else {
@@ -401,7 +400,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static Planar<GrayU8> convert(InterleavedU8 input , Planar<GrayU8> output ) {
+	public static Planar<GrayU8> convert(InterleavedU8 input , Planar<GrayU8> output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new Planar<>(GrayU8.class,input.width, input.height,input.numBands);
 		} else {
@@ -422,7 +421,7 @@ public class ConvertImage {
 	 * @param output (Optional) Storage for the output image.  Can be null.
 	 * @return The converted output image.
 	 */
-	public static GrayU8 convert(GrayU8 input , int min , int max , int numValues , GrayU8 output )
+	public static GrayU8 convert(GrayU8 input , int min , int max , int numValues , GrayU8 output, InputSanityCheck ISC )
 	{
 		if (output == null) {
 			output = new GrayU8(input.width, input.height);
@@ -456,7 +455,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayU8 convert(GrayS8 input, GrayU8 output) {
+	public static GrayU8 convert(GrayS8 input, GrayU8 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayU8(input.width, input.height);
 		} else {
@@ -477,7 +476,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static InterleavedU8 convert(InterleavedS8 input, InterleavedU8 output) {
+	public static InterleavedU8 convert(InterleavedS8 input, InterleavedU8 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new InterleavedU8(input.width, input.height, input.numBands);
 		} else {
@@ -498,7 +497,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayU16 convert(GrayS8 input, GrayU16 output) {
+	public static GrayU16 convert(GrayS8 input, GrayU16 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayU16(input.width, input.height);
 		} else {
@@ -519,7 +518,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static InterleavedU16 convert(InterleavedS8 input, InterleavedU16 output) {
+	public static InterleavedU16 convert(InterleavedS8 input, InterleavedU16 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new InterleavedU16(input.width, input.height, input.numBands);
 		} else {
@@ -540,7 +539,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayS16 convert(GrayS8 input, GrayS16 output) {
+	public static GrayS16 convert(GrayS8 input, GrayS16 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayS16(input.width, input.height);
 		} else {
@@ -561,7 +560,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static InterleavedS16 convert(InterleavedS8 input, InterleavedS16 output) {
+	public static InterleavedS16 convert(InterleavedS8 input, InterleavedS16 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new InterleavedS16(input.width, input.height, input.numBands);
 		} else {
@@ -582,7 +581,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayS32 convert(GrayS8 input, GrayS32 output) {
+	public static GrayS32 convert(GrayS8 input, GrayS32 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayS32(input.width, input.height);
 		} else {
@@ -603,7 +602,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static InterleavedS32 convert(InterleavedS8 input, InterleavedS32 output) {
+	public static InterleavedS32 convert(InterleavedS8 input, InterleavedS32 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new InterleavedS32(input.width, input.height, input.numBands);
 		} else {
@@ -624,7 +623,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayS64 convert(GrayS8 input, GrayS64 output) {
+	public static GrayS64 convert(GrayS8 input, GrayS64 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayS64(input.width, input.height);
 		} else {
@@ -645,7 +644,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static InterleavedS64 convert(InterleavedS8 input, InterleavedS64 output) {
+	public static InterleavedS64 convert(InterleavedS8 input, InterleavedS64 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new InterleavedS64(input.width, input.height, input.numBands);
 		} else {
@@ -666,7 +665,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayF32 convert(GrayS8 input, GrayF32 output) {
+	public static GrayF32 convert(GrayS8 input, GrayF32 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayF32(input.width, input.height);
 		} else {
@@ -687,7 +686,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static InterleavedF32 convert(InterleavedS8 input, InterleavedF32 output) {
+	public static InterleavedF32 convert(InterleavedS8 input, InterleavedF32 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new InterleavedF32(input.width, input.height, input.numBands);
 		} else {
@@ -708,7 +707,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayF64 convert(GrayS8 input, GrayF64 output) {
+	public static GrayF64 convert(GrayS8 input, GrayF64 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayF64(input.width, input.height);
 		} else {
@@ -729,7 +728,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static InterleavedF64 convert(InterleavedS8 input, InterleavedF64 output) {
+	public static InterleavedF64 convert(InterleavedS8 input, InterleavedF64 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new InterleavedF64(input.width, input.height, input.numBands);
 		} else {
@@ -749,7 +748,7 @@ public class ConvertImage {
 	 * @param output (Optional) The single band output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayS8 average(Planar<GrayS8> input , GrayS8 output ) {
+	public static GrayS8 average(Planar<GrayS8> input , GrayS8 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayS8(input.width, input.height);
 		} else {
@@ -768,7 +767,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static InterleavedS8 convert(Planar<GrayS8> input , InterleavedS8 output ) {
+	public static InterleavedS8 convert(Planar<GrayS8> input , InterleavedS8 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new InterleavedS8(input.width, input.height,input.getNumBands());
 		} else {
@@ -788,7 +787,7 @@ public class ConvertImage {
 	 * @param output (Optional) The single band output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayS8 average(InterleavedS8 input , GrayS8 output ) {
+	public static GrayS8 average(InterleavedS8 input , GrayS8 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayS8(input.width, input.height);
 		} else {
@@ -807,7 +806,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static Planar<GrayS8> convert(InterleavedS8 input , Planar<GrayS8> output ) {
+	public static Planar<GrayS8> convert(InterleavedS8 input , Planar<GrayS8> output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new Planar<GrayS8>(GrayS8.class,input.width, input.height,input.numBands);
 		} else {
@@ -828,7 +827,7 @@ public class ConvertImage {
 	 * @param output (Optional) Storage for the output image.  Can be null.
 	 * @return The converted output image.
 	 */
-	public static GrayU8 convert(GrayS8 input , int min , int max , int numValues , GrayU8 output )
+	public static GrayU8 convert(GrayS8 input , int min , int max , int numValues , GrayU8 output , InputSanityCheck ISC)
 	{
 		if (output == null) {
 			output = new GrayU8(input.width, input.height);
@@ -862,7 +861,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayU8 convert(GrayU16 input, GrayU8 output) {
+	public static GrayU8 convert(GrayU16 input, GrayU8 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayU8(input.width, input.height);
 		} else {
@@ -883,7 +882,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static InterleavedU8 convert(InterleavedU16 input, InterleavedU8 output) {
+	public static InterleavedU8 convert(InterleavedU16 input, InterleavedU8 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new InterleavedU8(input.width, input.height, input.numBands);
 		} else {
@@ -904,7 +903,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayS8 convert(GrayU16 input, GrayS8 output) {
+	public static GrayS8 convert(GrayU16 input, GrayS8 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayS8(input.width, input.height);
 		} else {
@@ -925,7 +924,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static InterleavedS8 convert(InterleavedU16 input, InterleavedS8 output) {
+	public static InterleavedS8 convert(InterleavedU16 input, InterleavedS8 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new InterleavedS8(input.width, input.height, input.numBands);
 		} else {
@@ -946,7 +945,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayS16 convert(GrayU16 input, GrayS16 output) {
+	public static GrayS16 convert(GrayU16 input, GrayS16 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayS16(input.width, input.height);
 		} else {
@@ -967,7 +966,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static InterleavedS16 convert(InterleavedU16 input, InterleavedS16 output) {
+	public static InterleavedS16 convert(InterleavedU16 input, InterleavedS16 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new InterleavedS16(input.width, input.height, input.numBands);
 		} else {
@@ -988,7 +987,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayS32 convert(GrayU16 input, GrayS32 output) {
+	public static GrayS32 convert(GrayU16 input, GrayS32 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayS32(input.width, input.height);
 		} else {
@@ -1009,7 +1008,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static InterleavedS32 convert(InterleavedU16 input, InterleavedS32 output) {
+	public static InterleavedS32 convert(InterleavedU16 input, InterleavedS32 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new InterleavedS32(input.width, input.height, input.numBands);
 		} else {
@@ -1030,7 +1029,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayS64 convert(GrayU16 input, GrayS64 output) {
+	public static GrayS64 convert(GrayU16 input, GrayS64 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayS64(input.width, input.height);
 		} else {
@@ -1051,7 +1050,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static InterleavedS64 convert(InterleavedU16 input, InterleavedS64 output) {
+	public static InterleavedS64 convert(InterleavedU16 input, InterleavedS64 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new InterleavedS64(input.width, input.height, input.numBands);
 		} else {
@@ -1072,7 +1071,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayF32 convert(GrayU16 input, GrayF32 output) {
+	public static GrayF32 convert(GrayU16 input, GrayF32 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayF32(input.width, input.height);
 		} else {
@@ -1093,7 +1092,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static InterleavedF32 convert(InterleavedU16 input, InterleavedF32 output) {
+	public static InterleavedF32 convert(InterleavedU16 input, InterleavedF32 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new InterleavedF32(input.width, input.height, input.numBands);
 		} else {
@@ -1114,7 +1113,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayF64 convert(GrayU16 input, GrayF64 output) {
+	public static GrayF64 convert(GrayU16 input, GrayF64 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayF64(input.width, input.height);
 		} else {
@@ -1135,7 +1134,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static InterleavedF64 convert(InterleavedU16 input, InterleavedF64 output) {
+	public static InterleavedF64 convert(InterleavedU16 input, InterleavedF64 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new InterleavedF64(input.width, input.height, input.numBands);
 		} else {
@@ -1155,7 +1154,7 @@ public class ConvertImage {
 	 * @param output (Optional) The single band output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayU16 average(Planar<GrayU16> input , GrayU16 output ) {
+	public static GrayU16 average(Planar<GrayU16> input , GrayU16 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayU16(input.width, input.height);
 		} else {
@@ -1174,7 +1173,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static InterleavedU16 convert(Planar<GrayU16> input , InterleavedU16 output ) {
+	public static InterleavedU16 convert(Planar<GrayU16> input , InterleavedU16 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new InterleavedU16(input.width, input.height,input.getNumBands());
 		} else {
@@ -1194,7 +1193,7 @@ public class ConvertImage {
 	 * @param output (Optional) The single band output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayU16 average(InterleavedU16 input , GrayU16 output ) {
+	public static GrayU16 average(InterleavedU16 input , GrayU16 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayU16(input.width, input.height);
 		} else {
@@ -1213,7 +1212,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static Planar<GrayU16> convert(InterleavedU16 input , Planar<GrayU16> output ) {
+	public static Planar<GrayU16> convert(InterleavedU16 input , Planar<GrayU16> output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new Planar<GrayU16>(GrayU16.class,input.width, input.height,input.numBands);
 		} else {
@@ -1234,7 +1233,7 @@ public class ConvertImage {
 	 * @param output (Optional) Storage for the output image.  Can be null.
 	 * @return The converted output image.
 	 */
-	public static GrayU8 convert(GrayU16 input , int min , int max , int numValues , GrayU8 output )
+	public static GrayU8 convert(GrayU16 input , int min , int max , int numValues , GrayU8 output , InputSanityCheck ISC)
 	{
 		if (output == null) {
 			output = new GrayU8(input.width, input.height);
@@ -1268,7 +1267,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayU8 convert(GrayS16 input, GrayU8 output) {
+	public static GrayU8 convert(GrayS16 input, GrayU8 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayU8(input.width, input.height);
 		} else {
@@ -1289,7 +1288,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static InterleavedU8 convert(InterleavedS16 input, InterleavedU8 output) {
+	public static InterleavedU8 convert(InterleavedS16 input, InterleavedU8 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new InterleavedU8(input.width, input.height, input.numBands);
 		} else {
@@ -1310,7 +1309,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayS8 convert(GrayS16 input, GrayS8 output) {
+	public static GrayS8 convert(GrayS16 input, GrayS8 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayS8(input.width, input.height);
 		} else {
@@ -1331,7 +1330,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static InterleavedS8 convert(InterleavedS16 input, InterleavedS8 output) {
+	public static InterleavedS8 convert(InterleavedS16 input, InterleavedS8 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new InterleavedS8(input.width, input.height, input.numBands);
 		} else {
@@ -1352,7 +1351,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayU16 convert(GrayS16 input, GrayU16 output) {
+	public static GrayU16 convert(GrayS16 input, GrayU16 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayU16(input.width, input.height);
 		} else {
@@ -1373,7 +1372,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static InterleavedU16 convert(InterleavedS16 input, InterleavedU16 output) {
+	public static InterleavedU16 convert(InterleavedS16 input, InterleavedU16 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new InterleavedU16(input.width, input.height, input.numBands);
 		} else {
@@ -1394,7 +1393,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayS32 convert(GrayS16 input, GrayS32 output) {
+	public static GrayS32 convert(GrayS16 input, GrayS32 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayS32(input.width, input.height);
 		} else {
@@ -1415,7 +1414,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static InterleavedS32 convert(InterleavedS16 input, InterleavedS32 output) {
+	public static InterleavedS32 convert(InterleavedS16 input, InterleavedS32 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new InterleavedS32(input.width, input.height, input.numBands);
 		} else {
@@ -1436,7 +1435,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayS64 convert(GrayS16 input, GrayS64 output) {
+	public static GrayS64 convert(GrayS16 input, GrayS64 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayS64(input.width, input.height);
 		} else {
@@ -1457,7 +1456,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static InterleavedS64 convert(InterleavedS16 input, InterleavedS64 output) {
+	public static InterleavedS64 convert(InterleavedS16 input, InterleavedS64 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new InterleavedS64(input.width, input.height, input.numBands);
 		} else {
@@ -1478,7 +1477,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayF32 convert(GrayS16 input, GrayF32 output) {
+	public static GrayF32 convert(GrayS16 input, GrayF32 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayF32(input.width, input.height);
 		} else {
@@ -1499,7 +1498,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static InterleavedF32 convert(InterleavedS16 input, InterleavedF32 output) {
+	public static InterleavedF32 convert(InterleavedS16 input, InterleavedF32 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new InterleavedF32(input.width, input.height, input.numBands);
 		} else {
@@ -1520,7 +1519,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayF64 convert(GrayS16 input, GrayF64 output) {
+	public static GrayF64 convert(GrayS16 input, GrayF64 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayF64(input.width, input.height);
 		} else {
@@ -1541,7 +1540,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static InterleavedF64 convert(InterleavedS16 input, InterleavedF64 output) {
+	public static InterleavedF64 convert(InterleavedS16 input, InterleavedF64 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new InterleavedF64(input.width, input.height, input.numBands);
 		} else {
@@ -1561,7 +1560,7 @@ public class ConvertImage {
 	 * @param output (Optional) The single band output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayS16 average(Planar<GrayS16> input , GrayS16 output ) {
+	public static GrayS16 average(Planar<GrayS16> input , GrayS16 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayS16(input.width, input.height);
 		} else {
@@ -1580,7 +1579,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static InterleavedS16 convert(Planar<GrayS16> input , InterleavedS16 output ) {
+	public static InterleavedS16 convert(Planar<GrayS16> input , InterleavedS16 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new InterleavedS16(input.width, input.height,input.getNumBands());
 		} else {
@@ -1600,7 +1599,7 @@ public class ConvertImage {
 	 * @param output (Optional) The single band output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayS16 average(InterleavedS16 input , GrayS16 output ) {
+	public static GrayS16 average(InterleavedS16 input , GrayS16 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayS16(input.width, input.height);
 		} else {
@@ -1619,7 +1618,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static Planar<GrayS16> convert(InterleavedS16 input , Planar<GrayS16> output ) {
+	public static Planar<GrayS16> convert(InterleavedS16 input , Planar<GrayS16> output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new Planar<GrayS16>(GrayS16.class,input.width, input.height,input.numBands);
 		} else {
@@ -1640,7 +1639,7 @@ public class ConvertImage {
 	 * @param output (Optional) Storage for the output image.  Can be null.
 	 * @return The converted output image.
 	 */
-	public static GrayU8 convert(GrayS16 input , int min , int max , int numValues , GrayU8 output )
+	public static GrayU8 convert(GrayS16 input , int min , int max , int numValues , GrayU8 output, InputSanityCheck ISC )
 	{
 		if (output == null) {
 			output = new GrayU8(input.width, input.height);
@@ -1674,7 +1673,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayU8 convert(GrayS32 input, GrayU8 output) {
+	public static GrayU8 convert(GrayS32 input, GrayU8 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayU8(input.width, input.height);
 		} else {
@@ -1695,7 +1694,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static InterleavedU8 convert(InterleavedS32 input, InterleavedU8 output) {
+	public static InterleavedU8 convert(InterleavedS32 input, InterleavedU8 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new InterleavedU8(input.width, input.height, input.numBands);
 		} else {
@@ -1716,7 +1715,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayS8 convert(GrayS32 input, GrayS8 output) {
+	public static GrayS8 convert(GrayS32 input, GrayS8 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayS8(input.width, input.height);
 		} else {
@@ -1737,7 +1736,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static InterleavedS8 convert(InterleavedS32 input, InterleavedS8 output) {
+	public static InterleavedS8 convert(InterleavedS32 input, InterleavedS8 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new InterleavedS8(input.width, input.height, input.numBands);
 		} else {
@@ -1758,7 +1757,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayU16 convert(GrayS32 input, GrayU16 output) {
+	public static GrayU16 convert(GrayS32 input, GrayU16 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayU16(input.width, input.height);
 		} else {
@@ -1779,7 +1778,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static InterleavedU16 convert(InterleavedS32 input, InterleavedU16 output) {
+	public static InterleavedU16 convert(InterleavedS32 input, InterleavedU16 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new InterleavedU16(input.width, input.height, input.numBands);
 		} else {
@@ -1800,7 +1799,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayS16 convert(GrayS32 input, GrayS16 output) {
+	public static GrayS16 convert(GrayS32 input, GrayS16 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayS16(input.width, input.height);
 		} else {
@@ -1821,7 +1820,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static InterleavedS16 convert(InterleavedS32 input, InterleavedS16 output) {
+	public static InterleavedS16 convert(InterleavedS32 input, InterleavedS16 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new InterleavedS16(input.width, input.height, input.numBands);
 		} else {
@@ -1842,7 +1841,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayS64 convert(GrayS32 input, GrayS64 output) {
+	public static GrayS64 convert(GrayS32 input, GrayS64 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayS64(input.width, input.height);
 		} else {
@@ -1863,7 +1862,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static InterleavedS64 convert(InterleavedS32 input, InterleavedS64 output) {
+	public static InterleavedS64 convert(InterleavedS32 input, InterleavedS64 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new InterleavedS64(input.width, input.height, input.numBands);
 		} else {
@@ -1884,7 +1883,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayF32 convert(GrayS32 input, GrayF32 output) {
+	public static GrayF32 convert(GrayS32 input, GrayF32 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayF32(input.width, input.height);
 		} else {
@@ -1905,7 +1904,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static InterleavedF32 convert(InterleavedS32 input, InterleavedF32 output) {
+	public static InterleavedF32 convert(InterleavedS32 input, InterleavedF32 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new InterleavedF32(input.width, input.height, input.numBands);
 		} else {
@@ -1926,7 +1925,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayF64 convert(GrayS32 input, GrayF64 output) {
+	public static GrayF64 convert(GrayS32 input, GrayF64 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayF64(input.width, input.height);
 		} else {
@@ -1947,7 +1946,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static InterleavedF64 convert(InterleavedS32 input, InterleavedF64 output) {
+	public static InterleavedF64 convert(InterleavedS32 input, InterleavedF64 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new InterleavedF64(input.width, input.height, input.numBands);
 		} else {
@@ -1967,7 +1966,7 @@ public class ConvertImage {
 	 * @param output (Optional) The single band output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayS32 average(Planar<GrayS32> input , GrayS32 output ) {
+	public static GrayS32 average(Planar<GrayS32> input , GrayS32 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayS32(input.width, input.height);
 		} else {
@@ -1986,7 +1985,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static InterleavedS32 convert(Planar<GrayS32> input , InterleavedS32 output ) {
+	public static InterleavedS32 convert(Planar<GrayS32> input , InterleavedS32 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new InterleavedS32(input.width, input.height,input.getNumBands());
 		} else {
@@ -2006,7 +2005,7 @@ public class ConvertImage {
 	 * @param output (Optional) The single band output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayS32 average(InterleavedS32 input , GrayS32 output ) {
+	public static GrayS32 average(InterleavedS32 input , GrayS32 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayS32(input.width, input.height);
 		} else {
@@ -2025,7 +2024,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static Planar<GrayS32> convert(InterleavedS32 input , Planar<GrayS32> output ) {
+	public static Planar<GrayS32> convert(InterleavedS32 input , Planar<GrayS32> output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new Planar<GrayS32>(GrayS32.class,input.width, input.height,input.numBands);
 		} else {
@@ -2046,7 +2045,7 @@ public class ConvertImage {
 	 * @param output (Optional) Storage for the output image.  Can be null.
 	 * @return The converted output image.
 	 */
-	public static GrayU8 convert(GrayS32 input , int min , int max , int numValues , GrayU8 output )
+	public static GrayU8 convert(GrayS32 input , int min , int max , int numValues , GrayU8 output , InputSanityCheck ISC)
 	{
 		if (output == null) {
 			output = new GrayU8(input.width, input.height);
@@ -2080,7 +2079,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayU8 convert(GrayS64 input, GrayU8 output) {
+	public static GrayU8 convert(GrayS64 input, GrayU8 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayU8(input.width, input.height);
 		} else {
@@ -2101,7 +2100,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static InterleavedU8 convert(InterleavedS64 input, InterleavedU8 output) {
+	public static InterleavedU8 convert(InterleavedS64 input, InterleavedU8 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new InterleavedU8(input.width, input.height, input.numBands);
 		} else {
@@ -2122,7 +2121,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayS8 convert(GrayS64 input, GrayS8 output) {
+	public static GrayS8 convert(GrayS64 input, GrayS8 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayS8(input.width, input.height);
 		} else {
@@ -2143,7 +2142,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static InterleavedS8 convert(InterleavedS64 input, InterleavedS8 output) {
+	public static InterleavedS8 convert(InterleavedS64 input, InterleavedS8 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new InterleavedS8(input.width, input.height, input.numBands);
 		} else {
@@ -2164,7 +2163,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayU16 convert(GrayS64 input, GrayU16 output) {
+	public static GrayU16 convert(GrayS64 input, GrayU16 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayU16(input.width, input.height);
 		} else {
@@ -2185,7 +2184,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static InterleavedU16 convert(InterleavedS64 input, InterleavedU16 output) {
+	public static InterleavedU16 convert(InterleavedS64 input, InterleavedU16 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new InterleavedU16(input.width, input.height, input.numBands);
 		} else {
@@ -2206,7 +2205,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayS16 convert(GrayS64 input, GrayS16 output) {
+	public static GrayS16 convert(GrayS64 input, GrayS16 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayS16(input.width, input.height);
 		} else {
@@ -2227,7 +2226,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static InterleavedS16 convert(InterleavedS64 input, InterleavedS16 output) {
+	public static InterleavedS16 convert(InterleavedS64 input, InterleavedS16 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new InterleavedS16(input.width, input.height, input.numBands);
 		} else {
@@ -2248,7 +2247,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayS32 convert(GrayS64 input, GrayS32 output) {
+	public static GrayS32 convert(GrayS64 input, GrayS32 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayS32(input.width, input.height);
 		} else {
@@ -2269,7 +2268,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static InterleavedS32 convert(InterleavedS64 input, InterleavedS32 output) {
+	public static InterleavedS32 convert(InterleavedS64 input, InterleavedS32 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new InterleavedS32(input.width, input.height, input.numBands);
 		} else {
@@ -2290,7 +2289,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayF32 convert(GrayS64 input, GrayF32 output) {
+	public static GrayF32 convert(GrayS64 input, GrayF32 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayF32(input.width, input.height);
 		} else {
@@ -2311,7 +2310,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static InterleavedF32 convert(InterleavedS64 input, InterleavedF32 output) {
+	public static InterleavedF32 convert(InterleavedS64 input, InterleavedF32 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new InterleavedF32(input.width, input.height, input.numBands);
 		} else {
@@ -2332,7 +2331,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayF64 convert(GrayS64 input, GrayF64 output) {
+	public static GrayF64 convert(GrayS64 input, GrayF64 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayF64(input.width, input.height);
 		} else {
@@ -2353,7 +2352,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static InterleavedF64 convert(InterleavedS64 input, InterleavedF64 output) {
+	public static InterleavedF64 convert(InterleavedS64 input, InterleavedF64 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new InterleavedF64(input.width, input.height, input.numBands);
 		} else {
@@ -2373,7 +2372,7 @@ public class ConvertImage {
 	 * @param output (Optional) The single band output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayS64 average(Planar<GrayS64> input , GrayS64 output ) {
+	public static GrayS64 average(Planar<GrayS64> input , GrayS64 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayS64(input.width, input.height);
 		} else {
@@ -2392,7 +2391,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static InterleavedS64 convert(Planar<GrayS64> input , InterleavedS64 output ) {
+	public static InterleavedS64 convert(Planar<GrayS64> input , InterleavedS64 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new InterleavedS64(input.width, input.height,input.getNumBands());
 		} else {
@@ -2412,7 +2411,7 @@ public class ConvertImage {
 	 * @param output (Optional) The single band output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayS64 average(InterleavedS64 input , GrayS64 output ) {
+	public static GrayS64 average(InterleavedS64 input , GrayS64 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayS64(input.width, input.height);
 		} else {
@@ -2431,7 +2430,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static Planar<GrayS64> convert(InterleavedS64 input , Planar<GrayS64> output ) {
+	public static Planar<GrayS64> convert(InterleavedS64 input , Planar<GrayS64> output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new Planar<GrayS64>(GrayS64.class,input.width, input.height,input.numBands);
 		} else {
@@ -2452,7 +2451,7 @@ public class ConvertImage {
 	 * @param output (Optional) Storage for the output image.  Can be null.
 	 * @return The converted output image.
 	 */
-	public static GrayU8 convert(GrayS64 input , long min , long max , int numValues , GrayU8 output )
+	public static GrayU8 convert(GrayS64 input , long min , long max , int numValues , GrayU8 output , InputSanityCheck ISC)
 	{
 		if (output == null) {
 			output = new GrayU8(input.width, input.height);
@@ -2486,7 +2485,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayU8 convert(GrayF32 input, GrayU8 output) {
+	public static GrayU8 convert(GrayF32 input, GrayU8 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayU8(input.width, input.height);
 		} else {
@@ -2507,7 +2506,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static InterleavedU8 convert(InterleavedF32 input, InterleavedU8 output) {
+	public static InterleavedU8 convert(InterleavedF32 input, InterleavedU8 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new InterleavedU8(input.width, input.height, input.numBands);
 		} else {
@@ -2528,7 +2527,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayS8 convert(GrayF32 input, GrayS8 output) {
+	public static GrayS8 convert(GrayF32 input, GrayS8 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayS8(input.width, input.height);
 		} else {
@@ -2549,7 +2548,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static InterleavedS8 convert(InterleavedF32 input, InterleavedS8 output) {
+	public static InterleavedS8 convert(InterleavedF32 input, InterleavedS8 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new InterleavedS8(input.width, input.height, input.numBands);
 		} else {
@@ -2570,7 +2569,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayU16 convert(GrayF32 input, GrayU16 output) {
+	public static GrayU16 convert(GrayF32 input, GrayU16 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayU16(input.width, input.height);
 		} else {
@@ -2591,7 +2590,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static InterleavedU16 convert(InterleavedF32 input, InterleavedU16 output) {
+	public static InterleavedU16 convert(InterleavedF32 input, InterleavedU16 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new InterleavedU16(input.width, input.height, input.numBands);
 		} else {
@@ -2612,7 +2611,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayS16 convert(GrayF32 input, GrayS16 output) {
+	public static GrayS16 convert(GrayF32 input, GrayS16 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayS16(input.width, input.height);
 		} else {
@@ -2633,7 +2632,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static InterleavedS16 convert(InterleavedF32 input, InterleavedS16 output) {
+	public static InterleavedS16 convert(InterleavedF32 input, InterleavedS16 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new InterleavedS16(input.width, input.height, input.numBands);
 		} else {
@@ -2654,7 +2653,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayS32 convert(GrayF32 input, GrayS32 output) {
+	public static GrayS32 convert(GrayF32 input, GrayS32 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayS32(input.width, input.height);
 		} else {
@@ -2675,7 +2674,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static InterleavedS32 convert(InterleavedF32 input, InterleavedS32 output) {
+	public static InterleavedS32 convert(InterleavedF32 input, InterleavedS32 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new InterleavedS32(input.width, input.height, input.numBands);
 		} else {
@@ -2696,7 +2695,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayS64 convert(GrayF32 input, GrayS64 output) {
+	public static GrayS64 convert(GrayF32 input, GrayS64 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayS64(input.width, input.height);
 		} else {
@@ -2717,7 +2716,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static InterleavedS64 convert(InterleavedF32 input, InterleavedS64 output) {
+	public static InterleavedS64 convert(InterleavedF32 input, InterleavedS64 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new InterleavedS64(input.width, input.height, input.numBands);
 		} else {
@@ -2738,7 +2737,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayF64 convert(GrayF32 input, GrayF64 output) {
+	public static GrayF64 convert(GrayF32 input, GrayF64 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayF64(input.width, input.height);
 		} else {
@@ -2759,7 +2758,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static InterleavedF64 convert(InterleavedF32 input, InterleavedF64 output) {
+	public static InterleavedF64 convert(InterleavedF32 input, InterleavedF64 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new InterleavedF64(input.width, input.height, input.numBands);
 		} else {
@@ -2779,7 +2778,7 @@ public class ConvertImage {
 	 * @param output (Optional) The single band output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayF32 average(Planar<GrayF32> input , GrayF32 output ) {
+	public static GrayF32 average(Planar<GrayF32> input , GrayF32 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayF32(input.width, input.height);
 		} else {
@@ -2798,7 +2797,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static InterleavedF32 convert(Planar<GrayF32> input , InterleavedF32 output ) {
+	public static InterleavedF32 convert(Planar<GrayF32> input , InterleavedF32 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new InterleavedF32(input.width, input.height,input.getNumBands());
 		} else {
@@ -2818,7 +2817,7 @@ public class ConvertImage {
 	 * @param output (Optional) The single band output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayF32 average(InterleavedF32 input , GrayF32 output ) {
+	public static GrayF32 average(InterleavedF32 input , GrayF32 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayF32(input.width, input.height);
 		} else {
@@ -2837,7 +2836,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static Planar<GrayF32> convert(InterleavedF32 input , Planar<GrayF32> output ) {
+	public static Planar<GrayF32> convert(InterleavedF32 input , Planar<GrayF32> output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new Planar<>(GrayF32.class,input.width, input.height,input.numBands);
 		} else {
@@ -2858,7 +2857,7 @@ public class ConvertImage {
 	 * @param output (Optional) Storage for the output image.  Can be null.
 	 * @return The converted output image.
 	 */
-	public static GrayU8 convert(GrayF32 input , float min , float max , int numValues , GrayU8 output )
+	public static GrayU8 convert(GrayF32 input , float min , float max , int numValues , GrayU8 output , InputSanityCheck ISC)
 	{
 		if (output == null) {
 			output = new GrayU8(input.width, input.height);
@@ -2892,7 +2891,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayU8 convert(GrayF64 input, GrayU8 output) {
+	public static GrayU8 convert(GrayF64 input, GrayU8 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayU8(input.width, input.height);
 		} else {
@@ -2913,7 +2912,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static InterleavedU8 convert(InterleavedF64 input, InterleavedU8 output) {
+	public static InterleavedU8 convert(InterleavedF64 input, InterleavedU8 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new InterleavedU8(input.width, input.height, input.numBands);
 		} else {
@@ -2934,7 +2933,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayS8 convert(GrayF64 input, GrayS8 output) {
+	public static GrayS8 convert(GrayF64 input, GrayS8 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayS8(input.width, input.height);
 		} else {
@@ -2955,7 +2954,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static InterleavedS8 convert(InterleavedF64 input, InterleavedS8 output) {
+	public static InterleavedS8 convert(InterleavedF64 input, InterleavedS8 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new InterleavedS8(input.width, input.height, input.numBands);
 		} else {
@@ -2976,7 +2975,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayU16 convert(GrayF64 input, GrayU16 output) {
+	public static GrayU16 convert(GrayF64 input, GrayU16 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayU16(input.width, input.height);
 		} else {
@@ -2997,7 +2996,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static InterleavedU16 convert(InterleavedF64 input, InterleavedU16 output) {
+	public static InterleavedU16 convert(InterleavedF64 input, InterleavedU16 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new InterleavedU16(input.width, input.height, input.numBands);
 		} else {
@@ -3018,7 +3017,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayS16 convert(GrayF64 input, GrayS16 output) {
+	public static GrayS16 convert(GrayF64 input, GrayS16 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayS16(input.width, input.height);
 		} else {
@@ -3039,7 +3038,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static InterleavedS16 convert(InterleavedF64 input, InterleavedS16 output) {
+	public static InterleavedS16 convert(InterleavedF64 input, InterleavedS16 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new InterleavedS16(input.width, input.height, input.numBands);
 		} else {
@@ -3060,7 +3059,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayS32 convert(GrayF64 input, GrayS32 output) {
+	public static GrayS32 convert(GrayF64 input, GrayS32 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayS32(input.width, input.height);
 		} else {
@@ -3081,7 +3080,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static InterleavedS32 convert(InterleavedF64 input, InterleavedS32 output) {
+	public static InterleavedS32 convert(InterleavedF64 input, InterleavedS32 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new InterleavedS32(input.width, input.height, input.numBands);
 		} else {
@@ -3102,7 +3101,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayS64 convert(GrayF64 input, GrayS64 output) {
+	public static GrayS64 convert(GrayF64 input, GrayS64 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayS64(input.width, input.height);
 		} else {
@@ -3123,7 +3122,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static InterleavedS64 convert(InterleavedF64 input, InterleavedS64 output) {
+	public static InterleavedS64 convert(InterleavedF64 input, InterleavedS64 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new InterleavedS64(input.width, input.height, input.numBands);
 		} else {
@@ -3144,7 +3143,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayF32 convert(GrayF64 input, GrayF32 output) {
+	public static GrayF32 convert(GrayF64 input, GrayF32 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayF32(input.width, input.height);
 		} else {
@@ -3165,7 +3164,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static InterleavedF32 convert(InterleavedF64 input, InterleavedF32 output) {
+	public static InterleavedF32 convert(InterleavedF64 input, InterleavedF32 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new InterleavedF32(input.width, input.height, input.numBands);
 		} else {
@@ -3185,7 +3184,7 @@ public class ConvertImage {
 	 * @param output (Optional) The single band output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayF64 average(Planar<GrayF64> input , GrayF64 output ) {
+	public static GrayF64 average(Planar<GrayF64> input , GrayF64 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayF64(input.width, input.height);
 		} else {
@@ -3204,7 +3203,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static InterleavedF64 convert(Planar<GrayF64> input , InterleavedF64 output ) {
+	public static InterleavedF64 convert(Planar<GrayF64> input , InterleavedF64 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new InterleavedF64(input.width, input.height,input.getNumBands());
 		} else {
@@ -3224,7 +3223,7 @@ public class ConvertImage {
 	 * @param output (Optional) The single band output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static GrayF64 average(InterleavedF64 input , GrayF64 output ) {
+	public static GrayF64 average(InterleavedF64 input , GrayF64 output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new GrayF64(input.width, input.height);
 		} else {
@@ -3243,7 +3242,7 @@ public class ConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static Planar<GrayF64> convert(InterleavedF64 input , Planar<GrayF64> output ) {
+	public static Planar<GrayF64> convert(InterleavedF64 input , Planar<GrayF64> output, InputSanityCheck ISC) {
 		if (output == null) {
 			output = new Planar<GrayF64>(GrayF64.class,input.width, input.height,input.numBands);
 		} else {
@@ -3264,7 +3263,7 @@ public class ConvertImage {
 	 * @param output (Optional) Storage for the output image.  Can be null.
 	 * @return The converted output image.
 	 */
-	public static GrayU8 convert(GrayF64 input , double min , double max , int numValues , GrayU8 output )
+	public static GrayU8 convert(GrayF64 input , double min , double max , int numValues , GrayU8 output , InputSanityCheck ISC)
 	{
 		if (output == null) {
 			output = new GrayU8(input.width, input.height);

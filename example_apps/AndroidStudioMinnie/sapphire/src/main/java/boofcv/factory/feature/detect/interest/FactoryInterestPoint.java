@@ -39,10 +39,13 @@ import boofcv.alg.misc.ImageMiscOps;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.feature.detect.extract.FactoryFeatureExtractor;
+import boofcv.factory.feature.orientation.FactoryOrientation;
 import boofcv.factory.filter.derivative.FactoryDerivative;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.factory.transform.pyramid.FactoryPyramid;
 import boofcv.struct.image.ImageGray;
 import boofcv.struct.pyramid.PyramidFloat;
+import sapphire.app.SapphireObject;
 
 /**
  * <p>Factory for creating interest point detectors which conform to the {@link InterestPointDetector}
@@ -56,11 +59,8 @@ import boofcv.struct.pyramid.PyramidFloat;
  * @author Peter Abeles
  * @see FactoryFeatureExtractor
  */
-public class FactoryInterestPoint {
-	private static FactoryDerivative FD;
-	private static GeneralizedImageOps GIO;
-	private static FactoryImageBorder FIB;
-	private static FactoryFeatureExtractor FFE;
+public class FactoryInterestPoint implements SapphireObject {
+	public FactoryInterestPoint() {}
 	/**
 	 * Wraps {@link GeneralFeatureDetector} inside an {@link InterestPointDetector}.
 	 *
@@ -70,8 +70,9 @@ public class FactoryInterestPoint {
 	 * @param derivType Image type for gradient.
 	 * @return The interest point detector.
 	 */
-	public static <T extends ImageGray, D extends ImageGray>
-	InterestPointDetector<T> wrapPoint(GeneralFeatureDetector<T, D> feature, double scale , Class<T> inputType, Class<D> derivType) {
+	public <T extends ImageGray, D extends ImageGray>
+	InterestPointDetector<T> wrapPoint(GeneralFeatureDetector<T, D> feature, double scale , Class<T> inputType, Class<D> derivType,
+									   FactoryDerivative FD, GeneralizedImageOps GIO, FactoryImageBorder FIB) {
 
 		ImageGradient<T, D> gradient = null;
 		ImageHessian<D> hessian = null;
@@ -93,7 +94,7 @@ public class FactoryInterestPoint {
 	 * @param inputType Image type of input image.
 	 * @return The interest point detector.
 	 */
-	public static <T extends ImageGray, D extends ImageGray>
+	public <T extends ImageGray, D extends ImageGray>
 	InterestPointDetector<T> wrapDetector(FeatureLaplacePyramid<T, D> feature,
 										  double[] scales, boolean pyramid,
 										  Class<T> inputType) {
@@ -117,7 +118,7 @@ public class FactoryInterestPoint {
 	 * @param inputType Image type of input image.
 	 * @return The interest point detector.
 	 */
-	public static <T extends ImageGray, D extends ImageGray>
+	public <T extends ImageGray, D extends ImageGray>
 	InterestPointDetector<T> wrapDetector(FeaturePyramid<T, D> feature,
 										  double[] scales, boolean pyramid,
 										  Class<T> inputType) {
@@ -140,14 +141,15 @@ public class FactoryInterestPoint {
 	 * @return The interest point detector.
 	 * @see FastHessianFeatureDetector
 	 */
-	public static <T extends ImageGray>
-	InterestPointDetector<T> fastHessian( ConfigFastHessian config ) {
-		return new WrapFHtoInterestPoint(FactoryInterestPointAlgs.fastHessian(config));
+	public <T extends ImageGray>
+	InterestPointDetector<T> fastHessian( ConfigFastHessian config, FactoryInterestPointAlgs FIPA, FactoryFeatureExtractor FFE) {
+		return new WrapFHtoInterestPoint(FIPA.fastHessian(config, FFE));
 	}
 
-	public static <T extends ImageGray>
+	public <T extends ImageGray>
 	InterestPointDetector<T> sift(ConfigSiftScaleSpace configSS ,
-								  ConfigSiftDetector configDet , Class<T> imageType ) {
+								  ConfigSiftDetector configDet , Class<T> imageType, FactoryFeatureExtractor FFE, FactoryImageBorder FIB, FactoryKernelGaussian FKG,
+								  GeneralizedImageOps GIO) {
 
 		if( configSS == null )
 			configSS = new ConfigSiftScaleSpace();
@@ -155,10 +157,10 @@ public class FactoryInterestPoint {
 			configDet = new ConfigSiftDetector();
 
 		SiftScaleSpace scaleSpace =
-				new SiftScaleSpace(configSS.firstOctave,configSS.lastOctave,configSS.numScales,configSS.sigma0);
+				new SiftScaleSpace(configSS.firstOctave,configSS.lastOctave,configSS.numScales,configSS.sigma0, FKG);
 		NonMaxSuppression nonmax = FFE.nonmax(configDet.extract);
 		NonMaxLimiter limiter = new NonMaxLimiter(nonmax,configDet.maxFeaturesPerScale);
-		SiftDetector detector = new SiftDetector(scaleSpace,configDet.edgeR,limiter);
+		SiftDetector detector = new SiftDetector(scaleSpace,configDet.edgeR,limiter, FIB, GIO);
 
 		return new WrapSiftDetector<>(detector, imageType);
 	}

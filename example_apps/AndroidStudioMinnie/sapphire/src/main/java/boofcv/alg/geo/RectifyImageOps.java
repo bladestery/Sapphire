@@ -26,6 +26,7 @@ import boofcv.alg.interpolate.InterpolatePixel;
 import boofcv.alg.interpolate.InterpolatePixelS;
 import boofcv.alg.interpolate.InterpolationType;
 import boofcv.core.image.border.BorderType;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.distort.FactoryDistort;
 import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.struct.calib.CameraPinholeRadial;
@@ -61,7 +62,7 @@ import static boofcv.alg.distort.LensDistortionOps.transformPoint;
  * @author Peter Abeles
  */
 public class RectifyImageOps {
-
+	private static FactoryImageBorder FIB;
 	/**
 	 * <p>
 	 * Rectification for calibrated stereo pairs.  Two stereo camera care considered calibrated if
@@ -407,7 +408,7 @@ public class RectifyImageOps {
 		if( skip ) {
 			borderType = BorderType.EXTENDED;
 		}
-		InterpolatePixelS<T> interp = FactoryInterpolation.bilinearPixelS(imageType, borderType);
+		InterpolatePixelS<T> interp = FactoryInterpolation.bilinearPixelS(imageType, borderType, FIB);
 
 		DenseMatrix64F rectifyInv = new DenseMatrix64F(3,3);
 		CommonOps.invert(rectify,rectifyInv);
@@ -439,7 +440,7 @@ public class RectifyImageOps {
 			borderType = BorderType.EXTENDED;
 		}
 		InterpolatePixel<T> interp =
-				FactoryInterpolation.createPixel(0,255, InterpolationType.BILINEAR,borderType,imageType);
+				FactoryInterpolation.createPixel(0,255, InterpolationType.BILINEAR,borderType,imageType, FIB);
 
 		// only compute the transform once
 		ImageDistort<T,T> ret = FactoryDistort.distort(true, interp, imageType);

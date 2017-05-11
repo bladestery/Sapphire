@@ -28,6 +28,7 @@ import boofcv.abst.fiducial.SquareBase_to_FiducialDetector;
 import boofcv.abst.fiducial.calib.CalibrationDetectorChessboard;
 import boofcv.abst.fiducial.calib.CalibrationDetectorSquareGrid;
 import boofcv.abst.geo.calibration.DetectorFiducialCalibration;
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.distort.LensDistortionOps;
 import boofcv.alg.geo.PerspectiveOps;
 import boofcv.android.ConvertBitmap;
@@ -54,6 +55,7 @@ public abstract class FiducialSquareActivity extends DemoVideoDisplayActivity
 		implements View.OnTouchListener
 {
 	private ImageType IT;
+	private static InputSanityCheck ISC;
 	public static final String TAG = "FiducialSquareActivity";
 
 	final Object lock = new Object();
@@ -236,7 +238,7 @@ public abstract class FiducialSquareActivity extends DemoVideoDisplayActivity
 			ImageType inputType = detector.getInputType();
 			if( inputType.getFamily() == ImageType.Family.GRAY ) {
 				input.reshape(color.width,color.height);
-				ConvertImage.average(color, (GrayU8) input);
+				ConvertImage.average(color, (GrayU8) input, ISC);
 			} else {
 				input = (T) color;
 			}

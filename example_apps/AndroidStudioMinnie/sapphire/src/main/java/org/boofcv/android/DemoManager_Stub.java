@@ -68,6 +68,24 @@ public final class DemoManager_Stub extends org.boofcv.android.DemoManager imple
         return ((boofcv.struct.image.ImageType) $__result);
     }
 
+    // Implementation of sift(ConfigSiftScaleSpace, ConfigSiftDetector)
+    public void sift(boofcv.abst.feature.describe.ConfigSiftScaleSpace $param_ConfigSiftScaleSpace_1, boofcv.abst.feature.detect.interest.ConfigSiftDetector $param_ConfigSiftDetector_2) {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                super.sift( $param_ConfigSiftScaleSpace_1,  $param_ConfigSiftDetector_2);
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public void org.boofcv.android.DemoManager.sift(boofcv.abst.feature.describe.ConfigSiftScaleSpace,boofcv.abst.feature.detect.interest.ConfigSiftDetector)";
+                $__params.add($param_ConfigSiftScaleSpace_1);
+                $__params.add($param_ConfigSiftDetector_2);
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     // Implementation of shiTomasi(int, boolean)
     public void shiTomasi(int $param_int_1, boolean $param_boolean_2) {
         java.lang.Object $__result = null;
@@ -171,6 +189,23 @@ public final class DemoManager_Stub extends org.boofcv.android.DemoManager imple
             e.printStackTrace();
         }
         return ((java.util.List) $__result);
+    }
+
+    // Implementation of scaleDetect(GrayU8)
+    public void scaleDetect(boofcv.struct.image.GrayU8 $param_GrayU8_1) {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                super.scaleDetect( $param_GrayU8_1);
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public void org.boofcv.android.DemoManager.scaleDetect(boofcv.struct.image.GrayU8)";
+                $__params.add($param_GrayU8_1);
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     // Implementation of reshape(int, int)
@@ -343,6 +378,23 @@ public final class DemoManager_Stub extends org.boofcv.android.DemoManager imple
                 String $__method = "public void org.boofcv.android.DemoManager.nonmax(boofcv.abst.feature.detect.extract.ConfigExtract,boofcv.abst.feature.detect.extract.ConfigExtract)";
                 $__params.add($param_ConfigExtract_1);
                 $__params.add($param_ConfigExtract_2);
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Implementation of median(int)
+    public void median(int $param_int_1) {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                super.median( $param_int_1);
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public void org.boofcv.android.DemoManager.median(int)";
+                $__params.add($param_int_1);
                 $__result = $__client.onRPC($__method, $__params);
             }
         } catch (Exception e) {
@@ -556,6 +608,76 @@ public final class DemoManager_Stub extends org.boofcv.android.DemoManager imple
         }
     }
 
+    // Implementation of getRadius(int)
+    public double getRadius(int $param_int_1) {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                $__result = super.getRadius( $param_int_1);
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public double org.boofcv.android.DemoManager.getRadius(int)";
+                $__params.add($param_int_1);
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ((java.lang.Double) $__result).doubleValue();
+    }
+
+    // Implementation of getNumberOfFeatures()
+    public int getNumberOfFeatures() {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                $__result = super.getNumberOfFeatures();
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public int org.boofcv.android.DemoManager.getNumberOfFeatures()";
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ((java.lang.Integer) $__result).intValue();
+    }
+
+    // Implementation of getLocation(int)
+    public georegression.struct.point.Point2D_F64 getLocation(int $param_int_1) {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                $__result = super.getLocation( $param_int_1);
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public georegression.struct.point.Point2D_F64 org.boofcv.android.DemoManager.getLocation(int)";
+                $__params.add($param_int_1);
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ((georegression.struct.point.Point2D_F64) $__result);
+    }
+
+    // Implementation of getInterestPoints()
+    public org.ddogleg.struct.FastQueue getInterestPoints() {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                $__result = super.getInterestPoints();
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public org.ddogleg.struct.FastQueue<boofcv.struct.feature.ScalePoint> org.boofcv.android.DemoManager.getInterestPoints()";
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ((org.ddogleg.struct.FastQueue) $__result);
+    }
+
     // Implementation of getFoundPolygons()
     public org.ddogleg.struct.FastQueue getFoundPolygons() {
         java.lang.Object $__result = null;
@@ -674,6 +796,23 @@ public final class DemoManager_Stub extends org.boofcv.android.DemoManager imple
             e.printStackTrace();
         }
         return ((org.ddogleg.struct.FastQueue) $__result);
+    }
+
+    // Implementation of fastHessian(ConfigFastHessian)
+    public void fastHessian(boofcv.abst.feature.detect.interest.ConfigFastHessian $param_ConfigFastHessian_1) {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                super.fastHessian( $param_ConfigFastHessian_1);
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public void org.boofcv.android.DemoManager.fastHessian(boofcv.abst.feature.detect.interest.ConfigFastHessian)";
+                $__params.add($param_ConfigFastHessian_1);
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     // Implementation of fast(int, int)

@@ -23,6 +23,7 @@ import boofcv.alg.distort.PixelTransformAffine_F32;
 import boofcv.alg.interpolate.InterpolatePixel;
 import boofcv.alg.interpolate.InterpolationType;
 import boofcv.core.image.border.BorderType;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.distort.FactoryDistort;
 import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.struct.image.ImageBase;
@@ -37,7 +38,7 @@ import georegression.struct.affine.Affine2D_F32;
  * @author Peter Abeles
  */
 public class ClipAndReduce<T extends ImageBase<T>> {
-
+	private static FactoryImageBorder FIB;
 
 	// storage for clipped sub-region
 	T clipped;
@@ -58,7 +59,7 @@ public class ClipAndReduce<T extends ImageBase<T>> {
 	public ClipAndReduce( boolean clip , ImageType<T> imageType ) {
 		this.clip = clip;
 		InterpolatePixel<T> interp =
-				FactoryInterpolation.createPixel(0,255, InterpolationType.BILINEAR, BorderType.EXTENDED,imageType);
+				FactoryInterpolation.createPixel(0,255, InterpolationType.BILINEAR, BorderType.EXTENDED,imageType, FIB);
 		distort = FactoryDistort.distort(false,interp,imageType);
 		distort.setModel(new PixelTransformAffine_F32(transform));
 	}

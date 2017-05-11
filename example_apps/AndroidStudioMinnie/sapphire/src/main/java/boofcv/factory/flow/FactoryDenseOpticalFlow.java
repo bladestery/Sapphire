@@ -154,7 +154,7 @@ public class FactoryDenseOpticalFlow {
 			config = new ConfigHornSchunckPyramid();
 
 		InterpolatePixelS<GrayF32> interpolate =
-				FactoryInterpolation.createPixelS(0,255,config.interpolation, BorderType.EXTENDED, GrayF32.class);
+				FactoryInterpolation.createPixelS(0,255,config.interpolation, BorderType.EXTENDED, GrayF32.class, FIB);
 
 		HornSchunckPyramid<T> alg = new HornSchunckPyramid<>(config, interpolate);
 
@@ -168,7 +168,7 @@ public class FactoryDenseOpticalFlow {
 			config = new ConfigBroxWarping();
 
 		InterpolatePixelS<GrayF32> interpolate =
-				FactoryInterpolation.createPixelS(0,255,config.interpolation, BorderType.EXTENDED, GrayF32.class);
+				FactoryInterpolation.createPixelS(0,255,config.interpolation, BorderType.EXTENDED, GrayF32.class, FIB);
 
 		BroxWarpingSpacial<T> alg = new BroxWarpingSpacial<>(config, interpolate);
 

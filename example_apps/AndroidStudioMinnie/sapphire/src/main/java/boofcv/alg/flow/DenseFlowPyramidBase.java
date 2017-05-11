@@ -18,8 +18,11 @@
 
 package boofcv.alg.flow;
 
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.interpolate.InterpolatePixelS;
+import boofcv.alg.misc.GImageMiscOps;
 import boofcv.alg.misc.GImageStatistics;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.misc.ImageStatistics;
 import boofcv.core.image.GConvertImage;
 import boofcv.core.image.GeneralizedImageOps;
@@ -40,6 +43,9 @@ public abstract class DenseFlowPyramidBase<T extends ImageGray> {
 	private static FactoryImageBorder FIB;
 	private static GImageStatistics GIS;
 	private static ImageStatistics IS;
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
+	private static InputSanityCheck ISC;
 	// storage for normalized image
 	private GrayF32 norm1 = new GrayF32(1,1);
 	private GrayF32 norm2 = new GrayF32(1,1);
@@ -182,8 +188,8 @@ public abstract class DenseFlowPyramidBase<T extends ImageGray> {
 				}
 			}
 		} else {
-			GConvertImage.convert(image1, normalized1);
-			GConvertImage.convert(image2, normalized2);
+			GConvertImage.convert(image1, normalized1, ISC, GIO, GIMO, IMO);
+			GConvertImage.convert(image2, normalized2, ISC, GIO, GIMO, IMO);
 		}
 	}
 }

@@ -19,6 +19,7 @@
 package boofcv.alg.transform.ii;
 
 import boofcv.alg.InputSanityCheck;
+import boofcv.alg.misc.GImageMiscOps;
 import boofcv.alg.transform.ii.impl.ImplIntegralImageOps;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.struct.ImageRectangle;
@@ -33,8 +34,6 @@ import boofcv.struct.image.*;
  * @author Peter Abeles
  */
 public class IntegralImageOps {
-	private static InputSanityCheck ISC;
-	private static GeneralizedImageOps GIO;
 	/**
 	 * Converts a regular image into an integral image.
 	 *
@@ -42,7 +41,7 @@ public class IntegralImageOps {
 	 * @param transformed Integral image. If null a new image will be created. Modified.
 	 * @return Integral image.
 	 */
-	public static GrayF32 transform(GrayF32 input , GrayF32 transformed ) {
+	public static GrayF32 transform(GrayF32 input , GrayF32 transformed, InputSanityCheck ISC ) {
 		transformed = ISC.checkDeclare(input,transformed);
 
 		ImplIntegralImageOps.transform(input,transformed);
@@ -57,7 +56,7 @@ public class IntegralImageOps {
 	 * @param transformed Integral image. If null a new image will be created. Modified.
 	 * @return Integral image.
 	 */
-	public static GrayF64 transform(GrayF64 input , GrayF64 transformed ) {
+	public static GrayF64 transform(GrayF64 input , GrayF64 transformed, InputSanityCheck ISC) {
 		transformed = ISC.checkDeclare(input,transformed);
 
 		ImplIntegralImageOps.transform(input,transformed);
@@ -72,7 +71,7 @@ public class IntegralImageOps {
 	 * @param transformed Integral image. If null a new image will be created. Modified.
 	 * @return Integral image.
 	 */
-	public static GrayS32 transform(GrayU8 input , GrayS32 transformed ) {
+	public static GrayS32 transform(GrayU8 input , GrayS32 transformed, InputSanityCheck ISC, GeneralizedImageOps GIO) {
 		transformed = ISC.checkDeclare(input,transformed,GrayS32.class, GIO);
 
 		ImplIntegralImageOps.transform(input,transformed);
@@ -87,7 +86,7 @@ public class IntegralImageOps {
 	 * @param transformed Integral image. If null a new image will be created. Modified.
 	 * @return Integral image.
 	 */
-	public static GrayS32 transform(GrayS32 input , GrayS32 transformed ) {
+	public static GrayS32 transform(GrayS32 input , GrayS32 transformed, InputSanityCheck ISC, GeneralizedImageOps GIO) {
 		transformed = ISC.checkDeclare(input,transformed,GrayS32.class, GIO);
 
 		ImplIntegralImageOps.transform(input, transformed);
@@ -102,7 +101,7 @@ public class IntegralImageOps {
 	 * @param transformed Integral image. If null a new image will be created. Modified.
 	 * @return Integral image.
 	 */
-	public static GrayS64 transform(GrayS64 input , GrayS64 transformed ) {
+	public static GrayS64 transform(GrayS64 input , GrayS64 transformed, InputSanityCheck ISC, GeneralizedImageOps GIO) {
 		transformed = ISC.checkDeclare(input,transformed,GrayS64.class, GIO);
 
 		ImplIntegralImageOps.transform(input, transformed);
@@ -120,7 +119,7 @@ public class IntegralImageOps {
 	 */
 	public static GrayF32 convolve(GrayF32 integral ,
 								   IntegralKernel kernel ,
-								   GrayF32 output )
+								   GrayF32 output, InputSanityCheck ISC)
 	{
 		output = ISC.checkDeclare(integral,output);
 
@@ -139,7 +138,7 @@ public class IntegralImageOps {
 	 */
 	public static GrayF64 convolve(GrayF64 integral ,
 								   IntegralKernel kernel ,
-								   GrayF64 output )
+								   GrayF64 output, InputSanityCheck ISC)
 	{
 		output = ISC.checkDeclare(integral,output);
 
@@ -158,7 +157,7 @@ public class IntegralImageOps {
 	 */
 	public static GrayS32 convolve(GrayS32 integral ,
 								   IntegralKernel kernel ,
-								   GrayS32 output )
+								   GrayS32 output, InputSanityCheck ISC)
 	{
 		output = ISC.checkDeclare(integral,output);
 
@@ -177,7 +176,7 @@ public class IntegralImageOps {
 	 */
 	public static GrayS64 convolve(GrayS64 integral ,
 								   IntegralKernel kernel ,
-								   GrayS64 output )
+								   GrayS64 output, InputSanityCheck ISC)
 	{
 		output = ISC.checkDeclare(integral,output);
 
@@ -197,7 +196,7 @@ public class IntegralImageOps {
 	 */
 	public static GrayF32 convolveBorder(GrayF32 integral ,
 										 IntegralKernel kernel ,
-										 GrayF32 output , int borderX , int borderY )
+										 GrayF32 output , int borderX , int borderY, InputSanityCheck ISC)
 	{
 		output = ISC.checkDeclare(integral,output);
 
@@ -217,7 +216,7 @@ public class IntegralImageOps {
 	 */
 	public static GrayF64 convolveBorder(GrayF64 integral ,
 										 IntegralKernel kernel ,
-										 GrayF64 output , int borderX , int borderY )
+										 GrayF64 output , int borderX , int borderY , InputSanityCheck ISC)
 	{
 		output = ISC.checkDeclare(integral,output);
 
@@ -237,7 +236,7 @@ public class IntegralImageOps {
 	 */
 	public static GrayS32 convolveBorder(GrayS32 integral ,
 										 IntegralKernel kernel ,
-										 GrayS32 output , int borderX , int borderY )
+										 GrayS32 output , int borderX , int borderY , InputSanityCheck ISC)
 	{
 		output = ISC.checkDeclare(integral,output);
 
@@ -257,7 +256,7 @@ public class IntegralImageOps {
 	 */
 	public static GrayS64 convolveBorder(GrayS64 integral ,
 										 IntegralKernel kernel ,
-										 GrayS64 output , int borderX , int borderY )
+										 GrayS64 output , int borderX , int borderY , InputSanityCheck ISC)
 	{
 		output = ISC.checkDeclare(integral,output);
 
@@ -453,7 +452,7 @@ public class IntegralImageOps {
 	 * Computes the value of a block inside an integral image and treats pixels outside of the
 	 * image as zero.  The block is defined as follows: x0 &lt; x &le; x1 and y0 &lt; y &le; y1.
 	 * </p>
-	 *
+	 *, InputSanityCheck ISC
 	 * @param integral Integral image.
 	 * @param x0 Lower bound of the block.  Exclusive.
 	 * @param y0 Lower bound of the block.  Exclusive.

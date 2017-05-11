@@ -55,26 +55,7 @@ import java.lang.reflect.Method;
  */
 public class WrapperMedianCornerIntensity<I extends ImageGray, D extends ImageGray>
 		extends BaseGeneralFeatureIntensity<I,D>  {
-	private static GBlurImageOps GBIO;
-	private static GeneralizedImageOps GIO;
-	private static InputSanityCheck ISC;
-	private static BlurImageOps BIO;
-	private static ConvolveImageMean CIM;
-	private static FactoryKernelGaussian FKG;
-	private static ConvolveNormalized CN;
-	private static ConvolveNormalizedNaive CNN;
-	private static ConvolveImageNoBorder CINB;
-	private static ConvolveNormalized_JustBorder CNJB;
-	private static ImplMedianHistogramInner IMHI;
-	private static ImplMedianSortEdgeNaive IMSEN;
-	private static ImplMedianSortNaive IMSN;
-	private static ImplConvolveMean ICM;
-	private static GThresholdImageOps GTIO;
-	private static GImageStatistics GIS;
-	private static ImageStatistics IS;
-	private static ThresholdImageOps TIO;
-	private static GImageMiscOps GIMO;
-	private static ImageMiscOps IMO;
+
 	Method m;
 	BlurStorageFilter<I> medianFilter;
 	I medianImage;
@@ -83,7 +64,7 @@ public class WrapperMedianCornerIntensity<I extends ImageGray, D extends ImageGr
 										Class<I> imageType ) {
 		this.medianFilter = medianFilter;
 		try {
-			m = MedianCornerIntensity.class.getMethod("process",GrayF32.class,imageType,imageType);
+			m = MedianCornerIntensity.class.getMethod("process",GrayF32.class,imageType,imageType, InputSanityCheck.class);
 		} catch (NoSuchMethodException e) {
 			throw new RuntimeException(e);
 		}
@@ -91,7 +72,10 @@ public class WrapperMedianCornerIntensity<I extends ImageGray, D extends ImageGr
 
 	@Override
 	public void process(I input, D derivX , D derivY , D derivXX , D derivYY , D derivXY, GImageMiscOps GIMO, ImageMiscOps IMO,
-						InputSanityCheck ISC, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN) {
+						InputSanityCheck ISC, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN,
+						GBlurImageOps GBIO, GeneralizedImageOps GIO, BlurImageOps BIO, ConvolveImageMean CIM, FactoryKernelGaussian FKG, ImplMedianHistogramInner IMHI,
+						ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM, GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS,
+						ThresholdImageOps TIO) {
 		init(input.width,input.height, GIMO, IMO);
 
 		if( medianImage == null ) {
@@ -102,7 +86,7 @@ public class WrapperMedianCornerIntensity<I extends ImageGray, D extends ImageGr
 		
 		medianFilter.process(input,medianImage, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO);
 		try {
-			m.invoke(null,intensity,input,medianImage);
+			m.invoke(null,intensity,input,medianImage, ISC);
 		} catch (IllegalAccessException | InvocationTargetException e) {
 			throw new RuntimeException(e);
 		}

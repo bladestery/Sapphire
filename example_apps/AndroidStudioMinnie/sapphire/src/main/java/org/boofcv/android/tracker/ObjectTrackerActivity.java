@@ -22,6 +22,7 @@ import boofcv.abst.tracker.ConfigComaniciu2003;
 import boofcv.abst.tracker.ConfigTld;
 import boofcv.abst.tracker.MeanShiftLikelihoodType;
 import boofcv.abst.tracker.TrackerObjectQuad;
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.tracker.sfot.SfotConfig;
 import boofcv.android.ConvertBitmap;
 import boofcv.android.gui.VideoImageProcessing;
@@ -44,6 +45,7 @@ public class ObjectTrackerActivity extends DemoVideoDisplayActivity
 		implements AdapterView.OnItemSelectedListener, View.OnTouchListener
 {
 	private ImageType IT;
+	private static InputSanityCheck ISC;
 	Spinner spinnerView;
 
 	int mode = 0;
@@ -216,7 +218,7 @@ public class ObjectTrackerActivity extends DemoVideoDisplayActivity
 		private void updateTracker(Planar<GrayU8> color) {
 			if( inputType.getFamily() == ImageType.Family.GRAY ) {
 				input.reshape(color.width,color.height);
-				ConvertImage.average(color,(GrayU8)input);
+				ConvertImage.average(color,(GrayU8)input, ISC);
 			} else {
 				input = (T)color;
 			}

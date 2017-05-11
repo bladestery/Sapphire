@@ -21,6 +21,8 @@ package boofcv.alg.feature.detdesc;
 import boofcv.abst.feature.orientation.OrientationIntegral;
 import boofcv.alg.feature.describe.DescribePointSurfPlanar;
 import boofcv.alg.feature.detect.interest.FastHessianFeatureDetector;
+import boofcv.core.image.border.FactoryImageBorderAlgs;
+import boofcv.core.image.border.ImageBorderValue;
 import boofcv.struct.feature.BrightFeature;
 import boofcv.struct.feature.ScalePoint;
 import boofcv.struct.feature.SurfFeatureQueue;
@@ -46,6 +48,8 @@ import java.util.List;
  */
 public class DetectDescribeSurfPlanar<II extends ImageGray>
 {
+	private static FactoryImageBorderAlgs FIBA;
+	private static ImageBorderValue IBV;
 	// SURF algorithms
 	private FastHessianFeatureDetector<II> detector;
 	private OrientationIntegral<II> orientation;
@@ -93,7 +97,7 @@ public class DetectDescribeSurfPlanar<II extends ImageGray>
 		featureAngles.reset();
 
 		// detect features
-		detector.detect(grayII);
+		detector.detect(grayII, FIBA, IBV);
 
 		// describe the found interest points
 		foundPoints = detector.getFoundPoints();

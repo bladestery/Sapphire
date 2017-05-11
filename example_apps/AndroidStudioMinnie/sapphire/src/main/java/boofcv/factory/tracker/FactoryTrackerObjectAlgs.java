@@ -30,8 +30,10 @@ import boofcv.alg.tracker.sfot.SparseFlowObjectTracker;
 import boofcv.alg.tracker.tld.TldParameters;
 import boofcv.alg.tracker.tld.TldTracker;
 import boofcv.core.image.border.BorderType;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.struct.image.*;
+import sapphire.compiler.FIBAGenerator;
 
 /**
  * Factory for creating low level implementations of object tracking algorithms.  These algorithms allow
@@ -110,11 +112,11 @@ public class FactoryTrackerObjectAlgs {
 	}
 
 	public static <T extends ImageGray>
-	CirculantTracker<T> circulant( ConfigCirculantTracker config , Class<T> imageType) {
+	CirculantTracker<T> circulant(ConfigCirculantTracker config , Class<T> imageType, FactoryImageBorder FIB) {
 		if( config == null )
 			config = new ConfigCirculantTracker();
 
-		InterpolatePixelS<T> interp = FactoryInterpolation.bilinearPixelS(imageType, BorderType.EXTENDED);
+		InterpolatePixelS<T> interp = FactoryInterpolation.bilinearPixelS(imageType, BorderType.EXTENDED, FIB);
 
 		return new CirculantTracker(
 				config.output_sigma_factor,config.sigma,config.lambda,config.interp_factor,
@@ -124,13 +126,13 @@ public class FactoryTrackerObjectAlgs {
 	}
 
 	public static <T extends ImageBase>
-	TrackerMeanShiftComaniciu2003<T> meanShiftComaniciu2003(ConfigComaniciu2003 config, ImageType<T> imageType ) {
+	TrackerMeanShiftComaniciu2003<T> meanShiftComaniciu2003(ConfigComaniciu2003 config, ImageType<T> imageType, FactoryImageBorder FIB) {
 
 		if( config == null )
 			config = new ConfigComaniciu2003();
 
 		InterpolatePixelMB<T> interp = FactoryInterpolation.createPixelMB(0,config.maxPixelValue,
-				config.interpolation, BorderType.EXTENDED,imageType);
+				config.interpolation, BorderType.EXTENDED,imageType, FIB);
 
 		LocalWeightedHistogramRotRect<T> hist =
 				new LocalWeightedHistogramRotRect<>(config.numSamples, config.numSigmas, config.numHistogramBins,

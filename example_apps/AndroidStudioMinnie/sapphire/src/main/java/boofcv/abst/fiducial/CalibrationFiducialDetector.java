@@ -23,8 +23,12 @@ import boofcv.abst.fiducial.calib.ConfigCircleAsymmetricGrid;
 import boofcv.abst.fiducial.calib.ConfigSquareGrid;
 import boofcv.abst.fiducial.calib.ConfigSquareGridBinary;
 import boofcv.abst.geo.calibration.DetectorFiducialCalibration;
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.geo.calibration.CalibrationObservation;
+import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.core.image.GConvertImage;
+import boofcv.core.image.GeneralizedImageOps;
 import boofcv.factory.fiducial.FactoryFiducialCalibration;
 import boofcv.struct.geo.Point2D3D;
 import boofcv.struct.geo.PointIndex2D_F64;
@@ -46,6 +50,10 @@ public class CalibrationFiducialDetector<T extends ImageGray>
 		extends FiducialDetectorPnP<T>
 {
 	private ImageType IT;
+	private static GeneralizedImageOps GIO;
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
+	private static InputSanityCheck ISC;
 	// detects the calibration target
 	private DetectorFiducialCalibration detector;
 
@@ -147,7 +155,7 @@ public class CalibrationFiducialDetector<T extends ImageGray>
 			converted = (GrayF32)input;
 		} else {
 			converted.reshape(input.width,input.height);
-			GConvertImage.convert(input, converted);
+			GConvertImage.convert(input, converted, ISC, GIO, GIMO, IMO);
 		}
 
 		if( !detector.process(converted) ) {

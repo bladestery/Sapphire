@@ -19,6 +19,7 @@
 package boofcv.alg.feature.detect.template;
 
 import boofcv.abst.transform.fft.DiscreteFourierTransform;
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.misc.GImageMiscOps;
 import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.misc.ImageStatistics;
@@ -38,6 +39,7 @@ public class TemplateCorrelationFFT
 	private ImageStatistics IS;
 	private static GImageMiscOps GIMO;
 	private static ImageMiscOps IMO;
+	private static InputSanityCheck ISC;
 	DiscreteFourierTransform<GrayF32,InterleavedF32> dft =
 			DiscreteFourierTransformOps.createTransformF32();
 
@@ -74,8 +76,8 @@ public class TemplateCorrelationFFT
 		maxValue = IS.max(image)+0.0001f;// avoid divide by zero errors
 		mean = IS.mean(image);
 
-		PixelMath.divide(image,maxValue,normalizedImage);
-		PixelMath.minus(normalizedImage,mean/maxValue,normalizedImage);
+		PixelMath.divide(image,maxValue,normalizedImage, ISC);
+		PixelMath.minus(normalizedImage,mean/maxValue,normalizedImage, ISC);
 
 		dft.forward(normalizedImage, fftImage);
 	}
@@ -93,8 +95,8 @@ public class TemplateCorrelationFFT
 		// normalize the input image to reduce buffer overflow
 		normalizedTemplate.reshape(template.width,template.height);
 
-		PixelMath.divide(template,maxValue,normalizedTemplate);
-		PixelMath.minus(normalizedTemplate,mean/maxValue,normalizedTemplate);
+		PixelMath.divide(template,maxValue,normalizedTemplate, ISC);
+		PixelMath.minus(normalizedTemplate,mean/maxValue,normalizedTemplate, ISC);
 
 		if( mask != null ) {
 			for (int y = 0; y < mask.height; y++) {

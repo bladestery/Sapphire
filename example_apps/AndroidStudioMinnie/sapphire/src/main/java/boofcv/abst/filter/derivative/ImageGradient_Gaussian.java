@@ -22,8 +22,11 @@ import android.renderscript.ScriptGroup;
 
 import boofcv.alg.InputSanityCheck;
 import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
 import boofcv.alg.filter.convolve.GConvolveImageOps;
 import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
 import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
 import boofcv.alg.filter.derivative.GradientSobel;
 import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
@@ -50,6 +53,9 @@ public class ImageGradient_Gaussian<I extends ImageGray, D extends ImageGray>
 	private static FactoryImageBorder FIB;
 	private static FactoryKernelGaussian FKG;
 	private static GeneralizedImageOps GIO;
+	private static ConvolveNormalizedNaive CNN;
+	private static ConvolveNormalized_JustBorder CNJB;
+	private static ConvolveNormalized CN;
 	// default border.
 	private BorderType borderType = BorderType.EXTENDED;
 	ImageBorder border;
@@ -95,10 +101,10 @@ public class ImageGradient_Gaussian<I extends ImageGray, D extends ImageGray>
 			storage.reshape(inputImage.width,inputImage.height);
 		}
 
-		GConvolveImageOps.verticalNormalized(kernelBlur,inputImage,storage);
-		GConvolveImageOps.horizontal(kernelDeriv,storage,derivX,border );
-		GConvolveImageOps.horizontalNormalized(kernelBlur,inputImage,storage);
-		GConvolveImageOps.vertical(kernelDeriv,storage,derivY,border );
+		GConvolveImageOps.verticalNormalized(kernelBlur,inputImage,storage, ISC, CNN, CINB, CNJB, CN);
+		GConvolveImageOps.horizontal(kernelDeriv,storage,derivX,border , ISC, CINB,CJBG);
+		GConvolveImageOps.horizontalNormalized(kernelBlur,inputImage,storage, ISC, CNN, CINB, CNJB, CN);
+		GConvolveImageOps.vertical(kernelDeriv,storage,derivY,border , ISC, CINB,CJBG);
 	}
 
 	@Override

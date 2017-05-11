@@ -18,6 +18,7 @@
 
 package boofcv.alg.tracker.tld;
 
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.transform.ii.GIntegralImageOps;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.struct.ImageRectangle;
@@ -33,6 +34,7 @@ import boofcv.struct.image.*;
  */
 public class TldVarianceFilter<T extends ImageGray> {
 	private GeneralizedImageOps GIO;
+	private static InputSanityCheck ISC;
 	// threshold for selecting candidate regions
 	private double thresholdLower;
 
@@ -70,7 +72,7 @@ public class TldVarianceFilter<T extends ImageGray> {
 		integral.reshape(gray.width,gray.height);
 		integralSq.reshape(gray.width,gray.height);
 
-		GIntegralImageOps.transform(gray,integral);
+		GIntegralImageOps.transform(gray,integral, ISC, GIO);
 		if( gray.getDataType().isInteger())
 			transformSq((GrayU8)gray,(GrayS64)integralSq);
 		else

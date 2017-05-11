@@ -88,7 +88,7 @@ public class PointDisplayActivity extends DemoVideoDisplayActivity
 			//dm.LatencyCheck();
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.exitShapeFit(0);
+			System.exit(0);
 		}
 
 		paintMax = new Paint();
@@ -167,6 +167,9 @@ public class PointDisplayActivity extends DemoVideoDisplayActivity
 				dm.hessianTrace();
 				break;
 
+			case 7:
+				dm.median(2);
+				break;
 			default:
 				throw new RuntimeException("Unknown selection");
 		}

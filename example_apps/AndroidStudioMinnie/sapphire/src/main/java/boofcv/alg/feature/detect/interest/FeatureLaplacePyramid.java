@@ -22,13 +22,25 @@ import boofcv.abst.feature.detect.interest.InterestPointScaleSpacePyramid;
 import boofcv.abst.filter.ImageFunctionSparse;
 import boofcv.abst.filter.derivative.AnyImageDerivative;
 import boofcv.alg.InputSanityCheck;
+import boofcv.alg.filter.binary.GThresholdImageOps;
+import boofcv.alg.filter.binary.ThresholdImageOps;
+import boofcv.alg.filter.blur.BlurImageOps;
+import boofcv.alg.filter.blur.GBlurImageOps;
+import boofcv.alg.filter.blur.impl.ImplMedianHistogramInner;
+import boofcv.alg.filter.blur.impl.ImplMedianSortEdgeNaive;
+import boofcv.alg.filter.blur.impl.ImplMedianSortNaive;
+import boofcv.alg.filter.convolve.ConvolveImageMean;
 import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
 import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
 import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.GImageStatistics;
 import boofcv.alg.misc.ImageMiscOps;
+import boofcv.alg.misc.ImageStatistics;
 import boofcv.core.image.GeneralizedImageOps;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.QueueCorner;
 import boofcv.struct.feature.ScalePoint;
 import boofcv.struct.image.GrayF32;
@@ -39,7 +51,7 @@ import georegression.struct.point.Point2D_I16;
 import java.util.ArrayList;
 import java.util.List;
 
-import static boofcv.alg.feature.detect.interest.FastHessianFeatureDetector.polyPeak;
+//import boofcv.alg.feature.detect.interest.FastHessianFeatureDetector;
 
 /**
  * <p>
@@ -69,6 +81,20 @@ public class FeatureLaplacePyramid<T extends ImageGray, D extends ImageGray>
 	private static ConvolveNormalizedNaive CNN;
 	private static ConvolveNormalized_JustBorder CNJB;
 	private static ConvolveNormalized CN;
+	private static GBlurImageOps GBIO;
+	private static GeneralizedImageOps GIO;
+	private static BlurImageOps BIO;
+	private static ConvolveImageMean CIM;
+	private static FactoryKernelGaussian FKG;
+	private static ImplMedianHistogramInner IMHI;
+	private static ImplMedianSortEdgeNaive IMSEN;
+	private static ImplMedianSortNaive IMSN;
+	private static ImplConvolveMean ICM;
+	private static GThresholdImageOps GTIO;
+	private static GImageStatistics GIS;
+	private static ImageStatistics IS;
+	private static ThresholdImageOps TIO;
+	private static FastHessianFeatureDetector FHFD;
 
 	// used to compute feature intensity across scale space
 	private ImageFunctionSparse<T> sparseLaplace;
@@ -165,7 +191,8 @@ public class FeatureLaplacePyramid<T extends ImageGray, D extends ImageGray>
 			derivXY = computeDerivative.getDerivative(true, false);
 		}
 
-		detector.process(image, derivX, derivY, derivXX, derivYY, derivXY, GIMO, IMO, ISC, CNN, CINB, CNJB, CN);
+		detector.process(image, derivX, derivY, derivXX, derivYY, derivXY, GIMO, IMO, ISC, CNN, CINB, CNJB, CN,
+				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO);
 
 		List<Point2D_I16> m = maximums;
 		m.clear();
@@ -214,8 +241,8 @@ public class FeatureLaplacePyramid<T extends ImageGray, D extends ImageGray>
 				float y0 = intensity.unsafe_get(c.x, c.y - 1);
 				float y2 = intensity.unsafe_get(c.x, c.y + 1);
 
-				fx = c.x + polyPeak(x0, target, x2);
-				fy = c.y + polyPeak(y0, target, y2);
+				fx = c.x + FHFD.polyPeak(x0, target, x2);
+				fy = c.y + FHFD.polyPeak(y0, target, y2);
 			}
 //			fx=c.x;fy=c.y;
 
@@ -240,7 +267,7 @@ public class FeatureLaplacePyramid<T extends ImageGray, D extends ImageGray>
 				float s2 = ss2 * (float) sparseLaplace.compute(x2,y2)*adj;
 
 				double adjSigma;
-				double sigmaInterp = polyPeak(s0, val, s2); // scaled from -1 to 1
+				double sigmaInterp = FHFD.polyPeak(s0, val, s2); // scaled from -1 to 1
 				if( sigmaInterp < 0 ) {
 					adjSigma = sigma0*(-sigmaInterp) + (1+sigmaInterp)*sigma1;
 				} else {

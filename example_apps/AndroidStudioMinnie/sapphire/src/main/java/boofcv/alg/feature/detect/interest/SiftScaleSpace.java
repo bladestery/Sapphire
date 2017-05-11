@@ -18,11 +18,17 @@
 
 package boofcv.alg.feature.detect.interest;
 
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
 import boofcv.alg.filter.convolve.GConvolveImageOps;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
 import boofcv.alg.interpolate.InterpolatePixelS;
 import boofcv.alg.misc.PixelMath;
 import boofcv.alg.transform.pyramid.PyramidOps;
 import boofcv.core.image.border.BorderType;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.filter.kernel.FactoryKernel;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.factory.interpolate.FactoryInterpolation;
@@ -49,7 +55,6 @@ import boofcv.struct.image.GrayF32;
  * @author Peter Abeles
  */
 public class SiftScaleSpace {
-	private static FactoryKernelGaussian FKG;
 	// all the scale images across an octave
 	GrayF32 octaveImages[];
 	// images which are the difference between the scales
@@ -89,8 +94,7 @@ public class SiftScaleSpace {
 	GrayF32 tempImage1;
 
 	// interpolation used when scaling an image up
-	InterpolatePixelS<GrayF32> interp =
-			FactoryInterpolation.bilinearPixelS(GrayF32.class, BorderType.EXTENDED);
+	InterpolatePixelS<GrayF32> interp;
 
 	/**
 	 * Configures the scale-space
@@ -102,7 +106,7 @@ public class SiftScaleSpace {
 	 */
 	public SiftScaleSpace(int firstOctave , int lastOctave ,
 						  int numScales ,
-						  double sigma0  )
+						  double sigma0 , FactoryKernelGaussian FKG)
 	{
 		if( lastOctave <= firstOctave )
 			throw new IllegalArgumentException("Last octave must be more than the first octave");
@@ -168,28 +172,29 @@ public class SiftScaleSpace {
 	 *
 	 * @param input Input image.  No prior blur should be applied to this image. Not modified.
 	 */
-	public void initialize( GrayF32 input ) {
+	public void initialize(GrayF32 input, FactoryImageBorder FIB, InputSanityCheck ISC, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN) {
 		this.input = input;
 		currentOctave = firstOctave;
+		interp = FactoryInterpolation.bilinearPixelS(GrayF32.class, BorderType.EXTENDED, FIB);
 
 		if( firstOctave < 0 ) {
 			PyramidOps.scaleImageUp(input,tempImage1,-2*firstOctave,interp);
 			tempImage0.reshape(tempImage1.width, tempImage1.height);
-			applyGaussian(tempImage1, tempImage0, kernelSigma0);
+			applyGaussian(tempImage1, tempImage0, kernelSigma0, ISC, CNN, CINB, CNJB, CN);
 		} else {
 			tempImage0.reshape(input.width, input.height);
-			applyGaussian(input, tempImage0, kernelSigma0);
+			applyGaussian(input, tempImage0, kernelSigma0, ISC, CNN, CINB, CNJB, CN);
 			
 			for (int i = 0; i < firstOctave; i++) {
 				tempImage1.reshape(tempImage0.width, tempImage0.height);
 				// first image in the next octave will have 2x the blur as the first image in the prior octave
-				applyGaussian(tempImage0, tempImage1, kernelSigma0);
+				applyGaussian(tempImage0, tempImage1, kernelSigma0, ISC, CNN, CINB, CNJB, CN);
 				// next octave has half the spacial resolution
 				PyramidOps.scaleDown2(tempImage1, tempImage0);
 			}
 		}
 
-		computeOctaveScales();
+		computeOctaveScales(ISC, CNN, CINB, CNJB, CN);
 	}
 
 
@@ -197,7 +202,7 @@ public class SiftScaleSpace {
 	 * Computes the next octave.  If the last octave has already been computed false is returned.
 	 * @return true if an octave was computed or false if the last one was already reached
 	 */
-	public boolean computeNextOctave() {
+	public boolean computeNextOctave(InputSanityCheck ISC, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN) {
 		currentOctave += 1;
 		if( currentOctave > lastOctave ) {
 			return false;
@@ -208,23 +213,23 @@ public class SiftScaleSpace {
 
 		// the 2nd image from the top of the stack has 2x the sigma as the first
 		PyramidOps.scaleDown2(octaveImages[numScales], tempImage0);
-		computeOctaveScales();
+		computeOctaveScales(ISC, CNN, CINB, CNJB, CN);
 		return true;
 	}
 
 	/**
 	 * Computes all the scale images in an octave.  This includes DoG images.
 	 */
-	private void computeOctaveScales() {
+	private void computeOctaveScales(InputSanityCheck ISC, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN) {
 		octaveImages[0] = tempImage0;
 		for (int i = 1; i < numScales+3; i++) {
 			octaveImages[i].reshape(tempImage0.width, tempImage0.height);
-			applyGaussian(octaveImages[i - 1], octaveImages[i], kernelSigmaToK[i-1]);
+			applyGaussian(octaveImages[i - 1], octaveImages[i], kernelSigmaToK[i-1], ISC, CNN, CINB, CNJB, CN);
 		}
 
 		for (int i = 1; i < numScales+3; i++) {
 			differenceOfGaussian[i-1].reshape(tempImage0.width, tempImage0.height);
-			PixelMath.subtract(octaveImages[i],octaveImages[i - 1],differenceOfGaussian[i-1]);
+			PixelMath.subtract(octaveImages[i],octaveImages[i - 1],differenceOfGaussian[i-1], ISC);
 		}
 	}
 
@@ -239,10 +244,10 @@ public class SiftScaleSpace {
 	/**
 	 * Applies the separable kernel to the input image and stores the results in the output image.
 	 */
-	void applyGaussian(GrayF32 input, GrayF32 output, Kernel1D kernel) {
+	void applyGaussian(GrayF32 input, GrayF32 output, Kernel1D kernel, InputSanityCheck ISC, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN) {
 		tempBlur.reshape(input.width, input.height);
-		GConvolveImageOps.horizontalNormalized(kernel, input, tempBlur);
-		GConvolveImageOps.verticalNormalized(kernel, tempBlur,output);
+		GConvolveImageOps.horizontalNormalized(kernel, input, tempBlur, ISC, CNN, CINB, CNJB, CN);
+		GConvolveImageOps.verticalNormalized(kernel, tempBlur,output, ISC, CNN, CINB, CNJB, CN);
 	}
 
 	public int getNumScales() {

@@ -79,7 +79,7 @@ public class LocalSauvolaBinaryFilter<T extends ImageGray> implements InputToBin
 			alg.process((GrayF32)input,output);
 		else {
 			this.input.reshape(input.width,input.height);
-			GConvertImage.convert(input,this.input);
+			GConvertImage.convert(input,this.input, ISC, GIO, GIMO, IMO);
 			alg.process(this.input,output);
 		}
 	}

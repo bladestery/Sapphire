@@ -24,6 +24,7 @@ import boofcv.alg.geo.PerspectiveOps;
 import boofcv.alg.interpolate.InterpolatePixelS;
 import boofcv.alg.interpolate.InterpolationType;
 import boofcv.core.image.border.BorderType;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.distort.FactoryDistort;
 import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.struct.calib.CameraPinholeRadial;
@@ -41,7 +42,7 @@ import org.ejml.ops.CommonOps;
  * @author Peter Abeles
  */
 public class LensDistortionOps {
-
+	private static FactoryImageBorder FIB;
 	/**
 	 * <p>
 	 * Creates an {@link ImageDistort} class which will remove the lens distortion.  The user
@@ -74,7 +75,7 @@ public class LensDistortionOps {
 		if( skip )
 			borderType = BorderType.EXTENDED;
 
-		InterpolatePixelS interp = FactoryInterpolation.createPixelS(0, 255, InterpolationType.BILINEAR,borderType, bandType);
+		InterpolatePixelS interp = FactoryInterpolation.createPixelS(0, 255, InterpolationType.BILINEAR,borderType, bandType, FIB);
 
 		Point2Transform2_F32 undistToDist = null;
 		switch( type ) {
