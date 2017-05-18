@@ -29,6 +29,7 @@ import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.BorderType;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.filter.derivative.FactoryDerivative;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.factory.tracker.FactoryTrackerAlg;
 import boofcv.factory.transform.pyramid.FactoryPyramid;
@@ -48,6 +49,7 @@ public class FactoryDenseOpticalFlow {
 	private static ImageType IT;
 	private static GeneralizedImageOps GIO;
 	private static FactoryImageBorder FIB;
+	private static FactoryKernelGaussian FKG;
 	/**
 	 * Compute optical flow using {@link PyramidKltTracker}.
 	 *
@@ -73,8 +75,8 @@ public class FactoryDenseOpticalFlow {
 
 		int numLayers = configKlt.pyramidScaling.length;
 
-		PyramidDiscrete<I> pyramidA = FactoryPyramid.discreteGaussian(configKlt.pyramidScaling, -1, 2, true, inputType);
-		PyramidDiscrete<I> pyramidB = FactoryPyramid.discreteGaussian(configKlt.pyramidScaling, -1, 2, true, inputType);
+		PyramidDiscrete<I> pyramidA = FactoryPyramid.discreteGaussian(configKlt.pyramidScaling, -1, 2, true, inputType, FKG);
+		PyramidDiscrete<I> pyramidB = FactoryPyramid.discreteGaussian(configKlt.pyramidScaling, -1, 2, true, inputType, FKG);
 
 		PyramidKltTracker<I, D> tracker = FactoryTrackerAlg.kltPyramid(configKlt.config, inputType, derivType);
 		DenseOpticalFlowKlt<I, D> flowKlt = new DenseOpticalFlowKlt<>(tracker, numLayers, radius);

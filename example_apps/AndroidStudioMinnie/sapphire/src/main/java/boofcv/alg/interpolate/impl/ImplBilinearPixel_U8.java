@@ -36,7 +36,6 @@ import boofcv.struct.image.ImageType;
  * @author Peter Abeles
  */
 public class ImplBilinearPixel_U8 extends BilinearPixelS<GrayU8> {
-	private ImageType IT;
 	public ImplBilinearPixel_U8() {
 	}
 
@@ -90,7 +89,7 @@ public class ImplBilinearPixel_U8 extends BilinearPixelS<GrayU8> {
 	}
 
 	@Override
-	public ImageType<GrayU8> getImageType() {
+	public ImageType<GrayU8> getImageType(ImageType IT) {
 		return IT.single(GrayU8.class);
 	}
 

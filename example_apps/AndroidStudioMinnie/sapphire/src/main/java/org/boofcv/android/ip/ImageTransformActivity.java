@@ -15,7 +15,26 @@ import org.boofcv.android.R;
 import boofcv.abst.transform.fft.DiscreteFourierTransform;
 import boofcv.abst.transform.wavelet.WaveletTransform;
 import boofcv.alg.InputSanityCheck;
+import boofcv.alg.feature.detect.interest.FastHessianFeatureDetector;
+import boofcv.alg.filter.binary.GThresholdImageOps;
+import boofcv.alg.filter.binary.ThresholdImageOps;
+import boofcv.alg.filter.blur.BlurImageOps;
+import boofcv.alg.filter.blur.GBlurImageOps;
+import boofcv.alg.filter.blur.impl.ImplMedianHistogramInner;
+import boofcv.alg.filter.blur.impl.ImplMedianSortEdgeNaive;
+import boofcv.alg.filter.blur.impl.ImplMedianSortNaive;
+import boofcv.alg.filter.convolve.ConvolveImageMean;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
+import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
+import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
+import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
+import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
 import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.GImageStatistics;
 import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.misc.ImageStatistics;
 import boofcv.alg.misc.PixelMath;
@@ -26,6 +45,11 @@ import boofcv.android.VisualizeImageData;
 import boofcv.android.gui.VideoImageProcessing;
 import boofcv.core.image.ConvertImage;
 import boofcv.core.image.GeneralizedImageOps;
+import boofcv.core.image.border.FactoryImageBorder;
+import boofcv.core.image.border.FactoryImageBorderAlgs;
+import boofcv.core.image.border.ImageBorderValue;
+import boofcv.factory.filter.blur.FactoryBlurFilter;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.factory.transform.pyramid.FactoryPyramid;
 import boofcv.factory.transform.wavelet.FactoryWaveletTransform;
 import boofcv.factory.transform.wavelet.GFactoryWavelet;
@@ -47,11 +71,35 @@ import boofcv.struct.wavelet.WlCoef;
 public class ImageTransformActivity extends DemoVideoDisplayActivity
 		implements AdapterView.OnItemSelectedListener
 {
-	private static GImageMiscOps GIMO;
 	private static InputSanityCheck ISC;
+	private static DerivativeHelperFunctions DHF;
+	private static ConvolveImageNoBorder CINB;
+	private static ConvolveJustBorder_General CJBG;
+	private static GradientSobel_Outer GSO;
+	private static GradientSobel_UnrolledOuter GSUO;
+	private static GImageMiscOps GIMO;
 	private static ImageMiscOps IMO;
+	private static ConvolveNormalizedNaive CNN;
+	private static ConvolveNormalized_JustBorder CNJB;
+	private static ConvolveNormalized CN;
+	private static GBlurImageOps GBIO;
 	private static GeneralizedImageOps GIO;
-	private ImageStatistics IS;
+	private static BlurImageOps BIO;
+	private static ConvolveImageMean CIM;
+	private static FactoryKernelGaussian FKG;
+	private static ImplMedianHistogramInner IMHI;
+	private static ImplMedianSortEdgeNaive IMSEN;
+	private static ImplMedianSortNaive IMSN;
+	private static ImplConvolveMean ICM;
+	private static GThresholdImageOps GTIO;
+	private static GImageStatistics GIS;
+	private static ImageStatistics IS;
+	private static ThresholdImageOps TIO;
+	private static FactoryImageBorderAlgs FIBA;
+	private static ImageBorderValue IBV;
+	private static FastHessianFeatureDetector FHFD;
+	private static FactoryImageBorder FIB;
+	private static FactoryBlurFilter FBF;
 	private ImageType IT;
 	Spinner spinnerView;
 
@@ -137,7 +185,7 @@ public class ImageTransformActivity extends DemoVideoDisplayActivity
 	protected class PyramidProcessing<C extends WlCoef>
 			extends VideoImageProcessing<GrayU8>
 	{
-		ImagePyramid<GrayU8> pyramid = FactoryPyramid.discreteGaussian(new int[]{2,4,8,16},-1,2,false,GrayU8.class);
+		ImagePyramid<GrayU8> pyramid = FactoryPyramid.discreteGaussian(new int[]{2,4,8,16},-1,2,false,GrayU8.class, FKG);
 
 		GrayU8 output;
 		GrayU8 sub = new GrayU8();
@@ -156,7 +204,7 @@ public class ImageTransformActivity extends DemoVideoDisplayActivity
 		@Override
 		protected void process(GrayU8 input, Bitmap output, byte[] storage) {
 
-			pyramid.process(input);
+			pyramid.process(input, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG);
 
 			draw(0, 0, pyramid.getLayer(0));
 			int height = 0;

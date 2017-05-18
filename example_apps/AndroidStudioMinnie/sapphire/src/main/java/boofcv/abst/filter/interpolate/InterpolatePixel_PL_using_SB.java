@@ -98,7 +98,7 @@ public class InterpolatePixel_PL_using_SB<T extends ImageGray>
 	}
 
 	@Override
-	public ImageType<Planar<T>> getImageType() {
+	public ImageType<Planar<T>> getImageType(ImageType IT) {
 		throw new RuntimeException("Image type isn't determined until it processes an image");
 	}
 }

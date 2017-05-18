@@ -46,6 +46,7 @@ import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.core.image.border.FactoryImageBorderAlgs;
 import boofcv.core.image.border.ImageBorderValue;
+import boofcv.factory.filter.blur.FactoryBlurFilter;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.feature.AssociatedIndex;
 import boofcv.struct.feature.TupleDesc;
@@ -92,6 +93,7 @@ public class DetectDescribeAssociateTwoPass<I extends ImageGray, Desc extends Tu
 	private static ImageBorderValue IBV;
 	private static FastHessianFeatureDetector FHFD;
 	private static FactoryImageBorder FIB;
+	private static FactoryBlurFilter FBF;
 	// associate used in the second pass
 	AssociateDescription2D<Desc> associate2;
 	// has source been set in associate for the second pass
@@ -126,7 +128,7 @@ public class DetectDescribeAssociateTwoPass<I extends ImageGray, Desc extends Tu
 		locDst.reset();
 
 		manager.detectFeatures(input, locDst, featDst, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN,
-				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB);
+				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF);
 
 		// skip if there are no features
 		if( !tracksAll.isEmpty() ) {

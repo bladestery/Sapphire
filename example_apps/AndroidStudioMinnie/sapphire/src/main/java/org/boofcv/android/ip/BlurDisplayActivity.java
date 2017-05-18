@@ -27,6 +27,7 @@ import boofcv.alg.filter.blur.impl.ImplMedianSortNaive;
 import boofcv.alg.filter.convolve.ConvolveImageMean;
 import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
 import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
 import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
@@ -72,6 +73,7 @@ public class BlurDisplayActivity extends DemoVideoDisplayActivity
 	private static ThresholdImageOps TIO;
 	private static GImageMiscOps GIMO;
 	private static ImageMiscOps IMO;
+	private static ConvolveJustBorder_General CJBG;
 	Spinner spinnerView;
 
 	// amount of blur applied to the image
@@ -169,7 +171,7 @@ public class BlurDisplayActivity extends DemoVideoDisplayActivity
 		protected void process(GrayU8 input, Bitmap output, byte[] storage) {
 			if( radius > 0 ) {
 				synchronized ( filter ) {
-					filter.process(input, blurred, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO);
+					filter.process(input, blurred, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG);
 				}
 				ConvertBitmap.grayToBitmap(blurred, output, storage);
 			} else {

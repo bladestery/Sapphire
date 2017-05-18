@@ -18,7 +18,13 @@
 
 package boofcv.abst.segmentation;
 
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.filter.binary.BinaryImageOps;
+import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
+import boofcv.alg.segmentation.ImageSegmentationOps;
 import boofcv.alg.segmentation.slic.SegmentSlic;
+import boofcv.core.image.GeneralizedImageOps;
 import boofcv.struct.ConnectRule;
 import boofcv.struct.image.GrayS32;
 import boofcv.struct.image.ImageBase;
@@ -38,8 +44,8 @@ public class Slic_to_ImageSuperpixels<T extends ImageBase> implements ImageSuper
 	}
 
 	@Override
-	public void segment(T input, GrayS32 output) {
-		slic.process(input,output);
+	public void segment(T input, GrayS32 output, InputSanityCheck ISC, GeneralizedImageOps GIO, GImageMiscOps GIMO, ImageMiscOps IMO, ImageSegmentationOps ISO, BinaryImageOps BIO) {
+		slic.process(input,output, ISC, BIO, IMO);
 	}
 
 	@Override
@@ -53,7 +59,7 @@ public class Slic_to_ImageSuperpixels<T extends ImageBase> implements ImageSuper
 	}
 
 	@Override
-	public ImageType<T> getImageType() {
+	public ImageType<T> getImageType(ImageType IT) {
 		return slic.getImageType();
 	}
 }

@@ -18,6 +18,7 @@
 
 package boofcv.alg.segmentation.ms;
 
+import boofcv.alg.filter.binary.BinaryImageOps;
 import boofcv.alg.segmentation.ComputeRegionMeanColor;
 import boofcv.struct.ConnectRule;
 import boofcv.struct.image.GrayS32;
@@ -97,10 +98,10 @@ public class MergeSmallRegions<T extends ImageBase> extends RegionMergeTree {
 	 * @param regionMemberCount (input/output) Number of members in each region  Modified.
 	 * @param regionColor (Output) Storage for colors of each region. Will contains the color of each region on output.
 	 */
-	public void process( T image,
-						 GrayS32 pixelToRegion ,
-						 GrowQueue_I32 regionMemberCount,
-						 FastQueue<float[]> regionColor ) {
+	public void process(T image,
+						GrayS32 pixelToRegion ,
+						FastQueue<Integer> regionMemberCount,
+						FastQueue<float[]> regionColor, BinaryImageOps BIO) {
 
 		// iterate until no more regions need to be merged together
 		while( true ) {
@@ -124,7 +125,7 @@ public class MergeSmallRegions<T extends ImageBase> extends RegionMergeTree {
 			}
 
 			// Do the usual merge stuff
-			performMerge(pixelToRegion,regionMemberCount);
+			performMerge(pixelToRegion,regionMemberCount, BIO);
 		}
 	}
 
@@ -134,7 +135,7 @@ public class MergeSmallRegions<T extends ImageBase> extends RegionMergeTree {
 	 *
 	 * @return true If elements need to be pruned and false if not.
 	 */
-	protected boolean setupPruneList(GrowQueue_I32 regionMemberCount) {
+	protected boolean setupPruneList(FastQueue<Integer> regionMemberCount) {
 		segmentPruneFlag.resize(regionMemberCount.size);
 		pruneGraph.reset();
 		segmentToPruneID.resize(regionMemberCount.size);

@@ -52,21 +52,23 @@ public final class FactoryInterestPointAlgs_Stub extends boofcv.factory.feature.
         return ((boofcv.alg.feature.detect.interest.SiftDetector) $__result);
     }
 
-    // Implementation of hessianPyramid(int, float, int, Class, Class, FactoryFeatureExtractor)
-    public boofcv.alg.feature.detect.interest.FeaturePyramid hessianPyramid(int $param_int_1, float $param_float_2, int $param_int_3, java.lang.Class $param_Class_4, java.lang.Class $param_Class_5, boofcv.factory.feature.detect.extract.FactoryFeatureExtractor $param_FactoryFeatureExtractor_6) {
+    // Implementation of hessianPyramid(int, float, int, Class, Class, FactoryFeatureExtractor, GeneralizedImageOps, FactoryImageBorder)
+    public boofcv.alg.feature.detect.interest.FeaturePyramid hessianPyramid(int $param_int_1, float $param_float_2, int $param_int_3, java.lang.Class $param_Class_4, java.lang.Class $param_Class_5, boofcv.factory.feature.detect.extract.FactoryFeatureExtractor $param_FactoryFeatureExtractor_6, boofcv.core.image.GeneralizedImageOps $param_GeneralizedImageOps_7, boofcv.core.image.border.FactoryImageBorder $param_FactoryImageBorder_8) {
         java.lang.Object $__result = null;
         try {
             if ($__directInvocation)
-                $__result = super.hessianPyramid( $param_int_1,  $param_float_2,  $param_int_3,  $param_Class_4,  $param_Class_5,  $param_FactoryFeatureExtractor_6);
+                $__result = super.hessianPyramid( $param_int_1,  $param_float_2,  $param_int_3,  $param_Class_4,  $param_Class_5,  $param_FactoryFeatureExtractor_6,  $param_GeneralizedImageOps_7,  $param_FactoryImageBorder_8);
             else {
                 java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
-                String $__method = "public <T,D> boofcv.alg.feature.detect.interest.FeaturePyramid<T, D> boofcv.factory.feature.detect.interest.FactoryInterestPointAlgs.hessianPyramid(int,float,int,java.lang.Class<T>,java.lang.Class<D>,boofcv.factory.feature.detect.extract.FactoryFeatureExtractor)";
+                String $__method = "public <T,D> boofcv.alg.feature.detect.interest.FeaturePyramid<T, D> boofcv.factory.feature.detect.interest.FactoryInterestPointAlgs.hessianPyramid(int,float,int,java.lang.Class<T>,java.lang.Class<D>,boofcv.factory.feature.detect.extract.FactoryFeatureExtractor,boofcv.core.image.GeneralizedImageOps,boofcv.core.image.border.FactoryImageBorder)";
                 $__params.add($param_int_1);
                 $__params.add($param_float_2);
                 $__params.add($param_int_3);
                 $__params.add($param_Class_4);
                 $__params.add($param_Class_5);
                 $__params.add($param_FactoryFeatureExtractor_6);
+                $__params.add($param_GeneralizedImageOps_7);
+                $__params.add($param_FactoryImageBorder_8);
                 $__result = $__client.onRPC($__method, $__params);
             }
         } catch (Exception e) {
@@ -75,21 +77,23 @@ public final class FactoryInterestPointAlgs_Stub extends boofcv.factory.feature.
         return ((boofcv.alg.feature.detect.interest.FeaturePyramid) $__result);
     }
 
-    // Implementation of hessianLaplace(int, float, int, Class, Class, FactoryFeatureExtractor)
-    public boofcv.alg.feature.detect.interest.FeatureLaplacePyramid hessianLaplace(int $param_int_1, float $param_float_2, int $param_int_3, java.lang.Class $param_Class_4, java.lang.Class $param_Class_5, boofcv.factory.feature.detect.extract.FactoryFeatureExtractor $param_FactoryFeatureExtractor_6) {
+    // Implementation of hessianLaplace(int, float, int, Class, Class, FactoryFeatureExtractor, GeneralizedImageOps, FactoryImageBorder)
+    public boofcv.alg.feature.detect.interest.FeatureLaplacePyramid hessianLaplace(int $param_int_1, float $param_float_2, int $param_int_3, java.lang.Class $param_Class_4, java.lang.Class $param_Class_5, boofcv.factory.feature.detect.extract.FactoryFeatureExtractor $param_FactoryFeatureExtractor_6, boofcv.core.image.GeneralizedImageOps $param_GeneralizedImageOps_7, boofcv.core.image.border.FactoryImageBorder $param_FactoryImageBorder_8) {
         java.lang.Object $__result = null;
         try {
             if ($__directInvocation)
-                $__result = super.hessianLaplace( $param_int_1,  $param_float_2,  $param_int_3,  $param_Class_4,  $param_Class_5,  $param_FactoryFeatureExtractor_6);
+                $__result = super.hessianLaplace( $param_int_1,  $param_float_2,  $param_int_3,  $param_Class_4,  $param_Class_5,  $param_FactoryFeatureExtractor_6,  $param_GeneralizedImageOps_7,  $param_FactoryImageBorder_8);
             else {
                 java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
-                String $__method = "public <T,D> boofcv.alg.feature.detect.interest.FeatureLaplacePyramid<T, D> boofcv.factory.feature.detect.interest.FactoryInterestPointAlgs.hessianLaplace(int,float,int,java.lang.Class<T>,java.lang.Class<D>,boofcv.factory.feature.detect.extract.FactoryFeatureExtractor)";
+                String $__method = "public <T,D> boofcv.alg.feature.detect.interest.FeatureLaplacePyramid<T, D> boofcv.factory.feature.detect.interest.FactoryInterestPointAlgs.hessianLaplace(int,float,int,java.lang.Class<T>,java.lang.Class<D>,boofcv.factory.feature.detect.extract.FactoryFeatureExtractor,boofcv.core.image.GeneralizedImageOps,boofcv.core.image.border.FactoryImageBorder)";
                 $__params.add($param_int_1);
                 $__params.add($param_float_2);
                 $__params.add($param_int_3);
                 $__params.add($param_Class_4);
                 $__params.add($param_Class_5);
                 $__params.add($param_FactoryFeatureExtractor_6);
+                $__params.add($param_GeneralizedImageOps_7);
+                $__params.add($param_FactoryImageBorder_8);
                 $__result = $__client.onRPC($__method, $__params);
             }
         } catch (Exception e) {
@@ -98,15 +102,15 @@ public final class FactoryInterestPointAlgs_Stub extends boofcv.factory.feature.
         return ((boofcv.alg.feature.detect.interest.FeatureLaplacePyramid) $__result);
     }
 
-    // Implementation of harrisPyramid(int, float, int, Class, Class, FactoryIntensityPointAlg, GeneralizedImageOps, FactoryKernelGaussian, FactoryFeatureExtractor)
-    public boofcv.alg.feature.detect.interest.FeaturePyramid harrisPyramid(int $param_int_1, float $param_float_2, int $param_int_3, java.lang.Class $param_Class_4, java.lang.Class $param_Class_5, boofcv.factory.feature.detect.intensity.FactoryIntensityPointAlg $param_FactoryIntensityPointAlg_6, boofcv.core.image.GeneralizedImageOps $param_GeneralizedImageOps_7, boofcv.factory.filter.kernel.FactoryKernelGaussian $param_FactoryKernelGaussian_8, boofcv.factory.feature.detect.extract.FactoryFeatureExtractor $param_FactoryFeatureExtractor_9) {
+    // Implementation of harrisPyramid(int, float, int, Class, Class, FactoryIntensityPointAlg, GeneralizedImageOps, FactoryKernelGaussian, FactoryFeatureExtractor, FactoryImageBorder)
+    public boofcv.alg.feature.detect.interest.FeaturePyramid harrisPyramid(int $param_int_1, float $param_float_2, int $param_int_3, java.lang.Class $param_Class_4, java.lang.Class $param_Class_5, boofcv.factory.feature.detect.intensity.FactoryIntensityPointAlg $param_FactoryIntensityPointAlg_6, boofcv.core.image.GeneralizedImageOps $param_GeneralizedImageOps_7, boofcv.factory.filter.kernel.FactoryKernelGaussian $param_FactoryKernelGaussian_8, boofcv.factory.feature.detect.extract.FactoryFeatureExtractor $param_FactoryFeatureExtractor_9, boofcv.core.image.border.FactoryImageBorder $param_FactoryImageBorder_10) {
         java.lang.Object $__result = null;
         try {
             if ($__directInvocation)
-                $__result = super.harrisPyramid( $param_int_1,  $param_float_2,  $param_int_3,  $param_Class_4,  $param_Class_5,  $param_FactoryIntensityPointAlg_6,  $param_GeneralizedImageOps_7,  $param_FactoryKernelGaussian_8,  $param_FactoryFeatureExtractor_9);
+                $__result = super.harrisPyramid( $param_int_1,  $param_float_2,  $param_int_3,  $param_Class_4,  $param_Class_5,  $param_FactoryIntensityPointAlg_6,  $param_GeneralizedImageOps_7,  $param_FactoryKernelGaussian_8,  $param_FactoryFeatureExtractor_9,  $param_FactoryImageBorder_10);
             else {
                 java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
-                String $__method = "public <T,D> boofcv.alg.feature.detect.interest.FeaturePyramid<T, D> boofcv.factory.feature.detect.interest.FactoryInterestPointAlgs.harrisPyramid(int,float,int,java.lang.Class<T>,java.lang.Class<D>,boofcv.factory.feature.detect.intensity.FactoryIntensityPointAlg,boofcv.core.image.GeneralizedImageOps,boofcv.factory.filter.kernel.FactoryKernelGaussian,boofcv.factory.feature.detect.extract.FactoryFeatureExtractor)";
+                String $__method = "public <T,D> boofcv.alg.feature.detect.interest.FeaturePyramid<T, D> boofcv.factory.feature.detect.interest.FactoryInterestPointAlgs.harrisPyramid(int,float,int,java.lang.Class<T>,java.lang.Class<D>,boofcv.factory.feature.detect.intensity.FactoryIntensityPointAlg,boofcv.core.image.GeneralizedImageOps,boofcv.factory.filter.kernel.FactoryKernelGaussian,boofcv.factory.feature.detect.extract.FactoryFeatureExtractor,boofcv.core.image.border.FactoryImageBorder)";
                 $__params.add($param_int_1);
                 $__params.add($param_float_2);
                 $__params.add($param_int_3);
@@ -116,6 +120,7 @@ public final class FactoryInterestPointAlgs_Stub extends boofcv.factory.feature.
                 $__params.add($param_GeneralizedImageOps_7);
                 $__params.add($param_FactoryKernelGaussian_8);
                 $__params.add($param_FactoryFeatureExtractor_9);
+                $__params.add($param_FactoryImageBorder_10);
                 $__result = $__client.onRPC($__method, $__params);
             }
         } catch (Exception e) {
@@ -124,15 +129,15 @@ public final class FactoryInterestPointAlgs_Stub extends boofcv.factory.feature.
         return ((boofcv.alg.feature.detect.interest.FeaturePyramid) $__result);
     }
 
-    // Implementation of harrisLaplace(int, float, int, Class, Class, FactoryIntensityPointAlg, GeneralizedImageOps, FactoryKernelGaussian, FactoryFeatureExtractor)
-    public boofcv.alg.feature.detect.interest.FeatureLaplacePyramid harrisLaplace(int $param_int_1, float $param_float_2, int $param_int_3, java.lang.Class $param_Class_4, java.lang.Class $param_Class_5, boofcv.factory.feature.detect.intensity.FactoryIntensityPointAlg $param_FactoryIntensityPointAlg_6, boofcv.core.image.GeneralizedImageOps $param_GeneralizedImageOps_7, boofcv.factory.filter.kernel.FactoryKernelGaussian $param_FactoryKernelGaussian_8, boofcv.factory.feature.detect.extract.FactoryFeatureExtractor $param_FactoryFeatureExtractor_9) {
+    // Implementation of harrisLaplace(int, float, int, Class, Class, FactoryIntensityPointAlg, GeneralizedImageOps, FactoryKernelGaussian, FactoryFeatureExtractor, FactoryImageBorder)
+    public boofcv.alg.feature.detect.interest.FeatureLaplacePyramid harrisLaplace(int $param_int_1, float $param_float_2, int $param_int_3, java.lang.Class $param_Class_4, java.lang.Class $param_Class_5, boofcv.factory.feature.detect.intensity.FactoryIntensityPointAlg $param_FactoryIntensityPointAlg_6, boofcv.core.image.GeneralizedImageOps $param_GeneralizedImageOps_7, boofcv.factory.filter.kernel.FactoryKernelGaussian $param_FactoryKernelGaussian_8, boofcv.factory.feature.detect.extract.FactoryFeatureExtractor $param_FactoryFeatureExtractor_9, boofcv.core.image.border.FactoryImageBorder $param_FactoryImageBorder_10) {
         java.lang.Object $__result = null;
         try {
             if ($__directInvocation)
-                $__result = super.harrisLaplace( $param_int_1,  $param_float_2,  $param_int_3,  $param_Class_4,  $param_Class_5,  $param_FactoryIntensityPointAlg_6,  $param_GeneralizedImageOps_7,  $param_FactoryKernelGaussian_8,  $param_FactoryFeatureExtractor_9);
+                $__result = super.harrisLaplace( $param_int_1,  $param_float_2,  $param_int_3,  $param_Class_4,  $param_Class_5,  $param_FactoryIntensityPointAlg_6,  $param_GeneralizedImageOps_7,  $param_FactoryKernelGaussian_8,  $param_FactoryFeatureExtractor_9,  $param_FactoryImageBorder_10);
             else {
                 java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
-                String $__method = "public <T,D> boofcv.alg.feature.detect.interest.FeatureLaplacePyramid<T, D> boofcv.factory.feature.detect.interest.FactoryInterestPointAlgs.harrisLaplace(int,float,int,java.lang.Class<T>,java.lang.Class<D>,boofcv.factory.feature.detect.intensity.FactoryIntensityPointAlg,boofcv.core.image.GeneralizedImageOps,boofcv.factory.filter.kernel.FactoryKernelGaussian,boofcv.factory.feature.detect.extract.FactoryFeatureExtractor)";
+                String $__method = "public <T,D> boofcv.alg.feature.detect.interest.FeatureLaplacePyramid<T, D> boofcv.factory.feature.detect.interest.FactoryInterestPointAlgs.harrisLaplace(int,float,int,java.lang.Class<T>,java.lang.Class<D>,boofcv.factory.feature.detect.intensity.FactoryIntensityPointAlg,boofcv.core.image.GeneralizedImageOps,boofcv.factory.filter.kernel.FactoryKernelGaussian,boofcv.factory.feature.detect.extract.FactoryFeatureExtractor,boofcv.core.image.border.FactoryImageBorder)";
                 $__params.add($param_int_1);
                 $__params.add($param_float_2);
                 $__params.add($param_int_3);
@@ -142,6 +147,7 @@ public final class FactoryInterestPointAlgs_Stub extends boofcv.factory.feature.
                 $__params.add($param_GeneralizedImageOps_7);
                 $__params.add($param_FactoryKernelGaussian_8);
                 $__params.add($param_FactoryFeatureExtractor_9);
+                $__params.add($param_FactoryImageBorder_10);
                 $__result = $__client.onRPC($__method, $__params);
             }
         } catch (Exception e) {

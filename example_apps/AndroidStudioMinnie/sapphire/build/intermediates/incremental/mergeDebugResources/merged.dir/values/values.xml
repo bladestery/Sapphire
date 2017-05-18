@@ -86,6 +86,10 @@
     <string-array name="scale_features">
         <item>SURF</item>
         <item>SIFT</item>
+        <item>Hessian Blob + Pyramid</item>
+        <item>Hessian Blob + Laplace Pyramid</item>
+        <item>Harris Corner + Pyramid</item>
+        <item>Harris Corner + Laplace Pyramid</item>
     </string-array>
     <string-array name="segmentation_algs">
         <item>Watershed</item>

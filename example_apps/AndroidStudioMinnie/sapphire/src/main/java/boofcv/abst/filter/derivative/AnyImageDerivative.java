@@ -30,6 +30,7 @@ import boofcv.alg.filter.blur.impl.ImplMedianSortNaive;
 import boofcv.alg.filter.convolve.ConvolveImageMean;
 import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
 import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
 import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
@@ -40,6 +41,7 @@ import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.misc.ImageStatistics;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.BorderType;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.filter.convolve.FactoryConvolve;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.BoofDefaults;
@@ -58,26 +60,6 @@ import boofcv.struct.image.ImageGray;
  * @author Peter Abeles
  */
 public class AnyImageDerivative<I extends ImageGray, D extends ImageGray> {
-	private static GeneralizedImageOps GIO;
-	private static GBlurImageOps GBIO;
-	private static InputSanityCheck ISC;
-	private static BlurImageOps BIO;
-	private static ConvolveImageMean CIM;
-	private static FactoryKernelGaussian FKG;
-	private static ConvolveNormalized CN;
-	private static ConvolveNormalizedNaive CNN;
-	private static ConvolveImageNoBorder CINB;
-	private static ConvolveNormalized_JustBorder CNJB;
-	private static ImplMedianHistogramInner IMHI;
-	private static ImplMedianSortEdgeNaive IMSEN;
-	private static ImplMedianSortNaive IMSN;
-	private static ImplConvolveMean ICM;
-	private static GThresholdImageOps GTIO;
-	private static GImageStatistics GIS;
-	private static ImageStatistics IS;
-	private static ThresholdImageOps TIO;
-	private static GImageMiscOps GIMO;
-	private static ImageMiscOps IMO;
 	// filters for computing image derivatives
 	private ConvolveInterface<I, D> derivX;
 	private ConvolveInterface<I, D> derivY;
@@ -105,15 +87,15 @@ public class AnyImageDerivative<I extends ImageGray, D extends ImageGray> {
 	 * @param inputType The type of input image.
 	 * @param derivType Derivative image type
 	 */
-	public AnyImageDerivative( Kernel1D deriv , Class<I> inputType , Class<D> derivType )
+	public AnyImageDerivative(Kernel1D deriv , Class<I> inputType , Class<D> derivType, FactoryImageBorder FIB)
 	{
 		this.derivType = derivType;
 
-		derivX = FactoryConvolve.convolve(deriv,inputType,derivType, borderDeriv,true);
-		derivY = FactoryConvolve.convolve(deriv,inputType,derivType, borderDeriv,false);
+		derivX = FactoryConvolve.convolve(deriv,inputType,derivType, borderDeriv,true, FIB);
+		derivY = FactoryConvolve.convolve(deriv,inputType,derivType, borderDeriv,false, FIB);
 
-		derivDerivX = FactoryConvolve.convolve(deriv,derivType,derivType, borderDeriv,true);
-		derivDerivY = FactoryConvolve.convolve(deriv,derivType,derivType, borderDeriv,false);
+		derivDerivX = FactoryConvolve.convolve(deriv,derivType,derivType, borderDeriv,true, FIB);
+		derivDerivY = FactoryConvolve.convolve(deriv,derivType,derivType, borderDeriv,false, FIB);
 	}
 
 	/**
@@ -123,16 +105,16 @@ public class AnyImageDerivative<I extends ImageGray, D extends ImageGray> {
 	 * @param inputType The type of input image.
 	 * @param derivType Derivative image type
 	 */
-	public AnyImageDerivative( Kernel2D derivX , Class<I> inputType , Class<D> derivType )
+	public AnyImageDerivative( Kernel2D derivX , Class<I> inputType , Class<D> derivType, FactoryImageBorder FIB)
 	{
 		this.derivType = derivType;
 		Kernel2D derivY = GKernelMath.transpose(derivX);
 
-		this.derivX = FactoryConvolve.convolve(derivX,inputType,derivType, borderDeriv);
-		this.derivY = FactoryConvolve.convolve(derivY,inputType,derivType, borderDeriv);
+		this.derivX = FactoryConvolve.convolve(derivX,inputType,derivType, borderDeriv, FIB);
+		this.derivY = FactoryConvolve.convolve(derivY,inputType,derivType, borderDeriv, FIB);
 
-		derivDerivX = FactoryConvolve.convolve(derivX,derivType,derivType, borderDeriv);
-		derivDerivY = FactoryConvolve.convolve(derivY,derivType,derivType, borderDeriv);
+		derivDerivX = FactoryConvolve.convolve(derivX,derivType,derivType, borderDeriv, FIB);
+		derivDerivY = FactoryConvolve.convolve(derivY,derivType,derivType, borderDeriv, FIB);
 	}
 
 	/**
@@ -180,11 +162,14 @@ public class AnyImageDerivative<I extends ImageGray, D extends ImageGray> {
 	 * Computes derivative images using previously computed lower level derivatives.  Only
 	 * computes/declares images as needed.
 	 */
-	public D getDerivative(boolean... isX) {
+	public D getDerivative(GBlurImageOps GBIO, InputSanityCheck ISC, GeneralizedImageOps GIO, BlurImageOps BIO, ConvolveImageMean CIM, FactoryKernelGaussian FKG,
+						   ConvolveNormalized CN, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN,
+						   ImplMedianSortNaive IMSN, ImplConvolveMean ICM, GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvolveJustBorder_General CJBG,
+						   boolean... isX) {
 		if( derivatives == null ) {
-			declareTree(isX.length);
+			declareTree(isX.length, GIO);
 		} else if( isX.length > stale.length ) {
-			growTree(isX.length);
+			growTree(isX.length, GIO);
 		}
 
 		int index = 0;
@@ -198,16 +183,16 @@ public class AnyImageDerivative<I extends ImageGray, D extends ImageGray> {
 
 				if( level == 0 ) {
 					if( isX[level]) {
-						derivX.process(inputImage,derivatives[level][index], GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO);
+						derivX.process(inputImage,derivatives[level][index], GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG);
 					} else {
-						derivY.process(inputImage,derivatives[level][index], GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO);
+						derivY.process(inputImage,derivatives[level][index], GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG);
 					}
 				} else {
 					D prev = derivatives[level-1][prevIndex];
 					if( isX[level]) {
-						derivDerivX.process(prev,derivatives[level][index], GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO);
+						derivDerivX.process(prev,derivatives[level][index], GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG);
 					} else {
-						derivDerivY.process(prev,derivatives[level][index], GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO);
+						derivDerivY.process(prev,derivatives[level][index], GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG);
 					}
 				}
 			}
@@ -217,7 +202,7 @@ public class AnyImageDerivative<I extends ImageGray, D extends ImageGray> {
 		return derivatives[isX.length-1][index];
 	}
 
-	private void declareTree( int maxDerivativeOrder ) {
+	private void declareTree( int maxDerivativeOrder, GeneralizedImageOps GIO) {
 		derivatives = (D[][])new ImageGray[maxDerivativeOrder][];
 		stale = new boolean[maxDerivativeOrder][];
 
@@ -232,11 +217,11 @@ public class AnyImageDerivative<I extends ImageGray, D extends ImageGray> {
 		}
 	}
 
-	private void growTree( int maxDerivativeOrder ) {
+	private void growTree( int maxDerivativeOrder, GeneralizedImageOps GIO) {
 		D[][] oldDerives = derivatives;
 		boolean[][] oldStale = stale;
 
-		declareTree(maxDerivativeOrder);
+		declareTree(maxDerivativeOrder, GIO);
 
 		int N = oldStale.length;
 		for( int i = 0; i < N; i++ ) {

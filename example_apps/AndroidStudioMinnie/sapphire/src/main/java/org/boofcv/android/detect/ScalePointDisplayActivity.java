@@ -82,7 +82,6 @@ public class ScalePointDisplayActivity extends DemoVideoDisplayActivity
 
 		DisplayMetrics dm = getResources().getDisplayMetrics();
 
-
 		InetSocketAddress host, omsHost;
 
 		try {
@@ -159,6 +158,22 @@ public class ScalePointDisplayActivity extends DemoVideoDisplayActivity
 				ConfigSiftDetector configSift = new ConfigSiftDetector(200);
 				//detector = FactoryInterestPoint.sift(null, configSift, GrayU8.class);
 				DM.sift(null, configSift);
+				break;
+
+			case 2:
+				DM.hessianPyramid();
+				break;
+
+			case 3:
+				DM.hessianLaplace();
+				break;
+
+			case 4:
+				DM.harrisPyramid();
+				break;
+
+			case 5:
+				DM.harrisLaplace();
 				break;
 
 			default:

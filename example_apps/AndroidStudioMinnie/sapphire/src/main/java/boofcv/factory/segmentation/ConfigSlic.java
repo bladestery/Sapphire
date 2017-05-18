@@ -18,6 +18,8 @@
 
 package boofcv.factory.segmentation;
 
+import java.io.Serializable;
+
 import boofcv.struct.ConnectRule;
 
 /**
@@ -26,7 +28,7 @@ import boofcv.struct.ConnectRule;
  *
  * @author Peter Abeles
  */
-public class ConfigSlic {
+public class ConfigSlic implements Serializable {
 	/**
 	 * Number of regions which will be initially seeded.  The actually number of regions at the end will
 	 * vary a bit due to merging of small regions and the image border.

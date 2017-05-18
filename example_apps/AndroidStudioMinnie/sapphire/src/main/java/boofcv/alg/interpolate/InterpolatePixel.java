@@ -83,6 +83,6 @@ public interface InterpolatePixel<T extends ImageBase> {
 	/**
 	 * Type of image it can process
 	 */
-	public ImageType<T> getImageType();
+	public ImageType<T> getImageType(ImageType IT);
 
 }

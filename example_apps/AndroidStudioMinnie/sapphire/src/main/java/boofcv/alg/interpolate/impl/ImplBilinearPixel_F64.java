@@ -36,7 +36,6 @@ import boofcv.struct.image.ImageType;
  * @author Peter Abeles
  */
 public class ImplBilinearPixel_F64 extends BilinearPixelS<GrayF64> {
-	private ImageType IT;
 	public ImplBilinearPixel_F64() {
 	}
 
@@ -90,7 +89,7 @@ public class ImplBilinearPixel_F64 extends BilinearPixelS<GrayF64> {
 	}
 
 	@Override
-	public ImageType<GrayF64> getImageType() {
+	public ImageType<GrayF64> getImageType(ImageType IT) {
 		return IT.single(GrayF64.class);
 	}
 

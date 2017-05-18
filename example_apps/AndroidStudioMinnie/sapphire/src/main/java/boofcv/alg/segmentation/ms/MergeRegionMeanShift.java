@@ -18,6 +18,7 @@
 
 package boofcv.alg.segmentation.ms;
 
+import boofcv.alg.filter.binary.BinaryImageOps;
 import boofcv.struct.image.GrayS32;
 import georegression.struct.point.Point2D_I32;
 import org.ddogleg.struct.FastQueue;
@@ -61,15 +62,15 @@ public class MergeRegionMeanShift extends RegionMergeTree {
 	 * @param regionColor (Input/output) Color of each region. Modified.
 	 * @param modeLocation (Input) Location of each region's mode. Not modified.
 	 */
-	public void process( GrayS32 pixelToRegion ,
-						 GrowQueue_I32 regionMemberCount,
-						 FastQueue<float[]> regionColor ,
-						 FastQueue<Point2D_I32> modeLocation ) {
+	public void process(GrayS32 pixelToRegion ,
+						FastQueue<Integer> regionMemberCount,
+						FastQueue<float[]> regionColor ,
+						FastQueue<Point2D_I32> modeLocation, BinaryImageOps BIO) {
 		initializeMerge(regionMemberCount.size);
 
 		markMergeRegions(regionColor,modeLocation,pixelToRegion);
 
-		performMerge(pixelToRegion, regionMemberCount);
+		performMerge(pixelToRegion, regionMemberCount, BIO);
 	}
 
 	/**

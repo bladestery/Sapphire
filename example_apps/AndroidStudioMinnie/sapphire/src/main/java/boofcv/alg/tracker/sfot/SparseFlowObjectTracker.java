@@ -21,11 +21,28 @@ package boofcv.alg.tracker.sfot;
 import boofcv.abst.filter.derivative.ImageGradient;
 import boofcv.alg.InputSanityCheck;
 import boofcv.alg.feature.detect.edge.impl.ImplEdgeNonMaxSuppression;
+import boofcv.alg.feature.detect.interest.FastHessianFeatureDetector;
+import boofcv.alg.filter.binary.GThresholdImageOps;
+import boofcv.alg.filter.binary.ThresholdImageOps;
+import boofcv.alg.filter.blur.BlurImageOps;
+import boofcv.alg.filter.blur.GBlurImageOps;
+import boofcv.alg.filter.blur.impl.ImplMedianHistogramInner;
+import boofcv.alg.filter.blur.impl.ImplMedianSortEdgeNaive;
+import boofcv.alg.filter.blur.impl.ImplMedianSortNaive;
+import boofcv.alg.filter.convolve.ConvolveImageMean;
 import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
 import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
+import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
 import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
 import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
 import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
+import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.GImageStatistics;
+import boofcv.alg.misc.ImageMiscOps;
+import boofcv.alg.misc.ImageStatistics;
 import boofcv.alg.sfm.robust.DistanceScaleTranslateRotate2DSq;
 import boofcv.alg.sfm.robust.GenerateScaleTranslateRotate2D;
 import boofcv.alg.sfm.robust.ModelManagerScaleTranslateRotate2D;
@@ -34,6 +51,11 @@ import boofcv.alg.tracker.klt.PyramidKltFeature;
 import boofcv.alg.tracker.klt.PyramidKltTracker;
 import boofcv.alg.tracker.tld.TldTracker;
 import boofcv.core.image.GeneralizedImageOps;
+import boofcv.core.image.border.FactoryImageBorder;
+import boofcv.core.image.border.FactoryImageBorderAlgs;
+import boofcv.core.image.border.ImageBorderValue;
+import boofcv.factory.filter.blur.FactoryBlurFilter;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.factory.tracker.FactoryTrackerAlg;
 import boofcv.factory.transform.pyramid.FactoryPyramid;
 import boofcv.struct.RectangleRotate_F64;
@@ -58,13 +80,35 @@ import java.lang.reflect.Array;
  */
 public class SparseFlowObjectTracker<Image extends ImageGray, Derivative extends ImageGray>
 {
-	private GeneralizedImageOps GIO;
 	private static InputSanityCheck ISC;
 	private static DerivativeHelperFunctions DHF;
 	private static ConvolveImageNoBorder CINB;
 	private static ConvolveJustBorder_General CJBG;
 	private static GradientSobel_Outer GSO;
 	private static GradientSobel_UnrolledOuter GSUO;
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
+	private static ConvolveNormalizedNaive CNN;
+	private static ConvolveNormalized_JustBorder CNJB;
+	private static ConvolveNormalized CN;
+	private static GBlurImageOps GBIO;
+	private static GeneralizedImageOps GIO;
+	private static BlurImageOps BIO;
+	private static ConvolveImageMean CIM;
+	private static FactoryKernelGaussian FKG;
+	private static ImplMedianHistogramInner IMHI;
+	private static ImplMedianSortEdgeNaive IMSEN;
+	private static ImplMedianSortNaive IMSN;
+	private static ImplConvolveMean ICM;
+	private static GThresholdImageOps GTIO;
+	private static GImageStatistics GIS;
+	private static ImageStatistics IS;
+	private static ThresholdImageOps TIO;
+	private static FactoryImageBorderAlgs FIBA;
+	private static ImageBorderValue IBV;
+	private static FastHessianFeatureDetector FHFD;
+	private static FactoryImageBorder FIB;
+	private static FactoryBlurFilter FBF;
 	// for the current image
 	private ImagePyramid<Image> currentImage;
 	private Derivative[] currentDerivX;
@@ -127,7 +171,7 @@ public class SparseFlowObjectTracker<Image extends ImageGray, Derivative extends
 			declarePyramid(input.width,input.height);
 		}
 
-		previousImage.process(input);
+		previousImage.process(input, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG);
 		for( int i = 0; i < previousImage.getNumLayers(); i++ ) {
 			Image layer = previousImage.getLayer(i);
 			gradient.process(layer,previousDerivX[i],previousDerivY[i], ISC, DHF, CINB, CJBG, GSO, GSUO);
@@ -205,7 +249,7 @@ public class SparseFlowObjectTracker<Image extends ImageGray, Derivative extends
 	private void trackFeatures(Image input, RectangleRotate_F64 region) {
 		pairs.reset();
 
-		currentImage.process(input);
+		currentImage.process(input, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG);
 		for( int i = 0; i < currentImage.getNumLayers(); i++ ) {
 			Image layer = currentImage.getLayer(i);
 			gradient.process(layer,currentDerivX[i],currentDerivY[i], ISC, DHF, CINB, CJBG, GSO, GSUO);
@@ -280,9 +324,9 @@ public class SparseFlowObjectTracker<Image extends ImageGray, Derivative extends
 	private void declarePyramid( int imageWidth , int imageHeight ) {
 		int minSize = (config.trackerFeatureRadius*2+1)*5;
 		int scales[] = TldTracker.selectPyramidScale(imageWidth, imageHeight, minSize);
-		currentImage = FactoryPyramid.discreteGaussian(scales,-1,1,false,imageType);
+		currentImage = FactoryPyramid.discreteGaussian(scales,-1,1,false,imageType, FKG);
 		currentImage.initialize(imageWidth, imageHeight);
-		previousImage = FactoryPyramid.discreteGaussian(scales, -1, 1, false,imageType);
+		previousImage = FactoryPyramid.discreteGaussian(scales, -1, 1, false,imageType, FKG);
 		previousImage.initialize(imageWidth, imageHeight);
 
 		int numPyramidLayers = currentImage.getNumLayers();

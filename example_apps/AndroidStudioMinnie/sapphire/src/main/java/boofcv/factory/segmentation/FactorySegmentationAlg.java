@@ -34,14 +34,16 @@ import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.struct.ConnectRule;
 import boofcv.struct.image.ImageBase;
 import boofcv.struct.image.ImageType;
+import sapphire.app.SapphireObject;
 
 /**
  * Factory for low level segmentation algorithms.
  *
  * @author Peter Abeles
  */
-public class FactorySegmentationAlg {
-	private static FactoryImageBorder FIB;
+public class FactorySegmentationAlg implements SapphireObject {
+
+	public FactorySegmentationAlg() {}
 
 	/**
 	 * Creates an instance of {@link boofcv.alg.segmentation.ComputeRegionMeanColor} for the specified image type.
@@ -49,7 +51,7 @@ public class FactorySegmentationAlg {
 	 * @param imageType image type
 	 * @return ComputeRegionMeanColor
 	 */
-	public static <T extends ImageBase>
+	public <T extends ImageBase>
 	ComputeRegionMeanColor<T> regionMeanColor(ImageType<T> imageType) {
 		if( imageType.getFamily() == ImageType.Family.GRAY) {
 			switch( imageType.getDataType() ) {
@@ -79,8 +81,8 @@ public class FactorySegmentationAlg {
 	 * @param imageType Type of input image
 	 * @return SegmentMeanShift
 	 */
-	public static<T extends ImageBase>
-	SegmentMeanShift<T> meanShift( ConfigSegmentMeanShift config,  ImageType<T> imageType )
+	public <T extends ImageBase>
+	SegmentMeanShift<T> meanShift( ConfigSegmentMeanShift config,  ImageType<T> imageType, FactoryImageBorder FIB)
 	{
 		if( config == null )
 			config = new ConfigSegmentMeanShift();
@@ -113,7 +115,7 @@ public class FactorySegmentationAlg {
 		return new SegmentMeanShift<>(search, merge, prune, config.connectRule);
 	}
 
-	public static <T extends ImageBase>
+	public <T extends ImageBase>
 	FhEdgeWeights<T> weightsFelzenszwalb04( ConnectRule rule , ImageType<T> imageType) {
 		if( imageType.getFamily() == ImageType.Family.GRAY) {
 			if( rule == ConnectRule.FOUR ) {
@@ -153,7 +155,7 @@ public class FactorySegmentationAlg {
 		throw new IllegalArgumentException("Unknown imageType or connect rule");
 	}
 
-	public static<T extends ImageBase>
+	public <T extends ImageBase>
 	SegmentFelzenszwalbHuttenlocher04<T> fh04(ConfigFh04 config, ImageType<T> imageType)
 	{
 
@@ -172,8 +174,8 @@ public class FactorySegmentationAlg {
 		return alg;
 	}
 
-	public static<T extends ImageBase>
-	SegmentSlic<T> slic( ConfigSlic config , ImageType<T> imageType )
+	public <T extends ImageBase>
+	SegmentSlic<T> slic( ConfigSlic config , ImageType<T> imageType, ImageType IT, FactorySegmentationAlg FSA)
 	{
 		if( config == null )
 			throw new IllegalArgumentException("No default configuration since the number of segments must be specified.");
@@ -182,26 +184,26 @@ public class FactorySegmentationAlg {
 				switch( imageType.getDataType() ) {
 					case U8:
 						return (SegmentSlic)new SegmentSlic_U8(config.numberOfRegions,
-								config.spacialWeight,config.totalIterations,config.connectRule);
+								config.spacialWeight,config.totalIterations,config.connectRule, IT, FSA);
 					case F32:
 						return (SegmentSlic)new SegmentSlic_F32(config.numberOfRegions,
-								config.spacialWeight,config.totalIterations,config.connectRule);
+								config.spacialWeight,config.totalIterations,config.connectRule, IT, FSA);
 				}
 		} else if( imageType.getFamily() == ImageType.Family.PLANAR) {
 			int N = imageType.getNumBands();
 				switch( imageType.getDataType() ) {
 					case U8:
 						return (SegmentSlic)new SegmentSlic_PlU8(config.numberOfRegions,
-								config.spacialWeight,config.totalIterations,config.connectRule,N);
+								config.spacialWeight,config.totalIterations,config.connectRule,N, IT, FSA);
 					case F32:
 						return (SegmentSlic)new SegmentSlic_PlF32(config.numberOfRegions,
-								config.spacialWeight,config.totalIterations,config.connectRule,N);
+								config.spacialWeight,config.totalIterations,config.connectRule,N, IT, FSA);
 				}
 		}
 		throw new IllegalArgumentException("Unknown imageType or connect rule");
 	}
 
-	public static WatershedVincentSoille1991 watershed( ConnectRule rule ) {
+	public WatershedVincentSoille1991 watershed( ConnectRule rule ) {
 		if( rule == ConnectRule.FOUR )
 			return new WatershedVincentSoille1991.Connect4();
 		else if( rule == ConnectRule.EIGHT )

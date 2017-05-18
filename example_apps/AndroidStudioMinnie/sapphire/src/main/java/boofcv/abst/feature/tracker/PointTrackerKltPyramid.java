@@ -31,6 +31,7 @@ import boofcv.alg.filter.blur.impl.ImplMedianSortNaive;
 import boofcv.alg.filter.convolve.ConvolveImageMean;
 import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
 import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
 import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
@@ -42,6 +43,7 @@ import boofcv.alg.misc.ImageStatistics;
 import boofcv.alg.tracker.klt.*;
 import boofcv.alg.transform.pyramid.PyramidOps;
 import boofcv.core.image.GeneralizedImageOps;
+import boofcv.factory.filter.blur.FactoryBlurFilter;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.QueueCorner;
 import boofcv.struct.image.ImageGray;
@@ -81,6 +83,8 @@ public class PointTrackerKltPyramid<I extends ImageGray,D extends ImageGray>
 	private static GImageStatistics GIS;
 	private static ImageStatistics IS;
 	private static ThresholdImageOps TIO;
+	private static FactoryBlurFilter FBF;
+	private static ConvolveJustBorder_General CJBG;
 	// reference to input image
 	protected I input;
 
@@ -218,7 +222,7 @@ public class PointTrackerKltPyramid<I extends ImageGray,D extends ImageGray>
 		// find new tracks, but no more than the max
 		detector.setExcludeMaximum(excludeList);
 		detector.process(basePyramid.getLayer(0), derivX[0], derivY[0], null, null, null, GIMO, IMO, ISC, CNN, CINB, CNJB, CN,
-				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO);
+				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, CJBG);
 
 		// extract the features
 		QueueCorner found = detector.getMaximums();
@@ -275,7 +279,7 @@ public class PointTrackerKltPyramid<I extends ImageGray,D extends ImageGray>
 		dropped.clear();
 
 		// update image pyramids
-		basePyramid.process(image);
+		basePyramid.process(image, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG);
 		declareOutput();
 		PyramidOps.gradient(basePyramid, gradient, derivX,derivY);
 

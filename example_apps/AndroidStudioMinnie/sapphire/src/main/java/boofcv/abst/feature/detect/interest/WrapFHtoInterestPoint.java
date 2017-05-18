@@ -46,11 +46,13 @@ import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.core.image.border.FactoryImageBorderAlgs;
 import boofcv.core.image.border.ImageBorderValue;
+import boofcv.factory.filter.blur.FactoryBlurFilter;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.BoofDefaults;
 import boofcv.struct.feature.ScalePoint;
 import boofcv.struct.image.ImageGray;
 import georegression.struct.point.Point2D_F64;
+import sapphire.compiler.FBFGenerator;
 
 import java.util.List;
 
@@ -76,7 +78,7 @@ public class WrapFHtoInterestPoint<T extends ImageGray, II extends ImageGray> im
 					   GImageMiscOps GIMO, ImageMiscOps IMO, ConvolveNormalizedNaive CNN, ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN,
 					   GBlurImageOps GBIO, GeneralizedImageOps GIO, BlurImageOps BIO, ConvolveImageMean CIM, FactoryKernelGaussian FKG, ImplMedianHistogramInner IMHI,
 					   ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM, GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS,
-					   ThresholdImageOps TIO, FactoryImageBorderAlgs FIBA, ImageBorderValue IBV, FastHessianFeatureDetector FHFD, FactoryImageBorder FIB) {
+					   ThresholdImageOps TIO, FactoryImageBorderAlgs FIBA, ImageBorderValue IBV, FastHessianFeatureDetector FHFD, FactoryImageBorder FIB, FactoryBlurFilter FBF) {
 		if( integral != null ) {
 			integral.reshape(input.width,input.height);
 		}
@@ -90,7 +92,8 @@ public class WrapFHtoInterestPoint<T extends ImageGray, II extends ImageGray> im
 
 	@Override
 	public int getNumberOfFeatures() {
-		return location.size();
+		if (location != null) return location.size();
+		else return 0;
 	}
 
 	@Override

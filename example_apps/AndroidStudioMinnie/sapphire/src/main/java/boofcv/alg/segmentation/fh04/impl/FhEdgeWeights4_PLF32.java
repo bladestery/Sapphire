@@ -37,7 +37,6 @@ import static boofcv.alg.segmentation.fh04.SegmentFelzenszwalbHuttenlocher04.Edg
  * @author Peter Abeles
  */
 public class FhEdgeWeights4_PLF32 implements FhEdgeWeights<Planar<GrayF32>> {
-	private ImageType IT;
 	float pixelColor[];
 	int numBands;
 
@@ -142,7 +141,7 @@ public class FhEdgeWeights4_PLF32 implements FhEdgeWeights<Planar<GrayF32>> {
 	}
 
 	@Override
-	public ImageType<Planar<GrayF32>> getInputType() {
+	public ImageType<Planar<GrayF32>> getInputType(ImageType IT) {
 		return IT.pl(3,GrayF32.class);
 	}
 

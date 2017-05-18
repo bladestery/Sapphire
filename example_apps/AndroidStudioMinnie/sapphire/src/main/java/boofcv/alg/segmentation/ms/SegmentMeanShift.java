@@ -19,6 +19,8 @@
 package boofcv.alg.segmentation.ms;
 
 import boofcv.alg.InputSanityCheck;
+import boofcv.alg.filter.binary.BinaryImageOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.struct.ConnectRule;
 import boofcv.struct.image.GrayS32;
 import boofcv.struct.image.ImageBase;
@@ -55,7 +57,6 @@ import org.ddogleg.struct.GrowQueue_I32;
  * @author Peter Abeles
  */
 public class SegmentMeanShift<T extends ImageBase> {
-	private static InputSanityCheck ISC;
 	// finds mean shift modes
 	SegmentMeanShiftSearch<T> search;
 	// Combines similar regions together
@@ -94,30 +95,30 @@ public class SegmentMeanShift<T extends ImageBase> {
 	 * @param image Image
 	 * @param output Storage for output image.  Each pixel is set to the region it belongs to.
 	 */
-	public void process( T image , GrayS32 output ) {
+	public void process(T image , GrayS32 output, InputSanityCheck ISC, BinaryImageOps BIO, ImageMiscOps IMO) {
 		ISC.checkSameShape(image,output);
 
 //		long time0 = System.currentTimeMillis();
 
-		search.process(image);
+		search.process(image, IMO);
 
 //		long time1 = System.currentTimeMillis();
 
 		FastQueue<float[]> regionColor = search.getModeColor();
 		GrayS32 pixelToRegion = search.getPixelToRegion();
-		GrowQueue_I32 regionPixelCount = search.getRegionMemberCount();
+		FastQueue<Integer> regionPixelCount = search.getRegionMemberCount();
 		FastQueue<Point2D_I32> modeLocation = search.getModeLocation();
 
-		merge.process(pixelToRegion,regionPixelCount,regionColor,modeLocation);
+		merge.process(pixelToRegion,regionPixelCount,regionColor,modeLocation, BIO);
 
 //		long time2 = System.currentTimeMillis();
 
-		segment.process(pixelToRegion, output, regionPixelCount);
+		segment.process(pixelToRegion, output, regionPixelCount, BIO, IMO);
 
 //		long time3 = System.currentTimeMillis();
 
 		if( prune != null)
-			prune.process(image,output,regionPixelCount,regionColor);
+			prune.process(image,output,regionPixelCount,regionColor, BIO);
 
 //		long time4 = System.currentTimeMillis();
 
@@ -143,11 +144,11 @@ public class SegmentMeanShift<T extends ImageBase> {
 	/**
 	 * Number of pixels in each region
 	 */
-	public GrowQueue_I32 getRegionSize() {
+	public FastQueue<Integer> getRegionSize() {
 		return search.getRegionMemberCount();
 	}
 
-	public ImageType<T> getImageType() {
-		return search.getImageType();
+	public ImageType<T> getImageType(ImageType IT) {
+		return search.getImageType(IT);
 	}
 }

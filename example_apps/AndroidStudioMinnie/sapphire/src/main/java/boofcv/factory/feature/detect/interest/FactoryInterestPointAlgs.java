@@ -66,14 +66,14 @@ public class FactoryInterestPointAlgs implements SapphireObject {
 										int maxFeatures,
 										Class<T> imageType,
 										Class<D> derivType,
-										FactoryFeatureExtractor FFE) {
+										FactoryFeatureExtractor FFE, GeneralizedImageOps GIO, FactoryImageBorder FIB) {
 		GeneralFeatureIntensity<T, D> intensity = new WrapperHessianBlobIntensity<>(HessianBlobIntensity.Type.DETERMINANT, derivType);
 		NonMaxSuppression extractor = FFE.nonmax(
 				new ConfigExtract(extractRadius, detectThreshold, extractRadius, true));
 		GeneralFeatureDetector<T, D> detector = new GeneralFeatureDetector<>(intensity, extractor);
 		detector.setMaxFeatures(maxFeatures);
 
-		AnyImageDerivative<T, D> deriv = GImageDerivativeOps.derivativeForScaleSpace(imageType, derivType);
+		AnyImageDerivative<T, D> deriv = GImageDerivativeOps.derivativeForScaleSpace(imageType, derivType, GIO, FIB);
 
 		return new FeaturePyramid<>(detector, deriv, 2);
 	}
@@ -94,7 +94,7 @@ public class FactoryInterestPointAlgs implements SapphireObject {
 									   int maxFeatures,
 									   Class<T> imageType,
 									   Class<D> derivType, FactoryIntensityPointAlg FIPA, GeneralizedImageOps GIO, FactoryKernelGaussian FKG,
-									   FactoryFeatureExtractor FFE) {
+									   FactoryFeatureExtractor FFE, FactoryImageBorder FIB) {
 		GradientCornerIntensity<D> harris = FIPA.harris(extractRadius, 0.04f, false, derivType, GIO, FKG);
 		GeneralFeatureIntensity<T, D> intensity = new WrapperGradientCornerIntensity<>(harris);
 		NonMaxSuppression extractor = FFE.nonmax(
@@ -102,7 +102,7 @@ public class FactoryInterestPointAlgs implements SapphireObject {
 		GeneralFeatureDetector<T, D> detector = new GeneralFeatureDetector<>(intensity, extractor);
 		detector.setMaxFeatures(maxFeatures);
 
-		AnyImageDerivative<T, D> deriv = GImageDerivativeOps.derivativeForScaleSpace(imageType, derivType);
+		AnyImageDerivative<T, D> deriv = GImageDerivativeOps.derivativeForScaleSpace(imageType, derivType, GIO, FIB);
 
 		return new FeaturePyramid<>(detector, deriv, 2);
 	}
@@ -123,16 +123,16 @@ public class FactoryInterestPointAlgs implements SapphireObject {
 											   int maxFeatures,
 											   Class<T> imageType,
 											   Class<D> derivType,
-											   FactoryFeatureExtractor FFE) {
+											   FactoryFeatureExtractor FFE, GeneralizedImageOps GIO, FactoryImageBorder FIB) {
 		GeneralFeatureIntensity<T, D> intensity = new WrapperHessianBlobIntensity<>(HessianBlobIntensity.Type.DETERMINANT, derivType);
 		NonMaxSuppression extractor = FFE.nonmax(
 				new ConfigExtract(extractRadius, detectThreshold, extractRadius, true));
 		GeneralFeatureDetector<T, D> detector = new GeneralFeatureDetector<>(intensity, extractor);
 		detector.setMaxFeatures(maxFeatures);
 
-		AnyImageDerivative<T, D> deriv = GImageDerivativeOps.derivativeForScaleSpace(imageType, derivType);
+		AnyImageDerivative<T, D> deriv = GImageDerivativeOps.derivativeForScaleSpace(imageType, derivType, GIO, FIB);
 
-		ImageFunctionSparse<T> sparseLaplace = FactoryDerivativeSparse.createLaplacian(imageType, null);
+		ImageFunctionSparse<T> sparseLaplace = FactoryDerivativeSparse.createLaplacian(imageType, null, GIO, FIB);
 
 		return new FeatureLaplacePyramid<>(detector, sparseLaplace, deriv, 2);
 	}
@@ -153,7 +153,7 @@ public class FactoryInterestPointAlgs implements SapphireObject {
 											  int maxFeatures,
 											  Class<T> imageType,
 											  Class<D> derivType, FactoryIntensityPointAlg FIPA, GeneralizedImageOps GIO, FactoryKernelGaussian FKG,
-											  FactoryFeatureExtractor FFE) {
+											  FactoryFeatureExtractor FFE, FactoryImageBorder FIB) {
 		GradientCornerIntensity<D> harris = FIPA.harris(extractRadius, 0.04f, false, derivType, GIO, FKG);
 		GeneralFeatureIntensity<T, D> intensity = new WrapperGradientCornerIntensity<>(harris);
 		NonMaxSuppression extractor = FFE.nonmax(
@@ -161,8 +161,8 @@ public class FactoryInterestPointAlgs implements SapphireObject {
 		GeneralFeatureDetector<T, D> detector = new GeneralFeatureDetector<>(intensity, extractor);
 		detector.setMaxFeatures(maxFeatures);
 
-		AnyImageDerivative<T, D> deriv = GImageDerivativeOps.derivativeForScaleSpace(imageType,derivType);
-		ImageFunctionSparse<T> sparseLaplace = FactoryDerivativeSparse.createLaplacian(imageType, null);
+		AnyImageDerivative<T, D> deriv = GImageDerivativeOps.derivativeForScaleSpace(imageType,derivType, GIO, FIB);
+		ImageFunctionSparse<T> sparseLaplace = FactoryDerivativeSparse.createLaplacian(imageType, null, GIO, FIB);
 
 		return new FeatureLaplacePyramid<>(detector, sparseLaplace, deriv, 2);
 	}

@@ -32,5 +32,5 @@ public interface FhEdgeWeights<T extends ImageBase> {
 
 	public void process( T input , FastQueue<SegmentFelzenszwalbHuttenlocher04.Edge> edges );
 
-	public ImageType<T> getInputType();
+	public ImageType<T> getInputType(ImageType IT);
 }

@@ -55,6 +55,7 @@ import boofcv.core.image.border.BorderType;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.core.image.border.FactoryImageBorderAlgs;
 import boofcv.core.image.border.ImageBorderValue;
+import boofcv.factory.filter.blur.FactoryBlurFilter;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.factory.geo.EnumEpipolar;
 import boofcv.factory.geo.FactoryMultiView;
@@ -105,6 +106,7 @@ public class DisparityCalculation<Desc extends TupleDesc> {
 	private static FastHessianFeatureDetector FHFD;
 	private static FactoryImageBorder FIB;
 	private ImageType IT;
+	private static FactoryBlurFilter FBF;
 	DetectDescribePoint<GrayF32,Desc> detDesc;
 	AssociateDescription<Desc> associate;
 	CameraPinholeRadial intrinsic;
@@ -159,7 +161,7 @@ public class DisparityCalculation<Desc extends TupleDesc> {
 	public void setSource( GrayF32 image ) {
 		distortedLeft.setTo(image);
 		detDesc.detect(image, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN,
-				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB);
+				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF);
 		describeImage(listSrc, locationSrc);
 		associate.setSource(listSrc);
 	}
@@ -167,7 +169,7 @@ public class DisparityCalculation<Desc extends TupleDesc> {
 	public void setDestination( GrayF32 image ) {
 		distortedRight.setTo(image);
 		detDesc.detect(image, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN,
-				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB);
+				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF);
 		describeImage(listDst, locationDst);
 		associate.setDestination(listDst);
 

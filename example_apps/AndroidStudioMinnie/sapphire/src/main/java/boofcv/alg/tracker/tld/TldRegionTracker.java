@@ -30,6 +30,7 @@ import boofcv.alg.tracker.klt.KltTrackFault;
 import boofcv.alg.tracker.klt.PyramidKltFeature;
 import boofcv.alg.tracker.klt.PyramidKltTracker;
 import boofcv.core.image.GeneralizedImageOps;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.factory.transform.pyramid.FactoryPyramid;
 import boofcv.struct.geo.AssociatedPair;
 import boofcv.struct.image.ImageGray;
@@ -60,6 +61,7 @@ public class TldRegionTracker< Image extends ImageGray, Derivative extends Image
 	private static ConvolveJustBorder_General CJBG;
 	private static GradientSobel_Outer GSO;
 	private static GradientSobel_UnrolledOuter GSUO;
+	private static FactoryKernelGaussian FKG;
 	// maximum allowed median forwards-backwards error in pixels squared
 	private double maxErrorFB;
 
@@ -167,7 +169,7 @@ public class TldRegionTracker< Image extends ImageGray, Derivative extends Image
 			currentDerivY[i] = GIO.createSingleBand(derivType, w, h);
 		}
 
-		previousImage = FactoryPyramid.discreteGaussian(image.getScales(), -1, 1, false,image.getImageType());
+		previousImage = FactoryPyramid.discreteGaussian(image.getScales(), -1, 1, false,image.getImageType(), FKG);
 		previousImage.initialize(image.getInputWidth(), image.getInputHeight());
 
 		for( int i = 0; i < tracks.length; i++ ) {

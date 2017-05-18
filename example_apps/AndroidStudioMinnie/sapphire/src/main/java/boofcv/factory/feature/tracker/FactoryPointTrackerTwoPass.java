@@ -31,6 +31,7 @@ import boofcv.alg.tracker.klt.PkltConfig;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.filter.derivative.FactoryDerivative;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.factory.transform.pyramid.FactoryPyramid;
 import boofcv.struct.feature.TupleDesc;
@@ -46,6 +47,7 @@ public class FactoryPointTrackerTwoPass {
 	private static FactoryDerivative FD;
 	private static GeneralizedImageOps GIO;
 	private static FactoryImageBorder FIB;
+	private static FactoryKernelGaussian FKG;
 	/**
 	 * Pyramid KLT feature tracker.
 	 *
@@ -64,7 +66,7 @@ public class FactoryPointTrackerTwoPass {
 
 		ImageGradient<I,D> gradient = FD.sobel(imageType, derivType, GIO, FIB);
 
-		PyramidDiscrete<I> pyramid = FactoryPyramid.discreteGaussian(config.pyramidScaling,-1,2,true,imageType);
+		PyramidDiscrete<I> pyramid = FactoryPyramid.discreteGaussian(config.pyramidScaling,-1,2,true,imageType, FKG);
 
 		return new PointTrackerTwoPassKltPyramid<>(config.config, config.templateRadius, pyramid, detector,
 				gradient, interpInput, interpDeriv);

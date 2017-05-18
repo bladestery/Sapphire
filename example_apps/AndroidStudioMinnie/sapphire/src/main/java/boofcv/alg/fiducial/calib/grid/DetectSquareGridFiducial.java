@@ -32,6 +32,7 @@ import boofcv.alg.filter.blur.impl.ImplMedianSortNaive;
 import boofcv.alg.filter.convolve.ConvolveImageMean;
 import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
 import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
 import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
@@ -91,6 +92,7 @@ public class DetectSquareGridFiducial<T extends ImageGray> {
 	private static ThresholdImageOps TIO;
 	private static ImageMiscOps IMO;
 	private static GImageMiscOps GIMO;
+	private static ConvolveJustBorder_General CJBG;
 
 	private LinearContourLabelChang2004 cF = new LinearContourLabelChang2004(ConnectRule.FOUR);
 	// dimension of square grid.  This only refers to black squares and not the white space
@@ -152,7 +154,7 @@ public class DetectSquareGridFiducial<T extends ImageGray> {
 	public boolean process( T image ) {
 		binary.reshape(image.width,image.height);
 
-		inputToBinary.process(image,binary, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO);
+		inputToBinary.process(image,binary, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG);
 		detectorSquare.process(image, binary, ISC, IMO, cF);
 
 		FastQueue<Polygon2D_F64> found = detectorSquare.getFoundPolygons();

@@ -68,8 +68,6 @@ import org.ddogleg.struct.GrowQueue_I32;
  * @author Peter Abeles
  */
 public abstract class WatershedVincentSoille1991 {
-	private static ImageMiscOps IMO;
-	private static InputSanityCheck ISC;
 
 	// values of pixels belonging to the watershed
 	public static final int WSHED = 0;
@@ -118,7 +116,7 @@ public abstract class WatershedVincentSoille1991 {
 	 *
 	 * @param input Input gray-scale image.
 	 */
-	public void process( GrayU8 input ) {
+	public void process( GrayU8 input, ImageMiscOps IMO) {
 		// input = im_0
 
 		removedWatersheds = false;
@@ -206,7 +204,7 @@ public abstract class WatershedVincentSoille1991 {
 	 * @param seeds (Output) Segmented image containing seeds.  Note that all seeds should have a value &gt; 0 and have a
 	 *              value &le; numRegions.
 	 */
-	public void process(GrayU8 input , GrayS32 seeds ) {
+	public void process(GrayU8 input , GrayS32 seeds, InputSanityCheck ISC, ImageMiscOps IMO) {
 		ISC.checkSameShape(input,seeds);
 
 		removedWatersheds = false;

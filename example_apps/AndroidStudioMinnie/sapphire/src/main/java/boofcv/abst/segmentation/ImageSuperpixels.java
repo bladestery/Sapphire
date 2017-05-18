@@ -18,6 +18,12 @@
 
 package boofcv.abst.segmentation;
 
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.filter.binary.BinaryImageOps;
+import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
+import boofcv.alg.segmentation.ImageSegmentationOps;
+import boofcv.core.image.GeneralizedImageOps;
 import boofcv.struct.ConnectRule;
 import boofcv.struct.image.GrayS32;
 import boofcv.struct.image.ImageBase;
@@ -38,7 +44,7 @@ public interface ImageSuperpixels<T extends ImageBase> {
 	 * @param input (Input) image.
 	 * @param output (Output) Labeled image
 	 */
-	public void segment( T input , GrayS32 output );
+	public void segment(T input , GrayS32 output , InputSanityCheck ISC, GeneralizedImageOps GIO, GImageMiscOps GIMO, ImageMiscOps IMO, ImageSegmentationOps ISO, BinaryImageOps BIO);
 
 	/**
 	 * Returns the total number of image segments/superpixels found
@@ -57,5 +63,5 @@ public interface ImageSuperpixels<T extends ImageBase> {
 	 *
 	 * @return Input image type
 	 */
-	public ImageType<T> getImageType();
+	public ImageType<T> getImageType(ImageType IT);
 }

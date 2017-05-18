@@ -18,8 +18,14 @@
 
 package boofcv.abst.segmentation;
 
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.filter.binary.BinaryImageOps;
+import boofcv.alg.filter.blur.BlurImageOps;
+import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.segmentation.ImageSegmentationOps;
 import boofcv.alg.segmentation.fh04.SegmentFelzenszwalbHuttenlocher04;
+import boofcv.core.image.GeneralizedImageOps;
 import boofcv.struct.ConnectRule;
 import boofcv.struct.image.GrayS32;
 import boofcv.struct.image.ImageBase;
@@ -43,13 +49,13 @@ public class Fh04_to_ImageSuperpixels<T extends ImageBase> implements ImageSuper
 	}
 
 	@Override
-	public void segment(T input, GrayS32 output) {
+	public void segment(T input, GrayS32 output, InputSanityCheck ISC, GeneralizedImageOps GIO, GImageMiscOps GIMO, ImageMiscOps IMO, ImageSegmentationOps ISO, BinaryImageOps BIO) {
 
 		pixelToSegment.reshape(input.width, input.height);
 
-		alg.process(input,pixelToSegment);
+		alg.process(input,pixelToSegment, ISC);
 
-		ImageSegmentationOps.regionPixelId_to_Compact(pixelToSegment, alg.getRegionId(), output);
+		ISO.regionPixelId_to_Compact(pixelToSegment, alg.getRegionId(), output, ISC);
 	}
 
 	@Override
@@ -63,7 +69,7 @@ public class Fh04_to_ImageSuperpixels<T extends ImageBase> implements ImageSuper
 	}
 
 	@Override
-	public ImageType<T> getImageType() {
-		return alg.getInputType();
+	public ImageType<T> getImageType(ImageType IT) {
+		return alg.getInputType(IT);
 	}
 }

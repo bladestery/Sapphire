@@ -18,6 +18,7 @@
 
 package boofcv.alg.segmentation.slic;
 
+import boofcv.factory.segmentation.FactorySegmentationAlg;
 import boofcv.struct.ConnectRule;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.ImageType;
@@ -30,10 +31,9 @@ import boofcv.struct.image.Planar;
  * @author Peter Abeles
  */
 public class SegmentSlic_PlF32 extends SegmentSlic<Planar<GrayF32>> {
-	private static ImageType IT;
 	public SegmentSlic_PlF32(int numberOfRegions, float m, int totalIterations,
-							 ConnectRule connectRule, int numBands) {
-		super(numberOfRegions, m , totalIterations, connectRule,IT.pl(numBands,GrayF32.class));
+							 ConnectRule connectRule, int numBands, ImageType IT, FactorySegmentationAlg FSA) {
+		super(numberOfRegions, m , totalIterations, connectRule,IT.pl(numBands,GrayF32.class), FSA);
 	}
 
 	@Override

@@ -37,7 +37,6 @@ import java.util.Arrays;
  * @author Peter Abeles
  */
 public class SegmentMeanShiftSearchColor<T extends ImageMultiBand> extends SegmentMeanShiftSearch<T> {
-	private ImageMiscOps IMO;
 	// Interpolation routine used to get sub-pixel samples
 	protected InterpolatePixelMB<T> interpolate;
 
@@ -74,7 +73,7 @@ public class SegmentMeanShiftSearchColor<T extends ImageMultiBand> extends Segme
 	 * @param image Input image
 	 */
 	@Override
-	public void process( T image ) {
+	public void process( T image, ImageMiscOps IMO) {
 		// initialize data structures
 		this.image = image;
 
@@ -144,7 +143,7 @@ public class SegmentMeanShiftSearchColor<T extends ImageMultiBand> extends Segme
 	}
 
 	@Override
-	public ImageType<T> getImageType() {
+	public ImageType<T> getImageType(ImageType IT) {
 		return imageType;
 	}
 

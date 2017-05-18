@@ -79,7 +79,6 @@ import org.ddogleg.struct.GrowQueue_I32;
  * @author Peter Abeles
  */
 public class SegmentFelzenszwalbHuttenlocher04<T extends ImageBase> {
-	private static InputSanityCheck ISC;
 	// tuning parameter.  Determines the number of segments.  Larger number means larger regions
 	private float K;
 
@@ -107,7 +106,7 @@ public class SegmentFelzenszwalbHuttenlocher04<T extends ImageBase> {
 	protected GrowQueue_F32 threshold = new GrowQueue_F32();
 
 	// List of region ID's and their size
-	private GrowQueue_I32 outputRegionId = new GrowQueue_I32();
+	private FastQueue<Integer> outputRegionId = new FastQueue<Integer>(Integer.class, false);
 	private GrowQueue_I32 outputRegionSizes = new GrowQueue_I32();
 
 	/**
@@ -140,7 +139,7 @@ public class SegmentFelzenszwalbHuttenlocher04<T extends ImageBase> {
 	 * @param input Input image.  Not modified.
 	 * @param output Output segmented image.  Modified.
 	 */
-	public void process( T input , GrayS32 output ) {
+	public void process( T input , GrayS32 output, InputSanityCheck ISC ) {
 		if( output.isSubimage() )
 			throw new IllegalArgumentException("Output can't be a sub-image");
 		ISC.checkSameShape(input, output);
@@ -318,7 +317,7 @@ public class SegmentFelzenszwalbHuttenlocher04<T extends ImageBase> {
 	/**
 	 * List of ID's for each region in the segmented image.
 	 */
-	public GrowQueue_I32 getRegionId() {
+	public FastQueue<Integer> getRegionId() {
 		return outputRegionId;
 	}
 
@@ -329,8 +328,8 @@ public class SegmentFelzenszwalbHuttenlocher04<T extends ImageBase> {
 		return outputRegionSizes;
 	}
 
-	public ImageType<T> getInputType() {
-		return computeWeights.getInputType();
+	public ImageType<T> getInputType(ImageType IT) {
+		return computeWeights.getInputType(IT);
 	}
 
 	/**

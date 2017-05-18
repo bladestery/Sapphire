@@ -48,7 +48,6 @@ import georegression.struct.shapes.RectangleLength2D_I32;
  * @author Peter Abeles
  */
 public class DistortImageOps {
-	private static FactoryImageBorder FIB;
 	/**
 	 * <p>
 	 * Applies an affine transformation from the input image to the output image.
@@ -70,7 +69,7 @@ public class DistortImageOps {
 	public static <T extends ImageBase>
 	void affine(T input, T output, BorderType borderType, InterpolationType interpType,
 				double a11, double a12, double a21, double a22,
-				double dx, double dy)
+				double dx, double dy, FactoryImageBorder FIB)
 	{
 		Affine2D_F32 m = new Affine2D_F32();
 		m.a11 = (float)a11;
@@ -85,9 +84,9 @@ public class DistortImageOps {
 		PixelTransformAffine_F32 model = new PixelTransformAffine_F32(m);
 
 		if( input instanceof ImageGray) {
-			distortSingle((ImageGray)input, (ImageGray)output, model, interpType, borderType);
+			distortSingle((ImageGray)input, (ImageGray)output, model, interpType, borderType, FIB);
 		} else if( input instanceof Planar) {
-			distortPL((Planar) input, (Planar) output, model, borderType, interpType);
+			distortPL((Planar) input, (Planar) output, model, borderType, interpType, FIB);
 		}
 	}
 
@@ -105,7 +104,7 @@ public class DistortImageOps {
 	public static <Input extends ImageGray,Output extends ImageGray>
 	void distortSingle(Input input, Output output,
 					   PixelTransform2_F32 transform,
-					   InterpolationType interpType, BorderType borderType)
+					   InterpolationType interpType, BorderType borderType, FactoryImageBorder FIB)
 	{
 		boolean skip = borderType == BorderType.SKIP;
 		if( skip )
@@ -159,7 +158,7 @@ public class DistortImageOps {
 			M extends Planar<Input>,N extends Planar<Output>>
 	void distortPL(M input, N output,
 				   PixelTransform2_F32 transform,
-				   BorderType borderType, InterpolationType interpType)
+				   BorderType borderType, InterpolationType interpType, FactoryImageBorder FIB)
 	{
 		Class<Input> inputBandType = input.getBandType();
 		Class<Output> outputBandType = output.getBandType();
@@ -188,7 +187,7 @@ public class DistortImageOps {
 	public static <Input extends ImageGray,Output extends ImageGray>
 	ImageDistort<Input,Output> createImageDistort(Point2Transform2_F32 transform,
 												  InterpolationType interpType, BorderType borderType,
-												  Class<Input> inputType, Class<Output> outputType)
+												  Class<Input> inputType, Class<Output> outputType, FactoryImageBorder FIB)
 	{
 		InterpolatePixelS<Input> interp = FactoryInterpolation.createPixelS(0, 255, interpType,borderType, inputType, FIB);
 		ImageDistort<Input,Output> distorter =
@@ -208,14 +207,14 @@ public class DistortImageOps {
 	 */
 	@Deprecated
 	public static <T extends ImageBase>
-	void scale(T input, T output, BorderType borderType, InterpolationType interpType) {
+	void scale(T input, T output, BorderType borderType, InterpolationType interpType, FactoryImageBorder FIB) {
 
 		PixelTransformAffine_F32 model = DistortSupport.transformScale(output, input, null);
 
 		if( input instanceof ImageGray) {
-			distortSingle((ImageGray) input, (ImageGray) output, model, interpType, borderType);
+			distortSingle((ImageGray) input, (ImageGray) output, model, interpType, borderType, FIB);
 		} else if( input instanceof Planar) {
-			distortPL((Planar) input, (Planar) output, model,  borderType, interpType);
+			distortPL((Planar) input, (Planar) output, model,  borderType, interpType, FIB);
 		}
 	}
 
@@ -241,7 +240,7 @@ public class DistortImageOps {
 	 */
 	@Deprecated
 	public static <T extends ImageBase>
-	void rotate(T input, T output, BorderType borderType, InterpolationType interpType, float angleInputToOutput) {
+	void rotate(T input, T output, BorderType borderType, InterpolationType interpType, float angleInputToOutput, FactoryImageBorder FIB) {
 
 		float offX = 0;//(output.width+1)%2;
 		float offY = 0;//(output.height+1)%2;
@@ -250,9 +249,9 @@ public class DistortImageOps {
 				output.width / 2 - offX, output.height / 2 - offY, angleInputToOutput);
 
 		if( input instanceof ImageGray) {
-			distortSingle((ImageGray) input, (ImageGray) output, model, interpType, borderType);
+			distortSingle((ImageGray) input, (ImageGray) output, model, interpType, borderType, FIB);
 		} else if( input instanceof Planar) {
-			distortPL((Planar) input, (Planar) output, model,borderType, interpType);
+			distortPL((Planar) input, (Planar) output, model,borderType, interpType, FIB);
 		}
 	}
 

@@ -75,7 +75,7 @@ public abstract class NearestNeighborPixelMB<T extends ImageMultiBand> implement
 	}
 
 	@Override
-	public ImageType<T> getImageType() {
+	public ImageType<T> getImageType(ImageType IT) {
 		return orig.getImageType();
 	}
 }

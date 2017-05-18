@@ -123,7 +123,7 @@ public class ImplBilinearPixel_IL_F64 extends BilinearPixelMB<InterleavedF64> {
 	}
 
 	@Override
-	public ImageType<InterleavedF64> getImageType() {
+	public ImageType<InterleavedF64> getImageType(ImageType IT) {
 		return orig.getImageType();
 	}
 

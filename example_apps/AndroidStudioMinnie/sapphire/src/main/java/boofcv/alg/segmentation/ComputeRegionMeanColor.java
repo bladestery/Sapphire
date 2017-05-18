@@ -59,7 +59,7 @@ public abstract class ComputeRegionMeanColor<T extends ImageBase> {
 	 *                    declared.
 	 */
 	public void process( T image , GrayS32 pixelToRegion ,
-						 GrowQueue_I32 regionMemberCount ,
+						 FastQueue<Integer> regionMemberCount ,
 						 FastQueue<float[]> regionColor  )  {
 
 		this.image = image;

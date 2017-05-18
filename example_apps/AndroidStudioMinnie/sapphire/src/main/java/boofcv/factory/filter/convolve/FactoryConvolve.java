@@ -20,9 +20,13 @@ package boofcv.factory.filter.convolve;
 
 import boofcv.abst.filter.convolve.ConvolveInterface;
 import boofcv.abst.filter.convolve.GenericConvolve;
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
 import boofcv.alg.filter.convolve.ConvolveNormalized;
 import boofcv.alg.filter.convolve.ConvolveWithBorder;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
 import boofcv.core.image.border.BorderType;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.struct.convolve.Kernel1D;
@@ -38,7 +42,6 @@ import java.lang.reflect.Method;
  */
 @SuppressWarnings({"unchecked"})
 public class FactoryConvolve {
-	private static FactoryImageBorder FIB;
 	/**
 	 * Creates a filter for convolving 1D kernels along the image.
 	 *
@@ -50,7 +53,7 @@ public class FactoryConvolve {
 	 */
 	public static <Input extends ImageGray, Output extends ImageGray>
 	ConvolveInterface<Input,Output>
-	convolve( Kernel1D kernel, Class<Input> inputType, Class<Output> outputType , BorderType border , boolean isHorizontal )
+	convolve( Kernel1D kernel, Class<Input> inputType, Class<Output> outputType , BorderType border , boolean isHorizontal, FactoryImageBorder FIB)
 	{
 		outputType = BoofTesting.convertToGenericType(outputType);
 
@@ -60,23 +63,23 @@ public class FactoryConvolve {
 		try {
 			switch( border ) {
 				case SKIP:
-					m = ConvolveImageNoBorder.class.getMethod(direction, kernel.getClass(), inputType, outputType);
+					m = ConvolveImageNoBorder.class.getMethod(direction, kernel.getClass(), inputType, outputType, InputSanityCheck.class);
 					break;
 
 				case EXTENDED:
-					m = BoofTesting.findMethod(ConvolveWithBorder.class,direction,kernel.getClass(),inputType,outputType,borderClassType);
+					m = BoofTesting.findMethod(ConvolveWithBorder.class,direction,kernel.getClass(),inputType,outputType,borderClassType, InputSanityCheck.class, ConvolveImageNoBorder.class, ConvolveJustBorder_General.class);
 					break;
 
 				case REFLECT:
-					m = BoofTesting.findMethod(ConvolveWithBorder.class,direction,kernel.getClass(),inputType,outputType,borderClassType);
+					m = BoofTesting.findMethod(ConvolveWithBorder.class,direction,kernel.getClass(),inputType,outputType,borderClassType, InputSanityCheck.class, ConvolveImageNoBorder.class, ConvolveJustBorder_General.class);
 					break;
 
 				case WRAP:
-					m = BoofTesting.findMethod(ConvolveWithBorder.class,direction,kernel.getClass(),inputType,outputType,borderClassType);
+					m = BoofTesting.findMethod(ConvolveWithBorder.class,direction,kernel.getClass(),inputType,outputType,borderClassType, InputSanityCheck.class, ConvolveImageNoBorder.class, ConvolveJustBorder_General.class);
 					break;
 
 				case NORMALIZED:
-					m = ConvolveNormalized.class.getMethod(direction,kernel.getClass(),inputType,outputType);
+					m = ConvolveNormalized.class.getMethod(direction,kernel.getClass(),inputType,outputType, InputSanityCheck.class, ConvolveNormalizedNaive.class, ConvolveImageNoBorder.class, ConvolveNormalized_JustBorder.class);
 					break;
 
 				default:
@@ -87,7 +90,7 @@ public class FactoryConvolve {
 			throw new IllegalArgumentException("The specified convolution cannot be found");
 		}
 
-		return new GenericConvolve<>(m, kernel, border, inputType, outputType);
+		return new GenericConvolve<>(m, kernel, border, inputType, outputType, FIB);
 	}
 
 	/**
@@ -101,7 +104,7 @@ public class FactoryConvolve {
 	 */
 	public static <Input extends ImageGray, Output extends ImageGray>
 	ConvolveInterface<Input,Output>
-	convolve( Kernel2D kernel, Class<Input> inputType, Class<Output> outputType , BorderType borderType)
+	convolve( Kernel2D kernel, Class<Input> inputType, Class<Output> outputType , BorderType borderType, FactoryImageBorder FIB)
 	{
 		outputType = BoofTesting.convertToGenericType(outputType);
 
@@ -111,24 +114,24 @@ public class FactoryConvolve {
 			switch(borderType) {
 				case SKIP:
 					m = ConvolveImageNoBorder.class.
-							getMethod("convolve",kernel.getClass(),inputType,outputType);
+							getMethod("convolve",kernel.getClass(),inputType,outputType, InputSanityCheck.class);
 					break;
 
 				case EXTENDED:
-					m = BoofTesting.findMethod(ConvolveWithBorder.class,"convolve",kernel.getClass(),inputType,outputType,borderClassType);
+					m = BoofTesting.findMethod(ConvolveWithBorder.class,"convolve",kernel.getClass(),inputType,outputType,borderClassType, InputSanityCheck.class, ConvolveImageNoBorder.class, ConvolveJustBorder_General.class);
 					break;
 
 				case REFLECT:
-					m = BoofTesting.findMethod(ConvolveWithBorder.class,"convolve",kernel.getClass(),inputType,outputType,borderClassType);
+					m = BoofTesting.findMethod(ConvolveWithBorder.class,"convolve",kernel.getClass(),inputType,outputType,borderClassType, InputSanityCheck.class, ConvolveImageNoBorder.class, ConvolveJustBorder_General.class);
 					break;
 
 				case WRAP:
-					m = BoofTesting.findMethod(ConvolveWithBorder.class,"convolve",kernel.getClass(),inputType,outputType,borderClassType);
+					m = BoofTesting.findMethod(ConvolveWithBorder.class,"convolve",kernel.getClass(),inputType,outputType,borderClassType, InputSanityCheck.class, ConvolveImageNoBorder.class, ConvolveJustBorder_General.class);
 					break;
 
 				case NORMALIZED:
 					m = ConvolveNormalized.class.
-							getMethod("convolve",kernel.getClass(),inputType,outputType);
+							getMethod("convolve",kernel.getClass(),inputType,outputType, InputSanityCheck.class, ConvolveNormalizedNaive.class, ConvolveImageNoBorder.class, ConvolveNormalized_JustBorder.class);
 					break;
 
 				default:
@@ -139,6 +142,6 @@ public class FactoryConvolve {
 			throw new IllegalArgumentException("The specified convolution cannot be found");
 		}
 
-		return new GenericConvolve<>(m, kernel, borderType, inputType, outputType);
+		return new GenericConvolve<>(m, kernel, borderType, inputType, outputType, FIB);
 	}
 }

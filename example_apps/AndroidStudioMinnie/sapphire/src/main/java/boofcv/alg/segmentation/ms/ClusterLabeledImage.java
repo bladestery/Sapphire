@@ -18,10 +18,13 @@
 
 package boofcv.alg.segmentation.ms;
 
+import boofcv.alg.filter.binary.BinaryImageOps;
 import boofcv.alg.misc.ImageMiscOps;
 import boofcv.struct.ConnectRule;
 import boofcv.struct.image.GrayS32;
 import georegression.struct.point.Point2D_I32;
+
+import org.ddogleg.struct.FastQueue;
 import org.ddogleg.struct.GrowQueue_I32;
 
 /**
@@ -45,8 +48,6 @@ import org.ddogleg.struct.GrowQueue_I32;
  * @author Peter Abeles
  */
 public class ClusterLabeledImage extends RegionMergeTree {
-	private ImageMiscOps IMO;
-
 	// which connectivity rule is used.  4 or 8.
 	protected ConnectRule connectRule;
 
@@ -58,7 +59,7 @@ public class ClusterLabeledImage extends RegionMergeTree {
 	protected Point2D_I32 edges[];
 
 	// contains the number of pixels in each output label
-	protected GrowQueue_I32 regionMemberCount;
+	protected FastQueue<Integer> regionMemberCount;
 
 	/**
 	 * Configures labeling
@@ -121,9 +122,9 @@ public class ClusterLabeledImage extends RegionMergeTree {
 	 *
 	 * @param input Labeled input image.
 	 * @param output Labeled output image.
-	 * @param regionMemberCount (Input/Output) Number of pixels which belong to each group.
+	 * @param regionMemberCount (Input/OuGrowQueue_I32tput) Number of pixels which belong to each group.
 	 */
-	public void process(GrayS32 input , GrayS32 output , GrowQueue_I32 regionMemberCount ) {
+	public void process(GrayS32 input , GrayS32 output , FastQueue<Integer> regionMemberCount, BinaryImageOps BIO, ImageMiscOps IMO) {
 		// initialize data structures
 		this.regionMemberCount = regionMemberCount;
 		regionMemberCount.reset();
@@ -140,7 +141,7 @@ public class ClusterLabeledImage extends RegionMergeTree {
 		connectBottom(input, output);
 
 		// Merge together all the regions that are connected in the output image
-		performMerge(output, regionMemberCount);
+		performMerge(output, regionMemberCount, BIO);
 	}
 
 	/**

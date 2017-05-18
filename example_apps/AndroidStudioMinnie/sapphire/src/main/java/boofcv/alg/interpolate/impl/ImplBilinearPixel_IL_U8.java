@@ -123,7 +123,7 @@ public class ImplBilinearPixel_IL_U8 extends BilinearPixelMB<InterleavedU8> {
 	}
 
 	@Override
-	public ImageType<InterleavedU8> getImageType() {
+	public ImageType<InterleavedU8> getImageType(ImageType IT) {
 		return orig.getImageType();
 	}
 

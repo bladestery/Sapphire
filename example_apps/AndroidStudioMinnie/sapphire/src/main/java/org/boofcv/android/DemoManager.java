@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.renderscript.ScriptGroup;
 
 import org.ddogleg.struct.FastQueue;
+import org.ddogleg.struct.GrowQueue_I32;
 
 import java.util.List;
 
@@ -22,6 +23,7 @@ import boofcv.abst.feature.detect.line.DetectLineSegmentsGridRansac;
 import boofcv.abst.filter.binary.GlobalOtsuBinaryFilter;
 import boofcv.abst.filter.binary.InputToBinary;
 import boofcv.abst.filter.binary.LocalSquareBinaryFilter;
+import boofcv.abst.segmentation.ImageSuperpixels;
 import boofcv.alg.InputSanityCheck;
 import boofcv.alg.feature.detect.edge.CannyEdge;
 import boofcv.alg.feature.detect.edge.EdgeContour;
@@ -60,6 +62,8 @@ import boofcv.alg.misc.GImageMiscOps;
 import boofcv.alg.misc.GImageStatistics;
 import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.misc.ImageStatistics;
+import boofcv.alg.segmentation.ComputeRegionMeanColor;
+import boofcv.alg.segmentation.ImageSegmentationOps;
 import boofcv.alg.shapes.ellipse.BinaryEllipseDetector;
 import boofcv.alg.shapes.polygon.BinaryPolygonDetector;
 import boofcv.android.VisualizeImageData;
@@ -80,17 +84,26 @@ import boofcv.factory.filter.binary.FactoryThresholdBinary;
 import boofcv.factory.filter.blur.FactoryBlurFilter;
 import boofcv.factory.filter.derivative.FactoryDerivative;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
+import boofcv.factory.segmentation.ConfigFh04;
+import boofcv.factory.segmentation.ConfigSegmentMeanShift;
+import boofcv.factory.segmentation.ConfigSlic;
+import boofcv.factory.segmentation.ConfigWatershed;
+import boofcv.factory.segmentation.FactoryImageSegmentation;
+import boofcv.factory.segmentation.FactorySegmentationAlg;
 import boofcv.factory.shape.ConfigEllipseDetector;
 import boofcv.factory.shape.ConfigPolygonDetector;
 import boofcv.factory.shape.FactoryShapeDetector;
 import boofcv.struct.ConnectRule;
 import boofcv.struct.QueueCorner;
+import boofcv.struct.feature.ColorQueue_F32;
 import boofcv.struct.feature.ScalePoint;
 import boofcv.struct.image.GrayS16;
 import boofcv.struct.image.GrayS32;
 import boofcv.struct.image.GrayU8;
+import boofcv.struct.image.ImageBase;
 import boofcv.struct.image.ImageGray;
 import boofcv.struct.image.ImageType;
+import boofcv.struct.image.Planar;
 import georegression.struct.line.LineParametric2D_F32;
 import georegression.struct.line.LineSegment2D_F32;
 import georegression.struct.point.Point2D_F64;
@@ -152,6 +165,9 @@ public class DemoManager implements SapphireObject<sapphire.policy.offload.CodeO
     private FactoryInterestPoint FIrP;
     private FactoryInterestPointAlgs FIrPA;
     private FastHessianFeatureDetector FHFD;
+    private FactoryImageSegmentation FIS;
+    private FactorySegmentationAlg FSA;
+    private ImageSegmentationOps ISO;
 
     CannyEdge<GrayU8,GrayS16> canny;
     LinearContourLabelChang2004 contour8;
@@ -171,6 +187,13 @@ public class DemoManager implements SapphireObject<sapphire.policy.offload.CodeO
     NonMaxSuppression nonmax;
     InterestPointDetector<GrayU8> scaleDetector;
     FastQueue<ScalePoint> foundGUI;
+    ImageType<Planar<GrayU8>> type;
+    ImageSuperpixels<Planar<GrayU8>> segmentation;
+    FastQueue<float[]> segmentColor;
+    FastQueue<Integer> regionMemberCount;
+    GrayS32 pixelToRegion;
+    Planar<GrayU8> background;
+
 
 
     public DemoManager() {
@@ -221,11 +244,16 @@ public class DemoManager implements SapphireObject<sapphire.policy.offload.CodeO
         FIrP = (FactoryInterestPoint) new_(FactoryInterestPoint.class);
         FIrPA = (FactoryInterestPointAlgs) new_(FactoryInterestPointAlgs.class);
         FHFD = (FastHessianFeatureDetector) new_(FastHessianFeatureDetector.class);
+        FIS = (FactoryImageSegmentation) new_(FactoryImageSegmentation.class);
+        FSA = (FactorySegmentationAlg) new_(FactorySegmentationAlg.class);
+        ISO = (ImageSegmentationOps) new_(ImageSegmentationOps.class);
 
         contour8 = new LinearContourLabelChang2004(ConnectRule.EIGHT);
         contour4 = new LinearContourLabelChang2004(ConnectRule.FOUR);
         blackBinary = new GrayU8(1,1);
         foundGUI = new FastQueue<ScalePoint>(ScalePoint.class,true);
+        segmentColor = new ColorQueue_F32(3);
+        regionMemberCount = new FastQueue<Integer>(Integer.class, false);
     }
 
     public void LatencyCheck() {}
@@ -329,7 +357,7 @@ public class DemoManager implements SapphireObject<sapphire.policy.offload.CodeO
     }
 
     public void inputProcess(GrayU8 image) {
-        inputToBinary.process(image, blackBinary, GBIO, ISC, GIO, BlIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO);
+        inputToBinary.process(image, blackBinary, GBIO, ISC, GIO, BlIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG);
     }
 
     public void reshape(int width, int height) {
@@ -499,7 +527,7 @@ public class DemoManager implements SapphireObject<sapphire.policy.offload.CodeO
 
     public void scaleDetect(GrayU8 gray) {
         scaleDetector.detect(gray, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN,
-                GBIO, GIO, BlIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB);
+                GBIO, GIO, BlIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF);
     }
 
     public int getNumberOfFeatures() {
@@ -517,12 +545,81 @@ public class DemoManager implements SapphireObject<sapphire.policy.offload.CodeO
     public FastQueue<ScalePoint> getInterestPoints() {
         foundGUI.reset();
         int N = scaleDetector.getNumberOfFeatures();
-        for( int i = 0; i < N; i++ ) {
+        for (int i = 0; i < N; i++) {
             Point2D_F64 p = scaleDetector.getLocation(i);
             double radius = scaleDetector.getRadius(i);
             foundGUI.grow().set(p.x, p.y, radius);
         }
         return foundGUI;
+    }
+
+    public void hessianPyramid() {
+        double[] scales = {1,2,4,8,16,32};
+        scaleDetector = FIrP.wrapDetector(FIrPA.hessianPyramid(10,4,40,GrayU8.class,GrayS16.class,FFE, GIO, FIB), scales, false, GrayU8.class, FIB);
+    }
+
+    public void hessianLaplace() {
+        double[] scales = {1,2,4,8,16,32};
+        scaleDetector = FIrP.wrapDetector(FIrPA.hessianLaplace(10,3,50,GrayU8.class,GrayS16.class, FFE, GIO, FIB), scales, false ,GrayU8.class, FIB);
+    }
+
+    public void harrisPyramid() {
+        double[] scales = {1,2,4,8,16,32};
+        scaleDetector = FIrP.wrapDetector(FIrPA.harrisPyramid(7,3,40,GrayU8.class,GrayS16.class, FIPA, GIO, FKG, FFE, FIB), scales, false ,GrayU8.class, FIB);
+    }
+
+    public void harrisLaplace() {
+        double[] scales = {1,2,4,8,16,32};
+        scaleDetector = FIrP.wrapDetector(FIrPA.harrisLaplace(7,3,40,GrayU8.class,GrayS16.class, FIPA, GIO, FKG, FFE, FIB), scales, false ,GrayU8.class, FIB);
+    }
+
+    public <I extends ImageGray> ImageType<Planar<GrayU8>> pl(int numBands) {
+        return IT.pl(numBands, GrayU8.class);
+    }
+
+    public void pL(int numBands) {
+        type = IT.pl(numBands, GrayU8.class);
+    }
+
+    public void watershed(int numBands, ConfigWatershed config) {
+        type = IT.pl(numBands, GrayU8.class);
+        segmentation = FIS.watershed(config, type, FSA);
+    }
+
+    public void fh04(int numBands, ConfigFh04 config) {
+        type = IT.pl(numBands, GrayU8.class);
+        segmentation = FIS.fh04(config, type, FSA);
+    }
+
+    public void slic(int numBands, ConfigSlic config) {
+        type = IT.pl(numBands, GrayU8.class);
+        segmentation = FIS.slic(config,type, IT, FSA);
+    }
+
+    public void meanShift(int numBands, ConfigSegmentMeanShift config) {
+        type = IT.pl(numBands, GrayU8.class);
+        segmentation = FIS.meanShift(config, type, FIB, FSA);
+    }
+
+    public GrayS32 segment(Planar<GrayU8> input) {
+        background.setTo(input);
+        segmentation.segment(input, pixelToRegion, ISC, GIO, GIMO, IMO, ISO, BIO);
+        return pixelToRegion;
+    }
+
+    public FastQueue<float[]> colorize(Planar<GrayU8> input) {
+        ComputeRegionMeanColor colorize = FSA.regionMeanColor(input.getImageType());
+        int numSegments = segmentation.getTotalSuperpixels();
+        segmentColor.resize(numSegments);
+        regionMemberCount.resize(numSegments);
+        ISO.countRegionPixels(pixelToRegion, numSegments, regionMemberCount.data);
+        colorize.process(background,pixelToRegion,regionMemberCount,segmentColor);
+        return segmentColor;
+    }
+
+    public void initImage(int width, int height) {
+        pixelToRegion = new GrayS32(width,height);
+        background = new Planar<GrayU8>(GrayU8.class,width,height,3);
     }
 
 }

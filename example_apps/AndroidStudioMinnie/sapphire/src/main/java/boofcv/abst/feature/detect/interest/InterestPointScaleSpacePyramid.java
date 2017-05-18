@@ -18,6 +18,30 @@
 
 package boofcv.abst.feature.detect.interest;
 
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.feature.detect.interest.FastHessianFeatureDetector;
+import boofcv.alg.filter.binary.GThresholdImageOps;
+import boofcv.alg.filter.binary.ThresholdImageOps;
+import boofcv.alg.filter.blur.BlurImageOps;
+import boofcv.alg.filter.blur.GBlurImageOps;
+import boofcv.alg.filter.blur.impl.ImplMedianHistogramInner;
+import boofcv.alg.filter.blur.impl.ImplMedianSortEdgeNaive;
+import boofcv.alg.filter.blur.impl.ImplMedianSortNaive;
+import boofcv.alg.filter.convolve.ConvolveImageMean;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
+import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
+import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.GImageStatistics;
+import boofcv.alg.misc.ImageMiscOps;
+import boofcv.alg.misc.ImageStatistics;
+import boofcv.core.image.GeneralizedImageOps;
+import boofcv.core.image.border.FactoryImageBorderAlgs;
+import boofcv.core.image.border.ImageBorderValue;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.feature.ScalePoint;
 import boofcv.struct.image.ImageGray;
 import boofcv.struct.pyramid.PyramidFloat;
@@ -37,7 +61,10 @@ public interface InterestPointScaleSpacePyramid<T extends ImageGray> {
 	 *
 	 * @param ss Scale space of an image
 	 */
-	public void detect( PyramidFloat<T> ss );
+	public void detect(PyramidFloat<T> ss, GBlurImageOps GBIO, InputSanityCheck ISC, GeneralizedImageOps GIO, BlurImageOps BIO, ConvolveImageMean CIM, FactoryKernelGaussian FKG,
+					   ConvolveNormalized CN, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN,
+					   ImplMedianSortNaive IMSN, ImplConvolveMean ICM, GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO, GImageMiscOps GIMO, ImageMiscOps IMO,
+					   FastHessianFeatureDetector FHFD, FactoryImageBorderAlgs FIBA, ImageBorderValue IBV, ConvolveJustBorder_General CJBG);
 
 	/**
 	 * Returns all the found interest points

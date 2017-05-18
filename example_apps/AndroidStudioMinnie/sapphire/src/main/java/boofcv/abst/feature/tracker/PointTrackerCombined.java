@@ -19,16 +19,44 @@
 package boofcv.abst.feature.tracker;
 
 import boofcv.abst.filter.derivative.ImageGradient;
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.feature.detect.interest.FastHessianFeatureDetector;
+import boofcv.alg.filter.binary.GThresholdImageOps;
+import boofcv.alg.filter.binary.ThresholdImageOps;
+import boofcv.alg.filter.blur.BlurImageOps;
+import boofcv.alg.filter.blur.GBlurImageOps;
+import boofcv.alg.filter.blur.impl.ImplMedianHistogramInner;
+import boofcv.alg.filter.blur.impl.ImplMedianSortEdgeNaive;
+import boofcv.alg.filter.blur.impl.ImplMedianSortNaive;
+import boofcv.alg.filter.convolve.ConvolveImageMean;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
+import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
+import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
+import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
+import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
+import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.GImageStatistics;
+import boofcv.alg.misc.ImageMiscOps;
+import boofcv.alg.misc.ImageStatistics;
 import boofcv.alg.tracker.combined.CombinedTrack;
 import boofcv.alg.tracker.combined.CombinedTrackerScalePoint;
 import boofcv.alg.transform.pyramid.PyramidOps;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.FactoryImageBorder;
+import boofcv.core.image.border.FactoryImageBorderAlgs;
+import boofcv.core.image.border.ImageBorderValue;
+import boofcv.factory.filter.blur.FactoryBlurFilter;
 import boofcv.factory.filter.derivative.FactoryDerivative;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.factory.transform.pyramid.FactoryPyramid;
 import boofcv.struct.feature.TupleDesc;
 import boofcv.struct.image.ImageGray;
 import boofcv.struct.pyramid.PyramidDiscrete;
+import sapphire.compiler.FDGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,9 +72,36 @@ import java.util.List;
 // TODO Speed up combination of respawn and spawn
 public class PointTrackerCombined<I extends ImageGray, D extends ImageGray, Desc extends TupleDesc>
 		implements PointTracker<I> {
-	private static FactoryDerivative FD;
+	private static InputSanityCheck ISC;
+	private static DerivativeHelperFunctions DHF;
+	private static ConvolveImageNoBorder CINB;
+	private static ConvolveJustBorder_General CJBG;
+	private static GradientSobel_Outer GSO;
+	private static GradientSobel_UnrolledOuter GSUO;
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
+	private static ConvolveNormalizedNaive CNN;
+	private static ConvolveNormalized_JustBorder CNJB;
+	private static ConvolveNormalized CN;
+	private static GBlurImageOps GBIO;
 	private static GeneralizedImageOps GIO;
+	private static BlurImageOps BIO;
+	private static ConvolveImageMean CIM;
+	private static FactoryKernelGaussian FKG;
+	private static ImplMedianHistogramInner IMHI;
+	private static ImplMedianSortEdgeNaive IMSEN;
+	private static ImplMedianSortNaive IMSN;
+	private static ImplConvolveMean ICM;
+	private static GThresholdImageOps GTIO;
+	private static GImageStatistics GIS;
+	private static ImageStatistics IS;
+	private static ThresholdImageOps TIO;
+	private static FactoryImageBorderAlgs FIBA;
+	private static ImageBorderValue IBV;
+	private static FastHessianFeatureDetector FHFD;
 	private static FactoryImageBorder FIB;
+	private static FactoryBlurFilter FBF;
+	private static FactoryDerivative FD;
 	CombinedTrackerScalePoint<I,D, Desc> tracker;
 
 	PyramidDiscrete<I> pyramid;
@@ -69,7 +124,7 @@ public class PointTrackerCombined<I extends ImageGray, D extends ImageGray, Desc
 		this.derivType = derivType;
 
 		int pyramidScaling[] = tracker.getTrackerKlt().pyramidScaling;
-		pyramid = FactoryPyramid.discreteGaussian(pyramidScaling,-1,2,true,imageType);
+		pyramid = FactoryPyramid.discreteGaussian(pyramidScaling,-1,2,true,imageType, FKG);
 		gradient = FD.sobel(imageType, derivType, GIO, FIB);
 
 		reset();
@@ -87,7 +142,7 @@ public class PointTrackerCombined<I extends ImageGray, D extends ImageGray, Desc
 		detected = false;
 
 		// update the image pyramid
-		pyramid.process(image);
+		pyramid.process(image, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG);
 		if( derivX == null ) {
 			derivX = PyramidOps.declareOutput(pyramid, derivType);
 			derivY = PyramidOps.declareOutput(pyramid, derivType);

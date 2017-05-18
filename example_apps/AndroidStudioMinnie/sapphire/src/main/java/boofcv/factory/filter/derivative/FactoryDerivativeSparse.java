@@ -42,8 +42,6 @@ import boofcv.struct.sparse.SparseImageGradient;
  */
 @SuppressWarnings({"unchecked"})
 public class FactoryDerivativeSparse {
-	private static GeneralizedImageOps GIO;
-	private static FactoryImageBorder FIB;
 	/**
 	 * Creates a sparse Laplacian filter.
 	 *
@@ -54,7 +52,7 @@ public class FactoryDerivativeSparse {
 	 * @return Filter for performing a sparse laplacian.
 	 */
 	public static <T extends ImageGray>
-	ImageFunctionSparse<T> createLaplacian( Class<T> imageType , ImageBorder<T> border )
+	ImageFunctionSparse<T> createLaplacian( Class<T> imageType , ImageBorder<T> border, GeneralizedImageOps GIO, FactoryImageBorder FIB)
 	{
 		if( border == null ) {
 			border = FIB.single(imageType, BorderType.EXTENDED);

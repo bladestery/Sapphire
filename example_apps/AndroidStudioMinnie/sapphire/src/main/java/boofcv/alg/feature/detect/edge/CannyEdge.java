@@ -161,7 +161,7 @@ public class CannyEdge<T extends ImageGray, D extends ImageGray> implements Sapp
 		work.reshape(input.width,input.height);
 
 		// run canny edge detector
-		blur.process(input,blurred, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO);
+		blur.process(input,blurred, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG);
 		gradient.process(blurred, derivX, derivY, ISC, DHF, CINB, CJBG, GSO, GSUO);
 		GGTEF.intensityAbs(derivX, derivY, intensity, GTEF, ISC);
 		GGTEF.direction(derivX, derivY, angle, GTEF, ISC);

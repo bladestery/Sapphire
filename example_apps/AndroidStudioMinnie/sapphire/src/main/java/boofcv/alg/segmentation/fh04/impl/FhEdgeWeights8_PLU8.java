@@ -37,7 +37,6 @@ import static boofcv.alg.segmentation.fh04.SegmentFelzenszwalbHuttenlocher04.Edg
  * @author Peter Abeles
  */
 public class FhEdgeWeights8_PLU8 implements FhEdgeWeights<Planar<GrayU8>> {
-	private ImageType IT;
 	int pixelColor[];
 	int numBands;
 
@@ -160,7 +159,7 @@ public class FhEdgeWeights8_PLU8 implements FhEdgeWeights<Planar<GrayU8>> {
 	}
 
 	@Override
-	public ImageType<Planar<GrayU8>> getInputType() {
+	public ImageType<Planar<GrayU8>> getInputType(ImageType IT) {
 		return IT.pl(3,GrayU8.class);
 	}
 

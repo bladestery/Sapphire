@@ -31,6 +31,7 @@ import boofcv.alg.filter.blur.impl.ImplMedianSortNaive;
 import boofcv.alg.filter.convolve.ConvolveImageMean;
 import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
 import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
 import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
@@ -41,6 +42,7 @@ import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.misc.ImageStatistics;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.BorderType;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.filter.convolve.FactoryConvolve;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.BoofDefaults;
@@ -81,6 +83,8 @@ public class NoCacheScaleSpace<I extends ImageGray, D extends ImageGray>
 	private static ThresholdImageOps TIO;
 	private static GImageMiscOps GIMO;
 	private static ImageMiscOps IMO;
+	private static FactoryImageBorder FIB;
+	private static ConvolveJustBorder_General CJBG;
 	// reference to the original input image
 	private I originalImage;
 
@@ -108,7 +112,7 @@ public class NoCacheScaleSpace<I extends ImageGray, D extends ImageGray>
 	 */
 	public NoCacheScaleSpace(Class<I> inputType, Class<D> derivType) {
 		this.inputType = inputType;
-		anyDeriv = GImageDerivativeOps.derivativeForScaleSpace(inputType, derivType);
+		anyDeriv = GImageDerivativeOps.derivativeForScaleSpace(inputType, derivType, GIO, FIB);
 	}
 
 	@Override
@@ -142,12 +146,12 @@ public class NoCacheScaleSpace<I extends ImageGray, D extends ImageGray>
 
 		Kernel1D kernel = FKG.gaussian1D(inputType,sigma,radius, GIO);
 
-		ConvolveInterface<I, I> blurX = FactoryConvolve.convolve(kernel,inputType,inputType, borderBlur ,true);
-		ConvolveInterface<I, I> blurY = FactoryConvolve.convolve(kernel,inputType,inputType, borderBlur ,false);
+		ConvolveInterface<I, I> blurX = FactoryConvolve.convolve(kernel,inputType,inputType, borderBlur ,true, FIB);
+		ConvolveInterface<I, I> blurY = FactoryConvolve.convolve(kernel,inputType,inputType, borderBlur ,false, FIB);
 
 		// compute the scale image
-		blurX.process(originalImage,workImage, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO);
-		blurY.process(workImage,scaledImage, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO);
+		blurX.process(originalImage,workImage, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG);
+		blurY.process(workImage,scaledImage, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG);
 
 		anyDeriv.setInput(scaledImage);
 	}
@@ -185,6 +189,6 @@ public class NoCacheScaleSpace<I extends ImageGray, D extends ImageGray>
 	 */
 	@Override
 	public D getDerivative(boolean... isX) {
-		return anyDeriv.getDerivative(isX);
+		return anyDeriv.getDerivative(GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, isX);
 	}
 }

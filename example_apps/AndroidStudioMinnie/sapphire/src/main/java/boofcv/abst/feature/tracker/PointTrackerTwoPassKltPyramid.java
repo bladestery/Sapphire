@@ -19,12 +19,41 @@
 package boofcv.abst.feature.tracker;
 
 import boofcv.abst.filter.derivative.ImageGradient;
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.feature.detect.interest.FastHessianFeatureDetector;
 import boofcv.alg.feature.detect.interest.GeneralFeatureDetector;
+import boofcv.alg.filter.binary.GThresholdImageOps;
+import boofcv.alg.filter.binary.ThresholdImageOps;
+import boofcv.alg.filter.blur.BlurImageOps;
+import boofcv.alg.filter.blur.GBlurImageOps;
+import boofcv.alg.filter.blur.impl.ImplMedianHistogramInner;
+import boofcv.alg.filter.blur.impl.ImplMedianSortEdgeNaive;
+import boofcv.alg.filter.blur.impl.ImplMedianSortNaive;
+import boofcv.alg.filter.convolve.ConvolveImageMean;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
+import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
+import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
+import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
+import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
 import boofcv.alg.interpolate.InterpolateRectangle;
+import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.GImageStatistics;
+import boofcv.alg.misc.ImageMiscOps;
+import boofcv.alg.misc.ImageStatistics;
 import boofcv.alg.tracker.klt.KltConfig;
 import boofcv.alg.tracker.klt.KltTrackFault;
 import boofcv.alg.tracker.klt.PyramidKltFeature;
 import boofcv.alg.transform.pyramid.PyramidOps;
+import boofcv.core.image.GeneralizedImageOps;
+import boofcv.core.image.border.FactoryImageBorder;
+import boofcv.core.image.border.FactoryImageBorderAlgs;
+import boofcv.core.image.border.ImageBorderValue;
+import boofcv.factory.filter.blur.FactoryBlurFilter;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.misc.BoofMiscOps;
 import boofcv.struct.image.ImageGray;
 import boofcv.struct.image.ImageType;
@@ -41,7 +70,36 @@ import java.util.List;
 public class PointTrackerTwoPassKltPyramid<I extends ImageGray,D extends ImageGray>
 	extends PointTrackerKltPyramid<I,D> implements PointTrackerTwoPass<I>
 {
+	private static InputSanityCheck ISC;
+	private static DerivativeHelperFunctions DHF;
+	private static ConvolveImageNoBorder CINB;
+	private static ConvolveJustBorder_General CJBG;
+	private static GradientSobel_Outer GSO;
+	private static GradientSobel_UnrolledOuter GSUO;
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
+	private static ConvolveNormalizedNaive CNN;
+	private static ConvolveNormalized_JustBorder CNJB;
+	private static ConvolveNormalized CN;
+	private static GBlurImageOps GBIO;
+	private static GeneralizedImageOps GIO;
+	private static BlurImageOps BIO;
+	private static ConvolveImageMean CIM;
+	private static FactoryKernelGaussian FKG;
+	private static ImplMedianHistogramInner IMHI;
+	private static ImplMedianSortEdgeNaive IMSEN;
+	private static ImplMedianSortNaive IMSN;
+	private static ImplConvolveMean ICM;
+	private static GThresholdImageOps GTIO;
+	private static GImageStatistics GIS;
+	private static ImageStatistics IS;
+	private static ThresholdImageOps TIO;
+	private static FactoryImageBorderAlgs FIBA;
+	private static ImageBorderValue IBV;
+	private static FastHessianFeatureDetector FHFD;
+	private static FactoryImageBorder FIB;
 	private static ImageType IT;
+	private static FactoryBlurFilter FBF;
 	// list of active tracks before the current image is processed
 	List<PyramidKltFeature> originalActive = new ArrayList<>();
 
@@ -72,7 +130,7 @@ public class PointTrackerTwoPassKltPyramid<I extends ImageGray,D extends ImageGr
 		dropped.clear();
 
 		// update image pyramids
-		basePyramid.process(image);
+		basePyramid.process(image, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG);
 		declareOutput();
 		PyramidOps.gradient(basePyramid, gradient, derivX, derivY);
 

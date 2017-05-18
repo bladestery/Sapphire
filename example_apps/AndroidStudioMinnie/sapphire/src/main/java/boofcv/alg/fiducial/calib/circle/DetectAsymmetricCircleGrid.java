@@ -32,6 +32,7 @@ import boofcv.alg.filter.blur.impl.ImplMedianSortNaive;
 import boofcv.alg.filter.convolve.ConvolveImageMean;
 import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
 import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
 import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
@@ -97,6 +98,7 @@ public class DetectAsymmetricCircleGrid<T extends ImageGray> {
 	private static ImageMiscOps IMO;
 	private static LinearContourLabelChang2004 cF;
 	private static GImageMiscOps GIMO;
+	private static ConvolveJustBorder_General CJBG;
 	private BinaryEllipseDetector<T> ellipseDetector;
 	private InputToBinary<T> inputToBinary;
 
@@ -153,7 +155,7 @@ public class DetectAsymmetricCircleGrid<T extends ImageGray> {
 
 		this.binary.reshape(gray.width,gray.height);
 
-		inputToBinary.process(gray, binary, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO);
+		inputToBinary.process(gray, binary, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG);
 
 		ellipseDetector.process(gray, binary, cF, IMO);
 		List<EllipseRotated_F64> found = ellipseDetector.getFoundEllipses().toList();

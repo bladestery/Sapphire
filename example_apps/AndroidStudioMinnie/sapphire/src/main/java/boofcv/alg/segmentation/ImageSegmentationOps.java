@@ -22,6 +22,9 @@ import boofcv.alg.InputSanityCheck;
 import boofcv.alg.misc.ImageMiscOps;
 import boofcv.struct.image.GrayS32;
 import boofcv.struct.image.GrayU8;
+import sapphire.app.SapphireObject;
+
+import org.ddogleg.struct.FastQueue;
 import org.ddogleg.struct.GrowQueue_I32;
 
 import java.util.Arrays;
@@ -31,9 +34,9 @@ import java.util.Arrays;
  *
  * @author Peter Abeles
  */
-public class ImageSegmentationOps {
-	private static InputSanityCheck ISC;
-	private static ImageMiscOps IMO;
+public class ImageSegmentationOps implements SapphireObject {
+	
+	public ImageSegmentationOps() {}
 	/**
 	 * Counts the number of instances of 'which' inside the labeled image.
 	 *
@@ -41,7 +44,7 @@ public class ImageSegmentationOps {
 	 * @param which The label being searched for
 	 * @return Number of instances of 'which' in 'labeled'
 	 */
-	public static int countRegionPixels(GrayS32 labeled , int which ) {
+	public int countRegionPixels(GrayS32 labeled , int which ) {
 		int total = 0;
 		for( int y = 0; y < labeled.height; y++ ) {
 			int index = labeled.startIndex + y*labeled.stride;
@@ -61,7 +64,7 @@ public class ImageSegmentationOps {
 	 * @param totalRegions Total number of regions
 	 * @param counts Storage for pixel counts
 	 */
-	public static void countRegionPixels(GrayS32 labeled , int totalRegions , int counts[] ) {
+	public void countRegionPixels(GrayS32 labeled , int totalRegions , Integer counts[] ) {
 
 		Arrays.fill(counts,0,totalRegions,0);
 
@@ -82,7 +85,7 @@ public class ImageSegmentationOps {
 	 * @param segmentId List of segment ID's.  See comment above about what ID's are acceptable.
 	 * @param output The new image after it has been compacted
 	 */
-	public static void regionPixelId_to_Compact(GrayS32 graph, GrowQueue_I32 segmentId, GrayS32 output) {
+	public void regionPixelId_to_Compact(GrayS32 graph, FastQueue<Integer> segmentId, GrayS32 output, InputSanityCheck ISC) {
 
 		ISC.checkSameShape(graph,output);
 
@@ -116,7 +119,7 @@ public class ImageSegmentationOps {
 	 * @param labeled Input segmented image.
 	 * @param output Output binary image.  1 for border pixels.
 	 */
-	public static void markRegionBorders(GrayS32 labeled , GrayU8 output ) {
+	public void markRegionBorders(GrayS32 labeled , GrayU8 output , InputSanityCheck ISC, ImageMiscOps IMO) {
 
 		ISC.checkSameShape(labeled,output);
 

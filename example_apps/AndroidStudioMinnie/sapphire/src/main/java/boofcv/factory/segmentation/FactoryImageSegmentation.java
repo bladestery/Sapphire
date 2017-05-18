@@ -23,15 +23,19 @@ import boofcv.alg.segmentation.fh04.SegmentFelzenszwalbHuttenlocher04;
 import boofcv.alg.segmentation.ms.SegmentMeanShift;
 import boofcv.alg.segmentation.slic.SegmentSlic;
 import boofcv.alg.segmentation.watershed.WatershedVincentSoille1991;
+import boofcv.core.image.border.FactoryImageBorder;
+import boofcv.factory.filter.blur.FactoryBlurFilter;
 import boofcv.struct.image.ImageBase;
 import boofcv.struct.image.ImageType;
+import sapphire.app.SapphireObject;
 
 /**
  * Factory for {@link ImageSuperpixels} algorithms, which are used to segment the image into super pixels.
  *
  * @author Peter Abeles
  */
-public class FactoryImageSegmentation {
+public class FactoryImageSegmentation implements SapphireObject {
+	public FactoryImageSegmentation() {}
 
 	/**
 	 * Creates a new instance of {@link SegmentMeanShift} which is in a wrapper for {@link ImageSuperpixels}.
@@ -43,13 +47,13 @@ public class FactoryImageSegmentation {
 	 * @param <T> Image type
 	 * @return new instance of {@link ImageSuperpixels}
 	 */
-	public static <T extends ImageBase>ImageSuperpixels<T>
-	meanShift( ConfigSegmentMeanShift config ,  ImageType<T> imageType )
+	public <T extends ImageBase>ImageSuperpixels<T>
+	meanShift(ConfigSegmentMeanShift config , ImageType<T> imageType, FactoryImageBorder FIB, FactorySegmentationAlg FSA)
 	{
 		if( config == null )
 			config = new ConfigSegmentMeanShift();
 
-		SegmentMeanShift<T> ms = FactorySegmentationAlg.meanShift(config,imageType);
+		SegmentMeanShift<T> ms = FSA.meanShift(config,imageType, FIB);
 
 		return new MeanShift_to_ImageSuperpixels<>(ms, config.connectRule);
 	}
@@ -64,10 +68,10 @@ public class FactoryImageSegmentation {
 	 * @param <T> Image type
 	 * @return new instance of {@link ImageSuperpixels}
 	 */
-	public static <T extends ImageBase>ImageSuperpixels<T>
-	slic( ConfigSlic config , ImageType<T> imageType )
+	public <T extends ImageBase>ImageSuperpixels<T>
+	slic( ConfigSlic config , ImageType<T> imageType, ImageType IT, FactorySegmentationAlg FSA)
 	{
-		SegmentSlic<T> ms = FactorySegmentationAlg.slic(config, imageType);
+		SegmentSlic<T> ms = FSA.slic(config, imageType, IT, FSA);
 
 		return new Slic_to_ImageSuperpixels<>(ms);
 	}
@@ -82,13 +86,13 @@ public class FactoryImageSegmentation {
 	 * @param <T> Image type
 	 * @return new instance of {@link ImageSuperpixels}
 	 */
-	public static <T extends ImageBase>ImageSuperpixels<T>
-	fh04( ConfigFh04 config , ImageType<T> imageType )
+	public <T extends ImageBase>ImageSuperpixels<T>
+	fh04( ConfigFh04 config , ImageType<T> imageType, FactorySegmentationAlg FSA)
 	{
 		if( config == null )
 			config = new ConfigFh04();
 
-		SegmentFelzenszwalbHuttenlocher04<T> fh = FactorySegmentationAlg.fh04(config, imageType);
+		SegmentFelzenszwalbHuttenlocher04<T> fh = FSA.fh04(config, imageType);
 
 		return new Fh04_to_ImageSuperpixels<>(fh, config.connectRule);
 	}
@@ -105,13 +109,13 @@ public class FactoryImageSegmentation {
 	 * @param <T> Image type
 	 * @return new instance of {@link ImageSuperpixels}
 	 */
-	public static <T extends ImageBase>ImageSuperpixels<T>
-	watershed( ConfigWatershed config , ImageType<T> imageType )
+	public <T extends ImageBase>ImageSuperpixels<T>
+	watershed( ConfigWatershed config , ImageType<T> imageType, FactorySegmentationAlg FSA)
 	{
 		if( config == null )
 			config = new ConfigWatershed();
 
-		WatershedVincentSoille1991 watershed = FactorySegmentationAlg.watershed(config.connectRule);
+		WatershedVincentSoille1991 watershed = FSA.watershed(config.connectRule);
 
 		Watershed_to_ImageSuperpixels ret = new Watershed_to_ImageSuperpixels<>(watershed, config.minimumRegionSize, config.connectRule);
 		ret.setImageType(imageType);

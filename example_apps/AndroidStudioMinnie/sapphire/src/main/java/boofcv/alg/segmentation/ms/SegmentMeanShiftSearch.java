@@ -18,6 +18,7 @@
 
 package boofcv.alg.segmentation.ms;
 
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.struct.image.GrayS32;
 import boofcv.struct.image.ImageBase;
 import boofcv.struct.image.ImageType;
@@ -94,7 +95,7 @@ public abstract class SegmentMeanShiftSearch<T extends ImageBase> {
 	protected FastQueue<Point2D_I32> modeLocation = new FastQueue<>(Point2D_I32.class, true);
 
 	// number of members in this peak
-	protected GrowQueue_I32 modeMemberCount = new GrowQueue_I32();
+	protected FastQueue<Integer> modeMemberCount = new FastQueue<Integer>(Integer.class, false);
 
 	// storage for segment colors
 	protected FastQueue<float[]> modeColor;
@@ -160,7 +161,7 @@ public abstract class SegmentMeanShiftSearch<T extends ImageBase> {
 	 *
 	 * @param image Input image
 	 */
-	public abstract void process( T image );
+	public abstract void process(T image, ImageMiscOps IMO);
 
 	/**
 	 * Returns the Euclidean distance squared between the two vectors
@@ -212,7 +213,7 @@ public abstract class SegmentMeanShiftSearch<T extends ImageBase> {
 	/**
 	 * Number of pixels which each peak as a member
 	 */
-	public GrowQueue_I32 getRegionMemberCount() {
+	public FastQueue<Integer> getRegionMemberCount() {
 		return modeMemberCount;
 	}
 
@@ -220,5 +221,5 @@ public abstract class SegmentMeanShiftSearch<T extends ImageBase> {
 		return modeColor;
 	}
 
-	public abstract ImageType<T> getImageType();
+	public abstract ImageType<T> getImageType(ImageType IT);
 }

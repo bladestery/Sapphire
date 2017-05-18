@@ -10,12 +10,12 @@ public final class EasyGeneralFeatureDetector_Stub extends boofcv.alg.feature.de
     sapphire.policy.SapphirePolicy.SapphireClientPolicy $__client = null;
     boolean $__directInvocation = false;
 
-    public EasyGeneralFeatureDetector_Stub (boofcv.alg.feature.detect.interest.GeneralFeatureDetector $param_GeneralFeatureDetector_1, boofcv.abst.filter.derivative.ImageGradient $param_ImageGradient_2, boofcv.abst.filter.derivative.ImageHessian $param_ImageHessian_3, java.lang.Class $param_Class_4, boofcv.core.image.GeneralizedImageOps $param_GeneralizedImageOps_5) {
-        super($param_GeneralFeatureDetector_1, $param_ImageGradient_2, $param_ImageHessian_3, $param_Class_4, $param_GeneralizedImageOps_5);
-    }
-
     public EasyGeneralFeatureDetector_Stub (boofcv.alg.feature.detect.interest.GeneralFeatureDetector $param_GeneralFeatureDetector_1, java.lang.Class $param_Class_2, java.lang.Class $param_Class_3, boofcv.factory.filter.derivative.FactoryDerivative $param_FactoryDerivative_4, boofcv.core.image.GeneralizedImageOps $param_GeneralizedImageOps_5, boofcv.core.image.border.FactoryImageBorder $param_FactoryImageBorder_6) {
         super($param_GeneralFeatureDetector_1, $param_Class_2, $param_Class_3, $param_FactoryDerivative_4, $param_GeneralizedImageOps_5, $param_FactoryImageBorder_6);
+    }
+
+    public EasyGeneralFeatureDetector_Stub (boofcv.alg.feature.detect.interest.GeneralFeatureDetector $param_GeneralFeatureDetector_1, boofcv.abst.filter.derivative.ImageGradient $param_ImageGradient_2, boofcv.abst.filter.derivative.ImageHessian $param_ImageHessian_3, java.lang.Class $param_Class_4, boofcv.core.image.GeneralizedImageOps $param_GeneralizedImageOps_5) {
+        super($param_GeneralFeatureDetector_1, $param_ImageGradient_2, $param_ImageHessian_3, $param_Class_4, $param_GeneralizedImageOps_5);
     }
 
 

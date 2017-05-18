@@ -35,7 +35,6 @@ import org.ddogleg.struct.FastQueue;
  * @author Peter Abeles
  */
 public class SegmentMeanShiftSearchGray<T extends ImageGray> extends SegmentMeanShiftSearch<T> {
-	private ImageMiscOps IMO;
 	// Interpolation routine used to get sub-pixel samples
 	protected InterpolatePixelS<T> interpolate;
 
@@ -60,7 +59,7 @@ public class SegmentMeanShiftSearchGray<T extends ImageGray> extends SegmentMean
 	 * @param image Input image
 	 */
 	@Override
-	public void process( T image ) {
+	public void process( T image, ImageMiscOps IMO ) {
 		// initialize data structures
 		this.image = image;
 
@@ -130,8 +129,8 @@ public class SegmentMeanShiftSearchGray<T extends ImageGray> extends SegmentMean
 	}
 
 	@Override
-	public ImageType<T> getImageType() {
-		return interpolate.getImageType();
+	public ImageType<T> getImageType(ImageType IT) {
+		return interpolate.getImageType(IT);
 	}
 
 	/**

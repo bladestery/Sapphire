@@ -19,8 +19,37 @@
 package boofcv.alg.tracker.tld;
 
 import boofcv.abst.filter.derivative.ImageGradient;
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.feature.detect.interest.FastHessianFeatureDetector;
+import boofcv.alg.filter.binary.GThresholdImageOps;
+import boofcv.alg.filter.binary.ThresholdImageOps;
+import boofcv.alg.filter.blur.BlurImageOps;
+import boofcv.alg.filter.blur.GBlurImageOps;
+import boofcv.alg.filter.blur.impl.ImplMedianHistogramInner;
+import boofcv.alg.filter.blur.impl.ImplMedianSortEdgeNaive;
+import boofcv.alg.filter.blur.impl.ImplMedianSortNaive;
+import boofcv.alg.filter.convolve.ConvolveImageMean;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
+import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
+import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
+import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
+import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
 import boofcv.alg.interpolate.InterpolatePixelS;
+import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.GImageStatistics;
+import boofcv.alg.misc.ImageMiscOps;
+import boofcv.alg.misc.ImageStatistics;
 import boofcv.alg.tracker.klt.PyramidKltTracker;
+import boofcv.core.image.GeneralizedImageOps;
+import boofcv.core.image.border.FactoryImageBorder;
+import boofcv.core.image.border.FactoryImageBorderAlgs;
+import boofcv.core.image.border.ImageBorderValue;
+import boofcv.factory.filter.blur.FactoryBlurFilter;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.factory.tracker.FactoryTrackerAlg;
 import boofcv.factory.transform.pyramid.FactoryPyramid;
 import boofcv.struct.ImageRectangle;
@@ -62,6 +91,35 @@ import java.util.Random;
  * @author Peter Abeles
  */
 public class TldTracker<T extends ImageGray, D extends ImageGray> {
+	private static InputSanityCheck ISC;
+	private static DerivativeHelperFunctions DHF;
+	private static ConvolveImageNoBorder CINB;
+	private static ConvolveJustBorder_General CJBG;
+	private static GradientSobel_Outer GSO;
+	private static GradientSobel_UnrolledOuter GSUO;
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
+	private static ConvolveNormalizedNaive CNN;
+	private static ConvolveNormalized_JustBorder CNJB;
+	private static ConvolveNormalized CN;
+	private static GBlurImageOps GBIO;
+	private static GeneralizedImageOps GIO;
+	private static BlurImageOps BIO;
+	private static ConvolveImageMean CIM;
+	private static FactoryKernelGaussian FKG;
+	private static ImplMedianHistogramInner IMHI;
+	private static ImplMedianSortEdgeNaive IMSEN;
+	private static ImplMedianSortNaive IMSN;
+	private static ImplConvolveMean ICM;
+	private static GThresholdImageOps GTIO;
+	private static GImageStatistics GIS;
+	private static ImageStatistics IS;
+	private static ThresholdImageOps TIO;
+	private static FactoryImageBorderAlgs FIBA;
+	private static ImageBorderValue IBV;
+	private static FastHessianFeatureDetector FHFD;
+	private static FactoryImageBorder FIB;
+	private static FactoryBlurFilter FBF;
 
 	// specified configuration parameters for the tracker
 	private TldParameters config;
@@ -145,15 +203,15 @@ public class TldTracker<T extends ImageGray, D extends ImageGray> {
 	 * @param x1 Bottom-right corner of rectangle. x-axis
 	 * @param y1 Bottom-right corner of rectangle. y-axis
 	 */
-	public void initialize( T image , int x0 , int y0 , int x1 , int y1 ) {
+	public void initialize( T image , int x0 , int y0 , int x1 , int y1) {
 
 		if( imagePyramid == null ||
 				imagePyramid.getInputWidth() != image.width || imagePyramid.getInputHeight() != image.height ) {
 			int minSize = (config.trackerFeatureRadius*2+1)*5;
 			int scales[] = selectPyramidScale(image.width,image.height,minSize);
-			imagePyramid = FactoryPyramid.discreteGaussian(scales,-1,1,true,(Class<T>)image.getClass());
+			imagePyramid = FactoryPyramid.discreteGaussian(scales,-1,1,true,(Class<T>)image.getClass(), FKG);
 		}
-		imagePyramid.process(image);
+		imagePyramid.process(image, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG);
 
 		reacquiring = false;
 
@@ -236,7 +294,7 @@ public class TldTracker<T extends ImageGray, D extends ImageGray> {
 		boolean success = true;
 		valid = false;
 
-		imagePyramid.process(image);
+		imagePyramid.process(image, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG);
 		template.setImage(image);
 		variance.setImage(image);
 		fern.setImage(image);

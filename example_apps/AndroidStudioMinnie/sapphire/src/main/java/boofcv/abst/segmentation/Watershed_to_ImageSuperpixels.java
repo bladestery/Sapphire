@@ -19,6 +19,7 @@
 package boofcv.abst.segmentation;
 
 import boofcv.alg.InputSanityCheck;
+import boofcv.alg.filter.binary.BinaryImageOps;
 import boofcv.alg.misc.GImageMiscOps;
 import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.segmentation.ComputeRegionMeanColor;
@@ -33,8 +34,12 @@ import boofcv.struct.image.GrayS32;
 import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.ImageBase;
 import boofcv.struct.image.ImageType;
+import sapphire.compiler.IMOGenerator;
+
 import org.ddogleg.struct.FastQueue;
 import org.ddogleg.struct.GrowQueue_I32;
+
+import javax.print.attribute.standard.MediaSize;
 
 /**
  * Wrapper around {@link WatershedVincentSoille1991} for {@link ImageSuperpixels}.  Watershed regions
@@ -44,10 +49,6 @@ import org.ddogleg.struct.GrowQueue_I32;
  * @author Peter Abeles
  */
 public class Watershed_to_ImageSuperpixels<T extends ImageBase> implements ImageSuperpixels<T> {
-	private static GImageMiscOps GIMO;
-	private static InputSanityCheck ISC;
-	private static ImageMiscOps IMO;
-	private static GeneralizedImageOps GIO;
 	private WatershedVincentSoille1991 alg;
 	private ConnectRule rule;
 
@@ -55,7 +56,7 @@ public class Watershed_to_ImageSuperpixels<T extends ImageBase> implements Image
 
 	private MergeSmallRegions<GrayU8> pruneSmall;
 
-	private GrowQueue_I32 regionMemberCount = new GrowQueue_I32();
+	private FastQueue<Integer> regionMemberCount = new FastQueue<>(Integer.class,false);
 	private FastQueue<float[]> regionColor = new ColorQueue_F32(1);
 
 	private int numRegions;
@@ -73,14 +74,14 @@ public class Watershed_to_ImageSuperpixels<T extends ImageBase> implements Image
 	}
 
 	@Override
-	public void segment(T input, GrayS32 output) {
+	public void segment(T input, GrayS32 output, InputSanityCheck ISC, GeneralizedImageOps GIO, GImageMiscOps GIMO, ImageMiscOps IMO, ImageSegmentationOps ISO, BinaryImageOps BIO) {
 		ISC.checkSameShape(input,output);
 		converted.reshape(input.width,input.height);
 
 		GConvertImage.convert(input,converted, ISC, GIO, GIMO, IMO);
 
 		// segment the image
-		alg.process(converted);
+		alg.process(converted, IMO);
 		alg.removeWatersheds();
 
 		numRegions = alg.getTotalRegions();
@@ -91,8 +92,8 @@ public class Watershed_to_ImageSuperpixels<T extends ImageBase> implements Image
 			regionMemberCount.resize(numRegions);
 			regionColor.resize(numRegions);
 
-			ImageSegmentationOps.countRegionPixels(pixelToRegion,numRegions,regionMemberCount.data);
-			pruneSmall.process(converted,pixelToRegion,regionMemberCount,regionColor);
+			ISO.countRegionPixels(pixelToRegion,numRegions,regionMemberCount.data);
+			pruneSmall.process(converted,pixelToRegion,regionMemberCount,regionColor, BIO);
 
 			numRegions = regionMemberCount.size();
 		}
@@ -110,7 +111,7 @@ public class Watershed_to_ImageSuperpixels<T extends ImageBase> implements Image
 		return rule;
 	}
 
-	public ImageType<T> getImageType() {
+	public ImageType<T> getImageType(ImageType IT) {
 		return imageType;
 	}
 

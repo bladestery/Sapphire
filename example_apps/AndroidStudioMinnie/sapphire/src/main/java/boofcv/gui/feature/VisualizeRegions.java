@@ -18,6 +18,8 @@
 
 package boofcv.gui.feature;
 
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.segmentation.ImageSegmentationOps;
 import boofcv.gui.binary.VisualizeBinaryData;
 import boofcv.struct.image.GrayS32;
@@ -131,14 +133,14 @@ public class VisualizeRegions {
 	 * @param output Storage for output image.  Can be null.
 	 * @return Output image.
 	 */
-	public static BufferedImage regionBorders( GrayS32 pixelToRegion ,
-											   int borderColor ,
-											   BufferedImage output ) {
+	public static BufferedImage regionBorders(GrayS32 pixelToRegion ,
+											  int borderColor ,
+											  BufferedImage output , InputSanityCheck ISC, ImageMiscOps IMO, ImageSegmentationOps ISO) {
 		if( output == null )
 			output = new BufferedImage(pixelToRegion.width,pixelToRegion.height,BufferedImage.TYPE_INT_RGB);
 
 		GrayU8 binary = new GrayU8(pixelToRegion.width,pixelToRegion.height);
-		ImageSegmentationOps.markRegionBorders(pixelToRegion, binary);
+		ISO.markRegionBorders(pixelToRegion, binary, ISC, IMO);
 		for( int y = 0; y < binary.height; y++ ) {
 			for( int x = 0; x < binary.width; x++ ) {
 				if( binary.unsafe_get(x,y) == 1 )  {

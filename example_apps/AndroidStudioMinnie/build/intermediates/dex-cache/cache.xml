@@ -18,7 +18,7 @@
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="126be4821cc382f6cf26ce18afd498a9236886fc">
+        sha1="914cea64de37cd844bf4a90459a9020310afd573">
         <dex dex="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_f79d4b3849251d0df0108ee58c382645257e0f81/classes.dex" />
     </item>
     <item
@@ -100,7 +100,7 @@
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="510aa6efc159983dfbffa676a0dae37568c0a46f">
+        sha1="caff8e51a24901cfc9cd7e1cf83d84f4cb0c103b">
         <dex dex="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_36a8e5ab38788433c9e523100f0616e04ee1c6da/classes.dex" />
     </item>
     <item

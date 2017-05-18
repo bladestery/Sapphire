@@ -19,8 +19,11 @@
 package boofcv.android;
 
 import android.graphics.Bitmap;
+
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.feature.detect.edge.EdgeContour;
 import boofcv.alg.feature.detect.edge.EdgeSegment;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.misc.ImageStatistics;
 import boofcv.alg.segmentation.ImageSegmentationOps;
 import boofcv.struct.image.*;
@@ -32,6 +35,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+import javax.print.attribute.standard.MediaSize;
+
 import static boofcv.android.ConvertBitmap.declareStorage;
 
 /**
@@ -40,7 +45,7 @@ import static boofcv.android.ConvertBitmap.declareStorage;
  * @author Peter Abeles
  */
 public class VisualizeImageData {
-	private static ImageStatistics IS;
+
 	/**
 	 * Renders a binary image as a B&W bitmap.  Create storage with
 	 * {@link ConvertBitmap#declareStorage(android.graphics.Bitmap, byte[])};
@@ -95,8 +100,9 @@ public class VisualizeImageData {
 	 * @param output (Output) Bitmap ARGB_8888 image.
 	 * @param storage Optional working buffer for Bitmap image.
 	 */
-	public static void colorizeSign( GrayS16 input , int maxAbsValue , Bitmap output , byte[] storage ) {
+	public static void colorizeSign( GrayS16 input , int maxAbsValue , Bitmap output , byte[] storage) {
 		shapeShape(input, output);
+		ImageStatistics IS = new ImageStatistics();
 
 		if( storage == null )
 			storage = declareStorage(output,null);
@@ -136,7 +142,7 @@ public class VisualizeImageData {
 	 */
 	public static void colorizeSign( GrayF32 input , float maxAbsValue , Bitmap output , byte[] storage ) {
 		shapeShape(input, output);
-
+		ImageStatistics IS = new ImageStatistics();
 		if( storage == null )
 			storage = declareStorage(output,null);
 
@@ -175,6 +181,7 @@ public class VisualizeImageData {
 	 */
 	public static void grayMagnitude(GrayS32 input , int maxAbsValue , Bitmap output , byte[] storage) {
 		shapeShape(input, output);
+		ImageStatistics IS = new ImageStatistics();
 
 		if( storage == null )
 			storage = declareStorage(output,null);
@@ -208,6 +215,7 @@ public class VisualizeImageData {
 	 */
 	public static void grayMagnitude(GrayF32 input , float maxAbsValue , Bitmap output , byte[] storage) {
 		shapeShape(input, output);
+		ImageStatistics IS = new ImageStatistics();
 
 		if( storage == null )
 			storage = declareStorage(output,null);
@@ -241,8 +249,9 @@ public class VisualizeImageData {
 	 * @param storage Optional working buffer for Bitmap image.
 	 */
 	public static void colorizeGradient( GrayS16 derivX , GrayS16 derivY ,
-										 int maxAbsValue , Bitmap output , byte[] storage ) {
+										 int maxAbsValue , Bitmap output , byte[] storage) {
 		shapeShape(derivX, derivY, output);
+		ImageStatistics IS = new ImageStatistics();
 
 		if( storage == null )
 			storage = declareStorage(output,null);
@@ -300,8 +309,9 @@ public class VisualizeImageData {
 	 * @param storage Optional working buffer for Bitmap image.
 	 */
 	public static void colorizeGradient( GrayF32 derivX , GrayF32 derivY ,
-										 float maxAbsValue , Bitmap output , byte[] storage ) {
+										 float maxAbsValue , Bitmap output , byte[] storage) {
 		shapeShape(derivX, derivY, output);
+		ImageStatistics IS = new ImageStatistics();
 
 		if( storage == null )
 			storage = declareStorage(output,null);
@@ -581,13 +591,16 @@ public class VisualizeImageData {
 	 * @param output Where the output is written to
 	 * @param storage Optional working buffer for Bitmap image. Can be null.
 	 */
-	public static void regionBorders( GrayS32 pixelToRegion , int borderColor ,
-									  Bitmap output , byte[] storage) {
+	public static void regionBorders(GrayS32 pixelToRegion , int borderColor ,
+									 Bitmap output , byte[] storage) {
 		if( storage == null )
 			storage = declareStorage(output,null);
+		InputSanityCheck ISC = new InputSanityCheck();
+		ImageMiscOps IMO = new ImageMiscOps();
+		ImageSegmentationOps ISO = new ImageSegmentationOps();
 
 		GrayU8 binary = new GrayU8(pixelToRegion.width,pixelToRegion.height);
-		ImageSegmentationOps.markRegionBorders(pixelToRegion, binary);
+		ISO.markRegionBorders(pixelToRegion, binary, ISC, IMO);
 		int indexOut = 0;
 		for( int y = 0; y < binary.height; y++ ) {
 			for( int x = 0; x < binary.width; x++ ) {

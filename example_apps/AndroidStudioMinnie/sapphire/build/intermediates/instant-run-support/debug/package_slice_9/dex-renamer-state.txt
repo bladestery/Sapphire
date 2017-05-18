@@ -1,4 +1,4 @@
-#Thu May 11 20:55:54 JST 2017
+#Thu May 18 19:43:07 JST 2017
 base.0=/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/transforms/dex/debug/folders/1000/5/slice_9
 renamed.0=classes.dex
 file.0=/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/transforms/dex/debug/folders/1000/5/slice_9/classes.dex

@@ -36,7 +36,6 @@ import boofcv.struct.image.ImageType;
  * @author Peter Abeles
  */
 public class NearestNeighborPixel_S16 extends NearestNeighborPixelS<GrayS16> {
-	private ImageType IT;
 	private short data[];
 	public NearestNeighborPixel_S16() {
 	}
@@ -71,7 +70,7 @@ public class NearestNeighborPixel_S16 extends NearestNeighborPixelS<GrayS16> {
 	}
 
 	@Override
-	public ImageType<GrayS16> getImageType() {
+	public ImageType<GrayS16> getImageType(ImageType IT) {
 		return IT.single(GrayS16.class);
 	}
 

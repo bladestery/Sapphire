@@ -53,19 +53,20 @@ public final class FactoryInterestPoint_Stub extends boofcv.factory.feature.dete
         return ((boofcv.abst.feature.detect.interest.InterestPointDetector) $__result);
     }
 
-    // Implementation of wrapDetector(FeaturePyramid, double[], boolean, Class)
-    public boofcv.abst.feature.detect.interest.InterestPointDetector wrapDetector(boofcv.alg.feature.detect.interest.FeaturePyramid $param_FeaturePyramid_1, double[] $param_arrayOf_double_2, boolean $param_boolean_3, java.lang.Class $param_Class_4) {
+    // Implementation of wrapDetector(FeaturePyramid, double[], boolean, Class, FactoryImageBorder)
+    public boofcv.abst.feature.detect.interest.InterestPointDetector wrapDetector(boofcv.alg.feature.detect.interest.FeaturePyramid $param_FeaturePyramid_1, double[] $param_arrayOf_double_2, boolean $param_boolean_3, java.lang.Class $param_Class_4, boofcv.core.image.border.FactoryImageBorder $param_FactoryImageBorder_5) {
         java.lang.Object $__result = null;
         try {
             if ($__directInvocation)
-                $__result = super.wrapDetector( $param_FeaturePyramid_1,  $param_arrayOf_double_2,  $param_boolean_3,  $param_Class_4);
+                $__result = super.wrapDetector( $param_FeaturePyramid_1,  $param_arrayOf_double_2,  $param_boolean_3,  $param_Class_4,  $param_FactoryImageBorder_5);
             else {
                 java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
-                String $__method = "public <T,D> boofcv.abst.feature.detect.interest.InterestPointDetector<T> boofcv.factory.feature.detect.interest.FactoryInterestPoint.wrapDetector(boofcv.alg.feature.detect.interest.FeaturePyramid<T, D>,double[],boolean,java.lang.Class<T>)";
+                String $__method = "public <T,D> boofcv.abst.feature.detect.interest.InterestPointDetector<T> boofcv.factory.feature.detect.interest.FactoryInterestPoint.wrapDetector(boofcv.alg.feature.detect.interest.FeaturePyramid<T, D>,double[],boolean,java.lang.Class<T>,boofcv.core.image.border.FactoryImageBorder)";
                 $__params.add($param_FeaturePyramid_1);
                 $__params.add($param_arrayOf_double_2);
                 $__params.add($param_boolean_3);
                 $__params.add($param_Class_4);
+                $__params.add($param_FactoryImageBorder_5);
                 $__result = $__client.onRPC($__method, $__params);
             }
         } catch (Exception e) {
@@ -74,19 +75,20 @@ public final class FactoryInterestPoint_Stub extends boofcv.factory.feature.dete
         return ((boofcv.abst.feature.detect.interest.InterestPointDetector) $__result);
     }
 
-    // Implementation of wrapDetector(FeatureLaplacePyramid, double[], boolean, Class)
-    public boofcv.abst.feature.detect.interest.InterestPointDetector wrapDetector(boofcv.alg.feature.detect.interest.FeatureLaplacePyramid $param_FeatureLaplacePyramid_1, double[] $param_arrayOf_double_2, boolean $param_boolean_3, java.lang.Class $param_Class_4) {
+    // Implementation of wrapDetector(FeatureLaplacePyramid, double[], boolean, Class, FactoryImageBorder)
+    public boofcv.abst.feature.detect.interest.InterestPointDetector wrapDetector(boofcv.alg.feature.detect.interest.FeatureLaplacePyramid $param_FeatureLaplacePyramid_1, double[] $param_arrayOf_double_2, boolean $param_boolean_3, java.lang.Class $param_Class_4, boofcv.core.image.border.FactoryImageBorder $param_FactoryImageBorder_5) {
         java.lang.Object $__result = null;
         try {
             if ($__directInvocation)
-                $__result = super.wrapDetector( $param_FeatureLaplacePyramid_1,  $param_arrayOf_double_2,  $param_boolean_3,  $param_Class_4);
+                $__result = super.wrapDetector( $param_FeatureLaplacePyramid_1,  $param_arrayOf_double_2,  $param_boolean_3,  $param_Class_4,  $param_FactoryImageBorder_5);
             else {
                 java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
-                String $__method = "public <T,D> boofcv.abst.feature.detect.interest.InterestPointDetector<T> boofcv.factory.feature.detect.interest.FactoryInterestPoint.wrapDetector(boofcv.alg.feature.detect.interest.FeatureLaplacePyramid<T, D>,double[],boolean,java.lang.Class<T>)";
+                String $__method = "public <T,D> boofcv.abst.feature.detect.interest.InterestPointDetector<T> boofcv.factory.feature.detect.interest.FactoryInterestPoint.wrapDetector(boofcv.alg.feature.detect.interest.FeatureLaplacePyramid<T, D>,double[],boolean,java.lang.Class<T>,boofcv.core.image.border.FactoryImageBorder)";
                 $__params.add($param_FeatureLaplacePyramid_1);
                 $__params.add($param_arrayOf_double_2);
                 $__params.add($param_boolean_3);
                 $__params.add($param_Class_4);
+                $__params.add($param_FactoryImageBorder_5);
                 $__result = $__client.onRPC($__method, $__params);
             }
         } catch (Exception e) {

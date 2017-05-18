@@ -35,7 +35,7 @@ import static boofcv.alg.segmentation.fh04.SegmentFelzenszwalbHuttenlocher04.Edg
  * @author Peter Abeles
  */
 public class FhEdgeWeights8_F32 implements FhEdgeWeights<GrayF32> {
-	private ImageType IT;
+
 	@Override
 	public void process(GrayF32 input,
 						FastQueue<Edge> edges) {
@@ -123,7 +123,7 @@ public class FhEdgeWeights8_F32 implements FhEdgeWeights<GrayF32> {
 	}
 
 	@Override
-	public ImageType<GrayF32> getInputType() {
+	public ImageType<GrayF32> getInputType(ImageType IT) {
 		return IT.single(GrayF32.class);
 	}
 

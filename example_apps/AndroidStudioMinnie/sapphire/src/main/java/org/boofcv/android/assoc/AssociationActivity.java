@@ -53,6 +53,7 @@ import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.core.image.border.FactoryImageBorderAlgs;
 import boofcv.core.image.border.ImageBorderValue;
 import boofcv.factory.feature.associate.FactoryAssociation;
+import boofcv.factory.filter.blur.FactoryBlurFilter;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.feature.AssociatedIndex;
 import boofcv.struct.feature.TupleDesc;
@@ -97,6 +98,7 @@ public class AssociationActivity extends DemoVideoDisplayActivity
 	private static FastHessianFeatureDetector FHFD;
 	private static ImageBorderValue IBV;
 	private static FactoryImageBorder FIB;
+	private static FactoryBlurFilter FBF;
 	Spinner spinnerDesc;
 	Spinner spinnerDet;
 
@@ -288,13 +290,13 @@ public class AssociationActivity extends DemoVideoDisplayActivity
 				// recompute image features with the newly selected algorithm
 				if( visualize.hasLeft ) {
 					detDesc.detect(visualize.graySrc, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN,
-							GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB);
+							GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF);
 					describeImage(listSrc, locationSrc);
 					computedFeatures = true;
 				}
 				if( visualize.hasRight ) {
 					detDesc.detect(visualize.grayDst, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN,
-							GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB);
+							GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF);
 					describeImage(listDst, locationDst);
 					computedFeatures = true;
 				}
@@ -310,12 +312,12 @@ public class AssociationActivity extends DemoVideoDisplayActivity
 
 			if( target == 1 ) {
 				detDesc.detect(gray, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN,
-						GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB);
+						GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF);
 				describeImage(listSrc, locationSrc);
 				computedFeatures = true;
 			} else if( target == 2 ) {
 				detDesc.detect(gray, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN,
-						GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB);
+						GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF);
 				describeImage(listDst, locationDst);
 				computedFeatures = true;
 			}

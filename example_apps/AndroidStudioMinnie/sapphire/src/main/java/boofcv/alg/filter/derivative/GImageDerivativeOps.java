@@ -31,6 +31,7 @@ import boofcv.struct.convolve.Kernel1D;
 import boofcv.struct.convolve.Kernel2D;
 import boofcv.struct.convolve.KernelBase;
 import boofcv.struct.image.*;
+import sapphire.compiler.FIBAGenerator;
 
 
 /**
@@ -39,16 +40,9 @@ import boofcv.struct.image.*;
  * @author Peter Abeles
  */
 public class GImageDerivativeOps {
-	private static GeneralizedImageOps GIO;
-	private static FactoryImageBorder FIB;
-	private static InputSanityCheck ISC;
-	private static DerivativeHelperFunctions DHF;
-	private static ConvolveImageNoBorder CINB;
-	private static GradientSobel_Outer GSO;
-	private static ConvolveJustBorder_General CJBG;
-	private static GradientSobel_UnrolledOuter GSUO;
+
 	public static <I extends ImageGray, D extends ImageGray>
-	void laplace( I input , D output ) {
+	void laplace( I input , D output, InputSanityCheck ISC ) {
 		if( input instanceof GrayF32) {
 			LaplacianEdge.process((GrayF32)input,(GrayF32)output, ISC);
 		} else if( input instanceof GrayU8) {
@@ -89,7 +83,8 @@ public class GImageDerivativeOps {
 	 * @param <D> Output image type
 	 */
 	public static <I extends ImageGray, D extends ImageGray>
-	void gradient( DerivativeType type , I input , D derivX , D derivY , BorderType borderType ) {
+	void gradient( DerivativeType type , I input , D derivX , D derivY , BorderType borderType, InputSanityCheck ISC, DerivativeHelperFunctions DHF,
+				   ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG, GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO, FactoryImageBorder FIB) {
 
 		ImageBorder<I> border = BorderType.SKIP == borderType ? null : FIB.single(input, borderType);
 
@@ -168,7 +163,7 @@ public class GImageDerivativeOps {
 	 * @param <D> Output image type
 	 */
 	public static <I extends ImageGray, D extends ImageGray>
-	void hessian( DerivativeType type , I input , D derivXX , D derivYY , D derivXY , BorderType borderType ) {
+	void hessian( DerivativeType type , I input , D derivXX , D derivYY , D derivXY , BorderType borderType , FactoryImageBorder FIB) {
 		ImageBorder<I> border = BorderType.SKIP == borderType ? null : FIB.single(input, borderType);
 
 		switch( type ) {
@@ -211,7 +206,7 @@ public class GImageDerivativeOps {
 	public static <D extends ImageGray>
 	void hessian( DerivativeType type , D derivX , D derivY , D derivXX , D derivYY , D derivXY , BorderType borderType,
 				  InputSanityCheck ISC, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG,
-				  GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO ) {
+				  GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO , FactoryImageBorder FIB) {
 		ImageBorder<D> border = BorderType.SKIP == borderType ? null : FIB.single(derivX, borderType);
 
 		switch( type ) {
@@ -292,15 +287,15 @@ public class GImageDerivativeOps {
 	 * @return AnyImageDerivative
 	 */
 	public static <I extends ImageGray, D extends ImageGray>
-	AnyImageDerivative<I,D> createAnyDerivatives( DerivativeType type , Class<I> inputType , Class<D> derivType ) {
+	AnyImageDerivative<I,D> createAnyDerivatives( DerivativeType type , Class<I> inputType , Class<D> derivType, GeneralizedImageOps GIO, FactoryImageBorder FIB) {
 
 		boolean isInteger = !GIO.isFloatingPoint(inputType);
 		KernelBase kernel = lookupKernelX(type,isInteger);
 
 		if( kernel instanceof Kernel1D )
-			return new AnyImageDerivative<>((Kernel1D) kernel, inputType, derivType);
+			return new AnyImageDerivative<>((Kernel1D) kernel, inputType, derivType, FIB);
 		else
-			return new AnyImageDerivative<>((Kernel2D) kernel, inputType, derivType);
+			return new AnyImageDerivative<>((Kernel2D) kernel, inputType, derivType, FIB);
 	}
 
 	/**
@@ -315,8 +310,8 @@ public class GImageDerivativeOps {
 	 * @return AnyImageDerivative
 	 */
 	public static <I extends ImageGray, D extends ImageGray>
-	AnyImageDerivative<I,D> derivativeForScaleSpace( Class<I> inputType , Class<D> derivType ) {
-		return createAnyDerivatives(DerivativeType.THREE,inputType,derivType);
+	AnyImageDerivative<I,D> derivativeForScaleSpace( Class<I> inputType , Class<D> derivType, GeneralizedImageOps GIO, FactoryImageBorder FIB) {
+		return createAnyDerivatives(DerivativeType.THREE,inputType,derivType, GIO, FIB);
 	}
 
 }

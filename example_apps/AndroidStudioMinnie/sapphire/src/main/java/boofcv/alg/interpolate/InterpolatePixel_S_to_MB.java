@@ -82,7 +82,7 @@ public class InterpolatePixel_S_to_MB<T extends ImageGray> implements Interpolat
 	}
 
 	@Override
-	public ImageType<T> getImageType() {
-		return interp.getImageType();
+	public ImageType<T> getImageType(ImageType IT) {
+		return interp.getImageType(IT);
 	}
 }

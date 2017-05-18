@@ -29,6 +29,7 @@ import boofcv.alg.filter.blur.impl.ImplMedianSortNaive;
 import boofcv.alg.filter.convolve.ConvolveImageMean;
 import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
 import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
 import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
@@ -58,7 +59,6 @@ import java.lang.reflect.Method;
 public class GenericConvolve<Input extends ImageGray, Output extends ImageGray>
 	implements ConvolveInterface<Input,Output>
 {
-	private static FactoryImageBorder FIB;
 	Method m;
 	KernelBase kernel;
 	BorderType type;
@@ -68,7 +68,7 @@ public class GenericConvolve<Input extends ImageGray, Output extends ImageGray>
 	Class<Output> outputType;
 
 	public GenericConvolve(Method m, KernelBase kernel, BorderType type ,
-						   Class<Input> inputType, Class<Output> outputType) {
+						   Class<Input> inputType, Class<Output> outputType, FactoryImageBorder FIB) {
 		this.m = m;
 		this.kernel = kernel;
 		this.type = type;
@@ -86,32 +86,20 @@ public class GenericConvolve<Input extends ImageGray, Output extends ImageGray>
 	public void process(Input input, Output output, GBlurImageOps GBIO, InputSanityCheck ISC, GeneralizedImageOps GIO, BlurImageOps BIO,
 						ConvolveImageMean CIM, FactoryKernelGaussian FKG, ConvolveNormalized CN, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB,
 						ConvolveNormalized_JustBorder CNJB, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM,
-						GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO, GImageMiscOps GIMO, ImageMiscOps IMO) {
+						GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvolveJustBorder_General CJBG) {
 		try {
-			if( kernel.getDimension() == 1 ) {
-				switch( type ) {
-					case SKIP:
-						m.invoke(null,kernel,input,output);
-						break;
+			switch( type ) {
+				case SKIP:
+					m.invoke(null,kernel,input,output, ISC);
+					break;
 
-					case NORMALIZED:
-						m.invoke(null,kernel,input,output);
-						break;
+				case NORMALIZED:
+					m.invoke(null,kernel,input,output, ISC, CNN, CINB, CNJB);
+					break;
 
-					default:
-						m.invoke(null,kernel,input,output, borderRule);
-						break;
-				}
-			} else {
-				switch( type ) {
-					case SKIP:
-					case NORMALIZED:
-						m.invoke(null,kernel,input,output);
-						break;
-
-					default:
-						m.invoke(null,kernel,input,output, borderRule);
-				}
+				default:
+					m.invoke(null,kernel,input,output, borderRule, ISC, CINB, CJBG);
+					break;
 			}
 		} catch (IllegalAccessException | InvocationTargetException e) {
 			throw new RuntimeException(e);

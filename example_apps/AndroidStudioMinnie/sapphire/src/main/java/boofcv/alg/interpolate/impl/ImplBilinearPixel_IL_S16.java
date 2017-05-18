@@ -64,7 +64,6 @@ public class ImplBilinearPixel_IL_S16 extends BilinearPixelMB<InterleavedS16> {
 		int yt = (int) y;
 		float ax = x - xt;
 		float ay = y - yt;
-
 		final int numBands = orig.numBands;
 		int index = orig.startIndex + yt * stride + xt*numBands;
 
@@ -123,7 +122,7 @@ public class ImplBilinearPixel_IL_S16 extends BilinearPixelMB<InterleavedS16> {
 	}
 
 	@Override
-	public ImageType<InterleavedS16> getImageType() {
+	public ImageType<InterleavedS16> getImageType(ImageType IT) {
 		return orig.getImageType();
 	}
 

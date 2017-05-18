@@ -20,6 +20,7 @@ package boofcv.alg.transform.wavelet;
 
 import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.transform.wavelet.impl.ImplWaveletTransformNaive;
+import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.BorderIndex1D;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.GrayS32;
@@ -43,7 +44,8 @@ import static org.junit.Assert.assertTrue;
  * @author Peter Abeles
  */
 public class CommonFactoryWavelet {
-	private ImageMiscOps IMO;
+	private static ImageMiscOps IMO;
+	private static GeneralizedImageOps GIO;
 	Random rand = new Random(234);
 	int width = 20;
 	int height = 30;
@@ -69,12 +71,12 @@ public class CommonFactoryWavelet {
 			ImplWaveletTransformNaive.horizontal(border,waveletDesc.forward,orig,tran);
 			ImplWaveletTransformNaive.horizontalInverse(border,waveletDesc.inverse,tran,rev);
 
-			BoofTesting.assertEquals(orig,rev,1e-4f);
+			BoofTesting.assertEquals(orig,rev,1e-4f, GIO);
 
 			ImplWaveletTransformNaive.vertical(border,waveletDesc.forward,orig,tran);
 			ImplWaveletTransformNaive.verticalInverse(border,waveletDesc.inverse,tran,rev);
 
-			BoofTesting.assertEquals(orig,rev,1e-4f);
+			BoofTesting.assertEquals(orig,rev,1e-4f, GIO);
 
 			// quick sanity check to make sure that WaveletTransformOps
 			// also correctly does a transform with these wavelets
@@ -83,7 +85,7 @@ public class CommonFactoryWavelet {
 			WaveletTransformOps.inverse1(waveletDesc,tran,rev,null,0,255);
 
 //			BoofTesting.printDiff(orig,rev);
-			BoofTesting.assertEquals(orig,rev,1e-4f);
+			BoofTesting.assertEquals(orig,rev,1e-4f, GIO);
 		}
 	}
 
@@ -107,7 +109,7 @@ public class CommonFactoryWavelet {
 			ImplWaveletTransformNaive.horizontal(border,waveletDesc.forward,orig,tran);
 			ImplWaveletTransformNaive.horizontalInverse(border,waveletDesc.inverse,tran,rev);
 
-			BoofTesting.assertEquals(orig,rev,0);
+			BoofTesting.assertEquals(orig,rev,0, GIO);
 
 			// quick sanity check to make sure that WaveletTransformOps
 			// also correctly does a transform with these wavelets
@@ -115,7 +117,7 @@ public class CommonFactoryWavelet {
 			WaveletTransformOps.transform1(waveletDesc,orig,tran,null);
 			WaveletTransformOps.inverse1(waveletDesc,tran,rev,null,Integer.MIN_VALUE,Integer.MAX_VALUE);
 
-			BoofTesting.assertEquals(orig,rev,0);
+			BoofTesting.assertEquals(orig,rev,0, GIO);
 		}
 	}
 

@@ -39,8 +39,6 @@ import sapphire.app.SapphireObject;
 
 import org.ddogleg.struct.FastQueue;
 
-import boofcv.alg.feature.detect.interest.FastHessianFeatureDetector;
-import sapphire.compiler.FIBAGenerator;
 
 /**
  * <p>Implementation of SIFT [1] feature detector. Feature detection is first done by creating the first octave in
@@ -84,13 +82,13 @@ import sapphire.compiler.FIBAGenerator;
  *
  * <p>
  * [1] Lowe, D. "Distinctive image features from scale-invariant keypoints".  International Journal of
- * Computer Vision, 60, 2 (2004), pp.91--110., InputSanityCheck ISC, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN
+ * Computer Vision, 60, 2 (2004), pp.91--110.
  * </p>
  *
  * @author Peter Abeles
  */
 public class SiftDetector implements SapphireObject {
-	// image pyramid that it processes, FIBA, IB
+	// image pyramid that it processes
 	protected SiftScaleSpace scaleSpace;
 
 	// conversion factor to go from pixel coordinate in current octave to input image

@@ -31,6 +31,7 @@ import boofcv.alg.filter.blur.impl.ImplMedianSortNaive;
 import boofcv.alg.filter.convolve.ConvolveImageMean;
 import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
 import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
 import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
@@ -81,6 +82,7 @@ public class DescribePointBrief<T extends ImageGray> {
 	private static ThresholdImageOps TIO;
 	private static GImageMiscOps GIMO;
 	private static ImageMiscOps IMO;
+	private static ConvolveJustBorder_General CJBG;
 
 	// blurs the image prior to sampling
 	protected BlurFilter<T> filterBlur;
@@ -114,7 +116,7 @@ public class DescribePointBrief<T extends ImageGray> {
 	 */
 	public void setImage(T image) {
 		blur.reshape(image.width,image.height);
-		filterBlur.process(image,blur, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO);
+		filterBlur.process(image,blur, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG);
 		describe.setImage(image);
 	}
 

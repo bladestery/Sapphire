@@ -18,6 +18,7 @@
 
 package boofcv.alg.segmentation.slic;
 
+import boofcv.factory.segmentation.FactorySegmentationAlg;
 import boofcv.struct.ConnectRule;
 import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.ImageType;
@@ -30,8 +31,8 @@ import boofcv.struct.image.ImageType;
 public class SegmentSlic_U8 extends SegmentSlic<GrayU8> {
 	private static ImageType IT;
 	public SegmentSlic_U8(int numberOfRegions, float m, int totalIterations,
-						  ConnectRule connectRule ) {
-		super(numberOfRegions, m , totalIterations, connectRule,IT.single(GrayU8.class));
+						  ConnectRule connectRule, ImageType IT, FactorySegmentationAlg FSA ) {
+		super(numberOfRegions, m , totalIterations, connectRule,IT.single(GrayU8.class), FSA);
 	}
 
 	@Override

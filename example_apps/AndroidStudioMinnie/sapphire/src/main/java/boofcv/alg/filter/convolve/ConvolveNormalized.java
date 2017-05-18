@@ -58,7 +58,7 @@ public class ConvolveNormalized implements SapphireObject {
 		}
 	}
 
-	/**
+	/**, ConvolveImageNoBorder.class, ConvolveJustBorder_General.class
 	 * Performs a horizontal 1D convolution across the image while re-normalizing the kernel depending on its
 	 * overlap with the image.
 	 *

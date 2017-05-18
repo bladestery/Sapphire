@@ -147,7 +147,7 @@ public class EasyGeneralFeatureDetector<T extends ImageGray, D extends ImageGray
 
 		detector.setExcludeMaximum(exclude);
 		detector.process(input, derivX, derivY, derivXX, derivYY, derivXY, GIMO, IMO, ISC, CNN, CINB, CNJB, CN,
-				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO);
+				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, CJBG);
 	}
 
 	/**

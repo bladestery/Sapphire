@@ -47,6 +47,7 @@ import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.core.image.border.FactoryImageBorderAlgs;
 import boofcv.core.image.border.ImageBorderValue;
+import boofcv.factory.filter.blur.FactoryBlurFilter;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.feature.AssociatedIndex;
 import boofcv.struct.feature.TupleDesc;
@@ -96,6 +97,7 @@ public class DetectDescribeAssociate<I extends ImageGray, Desc extends TupleDesc
 	private static FastHessianFeatureDetector FHFD;
 	private static ImageBorderValue IBV;
 	private static FactoryImageBorder FIB;
+	private static FactoryBlurFilter FBF;
 	// associates features between two images together
 	protected AssociateDescription2D<Desc> associate;
 
@@ -188,7 +190,7 @@ public class DetectDescribeAssociate<I extends ImageGray, Desc extends TupleDesc
 		locDst.reset();
 
 		manager.detectFeatures(input, locDst, featDst, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN,
-				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB);
+				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF);
 
 		// skip if there are no features
 		if( !tracksAll.isEmpty() ) {

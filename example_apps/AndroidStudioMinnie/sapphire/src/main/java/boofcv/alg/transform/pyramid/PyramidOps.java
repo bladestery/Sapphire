@@ -144,7 +144,7 @@ public class PyramidOps {
 	{
 		for( int i = 0; i < input.getNumLayers(); i++ ) {
 			I imageIn = input.getLayer(i);
-			filter.process(imageIn,output[i], GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO);
+			filter.process(imageIn,output[i], GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG);
 		}
 	}
 

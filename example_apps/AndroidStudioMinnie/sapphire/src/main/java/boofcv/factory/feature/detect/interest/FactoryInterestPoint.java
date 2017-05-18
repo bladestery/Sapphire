@@ -97,14 +97,14 @@ public class FactoryInterestPoint implements SapphireObject {
 	public <T extends ImageGray, D extends ImageGray>
 	InterestPointDetector<T> wrapDetector(FeatureLaplacePyramid<T, D> feature,
 										  double[] scales, boolean pyramid,
-										  Class<T> inputType) {
+										  Class<T> inputType, FactoryImageBorder FIB) {
 
 		PyramidFloat<T> ss;
 
 		if( pyramid )
-			ss = FactoryPyramid.scaleSpacePyramid(scales, inputType);
+			ss = FactoryPyramid.scaleSpacePyramid(scales, inputType, FIB);
 		else
-			ss = FactoryPyramid.scaleSpace(scales, inputType);
+			ss = FactoryPyramid.scaleSpace(scales, inputType, FIB);
 
 		return new WrapFLPtoInterestPoint<>(feature, ss);
 	}
@@ -121,14 +121,14 @@ public class FactoryInterestPoint implements SapphireObject {
 	public <T extends ImageGray, D extends ImageGray>
 	InterestPointDetector<T> wrapDetector(FeaturePyramid<T, D> feature,
 										  double[] scales, boolean pyramid,
-										  Class<T> inputType) {
+										  Class<T> inputType, FactoryImageBorder FIB) {
 
 		PyramidFloat<T> ss;
 
 		if( pyramid )
-			ss = FactoryPyramid.scaleSpacePyramid(scales, inputType);
+			ss = FactoryPyramid.scaleSpacePyramid(scales, inputType, FIB);
 		else
-			ss = FactoryPyramid.scaleSpace(scales, inputType);
+			ss = FactoryPyramid.scaleSpace(scales, inputType, FIB);
 
 		return new WrapFPtoInterestPoint<>(feature, ss);
 	}

@@ -101,7 +101,7 @@ public abstract class PermuteWaveletCompare {
 					applyValidation(desc,input,expected);
 
 					// make sure it works on sub-images
-					BoofTesting.checkSubImage(this,"innerTest",false,input,found, expected, desc);
+					BoofTesting.checkSubImage(this,"innerTest",false, GIO, input,found, expected, desc);
 				}
 			}
 		}

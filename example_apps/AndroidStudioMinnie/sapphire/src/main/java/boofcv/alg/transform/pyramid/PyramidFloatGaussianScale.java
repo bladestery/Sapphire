@@ -33,6 +33,7 @@ import boofcv.alg.filter.blur.impl.ImplMedianSortNaive;
 import boofcv.alg.filter.convolve.ConvolveImageMean;
 import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
 import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
 import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
@@ -65,27 +66,6 @@ import boofcv.struct.pyramid.PyramidFloat;
  */
 @SuppressWarnings({"unchecked"})
 public class PyramidFloatGaussianScale< T extends ImageGray> extends PyramidFloat<T> {
-	private static FactoryBlurFilter FBF;
-	private static GeneralizedImageOps GIO;
-	private static GBlurImageOps GBIO;
-	private static InputSanityCheck ISC;
-	private static BlurImageOps BIO;
-	private static ConvolveImageMean CIM;
-	private static FactoryKernelGaussian FKG;
-	private static ConvolveNormalized CN;
-	private static ConvolveNormalizedNaive CNN;
-	private static ConvolveImageNoBorder CINB;
-	private static ConvolveNormalized_JustBorder CNJB;
-	private static ImplMedianHistogramInner IMHI;
-	private static ImplMedianSortEdgeNaive IMSEN;
-	private static ImplMedianSortNaive IMSN;
-	private static ImplConvolveMean ICM;
-	private static GThresholdImageOps GTIO;
-	private static GImageStatistics GIS;
-	private static ImageStatistics IS;
-	private static ThresholdImageOps TIO;
-	private static GImageMiscOps GIMO;
-	private static ImageMiscOps IMO;
 	// interpolation algorithm
 	protected InterpolatePixelS<T> interpolate;
 
@@ -128,7 +108,10 @@ public class PyramidFloatGaussianScale< T extends ImageGray> extends PyramidFloa
 
 
 	@Override
-	public void process(T input) {
+	public void process(T input, GBlurImageOps GBIO, InputSanityCheck ISC, GeneralizedImageOps GIO, BlurImageOps BIO, ConvolveImageMean CIM, FactoryKernelGaussian FKG,
+						ConvolveNormalized CN, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN,
+						ImplMedianSortNaive IMSN, ImplConvolveMean ICM, GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO, GImageMiscOps GIMO, ImageMiscOps IMO,
+						FactoryBlurFilter FBF, ConvolveJustBorder_General CJBG) {
 		super.initialize(input.width,input.height);
 
 		if( isSaveOriginalReference() )
@@ -145,7 +128,7 @@ public class PyramidFloatGaussianScale< T extends ImageGray> extends PyramidFloa
 			// Apply the requested blur to the previous layer
 			BlurStorageFilter<T> blur = (BlurStorageFilter<T>) FBF.gaussian(layer.getClass(), sigmaLayers[i],-1, GIO);
 			tempImage.reshape(prev.width,prev.height);
-			blur.process(prev,tempImage, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO);
+			blur.process(prev,tempImage, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG);
 
 			// Resample the blurred image
 			if( scale[i] == 1 ) {

@@ -32,6 +32,7 @@ import boofcv.alg.filter.blur.impl.ImplMedianSortNaive;
 import boofcv.alg.filter.convolve.ConvolveImageMean;
 import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
 import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
 import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
@@ -40,6 +41,8 @@ import boofcv.alg.misc.GImageStatistics;
 import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.misc.ImageStatistics;
 import boofcv.core.image.GeneralizedImageOps;
+import boofcv.core.image.border.FactoryImageBorderAlgs;
+import boofcv.core.image.border.ImageBorderValue;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.QueueCorner;
 import boofcv.struct.feature.ScalePoint;
@@ -47,6 +50,7 @@ import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.ImageGray;
 import boofcv.struct.pyramid.PyramidFloat;
 import georegression.struct.point.Point2D_I16;
+import sapphire.app.SapphireObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,28 +77,7 @@ import java.util.List;
  */
 @SuppressWarnings({"unchecked"})
 public class FeatureLaplacePyramid<T extends ImageGray, D extends ImageGray>
-		implements InterestPointScaleSpacePyramid<T> {
-	private static GImageMiscOps GIMO;
-	private static ImageMiscOps IMO;
-	private static InputSanityCheck ISC;
-	private static ConvolveImageNoBorder CINB;
-	private static ConvolveNormalizedNaive CNN;
-	private static ConvolveNormalized_JustBorder CNJB;
-	private static ConvolveNormalized CN;
-	private static GBlurImageOps GBIO;
-	private static GeneralizedImageOps GIO;
-	private static BlurImageOps BIO;
-	private static ConvolveImageMean CIM;
-	private static FactoryKernelGaussian FKG;
-	private static ImplMedianHistogramInner IMHI;
-	private static ImplMedianSortEdgeNaive IMSEN;
-	private static ImplMedianSortNaive IMSN;
-	private static ImplConvolveMean ICM;
-	private static GThresholdImageOps GTIO;
-	private static GImageStatistics GIS;
-	private static ImageStatistics IS;
-	private static ThresholdImageOps TIO;
-	private static FastHessianFeatureDetector FHFD;
+		implements InterestPointScaleSpacePyramid<T>, SapphireObject {
 
 	// used to compute feature intensity across scale space
 	private ImageFunctionSparse<T> sparseLaplace;
@@ -140,7 +123,10 @@ public class FeatureLaplacePyramid<T extends ImageGray, D extends ImageGray>
 	 * @param ss Scale space of an image
 	 */
 	@Override
-	public void detect(PyramidFloat<T> ss) {
+	public void detect(PyramidFloat<T> ss, GBlurImageOps GBIO, InputSanityCheck ISC, GeneralizedImageOps GIO, BlurImageOps BIO, ConvolveImageMean CIM, FactoryKernelGaussian FKG,
+					   ConvolveNormalized CN, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN,
+					   ImplMedianSortNaive IMSN, ImplConvolveMean ICM, GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO, GImageMiscOps GIMO, ImageMiscOps IMO,
+					   FastHessianFeatureDetector FHFD, FactoryImageBorderAlgs FIBA, ImageBorderValue IBV, ConvolveJustBorder_General CJBG) {
 		spaceIndex = 0;
 		foundPoints.clear();
 
@@ -151,9 +137,9 @@ public class FeatureLaplacePyramid<T extends ImageGray, D extends ImageGray>
 //				detectCandidateFeatures(ss.getLayer(i), ss.getSigma(i));
 
 			spaceIndex = i;
-			detectCandidateFeatures(ss.getLayer(i), ss.getSigma(i));
+			detectCandidateFeatures(ss.getLayer(i), ss.getSigma(i), GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG);
 			// find maximum in 3xNx3 (local image and scale space) region
-			findLocalScaleSpaceMax(ss, i);
+			findLocalScaleSpaceMax(ss, i, FHFD);
 
 //			spaceIndex++;
 //			if (spaceIndex >= 3)
@@ -171,7 +157,10 @@ public class FeatureLaplacePyramid<T extends ImageGray, D extends ImageGray>
 	/**
 	 * Use the feature detector to find candidate features in each level.  Only compute the needed image derivatives.
 	 */
-	private void detectCandidateFeatures(T image, double sigma ) {
+	private void detectCandidateFeatures(T image, double sigma, GBlurImageOps GBIO, InputSanityCheck ISC, GeneralizedImageOps GIO, BlurImageOps BIO, ConvolveImageMean CIM, FactoryKernelGaussian FKG,
+										 ConvolveNormalized CN, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN,
+										 ImplMedianSortNaive IMSN, ImplConvolveMean ICM, GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO, GImageMiscOps GIMO, ImageMiscOps IMO,
+										 ConvolveJustBorder_General CJBG) {
 
 		// adjust corner intensity threshold based upon the current scale factor
 		float scaleThreshold = (float) (baseThreshold / Math.pow(sigma, scalePower));
@@ -182,17 +171,17 @@ public class FeatureLaplacePyramid<T extends ImageGray, D extends ImageGray>
 		D derivXX = null, derivYY = null, derivXY = null;
 
 		if (detector.getRequiresGradient()) {
-			derivX = computeDerivative.getDerivative(true);
-			derivY = computeDerivative.getDerivative(false);
+			derivX = computeDerivative.getDerivative(GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, true);
+			derivY = computeDerivative.getDerivative(GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, false);
 		}
 		if (detector.getRequiresHessian()) {
-			derivXX = computeDerivative.getDerivative(true, true);
-			derivYY = computeDerivative.getDerivative(false, false);
-			derivXY = computeDerivative.getDerivative(true, false);
+			derivXX = computeDerivative.getDerivative(GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, true, true);
+			derivYY = computeDerivative.getDerivative(GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, false, false);
+			derivXY = computeDerivative.getDerivative(GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, true, false);
 		}
 
 		detector.process(image, derivX, derivY, derivXX, derivYY, derivXY, GIMO, IMO, ISC, CNN, CINB, CNJB, CN,
-				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO);
+				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, CJBG);
 
 		List<Point2D_I16> m = maximums;
 		m.clear();
@@ -213,7 +202,7 @@ public class FeatureLaplacePyramid<T extends ImageGray, D extends ImageGray>
 	/**
 	 * See if each feature is a maximum in its local scale-space.
 	 */
-	protected void findLocalScaleSpaceMax(PyramidFloat<T> ss, int layerID) {
+	protected void findLocalScaleSpaceMax(PyramidFloat<T> ss, int layerID, FastHessianFeatureDetector FHFD) {
 		List<Point2D_I16> candidates = maximums;
 
 		float scale0 = (float) ss.scale[layerID - 1];

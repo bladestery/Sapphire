@@ -39,7 +39,6 @@ import java.util.List;
 // todo remove all comwapare with border functions and use sub-images instead
 @SuppressWarnings({"unchecked"})
 public class BoofTesting {
-	private static GeneralizedImageOps GIO;
 	public static <T> T convertToGenericType(Class<?> type) {
 		if (type == GrayS8.class || type == GrayU8.class)
 			return (T) GrayI8.class;
@@ -136,7 +135,7 @@ public class BoofTesting {
 	 *
 	 * @param testClass Instance of the class being tested
 	 */
-	public static void checkImageDimensionValidation(Object testClass, int numFunctions) {
+	public static void checkImageDimensionValidation(Object testClass, int numFunctions, GeneralizedImageOps GIO) {
 		int count = 0;
 		Method methods[] = testClass.getClass().getMethods();
 
@@ -215,7 +214,7 @@ public class BoofTesting {
 	@SuppressWarnings({"unchecked"})
 	public static void checkSubImage(Object testClass,
 									 String function,
-									 boolean checkEquals,
+									 boolean checkEquals, GeneralizedImageOps GIO,
 									 Object... inputParam) {
 		try {
 			ImageBase[] larger = new ImageBase[inputParam.length];
@@ -257,7 +256,7 @@ public class BoofTesting {
 				for (int i = 0; i < inputParam.length; i++) {
 					if (subImg[i] == null)
 						continue;
-					assertEquals((ImageBase)inputModified[i], subImg[i], 0);
+					assertEquals((ImageBase)inputModified[i], subImg[i], 0, GIO);
 				}
 			}
 
@@ -435,7 +434,7 @@ public class BoofTesting {
 		}
 	}
 
-	public static void assertEquals(ImageBase imgA, ImageBase imgB, double tol ) {
+	public static void assertEquals(ImageBase imgA, ImageBase imgB, double tol, GeneralizedImageOps GIO) {
 
 		// if no specialized check exists, use a slower generalized approach
 		if( imgA instanceof ImageGray) {
@@ -460,7 +459,7 @@ public class BoofTesting {
 				throw new RuntimeException("Number of bands not equal");
 
 			for( int band = 0; band < a.getNumBands(); band++ ) {
-				assertEquals(a.getBand(band), b.getBand(band), tol);
+				assertEquals(a.getBand(band), b.getBand(band), tol, GIO);
 			}
 		} else if( imgA instanceof ImageMultiBand && imgB instanceof ImageMultiBand) {
 			ImageMultiBand a = (ImageMultiBand)imgA;

@@ -38,8 +38,6 @@ import boofcv.struct.pyramid.PyramidFloat;
  * @author Peter Abeles
  */
 public class FactoryPyramid {
-	private static FactoryKernelGaussian FKG;
-	private static FactoryImageBorder FIB;
 	/**
 	 * Creates an updater for discrete pyramids where a Gaussian is convolved across the input
 	 * prior to sub-sampling.
@@ -51,7 +49,7 @@ public class FactoryPyramid {
 	 */
 	public static <T extends ImageGray>
 	PyramidDiscrete<T> discreteGaussian( int[] scaleFactors , double sigma , int radius ,
-										 boolean saveOriginalReference, Class<T> imageType )
+										 boolean saveOriginalReference, Class<T> imageType, FactoryKernelGaussian FKG)
 	{
 		Class<Kernel1D> kernelType = FactoryKernel.getKernelType(imageType,1);
 
@@ -71,7 +69,7 @@ public class FactoryPyramid {
 	 * @return PyramidFloat
 	 */
 	public static <T extends ImageGray>
-	PyramidFloat<T> floatGaussian( double scaleFactors[], double []sigmas , Class<T> imageType ) {
+	PyramidFloat<T> floatGaussian( double scaleFactors[], double []sigmas , Class<T> imageType, FactoryImageBorder FIB) {
 
 		InterpolatePixelS<T> interp = FactoryInterpolation.bilinearPixelS(imageType, BorderType.EXTENDED, FIB);
 
@@ -87,7 +85,7 @@ public class FactoryPyramid {
 	 * @return PyramidFloat
 	 */
 	public static <T extends ImageGray>
-	PyramidFloat<T> scaleSpacePyramid( double scaleSpace[], Class<T> imageType ) {
+	PyramidFloat<T> scaleSpacePyramid( double scaleSpace[], Class<T> imageType , FactoryImageBorder FIB) {
 
 		double[] sigmas = new double[ scaleSpace.length ];
 
@@ -103,7 +101,7 @@ public class FactoryPyramid {
 			sigmas[i] /= scaleSpace[i-1];
 		}
 
-		return floatGaussian(scaleSpace,sigmas,imageType);
+		return floatGaussian(scaleSpace,sigmas,imageType, FIB);
 	}
 
 	/**
@@ -116,7 +114,7 @@ public class FactoryPyramid {
 	 * @return Scale-space image pyramid
 	 */
 	public static <T extends ImageGray>
-	PyramidFloat<T> scaleSpace( double scaleSpace[], Class<T> imageType ) {
+	PyramidFloat<T> scaleSpace( double scaleSpace[], Class<T> imageType, FactoryImageBorder FIB) {
 
 		double[] scaleFactors = new double[ scaleSpace.length ];
 
@@ -137,6 +135,6 @@ public class FactoryPyramid {
 			sigmas[i] = Math.sqrt(c*c-b*b);
 		}
 
-		return floatGaussian(scaleFactors,sigmas,imageType);
+		return floatGaussian(scaleFactors,sigmas,imageType, FIB);
 	}
 }
