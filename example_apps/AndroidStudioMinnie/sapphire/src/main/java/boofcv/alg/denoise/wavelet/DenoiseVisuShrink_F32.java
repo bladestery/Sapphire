@@ -38,7 +38,7 @@ import boofcv.struct.image.GrayF32;
  * @author Peter Abeles
  */
 public class DenoiseVisuShrink_F32 implements DenoiseWavelet<GrayF32> {
-
+	private static UtilWavelet UW;
 	ShrinkThresholdRule<GrayF32> rule = new ShrinkThresholdSoft_F32();
 
 	/**
@@ -50,7 +50,7 @@ public class DenoiseVisuShrink_F32 implements DenoiseWavelet<GrayF32> {
 	 */
 	@Override
 	public void denoise(GrayF32 transform , int numLevels ) {
-		int scale = UtilWavelet.computeScale(numLevels);
+		int scale = UW.computeScale(numLevels);
 
 		final int h = transform.height;
 		final int w = transform.width;

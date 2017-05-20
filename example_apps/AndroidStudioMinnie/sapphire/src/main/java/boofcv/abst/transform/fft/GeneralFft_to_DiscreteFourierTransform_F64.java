@@ -18,6 +18,7 @@
 
 package boofcv.abst.transform.fft;
 
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.transform.fft.DiscreteFourierTransformOps;
 import boofcv.alg.transform.fft.GeneralPurposeFFT_F64_2D;
 import boofcv.struct.image.GrayF64;
@@ -31,6 +32,8 @@ import boofcv.struct.image.InterleavedF64;
 public class GeneralFft_to_DiscreteFourierTransform_F64
 		implements DiscreteFourierTransform<GrayF64,InterleavedF64>
 {
+	private static DiscreteFourierTransformOps DFTO;
+	private static InputSanityCheck ISC;
 	// previous size of input image
 	private int prevWidth = -1;
 	private int prevHeight = -1;
@@ -45,8 +48,8 @@ public class GeneralFft_to_DiscreteFourierTransform_F64
 	private boolean modifyInputs = false;
 
 	@Override
-	public void forward(GrayF64 image, InterleavedF64 transform ) {
-		DiscreteFourierTransformOps.checkImageArguments(image,transform);
+	public void forward(GrayF64 image, InterleavedF64 transform , DiscreteFourierTransformOps DFTO, InputSanityCheck ISC) {
+		DFTO.checkImageArguments(image,transform, ISC);
 		if( image.isSubimage() )
 			throw new IllegalArgumentException("Subimages are not supported");
 
@@ -60,8 +63,8 @@ public class GeneralFft_to_DiscreteFourierTransform_F64
 	}
 
 	@Override
-	public void inverse(InterleavedF64 transform, GrayF64 image ) {
-		DiscreteFourierTransformOps.checkImageArguments(image,transform);
+	public void inverse(InterleavedF64 transform, GrayF64 image , DiscreteFourierTransformOps DFTO, InputSanityCheck ISC) {
+		DFTO.checkImageArguments(image,transform, ISC);
 		if( image.isSubimage() )
 			throw new IllegalArgumentException("Subimages are not supported");
 

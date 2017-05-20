@@ -62,7 +62,7 @@ public class HessianFromGradient {
 									  GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO) {
 		ISC.checkSameShape(inputDerivX, inputDerivY, derivXX, derivYY, derivXY);
 
-		GradientPrewitt.process(inputDerivX,derivXX,derivXY,border);
+		GradientPrewitt.process(inputDerivX,derivXX,derivXY,border, ISC, DHF, CINB, CJBG, GSO, GSUO);
 
 		if( border != null )
 			ConvolveWithBorder.convolve(GradientPrewitt.kernelDerivY_I32,inputDerivY,derivYY,border, ISC, CINB, CJBG);
@@ -87,7 +87,7 @@ public class HessianFromGradient {
 									  GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO) {
 		ISC.checkSameShape(inputDerivX, inputDerivY, derivXX, derivYY, derivXY);
 
-		GradientPrewitt.process(inputDerivX,derivXX,derivXY,border);
+		GradientPrewitt.process(inputDerivX,derivXX,derivXY,border, ISC, DHF, CINB, CJBG, GSO, GSUO);
 
 		if( border != null )
 			ConvolveWithBorder.convolve(GradientPrewitt.kernelDerivY_F32,inputDerivY,derivYY,border, ISC, CINB, CJBG);

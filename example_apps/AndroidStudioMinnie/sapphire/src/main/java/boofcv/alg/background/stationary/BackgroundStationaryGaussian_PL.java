@@ -21,6 +21,7 @@ package boofcv.alg.background.stationary;
 import boofcv.alg.InputSanityCheck;
 import boofcv.alg.misc.GImageMiscOps;
 import boofcv.alg.misc.ImageMiscOps;
+import boofcv.core.image.ConvertImage;
 import boofcv.core.image.FactoryGImageMultiBand;
 import boofcv.core.image.GConvertImage;
 import boofcv.core.image.GImageMultiBand;
@@ -39,6 +40,7 @@ public class BackgroundStationaryGaussian_PL<T extends ImageGray>
 	private static GImageMiscOps GIMO;
 	private static InputSanityCheck ISC;
 	private static GeneralizedImageOps GIO;
+	private static ConvertImage CI;
 	// wrappers which provide abstraction across image types
 	protected GImageMultiBand inputWrapper;
 	protected GImageMultiBand bgWrapper;
@@ -84,7 +86,7 @@ public class BackgroundStationaryGaussian_PL<T extends ImageGray>
 			background.reshape(frame.width, frame.height);
 			// initialize the mean to the current image and the initial variance is whatever it is set to
 			for (int band = 0; band < background.getNumBands(); band += 2) {
-				GConvertImage.convert(frame.getBand(band / 2), background.getBand(band), ISC, GIO, GIMO, IMO);
+				GConvertImage.convert(frame.getBand(band / 2), background.getBand(band), ISC, GIO, GIMO, IMO, CI);
 				GIMO.fill(background.getBand(band + 1), initialVariance, IMO);
 			}
 			return;

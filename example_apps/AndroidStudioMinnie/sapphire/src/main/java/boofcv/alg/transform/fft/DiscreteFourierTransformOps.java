@@ -23,14 +23,15 @@ import boofcv.abst.transform.fft.GeneralFft_to_DiscreteFourierTransform_F32;
 import boofcv.abst.transform.fft.GeneralFft_to_DiscreteFourierTransform_F64;
 import boofcv.alg.InputSanityCheck;
 import boofcv.struct.image.*;
+import sapphire.app.SapphireObject;
 
 /**
  * Various functions related to {@link DiscreteFourierTransform}.
  *
  * @author Peter Abeles
  */
-public class DiscreteFourierTransformOps {
-	private static InputSanityCheck ISC;
+public class DiscreteFourierTransformOps implements SapphireObject {
+	public DiscreteFourierTransformOps() {}
 	/**
 	 * Creates a {@link DiscreteFourierTransform} for images of type {@link GrayF32}.
 	 *
@@ -38,7 +39,7 @@ public class DiscreteFourierTransformOps {
 	 *
 	 * @return {@link DiscreteFourierTransform}
 	 */
-	public static DiscreteFourierTransform<GrayF32,InterleavedF32>  createTransformF32() {
+	public DiscreteFourierTransform<GrayF32,InterleavedF32>  createTransformF32() {
 		return new GeneralFft_to_DiscreteFourierTransform_F32();
 	}
 
@@ -49,7 +50,7 @@ public class DiscreteFourierTransformOps {
 	 *
 	 * @return {@link DiscreteFourierTransform}
 	 */
-	public static DiscreteFourierTransform<GrayF64,InterleavedF64>  createTransformF64() {
+	public DiscreteFourierTransform<GrayF64,InterleavedF64>  createTransformF64() {
 		return new GeneralFft_to_DiscreteFourierTransform_F64();
 	}
 
@@ -58,7 +59,7 @@ public class DiscreteFourierTransformOps {
 	 * @param x number
 	 * @return true if it is a power of two
 	 */
-	public static boolean isPowerOf2(int x) {
+	public boolean isPowerOf2(int x) {
 		if (x <= 1)
 			return false;
 		else
@@ -71,7 +72,7 @@ public class DiscreteFourierTransformOps {
 	 * @param x
 	 * @return the closest power-of-two number greater than or equal to x
 	 */
-	public static int nextPow2(int x) {
+	public int nextPow2(int x) {
 		if (x < 1)
 			throw new IllegalArgumentException("x must be greater or equal 1");
 		if ((x & (x - 1)) == 0) {
@@ -95,7 +96,7 @@ public class DiscreteFourierTransformOps {
 	 * @param image Storage for an image
 	 * @param transform Storage for a Fourier Transform
 	 */
-	public static void checkImageArguments( ImageBase image , ImageInterleaved transform ) {
+public void checkImageArguments( ImageBase image , ImageInterleaved transform, InputSanityCheck ISC) {
 		ISC.checkSameShape(image,transform);
 		if( 2 != transform.getNumBands() )
 			throw new IllegalArgumentException("The transform must have two bands");
@@ -108,7 +109,7 @@ public class DiscreteFourierTransformOps {
 	 * @param transform the DFT which is to be shifted.
 	 * @param forward If true then it does the shift in the forward direction.  If false then it undoes the transforms.
 	 */
-	public static void shiftZeroFrequency(InterleavedF32 transform, boolean forward ) {
+	public void shiftZeroFrequency(InterleavedF32 transform, boolean forward ) {
 
 		int hw = transform.width/2;
 		int hh = transform.height/2;
@@ -182,7 +183,7 @@ public class DiscreteFourierTransformOps {
 	 * @param transform the DFT which is to be shifted.
 	 * @param forward If true then it does the shift in the forward direction.  If false then it undoes the transforms.
 	 */
-	public static void shiftZeroFrequency(InterleavedF64 transform, boolean forward ) {
+	public void shiftZeroFrequency(InterleavedF64 transform, boolean forward ) {
 
 		int hw = transform.width/2;
 		int hh = transform.height/2;
@@ -255,8 +256,8 @@ public class DiscreteFourierTransformOps {
 	 * @param transform (Input)  Complex interleaved image
 	 * @param magnitude (Output) Magnitude of image
 	 */
-	public static void magnitude( InterleavedF32 transform , GrayF32 magnitude ) {
-		checkImageArguments(magnitude,transform);
+	public void magnitude( InterleavedF32 transform , GrayF32 magnitude, InputSanityCheck ISC) {
+		checkImageArguments(magnitude,transform, ISC);
 
 		for( int y = 0; y < transform.height; y++ ) {
 
@@ -279,8 +280,8 @@ public class DiscreteFourierTransformOps {
 	 * @param transform (Input)  Complex interleaved image
 	 * @param magnitude (Output) Magnitude of image
 	 */
-	public static void magnitude( InterleavedF64 transform , GrayF64 magnitude ) {
-		checkImageArguments(magnitude,transform);
+	public void magnitude( InterleavedF64 transform , GrayF64 magnitude, InputSanityCheck ISC) {
+		checkImageArguments(magnitude,transform, ISC);
 
 		for( int y = 0; y < transform.height; y++ ) {
 
@@ -303,8 +304,8 @@ public class DiscreteFourierTransformOps {
 	 * @param transform (Input) Complex interleaved image
 	 * @param phase (output) Phase of image
 	 */
-	public static void phase( InterleavedF32 transform , GrayF32 phase ) {
-		checkImageArguments(phase,transform);
+	public void phase( InterleavedF32 transform , GrayF32 phase, InputSanityCheck ISC ) {
+		checkImageArguments(phase,transform, ISC);
 
 		for( int y = 0; y < transform.height; y++ ) {
 
@@ -327,8 +328,8 @@ public class DiscreteFourierTransformOps {
 	 * @param transform (Input) Complex interleaved image
 	 * @param phase (output) Phase of image
 	 */
-	public static void phase( InterleavedF64 transform , GrayF64 phase ) {
-		checkImageArguments(phase,transform);
+	public void phase( InterleavedF64 transform , GrayF64 phase, InputSanityCheck ISC) {
+		checkImageArguments(phase,transform, ISC);
 
 		for( int y = 0; y < transform.height; y++ ) {
 
@@ -351,8 +352,8 @@ public class DiscreteFourierTransformOps {
 	 * @param real (Input) Regular image.
 	 * @param complex (Output) Equivalent complex image.
 	 */
-	public static void realToComplex(GrayF32 real , InterleavedF32 complex ) {
-		checkImageArguments(real,complex);
+	public void realToComplex(GrayF32 real , InterleavedF32 complex, InputSanityCheck ISC) {
+		checkImageArguments(real,complex, ISC);
 		for( int y = 0; y < complex.height; y++ ) {
 
 			int indexReal = real.startIndex + y*real.stride;
@@ -371,8 +372,8 @@ public class DiscreteFourierTransformOps {
 	 * @param real (Input) Regular image.
 	 * @param complex (Output) Equivalent complex image.
 	 */
-	public static void realToComplex(GrayF64 real , InterleavedF64 complex ) {
-		checkImageArguments(real,complex);
+	public void realToComplex(GrayF64 real , InterleavedF64 complex, InputSanityCheck ISC) {
+		checkImageArguments(real,complex, ISC);
 		for( int y = 0; y < complex.height; y++ ) {
 
 			int indexReal = real.startIndex + y*real.stride;
@@ -392,10 +393,10 @@ public class DiscreteFourierTransformOps {
 	 * @param complexB (Input) Complex image
 	 * @param complexC (Output) Complex image
 	 */
-	public static void multiplyRealComplex( GrayF32 realA ,
-											InterleavedF32 complexB , InterleavedF32 complexC ) {
+	public void multiplyRealComplex( GrayF32 realA ,
+											InterleavedF32 complexB , InterleavedF32 complexC, InputSanityCheck ISC) {
 
-		checkImageArguments(realA,complexB);
+		checkImageArguments(realA,complexB, ISC);
 
 		ISC.checkSameShape( complexB,complexC);
 
@@ -424,10 +425,10 @@ public class DiscreteFourierTransformOps {
 	 * @param complexB (Input) Complex image
 	 * @param complexC (Output) Complex image
 	 */
-	public static void multiplyRealComplex( GrayF64 realA ,
-											InterleavedF64 complexB , InterleavedF64 complexC ) {
+	public void multiplyRealComplex( GrayF64 realA ,
+											InterleavedF64 complexB , InterleavedF64 complexC, InputSanityCheck ISC) {
 
-		checkImageArguments(realA,complexB);
+		checkImageArguments(realA,complexB, ISC);
 
 		ISC.checkSameShape( complexB,complexC);
 
@@ -456,7 +457,7 @@ public class DiscreteFourierTransformOps {
 	 * @param complexB (Input) Complex image
 	 * @param complexC (Output) Complex image
 	 */
-	public static void multiplyComplex( InterleavedF32 complexA , InterleavedF32 complexB , InterleavedF32 complexC ) {
+	public void multiplyComplex( InterleavedF32 complexA , InterleavedF32 complexB , InterleavedF32 complexC, InputSanityCheck ISC) {
 
 		ISC.checkSameShape(complexA, complexB,complexC);
 
@@ -486,7 +487,7 @@ public class DiscreteFourierTransformOps {
 	 * @param complexB (Input) Complex image
 	 * @param complexC (Output) Complex image
 	 */
-	public static void multiplyComplex( InterleavedF64 complexA , InterleavedF64 complexB , InterleavedF64 complexC ) {
+	public void multiplyComplex( InterleavedF64 complexA , InterleavedF64 complexB , InterleavedF64 complexC, InputSanityCheck ISC) {
 
 		ISC.checkSameShape(complexA, complexB,complexC);
 

@@ -62,6 +62,7 @@ public class TldRegionTracker< Image extends ImageGray, Derivative extends Image
 	private static GradientSobel_Outer GSO;
 	private static GradientSobel_UnrolledOuter GSUO;
 	private static FactoryKernelGaussian FKG;
+	private static FactoryPyramid FP;
 	// maximum allowed median forwards-backwards error in pixels squared
 	private double maxErrorFB;
 
@@ -169,7 +170,7 @@ public class TldRegionTracker< Image extends ImageGray, Derivative extends Image
 			currentDerivY[i] = GIO.createSingleBand(derivType, w, h);
 		}
 
-		previousImage = FactoryPyramid.discreteGaussian(image.getScales(), -1, 1, false,image.getImageType(), FKG);
+		previousImage = FP.discreteGaussian(image.getScales(), -1, 1, false,image.getImageType(), FKG);
 		previousImage.initialize(image.getInputWidth(), image.getInputHeight());
 
 		for( int i = 0; i < tracks.length; i++ ) {

@@ -19,6 +19,7 @@
 package boofcv.alg.enhance;
 
 import boofcv.alg.InputSanityCheck;
+import boofcv.alg.misc.ImageStatistics;
 import boofcv.struct.image.*;
 
 /**
@@ -27,7 +28,6 @@ import boofcv.struct.image.*;
  * @author Peter Abeles
  */
 public class GEnhanceImageOps {
-	private static InputSanityCheck ISC;
 	/**
 	 * Applies the transformation table to the provided input image.
 	 *
@@ -37,19 +37,19 @@ public class GEnhanceImageOps {
 	 * @param output Output image.
 	 */
 	public static <T extends ImageGray>
-	void applyTransform( T input , int transform[] , int minValue , T output ) {
+	void applyTransform( T input , int transform[] , int minValue , T output, EnhanceImageOps EIO, InputSanityCheck ISC) {
 		ISC.checkSameShape(input, output);
 
 		if( input instanceof GrayU8) {
-			EnhanceImageOps.applyTransform((GrayU8) input, transform, (GrayU8) output);
+			EIO.applyTransform((GrayU8) input, transform, (GrayU8) output, ISC);
 		} else if( input instanceof GrayS8) {
-			EnhanceImageOps.applyTransform((GrayS8)input,transform,minValue,(GrayS8)output);
+			EIO.applyTransform((GrayS8)input,transform,minValue,(GrayS8)output, ISC);
 		} else if( input instanceof GrayU16) {
-			EnhanceImageOps.applyTransform((GrayU16)input,transform,(GrayU16)output);
+			EIO.applyTransform((GrayU16)input,transform,(GrayU16)output, ISC);
 		} else if( input instanceof GrayS16) {
-			EnhanceImageOps.applyTransform((GrayS16)input,transform,minValue,(GrayS16)output);
+			EIO.applyTransform((GrayS16)input,transform,minValue,(GrayS16)output, ISC);
 		} else if( input instanceof GrayS32) {
-			EnhanceImageOps.applyTransform((GrayS32)input,transform,minValue,(GrayS32)output);
+			EIO.applyTransform((GrayS32)input,transform,minValue,(GrayS32)output, ISC);
 		} else {
 			throw new IllegalArgumentException("Image type not supported. "+input.getClass().getSimpleName());
 		}
@@ -65,12 +65,12 @@ public class GEnhanceImageOps {
 	 * @param transform Storage for transformation table.  Must be large enough to contain all possible values.
 	 */
 	public static <T extends ImageGray>
-	void equalizeLocal( T input , int radius , T output ,
-						int histogram[] , int transform[] ) {
+	void equalizeLocal(T input , int radius , T output ,
+					   int histogram[] , int transform[], EnhanceImageOps EIO, ImageStatistics IS, InputSanityCheck ISC) {
 		if( input instanceof GrayU8) {
-			EnhanceImageOps.equalizeLocal((GrayU8)input,radius,(GrayU8)output,histogram,transform);
+			EIO.equalizeLocal((GrayU8)input,radius,(GrayU8)output,histogram,transform, IS, ISC);
 		} else if( input instanceof GrayU16) {
-			EnhanceImageOps.equalizeLocal((GrayU16)input,radius,(GrayU16)output,histogram,transform);
+			EIO.equalizeLocal((GrayU16)input,radius,(GrayU16)output,histogram,transform, IS, ISC);
 		} else {
 			throw new IllegalArgumentException("Unsupported image type "+input.getClass().getSimpleName());
 		}
@@ -82,11 +82,11 @@ public class GEnhanceImageOps {
 	 * @param input Input image.
 	 * @param output Output image.
 	 */
-	public static <T extends ImageGray> void sharpen4(T input , T output ) {
+	public static <T extends ImageGray> void sharpen4(T input , T output , EnhanceImageOps EIO, InputSanityCheck ISC) {
 		if( input instanceof GrayU8) {
-			EnhanceImageOps.sharpen4((GrayU8) input, (GrayU8) output);
+			EIO.sharpen4((GrayU8) input, (GrayU8) output, ISC);
 		} else if( input instanceof GrayF32) {
-			EnhanceImageOps.sharpen4((GrayF32)input, (GrayF32)output);
+			EIO.sharpen4((GrayF32)input, (GrayF32)output, ISC);
 		} else {
 			throw new IllegalArgumentException("Image type not supported. "+input.getClass().getSimpleName());
 		}
@@ -98,11 +98,11 @@ public class GEnhanceImageOps {
 	 * @param input Input image.
 	 * @param output Output image.
 	 */
-	public static <T extends ImageGray> void sharpen8(T input , T output ) {
+	public static <T extends ImageGray> void sharpen8(T input , T output, EnhanceImageOps EIO, InputSanityCheck ISC) {
 		if( input instanceof GrayU8) {
-			EnhanceImageOps.sharpen8((GrayU8) input, (GrayU8) output);
+			EIO.sharpen8((GrayU8) input, (GrayU8) output, ISC);
 		} else if( input instanceof GrayF32) {
-			EnhanceImageOps.sharpen8((GrayF32)input, (GrayF32)output);
+			EIO.sharpen8((GrayF32)input, (GrayF32)output, ISC);
 		} else {
 			throw new IllegalArgumentException("Image type not supported. "+input.getClass().getSimpleName());
 		}

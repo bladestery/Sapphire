@@ -18,12 +18,14 @@
 
 package boofcv.factory.transform.wavelet;
 
+import boofcv.alg.transform.wavelet.UtilWavelet;
 import boofcv.core.image.border.BorderType;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.GrayI;
 import boofcv.struct.image.ImageGray;
 import boofcv.struct.wavelet.WaveletDescription;
 import boofcv.struct.wavelet.WlCoef;
+import sapphire.app.SapphireObject;
 
 
 /**
@@ -32,9 +34,10 @@ import boofcv.struct.wavelet.WlCoef;
  * @author Peter Abeles
  */
 @SuppressWarnings({"unchecked"})
-public class GFactoryWavelet {
+public class GFactoryWavelet implements SapphireObject {
+	public GFactoryWavelet() {}
 
-	public static <C extends WlCoef, T extends ImageGray>
+	public <C extends WlCoef, T extends ImageGray>
 	WaveletDescription<C> haar( Class<T> imageType )
 	{
 		if( imageType == GrayF32.class )
@@ -46,7 +49,7 @@ public class GFactoryWavelet {
 		}
 	}
 
-	public static <C extends WlCoef, T extends ImageGray>
+	public <C extends WlCoef, T extends ImageGray>
 	WaveletDescription<C> daubJ( Class<T> imageType , int J )
 	{
 		if( imageType == GrayF32.class )
@@ -56,19 +59,19 @@ public class GFactoryWavelet {
 		}
 	}
 
-	public static <C extends WlCoef, T extends ImageGray>
-	WaveletDescription<C> biorthogoal( Class<T> imageType , int J , BorderType borderType)
+	public <C extends WlCoef, T extends ImageGray>
+	WaveletDescription<C> biorthogoal(Class<T> imageType , int J , BorderType borderType, UtilWavelet UW)
 	{
 		if( imageType == GrayF32.class )
-			return (WaveletDescription<C>)FactoryWaveletDaub.biorthogonal_F32(J,borderType);
+			return (WaveletDescription<C>)FactoryWaveletDaub.biorthogonal_F32(J,borderType, UW);
 		else if( GrayI.class.isAssignableFrom(imageType) ) {
-			return (WaveletDescription<C>)FactoryWaveletDaub.biorthogonal_I32(J,borderType);
+			return (WaveletDescription<C>)FactoryWaveletDaub.biorthogonal_I32(J,borderType, UW);
 		} else {
 			return null;
 		}
 	}
 
-	public static <C extends WlCoef, T extends ImageGray>
+	public <C extends WlCoef, T extends ImageGray>
 	WaveletDescription<C> coiflet( Class<T> imageType , int J )
 	{
 		if( imageType == GrayF32.class )

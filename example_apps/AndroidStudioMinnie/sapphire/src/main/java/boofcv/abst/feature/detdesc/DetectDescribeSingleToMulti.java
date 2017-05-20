@@ -41,6 +41,8 @@ import boofcv.alg.misc.GImageMiscOps;
 import boofcv.alg.misc.GImageStatistics;
 import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.misc.ImageStatistics;
+import boofcv.alg.transform.wavelet.UtilWavelet;
+import boofcv.core.image.ConvertImage;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.core.image.border.FactoryImageBorderAlgs;
@@ -88,6 +90,9 @@ public class DetectDescribeSingleToMulti<T extends ImageGray, TD extends TupleDe
 	private static FastHessianFeatureDetector FHFD;
 	private static FactoryImageBorder FIB;
 	private static FactoryBlurFilter FBF;
+	private static ConvertImage CI;
+	private static UtilWavelet UW;
+
 	DetectDescribePoint<T,TD> alg;
 	Wrap set = new Wrap();
 
@@ -98,7 +103,7 @@ public class DetectDescribeSingleToMulti<T extends ImageGray, TD extends TupleDe
 	@Override
 	public void process(T image) {
 		alg.detect(image, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN,
-				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF);
+				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF, CI, UW);
 	}
 
 	@Override

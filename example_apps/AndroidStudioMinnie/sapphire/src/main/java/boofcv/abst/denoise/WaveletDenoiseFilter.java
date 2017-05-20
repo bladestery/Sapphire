@@ -41,6 +41,7 @@ import boofcv.alg.misc.GImageStatistics;
 import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.misc.ImageStatistics;
 import boofcv.alg.transform.wavelet.UtilWavelet;
+import boofcv.core.image.ConvertImage;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.image.ImageDimension;
@@ -82,20 +83,21 @@ public class WaveletDenoiseFilter<T extends ImageGray> implements FilterImageInt
 	public void process(T original, T denoised, GBlurImageOps GBIO, InputSanityCheck ISC, GeneralizedImageOps GIO, BlurImageOps BIO,
 						ConvolveImageMean CIM, FactoryKernelGaussian FKG, ConvolveNormalized CN, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB,
 						ConvolveNormalized_JustBorder CNJB, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM,
-						GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvolveJustBorder_General CJBG) {
+						GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvolveJustBorder_General CJBG,
+						ConvertImage CI, UtilWavelet UW) {
 
 		// compute the wavelet transform
 		if( transform != null ) {
-			ImageDimension d = UtilWavelet.transformDimension(original,wavelet.getLevels());
+			ImageDimension d = UW.transformDimension(original,wavelet.getLevels());
 			transform.reshape(d.width,d.height);
 		}
-		transform = wavelet.transform(original,transform);
+		transform = wavelet.transform(original,transform, ISC, GIO, GIMO, IMO, CI, UW);
 
 		// remove noise from the transformed image
 		alg.denoise(transform,wavelet.getLevels());
 
 		// reverse the transform
-		wavelet.invert(transform,denoised);
+		wavelet.invert(transform,denoised, ISC, GIO, GIMO, IMO, CI, UW);
 	}
 
 	@Override

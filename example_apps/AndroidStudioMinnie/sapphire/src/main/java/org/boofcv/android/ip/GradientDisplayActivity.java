@@ -9,8 +9,13 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
+import org.boofcv.android.DemoManager;
 import org.boofcv.android.DemoVideoDisplayActivity;
 import org.boofcv.android.R;
+
+import java.net.InetSocketAddress;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
 import boofcv.abst.filter.derivative.ImageGradient;
 import boofcv.alg.InputSanityCheck;
@@ -25,8 +30,13 @@ import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.filter.derivative.FactoryDerivative;
 import boofcv.struct.image.GrayS16;
+import boofcv.struct.image.GrayS16pair;
 import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.ImageType;
+import sapphire.kernel.server.KernelServerImpl;
+import sapphire.oms.OMSServer;
+
+import static sapphire.kernel.common.GlobalKernelReferences.nodeServer;
 
 /**
  * Displays the gradient of a gray scale image.  The gradient is colorized so that x and y directions are visible.
@@ -37,24 +47,45 @@ import boofcv.struct.image.ImageType;
 public class GradientDisplayActivity extends DemoVideoDisplayActivity
 implements AdapterView.OnItemSelectedListener
 {
-	private static FactoryDerivative FD;
-	private static ImageType IT;
-	private static GeneralizedImageOps GIO;
-	private static FactoryImageBorder FIB;
-	private static InputSanityCheck ISC;
-	private static DerivativeHelperFunctions DHF;
-	private static ConvolveImageNoBorder CINB;
-	private static ConvolveJustBorder_General CJBG;
-	private static GradientSobel_Outer GSO;
-	private static GradientSobel_UnrolledOuter GSUO;
 	Spinner spinnerGradient;
 
-	Class imageType = GrayU8.class;
-	Class derivType = GrayS16.class;
+	//Class imageType = GrayU8.class;
+	//Class derivType = GrayS16.class;
+
+	OMSServer server;
+	DemoManager dm;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		InetSocketAddress host, omsHost;
+
+		try {
+			Registry registry = LocateRegistry.getRegistry("157.82.159.58", 22346);
+			server = (OMSServer) registry.lookup("SapphireOMS");
+			System.out.println(server);
+
+			host = new InetSocketAddress("192.168.0.7", 22346);
+			omsHost = new InetSocketAddress("157.82.159.58", 22346);
+			nodeServer = new KernelServerImpl(host, omsHost);
+			System.out.println(nodeServer);
+
+			System.setProperty("java.rmi.server.hostname", host.getAddress().getHostAddress());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		try {
+			//Server is initiated with appObject to perform remote RPCs
+			dm = (DemoManager) server.getAppEntryPoint();
+			System.out.println("Got AppEntryPoint");
+			//dm.LatencyCheck();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(0);
+		}
+
 
 		LayoutInflater inflater = getLayoutInflater();
 		LinearLayout controls = (LinearLayout)inflater.inflate(R.layout.gradient_controls,null);
@@ -85,55 +116,64 @@ implements AdapterView.OnItemSelectedListener
 	private void startGradientProcess(int pos) {
 		switch( pos ) {
 			case 0:
-				setProcessing(new GradientProcessing(FD.three(imageType, derivType, GIO, FIB)) );
+				dm.three();
+				//FD.three(imageType, derivType, GIO, FIB);
 				break;
 
 			case 1:
-				setProcessing(new GradientProcessing(FD.sobel(imageType, derivType, GIO, FIB)) );
+				dm.sobel();
+				//FD.sobel(imageType, derivType, GIO, FIB);
 				break;
 
 			case 2:
-				setProcessing(new GradientProcessing(FD.prewitt(imageType, derivType, GIO, FIB)) );
+				dm.prewitt();
+				//FD.prewitt(imageType, derivType, GIO, FIB);
 				break;
 
 			case 3:
-				setProcessing(new GradientProcessing(FD.two0(imageType, derivType, GIO, FIB)) );
+				dm.two0();
+				//FD.two0(imageType, derivType, GIO, FIB);
 				break;
 
 			case 4:
-				setProcessing(new GradientProcessing(FD.two1(imageType, derivType, GIO, FIB)) );
+				dm.two1();
+				//FD.two1(imageType, derivType, GIO, FIB);
 				break;
 
 			default:
 				throw new RuntimeException("Unknown gradient");
 		}
+
+		setProcessing(new GradientProcessing());
 	}
 
 	@Override
 	public void onNothingSelected(AdapterView<?> adapterView) {}
 
 	protected class GradientProcessing extends VideoImageProcessing<GrayU8> {
-		GrayS16 derivX;
-		GrayS16 derivY;
-		ImageGradient<GrayU8,GrayS16> gradient;
+		GrayS16pair deriv;
+		//GrayS16 derivX;
+		//GrayS16 derivY;
+		//ImageGradient<GrayU8,GrayS16> gradient;
 
-		public GradientProcessing(ImageGradient<GrayU8,GrayS16> gradient) {
-			super( IT.single(GrayU8.class));
-			this.gradient = gradient;
+		public GradientProcessing() {
+			super( dm.single(GrayU8.class));
+			//this.gradient = gradient;
 		}
 
 		@Override
 		protected void declareImages( int width , int height ) {
 			super.declareImages(width, height);
-
-			derivX = new GrayS16(width,height);
-			derivY = new GrayS16(width,height);
+			dm.initGradient(width,height);
+			//derivX = new GrayS16(width,height);
+			//derivY = new GrayS16(width,height);
 		}
 
 		@Override
 		protected void process(GrayU8 input, Bitmap output, byte[] storage) {
-			gradient.process(input,derivX,derivY, ISC,DHF, CINB, CJBG,GSO,GSUO);
-			VisualizeImageData.colorizeGradient(derivX,derivY,-1,output,storage);
+			deriv = dm.gradientProcess(input);
+			//gradient.process(input,derivX,derivY, ISC,DHF, CINB, CJBG,GSO,GSUO);
+			VisualizeImageData.colorizeGradient(deriv.derivX,deriv.derivY,-1,output,storage);
 		}
 	}
 }

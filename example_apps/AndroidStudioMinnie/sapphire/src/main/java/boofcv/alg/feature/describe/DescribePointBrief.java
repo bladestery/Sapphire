@@ -39,6 +39,8 @@ import boofcv.alg.misc.GImageMiscOps;
 import boofcv.alg.misc.GImageStatistics;
 import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.misc.ImageStatistics;
+import boofcv.alg.transform.wavelet.UtilWavelet;
+import boofcv.core.image.ConvertImage;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.feature.TupleDesc_B;
@@ -83,7 +85,8 @@ public class DescribePointBrief<T extends ImageGray> {
 	private static GImageMiscOps GIMO;
 	private static ImageMiscOps IMO;
 	private static ConvolveJustBorder_General CJBG;
-
+	private static ConvertImage CI;
+	private static UtilWavelet UW;
 	// blurs the image prior to sampling
 	protected BlurFilter<T> filterBlur;
 	// blurred image
@@ -116,7 +119,7 @@ public class DescribePointBrief<T extends ImageGray> {
 	 */
 	public void setImage(T image) {
 		blur.reshape(image.width,image.height);
-		filterBlur.process(image,blur, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG);
+		filterBlur.process(image,blur, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW);
 		describe.setImage(image);
 	}
 

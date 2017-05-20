@@ -21,6 +21,8 @@ package boofcv.alg.filter.derivative;
 import boofcv.alg.InputSanityCheck;
 import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
 import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
+import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
+import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
 import boofcv.alg.filter.derivative.impl.GradientTwo0_Standard;
 import boofcv.core.image.border.ImageBorder_F32;
 import boofcv.core.image.border.ImageBorder_S32;
@@ -49,10 +51,6 @@ import boofcv.struct.image.GrayU8;
  * @author Peter Abeles
  */
 public class GradientTwo0 {
-	private static InputSanityCheck ISC;
-	private static DerivativeHelperFunctions DHF;
-	private static ConvolveImageNoBorder CINB;
-	private static ConvolveJustBorder_General CJBG;
 	public static Kernel1D_I32 kernelDeriv_I32 = new Kernel1D_I32(new int[]{-1,1}, 2, 0);
 	public static Kernel1D_F32 kernelDeriv_F32 = new Kernel1D_F32(new float[]{-1,1}, 2, 0);
 
@@ -75,7 +73,8 @@ public class GradientTwo0 {
 	 * @param border Specifies how the image border is handled. If null the border is not processed.
 	 */
 	public static void process(GrayU8 orig,
-							   GrayS16 derivX, GrayS16 derivY, ImageBorder_S32 border ) {
+							   GrayS16 derivX, GrayS16 derivY, ImageBorder_S32 border, InputSanityCheck ISC, DerivativeHelperFunctions DHF,
+							   ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG, GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO) {
 		ISC.checkSameShape(orig, derivX, derivY);
 		GradientTwo0_Standard.process(orig, derivX, derivY);
 
@@ -94,7 +93,8 @@ public class GradientTwo0 {
 	 * @param border Specifies how the image border is handled. If null the border is not processed.
 	 */
 	public static void process(GrayS16 orig,
-							   GrayS16 derivX, GrayS16 derivY, ImageBorder_S32 border) {
+							   GrayS16 derivX, GrayS16 derivY, ImageBorder_S32 border, InputSanityCheck ISC, DerivativeHelperFunctions DHF,
+							   ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG, GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO) {
 		ISC.checkSameShape(orig, derivX, derivY);
 		GradientTwo0_Standard.process(orig, derivX, derivY);
 
@@ -113,7 +113,8 @@ public class GradientTwo0 {
 	 * @param border Specifies how the image border is handled. If null the border is not processed.
 	 */
 	public static void process(GrayF32 orig,
-							   GrayF32 derivX, GrayF32 derivY, ImageBorder_F32 border) {
+							   GrayF32 derivX, GrayF32 derivY, ImageBorder_F32 border, InputSanityCheck ISC, DerivativeHelperFunctions DHF,
+							   ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG, GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO) {
 		ISC.checkSameShape(orig, derivX, derivY);
 		GradientTwo0_Standard.process(orig, derivX, derivY);
 

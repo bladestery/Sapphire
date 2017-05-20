@@ -53,7 +53,6 @@ import boofcv.struct.wavelet.WlCoef_I32;
  * @author Peter Abeles
  */
 public class WaveletTransformOps {
-	private static InputSanityCheck ISC;
 	/**
 	 * <p>
 	 * Performs a single level wavelet transform.
@@ -67,9 +66,9 @@ public class WaveletTransformOps {
 	 */
 	public static void transform1(WaveletDescription<WlCoef_F32> desc ,
 								  GrayF32 input , GrayF32 output ,
-								  GrayF32 storage )
+								  GrayF32 storage , InputSanityCheck ISC, UtilWavelet UW)
 	{
-		UtilWavelet.checkShape(input,output);
+		UW.checkShape(input,output);
 
 		WlCoef_F32 coef = desc.getForward();
 
@@ -86,10 +85,10 @@ public class WaveletTransformOps {
 			ImplWaveletTransformNaive.horizontal(desc.getBorder(),coef,input,storage);
 			ImplWaveletTransformNaive.vertical(desc.getBorder(),coef,storage,output);
 		} else {
-			ImplWaveletTransformInner.horizontal(coef,input,storage);
-			ImplWaveletTransformBorder.horizontal(desc.getBorder(),coef,input,storage);
-			ImplWaveletTransformInner.vertical(coef,storage,output);
-			ImplWaveletTransformBorder.vertical(desc.getBorder(),coef,storage,output);
+			ImplWaveletTransformInner.horizontal(coef,input,storage, UW);
+			ImplWaveletTransformBorder.horizontal(desc.getBorder(),coef,input,storage, UW);
+			ImplWaveletTransformInner.vertical(coef,storage,output, UW);
+			ImplWaveletTransformBorder.vertical(desc.getBorder(),coef,storage,output, UW);
 		}
 	}
 
@@ -110,20 +109,20 @@ public class WaveletTransformOps {
 	public static void transformN(WaveletDescription<WlCoef_F32> desc ,
 								  GrayF32 input , GrayF32 output ,
 								  GrayF32 storage ,
-								  int numLevels )
+								  int numLevels , InputSanityCheck ISC, UtilWavelet UW)
 	{
 		if( numLevels == 1 ) {
-			transform1(desc,input,output, storage);
+			transform1(desc,input,output, storage, ISC, UW);
 			return;
 		}
 
-		UtilWavelet.checkShape(desc.getForward(),input,output,numLevels);
+		UW.checkShape(desc.getForward(),input,output,numLevels);
 		storage = ISC.checkDeclare(output, storage);
 		// modify the shape of a temporary image not the original
 		storage = storage.subimage(0,0,output.width,output.height, null);
 		storage.subImage = false;
 
-		transform1(desc,input,output, storage);
+		transform1(desc,input,output, storage, ISC, UW);
 
 		for( int i = 2; i <= numLevels; i++ ) {
 			int width = output.width/2;
@@ -137,7 +136,7 @@ public class WaveletTransformOps {
 
 			// transform the scaling image and save the results in the output image
 			storage.reshape(width,height);
-			transform1(desc,input,output,storage);
+			transform1(desc,input,output,storage, ISC, UW);
 		}
 	}
 
@@ -157,9 +156,9 @@ public class WaveletTransformOps {
 	 */
 	public static void inverse1(WaveletDescription<WlCoef_F32> desc ,
 								GrayF32 input , GrayF32 output ,
-								GrayF32 storage , float minValue , float maxValue )
+								GrayF32 storage , float minValue , float maxValue, InputSanityCheck ISC, UtilWavelet UW)
 	{
-		UtilWavelet.checkShape(output,input);
+		UW.checkShape(output,input);
 		WlCoef_F32 coef = desc.getForward();
 		if( output.width < coef.scaling.length || output.width < coef.wavelet.length )
 			throw new IllegalArgumentException("Wavelet is too large for provided image.");
@@ -174,10 +173,10 @@ public class WaveletTransformOps {
 			ImplWaveletTransformNaive.verticalInverse(desc.getBorder(),desc.getInverse(),input,storage);
 			ImplWaveletTransformNaive.horizontalInverse(desc.getBorder(),desc.getInverse(),storage,output);
 		} else {
-			ImplWaveletTransformInner.verticalInverse(desc.getInverse().getInnerCoefficients(),input,storage);
-			ImplWaveletTransformBorder.verticalInverse(desc.getBorder(),desc.getInverse(),input,storage);
-			ImplWaveletTransformInner.horizontalInverse(desc.getInverse().getInnerCoefficients(),storage,output);
-			ImplWaveletTransformBorder.horizontalInverse(desc.getBorder(),desc.getInverse(),storage,output);
+			ImplWaveletTransformInner.verticalInverse(desc.getInverse().getInnerCoefficients(),input,storage, UW);
+			ImplWaveletTransformBorder.verticalInverse(desc.getBorder(),desc.getInverse(),input,storage, UW);
+			ImplWaveletTransformInner.horizontalInverse(desc.getInverse().getInnerCoefficients(),storage,output, UW);
+			ImplWaveletTransformBorder.horizontalInverse(desc.getBorder(),desc.getInverse(),storage,output, UW);
 		}
 
 		if( minValue != -Float.MAX_VALUE && maxValue != Float.MAX_VALUE )
@@ -202,15 +201,15 @@ public class WaveletTransformOps {
 								GrayF32 input , GrayF32 output ,
 								GrayF32 storage,
 								int numLevels ,
-								float minValue , float maxValue)
+								float minValue , float maxValue, InputSanityCheck ISC, UtilWavelet UW)
 	{
 		if( numLevels == 1 ) {
-			inverse1(desc,input,output, storage,minValue,maxValue);
+			inverse1(desc,input,output, storage,minValue,maxValue, ISC, UW);
 			PixelMath.boundImage(output, minValue, maxValue);
 			return;
 		}
 
-		UtilWavelet.checkShape(desc.getForward(),output,input,numLevels);
+		UW.checkShape(desc.getForward(),output,input,numLevels);
 		storage = ISC.checkDeclare(input, storage);
 		// modify the shape of a temporary image not the original
 		storage = storage.subimage(0,0,input.width,input.height, null);
@@ -218,7 +217,7 @@ public class WaveletTransformOps {
 
 		int width,height;
 
-		int scale = UtilWavelet.computeScale(numLevels);
+		int scale = UW.computeScale(numLevels);
 		width = input.width/scale;
 		height = input.height/scale;
 		width += width%2;
@@ -227,7 +226,7 @@ public class WaveletTransformOps {
 		GrayF32 levelIn = input.subimage(0,0,width,height, null);
 		GrayF32 levelOut = output.subimage(0,0,width,height, null);
 		storage.reshape(width,height);
-		inverse1(desc,levelIn,levelOut, storage,-Float.MAX_VALUE,Float.MAX_VALUE);
+		inverse1(desc,levelIn,levelOut, storage,-Float.MAX_VALUE,Float.MAX_VALUE, ISC, UW);
 
 		for( int i = numLevels-1; i >= 1; i-- ) {
 			// copy the decoded segment into the input
@@ -248,7 +247,7 @@ public class WaveletTransformOps {
 			}
 
 			storage.reshape(levelIn.width,levelIn.height);
-			inverse1(desc,levelIn,levelOut, storage,-Float.MAX_VALUE,Float.MAX_VALUE);
+			inverse1(desc,levelIn,levelOut, storage,-Float.MAX_VALUE,Float.MAX_VALUE, ISC, UW);
 		}
 
 		if( minValue != -Float.MAX_VALUE && maxValue != Float.MAX_VALUE )
@@ -268,9 +267,9 @@ public class WaveletTransformOps {
 	 */
 	public static void transform1(WaveletDescription<WlCoef_I32> desc ,
 								  GrayS32 input , GrayS32 output ,
-								  GrayS32 storage )
+								  GrayS32 storage , InputSanityCheck ISC, UtilWavelet UW)
 	{
-		UtilWavelet.checkShape(input,output);
+		UW.checkShape(input,output);
 
 		WlCoef_I32 coef = desc.getForward();
 
@@ -287,10 +286,10 @@ public class WaveletTransformOps {
 			ImplWaveletTransformNaive.horizontal(desc.getBorder(),coef,input,storage);
 			ImplWaveletTransformNaive.vertical(desc.getBorder(),coef,storage,output);
 		} else {
-			ImplWaveletTransformInner.horizontal(coef,input,storage);
-			ImplWaveletTransformBorder.horizontal(desc.getBorder(),coef,input,storage);
-			ImplWaveletTransformInner.vertical(coef,storage,output);
-			ImplWaveletTransformBorder.vertical(desc.getBorder(),coef,storage,output);
+			ImplWaveletTransformInner.horizontal(coef,input,storage, UW);
+			ImplWaveletTransformBorder.horizontal(desc.getBorder(),coef,input,storage, UW);
+			ImplWaveletTransformInner.vertical(coef,storage,output, UW);
+			ImplWaveletTransformBorder.vertical(desc.getBorder(),coef,storage,output, UW);
 		}
 	}
 
@@ -311,20 +310,20 @@ public class WaveletTransformOps {
 	public static void transformN(WaveletDescription<WlCoef_I32> desc ,
 								  GrayS32 input , GrayS32 output ,
 								  GrayS32 storage ,
-								  int numLevels )
+								  int numLevels , InputSanityCheck ISC, UtilWavelet UW)
 	{
 		if( numLevels == 1 ) {
-			transform1(desc,input,output, storage);
+			transform1(desc,input,output, storage, ISC, UW);
 			return;
 		}
 
-		UtilWavelet.checkShape(desc.getForward(),input,output,numLevels);
+		UW.checkShape(desc.getForward(),input,output,numLevels);
 		storage = ISC.checkDeclare(output, storage);
 		// modify the shape of a temporary image not the original
 		storage = storage.subimage(0,0,output.width,output.height, null);
 		storage.subImage = false;
 
-		transform1(desc,input,output, storage);
+		transform1(desc,input,output, storage, ISC, UW);
 
 		for( int i = 2; i <= numLevels; i++ ) {
 			int width = output.width/2;
@@ -338,7 +337,7 @@ public class WaveletTransformOps {
 
 			// transform the scaling image and save the results in the output image
 			storage.reshape(width,height);
-			transform1(desc,input,output,storage);
+			transform1(desc,input,output,storage, ISC, UW);
 		}
 	}
 
@@ -358,9 +357,9 @@ public class WaveletTransformOps {
 	 */
 	public static void inverse1(WaveletDescription<WlCoef_I32> desc ,
 								GrayS32 input , GrayS32 output ,
-								GrayS32 storage , int minValue , int maxValue )
+								GrayS32 storage , int minValue , int maxValue , InputSanityCheck ISC, UtilWavelet UW)
 	{
-		UtilWavelet.checkShape(output,input);
+		UW.checkShape(output,input);
 		WlCoef_I32 coef = desc.getForward();
 		if( output.width < coef.scaling.length || output.width < coef.wavelet.length )
 			throw new IllegalArgumentException("Wavelet is too large for provided image.");
@@ -375,10 +374,10 @@ public class WaveletTransformOps {
 			ImplWaveletTransformNaive.verticalInverse(desc.getBorder(),desc.getInverse(),input,storage);
 			ImplWaveletTransformNaive.horizontalInverse(desc.getBorder(),desc.getInverse(),storage,output);
 		} else {
-			ImplWaveletTransformInner.verticalInverse(desc.getInverse().getInnerCoefficients(),input,storage);
-			ImplWaveletTransformBorder.verticalInverse(desc.getBorder(),desc.getInverse(),input,storage);
-			ImplWaveletTransformInner.horizontalInverse(desc.getInverse().getInnerCoefficients(),storage,output);
-			ImplWaveletTransformBorder.horizontalInverse(desc.getBorder(),desc.getInverse(),storage,output);
+			ImplWaveletTransformInner.verticalInverse(desc.getInverse().getInnerCoefficients(),input,storage, UW);
+			ImplWaveletTransformBorder.verticalInverse(desc.getBorder(),desc.getInverse(),input,storage, UW);
+			ImplWaveletTransformInner.horizontalInverse(desc.getInverse().getInnerCoefficients(),storage,output, UW);
+			ImplWaveletTransformBorder.horizontalInverse(desc.getBorder(),desc.getInverse(),storage,output, UW);
 		}
 
 		if( minValue != Integer.MIN_VALUE && maxValue != Integer.MAX_VALUE )
@@ -403,15 +402,15 @@ public class WaveletTransformOps {
 								GrayS32 input , GrayS32 output ,
 								GrayS32 storage,
 								int numLevels ,
-								int minValue , int maxValue)
+								int minValue , int maxValue, InputSanityCheck ISC, UtilWavelet UW)
 	{
 		if( numLevels == 1 ) {
-			inverse1(desc,input,output, storage,minValue,maxValue);
+			inverse1(desc,input,output, storage,minValue,maxValue, ISC, UW);
 			PixelMath.boundImage(output, minValue, maxValue);
 			return;
 		}
 
-		UtilWavelet.checkShape(desc.getForward(),output,input,numLevels);
+		UW.checkShape(desc.getForward(),output,input,numLevels);
 		storage = ISC.checkDeclare(input, storage);
 		// modify the shape of a temporary image not the original
 		storage = storage.subimage(0,0,input.width,input.height, null);
@@ -419,7 +418,7 @@ public class WaveletTransformOps {
 
 		int width,height;
 
-		int scale = UtilWavelet.computeScale(numLevels);
+		int scale = UW.computeScale(numLevels);
 		width = input.width/scale;
 		height = input.height/scale;
 		width += width%2;
@@ -428,7 +427,7 @@ public class WaveletTransformOps {
 		GrayS32 levelIn = input.subimage(0,0,width,height, null);
 		GrayS32 levelOut = output.subimage(0,0,width,height, null);
 		storage.reshape(width,height);
-		inverse1(desc,levelIn,levelOut, storage,Integer.MIN_VALUE,Integer.MAX_VALUE);
+		inverse1(desc,levelIn,levelOut, storage,Integer.MIN_VALUE,Integer.MAX_VALUE, ISC, UW);
 
 		for( int i = numLevels-1; i >= 1; i-- ) {
 			// copy the decoded segment into the input
@@ -449,7 +448,7 @@ public class WaveletTransformOps {
 			}
 
 			storage.reshape(levelIn.width,levelIn.height);
-			inverse1(desc,levelIn,levelOut, storage,Integer.MIN_VALUE,Integer.MAX_VALUE);
+			inverse1(desc,levelIn,levelOut, storage,Integer.MIN_VALUE,Integer.MAX_VALUE, ISC, UW);
 		}
 
 		if( minValue != Integer.MIN_VALUE && maxValue != Integer.MAX_VALUE )

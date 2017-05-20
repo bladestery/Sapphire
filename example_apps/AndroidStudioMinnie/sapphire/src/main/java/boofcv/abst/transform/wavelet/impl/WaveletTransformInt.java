@@ -24,6 +24,7 @@ import boofcv.alg.misc.GImageMiscOps;
 import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.transform.wavelet.UtilWavelet;
 import boofcv.alg.transform.wavelet.WaveletTransformOps;
+import boofcv.core.image.ConvertImage;
 import boofcv.core.image.GConvertImage;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.BorderType;
@@ -47,10 +48,7 @@ import boofcv.struct.wavelet.WlCoef_I32;
  * @author Peter Abeles
  */
 public class WaveletTransformInt<T extends GrayI> implements WaveletTransform<T,GrayS32, WlCoef_I32> {
-	private static InputSanityCheck ISC;
-	private static GeneralizedImageOps GIO;
-	private static GImageMiscOps GIMO;
-	private static ImageMiscOps IMO;
+
 	// is either a copy of the transformed image or the input image
 	GrayS32 copyInput = new GrayS32(1,1);
 	GrayS32 copyOutput = new GrayS32(1,1);
@@ -77,10 +75,10 @@ public class WaveletTransformInt<T extends GrayI> implements WaveletTransform<T,
 	}
 
 	@Override
-	public GrayS32 transform(T original, GrayS32 transformed) {
+	public GrayS32 transform(T original, GrayS32 transformed, InputSanityCheck ISC, GeneralizedImageOps GIO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvertImage CI, UtilWavelet UW) {
 
 		if( transformed == null ) {
-			ImageDimension d = UtilWavelet.transformDimension(original,numLevels);
+			ImageDimension d = UW.transformDimension(original,numLevels);
 			transformed = new GrayS32(d.width,d.height);
 		}
 		temp.reshape(transformed.width,transformed.height);
@@ -89,26 +87,26 @@ public class WaveletTransformInt<T extends GrayI> implements WaveletTransform<T,
 		if( original.getDataType().getDataType() == int.class ) {
 			copyInput.setTo((GrayS32)original);
 		} else {
-			GConvertImage.convert(original, copyInput, ISC, GIO, GIMO, IMO);
+			GConvertImage.convert(original, copyInput, ISC, GIO, GIMO, IMO, CI);
 		}
-		WaveletTransformOps.transformN(desc, copyInput,transformed,temp,numLevels);
+		WaveletTransformOps.transformN(desc, copyInput,transformed,temp,numLevels, ISC, UW);
 
 		return transformed;
 	}
 
 	@Override
-	public void invert(GrayS32 transformed, T original) {
+	public void invert(GrayS32 transformed, T original, InputSanityCheck ISC, GeneralizedImageOps GIO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvertImage CI, UtilWavelet UW) {
 		copyInput.reshape(transformed.width,transformed.height);
 		temp.reshape(transformed.width,transformed.height);
 		copyInput.setTo(transformed);
 
 		if( original.getDataType().getDataType() == int.class ) {
 			WaveletTransformOps.
-					inverseN(desc, copyInput, (GrayS32) original, temp, numLevels, minPixelValue, maxPixelValue);
+					inverseN(desc, copyInput, (GrayS32) original, temp, numLevels, minPixelValue, maxPixelValue, ISC, UW);
 		} else {
 			copyOutput.reshape(original.width,original.height);
-			WaveletTransformOps.inverseN(desc, copyInput, copyOutput,temp,numLevels,minPixelValue,maxPixelValue);
-			GConvertImage.convert(copyOutput,original, ISC, GIO, GIMO, IMO);
+			WaveletTransformOps.inverseN(desc, copyInput, copyOutput,temp,numLevels,minPixelValue,maxPixelValue, ISC, UW);
+			GConvertImage.convert(copyOutput,original, ISC, GIO, GIMO, IMO, CI);
 		}
 	}
 
@@ -118,8 +116,8 @@ public class WaveletTransformInt<T extends GrayI> implements WaveletTransform<T,
 	}
 
 	@Override
-	public BorderType getBorderType() {
-		return UtilWavelet.convertToType(desc.getBorder());
+	public BorderType getBorderType(UtilWavelet UW) {
+		return UW.convertToType(desc.getBorder());
 	}
 
 	@Override

@@ -29,6 +29,7 @@ import boofcv.struct.wavelet.WaveletDescription;
 import boofcv.struct.wavelet.WlCoef;
 import boofcv.struct.wavelet.WlCoef_F32;
 import boofcv.struct.wavelet.WlCoef_I32;
+import sapphire.app.SapphireObject;
 
 
 /**
@@ -37,11 +38,12 @@ import boofcv.struct.wavelet.WlCoef_I32;
  *
  * @author Peter Abeles
  */
-public class FactoryWaveletTransform {
+public class FactoryWaveletTransform implements SapphireObject {
+	public FactoryWaveletTransform() {}
 
 
 	@SuppressWarnings({"unchecked"})
-	public static <T extends ImageGray, W extends ImageGray, C extends WlCoef>
+	public <T extends ImageGray, W extends ImageGray, C extends WlCoef>
 	WaveletTransform<T,W,C> create( Class<T> imageType , WaveletDescription<C> waveletDesc , int numLevels ,
 									double minPixelValue , double maxPixelValue)
 	{
@@ -65,7 +67,7 @@ public class FactoryWaveletTransform {
 	 * @param maxPixelValue Maximum pixel intensity value
 	 * @return The transform class.
 	 */
-	public static <T extends GrayI>
+	public <T extends GrayI>
 	WaveletTransform<T, GrayS32,WlCoef_I32>
 	create_I( WaveletDescription<WlCoef_I32> waveletDesc ,
 			  int numLevels , int minPixelValue , int maxPixelValue ,
@@ -83,7 +85,7 @@ public class FactoryWaveletTransform {
 	 * @param maxPixelValue Maximum pixel intensity value
 	 * @return The transform class.
 	 */
-	public static
+	public
 	WaveletTransform<GrayF32, GrayF32,WlCoef_F32>
 	create_F32( WaveletDescription<WlCoef_F32> waveletDesc ,
 				int numLevels, float minPixelValue , float maxPixelValue )

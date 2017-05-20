@@ -21,6 +21,7 @@ package boofcv.alg.background.stationary;
 import boofcv.alg.InputSanityCheck;
 import boofcv.alg.misc.GImageMiscOps;
 import boofcv.alg.misc.ImageMiscOps;
+import boofcv.core.image.ConvertImage;
 import boofcv.core.image.FactoryGImageMultiBand;
 import boofcv.core.image.GConvertImage;
 import boofcv.core.image.GImageMultiBand;
@@ -39,6 +40,7 @@ public class BackgroundStationaryBasic_IL<T extends ImageInterleaved>
 	private static InputSanityCheck ISC;
 	private static GeneralizedImageOps GIO;
 	private static GImageMiscOps GIMO;
+	private static ConvertImage CI;
 	// storage for background image
 	protected InterleavedF32 background;
 
@@ -74,7 +76,7 @@ public class BackgroundStationaryBasic_IL<T extends ImageInterleaved>
 	public void updateBackground( T frame) {
 		if( background.width == 1 ) {
 			background.reshape(frame.width, frame.height);
-			GConvertImage.convert(frame, background, ISC, GIO, GIMO, IMO);
+			GConvertImage.convert(frame, background, ISC, GIO, GIMO, IMO, CI);
 			return;
 		} else {
 			ISC.checkSameShape(background,frame);

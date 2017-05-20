@@ -44,6 +44,8 @@ import boofcv.alg.misc.GImageStatistics;
 import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.misc.ImageStatistics;
 import boofcv.alg.shapes.polygon.BinaryPolygonDetector;
+import boofcv.alg.transform.wavelet.UtilWavelet;
+import boofcv.core.image.ConvertImage;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.BorderType;
 import boofcv.core.image.border.FactoryImageBorder;
@@ -112,7 +114,8 @@ public abstract class BaseDetectFiducialSquare<T extends ImageGray> {
 	private static ImageMiscOps IMO;
 	private static GImageMiscOps GIMO;
 	private static ConvolveJustBorder_General CJBG;
-
+	private static ConvertImage CI;
+	private static UtilWavelet UW;
 	private LinearContourLabelChang2004 cF = new LinearContourLabelChang2004(ConnectRule.FOUR);
 
 	// Storage for the found fiducials
@@ -244,7 +247,7 @@ public abstract class BaseDetectFiducialSquare<T extends ImageGray> {
 	public void process( T gray ) {
 		binary.reshape(gray.width,gray.height);
 
-		inputToBinary.process(gray,binary, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG);
+		inputToBinary.process(gray,binary, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW);
 		squareDetector.process(gray,binary, ISC, IMO, cF);
 		// These are in undistorted pixels
 		FastQueue<Polygon2D_F64> candidates = squareDetector.getFoundPolygons();

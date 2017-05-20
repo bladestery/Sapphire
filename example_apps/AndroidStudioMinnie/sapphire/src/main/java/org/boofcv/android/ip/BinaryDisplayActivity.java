@@ -12,9 +12,13 @@ import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.ToggleButton;
 
+import org.boofcv.android.DemoManager;
 import org.boofcv.android.DemoVideoDisplayActivity;
 import org.boofcv.android.R;
 
+import java.net.InetSocketAddress;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.function.IntBinaryOperator;
 
 import boofcv.alg.InputSanityCheck;
@@ -29,6 +33,10 @@ import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.ImageBorderValue;
 import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.ImageType;
+import sapphire.kernel.server.KernelServerImpl;
+import sapphire.oms.OMSServer;
+
+import static sapphire.kernel.common.GlobalKernelReferences.nodeServer;
 
 /**
  * Converts camera image into a binary image and lets the user control the threshold/filters.
@@ -39,21 +47,41 @@ public class BinaryDisplayActivity extends DemoVideoDisplayActivity
 		implements SeekBar.OnSeekBarChangeListener ,
 		CompoundButton.OnCheckedChangeListener,
 		AdapterView.OnItemSelectedListener {
-	private static ImageType IT;
-	private static GThresholdImageOps GTIO;
-	private static BinaryImageOps BIO;
-	private static ThresholdImageOps TIO;
-	private static InputSanityCheck ISC;
-	private static GeneralizedImageOps GIO;
-	private static ImplBinaryBorderOps IBBO;
-	private static ImplBinaryInnerOps IBIO;
-	private static ImageBorderValue IBV;
 	boolean down;
 	double threshold;
 	int action;
+	OMSServer server;
+	DemoManager dm;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		InetSocketAddress host, omsHost;
+
+		try {
+			Registry registry = LocateRegistry.getRegistry("157.82.159.58", 22346);
+			server = (OMSServer) registry.lookup("SapphireOMS");
+			System.out.println(server);
+
+			host = new InetSocketAddress("192.168.0.7", 22346);
+			omsHost = new InetSocketAddress("157.82.159.58", 22346);
+			nodeServer = new KernelServerImpl(host, omsHost);
+			System.out.println(nodeServer);
+
+			System.setProperty("java.rmi.server.hostname", host.getAddress().getHostAddress());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		try {
+			//Server is initiated with appObject to perform remote RPCs
+			dm = (DemoManager) server.getAppEntryPoint();
+			System.out.println("Got AppEntryPoint");
+			//dm.LatencyCheck();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(0);
+		}
 
 		LayoutInflater inflater = getLayoutInflater();
 		LinearLayout controls = (LinearLayout)inflater.inflate(R.layout.binary_controls,null);
@@ -114,56 +142,64 @@ public class BinaryDisplayActivity extends DemoVideoDisplayActivity
 		GrayU8 afterOps;
 
 		protected ThresholdProcessing() {
-			super(IT.single(GrayU8.class));
+			super(dm.single(GrayU8.class));
 		}
 
 		@Override
 		protected void declareImages( int width , int height ) {
 			super.declareImages(width, height);
-
+			dm.initImageBinary(width, height);
 			binary = new GrayU8(width,height);
-			afterOps = new GrayU8(width,height);
+			//afterOps = new GrayU8(width,height);
 		}
 
 		@Override
 		protected void process(GrayU8 input, Bitmap output, byte[] storage) {
-			GTIO.threshold(input,binary,threshold, down, TIO, ISC, GIO);
+			//dm.threshold(input,threshold, down);
 
 			switch( action ) {
 				case 1:
-					BIO.dilate4(binary,1,afterOps, ISC, IBIO, IBBO, IBV);
+					afterOps = dm.dilate4(input,threshold,down,1);
+					//BIO.dilate4(binary,1,afterOps, ISC, IBIO, IBBO, IBV);
 					break;
 
 				case 2:
-					BIO.dilate8(binary, 1, afterOps, ISC, IBIO, IBBO, IBV);
+					afterOps = dm.dilate8(input, threshold, down, 1);
+					//BIO.dilate8(binary, 1, afterOps, ISC, IBIO, IBBO, IBV);
 					break;
 
 				case 3:
-					BIO.erode4(binary, 1, afterOps, ISC, IBIO, IBBO, IBV);
+					afterOps = dm.erode4(input, threshold, down, 1);
+					//BIO.erode4(binary, 1, afterOps, ISC, IBIO, IBBO, IBV);
 					break;
 
 				case 4:
-					BIO.erode8(binary, 1, afterOps, ISC, IBIO, IBBO, IBV);
+					afterOps = dm.erode8(input, threshold, down, 1);
+					//BIO.erode8(binary, 1, afterOps, ISC, IBIO, IBBO, IBV);
 					break;
 
 				case 5:
-					BIO.edge4(binary, afterOps, ISC, IBIO, IBBO, IBV);
+					afterOps = dm.edge4(input, threshold, down);
+					//BIO.edge4(binary, afterOps, ISC, IBIO, IBBO, IBV);
 					break;
 
 				case 6:
-					BIO.edge8(binary, afterOps, ISC, IBIO, IBBO, IBV);
+					afterOps = dm.edge8(input, threshold, down);
+					//BIO.edge8(binary, afterOps, ISC, IBIO, IBBO, IBV);
 					break;
 
 				case 7:
-					BIO.removePointNoise(binary, afterOps, ISC, IBIO, IBBO, IBV);
+					afterOps = dm.removePointNoise(input, threshold, down);
+					//BIO.removePointNoise(binary, afterOps, ISC, IBIO, IBBO, IBV);
 					break;
 
 				case 8:
-					BIO.thin(binary,50,afterOps, ISC);
+					afterOps = dm.thin(input, threshold, down, 50);
+					//BIO.thin(binary,50,afterOps, ISC);
 					break;
 
 				default:
-					afterOps.setTo(binary);
+					afterOps = dm.threshold(input, threshold, down);
 			}
 
 			VisualizeImageData.binaryToBitmap(afterOps, false, output, storage);

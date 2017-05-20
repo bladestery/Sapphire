@@ -43,6 +43,8 @@ import boofcv.alg.misc.GImageMiscOps;
 import boofcv.alg.misc.GImageStatistics;
 import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.misc.ImageStatistics;
+import boofcv.alg.transform.wavelet.UtilWavelet;
+import boofcv.core.image.ConvertImage;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.FactoryImageBorderAlgs;
 import boofcv.core.image.border.ImageBorderValue;
@@ -140,7 +142,7 @@ public class CannyEdge<T extends ImageGray, D extends ImageGray> implements Sapp
 						ConvolveImageMean CIM, FactoryKernelGaussian FKG, ConvolveNormalized CN, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB,
 						ConvolveNormalized_JustBorder CNJB, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM,
 						DerivativeHelperFunctions DHF, GThresholdImageOps GTIO, GImageStatistics GIS, ThresholdImageOps TIO, ConvolveJustBorder_General CJBG,
-						GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO, GImageMiscOps GIMO) {
+						GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO, GImageMiscOps GIMO, ConvertImage CI, UtilWavelet UW) {
 
 		if( threshLow < 0 || threshHigh < 0 )
 			throw new IllegalArgumentException("Threshold must be >= zero!");
@@ -161,7 +163,7 @@ public class CannyEdge<T extends ImageGray, D extends ImageGray> implements Sapp
 		work.reshape(input.width,input.height);
 
 		// run canny edge detector
-		blur.process(input,blurred, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG);
+		blur.process(input,blurred, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW);
 		gradient.process(blurred, derivX, derivY, ISC, DHF, CINB, CJBG, GSO, GSUO);
 		GGTEF.intensityAbs(derivX, derivY, intensity, GTEF, ISC);
 		GGTEF.direction(derivX, derivY, angle, GTEF, ISC);

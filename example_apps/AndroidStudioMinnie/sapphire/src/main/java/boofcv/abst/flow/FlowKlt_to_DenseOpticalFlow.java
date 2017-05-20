@@ -44,6 +44,8 @@ import boofcv.alg.misc.GImageStatistics;
 import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.misc.ImageStatistics;
 import boofcv.alg.transform.pyramid.PyramidOps;
+import boofcv.alg.transform.wavelet.UtilWavelet;
+import boofcv.core.image.ConvertImage;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.core.image.border.FactoryImageBorderAlgs;
@@ -95,6 +97,8 @@ public class FlowKlt_to_DenseOpticalFlow<I extends ImageGray, D extends ImageGra
 	private static FastHessianFeatureDetector FHFD;
 	private static FactoryImageBorder FIB;
 	private static FactoryBlurFilter FBF;
+	private static ConvertImage CI;
+	private static UtilWavelet UW;
 	private static ImageType IT;
 	DenseOpticalFlowKlt<I,D> flowKlt;
 	ImageGradient<I,D> gradient;
@@ -133,8 +137,8 @@ public class FlowKlt_to_DenseOpticalFlow<I extends ImageGray, D extends ImageGra
 
 	@Override
 	public void process(I source, I destination, ImageFlow flow) {
-		pyramidSrc.process(source, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG);
-		pyramidDst.process(destination, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG);
+		pyramidSrc.process(source, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG, CI, UW);
+		pyramidDst.process(destination, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG, CI, UW);
 
 		PyramidOps.reshapeOutput(pyramidSrc,srcDerivX);
 		PyramidOps.reshapeOutput(pyramidSrc,srcDerivY);

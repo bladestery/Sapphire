@@ -42,6 +42,8 @@ import boofcv.alg.misc.GImageMiscOps;
 import boofcv.alg.misc.GImageStatistics;
 import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.misc.ImageStatistics;
+import boofcv.alg.transform.wavelet.UtilWavelet;
+import boofcv.core.image.ConvertImage;
 import boofcv.core.image.GConvertImage;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.FactoryImageBorder;
@@ -90,12 +92,13 @@ public class DetectDescribe_CompleteSift<In extends ImageGray>
 					   GImageMiscOps GIMO, ImageMiscOps IMO, ConvolveNormalizedNaive CNN, ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN,
 					   GBlurImageOps GBIO, GeneralizedImageOps GIO, BlurImageOps BIO, ConvolveImageMean CIM, FactoryKernelGaussian FKG, ImplMedianHistogramInner IMHI,
 					   ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM, GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS,
-					   ThresholdImageOps TIO, FactoryImageBorderAlgs FIBA, ImageBorderValue IBV, FastHessianFeatureDetector FHFD, FactoryImageBorder FIB, FactoryBlurFilter FBF) {
+					   ThresholdImageOps TIO, FactoryImageBorderAlgs FIBA, ImageBorderValue IBV, FastHessianFeatureDetector FHFD, FactoryImageBorder FIB, FactoryBlurFilter FBF,
+					   ConvertImage CI, UtilWavelet UW) {
 		if( input instanceof GrayF32)
 			alg.process((GrayF32)input, FHFD, FIB, ISC, CNN, CINB, CNJB, CN);
 		else {
 			imageFloat.reshape(input.width,input.height);
-			GConvertImage.convert(input,imageFloat, ISC, GIO, GIMO, IMO);
+			GConvertImage.convert(input,imageFloat, ISC, GIO, GIMO, IMO, CI);
 			alg.process(imageFloat, FHFD, FIB, ISC, CNN, CINB, CNJB, CN);
 		}
 	}

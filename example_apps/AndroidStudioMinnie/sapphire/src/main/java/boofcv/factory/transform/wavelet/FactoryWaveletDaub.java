@@ -103,7 +103,7 @@ public class FactoryWaveletDaub {
 	 * @return Description of the Daub J/K wavelet.
 	 */
 	public static WaveletDescription<WlCoef_F32> biorthogonal_F32( int J ,
-																   BorderType borderType ) {
+																   BorderType borderType, UtilWavelet UW) {
 		if( J != 5 ) {
 			throw new IllegalArgumentException("Only 5 is currently supported");
 		}
@@ -132,7 +132,7 @@ public class FactoryWaveletDaub {
 		if( borderType == BorderType.REFLECT ) {
 			WlCoef_F32 inner = computeInnerInverseBiorthogonal(forward);
 			border = new BorderIndex1D_Reflect();
-			inverse = computeBorderCoefficients(border,forward,inner);
+			inverse = computeBorderCoefficients(border,forward,inner, UW);
 		} else if( borderType == BorderType.WRAP ) {
 			WlCoef_F32 inner = computeInnerInverseBiorthogonal(forward);
 			inverse = new WlBorderCoefStandard<>(inner);
@@ -181,7 +181,7 @@ public class FactoryWaveletDaub {
 	 */
 	private static WlBorderCoef<WlCoef_F32> computeBorderCoefficients( BorderIndex1D border ,
 																	   WlCoef_F32 forward ,
-																	   WlCoef_F32 inverse ) {
+																	   WlCoef_F32 inverse, UtilWavelet UW) {
 		int N = Math.max(forward.getScalingLength(),forward.getWaveletLength());
 		N += N%2;
 		N *= 2;
@@ -212,7 +212,7 @@ public class FactoryWaveletDaub {
 		DenseMatrix64F A_inv = new DenseMatrix64F(N,N);
 		solver.invert(A_inv);
 
-		int numBorder = UtilWavelet.borderForwardLower(inverse)/2;
+		int numBorder = UW.borderForwardLower(inverse)/2;
 
 		WlBorderCoefFixed<WlCoef_F32> ret = new WlBorderCoefFixed<>(numBorder, numBorder + 1);
 		ret.setInnerCoef(inverse);
@@ -275,7 +275,7 @@ public class FactoryWaveletDaub {
 	 * @return Description of the Daub J/K wavelet.
 	 */
 	public static WaveletDescription<WlCoef_I32> biorthogonal_I32( int J ,
-																   BorderType borderType ) {
+																   BorderType borderType, UtilWavelet UW) {
 		if( J != 5 ) {
 			throw new IllegalArgumentException("Only 5 is currently supported");
 		}
@@ -309,7 +309,7 @@ public class FactoryWaveletDaub {
 			border = new BorderIndex1D_Wrap();
 		} else if( borderType == BorderType.REFLECT ) {
 			WlCoef_I32 inner = computeInnerBiorthogonalInverse(forward);
-			inverse = convertToInt((WlBorderCoefFixed<WlCoef_F32>)biorthogonal_F32(J,borderType).getInverse(),inner);
+			inverse = convertToInt((WlBorderCoefFixed<WlCoef_F32>)biorthogonal_F32(J,borderType, UW).getInverse(),inner);
 			border = new BorderIndex1D_Reflect();
 		} else {
 			throw new IllegalArgumentException("Unsupported border type: "+borderType);

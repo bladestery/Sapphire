@@ -41,6 +41,8 @@ import boofcv.alg.misc.GImageStatistics;
 import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.misc.ImageStatistics;
 import boofcv.alg.shapes.ellipse.BinaryEllipseDetector;
+import boofcv.alg.transform.wavelet.UtilWavelet;
+import boofcv.core.image.ConvertImage;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.image.GrayU8;
@@ -99,6 +101,9 @@ public class DetectAsymmetricCircleGrid<T extends ImageGray> {
 	private static LinearContourLabelChang2004 cF;
 	private static GImageMiscOps GIMO;
 	private static ConvolveJustBorder_General CJBG;
+	private static ConvertImage CI;
+	private static UtilWavelet UW;
+
 	private BinaryEllipseDetector<T> ellipseDetector;
 	private InputToBinary<T> inputToBinary;
 
@@ -155,7 +160,7 @@ public class DetectAsymmetricCircleGrid<T extends ImageGray> {
 
 		this.binary.reshape(gray.width,gray.height);
 
-		inputToBinary.process(gray, binary, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG);
+		inputToBinary.process(gray, binary, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW);
 
 		ellipseDetector.process(gray, binary, cF, IMO);
 		List<EllipseRotated_F64> found = ellipseDetector.getFoundEllipses().toList();

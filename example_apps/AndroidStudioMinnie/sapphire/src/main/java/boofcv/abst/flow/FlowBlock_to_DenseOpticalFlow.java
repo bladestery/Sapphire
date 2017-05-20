@@ -43,6 +43,8 @@ import boofcv.alg.misc.GImageMiscOps;
 import boofcv.alg.misc.GImageStatistics;
 import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.misc.ImageStatistics;
+import boofcv.alg.transform.wavelet.UtilWavelet;
+import boofcv.core.image.ConvertImage;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.core.image.border.FactoryImageBorderAlgs;
@@ -93,6 +95,8 @@ public class FlowBlock_to_DenseOpticalFlow<T extends ImageGray>
 	private static FactoryImageBorder FIB;
 	private static FactoryBlurFilter FBF;
 	private static ImageType IT;
+	private static UtilWavelet UW;
+	private static ConvertImage CI;
 	DenseOpticalFlowBlockPyramid<T> flowAlg;
 
 	// width and height of input image.  used to see if anything changes
@@ -136,8 +140,8 @@ public class FlowBlock_to_DenseOpticalFlow<T extends ImageGray>
 					minSize,maxLayers,source.getImageType().getImageClass());
 		}
 
-		pyramidSrc.process(source, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG);
-		pyramidDst.process(destination, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG);
+		pyramidSrc.process(source, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG, CI, UW);
+		pyramidDst.process(destination, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG, CI, UW);
 
 		flowAlg.process(pyramidSrc,pyramidDst);
 

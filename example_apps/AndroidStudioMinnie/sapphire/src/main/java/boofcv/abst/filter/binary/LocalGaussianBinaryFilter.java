@@ -37,6 +37,8 @@ import boofcv.alg.misc.GImageMiscOps;
 import boofcv.alg.misc.GImageStatistics;
 import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.misc.ImageStatistics;
+import boofcv.alg.transform.wavelet.UtilWavelet;
+import boofcv.core.image.ConvertImage;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.image.GrayU8;
@@ -53,8 +55,6 @@ import boofcv.struct.image.ImageType;
 public class LocalGaussianBinaryFilter<T extends ImageGray> implements InputToBinary<T> {
 	ImageType<T> inputType;
 
-	private static GThresholdImageOps GTIO;
-	private static ThresholdImageOps TIO;
 	T work1;
 	ImageGray work2;
 
@@ -79,7 +79,8 @@ public class LocalGaussianBinaryFilter<T extends ImageGray> implements InputToBi
 	public void process(T input, GrayU8 output, GBlurImageOps GBIO, InputSanityCheck ISC, GeneralizedImageOps GIO, BlurImageOps BIO,
 						ConvolveImageMean CIM, FactoryKernelGaussian FKG, ConvolveNormalized CN, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB,
 						ConvolveNormalized_JustBorder CNJB, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM,
-						GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvolveJustBorder_General CJBG) {
+						GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvolveJustBorder_General CJBG,
+						ConvertImage CI, UtilWavelet UW) {
 		work1.reshape(input.width,input.height);
 		work2.reshape(input.width,input.height);
 		GTIO.localGaussian(input, output, radius, scale, down, work1, work2, TIO, ISC, GIO, BIO, FKG, CN, CNN, CINB, CNJB);

@@ -48,6 +48,7 @@ public class FactoryPointTrackerTwoPass {
 	private static GeneralizedImageOps GIO;
 	private static FactoryImageBorder FIB;
 	private static FactoryKernelGaussian FKG;
+	private static FactoryPyramid FP;
 	/**
 	 * Pyramid KLT feature tracker.
 	 *
@@ -66,7 +67,7 @@ public class FactoryPointTrackerTwoPass {
 
 		ImageGradient<I,D> gradient = FD.sobel(imageType, derivType, GIO, FIB);
 
-		PyramidDiscrete<I> pyramid = FactoryPyramid.discreteGaussian(config.pyramidScaling,-1,2,true,imageType, FKG);
+		PyramidDiscrete<I> pyramid = FP.discreteGaussian(config.pyramidScaling,-1,2,true,imageType, FKG);
 
 		return new PointTrackerTwoPassKltPyramid<>(config.config, config.templateRadius, pyramid, detector,
 				gradient, interpInput, interpDeriv);

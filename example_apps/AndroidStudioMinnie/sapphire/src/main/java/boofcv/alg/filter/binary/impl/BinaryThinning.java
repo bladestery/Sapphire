@@ -43,7 +43,6 @@ import org.ddogleg.struct.GrowQueue_I32;
  * @author Peter Abeles
  */
 public class BinaryThinning {
-	private static ImageBorderValue IBV;
 // Thanks Emil Hellman for pointing out an issue in this implementation and helped solve/improve the implementation
 
 
@@ -83,13 +82,17 @@ public class BinaryThinning {
 	// reference to input image
 	GrayU8 binary;
 	// all pixels outside the image are set to 0
-	ImageBorder_S32<GrayU8> inputBorder = IBV.wrap(binary, 0);
+	ImageBorder_S32<GrayU8> inputBorder;
 	// list of one valued pixels, input
 	GrowQueue_I32 ones0 = new GrowQueue_I32();
 	GrowQueue_I32 ones1 = new GrowQueue_I32();
 
 	// list of pixels which need to be set to zero
 	GrowQueue_I32 zerosOut = new GrowQueue_I32();
+
+	public BinaryThinning(ImageBorderValue IBV) {
+		inputBorder = IBV.wrap(binary, 0);
+	}
 
 	/**
 	 * Applies the thinning algorithm.  Runs for the specified number of loops or until no change is detected.

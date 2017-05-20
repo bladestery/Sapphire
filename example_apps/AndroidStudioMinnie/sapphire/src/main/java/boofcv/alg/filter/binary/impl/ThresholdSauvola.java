@@ -28,6 +28,7 @@ import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
 import boofcv.alg.misc.ImageStatistics;
 import boofcv.alg.misc.PixelMath;
+import boofcv.core.image.ConvertImage;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.GrayU8;
 
@@ -48,15 +49,6 @@ import boofcv.struct.image.GrayU8;
  * @author Peter Abeles
  */
 public class ThresholdSauvola {
-	private static BlurImageOps BIO;
-	private static InputSanityCheck ISC;
-	private static ImageStatistics IS;
-	private static ConvolveImageMean CIM;
-	private static ConvolveNormalized CN;
-	private static ConvolveNormalizedNaive CNN;
-	private static ConvolveImageNoBorder CINB;
-	private static ConvolveNormalized_JustBorder CNJB;
-	private static ImplConvolveMean ICM;
 	// user specified threshold
 	float k;
 	// size of local region
@@ -91,7 +83,8 @@ public class ThresholdSauvola {
 	 * @param input Input image.  Not modified.
 	 * @param output Output binary image.  Modified.
 	 */
-	public void process(GrayF32 input , GrayU8 output ) {
+	public void process(GrayF32 input , GrayU8 output, BlurImageOps BIO, InputSanityCheck ISC, ConvolveImageMean CIM, ConvolveNormalized CN, ConvolveNormalizedNaive CNN,
+						ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ImplConvolveMean ICM, ImageStatistics IS) {
 		inputPow2.reshape(input.width,input.height);
 		inputMean.reshape(input.width,input.height);
 		inputMeanPow2.reshape(input.width,input.height);

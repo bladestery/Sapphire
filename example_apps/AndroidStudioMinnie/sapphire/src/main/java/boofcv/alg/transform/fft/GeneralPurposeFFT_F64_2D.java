@@ -43,7 +43,7 @@ package boofcv.alg.transform.fft;
  *
  */
 public class GeneralPurposeFFT_F64_2D {
-
+	private static DiscreteFourierTransformOps DFTO;
 	private int rows;
 
 	private int columns;
@@ -73,7 +73,7 @@ public class GeneralPurposeFFT_F64_2D {
 		this.rows = rows;
 		this.columns = columns;
 
-		if (DiscreteFourierTransformOps.isPowerOf2(rows) && DiscreteFourierTransformOps.isPowerOf2(columns)) {
+		if (DFTO.isPowerOf2(rows) && DFTO.isPowerOf2(columns)) {
 			isPowerOfTwo = true;
 
 			int oldNthreads = 1;

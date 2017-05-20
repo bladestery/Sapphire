@@ -48,6 +48,8 @@ import boofcv.alg.tracker.klt.KltConfig;
 import boofcv.alg.tracker.klt.KltTrackFault;
 import boofcv.alg.tracker.klt.PyramidKltFeature;
 import boofcv.alg.transform.pyramid.PyramidOps;
+import boofcv.alg.transform.wavelet.UtilWavelet;
+import boofcv.core.image.ConvertImage;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.core.image.border.FactoryImageBorderAlgs;
@@ -100,6 +102,8 @@ public class PointTrackerTwoPassKltPyramid<I extends ImageGray,D extends ImageGr
 	private static FactoryImageBorder FIB;
 	private static ImageType IT;
 	private static FactoryBlurFilter FBF;
+	private static ConvertImage CI;
+	private static UtilWavelet UW;
 	// list of active tracks before the current image is processed
 	List<PyramidKltFeature> originalActive = new ArrayList<>();
 
@@ -130,7 +134,7 @@ public class PointTrackerTwoPassKltPyramid<I extends ImageGray,D extends ImageGr
 		dropped.clear();
 
 		// update image pyramids
-		basePyramid.process(image, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG);
+		basePyramid.process(image, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG, CI, UW);
 		declareOutput();
 		PyramidOps.gradient(basePyramid, gradient, derivX, derivY);
 

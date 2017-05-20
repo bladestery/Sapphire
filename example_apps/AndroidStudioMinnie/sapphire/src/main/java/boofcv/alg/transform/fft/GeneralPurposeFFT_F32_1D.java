@@ -45,7 +45,6 @@ import java.util.Arrays;
  *
  */
 public class GeneralPurposeFFT_F32_1D {
-
 	private static enum Plans {
 		SPLIT_RADIX, MIXED_RADIX, BLUESTEIN
 	}
@@ -90,16 +89,16 @@ public class GeneralPurposeFFT_F32_1D {
 	 * @param n
 	 *            size of data
 	 */
-	public GeneralPurposeFFT_F32_1D(int n) {
+	public GeneralPurposeFFT_F32_1D(int n, DiscreteFourierTransformOps DFTO) {
 		if (n < 1) {
 			throw new IllegalArgumentException("n must be greater than 0");
 		}
 		this.n = n;
 
-		if (!DiscreteFourierTransformOps.isPowerOf2(n)) {
+		if (!DFTO.isPowerOf2(n)) {
 			if (getReminder(n, factors) >= 211) {
 				plan = Plans.BLUESTEIN;
-				nBluestein = DiscreteFourierTransformOps.nextPow2(n * 2 - 1);
+				nBluestein = DFTO.nextPow2(n * 2 - 1);
 				bk1 = new float[2 * nBluestein];
 				bk2 = new float[2 * nBluestein];
 				this.ip = new int[2 + (int) Math.ceil(2 + (1 << (int) (Math.log(nBluestein + 0.5) / Math.log(2)) / 2))];

@@ -22,6 +22,7 @@ import boofcv.alg.InputSanityCheck;
 import boofcv.alg.background.moving.BackgroundMovingGaussian;
 import boofcv.alg.misc.GImageMiscOps;
 import boofcv.alg.misc.ImageMiscOps;
+import boofcv.core.image.ConvertImage;
 import boofcv.core.image.FactoryGImageGray;
 import boofcv.core.image.GConvertImage;
 import boofcv.core.image.GImageGray;
@@ -42,6 +43,7 @@ public class BackgroundStationaryGaussian_SB<T extends ImageGray>
 	private static ImageMiscOps IMO;
 	private static GImageMiscOps GIMO;
 	private static GeneralizedImageOps GIO;
+	private static ConvertImage CI;
 	// wrappers which provide abstraction across image types
 	protected GImageGray inputWrapper;
 
@@ -71,7 +73,7 @@ public class BackgroundStationaryGaussian_SB<T extends ImageGray>
 	public void updateBackground( T frame) {
 		if( background.width == 1 ) {
 			background.reshape(frame.width, frame.height);
-			GConvertImage.convert(frame, background.getBand(0), ISC, GIO, GIMO, IMO);
+			GConvertImage.convert(frame, background.getBand(0), ISC, GIO, GIMO, IMO, CI);
 			GIMO.fill(background.getBand(1),initialVariance, IMO);
 			return;
 		} else {

@@ -40,7 +40,7 @@ import boofcv.struct.wavelet.WlCoef_I32;
 @SuppressWarnings({"ForLoopReplaceableByForEach"})
 public class ImplWaveletTransformInner {
 
-	public static void horizontal(WlCoef_F32 coefficients , GrayF32 input , GrayF32 output )
+	public static void horizontal(WlCoef_F32 coefficients , GrayF32 input , GrayF32 output, UtilWavelet UW)
 	{
 		final int offsetA = coefficients.offsetScaling;
 		final int offsetB = coefficients.offsetWavelet;
@@ -53,8 +53,8 @@ public class ImplWaveletTransformInner {
 		final int width = output.width;
 		final int height = input.height;
 		final int widthD2 = width/2;
-		final int startX = UtilWavelet.borderForwardLower(coefficients);
-		final int endOffsetX = input.width - UtilWavelet.borderForwardUpper(coefficients,input.width) - startX;
+		final int startX = UW.borderForwardLower(coefficients);
+		final int endOffsetX = input.width - UW.borderForwardUpper(coefficients,input.width) - startX;
 
 		for( int y = 0; y < height; y++ ) {
 
@@ -83,7 +83,7 @@ public class ImplWaveletTransformInner {
 		}
 	}
 
-	public static void vertical(WlCoef_F32 coefficients , GrayF32 input , GrayF32 output )
+	public static void vertical(WlCoef_F32 coefficients , GrayF32 input , GrayF32 output, UtilWavelet UW)
 	{
 		final int offsetA = coefficients.offsetScaling*input.stride;
 		final int offsetB = coefficients.offsetWavelet*input.stride;
@@ -96,8 +96,8 @@ public class ImplWaveletTransformInner {
 		final int width = input.width;
 		final int height = output.height;
 		final int heightD2 = (height/2)*output.stride;
-		final int startY = UtilWavelet.borderForwardLower(coefficients);
-		final int endY = input.height - UtilWavelet.borderForwardUpper(coefficients,input.width);
+		final int startY = UW.borderForwardLower(coefficients);
+		final int endY = input.height - UW.borderForwardUpper(coefficients,input.width);
 
 		for( int y = startY; y < endY; y += 2 ) {
 
@@ -127,7 +127,7 @@ public class ImplWaveletTransformInner {
 		}
 	}
 
-	public static void horizontalInverse(WlCoef_F32 coefficients , GrayF32 input , GrayF32 output )
+	public static void horizontalInverse(WlCoef_F32 coefficients , GrayF32 input , GrayF32 output, UtilWavelet UW)
 	{
 		final int offsetA = coefficients.offsetScaling;
 		final int offsetB = coefficients.offsetWavelet;
@@ -140,8 +140,8 @@ public class ImplWaveletTransformInner {
 		final int width = input.width;
 		final int height = output.height;
 		final int widthD2 = width/2;
-		final int lowerBorder = UtilWavelet.borderForwardLower(coefficients);
-		final int upperBorder = output.width - UtilWavelet.borderForwardUpper(coefficients,output.width);
+		final int lowerBorder = UW.borderForwardLower(coefficients);
+		final int upperBorder = output.width - UW.borderForwardUpper(coefficients,output.width);
 		for( int y = 0; y < height; y++ ) {
 
 			// initialize details and trends arrays
@@ -188,7 +188,7 @@ public class ImplWaveletTransformInner {
 		}
 	}
 
-	public static void verticalInverse(WlCoef_F32 coefficients , GrayF32 input , GrayF32 output )
+	public static void verticalInverse(WlCoef_F32 coefficients , GrayF32 input , GrayF32 output, UtilWavelet UW)
 	{
 		final int offsetA = coefficients.offsetScaling;
 		final int offsetB = coefficients.offsetWavelet;
@@ -201,8 +201,8 @@ public class ImplWaveletTransformInner {
 		final int width = output.width;
 		final int height = input.height;
 		final int heightD2 = (height/2)*input.stride;
-		final int lowerBorder = UtilWavelet.borderForwardLower(coefficients);
-		final int upperBorder = output.height - UtilWavelet.borderForwardUpper(coefficients,output.height);
+		final int lowerBorder = UW.borderForwardLower(coefficients);
+		final int upperBorder = output.height - UW.borderForwardUpper(coefficients,output.height);
 		for( int x = 0; x < width; x++) {
 
 			int indexSrc = input.startIndex + (lowerBorder/2)*input.stride + x;
@@ -249,7 +249,7 @@ public class ImplWaveletTransformInner {
 		}
 	}
 
-	public static void horizontal(WlCoef_I32 coefficients , GrayS32 input , GrayS32 output )
+	public static void horizontal(WlCoef_I32 coefficients , GrayS32 input , GrayS32 output, UtilWavelet UW)
 	{
 		final int offsetA = coefficients.offsetScaling;
 		final int offsetB = coefficients.offsetWavelet;
@@ -262,8 +262,8 @@ public class ImplWaveletTransformInner {
 		final int width = output.width;
 		final int height = input.height;
 		final int widthD2 = width/2;
-		final int startX = UtilWavelet.borderForwardLower(coefficients);
-		final int endOffsetX = input.width - UtilWavelet.borderForwardUpper(coefficients,input.width) - startX;
+		final int startX = UW.borderForwardLower(coefficients);
+		final int endOffsetX = input.width - UW.borderForwardUpper(coefficients,input.width) - startX;
 
 		for( int y = 0; y < height; y++ ) {
 
@@ -295,7 +295,7 @@ public class ImplWaveletTransformInner {
 		}
 	}
 
-	public static void vertical(WlCoef_I32 coefficients , GrayS32 input , GrayS32 output )
+	public static void vertical(WlCoef_I32 coefficients , GrayS32 input , GrayS32 output, UtilWavelet UW )
 	{
 		final int offsetA = coefficients.offsetScaling*input.stride;
 		final int offsetB = coefficients.offsetWavelet*input.stride;
@@ -308,8 +308,8 @@ public class ImplWaveletTransformInner {
 		final int width = input.width;
 		final int height = output.height;
 		final int heightD2 = (height/2)*output.stride;
-		final int startY = UtilWavelet.borderForwardLower(coefficients);
-		final int endY = input.height - UtilWavelet.borderForwardUpper(coefficients,input.width);
+		final int startY = UW.borderForwardLower(coefficients);
+		final int endY = input.height - UW.borderForwardUpper(coefficients,input.width);
 
 		for( int y = startY; y < endY; y += 2 ) {
 
@@ -342,7 +342,7 @@ public class ImplWaveletTransformInner {
 		}
 	}
 
-	public static void horizontalInverse(WlCoef_I32 coefficients , GrayS32 input , GrayS32 output )
+	public static void horizontalInverse(WlCoef_I32 coefficients , GrayS32 input , GrayS32 output , UtilWavelet UW)
 	{
 		final int offsetA = coefficients.offsetScaling;
 		final int offsetB = coefficients.offsetWavelet;
@@ -355,8 +355,8 @@ public class ImplWaveletTransformInner {
 		final int width = input.width;
 		final int height = output.height;
 		final int widthD2 = width/2;
-		final int lowerBorder = UtilWavelet.borderForwardLower(coefficients);
-		final int upperBorder = output.width - UtilWavelet.borderForwardUpper(coefficients,output.width);
+		final int lowerBorder = UW.borderForwardLower(coefficients);
+		final int upperBorder = output.width - UW.borderForwardUpper(coefficients,output.width);
 		final int e = coefficients.denominatorScaling*2;
 		final int f = coefficients.denominatorWavelet*2;
 		final int ef = e*f;
@@ -403,12 +403,12 @@ public class ImplWaveletTransformInner {
 
 			int indexDst = output.startIndex + y*output.stride + lowerBorder;
 			for( int x = lowerBorder; x < upperBorder; x++ ) {
-				output.data[ indexDst++ ] = UtilWavelet.round(trends[x]*f + details[x]*e , ef2,ef);
+				output.data[ indexDst++ ] = UW.round(trends[x]*f + details[x]*e , ef2,ef);
 			}
 		}
 	}
 
-	public static void verticalInverse(WlCoef_I32 coefficients , GrayS32 input , GrayS32 output )
+	public static void verticalInverse(WlCoef_I32 coefficients , GrayS32 input , GrayS32 output, UtilWavelet UW )
 	{
 		final int offsetA = coefficients.offsetScaling;
 		final int offsetB = coefficients.offsetWavelet;
@@ -421,8 +421,8 @@ public class ImplWaveletTransformInner {
 		final int width = output.width;
 		final int height = input.height;
 		final int heightD2 = (height/2)*input.stride;
-		final int lowerBorder = UtilWavelet.borderForwardLower(coefficients);
-		final int upperBorder = output.height - UtilWavelet.borderForwardUpper(coefficients,output.height);
+		final int lowerBorder = UW.borderForwardLower(coefficients);
+		final int upperBorder = output.height - UW.borderForwardUpper(coefficients,output.height);
 		final int e = coefficients.denominatorScaling*2;
 		final int f = coefficients.denominatorWavelet*2;
 		final int ef = e*f;
@@ -469,7 +469,7 @@ public class ImplWaveletTransformInner {
 
 			int indexDst = output.startIndex + x + lowerBorder*output.stride;
 			for( int y = lowerBorder; y < upperBorder; y++ , indexDst += output.stride ) {
-				output.data[ indexDst ] = UtilWavelet.round(trends[y]*f + details[y]*e , ef2 , ef);
+				output.data[ indexDst ] = UW.round(trends[y]*f + details[y]*e , ef2 , ef);
 			}
 		}
 	}

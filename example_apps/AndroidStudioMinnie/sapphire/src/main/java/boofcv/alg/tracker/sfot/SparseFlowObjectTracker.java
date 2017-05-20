@@ -50,6 +50,8 @@ import boofcv.alg.tracker.klt.KltTrackFault;
 import boofcv.alg.tracker.klt.PyramidKltFeature;
 import boofcv.alg.tracker.klt.PyramidKltTracker;
 import boofcv.alg.tracker.tld.TldTracker;
+import boofcv.alg.transform.wavelet.UtilWavelet;
+import boofcv.core.image.ConvertImage;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.core.image.border.FactoryImageBorderAlgs;
@@ -109,6 +111,10 @@ public class SparseFlowObjectTracker<Image extends ImageGray, Derivative extends
 	private static FastHessianFeatureDetector FHFD;
 	private static FactoryImageBorder FIB;
 	private static FactoryBlurFilter FBF;
+	private static ConvertImage CI;
+	private static FactoryPyramid FP;
+	private static UtilWavelet UW;
+
 	// for the current image
 	private ImagePyramid<Image> currentImage;
 	private Derivative[] currentDerivX;
@@ -171,7 +177,7 @@ public class SparseFlowObjectTracker<Image extends ImageGray, Derivative extends
 			declarePyramid(input.width,input.height);
 		}
 
-		previousImage.process(input, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG);
+		previousImage.process(input, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG, CI, UW);
 		for( int i = 0; i < previousImage.getNumLayers(); i++ ) {
 			Image layer = previousImage.getLayer(i);
 			gradient.process(layer,previousDerivX[i],previousDerivY[i], ISC, DHF, CINB, CJBG, GSO, GSUO);
@@ -249,7 +255,7 @@ public class SparseFlowObjectTracker<Image extends ImageGray, Derivative extends
 	private void trackFeatures(Image input, RectangleRotate_F64 region) {
 		pairs.reset();
 
-		currentImage.process(input, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG);
+		currentImage.process(input, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG, CI, UW);
 		for( int i = 0; i < currentImage.getNumLayers(); i++ ) {
 			Image layer = currentImage.getLayer(i);
 			gradient.process(layer,currentDerivX[i],currentDerivY[i], ISC, DHF, CINB, CJBG, GSO, GSUO);
@@ -324,9 +330,9 @@ public class SparseFlowObjectTracker<Image extends ImageGray, Derivative extends
 	private void declarePyramid( int imageWidth , int imageHeight ) {
 		int minSize = (config.trackerFeatureRadius*2+1)*5;
 		int scales[] = TldTracker.selectPyramidScale(imageWidth, imageHeight, minSize);
-		currentImage = FactoryPyramid.discreteGaussian(scales,-1,1,false,imageType, FKG);
+		currentImage = FP.discreteGaussian(scales,-1,1,false,imageType, FKG);
 		currentImage.initialize(imageWidth, imageHeight);
-		previousImage = FactoryPyramid.discreteGaussian(scales, -1, 1, false,imageType, FKG);
+		previousImage = FP.discreteGaussian(scales, -1, 1, false,imageType, FKG);
 		previousImage.initialize(imageWidth, imageHeight);
 
 		int numPyramidLayers = currentImage.getNumLayers();

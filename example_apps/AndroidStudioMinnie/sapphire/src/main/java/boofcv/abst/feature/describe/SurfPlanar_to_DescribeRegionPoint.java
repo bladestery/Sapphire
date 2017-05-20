@@ -21,6 +21,7 @@ package boofcv.abst.feature.describe;
 import boofcv.alg.InputSanityCheck;
 import boofcv.alg.feature.describe.DescribePointSurfPlanar;
 import boofcv.alg.transform.ii.GIntegralImageOps;
+import boofcv.core.image.ConvertImage;
 import boofcv.core.image.GConvertImage;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.struct.BoofDefaults;
@@ -43,6 +44,7 @@ public class SurfPlanar_to_DescribeRegionPoint<T extends ImageGray, II extends I
 	private ImageType IT;
 	private static InputSanityCheck ISC;
 	private GeneralizedImageOps GIO;
+	private static ConvertImage CI;
 	DescribePointSurfPlanar<II> alg;
 
 	T gray;
@@ -68,7 +70,7 @@ public class SurfPlanar_to_DescribeRegionPoint<T extends ImageGray, II extends I
 		grayII.reshape(image.width,image.height);
 		bandII.reshape(image.width,image.height);
 
-		GConvertImage.average(image, gray, ISC);
+		GConvertImage.average(image, gray, ISC, CI);
 		GIntegralImageOps.transform(gray, grayII, ISC, GIO);
 		for( int i = 0; i < image.getNumBands(); i++)
 			GIntegralImageOps.transform(image.getBand(i), bandII.getBand(i), ISC, GIO);

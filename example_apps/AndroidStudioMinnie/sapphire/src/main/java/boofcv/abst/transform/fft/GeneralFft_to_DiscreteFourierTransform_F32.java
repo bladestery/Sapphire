@@ -18,6 +18,7 @@
 
 package boofcv.abst.transform.fft;
 
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.transform.fft.DiscreteFourierTransformOps;
 import boofcv.alg.transform.fft.GeneralPurposeFFT_F32_2D;
 import boofcv.struct.image.GrayF32;
@@ -45,12 +46,12 @@ public class GeneralFft_to_DiscreteFourierTransform_F32
 	private boolean modifyInputs = false;
 
 	@Override
-	public void forward(GrayF32 image, InterleavedF32 transform ) {
-		DiscreteFourierTransformOps.checkImageArguments(image,transform);
+	public void forward(GrayF32 image, InterleavedF32 transform , DiscreteFourierTransformOps DFTO, InputSanityCheck ISC) {
+		DFTO.checkImageArguments(image,transform, ISC);
 		if( image.isSubimage() || transform.isSubimage() )
 			throw new IllegalArgumentException("Subimages are not supported");
 
-		checkDeclareAlg(image);
+		checkDeclareAlg(image, DFTO);
 
 		int N = image.width*image.height;
 		System.arraycopy(image.data,0,transform.data,0,N);
@@ -60,12 +61,12 @@ public class GeneralFft_to_DiscreteFourierTransform_F32
 	}
 
 	@Override
-	public void inverse(InterleavedF32 transform, GrayF32 image ) {
-		DiscreteFourierTransformOps.checkImageArguments(image,transform);
+	public void inverse(InterleavedF32 transform, GrayF32 image, DiscreteFourierTransformOps DFTO, InputSanityCheck ISC) {
+		DFTO.checkImageArguments(image,transform, ISC);
 		if( image.isSubimage() || transform.isSubimage() )
 			throw new IllegalArgumentException("Subimages are not supported");
 
-		checkDeclareAlg(image);
+		checkDeclareAlg(image, DFTO);
 
 		// If he user lets us, modify the transform
 		InterleavedF32 workImage;
@@ -89,11 +90,11 @@ public class GeneralFft_to_DiscreteFourierTransform_F32
 	/**
 	 * Declare the algorithm if the image size has changed
 	 */
-	private void checkDeclareAlg(GrayF32 image) {
+	private void checkDeclareAlg(GrayF32 image, DiscreteFourierTransformOps DFTO) {
 		if( prevWidth != image.width || prevHeight != image.height ) {
 			prevWidth = image.width;
 			prevHeight = image.height;
-			alg = new GeneralPurposeFFT_F32_2D(image.height,image.width);
+			alg = new GeneralPurposeFFT_F32_2D(image.height,image.width, DFTO);
 		}
 	}
 

@@ -18,6 +18,8 @@
 
 package boofcv.abst.transform.fft;
 
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.transform.fft.DiscreteFourierTransformOps;
 import boofcv.struct.image.ImageBase;
 
 /**
@@ -50,14 +52,14 @@ public interface DiscreteFourierTransform<I extends ImageBase, T extends ImageBa
 	 * @param image (Input) Input image.  Default: Not modified.
 	 * @param transform (Output) Fourier transform, twice width and same height of input.  Modified.
 	 */
-	public void forward( I image , T transform );
+	public void forward(I image , T transform , DiscreteFourierTransformOps DFTO, InputSanityCheck ISC);
 
 	/**
 	 * Applies the inverse transform to a fourier transformed image to recover the original image
 	 * @param transform (Input) Fourier transform. twice width and same height of output.  Default: Not modified.
 	 * @param image (Output) reconstructed image.  Modified.
 	 */
-	public void inverse( T transform , I image );
+	public void inverse( T transform , I image , DiscreteFourierTransformOps DFTO, InputSanityCheck ISC);
 
 	/**
 	 * This function can toggle the internal implementations ability to modify the input image or input transform.

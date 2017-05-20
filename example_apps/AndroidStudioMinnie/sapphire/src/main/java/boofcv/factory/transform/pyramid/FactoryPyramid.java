@@ -30,6 +30,7 @@ import boofcv.struct.convolve.Kernel1D;
 import boofcv.struct.image.ImageGray;
 import boofcv.struct.pyramid.PyramidDiscrete;
 import boofcv.struct.pyramid.PyramidFloat;
+import sapphire.app.SapphireObject;
 
 
 /**
@@ -37,7 +38,8 @@ import boofcv.struct.pyramid.PyramidFloat;
  *
  * @author Peter Abeles
  */
-public class FactoryPyramid {
+public class FactoryPyramid implements SapphireObject {
+	public FactoryPyramid() {}
 	/**
 	 * Creates an updater for discrete pyramids where a Gaussian is convolved across the input
 	 * prior to sub-sampling.
@@ -47,7 +49,7 @@ public class FactoryPyramid {
 	 * @param radius Radius of the Gaussian kernel.  If < 0 then the radius is selected using sigma. Try 2.
 	 * @return PyramidDiscrete
 	 */
-	public static <T extends ImageGray>
+	public <T extends ImageGray>
 	PyramidDiscrete<T> discreteGaussian( int[] scaleFactors , double sigma , int radius ,
 										 boolean saveOriginalReference, Class<T> imageType, FactoryKernelGaussian FKG)
 	{
@@ -68,7 +70,7 @@ public class FactoryPyramid {
 	 * @param imageType Type of image in the pyramid.
 	 * @return PyramidFloat
 	 */
-	public static <T extends ImageGray>
+	public <T extends ImageGray>
 	PyramidFloat<T> floatGaussian( double scaleFactors[], double []sigmas , Class<T> imageType, FactoryImageBorder FIB) {
 
 		InterpolatePixelS<T> interp = FactoryInterpolation.bilinearPixelS(imageType, BorderType.EXTENDED, FIB);
@@ -84,7 +86,7 @@ public class FactoryPyramid {
 	 * @param imageType Type of image
 	 * @return PyramidFloat
 	 */
-	public static <T extends ImageGray>
+	public <T extends ImageGray>
 	PyramidFloat<T> scaleSpacePyramid( double scaleSpace[], Class<T> imageType , FactoryImageBorder FIB) {
 
 		double[] sigmas = new double[ scaleSpace.length ];
@@ -113,7 +115,7 @@ public class FactoryPyramid {
 	 * @param <T> Type of image
 	 * @return Scale-space image pyramid
 	 */
-	public static <T extends ImageGray>
+	public <T extends ImageGray>
 	PyramidFloat<T> scaleSpace( double scaleSpace[], Class<T> imageType, FactoryImageBorder FIB) {
 
 		double[] scaleFactors = new double[ scaleSpace.length ];

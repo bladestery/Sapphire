@@ -43,6 +43,8 @@ import boofcv.alg.misc.GImageMiscOps;
 import boofcv.alg.misc.GImageStatistics;
 import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.misc.ImageStatistics;
+import boofcv.alg.transform.wavelet.UtilWavelet;
+import boofcv.core.image.ConvertImage;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.core.image.border.FactoryImageBorderAlgs;
@@ -102,6 +104,9 @@ public class CombinedTrackerScalePoint
 	private static FastHessianFeatureDetector FHFD;
 	private static FactoryImageBorder FIB;
 	private static FactoryBlurFilter FBF;
+	private static UtilWavelet UW;
+	private static ConvertImage CI;
+
 	// current image in sequence
 	private I input;
 
@@ -312,7 +317,7 @@ public class CombinedTrackerScalePoint
 
 		// detect features
 		detector.detect(input, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN,
-				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF);
+				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF, CI, UW);
 		// associate features
 		associateToDetected(all);
 

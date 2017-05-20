@@ -19,8 +19,13 @@
 package boofcv.abst.transform.wavelet.impl;
 
 import boofcv.abst.transform.wavelet.WaveletTransform;
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.transform.wavelet.UtilWavelet;
 import boofcv.alg.transform.wavelet.WaveletTransformOps;
+import boofcv.core.image.ConvertImage;
+import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.BorderType;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.ImageDimension;
@@ -34,7 +39,7 @@ import boofcv.struct.wavelet.WlCoef_F32;
  * @author Peter Abeles
  */
 public class WaveletTransformFloat32 implements WaveletTransform<GrayF32,GrayF32, WlCoef_F32> {
-
+	private static UtilWavelet UW;
 	GrayF32 copy = new GrayF32(1,1);
 	GrayF32 temp = new GrayF32(1,1);
 	WaveletDescription<WlCoef_F32> desc;
@@ -54,28 +59,28 @@ public class WaveletTransformFloat32 implements WaveletTransform<GrayF32,GrayF32
 	}
 
 	@Override
-	public GrayF32 transform(GrayF32 original, GrayF32 transformed) {
+	public GrayF32 transform(GrayF32 original, GrayF32 transformed, InputSanityCheck ISC, GeneralizedImageOps GIO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvertImage CI, UtilWavelet UW ) {
 
 		if( transformed == null ) {
-			ImageDimension d = UtilWavelet.transformDimension(original,numLevels);
+			ImageDimension d = UW.transformDimension(original,numLevels);
 			transformed = new GrayF32(d.width,d.height);
 		}
 		temp.reshape(transformed.width,transformed.height);
 		copy.reshape(original.width,original.height);
 		copy.setTo(original);
 
-		WaveletTransformOps.transformN(desc,copy,transformed,temp,numLevels);
+		WaveletTransformOps.transformN(desc,copy,transformed,temp,numLevels, ISC, UW);
 
 		return transformed;
 	}
 
 	@Override
-	public void invert(GrayF32 transformed, GrayF32 original) {
+	public void invert(GrayF32 transformed, GrayF32 original, InputSanityCheck ISC, GeneralizedImageOps GIO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvertImage CI, UtilWavelet UW) {
 		temp.reshape(transformed.width,transformed.height);
 		copy.reshape(transformed.width,transformed.height);
 		copy.setTo(transformed);
 
-		WaveletTransformOps.inverseN(desc,copy,original,temp,numLevels,minPixelValue,maxPixelValue);
+		WaveletTransformOps.inverseN(desc,copy,original,temp,numLevels,minPixelValue,maxPixelValue, ISC, UW);
 	}
 
 	@Override
@@ -84,8 +89,8 @@ public class WaveletTransformFloat32 implements WaveletTransform<GrayF32,GrayF32
 	}
 
 	@Override
-	public BorderType getBorderType() {
-		return UtilWavelet.convertToType(desc.getBorder());
+	public BorderType getBorderType(UtilWavelet UW) {
+		return UW.convertToType(desc.getBorder());
 	}
 
 	@Override

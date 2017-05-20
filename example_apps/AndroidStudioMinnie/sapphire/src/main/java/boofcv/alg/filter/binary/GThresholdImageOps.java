@@ -37,6 +37,8 @@ import boofcv.alg.misc.GImageMiscOps;
 import boofcv.alg.misc.GImageStatistics;
 import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.misc.ImageStatistics;
+import boofcv.alg.transform.wavelet.UtilWavelet;
+import boofcv.core.image.ConvertImage;
 import boofcv.core.image.GConvertImage;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
@@ -50,12 +52,6 @@ import sapphire.app.SapphireObject;
  * @author Peter Abeles
  */
 public class GThresholdImageOps implements SapphireObject {
-	private static ImageType IT;
-	private static GImageStatistics GIS;
-	private static GeneralizedImageOps GIO;
-	private static GImageMiscOps GIMO;
-	private static InputSanityCheck ISC;
-	private static ImageMiscOps IMO;
 	
 	public GThresholdImageOps() {}
 
@@ -147,7 +143,7 @@ public class GThresholdImageOps implements SapphireObject {
 	 * @param maxValue The maximum value of a pixel in the image.  (inclusive)
 	 * @return Selected threshold.
 	 */
-	public int computeEntropy(ImageGray input , int minValue , int maxValue, ImageStatistics IS ) {
+	public int computeEntropy(ImageGray input , int minValue , int maxValue, ImageStatistics IS, GImageStatistics GIS) {
 
 		int range = 1 + maxValue - minValue;
 		int histogram[] = new int[ range ];
@@ -349,7 +345,11 @@ public class GThresholdImageOps implements SapphireObject {
 	 * @return binary image
 	 */
 	public <T extends ImageGray>
-	GrayU8 localSauvola(T input, GrayU8 output, int radius, float k, boolean down)
+	GrayU8 localSauvola(T input, GrayU8 output, int radius, float k, boolean down, InputSanityCheck ISC,
+						GeneralizedImageOps GIO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvertImage CI,
+						BlurImageOps BIO, ConvolveImageMean CIM, ConvolveNormalized CN, ConvolveNormalizedNaive CNN,
+						ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ImplConvolveMean ICM,
+						ImageStatistics IS)
 	{
 		ThresholdSauvola alg = new ThresholdSauvola(radius,k, down);
 
@@ -357,11 +357,11 @@ public class GThresholdImageOps implements SapphireObject {
 			output = new GrayU8(input.width,input.height);
 
 		if( input instanceof GrayF32) {
-			alg.process((GrayF32)input,output);
+			alg.process((GrayF32)input,output, BIO, ISC, CIM, CN, CNN, CINB, CNJB, ICM, IS);
 		} else {
 			GrayF32 conv = new GrayF32(input.width,input.height);
-			GConvertImage.convert(input, conv, ISC, GIO, GIMO, IMO);
-			alg.process(conv,output);
+			GConvertImage.convert(input, conv, ISC, GIO, GIMO, IMO, CI);
+			alg.process(conv,output, BIO, ISC, CIM, CN, CNN, CINB, CNJB, ICM, IS);
 		}
 
 		return output;
@@ -383,7 +383,8 @@ public class GThresholdImageOps implements SapphireObject {
 	GrayU8 localBlockMinMax(T input, GrayU8 output, int radius, double scale , boolean down, double textureThreshold, GBlurImageOps GBIO, InputSanityCheck ISC, GeneralizedImageOps GIO, BlurImageOps BIO,
 							ConvolveImageMean CIM, FactoryKernelGaussian FKG, ConvolveNormalized CN, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB,
 							ConvolveNormalized_JustBorder CNJB, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM,
-							GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvolveJustBorder_General CJBG)
+							GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvolveJustBorder_General CJBG, ImageType IT,
+							ConvertImage CI, UtilWavelet UW)
 	{
 		LocalSquareBlockMinMaxBinaryFilter<T> alg = new LocalSquareBlockMinMaxBinaryFilter<>(textureThreshold, radius * 2 + 1, scale, down,
 				(Class<T>) input.getClass(), IT);
@@ -391,7 +392,7 @@ public class GThresholdImageOps implements SapphireObject {
 		if( output == null )
 			output = new GrayU8(input.width,input.height);
 
-		alg.process(input,output, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG);
+		alg.process(input,output, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW);
 
 		return output;
 	}

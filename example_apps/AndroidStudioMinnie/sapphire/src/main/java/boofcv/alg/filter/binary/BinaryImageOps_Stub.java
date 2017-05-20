@@ -29,19 +29,20 @@ public final class BinaryImageOps_Stub extends boofcv.alg.filter.binary.BinaryIm
 
 
 
-    // Implementation of thin(GrayU8, int, GrayU8, InputSanityCheck)
-    public boofcv.struct.image.GrayU8 thin(boofcv.struct.image.GrayU8 $param_GrayU8_1, int $param_int_2, boofcv.struct.image.GrayU8 $param_GrayU8_3, boofcv.alg.InputSanityCheck $param_InputSanityCheck_4) {
+    // Implementation of thin(GrayU8, int, GrayU8, InputSanityCheck, ImageBorderValue)
+    public boofcv.struct.image.GrayU8 thin(boofcv.struct.image.GrayU8 $param_GrayU8_1, int $param_int_2, boofcv.struct.image.GrayU8 $param_GrayU8_3, boofcv.alg.InputSanityCheck $param_InputSanityCheck_4, boofcv.core.image.border.ImageBorderValue $param_ImageBorderValue_5) {
         java.lang.Object $__result = null;
         try {
             if ($__directInvocation)
-                $__result = super.thin( $param_GrayU8_1,  $param_int_2,  $param_GrayU8_3,  $param_InputSanityCheck_4);
+                $__result = super.thin( $param_GrayU8_1,  $param_int_2,  $param_GrayU8_3,  $param_InputSanityCheck_4,  $param_ImageBorderValue_5);
             else {
                 java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
-                String $__method = "public boofcv.struct.image.GrayU8 boofcv.alg.filter.binary.BinaryImageOps.thin(boofcv.struct.image.GrayU8,int,boofcv.struct.image.GrayU8,boofcv.alg.InputSanityCheck)";
+                String $__method = "public boofcv.struct.image.GrayU8 boofcv.alg.filter.binary.BinaryImageOps.thin(boofcv.struct.image.GrayU8,int,boofcv.struct.image.GrayU8,boofcv.alg.InputSanityCheck,boofcv.core.image.border.ImageBorderValue)";
                 $__params.add($param_GrayU8_1);
                 $__params.add($param_int_2);
                 $__params.add($param_GrayU8_3);
                 $__params.add($param_InputSanityCheck_4);
+                $__params.add($param_ImageBorderValue_5);
                 $__result = $__client.onRPC($__method, $__params);
             }
         } catch (Exception e) {

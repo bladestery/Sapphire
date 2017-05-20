@@ -18,6 +18,8 @@
 
 package boofcv.alg.transform.wavelet;
 
+import com.sun.corba.se.impl.javax.rmi.CORBA.Util;
+
 import boofcv.core.image.border.BorderIndex1D;
 import boofcv.core.image.border.BorderIndex1D_Reflect;
 import boofcv.core.image.border.BorderIndex1D_Wrap;
@@ -25,6 +27,7 @@ import boofcv.core.image.border.BorderType;
 import boofcv.struct.image.*;
 import boofcv.struct.wavelet.WlBorderCoef;
 import boofcv.struct.wavelet.WlCoef;
+import sapphire.app.SapphireObject;
 
 
 /**
@@ -32,7 +35,8 @@ import boofcv.struct.wavelet.WlCoef;
  *
  * @author Peter Abeles
  */
-public class UtilWavelet {
+public class UtilWavelet implements SapphireObject {
+	public UtilWavelet() {}
 
 	/**
 	 * The original image can have an even or odd number of width/height.  While the transformed
@@ -42,7 +46,7 @@ public class UtilWavelet {
 	 * @param original Original input image.
 	 * @param transformed Image which has been transformed.
 	 */
-	public static void checkShape(ImageGray original , ImageGray transformed )
+	public void checkShape(ImageGray original , ImageGray transformed )
 	{
 		if( transformed.width % 2 == 1 || transformed.height % 2 == 1 )
 			throw new IllegalArgumentException("Image containing the wavelet transform must have an even width and height.");
@@ -56,9 +60,9 @@ public class UtilWavelet {
 	}
 
 
-	public static void checkShape(WlCoef desc , ImageGray original , ImageGray transformed , int level )
+	public void checkShape(WlCoef desc , ImageGray original , ImageGray transformed , int level )
 	{
-		ImageDimension tranDim = UtilWavelet.transformDimension(original,level);
+		ImageDimension tranDim = transformDimension(original,level);
 
 		if( transformed.width != tranDim.width || transformed.height != tranDim.height ) {
 			throw new IllegalArgumentException("Image containing the wavelet transform must be "+tranDim.width+" x "+tranDim.height);
@@ -71,7 +75,7 @@ public class UtilWavelet {
 			throw new IllegalArgumentException("Original image's width and height must be large enough the number of wavelet coefficients.");
 	}
 	
-	public static int computeScale( int level ) {
+	public int computeScale( int level ) {
 		if( level <= 1 )
 			return 1;
 		return (int)Math.pow(2,level-1);
@@ -80,7 +84,7 @@ public class UtilWavelet {
 	/**
 	 * Returns the number that the output image needs to be divisible by.
 	 */
-	public static int computeDiv( int level ) {
+	public int computeDiv( int level ) {
 		if( level <= 1 )
 			return 2;
 		return (int)Math.pow(2,level-1);
@@ -90,12 +94,12 @@ public class UtilWavelet {
 	 * Returns dimension which is required for the transformed image in a multilevel
 	 * wavelet transform.
 	 */
-	public static ImageDimension transformDimension( ImageBase orig , int level )
+	public ImageDimension transformDimension( ImageBase orig , int level )
 	{
 		return transformDimension(orig.width,orig.height,level);
 	}
 
-	public static ImageDimension transformDimension( int width , int height , int level )
+	public ImageDimension transformDimension( int width , int height , int level )
 	{
 		int div = computeDiv(level);
 		int w = width%div;
@@ -115,7 +119,7 @@ public class UtilWavelet {
 	 * E = sum( i=1..N , a[i]*a[i] )
 	 * </p>
 	 */
-	public static double computeEnergy( float []array  ) {
+	public double computeEnergy( float []array  ) {
 		double total = 0;
 
 		for( int i = 0; i < array.length; i++ ) {
@@ -134,7 +138,7 @@ public class UtilWavelet {
 	 * E = sum( i=1..N , a[i]*a[i] ) / (N*d*d)
 	 * </p>
 	 */
-	public static double computeEnergy( int []array  , int denominator) {
+	public double computeEnergy( int []array  , int denominator) {
 		double total = 0;
 
 		for( int i = 0; i < array.length; i++ ) {
@@ -146,7 +150,7 @@ public class UtilWavelet {
 		return total;
 	}
 
-	public static double sumCoefficients( float []array  ) {
+	public double sumCoefficients( float []array  ) {
 		double total = 0;
 
 		for( int i = 0; i < array.length; i++ ) {
@@ -156,7 +160,7 @@ public class UtilWavelet {
 		return total;
 	}
 
-	public static int sumCoefficients( int []array  ) {
+	public int sumCoefficients( int []array  ) {
 		int total = 0;
 
 		for( int i = 0; i < array.length; i++ ) {
@@ -169,7 +173,7 @@ public class UtilWavelet {
 	/**
 	 * Returns the lower border for a forward wavelet transform.
 	 */
-	public static int borderForwardLower( WlCoef desc ) {
+	public int borderForwardLower( WlCoef desc ) {
 		int ret =  -Math.min(desc.offsetScaling,desc.offsetWavelet);
 
 		return ret + (ret % 2);
@@ -178,7 +182,7 @@ public class UtilWavelet {
 	/**
 	 * Returns the upper border (offset from image edge) for a forward wavelet transform.
 	 */
-	public static int borderForwardUpper( WlCoef desc , int dataLength) {
+	public int borderForwardUpper( WlCoef desc , int dataLength) {
 		int w = Math.max( desc.offsetScaling+desc.getScalingLength() , desc.offsetWavelet+desc.getWaveletLength());
 
 		int a = dataLength%2;
@@ -190,7 +194,7 @@ public class UtilWavelet {
 	/**
 	 * Returns the lower border for an inverse wavelet transform.
 	 */
-	public static int borderInverseLower( WlBorderCoef<?> desc, BorderIndex1D border  ) {
+	public int borderInverseLower( WlBorderCoef<?> desc, BorderIndex1D border  ) {
 
 		WlCoef inner = desc.getInnerCoefficients();
 		int borderSize = borderForwardLower(inner);
@@ -218,7 +222,7 @@ public class UtilWavelet {
 		return borderSize;
 	}
 
-	public static int checkInverseLower( WlCoef coef, int index , BorderIndex1D border , int current ) {
+	public int checkInverseLower( WlCoef coef, int index , BorderIndex1D border , int current ) {
 		if( coef == null )
 			return current;
 
@@ -244,7 +248,7 @@ public class UtilWavelet {
 	/**
 	 * Returns the upper border (offset from image edge) for an inverse wavelet transform.
 	 */
-	public static int borderInverseUpper( WlBorderCoef<?> desc , BorderIndex1D border, int dataLength ) {
+	public int borderInverseUpper( WlBorderCoef<?> desc , BorderIndex1D border, int dataLength ) {
 
 		WlCoef inner = desc.getInnerCoefficients();
 		int borderSize = borderForwardUpper(inner,dataLength);
@@ -273,7 +277,7 @@ public class UtilWavelet {
 		return borderSize;
 	}
 
-	public static int checkInverseUpper( WlCoef coef, int index , BorderIndex1D border , int current ) {
+	public int checkInverseUpper( WlCoef coef, int index , BorderIndex1D border , int current ) {
 		if( coef == null )
 			return current;
 
@@ -305,14 +309,14 @@ public class UtilWavelet {
 	 * @param divisor The divisor.
 	 * @return
 	 */
-	public static int round( int top , int div2 , int divisor ) {
+	public int round( int top , int div2 , int divisor ) {
 		if( top > 0 )
 			return (top + div2)/divisor;
 		else
 			return (top - div2)/divisor;
 	}
 
-	public static BorderType convertToType( BorderIndex1D b ) {
+	public BorderType convertToType( BorderIndex1D b ) {
 
 		if( b instanceof BorderIndex1D_Reflect) {
 			return BorderType.REFLECT;
@@ -329,7 +333,7 @@ public class UtilWavelet {
 	 * @param transform
 	 * @param numLevels Number of levels in the transform
 	 */
-	public static void adjustForDisplay(ImageGray transform , int numLevels , double valueRange ) {
+	public void adjustForDisplay(ImageGray transform , int numLevels , double valueRange ) {
 		if( transform instanceof GrayF32)
 			adjustForDisplay((GrayF32)transform,numLevels,(float)valueRange);
 		else

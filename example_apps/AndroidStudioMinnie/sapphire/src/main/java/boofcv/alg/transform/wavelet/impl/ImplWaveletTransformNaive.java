@@ -40,7 +40,7 @@ import boofcv.struct.wavelet.WlCoef_I32;
  * @author Peter Abeles
  */
 public class ImplWaveletTransformNaive {
-
+	private static UtilWavelet UW;
 	/**
 	 * Performs a single level wavelet transform along the horizontal axis.
 	 *
@@ -51,7 +51,7 @@ public class ImplWaveletTransformNaive {
 	public static void horizontal(BorderIndex1D border , WlCoef_F32 coefficients ,
 								  GrayF32 input , GrayF32 output ) {
 
-		UtilWavelet.checkShape(input,output);
+		UW.checkShape(input,output);
 
 		final int offsetA = coefficients.offsetScaling;
 		final int offsetB = coefficients.offsetWavelet;
@@ -99,7 +99,7 @@ public class ImplWaveletTransformNaive {
 	public static void vertical(BorderIndex1D border , WlCoef_F32 coefficients ,
 								GrayF32 input , GrayF32 output ) {
 
-		UtilWavelet.checkShape(input,output);
+		UW.checkShape(input,output);
 
 		final int offsetA = coefficients.offsetScaling;
 		final int offsetB = coefficients.offsetWavelet;
@@ -145,7 +145,7 @@ public class ImplWaveletTransformNaive {
 	 */
 	public static void horizontalInverse(BorderIndex1D border , WlBorderCoef<WlCoef_F32> inverseCoef , GrayF32 input , GrayF32 output ) {
 
-		UtilWavelet.checkShape(output,input);
+		UW.checkShape(output,input);
 
 		float []trends = new float[ output.width ];
 		float []details = new float[ output.width ];
@@ -217,7 +217,7 @@ public class ImplWaveletTransformNaive {
 	 */
 	public static void verticalInverse(BorderIndex1D border , WlBorderCoef<WlCoef_F32> inverseCoef , GrayF32 input , GrayF32 output ) {
 
-		UtilWavelet.checkShape(output,input);
+		UW.checkShape(output,input);
 
 		float []trends = new float[ output.height ];
 		float []details = new float[ output.height ];
@@ -290,7 +290,7 @@ public class ImplWaveletTransformNaive {
 	public static void horizontal(BorderIndex1D border , WlCoef_I32 coefficients ,
 								  GrayI input , GrayI output ) {
 
-		UtilWavelet.checkShape(input,output);
+		UW.checkShape(input,output);
 
 		final int offsetA = coefficients.offsetScaling;
 		final int offsetB = coefficients.offsetWavelet;
@@ -341,7 +341,7 @@ public class ImplWaveletTransformNaive {
 	public static void vertical(BorderIndex1D border , WlCoef_I32 coefficients ,
 								GrayI input , GrayI output ) {
 
-		UtilWavelet.checkShape(input,output);
+		UW.checkShape(input,output);
 
 		final int offsetA = coefficients.offsetScaling;
 		final int offsetB = coefficients.offsetWavelet;
@@ -390,7 +390,7 @@ public class ImplWaveletTransformNaive {
 	 */
 	public static void horizontalInverse(BorderIndex1D border , WlBorderCoef<WlCoef_I32> inverseCoef , GrayI input , GrayI output ) {
 
-		UtilWavelet.checkShape(output,input);
+		UW.checkShape(output,input);
 
 		int []trends = new int[ output.width ];
 		int []details = new int[ output.width ];
@@ -452,7 +452,7 @@ public class ImplWaveletTransformNaive {
 			}
 
 			for( int x = 0; x < output.width; x++ ) {
-				output.set(x,y, UtilWavelet.round(trends[x]*f + details[x]*e ,ef2,ef));
+				output.set(x,y, UW.round(trends[x]*f + details[x]*e ,ef2,ef));
 			}
 		}
 	}
@@ -466,7 +466,7 @@ public class ImplWaveletTransformNaive {
 	 */
 	public static void verticalInverse(BorderIndex1D border , WlBorderCoef<WlCoef_I32> inverseCoef , GrayI input , GrayI output ) {
 
-		UtilWavelet.checkShape(output,input);
+		UW.checkShape(output,input);
 
 		int []trends = new int[ output.height ];
 		int []details = new int[ output.height ];
@@ -528,7 +528,7 @@ public class ImplWaveletTransformNaive {
 			}
 
 			for( int y = 0; y < output.height; y++ ) {
-				output.set(x,y, UtilWavelet.round(trends[y]*f + details[y]*e,ef2,ef));
+				output.set(x,y, UW.round(trends[y]*f + details[y]*e,ef2,ef));
 			}
 		}
 	}

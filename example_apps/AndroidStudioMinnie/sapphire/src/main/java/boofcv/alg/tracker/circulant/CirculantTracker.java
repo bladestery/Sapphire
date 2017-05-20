@@ -65,6 +65,7 @@ import java.util.Random;
  */
 public class CirculantTracker<T extends ImageGray> {
 	private static InputSanityCheck ISC;
+	private static DiscreteFourierTransformOps DFTO;
 	// --- Tuning parameters
 	// spatial bandwidth (proportional to target)
 	private double output_sigma_factor;
@@ -85,7 +86,7 @@ public class CirculantTracker<T extends ImageGray> {
 
 	//----- Internal variables
 	// computes the FFT
-	private DiscreteFourierTransform<GrayF64,InterleavedF64> fft = DiscreteFourierTransformOps.createTransformF64();
+	private DiscreteFourierTransform<GrayF64,InterleavedF64> fft = DFTO.createTransformF64();
 
 	// storage for subimage of input image
 	protected GrayF64 templateNew = new GrayF64(1,1);
@@ -223,7 +224,7 @@ public class CirculantTracker<T extends ImageGray> {
 		// Kernel Regularized Least-Squares, calculate alphas (in Fourier domain)
 		//	k = dense_gauss_kernel(sigma, x);
 		dense_gauss_kernel(sigma, template, template,k);
-		fft.forward(k, kf);
+		fft.forward(k, kf, DFTO, ISC);
 
 		// new_alphaf = yf ./ (fft2(k) + lambda);   %(Eq. 7)
 		computeAlphas(gaussianWeightDFT, kf, lambda, alphaf);
@@ -273,7 +274,7 @@ public class CirculantTracker<T extends ImageGray> {
 			}
 		}
 
-		fft.forward(gaussianWeight,gaussianWeightDFT);
+		fft.forward(gaussianWeight,gaussianWeightDFT, DFTO, ISC);
 	}
 
 
@@ -316,11 +317,11 @@ public class CirculantTracker<T extends ImageGray> {
 		// matlab: k = dense_gauss_kernel(sigma, x, z);
 		dense_gauss_kernel(sigma, templateNew, template,k);
 
-		fft.forward(k,kf);
+		fft.forward(k,kf, DFTO, ISC);
 
 		// response = real(ifft2(alphaf .* fft2(k)));   %(Eq. 9)
-		DiscreteFourierTransformOps.multiplyComplex(alphaf, kf, tmpFourier0);
-		fft.inverse(tmpFourier0, response);
+		DFTO.multiplyComplex(alphaf, kf, tmpFourier0, ISC);
+		fft.inverse(tmpFourier0, response, DFTO, ISC);
 
 		// find the pixel with the largest response
 		int N = response.width*response.height;
@@ -382,7 +383,7 @@ public class CirculantTracker<T extends ImageGray> {
 		// Kernel Regularized Least-Squares, calculate alphas (in Fourier domain)
 		//	k = dense_gauss_kernel(sigma, x);
 		dense_gauss_kernel(sigma, templateNew, templateNew, k);
-		fft.forward(k,kf);
+		fft.forward(k,kf, DFTO, ISC);
 
 		// new_alphaf = yf ./ (fft2(k) + lambda);   %(Eq. 7)
 		computeAlphas(gaussianWeightDFT, kf, lambda, newAlphaf);
@@ -421,13 +422,13 @@ public class CirculantTracker<T extends ImageGray> {
 		double yy;
 
 		// find x in Fourier domain
-		fft.forward(x, xf);
+		fft.forward(x, xf, DFTO, ISC);
 		double xx = imageDotProduct(x);
 
 		if( x != y ) {
 			// general case, x and y are different
 			yf = tmpFourier1;
-			fft.forward(y,yf);
+			fft.forward(y,yf, DFTO, ISC);
 			yy = imageDotProduct(y);
 		} else {
 			// auto-correlation of x, avoid repeating a few operations
@@ -439,7 +440,7 @@ public class CirculantTracker<T extends ImageGray> {
 		// cross-correlation term in Fourier domain
 		elementMultConjB(xf,yf,xyf);
 		// convert to spatial domain
-		fft.inverse(xyf,xy);
+		fft.inverse(xyf,xy, DFTO, ISC);
 		circshift(xy,tmpReal1);
 
 		// calculate gaussian response for all positions

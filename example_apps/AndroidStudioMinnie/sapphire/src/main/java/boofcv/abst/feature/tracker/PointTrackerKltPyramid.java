@@ -42,6 +42,8 @@ import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.misc.ImageStatistics;
 import boofcv.alg.tracker.klt.*;
 import boofcv.alg.transform.pyramid.PyramidOps;
+import boofcv.alg.transform.wavelet.UtilWavelet;
+import boofcv.core.image.ConvertImage;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.factory.filter.blur.FactoryBlurFilter;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
@@ -85,6 +87,8 @@ public class PointTrackerKltPyramid<I extends ImageGray,D extends ImageGray>
 	private static ThresholdImageOps TIO;
 	private static FactoryBlurFilter FBF;
 	private static ConvolveJustBorder_General CJBG;
+	private static ConvertImage CI;
+	private static UtilWavelet UW;
 	// reference to input image
 	protected I input;
 
@@ -222,7 +226,7 @@ public class PointTrackerKltPyramid<I extends ImageGray,D extends ImageGray>
 		// find new tracks, but no more than the max
 		detector.setExcludeMaximum(excludeList);
 		detector.process(basePyramid.getLayer(0), derivX[0], derivY[0], null, null, null, GIMO, IMO, ISC, CNN, CINB, CNJB, CN,
-				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, CJBG);
+				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, CJBG, CI, UW);
 
 		// extract the features
 		QueueCorner found = detector.getMaximums();
@@ -279,7 +283,7 @@ public class PointTrackerKltPyramid<I extends ImageGray,D extends ImageGray>
 		dropped.clear();
 
 		// update image pyramids
-		basePyramid.process(image, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG);
+		basePyramid.process(image, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG, CI, UW);
 		declareOutput();
 		PyramidOps.gradient(basePyramid, gradient, derivX,derivY);
 

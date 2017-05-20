@@ -18,6 +18,7 @@
 
 package boofcv.alg.transform.wavelet;
 
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.transform.wavelet.impl.ImplWaveletTransformNaive;
 import boofcv.core.image.GeneralizedImageOps;
@@ -46,6 +47,8 @@ import static org.junit.Assert.assertTrue;
 public class CommonFactoryWavelet {
 	private static ImageMiscOps IMO;
 	private static GeneralizedImageOps GIO;
+	private static InputSanityCheck ISC;
+	private static UtilWavelet UW;
 	Random rand = new Random(234);
 	int width = 20;
 	int height = 30;
@@ -81,8 +84,8 @@ public class CommonFactoryWavelet {
 			// quick sanity check to make sure that WaveletTransformOps
 			// also correctly does a transform with these wavelets
 			// more of a robustness test of WaveletTransformOps than anything else
-			WaveletTransformOps.transform1(waveletDesc,orig,tran,null);
-			WaveletTransformOps.inverse1(waveletDesc,tran,rev,null,0,255);
+			WaveletTransformOps.transform1(waveletDesc,orig,tran,null, ISC, UW);
+			WaveletTransformOps.inverse1(waveletDesc,tran,rev,null,0,255, ISC, UW);
 
 //			BoofTesting.printDiff(orig,rev);
 			BoofTesting.assertEquals(orig,rev,1e-4f, GIO);
@@ -114,8 +117,8 @@ public class CommonFactoryWavelet {
 			// quick sanity check to make sure that WaveletTransformOps
 			// also correctly does a transform with these wavelets
 			// more of a robustness test of WaveletTransformOps than anything else
-			WaveletTransformOps.transform1(waveletDesc,orig,tran,null);
-			WaveletTransformOps.inverse1(waveletDesc,tran,rev,null,Integer.MIN_VALUE,Integer.MAX_VALUE);
+			WaveletTransformOps.transform1(waveletDesc,orig,tran,null, ISC, UW);
+			WaveletTransformOps.inverse1(waveletDesc,tran,rev,null,Integer.MIN_VALUE,Integer.MAX_VALUE, ISC, UW);
 
 			BoofTesting.assertEquals(orig,rev,0, GIO);
 		}

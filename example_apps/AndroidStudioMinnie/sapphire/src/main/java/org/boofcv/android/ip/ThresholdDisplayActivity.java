@@ -12,8 +12,13 @@ import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.ToggleButton;
 
+import org.boofcv.android.DemoManager;
 import org.boofcv.android.DemoVideoDisplayActivity;
 import org.boofcv.android.R;
+
+import java.net.InetSocketAddress;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
 import boofcv.abst.filter.binary.InputToBinary;
 import boofcv.alg.InputSanityCheck;
@@ -35,13 +40,19 @@ import boofcv.alg.misc.GImageMiscOps;
 import boofcv.alg.misc.GImageStatistics;
 import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.misc.ImageStatistics;
+import boofcv.alg.transform.wavelet.UtilWavelet;
 import boofcv.android.VisualizeImageData;
 import boofcv.android.gui.VideoImageProcessing;
+import boofcv.core.image.ConvertImage;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.factory.filter.binary.FactoryThresholdBinary;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.ImageType;
+import sapphire.kernel.server.KernelServerImpl;
+import sapphire.oms.OMSServer;
+
+import static sapphire.kernel.common.GlobalKernelReferences.nodeServer;
 
 /**
  * Automatic thresholding
@@ -50,29 +61,6 @@ import boofcv.struct.image.ImageType;
  */
 public class ThresholdDisplayActivity extends DemoVideoDisplayActivity
 {
-	private static GBlurImageOps GBIO;
-	private static ImageType IT;
-	private static GeneralizedImageOps GIO;
-	private static InputSanityCheck ISC;
-	private static BlurImageOps BIO;
-	private static ConvolveImageMean CIM;
-	private static FactoryKernelGaussian FKG;
-	private static ConvolveNormalized CN;
-	private static ConvolveNormalizedNaive CNN;
-	private static ConvolveImageNoBorder CINB;
-	private static ConvolveNormalized_JustBorder CNJB;
-	private static ImplMedianHistogramInner IMHI;
-	private static ImplMedianSortEdgeNaive IMSEN;
-	private static ImplMedianSortNaive IMSN;
-	private static ImplConvolveMean ICM;
-	private static FactoryThresholdBinary FTB;
-	private static GThresholdImageOps GTIO;
-	private static GImageStatistics GIS;
-	private static ImageStatistics IS;
-	private static ThresholdImageOps TIO;
-	private static GImageMiscOps GIMO;
-	private static ImageMiscOps IMO;
-	private static ConvolveJustBorder_General CJBG;
 	Spinner spinnerView;
 
 	final Object lock = new Object();
@@ -81,9 +69,39 @@ public class ThresholdDisplayActivity extends DemoVideoDisplayActivity
 	int radius;
 	int selectedAlg;
 
+	OMSServer server;
+	DemoManager dm;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		InetSocketAddress host, omsHost;
+
+		try {
+			Registry registry = LocateRegistry.getRegistry("157.82.159.58", 22346);
+			server = (OMSServer) registry.lookup("SapphireOMS");
+			System.out.println(server);
+
+			host = new InetSocketAddress("192.168.0.7", 22346);
+			omsHost = new InetSocketAddress("157.82.159.58", 22346);
+			nodeServer = new KernelServerImpl(host, omsHost);
+			System.out.println(nodeServer);
+
+			System.setProperty("java.rmi.server.hostname", host.getAddress().getHostAddress());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		try {
+			//Server is initiated with appObject to perform remote RPCs
+			dm = (DemoManager) server.getAppEntryPoint();
+			System.out.println("Got AppEntryPoint");
+			//dm.LatencyCheck();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(0);
+		}
 
 		LayoutInflater inflater = getLayoutInflater();
 		LinearLayout controls = (LinearLayout)inflater.inflate(R.layout.thresholding_controls,null);
@@ -161,43 +179,53 @@ public class ThresholdDisplayActivity extends DemoVideoDisplayActivity
 		setProcessing(new ThresholdingProcessing());
 	}
 
-	private InputToBinary<GrayU8> createFilter() {
+	private void createFilter() {
 
 		int radius = this.radius + 1;
 
 		switch (selectedAlg) {
 			case 0:
-				return FTB.globalOtsu(0,255,down,GrayU8.class, IT);
+				dm.globalOtsu(0,255,down);
+				//FTB.globalOtsu(0,255,down,GrayU8.class, IT);
+				break;
 
 			case 1:
-				return FTB.globalEntropy(0, 255, down, GrayU8.class, IT);
+				dm.globalEntropy(0,255,down);
+				//FTB.globalEntropy(0, 255, down, GrayU8.class, IT);
+				break;
 
 			case 2:
-				return FTB.localSquare(radius,0.95,down,GrayU8.class, IT);
+				dm.localSquare(radius,0.95,down);
+				//FTB.localSquare(radius,0.95,down,GrayU8.class, IT);
+				break;
 
 			case 3:
-				return FTB.localGaussian(radius,0.95,down,GrayU8.class, IT);
+				dm.localGaussian(radius,0.95,down);
+				//FTB.localGaussian(radius,0.95,down,GrayU8.class, IT);
+				break;
 
 			case 4:
-				return FTB.localSauvola(radius,0.3f,down,GrayU8.class, IT);
+				dm.localSauvola(radius,0.3f,down);
+				//FTB.localSauvola(radius,0.3f,down,GrayU8.class, IT);
+				break;
 		}
 
-		throw new RuntimeException("Unknown selection "+selectedAlg);
+		//throw new RuntimeException("Unknown selection "+selectedAlg);
 	}
 
 	protected class ThresholdingProcessing extends VideoImageProcessing<GrayU8> {
 		GrayU8 binary;
-		InputToBinary<GrayU8> filter;
+		//InputToBinary<GrayU8> filter;
 
 		public ThresholdingProcessing() {
-			super(IT.single(GrayU8.class));
+			super(dm.single(GrayU8.class));
 		}
 
 		@Override
 		protected void declareImages( int width , int height ) {
 			super.declareImages(width, height);
-
-			binary = new GrayU8(width,height);
+			dm.initBlurred(width, height);
+			//binary = new GrayU8(width,height);
 		}
 
 		@Override
@@ -206,14 +234,15 @@ public class ThresholdDisplayActivity extends DemoVideoDisplayActivity
 			synchronized ( lock ) {
 				if (changed) {
 					changed = false;
-					filter = createFilter();
+					createFilter();
 				}
 			}
 
-			if( filter != null ) {
-				filter.process(input, binary, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG);
-			}
-			VisualizeImageData.binaryToBitmap(binary,false,  output, storage);
+			//if( filter != null ) {
+			//	filter.process(input, binary, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW);
+			//}
+			binary = dm.thresholdProcess(input);
+			VisualizeImageData.binaryToBitmap(binary,false, output, storage);
 		}
 	}
 }

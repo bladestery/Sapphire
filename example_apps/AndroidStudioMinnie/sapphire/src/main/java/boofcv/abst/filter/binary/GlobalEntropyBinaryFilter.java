@@ -37,6 +37,8 @@ import boofcv.alg.misc.GImageMiscOps;
 import boofcv.alg.misc.GImageStatistics;
 import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.misc.ImageStatistics;
+import boofcv.alg.transform.wavelet.UtilWavelet;
+import boofcv.core.image.ConvertImage;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.image.GrayU8;
@@ -52,11 +54,6 @@ import boofcv.struct.image.ImageType;
  */
 public class GlobalEntropyBinaryFilter<T extends ImageGray> implements InputToBinary<T> {
 	ImageType<T> inputType;
-	private static GThresholdImageOps GTIO;
-	private static ThresholdImageOps TIO;
-	private static InputSanityCheck ISC;
-	private static GeneralizedImageOps GIO;
-	private static ImageStatistics IS;
 	boolean down;
 	int minValue;
 	int maxValue;
@@ -76,8 +73,9 @@ public class GlobalEntropyBinaryFilter<T extends ImageGray> implements InputToBi
 	public void process(T input, GrayU8 output, GBlurImageOps GBIO, InputSanityCheck ISC, GeneralizedImageOps GIO, BlurImageOps BIO,
 						ConvolveImageMean CIM, FactoryKernelGaussian FKG, ConvolveNormalized CN, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB,
 						ConvolveNormalized_JustBorder CNJB, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM,
-						GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvolveJustBorder_General CJBG) {
-		double threshold = GTIO.computeEntropy(input, minValue, maxValue, IS);
+						GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvolveJustBorder_General CJBG,
+						ConvertImage CI, UtilWavelet UW) {
+		double threshold = GTIO.computeEntropy(input, minValue, maxValue, IS, GIS);
 		GTIO.threshold(input,output,threshold,down, TIO, ISC, GIO);
 	}
 

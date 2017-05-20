@@ -22,6 +22,7 @@ import boofcv.abst.sfm.AccessPointTracks;
 import boofcv.alg.InputSanityCheck;
 import boofcv.alg.misc.GImageMiscOps;
 import boofcv.alg.misc.ImageMiscOps;
+import boofcv.core.image.ConvertImage;
 import boofcv.core.image.GConvertImage;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.struct.image.ImageGray;
@@ -41,6 +42,7 @@ public class PlToGrayMotion2D<T extends ImageGray,IT extends InvertibleTransform
 {
 	private GeneralizedImageOps GIO;
 	private static InputSanityCheck ISC;
+	private static ConvertImage CI;
 	// motion estimation algorithm for a single band image
 	ImageMotion2D<T,IT> motion;
 	// if supposed, provides access to track points
@@ -59,7 +61,7 @@ public class PlToGrayMotion2D<T extends ImageGray,IT extends InvertibleTransform
 	@Override
 	public boolean process(Planar<T> input) {
 		gray.reshape(input.width,input.height);
-		GConvertImage.average(input, gray, ISC);
+		GConvertImage.average(input, gray, ISC, CI);
 		return motion.process(gray);
 	}
 

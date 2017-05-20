@@ -18,6 +18,12 @@
 
 package boofcv.abst.transform.wavelet;
 
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
+import boofcv.alg.transform.wavelet.UtilWavelet;
+import boofcv.core.image.ConvertImage;
+import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.BorderType;
 import boofcv.struct.image.ImageGray;
 import boofcv.struct.wavelet.WaveletDescription;
@@ -46,7 +52,7 @@ public interface WaveletTransform
 	 * @param transformed Where the computed transform is stored.  If null a new image is created. Modified.
 	 * @return Wavelet transform.
 	 */
-	public T transform( O original , T transformed );
+	public T transform(O original , T transformed , InputSanityCheck ISC, GeneralizedImageOps GIO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvertImage CI, UtilWavelet UW);
 
 	/**
 	 * Applies the inverse wavelet transform to the specified image.
@@ -54,7 +60,7 @@ public interface WaveletTransform
 	 * @param transformed Wavelet transform of the image. Not modified.
 	 * @param original Reconstructed image from transform. Modified.
 	 */
-	public void invert( T transformed , O original );
+	public void invert( T transformed , O original , InputSanityCheck ISC, GeneralizedImageOps GIO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvertImage CI, UtilWavelet UW);
 
 	/**
 	 * Number of levels in the wavelet transform.
@@ -68,7 +74,7 @@ public interface WaveletTransform
 	 *
 	 * @return Type of border used.
 	 */
-	public BorderType getBorderType();
+	public BorderType getBorderType(UtilWavelet UW);
 
 	/**
 	 * Description of the wavelet.

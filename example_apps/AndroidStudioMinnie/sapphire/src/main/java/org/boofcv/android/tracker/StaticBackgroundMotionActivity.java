@@ -26,6 +26,7 @@ import boofcv.alg.misc.PixelMath;
 import boofcv.android.ConvertBitmap;
 import boofcv.android.VisualizeImageData;
 import boofcv.android.gui.VideoImageProcessing;
+import boofcv.core.image.ConvertImage;
 import boofcv.core.image.GConvertImage;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.factory.background.ConfigBackgroundBasic;
@@ -50,6 +51,7 @@ public class StaticBackgroundMotionActivity extends DemoVideoDisplayActivity
 	private ImageMiscOps IMO;
 	private static InputSanityCheck ISC;
 	private static GImageMiscOps GIMO;
+	private static ConvertImage CI;
 	int selected;
 
 	boolean resetRequested;
@@ -225,9 +227,9 @@ public class StaticBackgroundMotionActivity extends DemoVideoDisplayActivity
 				PixelMath.multiply(binary,255,binary, ISC);
 
 				// overwrite the original image with the binary one
-				GConvertImage.convert(binary, work, ISC, GIO, GIMO, IMO);
+				GConvertImage.convert(binary, work, ISC, GIO, GIMO, IMO, CI);
 				// if the input image is color then it needs a gray scale image of the same type
-				GConvertImage.convert(work,image, ISC, GIO, GIMO, IMO);
+				GConvertImage.convert(work,image, ISC, GIO, GIMO, IMO, CI);
 
 				// render the shrunk image inside the original
 				int x0 = image.width  - scaled.width;

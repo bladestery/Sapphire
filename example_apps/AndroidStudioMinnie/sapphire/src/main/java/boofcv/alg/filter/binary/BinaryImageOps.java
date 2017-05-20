@@ -398,12 +398,12 @@ public class BinaryImageOps implements SapphireObject {
 	 * @param output If not null, the output image.  If null a new image is declared and returned.  Modified.
 	 * @return Output image.
 	 */
-	public GrayU8 thin(GrayU8 input , int maxIterations, GrayU8 output , InputSanityCheck ISC) {
+	public GrayU8 thin(GrayU8 input , int maxIterations, GrayU8 output , InputSanityCheck ISC, ImageBorderValue IBV) {
 
 		output = ISC.checkDeclare(input, output);
 
 		output.setTo(input);
-		BinaryThinning thinning = new BinaryThinning();
+		BinaryThinning thinning = new BinaryThinning(IBV);
 
 		thinning.apply(output,maxIterations);
 

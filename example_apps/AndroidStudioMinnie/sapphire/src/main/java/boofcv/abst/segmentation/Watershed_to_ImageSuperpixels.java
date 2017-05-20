@@ -26,6 +26,7 @@ import boofcv.alg.segmentation.ComputeRegionMeanColor;
 import boofcv.alg.segmentation.ImageSegmentationOps;
 import boofcv.alg.segmentation.ms.MergeSmallRegions;
 import boofcv.alg.segmentation.watershed.WatershedVincentSoille1991;
+import boofcv.core.image.ConvertImage;
 import boofcv.core.image.GConvertImage;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.struct.ConnectRule;
@@ -74,11 +75,12 @@ public class Watershed_to_ImageSuperpixels<T extends ImageBase> implements Image
 	}
 
 	@Override
-	public void segment(T input, GrayS32 output, InputSanityCheck ISC, GeneralizedImageOps GIO, GImageMiscOps GIMO, ImageMiscOps IMO, ImageSegmentationOps ISO, BinaryImageOps BIO) {
+	public void segment(T input, GrayS32 output, InputSanityCheck ISC, GeneralizedImageOps GIO, GImageMiscOps GIMO, ImageMiscOps IMO, ImageSegmentationOps ISO, BinaryImageOps BIO,
+					   ConvertImage CI) {
 		ISC.checkSameShape(input,output);
 		converted.reshape(input.width,input.height);
 
-		GConvertImage.convert(input,converted, ISC, GIO, GIMO, IMO);
+		GConvertImage.convert(input,converted, ISC, GIO, GIMO, IMO, CI);
 
 		// segment the image
 		alg.process(converted, IMO);

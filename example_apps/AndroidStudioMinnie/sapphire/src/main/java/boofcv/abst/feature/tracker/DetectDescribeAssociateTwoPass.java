@@ -42,6 +42,8 @@ import boofcv.alg.misc.GImageMiscOps;
 import boofcv.alg.misc.GImageStatistics;
 import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.misc.ImageStatistics;
+import boofcv.alg.transform.wavelet.UtilWavelet;
+import boofcv.core.image.ConvertImage;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.core.image.border.FactoryImageBorderAlgs;
@@ -94,6 +96,8 @@ public class DetectDescribeAssociateTwoPass<I extends ImageGray, Desc extends Tu
 	private static FastHessianFeatureDetector FHFD;
 	private static FactoryImageBorder FIB;
 	private static FactoryBlurFilter FBF;
+	private static ConvertImage CI;
+	private static UtilWavelet UW;
 	// associate used in the second pass
 	AssociateDescription2D<Desc> associate2;
 	// has source been set in associate for the second pass
@@ -128,7 +132,7 @@ public class DetectDescribeAssociateTwoPass<I extends ImageGray, Desc extends Tu
 		locDst.reset();
 
 		manager.detectFeatures(input, locDst, featDst, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN,
-				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF);
+				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF, CI, UW);
 
 		// skip if there are no features
 		if( !tracksAll.isEmpty() ) {

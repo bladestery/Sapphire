@@ -50,6 +50,8 @@ import boofcv.alg.misc.GImageMiscOps;
 import boofcv.alg.misc.GImageStatistics;
 import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.misc.ImageStatistics;
+import boofcv.alg.transform.wavelet.UtilWavelet;
+import boofcv.core.image.ConvertImage;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.BorderType;
 import boofcv.core.image.border.FactoryImageBorder;
@@ -105,7 +107,9 @@ public class DisparityCalculation<Desc extends TupleDesc> {
 	private static ImageBorderValue IBV;
 	private static FastHessianFeatureDetector FHFD;
 	private static FactoryImageBorder FIB;
-	private ImageType IT;
+	private static ImageType IT;
+	private static UtilWavelet UW;
+	private static ConvertImage CI;
 	private static FactoryBlurFilter FBF;
 	DetectDescribePoint<GrayF32,Desc> detDesc;
 	AssociateDescription<Desc> associate;
@@ -161,7 +165,7 @@ public class DisparityCalculation<Desc extends TupleDesc> {
 	public void setSource( GrayF32 image ) {
 		distortedLeft.setTo(image);
 		detDesc.detect(image, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN,
-				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF);
+				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF, CI, UW);
 		describeImage(listSrc, locationSrc);
 		associate.setSource(listSrc);
 	}
@@ -169,7 +173,7 @@ public class DisparityCalculation<Desc extends TupleDesc> {
 	public void setDestination( GrayF32 image ) {
 		distortedRight.setTo(image);
 		detDesc.detect(image, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN,
-				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF);
+				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF, CI, UW);
 		describeImage(listDst, locationDst);
 		associate.setDestination(listDst);
 

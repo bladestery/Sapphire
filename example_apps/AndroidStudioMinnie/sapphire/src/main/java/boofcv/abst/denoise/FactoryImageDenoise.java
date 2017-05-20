@@ -20,6 +20,7 @@ package boofcv.abst.denoise;
 
 import boofcv.abst.transform.wavelet.WaveletTransform;
 import boofcv.alg.denoise.DenoiseWavelet;
+import boofcv.alg.transform.wavelet.UtilWavelet;
 import boofcv.core.image.border.BorderType;
 import boofcv.factory.denoise.FactoryDenoiseWaveletAlg;
 import boofcv.factory.transform.wavelet.FactoryWaveletDaub;
@@ -42,7 +43,6 @@ import boofcv.struct.wavelet.WlCoef_I32;
  */
 @SuppressWarnings({"unchecked"})
 public class FactoryImageDenoise {
-	private static ImageType IT;
 	/**
 	 * Denoises an image using VISU Shrink wavelet denoiser.
 	 *
@@ -53,10 +53,10 @@ public class FactoryImageDenoise {
 	 * @return filter for image noise removal.
 	 */
 	public static <T extends ImageGray> WaveletDenoiseFilter<T>
-	waveletVisu( Class<T> imageType , int numLevels , double minPixelValue , double maxPixelValue )
+	waveletVisu( Class<T> imageType , int numLevels , double minPixelValue , double maxPixelValue, ImageType IT, UtilWavelet UW, FactoryWaveletTransform FWT)
 	{
 		ImageDataType info = ImageDataType.classToType(imageType);
-		WaveletTransform descTran = createDefaultShrinkTransform(info, numLevels,minPixelValue,maxPixelValue);
+		WaveletTransform descTran = createDefaultShrinkTransform(info, numLevels,minPixelValue,maxPixelValue, IT, UW, FWT);
 		DenoiseWavelet denoiser  = FactoryDenoiseWaveletAlg.visu(imageType);
 
 		return new WaveletDenoiseFilter<>(descTran, denoiser);
@@ -72,10 +72,10 @@ public class FactoryImageDenoise {
 	 * @return filter for image noise removal.
 	 */
 	public static <T extends ImageGray> WaveletDenoiseFilter<T>
-	waveletBayes( Class<T> imageType , int numLevels , double minPixelValue , double maxPixelValue )
+	waveletBayes( Class<T> imageType , int numLevels , double minPixelValue , double maxPixelValue, ImageType IT, UtilWavelet UW, FactoryWaveletTransform FWT)
 	{
 		ImageDataType info = ImageDataType.classToType(imageType);
-		WaveletTransform descTran = createDefaultShrinkTransform(info, numLevels,minPixelValue,maxPixelValue);
+		WaveletTransform descTran = createDefaultShrinkTransform(info, numLevels,minPixelValue,maxPixelValue, IT, UW, FWT);
 		DenoiseWavelet denoiser = FactoryDenoiseWaveletAlg.bayes(null, imageType);
 
 		return new WaveletDenoiseFilter<>(descTran, denoiser);
@@ -91,10 +91,10 @@ public class FactoryImageDenoise {
 	 * @return filter for image noise removal.
 	 */
 	public static <T extends ImageGray> WaveletDenoiseFilter<T>
-	waveletSure( Class<T> imageType , int numLevels , double minPixelValue , double maxPixelValue )
+	waveletSure( Class<T> imageType , int numLevels , double minPixelValue , double maxPixelValue, ImageType IT, UtilWavelet UW, FactoryWaveletTransform FWT)
 	{
 		ImageDataType info = ImageDataType.classToType(imageType);
-		WaveletTransform descTran = createDefaultShrinkTransform(info, numLevels,minPixelValue,maxPixelValue);
+		WaveletTransform descTran = createDefaultShrinkTransform(info, numLevels,minPixelValue,maxPixelValue, IT, UW, FWT);
 		DenoiseWavelet denoiser = FactoryDenoiseWaveletAlg.sure(imageType);
 
 		return new WaveletDenoiseFilter<>(descTran, denoiser);
@@ -104,17 +104,17 @@ public class FactoryImageDenoise {
 	 * Default wavelet transform used for denoising images.
 	 */
 	private static WaveletTransform createDefaultShrinkTransform(ImageDataType imageType, int numLevels,
-																 double minPixelValue , double maxPixelValue ) {
+																 double minPixelValue , double maxPixelValue, ImageType IT, UtilWavelet UW, FactoryWaveletTransform FWT) {
 
 		WaveletTransform descTran;
 
 		if( !imageType.isInteger()) {
 			WaveletDescription<WlCoef_F32> waveletDesc_F32 = FactoryWaveletDaub.daubJ_F32(4);
-			descTran = FactoryWaveletTransform.create_F32(waveletDesc_F32,numLevels,
+			descTran = FWT.create_F32(waveletDesc_F32,numLevels,
 					(float)minPixelValue,(float)maxPixelValue);
 		} else {
-			WaveletDescription<WlCoef_I32> waveletDesc_I32 = FactoryWaveletDaub.biorthogonal_I32(5, BorderType.REFLECT);
-			descTran = FactoryWaveletTransform.create_I(waveletDesc_I32,numLevels,
+			WaveletDescription<WlCoef_I32> waveletDesc_I32 = FactoryWaveletDaub.biorthogonal_I32(5, BorderType.REFLECT, UW);
+			descTran = FWT.create_I(waveletDesc_I32,numLevels,
 					(int)minPixelValue,(int)maxPixelValue,
 					IT.getImageClass(ImageType.Family.GRAY, imageType));
 		}

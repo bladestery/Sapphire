@@ -27,6 +27,7 @@ import boofcv.alg.InputSanityCheck;
 import boofcv.alg.geo.calibration.CalibrationObservation;
 import boofcv.alg.misc.GImageMiscOps;
 import boofcv.alg.misc.ImageMiscOps;
+import boofcv.core.image.ConvertImage;
 import boofcv.core.image.GConvertImage;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.factory.fiducial.FactoryFiducialCalibration;
@@ -54,6 +55,7 @@ public class CalibrationFiducialDetector<T extends ImageGray>
 	private static GImageMiscOps GIMO;
 	private static ImageMiscOps IMO;
 	private static InputSanityCheck ISC;
+	private static ConvertImage CI;
 	// detects the calibration target
 	private DetectorFiducialCalibration detector;
 
@@ -155,7 +157,7 @@ public class CalibrationFiducialDetector<T extends ImageGray>
 			converted = (GrayF32)input;
 		} else {
 			converted.reshape(input.width,input.height);
-			GConvertImage.convert(input, converted, ISC, GIO, GIMO, IMO);
+			GConvertImage.convert(input, converted, ISC, GIO, GIMO, IMO, CI);
 		}
 
 		if( !detector.process(converted) ) {

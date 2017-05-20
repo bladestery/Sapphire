@@ -20,6 +20,7 @@ import boofcv.alg.distort.AdjustmentType;
 import boofcv.alg.distort.ImageDistort;
 import boofcv.alg.distort.LensDistortionOps;
 import boofcv.alg.distort.PointToPixelTransform_F32;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
 import boofcv.alg.interpolate.InterpolatePixelS;
 import boofcv.android.ConvertBitmap;
 import boofcv.android.gui.VideoImageProcessing;
@@ -44,6 +45,7 @@ public class UndistortDisplayActivity extends DemoVideoDisplayActivity
 	private ImageType IT;
 	private static FactoryImageBorder FIB;
 	private static InputSanityCheck ISC;
+	private static ConvertImage CI;
 	ToggleButton toggleDistort;
 	ToggleButton toggleColor;
 
@@ -131,7 +133,7 @@ public class UndistortDisplayActivity extends DemoVideoDisplayActivity
 				if( isColor )
 					ConvertBitmap.multiToBitmap(input,output,storage);
 				else {
-					ConvertImage.average(input,undistorted.getBand(0), ISC);
+					CI.average(input,undistorted.getBand(0), ISC);
 					ConvertBitmap.grayToBitmap(undistorted.getBand(0),output,storage);
 				}
 			} else {
@@ -142,7 +144,7 @@ public class UndistortDisplayActivity extends DemoVideoDisplayActivity
 
 					ConvertBitmap.multiToBitmap(undistorted,output,storage);
 				} else {
-					ConvertImage.average(input,undistorted.getBand(0), ISC);
+					CI.average(input,undistorted.getBand(0), ISC);
 					removeDistortion.apply(undistorted.getBand(0),undistorted.getBand(1));
 					ConvertBitmap.grayToBitmap(undistorted.getBand(1),output,storage);
 				}

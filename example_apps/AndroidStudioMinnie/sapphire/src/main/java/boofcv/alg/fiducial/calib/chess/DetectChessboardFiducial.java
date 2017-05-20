@@ -43,6 +43,8 @@ import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.misc.ImageStatistics;
 import boofcv.alg.shapes.polygon.BinaryPolygonDetector;
 import boofcv.alg.shapes.polygon.RefineBinaryPolygon;
+import boofcv.alg.transform.wavelet.UtilWavelet;
+import boofcv.core.image.ConvertImage;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.ImageBorderValue;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
@@ -98,6 +100,8 @@ public class DetectChessboardFiducial<T extends ImageGray> {
 	private static GImageMiscOps GIMO;
 	private static ConvolveJustBorder_General CJBG;
 	private static ImageMiscOps IMO;
+	private static ConvertImage CI;
+	private static UtilWavelet UW;
 	// detects the chess board
 	private DetectChessSquarePoints<T> findSeeds;
 	// binary images used to detect chess board
@@ -144,7 +148,7 @@ public class DetectChessboardFiducial<T extends ImageGray> {
 		binary.reshape(gray.width, gray.height);
 		eroded.reshape(gray.width, gray.height);
 
-		inputToBinary.process(gray,binary, GBIO, ISC, GIO, BlIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG);
+		inputToBinary.process(gray,binary, GBIO, ISC, GIO, BlIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW);
 
 		// erode to make the squares separated
 		BIO.erode8(binary, 1, eroded, ISC, IBIO, IBBO, IBV);

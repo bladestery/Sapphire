@@ -21,6 +21,7 @@ package boofcv.alg.background.stationary;
 import boofcv.alg.InputSanityCheck;
 import boofcv.alg.misc.GImageMiscOps;
 import boofcv.alg.misc.ImageMiscOps;
+import boofcv.core.image.ConvertImage;
 import boofcv.core.image.FactoryGImageMultiBand;
 import boofcv.core.image.GConvertImage;
 import boofcv.core.image.GImageMultiBand;
@@ -39,6 +40,7 @@ public class BackgroundStationaryBasic_PL<T extends ImageGray>
 	private static InputSanityCheck ISC;
 	private static GImageMiscOps GIMO;
 	private static GeneralizedImageOps GIO;
+	private static ConvertImage CI;
 	// storage for background image
 	protected Planar<GrayF32> background;
 
@@ -78,7 +80,7 @@ public class BackgroundStationaryBasic_PL<T extends ImageGray>
 	public void updateBackground( Planar<T> frame) {
 		if( background.width == 1 ) {
 			background.reshape(frame.width, frame.height);
-			GConvertImage.convert(frame, background, ISC, GIO, GIMO, IMO);
+			GConvertImage.convert(frame, background, ISC, GIO, GIMO, IMO, CI);
 			return;
 		} else {
 			ISC.checkSameShape(background,frame);

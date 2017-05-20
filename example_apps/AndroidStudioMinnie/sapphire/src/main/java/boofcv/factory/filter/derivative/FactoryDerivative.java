@@ -311,7 +311,13 @@ public class FactoryDerivative implements SapphireObject {
 		Method m;
 		try {
 			Class<?> borderType = GIO.isFloatingPoint(inputType) ? ImageBorder_F32.class : ImageBorder_S32.class;
-			m = derivativeClass.getDeclaredMethod("process", inputType,derivType,derivType,borderType);
+			Class<?> ISC = InputSanityCheck.class;
+			Class<?> DHF = DerivativeHelperFunctions.class;
+			Class<?> CINB = ConvolveImageNoBorder.class;
+			Class <?> CJBG = ConvolveJustBorder_General.class;
+			Class<?> GSO = GradientSobel_Outer.class;
+			Class <?> GSUO = GradientSobel_UnrolledOuter.class;
+			m = derivativeClass.getDeclaredMethod("process", inputType,derivType,derivType,borderType, ISC, DHF, CINB, CJBG, GSO, GSUO);
 		} catch (NoSuchMethodException e) {
 			throw new RuntimeException("Input and derivative types are probably not compatible",e);
 		}

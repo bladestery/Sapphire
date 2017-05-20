@@ -46,6 +46,7 @@ public class ObjectTrackerActivity extends DemoVideoDisplayActivity
 {
 	private ImageType IT;
 	private static InputSanityCheck ISC;
+	private static ConvertImage CI;
 	Spinner spinnerView;
 
 	int mode = 0;
@@ -218,7 +219,7 @@ public class ObjectTrackerActivity extends DemoVideoDisplayActivity
 		private void updateTracker(Planar<GrayU8> color) {
 			if( inputType.getFamily() == ImageType.Family.GRAY ) {
 				input.reshape(color.width,color.height);
-				ConvertImage.average(color,(GrayU8)input, ISC);
+				CI.average(color,(GrayU8)input, ISC);
 			} else {
 				input = (T)color;
 			}

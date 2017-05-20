@@ -45,6 +45,8 @@ import boofcv.alg.misc.GImageMiscOps;
 import boofcv.alg.misc.GImageStatistics;
 import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.misc.ImageStatistics;
+import boofcv.alg.transform.wavelet.UtilWavelet;
+import boofcv.core.image.ConvertImage;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.feature.TupleDesc;
@@ -89,7 +91,8 @@ public class DetectDescribeMultiFusion<T extends ImageGray, TD extends TupleDesc
 	private static GImageStatistics GIS;
 	private static ImageStatistics IS;
 	private static ThresholdImageOps TIO;
-
+	private static ConvertImage CI;
+	private static UtilWavelet UW;
 	// feature detector
 	private DetectorInterestPointMulti<T> detector;
 	// optional override for orientation
@@ -118,7 +121,7 @@ public class DetectDescribeMultiFusion<T extends ImageGray, TD extends TupleDesc
 	public void process(T image) {
 		// detect features and setup describe and orientation
 		detector.detect(image, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN,
-				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO);
+				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, CI, UW);
 
 		describe.setImage(image);
 		if( orientation != null )

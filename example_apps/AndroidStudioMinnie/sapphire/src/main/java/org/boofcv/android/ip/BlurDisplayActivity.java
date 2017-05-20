@@ -10,10 +10,14 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 
+import org.boofcv.android.DemoManager;
 import org.boofcv.android.DemoVideoDisplayActivity;
 import org.boofcv.android.R;
 
 import java.awt.Image;
+import java.net.InetSocketAddress;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
 import boofcv.abst.filter.blur.BlurFilter;
 import boofcv.alg.InputSanityCheck;
@@ -42,6 +46,10 @@ import boofcv.factory.filter.blur.FactoryBlurFilter;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.ImageType;
+import sapphire.kernel.server.KernelServerImpl;
+import sapphire.oms.OMSServer;
+
+import static sapphire.kernel.common.GlobalKernelReferences.nodeServer;
 
 /**
  * Blurs the input video image using different algorithms.
@@ -51,29 +59,6 @@ import boofcv.struct.image.ImageType;
 public class BlurDisplayActivity extends DemoVideoDisplayActivity
 		implements AdapterView.OnItemSelectedListener
 {
-	private static FactoryBlurFilter FBF;
-	private static GeneralizedImageOps GIO;
-	private static ImageType IT;
-	private static GBlurImageOps GBIO;
-	private static InputSanityCheck ISC;
-	private static BlurImageOps BIO;
-	private static ConvolveImageMean CIM;
-	private static FactoryKernelGaussian FKG;
-	private static ConvolveNormalized CN;
-	private static ConvolveNormalizedNaive CNN;
-	private static ConvolveImageNoBorder CINB;
-	private static ConvolveNormalized_JustBorder CNJB;
-	private static ImplMedianHistogramInner IMHI;
-	private static ImplMedianSortEdgeNaive IMSEN;
-	private static ImplMedianSortNaive IMSN;
-	private static ImplConvolveMean ICM;
-	private static GThresholdImageOps GTIO;
-	private static GImageStatistics GIS;
-	private static ImageStatistics IS;
-	private static ThresholdImageOps TIO;
-	private static GImageMiscOps GIMO;
-	private static ImageMiscOps IMO;
-	private static ConvolveJustBorder_General CJBG;
 	Spinner spinnerView;
 
 	// amount of blur applied to the image
@@ -81,9 +66,39 @@ public class BlurDisplayActivity extends DemoVideoDisplayActivity
 
 	BlurProcessing processing;
 
+	OMSServer server;
+	DemoManager dm;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		InetSocketAddress host, omsHost;
+
+		try {
+			Registry registry = LocateRegistry.getRegistry("157.82.159.58", 22346);
+			server = (OMSServer) registry.lookup("SapphireOMS");
+			System.out.println(server);
+
+			host = new InetSocketAddress("192.168.0.7", 22346);
+			omsHost = new InetSocketAddress("157.82.159.58", 22346);
+			nodeServer = new KernelServerImpl(host, omsHost);
+			System.out.println(nodeServer);
+
+			System.setProperty("java.rmi.server.hostname", host.getAddress().getHostAddress());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		try {
+			//Server is initiated with appObject to perform remote RPCs
+			dm = (DemoManager) server.getAppEntryPoint();
+			System.out.println("Got AppEntryPoint");
+			//dm.LatencyCheck();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(0);
+		}
 
 		LayoutInflater inflater = getLayoutInflater();
 		LinearLayout controls = (LinearLayout)inflater.inflate(R.layout.blur_controls,null);
@@ -133,15 +148,21 @@ public class BlurDisplayActivity extends DemoVideoDisplayActivity
 		int radius = Math.max(1,this.radius);
 		switch (pos) {
 			case 0:
-				processing = new BlurProcessing(FBF.mean(GrayU8.class, radius, GIO));
+				dm.mean(radius);
+				//FBF.mean(GrayU8.class, radius, GIO);
+				processing = new BlurProcessing();
 				break;
 
 			case 1:
-				processing = new BlurProcessing(FBF.gaussian(GrayU8.class,-1,radius, GIO));
+				dm.gaussian(-1, radius);
+				//FBF.gaussian(GrayU8.class,-1,radius, GIO);
+				processing = new BlurProcessing();
 				break;
 
 			case 2:
-				processing = new BlurProcessing(FBF.median(GrayU8.class,radius, GIO));
+				dm.blurMedian(radius);
+				//FBF.median(GrayU8.class,radius, GIO);
+				processing = new BlurProcessing();
 				break;
 		}
 
@@ -153,26 +174,28 @@ public class BlurDisplayActivity extends DemoVideoDisplayActivity
 
 	protected class BlurProcessing extends VideoImageProcessing<GrayU8> {
 		GrayU8 blurred;
-		final BlurFilter<GrayU8> filter;
+		//final BlurFilter<GrayU8> filter;
 
-		public BlurProcessing(BlurFilter<GrayU8> filter) {
-			super( IT.single(GrayU8.class));
-			this.filter = filter;
+		public BlurProcessing() {
+			super(dm.single(GrayU8.class));
+			//this.filter = filter;
 		}
 
 		@Override
 		protected void declareImages( int width , int height ) {
 			super.declareImages(width, height);
-
-			blurred = new GrayU8(width,height);
+			dm.initBlurred(width,height);
+			//blurred = new GrayU8(width,height);
 		}
 
 		@Override
 		protected void process(GrayU8 input, Bitmap output, byte[] storage) {
 			if( radius > 0 ) {
-				synchronized ( filter ) {
-					filter.process(input, blurred, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG);
-				}
+				//synchronized ( filter ) {
+				//	blurred = dm.blurProcess(input);
+					//blurred = filter.process(input, blurred, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG);
+				//}
+				blurred = dm.blurProcess(input);
 				ConvertBitmap.grayToBitmap(blurred, output, storage);
 			} else {
 				ConvertBitmap.grayToBitmap(input, output, storage);
@@ -180,9 +203,11 @@ public class BlurDisplayActivity extends DemoVideoDisplayActivity
 		}
 
 		public void setRadius( int radius ) {
-			synchronized ( filter ) {
-				filter.setRadius(radius);
-			}
+			//synchronized ( filter ) {
+			//	dm.setRadius(radius);
+				//filter.setRadius(radius);
+			//}
+			dm.setRadius(radius);
 		}
 	}
 }

@@ -24,6 +24,7 @@ import boofcv.alg.feature.detect.interest.SiftScaleSpace;
 import boofcv.alg.feature.detect.interest.UnrollSiftScaleSpaceGradient;
 import boofcv.alg.misc.GImageMiscOps;
 import boofcv.alg.misc.ImageMiscOps;
+import boofcv.core.image.ConvertImage;
 import boofcv.core.image.GConvertImage;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.struct.BoofDefaults;
@@ -46,6 +47,7 @@ public class DescribeRegionPoint_SIFT <T extends ImageGray>
 	private static InputSanityCheck ISC;
 	private static ImageMiscOps IMO;
 	private static GeneralizedImageOps GIO;
+	private static ConvertImage CI;
 	private ImageType IT;
 	// expected type of input image.  All image types are converted to floats since that's what
 	// the scale-space requires
@@ -76,7 +78,7 @@ public class DescribeRegionPoint_SIFT <T extends ImageGray>
 			input = (GrayF32)image;
 		} else {
 			imageFloat.reshape(image.width,image.height);
-			GConvertImage.convert(image,imageFloat, ISC, GIO, GIMO, IMO);
+			GConvertImage.convert(image,imageFloat, ISC, GIO, GIMO, IMO, CI);
 			input = imageFloat;
 		}
 

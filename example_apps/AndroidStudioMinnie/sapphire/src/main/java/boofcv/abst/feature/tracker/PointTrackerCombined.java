@@ -45,6 +45,8 @@ import boofcv.alg.misc.ImageStatistics;
 import boofcv.alg.tracker.combined.CombinedTrack;
 import boofcv.alg.tracker.combined.CombinedTrackerScalePoint;
 import boofcv.alg.transform.pyramid.PyramidOps;
+import boofcv.alg.transform.wavelet.UtilWavelet;
+import boofcv.core.image.ConvertImage;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.core.image.border.FactoryImageBorderAlgs;
@@ -102,6 +104,9 @@ public class PointTrackerCombined<I extends ImageGray, D extends ImageGray, Desc
 	private static FactoryImageBorder FIB;
 	private static FactoryBlurFilter FBF;
 	private static FactoryDerivative FD;
+	private static ConvertImage CI;
+	private static FactoryPyramid FP;
+	private static UtilWavelet UW;
 	CombinedTrackerScalePoint<I,D, Desc> tracker;
 
 	PyramidDiscrete<I> pyramid;
@@ -124,7 +129,7 @@ public class PointTrackerCombined<I extends ImageGray, D extends ImageGray, Desc
 		this.derivType = derivType;
 
 		int pyramidScaling[] = tracker.getTrackerKlt().pyramidScaling;
-		pyramid = FactoryPyramid.discreteGaussian(pyramidScaling,-1,2,true,imageType, FKG);
+		pyramid = FP.discreteGaussian(pyramidScaling,-1,2,true,imageType, FKG);
 		gradient = FD.sobel(imageType, derivType, GIO, FIB);
 
 		reset();
@@ -142,7 +147,7 @@ public class PointTrackerCombined<I extends ImageGray, D extends ImageGray, Desc
 		detected = false;
 
 		// update the image pyramid
-		pyramid.process(image, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG);
+		pyramid.process(image, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG, CI, UW);
 		if( derivX == null ) {
 			derivX = PyramidOps.declareOutput(pyramid, derivType);
 			derivY = PyramidOps.declareOutput(pyramid, derivType);

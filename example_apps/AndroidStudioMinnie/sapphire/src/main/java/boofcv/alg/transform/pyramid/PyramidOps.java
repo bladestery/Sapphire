@@ -46,6 +46,8 @@ import boofcv.alg.misc.GImageStatistics;
 import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.misc.ImageStatistics;
 import boofcv.alg.transform.pyramid.impl.ImplPyramidOps;
+import boofcv.alg.transform.wavelet.UtilWavelet;
+import boofcv.core.image.ConvertImage;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.image.GrayF32;
@@ -86,6 +88,8 @@ public class PyramidOps {
 	private static GradientSobel_UnrolledOuter GSUO;
 	private static GImageMiscOps GIMO;
 	private static ImageMiscOps IMO;
+	private static ConvertImage CI;
+	private static UtilWavelet UW;
 	/**
 	 * Creates an array of single band images for each layer in the provided pyramid.  Each image will
 	 * be the same size as the corresponding layer in the pyramid.
@@ -144,7 +148,7 @@ public class PyramidOps {
 	{
 		for( int i = 0; i < input.getNumLayers(); i++ ) {
 			I imageIn = input.getLayer(i);
-			filter.process(imageIn,output[i], GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG);
+			filter.process(imageIn,output[i], GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW);
 		}
 	}
 

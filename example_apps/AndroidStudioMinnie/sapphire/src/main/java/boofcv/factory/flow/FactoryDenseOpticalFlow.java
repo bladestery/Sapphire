@@ -50,6 +50,7 @@ public class FactoryDenseOpticalFlow {
 	private static GeneralizedImageOps GIO;
 	private static FactoryImageBorder FIB;
 	private static FactoryKernelGaussian FKG;
+	private static FactoryPyramid FP;
 	/**
 	 * Compute optical flow using {@link PyramidKltTracker}.
 	 *
@@ -75,8 +76,8 @@ public class FactoryDenseOpticalFlow {
 
 		int numLayers = configKlt.pyramidScaling.length;
 
-		PyramidDiscrete<I> pyramidA = FactoryPyramid.discreteGaussian(configKlt.pyramidScaling, -1, 2, true, inputType, FKG);
-		PyramidDiscrete<I> pyramidB = FactoryPyramid.discreteGaussian(configKlt.pyramidScaling, -1, 2, true, inputType, FKG);
+		PyramidDiscrete<I> pyramidA = FP.discreteGaussian(configKlt.pyramidScaling, -1, 2, true, inputType, FKG);
+		PyramidDiscrete<I> pyramidB = FP.discreteGaussian(configKlt.pyramidScaling, -1, 2, true, inputType, FKG);
 
 		PyramidKltTracker<I, D> tracker = FactoryTrackerAlg.kltPyramid(configKlt.config, inputType, derivType);
 		DenseOpticalFlowKlt<I, D> flowKlt = new DenseOpticalFlowKlt<>(tracker, numLayers, radius);

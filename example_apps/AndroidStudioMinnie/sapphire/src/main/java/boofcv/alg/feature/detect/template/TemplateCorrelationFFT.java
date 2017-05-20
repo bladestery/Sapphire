@@ -40,8 +40,9 @@ public class TemplateCorrelationFFT
 	private static GImageMiscOps GIMO;
 	private static ImageMiscOps IMO;
 	private static InputSanityCheck ISC;
+	private static DiscreteFourierTransformOps DFTO;
 	DiscreteFourierTransform<GrayF32,InterleavedF32> dft =
-			DiscreteFourierTransformOps.createTransformF32();
+			DFTO.createTransformF32();
 
 	// border which should be ignored
 	int borderX0,borderY0,borderX1,borderY1;
@@ -79,7 +80,7 @@ public class TemplateCorrelationFFT
 		PixelMath.divide(image,maxValue,normalizedImage, ISC);
 		PixelMath.minus(normalizedImage,mean/maxValue,normalizedImage, ISC);
 
-		dft.forward(normalizedImage, fftImage);
+		dft.forward(normalizedImage, fftImage, DFTO, ISC);
 	}
 
 	@Override
@@ -135,11 +136,11 @@ public class TemplateCorrelationFFT
 			}
 		}
 
-		dft.forward(enlargedTemplate, fftTemplate);
+		dft.forward(enlargedTemplate, fftTemplate, DFTO, ISC);
 
 		// compute the correlation
-		DiscreteFourierTransformOps.multiplyComplex(fftImage,fftTemplate,fftMult);
-		dft.inverse(fftMult,correlation);
+		DFTO.multiplyComplex(fftImage,fftTemplate,fftMult, ISC);
+		dft.inverse(fftMult,correlation, DFTO, ISC);
 	}
 
 	@Override

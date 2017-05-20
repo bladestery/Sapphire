@@ -19,6 +19,7 @@
 package boofcv.core.image;
 
 import boofcv.alg.InputSanityCheck;
+import boofcv.alg.filter.convolve.ConvolveImageMean;
 import boofcv.alg.misc.GImageMiscOps;
 import boofcv.alg.misc.ImageMiscOps;
 import boofcv.struct.image.*;
@@ -40,6 +41,7 @@ public class GeneralizedImageOps implements SapphireObject {
 	private static GeneralizedImageOps GIO;
 	private static GImageMiscOps GIMO;
 	private static ImageMiscOps IMO;
+	private static ConvertImage CI;
 
 	public GeneralizedImageOps() {}
 
@@ -59,7 +61,7 @@ public class GeneralizedImageOps implements SapphireObject {
 		} else {
 			ISC.checkSameShape(src, dst);
 		}
-		GConvertImage.convert(src,dst, ISC, GIO, GIMO, IMO);
+		GConvertImage.convert(src,dst, ISC, GIO, GIMO, IMO, CI);
 
 		return dst;
 	}

@@ -14,16 +14,6 @@
     <item
         custom-flags="--core-library"
         is-multidex="true"
-        jar="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="914cea64de37cd844bf4a90459a9020310afd573">
-        <dex dex="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_f79d4b3849251d0df0108ee58c382645257e0f81/classes.dex" />
-    </item>
-    <item
-        custom-flags="--core-library"
-        is-multidex="true"
         jar="/home/ubuntu/.android/build-cache/b58480bfad971ddc529a88d1f1c334d30f219154/output/jars/classes.jar"
         jumboMode="false"
         optimize="true"
@@ -35,7 +25,7 @@
         custom-flags="--core-library"
         is-multidex="true"
         jar="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/libs/kernel.jar"
-        jumboMode="true"
+        jumboMode="false"
         optimize="true"
         revision="25.0.2"
         sha1="52eaa598a980896268e5c4b28b3fcbf351fd3508">
@@ -45,7 +35,7 @@
         custom-flags="--core-library"
         is-multidex="true"
         jar="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/libs/kernel.jar"
-        jumboMode="false"
+        jumboMode="true"
         optimize="true"
         revision="25.0.2"
         sha1="52eaa598a980896268e5c4b28b3fcbf351fd3508">
@@ -92,16 +82,6 @@
         <dex dex="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/transforms/dex/debug/folders/1000/2/rt_82600eaf51ba5848b3206bd8fe8b39a43b41dcc4/classes2.dex" />
         <dex dex="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/transforms/dex/debug/folders/1000/2/rt_82600eaf51ba5848b3206bd8fe8b39a43b41dcc4/classes3.dex" />
         <dex dex="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/transforms/dex/debug/folders/1000/2/rt_82600eaf51ba5848b3206bd8fe8b39a43b41dcc4/classes.dex" />
-    </item>
-    <item
-        custom-flags="--core-library"
-        is-multidex="true"
-        jar="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="caff8e51a24901cfc9cd7e1cf83d84f4cb0c103b">
-        <dex dex="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_36a8e5ab38788433c9e523100f0616e04ee1c6da/classes.dex" />
     </item>
     <item
         custom-flags="--core-library"

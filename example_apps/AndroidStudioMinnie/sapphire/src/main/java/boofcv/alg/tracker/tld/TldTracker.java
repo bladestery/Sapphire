@@ -44,6 +44,8 @@ import boofcv.alg.misc.GImageStatistics;
 import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.misc.ImageStatistics;
 import boofcv.alg.tracker.klt.PyramidKltTracker;
+import boofcv.alg.transform.wavelet.UtilWavelet;
+import boofcv.core.image.ConvertImage;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.core.image.border.FactoryImageBorderAlgs;
@@ -119,8 +121,10 @@ public class TldTracker<T extends ImageGray, D extends ImageGray> {
 	private static ImageBorderValue IBV;
 	private static FastHessianFeatureDetector FHFD;
 	private static FactoryImageBorder FIB;
+	private static ConvertImage CI;
 	private static FactoryBlurFilter FBF;
-
+	private static FactoryPyramid FP;
+	private static UtilWavelet UW;
 	// specified configuration parameters for the tracker
 	private TldParameters config;
 
@@ -209,9 +213,9 @@ public class TldTracker<T extends ImageGray, D extends ImageGray> {
 				imagePyramid.getInputWidth() != image.width || imagePyramid.getInputHeight() != image.height ) {
 			int minSize = (config.trackerFeatureRadius*2+1)*5;
 			int scales[] = selectPyramidScale(image.width,image.height,minSize);
-			imagePyramid = FactoryPyramid.discreteGaussian(scales,-1,1,true,(Class<T>)image.getClass(), FKG);
+			imagePyramid = FP.discreteGaussian(scales,-1,1,true,(Class<T>)image.getClass(), FKG);
 		}
-		imagePyramid.process(image, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG);
+		imagePyramid.process(image, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG, CI, UW);
 
 		reacquiring = false;
 
@@ -294,7 +298,7 @@ public class TldTracker<T extends ImageGray, D extends ImageGray> {
 		boolean success = true;
 		valid = false;
 
-		imagePyramid.process(image, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG);
+		imagePyramid.process(image, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG, CI, UW);
 		template.setImage(image);
 		variance.setImage(image);
 		fern.setImage(image);

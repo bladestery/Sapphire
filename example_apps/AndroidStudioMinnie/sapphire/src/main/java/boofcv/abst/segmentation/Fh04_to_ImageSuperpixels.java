@@ -25,6 +25,7 @@ import boofcv.alg.misc.GImageMiscOps;
 import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.segmentation.ImageSegmentationOps;
 import boofcv.alg.segmentation.fh04.SegmentFelzenszwalbHuttenlocher04;
+import boofcv.core.image.ConvertImage;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.struct.ConnectRule;
 import boofcv.struct.image.GrayS32;
@@ -49,7 +50,8 @@ public class Fh04_to_ImageSuperpixels<T extends ImageBase> implements ImageSuper
 	}
 
 	@Override
-	public void segment(T input, GrayS32 output, InputSanityCheck ISC, GeneralizedImageOps GIO, GImageMiscOps GIMO, ImageMiscOps IMO, ImageSegmentationOps ISO, BinaryImageOps BIO) {
+	public void segment(T input, GrayS32 output, InputSanityCheck ISC, GeneralizedImageOps GIO, GImageMiscOps GIMO, ImageMiscOps IMO, ImageSegmentationOps ISO, BinaryImageOps BIO,
+					   ConvertImage CI) {
 
 		pixelToSegment.reshape(input.width, input.height);
 
