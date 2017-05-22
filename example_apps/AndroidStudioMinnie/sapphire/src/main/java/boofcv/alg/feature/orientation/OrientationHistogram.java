@@ -20,6 +20,7 @@ package boofcv.alg.feature.orientation;
 
 import boofcv.abst.feature.orientation.OrientationGradient;
 import boofcv.alg.InputSanityCheck;
+import boofcv.alg.feature.detect.interest.FastHessianFeatureDetector;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.misc.BoofMiscOps;
 import boofcv.struct.ImageRectangle;
@@ -40,8 +41,6 @@ import boofcv.struct.image.ImageGray;
 public abstract class OrientationHistogram <D extends ImageGray>
 		implements OrientationGradient<D>
 {
-	private static FactoryKernelGaussian FKG;
-	private static InputSanityCheck ISC;
 	// the region's radius
 	protected double objectToSample;
 	// the radius at the set scale
@@ -97,9 +96,9 @@ public abstract class OrientationHistogram <D extends ImageGray>
 	 *
 	 * @param objectToSample
 	 */
-	public void setObjectToSample(int objectToSample) {
+	public void setObjectToSample(int objectToSample, FactoryKernelGaussian FKG) {
 		this.objectToSample = objectToSample;
-		setObjectRadius(objectToSample);
+		setObjectRadius(objectToSample, FKG);
 	}
 
 	public Kernel2D_F32 getWeights() {
@@ -107,7 +106,7 @@ public abstract class OrientationHistogram <D extends ImageGray>
 	}
 
 	@Override
-	public void setObjectRadius(double objectRadius) {
+	public void setObjectRadius(double objectRadius, FactoryKernelGaussian FKG) {
 		radiusScale = (int)Math.ceil(objectRadius*objectToSample);
 		if( isWeighted ) {
 			weights = FKG.gaussian(2,true, 32, -1,radiusScale);
@@ -115,7 +114,7 @@ public abstract class OrientationHistogram <D extends ImageGray>
 	}
 
 	@Override
-	public void setImage( D derivX, D derivY) {
+	public void setImage( D derivX, D derivY, InputSanityCheck ISC) {
 		ISC.checkSameShape(derivX,derivY);
 
 		this.derivX = derivX;
@@ -123,7 +122,7 @@ public abstract class OrientationHistogram <D extends ImageGray>
 	}
 
 	@Override
-	public double compute(double X, double Y) {
+	public double compute(double X, double Y, FastHessianFeatureDetector FHFD) {
 
 		int c_x = (int)X;
 		int c_y = (int)Y;

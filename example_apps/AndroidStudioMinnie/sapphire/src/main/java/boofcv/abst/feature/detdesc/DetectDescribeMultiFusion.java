@@ -24,6 +24,8 @@ import boofcv.abst.feature.detect.interest.FoundPointSO;
 import boofcv.abst.feature.orientation.OrientationImage;
 import boofcv.alg.InputSanityCheck;
 import boofcv.alg.descriptor.UtilFeature;
+import boofcv.alg.feature.dense.DescribeDenseHogFastAlg;
+import boofcv.alg.feature.detect.interest.FastHessianFeatureDetector;
 import boofcv.alg.filter.binary.GThresholdImageOps;
 import boofcv.alg.filter.binary.ThresholdImageOps;
 import boofcv.alg.filter.blur.BlurImageOps;
@@ -39,6 +41,7 @@ import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
 import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
+import boofcv.alg.filter.derivative.GradientSobel;
 import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
 import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
 import boofcv.alg.misc.GImageMiscOps;
@@ -48,6 +51,10 @@ import boofcv.alg.misc.ImageStatistics;
 import boofcv.alg.transform.wavelet.UtilWavelet;
 import boofcv.core.image.ConvertImage;
 import boofcv.core.image.GeneralizedImageOps;
+import boofcv.core.image.border.FactoryImageBorder;
+import boofcv.core.image.border.FactoryImageBorderAlgs;
+import boofcv.core.image.border.ImageBorderValue;
+import boofcv.factory.filter.blur.FactoryBlurFilter;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.feature.TupleDesc;
 import boofcv.struct.image.ImageGray;
@@ -67,32 +74,6 @@ import org.ddogleg.struct.FastQueue;
  */
 public class DetectDescribeMultiFusion<T extends ImageGray, TD extends TupleDesc>
 		implements DetectDescribeMulti<T,TD> {
-	private static InputSanityCheck ISC;
-	private static DerivativeHelperFunctions DHF;
-	private static ConvolveImageNoBorder CINB;
-	private static ConvolveJustBorder_General CJBG;
-	private static GradientSobel_Outer GSO;
-	private static GradientSobel_UnrolledOuter GSUO;
-	private static GImageMiscOps GIMO;
-	private static ImageMiscOps IMO;
-	private static ConvolveNormalizedNaive CNN;
-	private static ConvolveNormalized_JustBorder CNJB;
-	private static ConvolveNormalized CN;
-	private static GBlurImageOps GBIO;
-	private static GeneralizedImageOps GIO;
-	private static BlurImageOps BIO;
-	private static ConvolveImageMean CIM;
-	private static FactoryKernelGaussian FKG;
-	private static ImplMedianHistogramInner IMHI;
-	private static ImplMedianSortEdgeNaive IMSEN;
-	private static ImplMedianSortNaive IMSN;
-	private static ImplConvolveMean ICM;
-	private static GThresholdImageOps GTIO;
-	private static GImageStatistics GIS;
-	private static ImageStatistics IS;
-	private static ThresholdImageOps TIO;
-	private static ConvertImage CI;
-	private static UtilWavelet UW;
 	// feature detector
 	private DetectorInterestPointMulti<T> detector;
 	// optional override for orientation
@@ -118,14 +99,19 @@ public class DetectDescribeMultiFusion<T extends ImageGray, TD extends TupleDesc
 	}
 
 	@Override
-	public void process(T image) {
+	public void process(T image, InputSanityCheck ISC, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG, GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO,
+						GImageMiscOps GIMO, ImageMiscOps IMO, ConvolveNormalizedNaive CNN, ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN,
+						GBlurImageOps GBIO, GeneralizedImageOps GIO, BlurImageOps BIO, ConvolveImageMean CIM, FactoryKernelGaussian FKG, ImplMedianHistogramInner IMHI,
+						ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM, GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS,
+						ThresholdImageOps TIO, FactoryImageBorderAlgs FIBA, ImageBorderValue IBV, FastHessianFeatureDetector FHFD, FactoryImageBorder FIB, FactoryBlurFilter FBF,
+						ConvertImage CI, UtilWavelet UW) {
 		// detect features and setup describe and orientation
 		detector.detect(image, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN,
 				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, CI, UW);
 
-		describe.setImage(image);
+		describe.setImage(image, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW, DHF, GSO, GSUO, FIB);
 		if( orientation != null )
-			orientation.setImage(image);
+			orientation.setImage(image, ISC, GIO, DHF, CINB, CJBG, GSO, GSUO, FKG, GIMO, IMO, CI, FIB, CNN, CNJB, CN);
 
 		// go through each set of features
 		for( int i = 0; i < info.length; i++ ) {
@@ -137,11 +123,11 @@ public class DetectDescribeMultiFusion<T extends ImageGray, TD extends TupleDesc
 			for( int j = 0; j < points.getNumberOfFeatures(); j++ ) {
 				Point2D_F64 p = points.getLocation(j);
 				double radius = points.getRadius(j);
-				double ori = points.getOrientation(j);
+				double ori = points.getOrientation(j, FKG, FHFD);
 
 				if( orientation != null ) {
-					orientation.setObjectRadius(radius);
-					ori = orientation.compute(p.x,p.y);
+					orientation.setObjectRadius(radius, FKG);
+					ori = orientation.compute(p.x,p.y, FHFD);
 				}
 
 				TD d = setInfo.descriptors.grow();

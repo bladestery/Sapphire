@@ -20,9 +20,33 @@ package boofcv.abst.feature.describe;
 
 import boofcv.alg.InputSanityCheck;
 import boofcv.alg.feature.describe.DescribePointSurf;
+import boofcv.alg.filter.binary.GThresholdImageOps;
+import boofcv.alg.filter.binary.ThresholdImageOps;
+import boofcv.alg.filter.blur.BlurImageOps;
+import boofcv.alg.filter.blur.GBlurImageOps;
+import boofcv.alg.filter.blur.impl.ImplMedianHistogramInner;
+import boofcv.alg.filter.blur.impl.ImplMedianSortEdgeNaive;
+import boofcv.alg.filter.blur.impl.ImplMedianSortNaive;
+import boofcv.alg.filter.convolve.ConvolveImageMean;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
+import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
+import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
+import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
+import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
 import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.GImageStatistics;
+import boofcv.alg.misc.ImageMiscOps;
+import boofcv.alg.misc.ImageStatistics;
 import boofcv.alg.transform.ii.GIntegralImageOps;
+import boofcv.alg.transform.wavelet.UtilWavelet;
+import boofcv.core.image.ConvertImage;
 import boofcv.core.image.GeneralizedImageOps;
+import boofcv.core.image.border.FactoryImageBorder;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.BoofDefaults;
 import boofcv.struct.feature.BrightFeature;
 import boofcv.struct.image.ImageGray;
@@ -34,9 +58,6 @@ import boofcv.struct.image.ImageType;
  */
 public class WrapDescribeSurf<T extends ImageGray, II extends ImageGray>
 		implements DescribeRegionPoint<T,BrightFeature> {
-	private ImageType IT;
-	private static InputSanityCheck ISC;
-	private static GeneralizedImageOps GIO;
 	// computes SURF feature descriptor
 	DescribePointSurf<II> surf;
 	// integral image
@@ -44,7 +65,7 @@ public class WrapDescribeSurf<T extends ImageGray, II extends ImageGray>
 
 	ImageType<T> imageType;
 
-	public WrapDescribeSurf(DescribePointSurf<II> surf , Class<T> imageType)
+	public WrapDescribeSurf(DescribePointSurf<II> surf , Class<T> imageType, ImageType IT)
 	{
 		this.surf = surf;
 		this.imageType = IT.single(imageType);
@@ -56,7 +77,10 @@ public class WrapDescribeSurf<T extends ImageGray, II extends ImageGray>
 	}
 
 	@Override
-	public void setImage(T image) {
+	public void setImage(T image, GBlurImageOps GBIO, InputSanityCheck ISC, GeneralizedImageOps GIO, BlurImageOps BIO, ConvolveImageMean CIM, FactoryKernelGaussian FKG, ConvolveNormalized CN,
+						 ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN,
+						 ImplConvolveMean ICM, GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvolveJustBorder_General CJBG,
+						 ConvertImage CI, UtilWavelet UW, DerivativeHelperFunctions DHF, GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO, FactoryImageBorder FIB) {
 		if( ii != null ) {
 			ii.reshape(image.width,image.height);
 		}

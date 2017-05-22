@@ -27,7 +27,11 @@ import boofcv.alg.feature.dense.DescribeDenseHogFastAlg;
 import boofcv.alg.feature.dense.DescribeDenseSiftAlg;
 import boofcv.alg.feature.describe.DescribePointSurf;
 import boofcv.alg.filter.derivative.GImageDerivativeOps;
+import boofcv.core.image.GeneralizedImageOps;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.feature.describe.FactoryDescribeRegionPoint;
+import boofcv.factory.filter.derivative.FactoryDerivative;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.BoofDefaults;
 import boofcv.struct.feature.TupleDesc_F64;
 import boofcv.struct.image.ImageBase;
@@ -56,13 +60,13 @@ public class FactoryDescribeImageDense {
 	 * @return SURF description extractor
 	 */
 	public static <T extends ImageGray, II extends ImageGray>
-	DescribeImageDense<T,TupleDesc_F64> surfFast(ConfigDenseSurfFast config , Class<T> imageType)
+	DescribeImageDense<T,TupleDesc_F64> surfFast(ConfigDenseSurfFast config , Class<T> imageType, FactoryKernelGaussian FKG, ImageType IT)
 	{
 		if( config == null )
 			config = new ConfigDenseSurfFast();
 
 		DescribeRegionPoint<T,TupleDesc_F64> surf =
-				(DescribeRegionPoint)FactoryDescribeRegionPoint.surfFast(config.surf, imageType);
+				(DescribeRegionPoint)FactoryDescribeRegionPoint.surfFast(config.surf, imageType, FKG, IT);
 
 		return new GenericDenseDescribeImageDense<>(surf, BoofDefaults.SURF_SCALE_TO_RADIUS,
 				config.descriptorScale, config.sampling.periodX, config.sampling.periodY);
@@ -83,7 +87,7 @@ public class FactoryDescribeImageDense {
 	 */
 	public static <T extends ImageGray, II extends ImageGray>
 	DescribeImageDense<T,TupleDesc_F64> surfStable( ConfigDenseSurfStable config,
-												   Class<T> imageType) {
+												   Class<T> imageType, FactoryKernelGaussian FKG, ImageType IT) {
 
 		if( config == null )
 			config = new ConfigDenseSurfStable();
@@ -91,7 +95,7 @@ public class FactoryDescribeImageDense {
 		config.checkValidity();
 
 		DescribeRegionPoint<T,TupleDesc_F64> surf =
-				(DescribeRegionPoint)FactoryDescribeRegionPoint.surfStable(config.surf, imageType);
+				(DescribeRegionPoint)FactoryDescribeRegionPoint.surfStable(config.surf, imageType, FKG, IT);
 
 		return new GenericDenseDescribeImageDense<>(surf, BoofDefaults.SURF_SCALE_TO_RADIUS,
 				config.descriptorScale, config.sampling.periodX, config.sampling.periodY);
@@ -107,7 +111,7 @@ public class FactoryDescribeImageDense {
 	 * @return Dense SIFT
 	 */
 	public static <T extends ImageGray>
-	DescribeImageDense<T,TupleDesc_F64> sift(ConfigDenseSift config , Class<T> imageType ) {
+	DescribeImageDense<T,TupleDesc_F64> sift(ConfigDenseSift config , Class<T> imageType, ImageType IT, GeneralizedImageOps GIO, FactoryImageBorder FIB, FactoryDerivative FD, FactoryKernelGaussian FKG) {
 		if( config == null )
 			config = new ConfigDenseSift();
 
@@ -118,9 +122,9 @@ public class FactoryDescribeImageDense {
 		Class derivType = GImageDerivativeOps.getDerivativeType(imageType);
 
 		DescribeDenseSiftAlg alg = new DescribeDenseSiftAlg(c.widthSubregion,c.widthGrid,
-				c.numHistogramBins,c.weightingSigmaFraction,c.maxDescriptorElementValue,1,1,derivType);
+				c.numHistogramBins,c.weightingSigmaFraction,c.maxDescriptorElementValue,1,1,derivType, FKG);
 
-		return new DescribeImageDenseSift(alg,config.sampling.periodX,config.sampling.periodY,imageType);
+		return new DescribeImageDenseSift(alg,config.sampling.periodX,config.sampling.periodY,imageType, IT, GIO, FIB, FD);
 	}
 
 

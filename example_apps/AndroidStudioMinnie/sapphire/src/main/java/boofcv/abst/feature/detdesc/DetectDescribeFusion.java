@@ -139,9 +139,9 @@ public class DetectDescribeFusion<T extends ImageGray, TD extends TupleDesc>
 		location.reset();
 
 		if( orientation != null ) {
-			orientation.setImage(input);
+			orientation.setImage(input, ISC, GIO, DHF, CINB, CJBG, GSO, GSUO, FKG, GIMO, IMO, CI, FIB, CNN, CNJB, CN);
 		}
-		describe.setImage(input);
+		describe.setImage(input, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW, DHF, GSO, GSUO, FIB);
 
 		detector.detect(input, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN,
 				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF, CI, UW);
@@ -151,11 +151,11 @@ public class DetectDescribeFusion<T extends ImageGray, TD extends TupleDesc>
 		for( int i = 0; i < N; i++ ) {
 			Point2D_F64 p = detector.getLocation(i);
 			double radius = detector.getRadius(i);
-			double yaw = detector.getOrientation(i);
+			double yaw = detector.getOrientation(i, FKG, FHFD);
 
 			if( orientation != null ) {
-				orientation.setObjectRadius(radius);
-				yaw = orientation.compute(p.x,p.y);
+				orientation.setObjectRadius(radius, FKG);
+				yaw = orientation.compute(p.x,p.y, FHFD);
 			}
 
 			if( describe.process(p.x,p.y,yaw,radius,descs.grow()) ) {
@@ -184,7 +184,7 @@ public class DetectDescribeFusion<T extends ImageGray, TD extends TupleDesc>
 	}
 
 	@Override
-	public double getOrientation(int featureIndex) {
+	public double getOrientation(int featureIndex, FactoryKernelGaussian FKG, FastHessianFeatureDetector FHFD) {
 		return featureAngles.get(featureIndex);
 	}
 

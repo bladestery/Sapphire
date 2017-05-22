@@ -30,8 +30,12 @@ import boofcv.android.VisualizeImageData;
 import boofcv.android.gui.VideoRenderProcessing;
 import boofcv.factory.feature.associate.FactoryAssociation;
 import boofcv.factory.feature.detdesc.FactoryDetectDescribe;
+import boofcv.factory.feature.detect.extract.FactoryFeatureExtractor;
+import boofcv.factory.feature.detect.interest.FactoryInterestPoint;
+import boofcv.factory.feature.detect.interest.FactoryInterestPointAlgs;
 import boofcv.factory.feature.disparity.DisparityAlgorithms;
 import boofcv.factory.feature.disparity.FactoryStereoDisparity;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.feature.BrightFeature;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.ImageType;
@@ -47,6 +51,10 @@ public class DisparityActivity extends DemoVideoDisplayActivity
 {
 	private ImageMiscOps IMO;
 	private ImageType IT;
+	private static FactoryFeatureExtractor FFE;
+	private static FactoryKernelGaussian FKG;
+	private static FactoryInterestPointAlgs FIPA;
+	private static FactoryAssociation FA;
 	Spinner spinnerView;
 	Spinner spinnerAlgs;
 
@@ -204,11 +212,11 @@ public class DisparityActivity extends DemoVideoDisplayActivity
 			super(IT.single(GrayF32.class));
 
 			DetectDescribePoint<GrayF32, BrightFeature> detDesc =
-					FactoryDetectDescribe.surfFast(null,null,null,GrayF32.class);
+					FactoryDetectDescribe.surfFast(null,null,null,GrayF32.class, FFE, FIPA, FKG);
 
-			ScoreAssociation<BrightFeature> score = FactoryAssociation.defaultScore(BrightFeature.class);
+			ScoreAssociation<BrightFeature> score = FA.defaultScore(BrightFeature.class);
 			AssociateDescription<BrightFeature> associate =
-					FactoryAssociation.greedy(score,Double.MAX_VALUE,true);
+					FA.greedy(score,Double.MAX_VALUE,true);
 
 			disparity = new DisparityCalculation<BrightFeature>(detDesc,associate,DemoMain.preference.intrinsic);
 		}

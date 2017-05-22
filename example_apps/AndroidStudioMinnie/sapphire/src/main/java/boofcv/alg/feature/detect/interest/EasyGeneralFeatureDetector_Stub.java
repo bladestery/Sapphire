@@ -15,7 +15,7 @@ public final class EasyGeneralFeatureDetector_Stub extends boofcv.alg.feature.de
     }
 
     public EasyGeneralFeatureDetector_Stub (boofcv.alg.feature.detect.interest.GeneralFeatureDetector $param_GeneralFeatureDetector_1, java.lang.Class $param_Class_2, java.lang.Class $param_Class_3, boofcv.factory.filter.derivative.FactoryDerivative $param_FactoryDerivative_4, boofcv.core.image.GeneralizedImageOps $param_GeneralizedImageOps_5, boofcv.core.image.border.FactoryImageBorder $param_FactoryImageBorder_6) {
-        super($param_GeneralFeatureDetector_1,  $param_Class_2, $param_Class_3, $param_FactoryDerivative_4, $param_GeneralizedImageOps_5, $param_FactoryImageBorder_6);
+        super($param_GeneralFeatureDetector_1, $param_Class_2, $param_Class_3, $param_FactoryDerivative_4, $param_GeneralizedImageOps_5, $param_FactoryImageBorder_6);
     }
 
 

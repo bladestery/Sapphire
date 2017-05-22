@@ -20,6 +20,7 @@ package boofcv.alg.feature.describe;
 
 import boofcv.core.image.FactoryGImageGray;
 import boofcv.core.image.GImageGray;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.feature.TupleDesc_F64;
 import boofcv.struct.image.ImageGray;
 import georegression.metric.UtilAngle;
@@ -75,8 +76,8 @@ public class DescribePointSift<Deriv extends ImageGray> extends DescribeSiftComm
 	 */
 	public DescribePointSift(int widthSubregion, int widthGrid, int numHistogramBins,
 							 double sigmaToPixels, double weightingSigmaFraction,
-							 double maxDescriptorElementValue , Class<Deriv> derivType ) {
-		super(widthSubregion,widthGrid,numHistogramBins,weightingSigmaFraction,maxDescriptorElementValue);
+							 double maxDescriptorElementValue , Class<Deriv> derivType, FactoryKernelGaussian FKG) {
+		super(widthSubregion,widthGrid,numHistogramBins,weightingSigmaFraction,maxDescriptorElementValue, FKG);
 		this.sigmaToPixels = sigmaToPixels;
 
 		imageDerivX = FactoryGImageGray.create(derivType);

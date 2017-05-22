@@ -13,10 +13,14 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import org.boofcv.android.CreateDetectorDescriptor;
+import org.boofcv.android.DemoManager;
 import org.boofcv.android.DemoVideoDisplayActivity;
 import org.boofcv.android.R;
 import org.ddogleg.struct.FastQueue;
 
+import java.net.InetSocketAddress;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,6 +66,10 @@ import boofcv.struct.feature.TupleDesc;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.ImageType;
 import georegression.struct.point.Point2D_F64;
+import sapphire.kernel.server.KernelServerImpl;
+import sapphire.oms.OMSServer;
+
+import static sapphire.kernel.common.GlobalKernelReferences.nodeServer;
 
 /**
  * Activity which shows associated features between two images
@@ -71,38 +79,6 @@ import georegression.struct.point.Point2D_F64;
 public class AssociationActivity extends DemoVideoDisplayActivity
 		implements AdapterView.OnItemSelectedListener
 {
-	private ImageType IT;
-	private static InputSanityCheck ISC;
-	private static DerivativeHelperFunctions DHF;
-	private static ConvolveImageNoBorder CINB;
-	private static ConvolveJustBorder_General CJBG;
-	private static GradientSobel_Outer GSO;
-	private static GradientSobel_UnrolledOuter GSUO;
-	private static GImageMiscOps GIMO;
-	private static ImageMiscOps IMO;
-	private static ConvolveNormalizedNaive CNN;
-	private static ConvolveNormalized_JustBorder CNJB;
-	private static ConvolveNormalized CN;
-	private static GBlurImageOps GBIO;
-	private static GeneralizedImageOps GIO;
-	private static BlurImageOps BIO;
-	private static ConvolveImageMean CIM;
-	private static FactoryKernelGaussian FKG;
-	private static ImplMedianHistogramInner IMHI;
-	private static ImplMedianSortEdgeNaive IMSEN;
-	private static ImplMedianSortNaive IMSN;
-	private static ImplConvolveMean ICM;
-	private static GThresholdImageOps GTIO;
-	private static GImageStatistics GIS;
-	private static ImageStatistics IS;
-	private static ThresholdImageOps TIO;
-	private static FactoryImageBorderAlgs FIBA;
-	private static FastHessianFeatureDetector FHFD;
-	private static ImageBorderValue IBV;
-	private static FactoryImageBorder FIB;
-	private static FactoryBlurFilter FBF;
-	private static ConvertImage CI;
-	private static UtilWavelet UW;
 	Spinner spinnerDesc;
 	Spinner spinnerDet;
 
@@ -120,6 +96,10 @@ public class AssociationActivity extends DemoVideoDisplayActivity
 	int selectedDet = 0;
 	int selectedDesc = 0;
 
+	OMSServer server;
+	DemoManager dm;
+
+
 	public AssociationActivity() {
 		visualize = new AssociationVisualize(this);
 	}
@@ -127,6 +107,33 @@ public class AssociationActivity extends DemoVideoDisplayActivity
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		InetSocketAddress host, omsHost;
+
+		try {
+			Registry registry = LocateRegistry.getRegistry("157.82.159.58", 22346);
+			server = (OMSServer) registry.lookup("SapphireOMS");
+			System.out.println(server);
+
+			host = new InetSocketAddress("192.168.0.7", 22346);
+			omsHost = new InetSocketAddress("157.82.159.58", 22346);
+			nodeServer = new KernelServerImpl(host, omsHost);
+			System.out.println(nodeServer);
+
+			System.setProperty("java.rmi.server.hostname", host.getAddress().getHostAddress());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		try {
+			//Server is initiated with appObject to perform remote RPCs
+			dm = (DemoManager) server.getAppEntryPoint();
+			System.out.println("Got AppEntryPoint");
+			//dm.LatencyCheck();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(0);
+		}
 
 		LayoutInflater inflater = getLayoutInflater();
 		LinearLayout controls = (LinearLayout)inflater.inflate(R.layout.associate_controls,null);
@@ -180,12 +187,13 @@ public class AssociationActivity extends DemoVideoDisplayActivity
 	}
 
 	private void startAssociationProcessing() {
-		DetectDescribePoint detDesc = CreateDetectorDescriptor.create(selectedDet, selectedDesc, GrayF32.class);
+		dm.startAssoc(selectedDet, selectedDesc);
+		//DetectDescribePoint detDesc = CreateDetectorDescriptor.create(selectedDet, selectedDesc, GrayF32.class);
 
-		ScoreAssociation score = FactoryAssociation.defaultScore(detDesc.getDescriptionType());
-		AssociateDescription assoc = FactoryAssociation.greedy(score,Double.MAX_VALUE,true);
+		//ScoreAssociation score = FactoryAssociation.defaultScore(detDesc.getDescriptionType());
+		//AssociateDescription assoc = FactoryAssociation.greedy(score,Double.MAX_VALUE,true);
 
-		setProcessing(new AssociationProcessing(detDesc, assoc));
+		setProcessing(new AssociationProcessing());
 	}
 
 	@Override
@@ -229,23 +237,25 @@ public class AssociationActivity extends DemoVideoDisplayActivity
 
 
 	protected class AssociationProcessing<Desc extends TupleDesc> extends VideoRenderProcessing<GrayF32> {
-		DetectDescribePoint<GrayF32,Desc> detDesc;
-		AssociateDescription<Desc> associate;
+		//DetectDescribePoint<GrayF32,Desc> detDesc;
+		//AssociateDescription<Desc> associate;
 
-		FastQueue<Desc> listSrc;
-		FastQueue<Desc> listDst;
-		FastQueue<Point2D_F64> locationSrc = new FastQueue<Point2D_F64>(Point2D_F64.class,true);
-		FastQueue<Point2D_F64> locationDst = new FastQueue<Point2D_F64>(Point2D_F64.class,true);
+		//FastQueue<Desc> listSrc;
+		//FastQueue<Desc> listDst;
+		//FastQueue<Point2D_F64> locationSrc;
+		//FastQueue<Point2D_F64> locationDst;
+		Assoc points;
 
-		public AssociationProcessing( DetectDescribePoint<GrayF32,Desc> detDesc ,
-									  AssociateDescription<Desc> associate  ) {
-			super(IT.single(GrayF32.class));
-			this.detDesc = detDesc;
-			this.associate = associate;
+		public AssociationProcessing( ) {
+			super(dm.single(GrayF32.class));
 
 
-			listSrc = UtilFeature.createQueue(detDesc,10);
-			listDst = UtilFeature.createQueue(detDesc,10);
+			//this.detDesc = detDesc;
+			//this.associate = associate;
+
+
+			//listSrc = UtilFeature.createQueue(detDesc,10);
+			//listDst = UtilFeature.createQueue(detDesc,10);
 		}
 
 		@Override
@@ -293,15 +303,15 @@ public class AssociationActivity extends DemoVideoDisplayActivity
 
 				// recompute image features with the newly selected algorithm
 				if( visualize.hasLeft ) {
-					detDesc.detect(visualize.graySrc, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN,
-							GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF, CI, UW);
-					describeImage(listSrc, locationSrc);
+					dm.assocDetectleft(visualize.graySrc);
+
+					//describeImage(listSrc, locationSrc);
 					computedFeatures = true;
 				}
 				if( visualize.hasRight ) {
-					detDesc.detect(visualize.grayDst, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN,
-							GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF, CI, UW);
-					describeImage(listDst, locationDst);
+					dm.assocDetectright(visualize.grayDst);
+
+					//describeImage(listDst, locationDst);
 					computedFeatures = true;
 				}
 
@@ -315,14 +325,12 @@ public class AssociationActivity extends DemoVideoDisplayActivity
 				setProgressMessage("Detect/Describe image");
 
 			if( target == 1 ) {
-				detDesc.detect(gray, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN,
-						GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF, CI, UW);
-				describeImage(listSrc, locationSrc);
+				dm.assocDetectleft(gray);
+				//describeImage(listSrc, locationSrc);
 				computedFeatures = true;
 			} else if( target == 2 ) {
-				detDesc.detect(gray, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN,
-						GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF, CI, UW);
-				describeImage(listDst, locationDst);
+				dm.assocDetectright(gray);
+				//describeImage(listDst, locationDst);
 				computedFeatures = true;
 			}
 
@@ -337,28 +345,29 @@ public class AssociationActivity extends DemoVideoDisplayActivity
 			// associate image features
 			if( computedFeatures && visualize.hasLeft && visualize.hasRight ) {
 				setProgressMessage("Associating");
-				associate.setSource(listSrc);
-				associate.setDestination(listDst);
-				associate.associate();
+				points = dm.associate();
+				//associate.setSource(listSrc);
+				//associate.setDestination(listDst);
+				//associate.associate();
 
 				synchronized ( lockGui ) {
-					List<Point2D_F64> pointsSrc = new ArrayList<Point2D_F64>();
-					List<Point2D_F64> pointsDst = new ArrayList<Point2D_F64>();
+					//List<Point2D_F64> pointsSrc = new ArrayList<Point2D_F64>();
+					//List<Point2D_F64> pointsDst = new ArrayList<Point2D_F64>();
 
-					FastQueue<AssociatedIndex> matches = associate.getMatches();
-					for( int i = 0; i < matches.size; i++ ) {
-						AssociatedIndex m = matches.get(i);
-						pointsSrc.add(locationSrc.get(m.src));
-						pointsDst.add(locationDst.get(m.dst));
-					}
-					visualize.setMatches(pointsSrc,pointsDst);
+					//FastQueue<AssociatedIndex> matches = associate.getMatches();
+					//for( int i = 0; i < matches.size; i++ ) {
+					//	AssociatedIndex m = matches.get(i);
+					//	pointsSrc.add(locationSrc.get(m.src));
+					//	pointsDst.add(locationDst.get(m.dst));
+					//}
+					visualize.setMatches(points.Src,points.Dst);
 					visualize.forgetSelection();
 				}
 			}
 
 			hideProgressDialog();
 		}
-
+		/*
 		private void describeImage(FastQueue<Desc> listDesc, FastQueue<Point2D_F64> listLoc) {
 			listDesc.reset();
 			listLoc.reset();
@@ -367,7 +376,7 @@ public class AssociationActivity extends DemoVideoDisplayActivity
 				listLoc.grow().set(detDesc.getLocation(i));
 				listDesc.grow().setTo(detDesc.getDescription(i));
 			}
-		}
+		}*/
 
 		@Override
 		protected void render(Canvas canvas, double imageToOutput) {

@@ -24,6 +24,7 @@ import boofcv.abst.feature.orientation.ConfigSlidingIntegral;
 import boofcv.abst.feature.orientation.OrientationIntegral;
 import boofcv.alg.feature.orientation.*;
 import boofcv.alg.feature.orientation.impl.*;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.image.*;
 
 
@@ -35,7 +36,7 @@ public class FactoryOrientationAlgs {
 
 	public static <T extends ImageGray>
 	OrientationHistogram<T> histogram( double objectToSample, int numAngles , int radius , boolean weighted ,
-									   Class<T> derivType )
+									   Class<T> derivType, FactoryKernelGaussian FKG)
 	{
 		OrientationHistogram<T> ret;
 
@@ -49,31 +50,31 @@ public class FactoryOrientationAlgs {
 			throw new IllegalArgumentException("Unknown image type.");
 		}
 
-		ret.setObjectToSample(radius);
+		ret.setObjectToSample(radius, FKG);
 
 		return ret;
 	}
 
 	public static <T extends ImageGray>
-	OrientationImageAverage<T> nogradient( double objectToSample , int radius , Class<T> imageType )
+	OrientationImageAverage<T> nogradient( double objectToSample , int radius , Class<T> imageType, FactoryKernelGaussian FKG)
 	{
 		OrientationImageAverage<T> ret;
 
 		if( imageType == GrayF32.class ) {
-			ret = (OrientationImageAverage<T>)new ImplOrientationImageAverage_F32(objectToSample,radius);
+			ret = (OrientationImageAverage<T>)new ImplOrientationImageAverage_F32(objectToSample,radius, FKG);
 		} else if( imageType == GrayU8.class ) {
-			ret = (OrientationImageAverage<T>)new ImplOrientationImageAverage_U8(objectToSample,radius);
+			ret = (OrientationImageAverage<T>)new ImplOrientationImageAverage_U8(objectToSample,radius, FKG);
 		} else {
 			throw new IllegalArgumentException("Unknown image type.");
 		}
 
-		ret.setObjectRadius(radius);
+		ret.setObjectRadius(radius, FKG);
 
 		return ret;
 	}
 
 	public static <T extends ImageGray>
-	OrientationAverage<T> average( double objectToSample, int radius , boolean weighted , Class<T> derivType )
+	OrientationAverage<T> average(double objectToSample, int radius , boolean weighted , Class<T> derivType, FactoryKernelGaussian FKG)
 	{
 		OrientationAverage<T> ret;
 
@@ -87,14 +88,14 @@ public class FactoryOrientationAlgs {
 			throw new IllegalArgumentException("Unknown image type.");
 		}
 
-		ret.setSampleRadius(radius);
+		ret.setSampleRadius(radius, FKG);
 
 		return ret;
 	}
 
 	public static <T extends ImageGray>
 	OrientationSlidingWindow<T> sliding( double objectRadiusToScale, int numAngles, double windowSize ,
-										 int radius , boolean weighted , Class<T> derivType )
+										 int radius , boolean weighted , Class<T> derivType, FactoryKernelGaussian FKG)
 	{
 		OrientationSlidingWindow<T> ret;
 
@@ -108,7 +109,7 @@ public class FactoryOrientationAlgs {
 			throw new IllegalArgumentException("Unknown image type.");
 		}
 
-		ret.setObjectRadius(radius);
+		ret.setObjectRadius(radius, FKG);
 
 		return ret;
 	}
@@ -122,7 +123,7 @@ public class FactoryOrientationAlgs {
 	 * @return OrientationIntegral
 	 */
 	public static <II extends ImageGray>
-	OrientationIntegral<II> average_ii( ConfigAverageIntegral config , Class<II> integralType)
+	OrientationIntegral<II> average_ii( ConfigAverageIntegral config , Class<II> integralType, FactoryKernelGaussian FKG)
 	{
 		if( config == null )
 			config = new ConfigAverageIntegral();
@@ -130,7 +131,7 @@ public class FactoryOrientationAlgs {
 		return (OrientationIntegral<II>)
 				new ImplOrientationAverageGradientIntegral(config.objectRadiusToScale,
 						config.radius,config.samplePeriod,config.sampleWidth,
-						config.weightSigma ,integralType);
+						config.weightSigma ,integralType, FKG);
 	}
 
 	/**
@@ -148,14 +149,14 @@ public class FactoryOrientationAlgs {
 	public static <II extends ImageGray>
 	OrientationIntegral<II> image_ii( double objectRadiusToScale,
 									  int sampleRadius , double samplePeriod , int sampleWidth,
-									 double weightSigma , Class<II> integralImage)
+									 double weightSigma , Class<II> integralImage, FactoryKernelGaussian FKG)
 	{
 		return (OrientationIntegral<II>)
 				new ImplOrientationImageAverageIntegral(objectRadiusToScale,
-						sampleRadius,samplePeriod,sampleWidth,weightSigma,integralImage);
+						sampleRadius,samplePeriod,sampleWidth,weightSigma,integralImage, FKG);
 	}
 
-	/**
+	/**, FKG
 	 * Estimates the orientation of a region by using a sliding window across the different potential
 	 * angles.
 	 *
@@ -166,7 +167,7 @@ public class FactoryOrientationAlgs {
 	 * @return OrientationIntegral
 	 */
 	public static <II extends ImageGray>
-	OrientationIntegral<II> sliding_ii( ConfigSlidingIntegral config , Class<II> integralType)
+	OrientationIntegral<II> sliding_ii( ConfigSlidingIntegral config , Class<II> integralType, FactoryKernelGaussian FKG)
 	{
 		if( config == null )
 			config = new ConfigSlidingIntegral();
@@ -174,7 +175,7 @@ public class FactoryOrientationAlgs {
 
 		return (OrientationIntegral<II>)
 				new ImplOrientationSlidingWindowIntegral(config.objectRadiusToScale,config.samplePeriod,
-						config.windowSize,config.radius,config.weightSigma, config.sampleWidth,integralType);
+						config.windowSize,config.radius,config.weightSigma, config.sampleWidth,integralType, FKG);
 	}
 
 	/**

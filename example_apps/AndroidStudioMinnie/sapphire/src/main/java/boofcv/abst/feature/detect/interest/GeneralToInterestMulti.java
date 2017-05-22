@@ -20,6 +20,7 @@ package boofcv.abst.feature.detect.interest;
 
 import boofcv.alg.InputSanityCheck;
 import boofcv.alg.feature.detect.interest.EasyGeneralFeatureDetector;
+import boofcv.alg.feature.detect.interest.FastHessianFeatureDetector;
 import boofcv.alg.feature.detect.interest.GeneralFeatureDetector;
 import boofcv.alg.filter.binary.GThresholdImageOps;
 import boofcv.alg.filter.binary.ThresholdImageOps;
@@ -142,7 +143,7 @@ public class GeneralToInterestMulti<T extends ImageGray, D extends ImageGray>
 		}
 
 		@Override
-		public double getOrientation(int featureIndex) {
+		public double getOrientation(int featureIndex, FactoryKernelGaussian FKG, FastHessianFeatureDetector FHFD) {
 			return 0;
 		}
 	}
@@ -164,7 +165,7 @@ public class GeneralToInterestMulti<T extends ImageGray, D extends ImageGray>
 		}
 
 		@Override
-		public double getOrientation(int featureIndex) {
+		public double getOrientation(int featureIndex, FactoryKernelGaussian FKG, FastHessianFeatureDetector FHFD) {
 			return 0;
 		}
 	}

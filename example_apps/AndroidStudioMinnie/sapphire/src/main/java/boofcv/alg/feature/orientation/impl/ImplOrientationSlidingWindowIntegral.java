@@ -18,7 +18,9 @@
 
 package boofcv.alg.feature.orientation.impl;
 
+import boofcv.alg.feature.detect.interest.FastHessianFeatureDetector;
 import boofcv.alg.feature.orientation.OrientationIntegralBase;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.image.ImageGray;
 import boofcv.struct.sparse.GradientValue;
 import georegression.metric.UtilAngle;
@@ -65,8 +67,8 @@ public class ImplOrientationSlidingWindowIntegral
 	 */
 	public ImplOrientationSlidingWindowIntegral(double radiusToScale , double samplePeriod, double windowSize,
 												int sampleRadius, double weightSigma, int sampleKernelWidth,
-												Class<T> integralType) {
-		super(radiusToScale,sampleRadius,samplePeriod,sampleKernelWidth,weightSigma, true, integralType);
+												Class<T> integralType, FactoryKernelGaussian FKG) {
+		super(radiusToScale,sampleRadius,samplePeriod,sampleKernelWidth,weightSigma, true, integralType, FKG);
 		this.windowSize = windowSize;
 
 		derivX = new double[sampleWidth * sampleWidth];
@@ -77,7 +79,7 @@ public class ImplOrientationSlidingWindowIntegral
 	}
 
 	@Override
-	public double compute(double c_x, double c_y) {
+	public double compute(double c_x, double c_y, FastHessianFeatureDetector FHFD) {
 
 		double period = scale*this.period;
 		// top left corner of the region being sampled

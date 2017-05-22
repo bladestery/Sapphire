@@ -19,9 +19,24 @@
 package boofcv.abst.feature.orientation;
 
 import boofcv.alg.InputSanityCheck;
+import boofcv.alg.feature.detect.interest.FastHessianFeatureDetector;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
+import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
+import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
+import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
+import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.transform.ii.GIntegralImageOps;
+import boofcv.core.image.ConvertImage;
 import boofcv.core.image.GeneralizedImageOps;
+import boofcv.core.image.border.FactoryImageBorder;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.image.ImageGray;
+import sapphire.compiler.GIOGenerator;
 
 /**
  * Converts an implementation of {@link OrientationIntegral} into {@link OrientationImage}.
@@ -31,8 +46,6 @@ import boofcv.struct.image.ImageGray;
 public class OrientationIntegralToImage<T extends ImageGray, II extends ImageGray>
 	implements OrientationImage<T>
 {
-	private GeneralizedImageOps GIO;
-	private static InputSanityCheck ISC;
 	// algorithm which is being wrapped around
 	OrientationIntegral<II> alg;
 
@@ -44,14 +57,18 @@ public class OrientationIntegralToImage<T extends ImageGray, II extends ImageGra
 
 	public OrientationIntegralToImage(OrientationIntegral<II> alg,
 									  Class<T> inputType ,
-									  Class<II> integralType ) {
+									  Class<II> integralType, GeneralizedImageOps GIO) {
 		this.alg = alg;
 		this.inputType = inputType;
 		integralImage = GIO.createSingleBand(integralType, 1, 1);
 	}
 
 	@Override
-	public void setImage(T image) {
+	public void setImage(T image, InputSanityCheck ISC, GeneralizedImageOps GIO, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB,
+						 ConvolveJustBorder_General CJBG, GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO, FactoryKernelGaussian FKG,
+						 GImageMiscOps GIMO, ImageMiscOps IMO, ConvertImage CI,
+						 FactoryImageBorder FIB, ConvolveNormalizedNaive CNN, ConvolveNormalized_JustBorder CNJB,
+						 ConvolveNormalized CN) {
 		integralImage.reshape(image.width,image.height);
 		GIntegralImageOps.transform(image, integralImage, ISC, GIO);
 		alg.setImage(integralImage);
@@ -63,12 +80,12 @@ public class OrientationIntegralToImage<T extends ImageGray, II extends ImageGra
 	}
 
 	@Override
-	public void setObjectRadius(double radius) {
-		alg.setObjectRadius(radius);
+	public void setObjectRadius(double radius, FactoryKernelGaussian FKG) {
+		alg.setObjectRadius(radius, FKG);
 	}
 
 	@Override
-	public double compute(double c_x, double c_y) {
-		return alg.compute(c_x,c_y);
+	public double compute(double c_x, double c_y, FastHessianFeatureDetector FHFD) {
+		return alg.compute(c_x,c_y, FHFD);
 	}
 }

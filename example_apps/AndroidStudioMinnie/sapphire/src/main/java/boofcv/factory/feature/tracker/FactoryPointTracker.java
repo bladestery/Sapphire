@@ -56,9 +56,11 @@ import boofcv.factory.feature.associate.FactoryAssociation;
 import boofcv.factory.feature.describe.FactoryDescribePointAlgs;
 import boofcv.factory.feature.describe.FactoryDescribeRegionPoint;
 import boofcv.factory.feature.detdesc.FactoryDetectDescribe;
+import boofcv.factory.feature.detect.extract.FactoryFeatureExtractor;
 import boofcv.factory.feature.detect.intensity.FactoryIntensityPointAlg;
 import boofcv.factory.feature.detect.interest.FactoryDetectPoint;
 import boofcv.factory.feature.detect.interest.FactoryInterestPoint;
+import boofcv.factory.feature.detect.interest.FactoryInterestPointAlgs;
 import boofcv.factory.feature.orientation.FactoryOrientation;
 import boofcv.factory.feature.orientation.FactoryOrientationAlgs;
 import boofcv.factory.filter.blur.FactoryBlurFilter;
@@ -69,6 +71,7 @@ import boofcv.factory.tracker.FactoryTrackerAlg;
 import boofcv.factory.transform.pyramid.FactoryPyramid;
 import boofcv.struct.feature.*;
 import boofcv.struct.image.ImageGray;
+import boofcv.struct.image.ImageType;
 import boofcv.struct.pyramid.PyramidDiscrete;
 
 import java.util.Random;
@@ -89,10 +92,15 @@ public class FactoryPointTracker {
 	private static FactoryDerivative FD;
 	private static GeneralizedImageOps GIO;
 	private static FactoryImageBorder FIB;
+	private static FactoryInterestPointAlgs FIrPA;
 	private static FactoryIntensityPointAlg FIPA;
 	private static FactoryKernelGaussian FKG;
 	private static FactoryInterestPoint FIP;
 	private static FactoryPyramid FP;
+	private static FactoryAssociation FA;
+	private static FactoryFeatureExtractor FFE;
+	private static ImageType IT;
+
 	/**
 	 * Pyramid KLT feature tracker.
 	 *
@@ -173,14 +181,14 @@ public class FactoryPointTracker {
 										  ConfigAverageIntegral configOrientation ,
 										  Class<I> imageType)
 	{
-		ScoreAssociation<TupleDesc_F64> score = FactoryAssociation.scoreEuclidean(TupleDesc_F64.class, true);
-		AssociateSurfBasic assoc = new AssociateSurfBasic(FactoryAssociation.greedy(score, 5, true));
+		ScoreAssociation<TupleDesc_F64> score = FA.scoreEuclidean(TupleDesc_F64.class, true);
+		AssociateSurfBasic assoc = new AssociateSurfBasic(FA.greedy(score, 5, true));
 
 		AssociateDescription2D<BrightFeature> generalAssoc =
 				new AssociateDescTo2D<>(new WrapAssociateSurfBasic(assoc));
 
 		DetectDescribePoint<I,BrightFeature> fused =
-				FactoryDetectDescribe.surfFast(configDetector, configDescribe, configOrientation,imageType);
+				FactoryDetectDescribe.surfFast(configDetector, configDescribe, configOrientation,imageType, FFE, FIrPA, FKG);
 
 		DdaManagerDetectDescribePoint<I,BrightFeature> manager = new DdaManagerDetectDescribePoint<>(fused);
 
@@ -208,14 +216,14 @@ public class FactoryPointTracker {
 											ConfigSlidingIntegral configOrientation ,
 											Class<I> imageType)
 	{
-		ScoreAssociation<TupleDesc_F64> score = FactoryAssociation.scoreEuclidean(TupleDesc_F64.class, true);
-		AssociateSurfBasic assoc = new AssociateSurfBasic(FactoryAssociation.greedy(score, 5, true));
+		ScoreAssociation<TupleDesc_F64> score = FA.scoreEuclidean(TupleDesc_F64.class, true);
+		AssociateSurfBasic assoc = new AssociateSurfBasic(FA.greedy(score, 5, true));
 
 		AssociateDescription2D<BrightFeature> generalAssoc =
 				new AssociateDescTo2D<>(new WrapAssociateSurfBasic(assoc));
 
 		DetectDescribePoint<I,BrightFeature> fused =
-				FactoryDetectDescribe.surfStable(configDetector,configDescribe,configOrientation,imageType);
+				FactoryDetectDescribe.surfStable(configDetector,configDescribe,configOrientation,imageType, FFE, FIrPA, FKG);
 
 		DdaManagerDetectDescribePoint<I,BrightFeature> manager = new DdaManagerDetectDescribePoint<>(fused);
 
@@ -243,7 +251,7 @@ public class FactoryPointTracker {
 			derivType = GImageDerivativeOps.getDerivativeType(imageType);
 
 		DescribePointBrief<I> brief = FactoryDescribePointAlgs.brief(FactoryBriefDefinition.gaussian2(new Random(123), 16, 512),
-				FBF.gaussian(imageType, 0, 4, GIO));
+				FBF.gaussian(imageType, 0, 4, GIO), IT, GIO);
 
 		GeneralFeatureDetector<I, D> detectPoint = createShiTomasi(configExtract, derivType);
 		EasyGeneralFeatureDetector<I,D> easy = new EasyGeneralFeatureDetector<>(detectPoint, imageType, derivType, FD, GIO, FIB);
@@ -251,10 +259,10 @@ public class FactoryPointTracker {
 		ScoreAssociateHamming_B score = new ScoreAssociateHamming_B();
 
 		AssociateDescription2D<TupleDesc_B> association =
-				new AssociateDescTo2D<>(FactoryAssociation.greedy(score, maxAssociationError, true));
+				new AssociateDescTo2D<>(FA.greedy(score, maxAssociationError, true));
 
 		DdaManagerGeneralPoint<I,D,TupleDesc_B> manager =
-				new DdaManagerGeneralPoint<>(easy, new WrapDescribeBrief<>(brief, imageType), 1.0);
+				new DdaManagerGeneralPoint<>(easy, new WrapDescribeBrief<>(brief, imageType, IT), 1.0);
 
 		return new DetectDescribeAssociate<>(manager, association, false);
 	}
@@ -278,19 +286,19 @@ public class FactoryPointTracker {
 								   Class<I> imageType )
 	{
 		DescribePointBrief<I> brief = FactoryDescribePointAlgs.brief(FactoryBriefDefinition.gaussian2(new Random(123), 16, 512),
-				FBF.gaussian(imageType, 0, 4, GIO));
+				FBF.gaussian(imageType, 0, 4, GIO), IT, GIO);
 
-		GeneralFeatureDetector<I,D> corner = FactoryDetectPoint.createFast(configFast, configExtract, imageType);
+		GeneralFeatureDetector<I,D> corner = FactoryDetectPoint.createFast(configFast, configExtract, imageType, FIPA, FFE);
 		EasyGeneralFeatureDetector<I,D> easy = new EasyGeneralFeatureDetector<>(corner, imageType, null, FD, GIO, FIB);
 
 		ScoreAssociateHamming_B score = new ScoreAssociateHamming_B();
 
 		AssociateDescription2D<TupleDesc_B> association =
 				new AssociateDescTo2D<>(
-						FactoryAssociation.greedy(score, maxAssociationError, true));
+						FA.greedy(score, maxAssociationError, true));
 
 		DdaManagerGeneralPoint<I,D,TupleDesc_B> manager =
-				new DdaManagerGeneralPoint<>(easy, new WrapDescribeBrief<>(brief, imageType), 1.0);
+				new DdaManagerGeneralPoint<>(easy, new WrapDescribeBrief<>(brief, imageType, IT), 1.0);
 
 		return new DetectDescribeAssociate<>(manager, association, false);
 	}
@@ -324,10 +332,10 @@ public class FactoryPointTracker {
 
 		AssociateDescription2D<NccFeature> association =
 				new AssociateDescTo2D<>(
-						FactoryAssociation.greedy(score, Double.MAX_VALUE, true));
+						FA.greedy(score, Double.MAX_VALUE, true));
 
 		DdaManagerGeneralPoint<I,D,NccFeature> manager =
-				new DdaManagerGeneralPoint<>(easy, new WrapDescribePixelRegionNCC<>(alg, imageType), 1.0);
+				new DdaManagerGeneralPoint<>(easy, new WrapDescribePixelRegionNCC<>(alg, imageType, IT), 1.0);
 
 		return new DetectDescribeAssociate<>(manager, association, false);
 	}
@@ -400,13 +408,13 @@ public class FactoryPointTracker {
 										  ConfigSlidingIntegral configOrientation ,
 										  Class<I> imageType) {
 
-		ScoreAssociation<TupleDesc_F64> score = FactoryAssociation.defaultScore(TupleDesc_F64.class);
-		AssociateSurfBasic assoc = new AssociateSurfBasic(FactoryAssociation.greedy(score, 100000, true));
+		ScoreAssociation<TupleDesc_F64> score = FA.defaultScore(TupleDesc_F64.class);
+		AssociateSurfBasic assoc = new AssociateSurfBasic(FA.greedy(score, 100000, true));
 
 		AssociateDescription<BrightFeature> generalAssoc = new WrapAssociateSurfBasic(assoc);
 
 		DetectDescribePoint<I,BrightFeature> fused =
-				FactoryDetectDescribe.surfStable(configDetector, configDescribe, configOrientation,imageType);
+				FactoryDetectDescribe.surfStable(configDetector, configDescribe, configOrientation,imageType, FFE, FIrPA, FKG);
 
 		return combined(fused,generalAssoc, kltConfig,reactivateThreshold, imageType);
 	}
@@ -443,10 +451,10 @@ public class FactoryPointTracker {
 		InterestPointDetector<I> detector = FIP.wrapPoint(corner, 1, imageType, derivType, FD, GIO, FIB);
 
 		DescribeRegionPoint<I,BrightFeature> regionDesc
-				= FactoryDescribeRegionPoint.surfStable(configDescribe, imageType);
+				= FactoryDescribeRegionPoint.surfStable(configDescribe, imageType, FKG, IT);
 
-		ScoreAssociation<TupleDesc_F64> score = FactoryAssociation.scoreEuclidean(TupleDesc_F64.class, true);
-		AssociateSurfBasic assoc = new AssociateSurfBasic(FactoryAssociation.greedy(score, 100000, true));
+		ScoreAssociation<TupleDesc_F64> score = FA.scoreEuclidean(TupleDesc_F64.class, true);
+		AssociateSurfBasic assoc = new AssociateSurfBasic(FA.greedy(score, 100000, true));
 
 		AssociateDescription<BrightFeature> generalAssoc = new WrapAssociateSurfBasic(assoc);
 
@@ -454,8 +462,8 @@ public class FactoryPointTracker {
 
 		if( configOrientation != null ) {
 			Class integralType = GIntegralImageOps.getIntegralType(imageType);
-			OrientationIntegral orientationII = FactoryOrientationAlgs.sliding_ii(configOrientation, integralType);
-			orientation = FactoryOrientation.convertImage(orientationII,imageType);
+			OrientationIntegral orientationII = FactoryOrientationAlgs.sliding_ii(configOrientation, integralType, FKG);
+			orientation = FactoryOrientation.convertImage(orientationII,imageType, FD, GIO, FIB);
 		}
 
 		return combined(detector,orientation,regionDesc,generalAssoc, kltConfig,reactivateThreshold,
@@ -545,6 +553,6 @@ public class FactoryPointTracker {
 	{
 		GradientCornerIntensity<D> cornerIntensity = FIPA.shiTomasi(1, false, derivType, GIO, FKG);
 
-		return FactoryDetectPoint.createGeneral(cornerIntensity, config );
+		return FactoryDetectPoint.createGeneral(cornerIntensity, config, FFE);
 	}
 }

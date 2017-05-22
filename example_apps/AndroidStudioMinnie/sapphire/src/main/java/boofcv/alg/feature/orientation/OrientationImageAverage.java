@@ -19,10 +19,28 @@
 package boofcv.alg.feature.orientation;
 
 import boofcv.abst.feature.orientation.OrientationImage;
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.feature.detect.interest.FastHessianFeatureDetector;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
+import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
+import boofcv.alg.filter.derivative.GradientSobel;
+import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
+import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
+import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
+import boofcv.core.image.ConvertImage;
+import boofcv.core.image.GeneralizedImageOps;
+import boofcv.core.image.border.FactoryImageBorder;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.misc.BoofMiscOps;
 import boofcv.struct.ImageRectangle;
 import boofcv.struct.convolve.Kernel2D_F32;
 import boofcv.struct.image.ImageGray;
+import boofcv.struct.image.ImageType;
 
 
 /**
@@ -51,18 +69,21 @@ public abstract class OrientationImageAverage<T extends ImageGray> implements Or
 	// sine values for each pixel
 	protected Kernel2D_F32 kerSine;
 
-	public OrientationImageAverage(double objectToSample,int defaultRadius) {
+	public OrientationImageAverage(double objectToSample,int defaultRadius, FactoryKernelGaussian FKG) {
 		this.objectToSample = objectToSample;
-		setObjectRadius(defaultRadius);
+		setObjectRadius(defaultRadius, FKG);
 	}
 
 	@Override
-	public void setImage( T image ) {
+	public void setImage(T image, InputSanityCheck ISC, GeneralizedImageOps GIO, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB,
+						 ConvolveJustBorder_General CJBG, GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO, FactoryKernelGaussian FKG, GImageMiscOps GIMO, ImageMiscOps IMO, ConvertImage CI,
+						 FactoryImageBorder FIB, ConvolveNormalizedNaive CNN, ConvolveNormalized_JustBorder CNJB,
+						 ConvolveNormalized CN) {
 		this.image = image;
 	}
 
 	@Override
-	public void setObjectRadius(double objectRadius) {
+	public void setObjectRadius(double objectRadius, FactoryKernelGaussian FKG) {
 		sampleRadius = (int)Math.ceil(objectRadius* objectToSample);
 
 		int w = sampleRadius*2+1;
@@ -83,7 +104,7 @@ public abstract class OrientationImageAverage<T extends ImageGray> implements Or
 	}
 
 	@Override
-	public double compute(double X, double Y) {
+	public double compute(double X, double Y, FastHessianFeatureDetector FHFD) {
 
 		int c_x = (int)(X+0.5);
 		int c_y = (int)(Y+0.5);

@@ -32,7 +32,6 @@ import georegression.metric.UtilAngle;
  * @author Peter Abeles
  */
 public class DescribeSiftCommon {
-	private static FactoryKernelGaussian FKG;
 	// width of a subregion, in samples
 	protected int widthSubregion;
 	// width of the outer grid, in sub-regions
@@ -58,7 +57,7 @@ public class DescribeSiftCommon {
 	 * @param maxDescriptorElementValue Helps with non-affine changes in lighting. See paper.  Try 0.2
 	 */
 	public DescribeSiftCommon(int widthSubregion, int widthGrid,
-							  int numHistogramBins , double weightingSigmaFraction , double maxDescriptorElementValue )
+							  int numHistogramBins , double weightingSigmaFraction , double maxDescriptorElementValue, FactoryKernelGaussian FKG)
 	{
 		this.widthSubregion = widthSubregion;
 		this.widthGrid = widthGrid;
@@ -70,7 +69,7 @@ public class DescribeSiftCommon {
 		// number of samples wide the descriptor window is
 		int descriptorWindow = widthSubregion*widthGrid;
 		double weightSigma = descriptorWindow*weightingSigmaFraction;
-		gaussianWeight = createGaussianWeightKernel(weightSigma,descriptorWindow/2);
+		gaussianWeight = createGaussianWeightKernel(weightSigma,descriptorWindow/2, FKG);
 	}
 
 	/**
@@ -100,7 +99,7 @@ public class DescribeSiftCommon {
 	/**
 	 * Creates a gaussian weighting kernel with an even number of elements along its width
 	 */
-	protected static float[] createGaussianWeightKernel( double sigma , int radius ) {
+	protected static float[] createGaussianWeightKernel( double sigma , int radius, FactoryKernelGaussian FKG) {
 		Kernel2D_F32 ker = FKG.gaussian2D_F32(sigma,radius,false,false);
 		float maxValue = KernelMath.maxAbs(ker.data,4*radius*radius);
 		KernelMath.divide(ker,maxValue);

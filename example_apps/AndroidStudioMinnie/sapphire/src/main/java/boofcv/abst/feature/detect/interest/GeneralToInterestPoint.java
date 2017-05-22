@@ -143,7 +143,7 @@ public class GeneralToInterestPoint<T extends ImageGray, D extends ImageGray>
 	}
 
 	@Override
-	public double getOrientation(int featureIndex) {
+	public double getOrientation(int featureIndex, FactoryKernelGaussian FKG, FastHessianFeatureDetector FHFD) {
 		return 0;
 	}
 

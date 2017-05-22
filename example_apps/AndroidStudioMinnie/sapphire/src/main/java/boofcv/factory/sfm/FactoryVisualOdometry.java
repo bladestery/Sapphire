@@ -69,7 +69,7 @@ import org.ddogleg.fitting.modelset.ransac.Ransac;
  */
 public class FactoryVisualOdometry {
 	private static ImageType IT;
-
+	private static FactoryAssociation FA;
 	/**
 	 * Monocular plane based visual odometry algorithm which uses both points on the plane and off plane for motion
 	 * estimation.
@@ -312,7 +312,7 @@ public class FactoryVisualOdometry {
 		RefinePnPStereo refinePnP = null;
 
 		Class<Desc> descType = descriptor.getDescriptionType();
-		ScoreAssociation<Desc> scorer = FactoryAssociation.defaultScore(descType);
+		ScoreAssociation<Desc> scorer = FA.defaultScore(descType);
 		AssociateStereo2D<Desc> associateStereo = new AssociateStereo2D<>(scorer, epipolarPixelTol, descType);
 
 		// need to make sure associations are unique
@@ -370,13 +370,13 @@ public class FactoryVisualOdometry {
 		}
 		Class<Desc> descType = detector.getDescriptionType();
 
-		ScoreAssociation<Desc> scorer = FactoryAssociation.defaultScore(descType);
+		ScoreAssociation<Desc> scorer = FA.defaultScore(descType);
 
 		AssociateDescription2D<Desc> assocSame;
 		if( maxDistanceF2F > 0 )
 			assocSame = new AssociateMaxDistanceNaive<>(scorer, true, maxAssociationError, maxDistanceF2F);
 		else
-			assocSame = new AssociateDescTo2D<>(FactoryAssociation.greedy(scorer, maxAssociationError, true));
+			assocSame = new AssociateDescTo2D<>(FA.greedy(scorer, maxAssociationError, true));
 
 		AssociateStereo2D<Desc> associateStereo = new AssociateStereo2D<>(scorer, epipolarPixelTol, descType);
 		TriangulateTwoViewsCalibrated triangulate = FactoryMultiView.triangulateTwoGeometric();

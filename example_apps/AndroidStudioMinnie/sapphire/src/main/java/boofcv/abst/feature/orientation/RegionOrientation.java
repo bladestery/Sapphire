@@ -20,6 +20,7 @@ package boofcv.abst.feature.orientation;
 
 
 import boofcv.alg.feature.detect.interest.FastHessianFeatureDetector;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 
 /**
  * Estimates the orientation of a region which is approximately circular. This is typically
@@ -33,7 +34,7 @@ public interface RegionOrientation {
 	 *
 	 * @param radius Object's radius.
 	 */
-	void setObjectRadius( double radius );
+	void setObjectRadius(double radius, FactoryKernelGaussian FKG);
 
 	/**
 	 * Computes the orientation of a region about its center.
@@ -43,5 +44,5 @@ public interface RegionOrientation {
 	 *
 	 * @return Orientation in radians.  Angle zero points along x-axis and pi/2 along y-axis.
 	 */
-	double compute(double c_x , double c_y);
+	double compute(double c_x , double c_y,FastHessianFeatureDetector FHFD);
 }

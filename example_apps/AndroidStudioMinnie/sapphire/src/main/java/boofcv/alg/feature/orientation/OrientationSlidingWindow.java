@@ -20,6 +20,7 @@ package boofcv.alg.feature.orientation;
 
 import boofcv.abst.feature.orientation.OrientationGradient;
 import boofcv.alg.InputSanityCheck;
+import boofcv.alg.feature.detect.interest.FastHessianFeatureDetector;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.misc.BoofMiscOps;
 import boofcv.struct.ImageRectangle;
@@ -44,8 +45,6 @@ import boofcv.struct.image.ImageGray;
 public abstract class OrientationSlidingWindow<D extends ImageGray>
 		implements OrientationGradient<D>
 {
-	private static FactoryKernelGaussian FKG;
-	private static InputSanityCheck ISC;
 	// The actual radius being sampled in pixels
 	protected int pixelRadius;
 
@@ -92,7 +91,7 @@ public abstract class OrientationSlidingWindow<D extends ImageGray>
 	}
 
 	@Override
-	public void setObjectRadius(double objRadius) {
+	public void setObjectRadius(double objRadius, FactoryKernelGaussian FKG) {
 		pixelRadius = (int)Math.ceil(objRadius*objectRadiusToScale);
 		if( isWeighted ) {
 			weights = FKG.gaussian(2,true, 32, -1, pixelRadius);
@@ -102,7 +101,7 @@ public abstract class OrientationSlidingWindow<D extends ImageGray>
 	}
 
 	@Override
-	public void setImage( D derivX, D derivY) {
+	public void setImage( D derivX, D derivY, InputSanityCheck ISC) {
 		ISC.checkSameShape(derivX,derivY);
 
 		this.derivX = derivX;
@@ -110,7 +109,7 @@ public abstract class OrientationSlidingWindow<D extends ImageGray>
 	}
 
 	@Override
-	public double compute(double X, double Y) {
+	public double compute(double X, double Y, FastHessianFeatureDetector FHFD) {
 
 		int c_x = (int)X;
 		int c_y = (int)Y;

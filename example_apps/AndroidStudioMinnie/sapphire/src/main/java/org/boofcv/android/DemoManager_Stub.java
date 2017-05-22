@@ -193,6 +193,24 @@ public final class DemoManager_Stub extends org.boofcv.android.DemoManager imple
         return ((boofcv.struct.image.GrayU8) $__result);
     }
 
+    // Implementation of startAssoc(int, int)
+    public void startAssoc(int $param_int_1, int $param_int_2) {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                super.startAssoc( $param_int_1,  $param_int_2);
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public void org.boofcv.android.DemoManager.startAssoc(int,int)";
+                $__params.add($param_int_1);
+                $__params.add($param_int_2);
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     // Implementation of sobel()
     public void sobel() {
         java.lang.Object $__result = null;
@@ -2013,6 +2031,57 @@ public final class DemoManager_Stub extends org.boofcv.android.DemoManager imple
             e.printStackTrace();
         }
         return ((boofcv.struct.image.Planar) $__result);
+    }
+
+    // Implementation of associate()
+    public org.boofcv.android.assoc.Assoc associate() {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                $__result = super.associate();
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public org.boofcv.android.assoc.Assoc org.boofcv.android.DemoManager.associate()";
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ((org.boofcv.android.assoc.Assoc) $__result);
+    }
+
+    // Implementation of assocDetectright(GrayF32)
+    public void assocDetectright(boofcv.struct.image.GrayF32 $param_GrayF32_1) {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                super.assocDetectright( $param_GrayF32_1);
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public void org.boofcv.android.DemoManager.assocDetectright(boofcv.struct.image.GrayF32)";
+                $__params.add($param_GrayF32_1);
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Implementation of assocDetectleft(GrayF32)
+    public void assocDetectleft(boofcv.struct.image.GrayF32 $param_GrayF32_1) {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                super.assocDetectleft( $param_GrayF32_1);
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public void org.boofcv.android.DemoManager.assocDetectleft(boofcv.struct.image.GrayF32)";
+                $__params.add($param_GrayF32_1);
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     // Implementation of Polygon(ConfigPolygonDetector, Class)

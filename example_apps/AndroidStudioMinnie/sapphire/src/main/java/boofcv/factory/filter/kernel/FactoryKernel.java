@@ -41,8 +41,7 @@ import java.util.Random;
  */
 @SuppressWarnings({"ForLoopReplaceableByForEach", "unchecked"})
 public class FactoryKernel {
-	private static GeneralizedImageOps GIO;
-	public static <T extends KernelBase> T createKernelForImage( int width , int offset, int DOF , Class imageType ) {
+	public static <T extends KernelBase> T createKernelForImage( int width , int offset, int DOF , Class imageType, GeneralizedImageOps GIO ) {
 		boolean isFloat = GIO.isFloatingPoint(imageType);
 		int numBits = Math.max(32, GIO.getNumBits(imageType));
 

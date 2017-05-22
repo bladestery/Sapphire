@@ -95,11 +95,11 @@ public class DetectDescribe_CompleteSift<In extends ImageGray>
 					   ThresholdImageOps TIO, FactoryImageBorderAlgs FIBA, ImageBorderValue IBV, FastHessianFeatureDetector FHFD, FactoryImageBorder FIB, FactoryBlurFilter FBF,
 					   ConvertImage CI, UtilWavelet UW) {
 		if( input instanceof GrayF32)
-			alg.process((GrayF32)input, FHFD, FIB, ISC, CNN, CINB, CNJB, CN);
+			alg.process((GrayF32)input, FHFD, FIB, ISC, CNN, CINB, CNJB, CN, DHF, CJBG, GSO, GSUO);
 		else {
 			imageFloat.reshape(input.width,input.height);
 			GConvertImage.convert(input,imageFloat, ISC, GIO, GIMO, IMO, CI);
-			alg.process(imageFloat, FHFD, FIB, ISC, CNN, CINB, CNJB, CN);
+			alg.process(imageFloat, FHFD, FIB, ISC, CNN, CINB, CNJB, CN, DHF, CJBG, GSO, GSUO);
 		}
 	}
 
@@ -119,7 +119,7 @@ public class DetectDescribe_CompleteSift<In extends ImageGray>
 	}
 
 	@Override
-	public double getOrientation(int featureIndex) {
+	public double getOrientation(int featureIndex, FactoryKernelGaussian FKG, FastHessianFeatureDetector FHFD) {
 		return alg.getOrientations().get(featureIndex);
 	}
 

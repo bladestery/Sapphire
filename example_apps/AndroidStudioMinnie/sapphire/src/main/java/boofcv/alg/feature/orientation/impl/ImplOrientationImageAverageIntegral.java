@@ -18,7 +18,9 @@
 
 package boofcv.alg.feature.orientation.impl;
 
+import boofcv.alg.feature.detect.interest.FastHessianFeatureDetector;
 import boofcv.alg.feature.orientation.OrientationIntegralBase;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.factory.transform.ii.FactorySparseIntegralFilters;
 import boofcv.struct.convolve.Kernel2D_F64;
 import boofcv.struct.image.ImageGray;
@@ -52,8 +54,8 @@ public class ImplOrientationImageAverageIntegral<T extends ImageGray,G extends G
 	public ImplOrientationImageAverageIntegral(double radiusToScale,
 											   int sampleRadius, double period,
 											   int sampleWidth, double weightSigma,
-											   Class<T> imageType) {
-		super(radiusToScale,sampleRadius,period,sampleWidth,weightSigma, false, imageType);
+											   Class<T> imageType, FactoryKernelGaussian FKG) {
+		super(radiusToScale,sampleRadius,period,sampleWidth,weightSigma, false, imageType, FKG);
 
 		int w = sampleRadius*2+1;
 		kerCosine = new Kernel2D_F64(w);
@@ -72,7 +74,7 @@ public class ImplOrientationImageAverageIntegral<T extends ImageGray,G extends G
 		kerSine.set(sampleRadius,sampleRadius,0);
 
 		sampler = FactorySparseIntegralFilters.sample(imageType);
-		setObjectRadius(1.0/objectRadiusToScale);
+		setObjectRadius(1.0/objectRadiusToScale, FKG);
 	}
 
 	@Override
@@ -82,13 +84,13 @@ public class ImplOrientationImageAverageIntegral<T extends ImageGray,G extends G
 	}
 
 	@Override
-	public void setObjectRadius(double radius) {
-		super.setObjectRadius(radius);
+	public void setObjectRadius(double radius, FactoryKernelGaussian FKG) {
+		super.setObjectRadius(radius, FKG);
 		sampler.setWidth(kernelWidth * scale);
 	}
 
 	@Override
-	public double compute(double c_x, double c_y) {
+	public double compute(double c_x, double c_y, FastHessianFeatureDetector FHFD) {
 
 		double period = scale*this.period;
 		double tl_x = c_x - sampleRadius*period;

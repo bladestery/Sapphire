@@ -32,6 +32,7 @@ import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
 import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
+import boofcv.alg.filter.derivative.GradientSobel;
 import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
 import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
 import boofcv.core.image.GeneralizedImageOps;
@@ -40,8 +41,11 @@ import boofcv.factory.filter.derivative.FactoryDerivative;
 import boofcv.struct.feature.BrightFeature;
 import boofcv.struct.feature.ScalePoint;
 import boofcv.struct.image.GrayF32;
+import sapphire.compiler.FDGenerator;
+
 import org.ddogleg.struct.FastQueue;
 import org.ddogleg.struct.GrowQueue_F64;
+import org.hamcrest.Factory;
 
 /**
  * SIFT combined together to simultaneously detect and describe the key points it finds.  Memory is conserved by
@@ -55,19 +59,6 @@ import org.ddogleg.struct.GrowQueue_F64;
  */
 public class CompleteSift extends SiftDetector
 {
-	private static FactoryDerivative FD;
-	private static GeneralizedImageOps GIO;
-	private static FactoryImageBorder FIB;
-	private static InputSanityCheck ISC;
-	private static DerivativeHelperFunctions DHF;
-	private static ConvolveImageNoBorder CINB;
-	private static ConvolveJustBorder_General CJBG;
-	private static GradientSobel_Outer GSO;
-	private static GradientSobel_UnrolledOuter GSUO;
-	private static FastHessianFeatureDetector FHFD;
-	private static ConvolveNormalizedNaive CNN;
-	private static ConvolveNormalized_JustBorder CNJB;
-	private static ConvolveNormalized CN;
 	// estimate orientation
 	OrientationHistogramSift<GrayF32> orientation;
 	// describes the keypoints
@@ -79,7 +70,7 @@ public class CompleteSift extends SiftDetector
 	GrowQueue_F64 orientations = new GrowQueue_F64();
 
 	// used to compute the image gradient
-	ImageGradient<GrayF32,GrayF32> gradient = FD.three(GrayF32.class,null, GIO, FIB);
+	ImageGradient<GrayF32,GrayF32> gradient;
 
 	// spacial derivative for the current scale in the octave
 	GrayF32 derivX = new GrayF32(1,1);
@@ -96,8 +87,10 @@ public class CompleteSift extends SiftDetector
 	 */
 	public CompleteSift(SiftScaleSpace scaleSpace, double edgeR, NonMaxLimiter extractor,
 						OrientationHistogramSift<GrayF32> orientation,
-						DescribePointSift<GrayF32> describe) {
+						DescribePointSift<GrayF32> describe, FactoryImageBorder FIB, GeneralizedImageOps GIO, FactoryDerivative FD) {
 		super(scaleSpace, edgeR, extractor, FIB, GIO);
+
+		this.gradient = FD.three(GrayF32.class,null, GIO, FIB);
 
 		this.orientation = orientation;
 		this.describe = describe;
@@ -112,15 +105,17 @@ public class CompleteSift extends SiftDetector
 	}
 
 	@Override
-	public void process(GrayF32 input, FastHessianFeatureDetector FHFD, FactoryImageBorder FIB, InputSanityCheck ISC, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN) {
+	public void process(GrayF32 input, FastHessianFeatureDetector FHFD, FactoryImageBorder FIB, InputSanityCheck ISC, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN,
+						DerivativeHelperFunctions DHF, ConvolveJustBorder_General CJBG, GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO) {
 		features.reset();
 		locations.reset();
 		orientations.reset();
-		super.process(input, FHFD, FIB, ISC, CNN, CINB, CNJB, CN);
+		super.process(input, FHFD, FIB, ISC, CNN, CINB, CNJB, CN, DHF, CJBG, GSO, GSUO);
 	}
 
 	@Override
-	protected void detectFeatures(int scaleIndex, FastHessianFeatureDetector FHFD) {
+	protected void detectFeatures(int scaleIndex, FastHessianFeatureDetector FHFD, InputSanityCheck ISC, DerivativeHelperFunctions DHF,
+								  ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG, GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO) {
 
 		// compute image derivative for this scale
 		GrayF32 input = scaleSpace.getImageScale(scaleIndex);
@@ -132,11 +127,11 @@ public class CompleteSift extends SiftDetector
 		orientation.setImageGradient(derivX,derivY);
 		describe.setImageGradient(derivX,derivY);
 
-		super.detectFeatures(scaleIndex, FHFD);
+		super.detectFeatures(scaleIndex, FHFD, ISC, DHF, CINB, CJBG, GSO, GSUO);
 	}
 
 	@Override
-	protected void handleDetection(ScalePoint p) {
+	protected void handleDetection(ScalePoint p, FastHessianFeatureDetector FHFD) {
 
 		// adjust the image for the down sampling in each octave
 		double localX = p.x / pixelScaleToInput;

@@ -30,6 +30,7 @@ import boofcv.factory.filter.derivative.FactoryDerivative;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.ImageGray;
+import sapphire.compiler.FDGenerator;
 
 /**
  * Factory for creating implementations of {@link RegionOrientation} that are used to estimate
@@ -38,10 +39,6 @@ import boofcv.struct.image.ImageGray;
  * @author Peter Abeles
  */
 public class FactoryOrientation {
-	private static FactoryDerivative FD;
-	private static GeneralizedImageOps GIO;
-	private static FactoryImageBorder FIB;
-	private static FactoryKernelGaussian FKG;
 	/**
 	 * Adds wrappers around implementations of {@link RegionOrientation} such that they can be used
 	 * as a {@link OrientationImage}.
@@ -51,14 +48,14 @@ public class FactoryOrientation {
 	 * @return Wrapped version which can process images as its raw input.
 	 */
 	public static <T extends ImageGray>
-	OrientationImage<T> convertImage( RegionOrientation algorithm , Class<T> imageType ) {
+	OrientationImage<T> convertImage(RegionOrientation algorithm , Class<T> imageType, FactoryDerivative FD, GeneralizedImageOps GIO, FactoryImageBorder FIB) {
 		if( algorithm instanceof OrientationGradient ) {
 			Class derivType = ((OrientationGradient) algorithm).getImageType();
 			ImageGradient gradient = FD.sobel(imageType,derivType, GIO, FIB);
-			return new OrientationGradientToImage((OrientationGradient)algorithm,gradient,imageType,derivType);
+			return new OrientationGradientToImage((OrientationGradient)algorithm,gradient,imageType,derivType, GIO);
 		} else if( algorithm instanceof OrientationIntegral ) {
 			Class integralType = GIntegralImageOps.getIntegralType(imageType);
-			return new OrientationIntegralToImage((OrientationIntegral)algorithm,imageType,integralType);
+			return new OrientationIntegralToImage((OrientationIntegral)algorithm,imageType,integralType, GIO);
 		} else {
 			throw new IllegalArgumentException("Unknown orientation algorithm type");
 		}
@@ -73,7 +70,8 @@ public class FactoryOrientation {
 	 * @return SIFT orientation image
 	 */
 	public static <T extends ImageGray>
-	OrientationImage<T> sift(ConfigSiftScaleSpace configSS , ConfigSiftOrientation configOri, Class<T> imageType ) {
+	OrientationImage<T> sift(ConfigSiftScaleSpace configSS , ConfigSiftOrientation configOri, Class<T> imageType, FactoryKernelGaussian FKG,
+	FactoryDerivative FD, GeneralizedImageOps GIO, FactoryImageBorder FIB) {
 		if( configSS == null )
 			configSS = new ConfigSiftScaleSpace();
 		configSS.checkValidity();
@@ -82,6 +80,6 @@ public class FactoryOrientation {
 
 		SiftScaleSpace ss = new SiftScaleSpace(
 				configSS.firstOctave,configSS.lastOctave,configSS.numScales,configSS.sigma0, FKG);
-		return new OrientationSiftToImage<>(ori, ss, imageType);
+		return new OrientationSiftToImage<>(ori, ss, imageType, FD, GIO, FIB);
 	}
 }

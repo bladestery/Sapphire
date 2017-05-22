@@ -92,7 +92,7 @@ public class WrapSiftDetector<T extends ImageBase>
 			input = imageFloat;
 		}
 
-		detector.process(input, FHFD, FIB, ISC, CNN, CINB, CNJB, CN);
+		detector.process(input, FHFD, FIB, ISC, CNN, CINB, CNJB, CN, DHF, CJBG, GSO, GSUO);
 	}
 
 	@Override
@@ -111,7 +111,7 @@ public class WrapSiftDetector<T extends ImageBase>
 	}
 
 	@Override
-	public double getOrientation(int featureIndex) {
+	public double getOrientation(int featureIndex, FactoryKernelGaussian FKG, FastHessianFeatureDetector FHFD) {
 		return 0;
 	}
 

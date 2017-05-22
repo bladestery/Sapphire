@@ -29,15 +29,15 @@ public final class SiftDetector_Stub extends boofcv.alg.feature.detect.interest.
 
 
 
-    // Implementation of process(GrayF32, FastHessianFeatureDetector, FactoryImageBorder, InputSanityCheck, ConvolveNormalizedNaive, ConvolveImageNoBorder, ConvolveNormalized_JustBorder, ConvolveNormalized)
-    public void process(boofcv.struct.image.GrayF32 $param_GrayF32_1, boofcv.alg.feature.detect.interest.FastHessianFeatureDetector $param_FastHessianFeatureDetector_2, boofcv.core.image.border.FactoryImageBorder $param_FactoryImageBorder_3, boofcv.alg.InputSanityCheck $param_InputSanityCheck_4, boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive $param_ConvolveNormalizedNaive_5, boofcv.alg.filter.convolve.ConvolveImageNoBorder $param_ConvolveImageNoBorder_6, boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder $param_ConvolveNormalized_JustBorder_7, boofcv.alg.filter.convolve.ConvolveNormalized $param_ConvolveNormalized_8) {
+    // Implementation of process(GrayF32, FastHessianFeatureDetector, FactoryImageBorder, InputSanityCheck, ConvolveNormalizedNaive, ConvolveImageNoBorder, ConvolveNormalized_JustBorder, ConvolveNormalized, DerivativeHelperFunctions, ConvolveJustBorder_General, GradientSobel_Outer, GradientSobel_UnrolledOuter)
+    public void process(boofcv.struct.image.GrayF32 $param_GrayF32_1, boofcv.alg.feature.detect.interest.FastHessianFeatureDetector $param_FastHessianFeatureDetector_2, boofcv.core.image.border.FactoryImageBorder $param_FactoryImageBorder_3, boofcv.alg.InputSanityCheck $param_InputSanityCheck_4, boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive $param_ConvolveNormalizedNaive_5, boofcv.alg.filter.convolve.ConvolveImageNoBorder $param_ConvolveImageNoBorder_6, boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder $param_ConvolveNormalized_JustBorder_7, boofcv.alg.filter.convolve.ConvolveNormalized $param_ConvolveNormalized_8, boofcv.alg.filter.derivative.DerivativeHelperFunctions $param_DerivativeHelperFunctions_9, boofcv.alg.filter.convolve.border.ConvolveJustBorder_General $param_ConvolveJustBorder_General_10, boofcv.alg.filter.derivative.impl.GradientSobel_Outer $param_GradientSobel_Outer_11, boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter $param_GradientSobel_UnrolledOuter_12) {
         java.lang.Object $__result = null;
         try {
             if ($__directInvocation)
-                super.process( $param_GrayF32_1,  $param_FastHessianFeatureDetector_2,  $param_FactoryImageBorder_3,  $param_InputSanityCheck_4,  $param_ConvolveNormalizedNaive_5,  $param_ConvolveImageNoBorder_6,  $param_ConvolveNormalized_JustBorder_7,  $param_ConvolveNormalized_8);
+                super.process( $param_GrayF32_1,  $param_FastHessianFeatureDetector_2,  $param_FactoryImageBorder_3,  $param_InputSanityCheck_4,  $param_ConvolveNormalizedNaive_5,  $param_ConvolveImageNoBorder_6,  $param_ConvolveNormalized_JustBorder_7,  $param_ConvolveNormalized_8,  $param_DerivativeHelperFunctions_9,  $param_ConvolveJustBorder_General_10,  $param_GradientSobel_Outer_11,  $param_GradientSobel_UnrolledOuter_12);
             else {
                 java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
-                String $__method = "public void boofcv.alg.feature.detect.interest.SiftDetector.process(boofcv.struct.image.GrayF32,boofcv.alg.feature.detect.interest.FastHessianFeatureDetector,boofcv.core.image.border.FactoryImageBorder,boofcv.alg.InputSanityCheck,boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive,boofcv.alg.filter.convolve.ConvolveImageNoBorder,boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder,boofcv.alg.filter.convolve.ConvolveNormalized)";
+                String $__method = "public void boofcv.alg.feature.detect.interest.SiftDetector.process(boofcv.struct.image.GrayF32,boofcv.alg.feature.detect.interest.FastHessianFeatureDetector,boofcv.core.image.border.FactoryImageBorder,boofcv.alg.InputSanityCheck,boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive,boofcv.alg.filter.convolve.ConvolveImageNoBorder,boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder,boofcv.alg.filter.convolve.ConvolveNormalized,boofcv.alg.filter.derivative.DerivativeHelperFunctions,boofcv.alg.filter.convolve.border.ConvolveJustBorder_General,boofcv.alg.filter.derivative.impl.GradientSobel_Outer,boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter)";
                 $__params.add($param_GrayF32_1);
                 $__params.add($param_FastHessianFeatureDetector_2);
                 $__params.add($param_FactoryImageBorder_3);
@@ -46,6 +46,10 @@ public final class SiftDetector_Stub extends boofcv.alg.feature.detect.interest.
                 $__params.add($param_ConvolveImageNoBorder_6);
                 $__params.add($param_ConvolveNormalized_JustBorder_7);
                 $__params.add($param_ConvolveNormalized_8);
+                $__params.add($param_DerivativeHelperFunctions_9);
+                $__params.add($param_ConvolveJustBorder_General_10);
+                $__params.add($param_GradientSobel_Outer_11);
+                $__params.add($param_GradientSobel_UnrolledOuter_12);
                 $__result = $__client.onRPC($__method, $__params);
             }
         } catch (Exception e) {

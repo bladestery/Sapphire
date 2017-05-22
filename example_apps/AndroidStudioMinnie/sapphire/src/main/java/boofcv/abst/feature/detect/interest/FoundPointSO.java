@@ -18,6 +18,8 @@
 
 package boofcv.abst.feature.detect.interest;
 
+import boofcv.alg.feature.detect.interest.FastHessianFeatureDetector;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import georegression.struct.point.Point2D_F64;
 
 /**
@@ -64,5 +66,5 @@ public interface FoundPointSO {
 	 * @param featureIndex Feature whose
 	 * @return Orientation in radians.
 	 */
-	double getOrientation( int featureIndex );
+	double getOrientation(int featureIndex, FactoryKernelGaussian FKG, FastHessianFeatureDetector FHFD);
 }

@@ -37,7 +37,6 @@ import boofcv.struct.sparse.SparseScaleGradient;
 public abstract class OrientationIntegralBase<II extends ImageGray,G extends GradientValue>
 		implements OrientationIntegral<II>
 {
-	private static FactoryKernelGaussian FKG;
 	// integral image transform of input image
 	protected II ii;
 
@@ -74,7 +73,7 @@ public abstract class OrientationIntegralBase<II extends ImageGray,G extends Gra
 	 */
 	public OrientationIntegralBase(double objectRadiusToScale, int sampleRadius, double period,
 								   int kernelWidth, double weightSigma,
-								   boolean assignDefaultRadius, Class<II> integralType) {
+								   boolean assignDefaultRadius, Class<II> integralType, FactoryKernelGaussian FKG) {
 		this.objectRadiusToScale = objectRadiusToScale;
 		this.sampleRadius = sampleRadius;
 		this.period = period;
@@ -86,11 +85,11 @@ public abstract class OrientationIntegralBase<II extends ImageGray,G extends Gra
 
 		g = (SparseScaleGradient<II,G>)SurfDescribeOps.createGradient(false, integralType);
 		if( assignDefaultRadius )
-			setObjectRadius(1.0/objectRadiusToScale);
+			setObjectRadius(1.0/objectRadiusToScale, FKG);
 	}
 	
 	@Override
-	public void setObjectRadius(double radius) {
+	public void setObjectRadius(double radius, FactoryKernelGaussian FKG) {
 		this.scale = radius* objectRadiusToScale;
 		g.setWidth(scale * kernelWidth);
 	}

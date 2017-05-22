@@ -40,7 +40,6 @@ import boofcv.struct.sparse.SparseImageGradient;
  * @author Peter Abeles
  */
 public class DescribePointSurfMod<II extends ImageGray> extends DescribePointSurf<II> {
-	private static FactoryKernelGaussian FKG;
 	// how many sample points sub-regions overlap.
 	private int overLap;
 
@@ -66,8 +65,8 @@ public class DescribePointSurfMod<II extends ImageGray> extends DescribePointSur
 	public DescribePointSurfMod(int widthLargeGrid, int widthSubRegion,
 								int widthSample, int overLap ,
 								double sigmaLargeGrid , double sigmaSubRegion ,
-								boolean useHaar, Class<II> imageType ) {
-		super(widthLargeGrid, widthSubRegion, widthSample, 1, useHaar,imageType);
+								boolean useHaar, Class<II> imageType, FactoryKernelGaussian FKG) {
+		super(widthLargeGrid, widthSubRegion, widthSample, 1, useHaar,imageType, FKG);
 
 		this.overLap = overLap;
 
@@ -94,8 +93,8 @@ public class DescribePointSurfMod<II extends ImageGray> extends DescribePointSur
 	/**
 	 * Create a SURF-64 descriptor.  See [1] for details.
 	 */
-	public DescribePointSurfMod(Class<II> imageType) {
-		this(4,5,3,2, 2.5 , 2.5 , false ,imageType);
+	public DescribePointSurfMod(Class<II> imageType, FactoryKernelGaussian FKG) {
+		this(4,5,3,2, 2.5 , 2.5 , false ,imageType, FKG);
 	}
 
 	/**

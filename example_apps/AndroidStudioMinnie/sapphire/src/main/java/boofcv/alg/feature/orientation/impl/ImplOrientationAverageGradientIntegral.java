@@ -19,7 +19,9 @@
 package boofcv.alg.feature.orientation.impl;
 
 import boofcv.alg.feature.describe.SurfDescribeOps;
+import boofcv.alg.feature.detect.interest.FastHessianFeatureDetector;
 import boofcv.alg.feature.orientation.OrientationIntegralBase;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.image.ImageGray;
 import boofcv.struct.sparse.GradientValue;
 import boofcv.struct.sparse.SparseGradientSafe;
@@ -45,12 +47,12 @@ public class ImplOrientationAverageGradientIntegral<T extends ImageGray,G extend
 	public ImplOrientationAverageGradientIntegral(double radiusToScale,
 												  int sampleRadius, double period,
 												  int sampleWidth, double weightSigma,
-												  Class<T> imageType) {
-		super(radiusToScale,sampleRadius,period,sampleWidth,weightSigma, true, imageType);
+												  Class<T> imageType, FactoryKernelGaussian FKG) {
+		super(radiusToScale,sampleRadius,period,sampleWidth,weightSigma, true, imageType, FKG);
 	}
 
 	@Override
-	public double compute(double c_x, double c_y) {
+	public double compute(double c_x, double c_y, FastHessianFeatureDetector FHFD) {
 
 		double period = scale*this.period;
 		double tl_x = c_x - sampleRadius *period;

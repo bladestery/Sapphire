@@ -34,6 +34,7 @@ import boofcv.factory.feature.detect.intensity.FactoryIntensityPointAlg;
 import boofcv.factory.filter.blur.FactoryBlurFilter;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.image.ImageGray;
+import sapphire.compiler.FFEGenerator;
 
 /**
  * <p>
@@ -50,12 +51,6 @@ import boofcv.struct.image.ImageGray;
  * @author Peter Abeles
  */
 public class FactoryDetectPoint {
-	private static FactoryBlurFilter FBF;
-	private static GeneralizedImageOps GIO;
-	private static FactoryFeatureExtractor FFE;
-	private static FactoryIntensityPointAlg FIPA;
-	private static FactoryKernelGaussian FKG;
-	private static FactoryIntensityPoint FIP;
 	/**
 	 * Detects Harris corners.
 	 *
@@ -66,13 +61,13 @@ public class FactoryDetectPoint {
 	 */
 	public static <T extends ImageGray, D extends ImageGray>
 	GeneralFeatureDetector<T, D> createHarris(ConfigGeneralDetector configDetector,
-											  boolean weighted, Class<D> derivType) {
+											  boolean weighted, Class<D> derivType, FactoryIntensityPointAlg FIPA, GeneralizedImageOps GIO, FactoryKernelGaussian FKG, FactoryFeatureExtractor FFE) {
 		if( configDetector == null)
 			configDetector = new ConfigGeneralDetector();
 
 		GradientCornerIntensity<D> cornerIntensity =
 				FIPA.harris(configDetector.radius, 0.04f, weighted, derivType, GIO, FKG);
-		return createGeneral(cornerIntensity, configDetector);
+		return createGeneral(cornerIntensity, configDetector, FFE);
 	}
 
 	/**
@@ -85,13 +80,13 @@ public class FactoryDetectPoint {
 	 */
 	public static <T extends ImageGray, D extends ImageGray>
 	GeneralFeatureDetector<T, D> createShiTomasi(ConfigGeneralDetector configDetector,
-												 boolean weighted, Class<D> derivType) {
+												 boolean weighted, Class<D> derivType, FactoryIntensityPointAlg FIPA, GeneralizedImageOps GIO, FactoryKernelGaussian FKG, FactoryFeatureExtractor FFE) {
 		if( configDetector == null)
 			configDetector = new ConfigGeneralDetector();
 
 		GradientCornerIntensity<D> cornerIntensity =
 				FIPA.shiTomasi(configDetector.radius, weighted, derivType, GIO, FKG);
-		return createGeneral(cornerIntensity, configDetector);
+		return createGeneral(cornerIntensity, configDetector, FFE);
 	}
 
 	/**
@@ -102,12 +97,12 @@ public class FactoryDetectPoint {
 	 * @see boofcv.alg.feature.detect.intensity.KitRosCornerIntensity
 	 */
 	public static <T extends ImageGray, D extends ImageGray>
-	GeneralFeatureDetector<T, D> createKitRos(ConfigGeneralDetector configDetector, Class<D> derivType) {
+	GeneralFeatureDetector<T, D> createKitRos(ConfigGeneralDetector configDetector, Class<D> derivType, FactoryFeatureExtractor FFE) {
 		if( configDetector == null)
 			configDetector = new ConfigGeneralDetector();
 
 		GeneralFeatureIntensity<T, D> intensity = new WrapperKitRosCornerIntensity<>(derivType);
-		return createGeneral(intensity, configDetector);
+		return createGeneral(intensity, configDetector, FFE);
 	}
 
 	/**
@@ -121,7 +116,7 @@ public class FactoryDetectPoint {
 	@SuppressWarnings("UnnecessaryLocalVariable")
 	public static <T extends ImageGray, D extends ImageGray>
 	GeneralFeatureDetector<T, D> createFast( ConfigFast configFast ,
-											 ConfigGeneralDetector configDetector , Class<T> imageType) {
+											 ConfigGeneralDetector configDetector , Class<T> imageType, FactoryIntensityPointAlg FIPA, FactoryFeatureExtractor FFE) {
 
 		if( configFast == null )
 			configFast = new ConfigFast();
@@ -133,7 +128,7 @@ public class FactoryDetectPoint {
 		GeneralFeatureIntensity<T, D> intensity = new WrapperFastCornerIntensity<>(alg);
 		ConfigGeneralDetector configExtract =
 				new ConfigGeneralDetector(d.maxFeatures,d.radius,d.threshold,0,true,false,true);
-		return createGeneral(intensity, configExtract);
+		return createGeneral(intensity, configExtract, FFE);
 	}
 
 	/**
@@ -144,14 +139,14 @@ public class FactoryDetectPoint {
 	 * @see boofcv.alg.feature.detect.intensity.MedianCornerIntensity
 	 */
 	public static <T extends ImageGray, D extends ImageGray>
-	GeneralFeatureDetector<T, D> createMedian(ConfigGeneralDetector configDetector, Class<T> imageType) {
+	GeneralFeatureDetector<T, D> createMedian(ConfigGeneralDetector configDetector, Class<T> imageType, FactoryBlurFilter FBF, GeneralizedImageOps GIO, FactoryFeatureExtractor FFE) {
 
 		if( configDetector == null)
 			configDetector = new ConfigGeneralDetector();
 
 		BlurStorageFilter<T> medianFilter = FBF.median(imageType, configDetector.radius, GIO);
 		GeneralFeatureIntensity<T, D> intensity = new WrapperMedianCornerIntensity<>(medianFilter, imageType);
-		return createGeneral(intensity, configDetector);
+		return createGeneral(intensity, configDetector, FFE);
 	}
 
 	/**
@@ -164,24 +159,24 @@ public class FactoryDetectPoint {
 	 */
 	public static <T extends ImageGray, D extends ImageGray>
 	GeneralFeatureDetector<T, D> createHessian(HessianBlobIntensity.Type type,
-											   ConfigGeneralDetector configDetector, Class<D> derivType) {
+											   ConfigGeneralDetector configDetector, Class<D> derivType, FactoryIntensityPoint FIP, FactoryFeatureExtractor FFE) {
 		if( configDetector == null)
 			configDetector = new ConfigGeneralDetector();
 
 		GeneralFeatureIntensity<T, D> intensity = FIP.hessian(type, derivType);
-		return createGeneral(intensity, configDetector);
+		return createGeneral(intensity, configDetector, FFE);
 	}
 
 	public static <T extends ImageGray, D extends ImageGray>
 	GeneralFeatureDetector<T, D> createGeneral(GradientCornerIntensity<D> cornerIntensity,
-											   ConfigGeneralDetector config) {
+											   ConfigGeneralDetector config, FactoryFeatureExtractor FFE) {
 		GeneralFeatureIntensity<T, D> intensity = new WrapperGradientCornerIntensity<>(cornerIntensity);
-		return createGeneral(intensity, config);
+		return createGeneral(intensity, config, FFE);
 	}
 
 	public static <T extends ImageGray, D extends ImageGray>
 	GeneralFeatureDetector<T, D> createGeneral(GeneralFeatureIntensity<T, D> intensity,
-											   ConfigGeneralDetector config ) {
+											   ConfigGeneralDetector config, FactoryFeatureExtractor FFE) {
 		config.ignoreBorder += config.radius;
 		NonMaxSuppression extractor = FFE.nonmax(config);
 		GeneralFeatureDetector<T, D> det = new GeneralFeatureDetector<>(intensity, extractor);

@@ -103,7 +103,7 @@ public class DdaManagerGeneralPoint<I extends ImageGray, D extends ImageGray, De
 		// detect features in the image
 		detector.detect(input,null, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN,
 				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, CI, UW);
-		describe.setImage(input);
+		describe.setImage(input, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW, DHF, GSO, GSUO, FIB);
 
 		QueueCorner found = detector.getMaximums();
 

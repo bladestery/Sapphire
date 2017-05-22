@@ -46,6 +46,7 @@ import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.feature.TupleDesc_B;
 import boofcv.struct.image.ImageGray;
 import boofcv.struct.image.ImageType;
+import sapphire.compiler.GIOGenerator;
 
 /**
  * <p>
@@ -63,30 +64,6 @@ import boofcv.struct.image.ImageType;
  * @author Peter Abeles
  */
 public class DescribePointBrief<T extends ImageGray> {
-	private static GeneralizedImageOps GIO;
-	private static ImageType IT;
-	private static InputSanityCheck ISC;
-	private static GBlurImageOps GBIO;
-	private static BlurImageOps BIO;
-	private static ConvolveImageMean CIM;
-	private static FactoryKernelGaussian FKG;
-	private static ConvolveNormalized CN;
-	private static ConvolveNormalizedNaive CNN;
-	private static ConvolveImageNoBorder CINB;
-	private static ConvolveNormalized_JustBorder CNJB;
-	private static ImplMedianHistogramInner IMHI;
-	private static ImplMedianSortEdgeNaive IMSEN;
-	private static ImplMedianSortNaive IMSN;
-	private static ImplConvolveMean ICM;
-	private static GThresholdImageOps GTIO;
-	private static GImageStatistics GIS;
-	private static ImageStatistics IS;
-	private static ThresholdImageOps TIO;
-	private static GImageMiscOps GIMO;
-	private static ImageMiscOps IMO;
-	private static ConvolveJustBorder_General CJBG;
-	private static ConvertImage CI;
-	private static UtilWavelet UW;
 	// blurs the image prior to sampling
 	protected BlurFilter<T> filterBlur;
 	// blurred image
@@ -95,7 +72,7 @@ public class DescribePointBrief<T extends ImageGray> {
 	// computes the binary feature description
 	protected DescribePointBinaryCompare<T> describe;
 
-	public DescribePointBrief(DescribePointBinaryCompare<T> describe, BlurFilter<T> filterBlur) {
+	public DescribePointBrief(DescribePointBinaryCompare<T> describe, BlurFilter<T> filterBlur, ImageType IT, GeneralizedImageOps GIO) {
 		this.filterBlur = filterBlur;
 		this.describe = describe;
 
@@ -117,7 +94,10 @@ public class DescribePointBrief<T extends ImageGray> {
 	 *
 	 * @param image Image being examined.
 	 */
-	public void setImage(T image) {
+	public void setImage(T image, GBlurImageOps GBIO, InputSanityCheck ISC, GeneralizedImageOps GIO, BlurImageOps BIO, ConvolveImageMean CIM, FactoryKernelGaussian FKG,
+						 ConvolveNormalized CN, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ImplMedianHistogramInner IMHI,
+						 ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM, GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS,
+						 ThresholdImageOps TIO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvolveJustBorder_General CJBG, ConvertImage CI, UtilWavelet UW) {
 		blur.reshape(image.width,image.height);
 		filterBlur.process(image,blur, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW);
 		describe.setImage(image);

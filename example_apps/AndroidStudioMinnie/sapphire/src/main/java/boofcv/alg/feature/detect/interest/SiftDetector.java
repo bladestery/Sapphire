@@ -23,8 +23,13 @@ import boofcv.abst.filter.convolve.ImageConvolveSparse;
 import boofcv.alg.InputSanityCheck;
 import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
 import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
+import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
+import boofcv.alg.filter.derivative.GradientSobel;
+import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
+import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
 import boofcv.alg.filter.kernel.KernelMath;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.BorderType;
@@ -167,7 +172,8 @@ public class SiftDetector implements SapphireObject {
 	 *
 	 * @param input Input image.  Not modified.
 	 */
-	public void process(GrayF32 input, FastHessianFeatureDetector FHFD, FactoryImageBorder FIB, InputSanityCheck ISC, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN) {
+	public void process(GrayF32 input, FastHessianFeatureDetector FHFD, FactoryImageBorder FIB, InputSanityCheck ISC, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN,
+						DerivativeHelperFunctions DHF, ConvolveJustBorder_General CJBG, GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO) {
 		scaleSpace.initialize(input, FIB, ISC, CNN, CINB, CNJB, CN);
 		detections.reset();
 
@@ -189,7 +195,7 @@ public class SiftDetector implements SapphireObject {
 				dogTarget = scaleSpace.getDifferenceOfGaussian(j  );
 				dogUpper  = scaleSpace.getDifferenceOfGaussian(j+1);
 
-				detectFeatures(j, FHFD);
+				detectFeatures(j, FHFD, ISC, DHF, CINB, CJBG, GSO, GSUO);
 			}
 		} while( scaleSpace.computeNextOctave(ISC, CNN, CINB, CNJB, CN) );
 	}
@@ -200,7 +206,8 @@ public class SiftDetector implements SapphireObject {
 	 * @param scaleIndex Which scale in the octave is it detecting features inside up.
 	 *              Primarily provided here for use in child classes.
 	 */
-	protected void detectFeatures( int scaleIndex, FastHessianFeatureDetector FHFD) {
+	protected void detectFeatures(int scaleIndex, FastHessianFeatureDetector FHFD, InputSanityCheck ISC, DerivativeHelperFunctions DHF,
+								  ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG, GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO) {
 		extractor.process(dogTarget);
 		FastQueue<NonMaxLimiter.LocalExtreme> found = extractor.getLocalExtreme();
 
@@ -299,7 +306,7 @@ public class SiftDetector implements SapphireObject {
 		// a maximum corresponds to a dark object and a minimum to a whiter object
 		p.white = !maximum;
 
-		handleDetection(p);
+		handleDetection(p, FHFD);
 	}
 
 	/**
@@ -307,7 +314,7 @@ public class SiftDetector implements SapphireObject {
 	 * to process detections
 	 * @param p Detected point in scale-space.
 	 */
-	protected void handleDetection( ScalePoint p ){}
+	protected void handleDetection( ScalePoint p , FastHessianFeatureDetector FHFD){}
 
 	/**
 	 * Performs an edge test to remove false positives.  See 4.1 in [1].

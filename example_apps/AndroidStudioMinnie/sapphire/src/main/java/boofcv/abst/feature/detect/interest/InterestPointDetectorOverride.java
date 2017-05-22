@@ -86,7 +86,7 @@ public class InterestPointDetectorOverride< T extends ImageGray>
 		detector.detect(input, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN,
 				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF, CI, UW);
 		if( orientation != null )
-			orientation.setImage(input);
+			orientation.setImage(input, ISC, GIO, DHF, CINB, CJBG, GSO, GSUO, FKG, GIMO, IMO, CI, FIB, CNN, CNJB, CN);
 	}
 
 	@Override
@@ -105,13 +105,13 @@ public class InterestPointDetectorOverride< T extends ImageGray>
 	}
 
 	@Override
-	public double getOrientation(int featureIndex) {
+	public double getOrientation(int featureIndex, FactoryKernelGaussian FKG, FastHessianFeatureDetector FHFD) {
 		if( orientation == null )
-			return detector.getOrientation(featureIndex);
+			return detector.getOrientation(featureIndex, FKG, FHFD);
 
 		Point2D_F64 p = detector.getLocation(featureIndex);
-		orientation.setObjectRadius(getRadius(featureIndex));
-		return orientation.compute(p.x,p.y);
+		orientation.setObjectRadius(getRadius(featureIndex), FKG);
+		return orientation.compute(p.x,p.y, FHFD);
 	}
 
 	@Override

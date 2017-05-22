@@ -23,6 +23,7 @@ import boofcv.alg.feature.describe.DescribePointSift;
 import boofcv.alg.feature.describe.DescribeSiftCommon;
 import boofcv.core.image.FactoryGImageGray;
 import boofcv.core.image.GImageGray;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.feature.TupleDesc_F64;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.GrayF64;
@@ -45,7 +46,6 @@ import org.ddogleg.struct.FastQueue;
  * @author Peter Abeles
  */
 public class DescribeDenseSiftAlg<D extends ImageGray> extends DescribeSiftCommon {
-	private static InputSanityCheck ISC;
 	// sampling period along the image's rows an columns
 	double periodRows;
 	double periodColumns;
@@ -76,8 +76,8 @@ public class DescribeDenseSiftAlg<D extends ImageGray> extends DescribeSiftCommo
 	 */
 	public DescribeDenseSiftAlg(int widthSubregion, int widthGrid, int numHistogramBins,
 								double weightingSigmaFraction , double maxDescriptorElementValue,
-								double periodColumns, double periodRows , Class<D> derivType ) {
-		super(widthSubregion,widthGrid,numHistogramBins,weightingSigmaFraction,maxDescriptorElementValue);
+								double periodColumns, double periodRows , Class<D> derivType, FactoryKernelGaussian FKG) {
+		super(widthSubregion,widthGrid,numHistogramBins,weightingSigmaFraction,maxDescriptorElementValue, FKG);
 		this.periodRows = periodRows;
 		this.periodColumns = periodColumns;
 
@@ -100,7 +100,7 @@ public class DescribeDenseSiftAlg<D extends ImageGray> extends DescribeSiftCommo
 	 * @param derivX image derivative x-axis
 	 * @param derivY image derivative y-axis
 	 */
-	public void setImageGradient(D derivX , D derivY ) {
+	public void setImageGradient(D derivX , D derivY, InputSanityCheck ISC) {
 		ISC.checkSameShape(derivX,derivY);
 		if( derivX.stride != derivY.stride || derivX.startIndex != derivY.startIndex )
 			throw new IllegalArgumentException("stride and start index must be the same");

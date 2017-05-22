@@ -19,6 +19,7 @@
 package boofcv.alg.feature.orientation.impl;
 
 import boofcv.alg.feature.orientation.OrientationImageAverage;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.image.GrayU8;
 
 
@@ -36,8 +37,8 @@ import boofcv.struct.image.GrayU8;
  */
 public class ImplOrientationImageAverage_U8 extends OrientationImageAverage<GrayU8> {
 
-	public ImplOrientationImageAverage_U8(double objectToSample,int radius) {
-		super(objectToSample,radius);
+	public ImplOrientationImageAverage_U8(double objectToSample, int radius, FactoryKernelGaussian FKG) {
+		super(objectToSample,radius, FKG);
 	}
 
 	@Override

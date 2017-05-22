@@ -15,7 +15,7 @@ public final class GeneralToInterestPoint_Stub extends boofcv.abst.feature.detec
     }
 
     public GeneralToInterestPoint_Stub (boofcv.alg.feature.detect.interest.GeneralFeatureDetector $param_GeneralFeatureDetector_1, boofcv.abst.filter.derivative.ImageGradient $param_ImageGradient_2, boofcv.abst.filter.derivative.ImageHessian $param_ImageHessian_3, double $param_double_4, java.lang.Class $param_Class_5, boofcv.core.image.GeneralizedImageOps $param_GeneralizedImageOps_6) {
-        super($param_GeneralFeatureDetector_1,  $param_ImageGradient_2, $param_ImageHessian_3, $param_double_4, $param_Class_5, $param_GeneralizedImageOps_6);
+        super($param_GeneralFeatureDetector_1, $param_ImageGradient_2, $param_ImageHessian_3, $param_double_4, $param_Class_5, $param_GeneralizedImageOps_6);
     }
 
 
@@ -85,16 +85,18 @@ public final class GeneralToInterestPoint_Stub extends boofcv.abst.feature.detec
         return ((java.lang.Double) $__result).doubleValue();
     }
 
-    // Implementation of getOrientation(int)
-    public double getOrientation(int $param_int_1) {
+    // Implementation of getOrientation(int, FactoryKernelGaussian, FastHessianFeatureDetector)
+    public double getOrientation(int $param_int_1, boofcv.factory.filter.kernel.FactoryKernelGaussian $param_FactoryKernelGaussian_2, boofcv.alg.feature.detect.interest.FastHessianFeatureDetector $param_FastHessianFeatureDetector_3) {
         java.lang.Object $__result = null;
         try {
             if ($__directInvocation)
-                $__result = super.getOrientation( $param_int_1);
+                $__result = super.getOrientation( $param_int_1,  $param_FactoryKernelGaussian_2,  $param_FastHessianFeatureDetector_3);
             else {
                 java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
-                String $__method = "public double boofcv.abst.feature.detect.interest.GeneralToInterestPoint.getOrientation(int)";
+                String $__method = "public double boofcv.abst.feature.detect.interest.GeneralToInterestPoint.getOrientation(int,boofcv.factory.filter.kernel.FactoryKernelGaussian,boofcv.alg.feature.detect.interest.FastHessianFeatureDetector)";
                 $__params.add($param_int_1);
+                $__params.add($param_FactoryKernelGaussian_2);
+                $__params.add($param_FastHessianFeatureDetector_3);
                 $__result = $__client.onRPC($__method, $__params);
             }
         } catch (Exception e) {
@@ -137,6 +139,7 @@ public final class GeneralToInterestPoint_Stub extends boofcv.abst.feature.detec
         }
         return ((georegression.struct.point.Point2D_F64) $__result);
     }
+
 
     // Implementation of detect(ImageGray, InputSanityCheck, DerivativeHelperFunctions, ConvolveImageNoBorder, ConvolveJustBorder_General, GradientSobel_Outer, GradientSobel_UnrolledOuter, GImageMiscOps, ImageMiscOps, ConvolveNormalizedNaive, ConvolveNormalized_JustBorder, ConvolveNormalized, GBlurImageOps, GeneralizedImageOps, BlurImageOps, ConvolveImageMean, FactoryKernelGaussian, ImplMedianHistogramInner, ImplMedianSortEdgeNaive, ImplMedianSortNaive, ImplConvolveMean, GThresholdImageOps, GImageStatistics, ImageStatistics, ThresholdImageOps, FactoryImageBorderAlgs, ImageBorderValue, FastHessianFeatureDetector, FactoryImageBorder, FactoryBlurFilter, ConvertImage, UtilWavelet)
     public void detect(boofcv.struct.image.ImageGray $param_ImageGray_1, boofcv.alg.InputSanityCheck $param_InputSanityCheck_2, boofcv.alg.filter.derivative.DerivativeHelperFunctions $param_DerivativeHelperFunctions_3, boofcv.alg.filter.convolve.ConvolveImageNoBorder $param_ConvolveImageNoBorder_4, boofcv.alg.filter.convolve.border.ConvolveJustBorder_General $param_ConvolveJustBorder_General_5, boofcv.alg.filter.derivative.impl.GradientSobel_Outer $param_GradientSobel_Outer_6, boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter $param_GradientSobel_UnrolledOuter_7, boofcv.alg.misc.GImageMiscOps $param_GImageMiscOps_8, boofcv.alg.misc.ImageMiscOps $param_ImageMiscOps_9, boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive $param_ConvolveNormalizedNaive_10, boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder $param_ConvolveNormalized_JustBorder_11, boofcv.alg.filter.convolve.ConvolveNormalized $param_ConvolveNormalized_12, boofcv.alg.filter.blur.GBlurImageOps $param_GBlurImageOps_13, boofcv.core.image.GeneralizedImageOps $param_GeneralizedImageOps_14, boofcv.alg.filter.blur.BlurImageOps $param_BlurImageOps_15, boofcv.alg.filter.convolve.ConvolveImageMean $param_ConvolveImageMean_16, boofcv.factory.filter.kernel.FactoryKernelGaussian $param_FactoryKernelGaussian_17, boofcv.alg.filter.blur.impl.ImplMedianHistogramInner $param_ImplMedianHistogramInner_18, boofcv.alg.filter.blur.impl.ImplMedianSortEdgeNaive $param_ImplMedianSortEdgeNaive_19, boofcv.alg.filter.blur.impl.ImplMedianSortNaive $param_ImplMedianSortNaive_20, boofcv.alg.filter.convolve.noborder.ImplConvolveMean $param_ImplConvolveMean_21, boofcv.alg.filter.binary.GThresholdImageOps $param_GThresholdImageOps_22, boofcv.alg.misc.GImageStatistics $param_GImageStatistics_23, boofcv.alg.misc.ImageStatistics $param_ImageStatistics_24, boofcv.alg.filter.binary.ThresholdImageOps $param_ThresholdImageOps_25, boofcv.core.image.border.FactoryImageBorderAlgs $param_FactoryImageBorderAlgs_26, boofcv.core.image.border.ImageBorderValue $param_ImageBorderValue_27, boofcv.alg.feature.detect.interest.FastHessianFeatureDetector $param_FastHessianFeatureDetector_28, boofcv.core.image.border.FactoryImageBorder $param_FactoryImageBorder_29, boofcv.factory.filter.blur.FactoryBlurFilter $param_FactoryBlurFilter_30, boofcv.core.image.ConvertImage $param_ConvertImage_31, boofcv.alg.transform.wavelet.UtilWavelet $param_UtilWavelet_32) {

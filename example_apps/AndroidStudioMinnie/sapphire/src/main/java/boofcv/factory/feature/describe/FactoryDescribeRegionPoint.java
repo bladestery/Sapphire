@@ -27,11 +27,16 @@ import boofcv.alg.feature.describe.brief.BinaryCompareDefinition_I32;
 import boofcv.alg.feature.describe.brief.FactoryBriefDefinition;
 import boofcv.alg.feature.detect.interest.SiftScaleSpace;
 import boofcv.alg.transform.ii.GIntegralImageOps;
+import boofcv.core.image.ConvertImage;
 import boofcv.core.image.GeneralizedImageOps;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.filter.blur.FactoryBlurFilter;
+import boofcv.factory.filter.derivative.FactoryDerivative;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.feature.*;
 import boofcv.struct.image.*;
+import sapphire.compiler.GIOGenerator;
+import sapphire.compiler.ITGenerator;
 
 import java.util.Random;
 
@@ -42,9 +47,7 @@ import java.util.Random;
  * @author Peter Abeles
  */
 public class FactoryDescribeRegionPoint {
-	private static FactoryBlurFilter FBF;
-	private static GeneralizedImageOps GIO;
-	private static FactoryKernelGaussian FKG;
+
 	/**
 	 * <p>
 	 * Creates a SURF descriptor.  SURF descriptors are invariant to illumination, orientation, and scale.
@@ -59,14 +62,14 @@ public class FactoryDescribeRegionPoint {
 	 * @return SURF description extractor
 	 */
 	public static <T extends ImageGray, II extends ImageGray>
-	DescribeRegionPoint<T,BrightFeature> surfFast(ConfigSurfDescribe.Speed config , Class<T> imageType) {
+	DescribeRegionPoint<T,BrightFeature> surfFast(ConfigSurfDescribe.Speed config , Class<T> imageType, FactoryKernelGaussian FKG, ImageType IT) {
 
 
 		Class<II> integralType = GIntegralImageOps.getIntegralType(imageType);
 
-		DescribePointSurf<II> alg = FactoryDescribePointAlgs.surfSpeed( config, integralType);
+		DescribePointSurf<II> alg = FactoryDescribePointAlgs.surfSpeed( config, integralType, FKG);
 
-		return new WrapDescribeSurf( alg , imageType );
+		return new WrapDescribeSurf( alg , imageType , IT);
 	}
 
 	/**
@@ -79,17 +82,18 @@ public class FactoryDescribeRegionPoint {
 	 * @return SURF color description extractor
 	 */
 	public static <T extends ImageMultiBand, II extends ImageGray>
-	DescribeRegionPoint<T,BrightFeature> surfColorFast(ConfigSurfDescribe.Speed config , ImageType<T> imageType) {
+	DescribeRegionPoint<T,BrightFeature> surfColorFast(ConfigSurfDescribe.Speed config , ImageType<T> imageType, FactoryKernelGaussian FKG, ImageType IT, GeneralizedImageOps GIO) {
 
 		Class bandType = imageType.getImageClass();
 		Class<II> integralType = GIntegralImageOps.getIntegralType(bandType);
 
-		DescribePointSurf<II> alg = FactoryDescribePointAlgs.surfSpeed( config, integralType);
+		DescribePointSurf<II> alg = FactoryDescribePointAlgs.surfSpeed( config, integralType, FKG);
 
 		if( imageType.getFamily() == ImageType.Family.PLANAR) {
 			DescribePointSurfPlanar<II> color = FactoryDescribePointAlgs.surfColor( alg,imageType.getNumBands());
 
-			return new SurfPlanar_to_DescribeRegionPoint(color,bandType,integralType);
+			return new SurfPlanar_to_DescribeRegionPoint(color,bandType,integralType, IT, GIO);
+
 		} else {
 			throw new IllegalArgumentException("Unknown image type");
 		}
@@ -109,13 +113,13 @@ public class FactoryDescribeRegionPoint {
 	 * @return SURF description extractor
 	 */
 	public static <T extends ImageGray, II extends ImageGray>
-	DescribeRegionPoint<T,BrightFeature> surfStable(ConfigSurfDescribe.Stability config, Class<T> imageType) {
+	DescribeRegionPoint<T,BrightFeature> surfStable(ConfigSurfDescribe.Stability config, Class<T> imageType, FactoryKernelGaussian FKG, ImageType IT) {
 
 		Class<II> integralType = GIntegralImageOps.getIntegralType(imageType);
 
-		DescribePointSurf<II> alg = FactoryDescribePointAlgs.surfStability( config, integralType);
+		DescribePointSurf<II> alg = FactoryDescribePointAlgs.surfStability( config, integralType, FKG);
 
-		return new WrapDescribeSurf( alg , imageType );
+		return new WrapDescribeSurf( alg , imageType, IT);
 	}
 
 	/**
@@ -128,17 +132,17 @@ public class FactoryDescribeRegionPoint {
 	 * @return SURF color description extractor
 	 */
 	public static <T extends ImageBase, II extends ImageGray>
-	DescribeRegionPoint<T,BrightFeature> surfColorStable(ConfigSurfDescribe.Stability config, ImageType<T> imageType) {
+	DescribeRegionPoint<T,BrightFeature> surfColorStable(ConfigSurfDescribe.Stability config, ImageType<T> imageType, FactoryKernelGaussian FKG, ImageType IT, GeneralizedImageOps GIO) {
 
 		Class bandType = imageType.getImageClass();
 		Class<II> integralType = GIntegralImageOps.getIntegralType(bandType);
 
-		DescribePointSurf<II> alg = FactoryDescribePointAlgs.surfStability( config, integralType);
+		DescribePointSurf<II> alg = FactoryDescribePointAlgs.surfStability( config, integralType, FKG);
 
 		if( imageType.getFamily() == ImageType.Family.PLANAR) {
 			DescribePointSurfPlanar<II> color = FactoryDescribePointAlgs.surfColor( alg,imageType.getNumBands());
 
-			return new SurfPlanar_to_DescribeRegionPoint(color,bandType,integralType);
+			return new SurfPlanar_to_DescribeRegionPoint(color,bandType,integralType, IT, GIO);
 		} else {
 			throw new IllegalArgumentException("Unknown image type");
 		}
@@ -160,7 +164,8 @@ public class FactoryDescribeRegionPoint {
 	 */
 	public static <T extends ImageGray>
 	DescribeRegionPoint<T,TupleDesc_F64> sift(
-			ConfigSiftScaleSpace configSS, ConfigSiftDescribe configDescribe, Class<T> imageType)
+			ConfigSiftScaleSpace configSS, ConfigSiftDescribe configDescribe, Class<T> imageType, FactoryKernelGaussian FKG, ImageType IT,
+			FactoryDerivative FD, GeneralizedImageOps GIO, FactoryImageBorder FIB)
 	{
 		if( configSS == null )
 			configSS = new ConfigSiftScaleSpace();
@@ -169,9 +174,9 @@ public class FactoryDescribeRegionPoint {
 		SiftScaleSpace ss = new SiftScaleSpace(configSS.firstOctave, configSS.lastOctave, configSS.numScales,
 				configSS.sigma0, FKG);
 
-		DescribePointSift<GrayF32> alg = FactoryDescribePointAlgs.sift(configDescribe,GrayF32.class);
+		DescribePointSift<GrayF32> alg = FactoryDescribePointAlgs.sift(configDescribe,GrayF32.class, FKG);
 
-		return new DescribeRegionPoint_SIFT<>(ss, alg, imageType);
+		return new DescribeRegionPoint_SIFT<>(ss, alg, imageType,IT, FD, GIO, FIB);
 	}
 
 	/**
@@ -187,7 +192,8 @@ public class FactoryDescribeRegionPoint {
 	 * @return BRIEF descriptor
 	 */
 	public static <T extends ImageGray>
-	DescribeRegionPoint<T,TupleDesc_B> brief( ConfigBrief config , Class<T> imageType)
+	DescribeRegionPoint<T,TupleDesc_B> brief(ConfigBrief config , Class<T> imageType, FactoryBlurFilter FBF, GeneralizedImageOps GIO, ImageType IT,
+											 FactoryImageBorder FIB)
 	{
 		if( config == null )
 			config = new ConfigBrief();
@@ -198,9 +204,9 @@ public class FactoryDescribeRegionPoint {
 				FactoryBriefDefinition.gaussian2(new Random(123), config.radius, config.numPoints);
 
 		if( config.fixed) {
-			return new WrapDescribeBrief<>(FactoryDescribePointAlgs.brief(definition, filter), imageType);
+			return new WrapDescribeBrief<>(FactoryDescribePointAlgs.brief(definition, filter, IT, GIO), imageType, IT);
 		} else {
-			return new WrapDescribeBriefSo<>(FactoryDescribePointAlgs.briefso(definition, filter), imageType);
+			return new WrapDescribeBriefSo<>(FactoryDescribePointAlgs.briefso(definition, filter, IT, FIB, GIO), imageType, IT);
 		}
 	}
 
@@ -217,9 +223,9 @@ public class FactoryDescribeRegionPoint {
 	 */
 	@SuppressWarnings({"unchecked"})
 	public static <T extends ImageGray, D extends TupleDesc>
-	DescribeRegionPoint<T,D> pixel( int regionWidth , int regionHeight , Class<T> imageType ) {
+	DescribeRegionPoint<T,D> pixel( int regionWidth , int regionHeight , Class<T> imageType, ImageType IT) {
 		return new WrapDescribePixelRegion(
-				FactoryDescribePointAlgs.pixelRegion(regionWidth,regionHeight,imageType),imageType);
+				FactoryDescribePointAlgs.pixelRegion(regionWidth,regionHeight,imageType),imageType, IT);
 	}
 
 	/**
@@ -235,8 +241,8 @@ public class FactoryDescribeRegionPoint {
 	 */
 	@SuppressWarnings({"unchecked"})
 	public static <T extends ImageGray>
-	DescribeRegionPoint<T,NccFeature> pixelNCC( int regionWidth , int regionHeight , Class<T> imageType ) {
+	DescribeRegionPoint<T,NccFeature> pixelNCC( int regionWidth , int regionHeight , Class<T> imageType, ImageType IT) {
 		return new WrapDescribePixelRegionNCC(
-				FactoryDescribePointAlgs.pixelRegionNCC(regionWidth,regionHeight,imageType),imageType);
+				FactoryDescribePointAlgs.pixelRegionNCC(regionWidth,regionHeight,imageType),imageType, IT);
 	}
 }

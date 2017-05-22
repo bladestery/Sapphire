@@ -18,6 +18,7 @@
 
 package boofcv.abst.feature.orientation;
 
+import boofcv.alg.InputSanityCheck;
 import boofcv.struct.image.ImageGray;
 
 
@@ -34,7 +35,7 @@ public interface OrientationGradient<D extends ImageGray> extends RegionOrientat
 	 * @param derivX Image derivative along x-axis.
 	 * @param derivY Image derivative along y-axis.
 	 */
-	public void setImage( D derivX , D derivY );
+	public void setImage(D derivX , D derivY , InputSanityCheck ISC);
 
 	/**
 	 * Returns the type of image it can process.

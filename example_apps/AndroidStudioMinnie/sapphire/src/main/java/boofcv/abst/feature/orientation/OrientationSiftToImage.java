@@ -23,14 +23,26 @@ import boofcv.alg.feature.detect.interest.FastHessianFeatureDetector;
 import boofcv.alg.feature.detect.interest.SiftScaleSpace;
 import boofcv.alg.feature.detect.interest.UnrollSiftScaleSpaceGradient;
 import boofcv.alg.feature.orientation.OrientationHistogramSift;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
+import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
+import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
+import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
 import boofcv.alg.misc.GImageMiscOps;
 import boofcv.alg.misc.ImageMiscOps;
 import boofcv.core.image.ConvertImage;
 import boofcv.core.image.GConvertImage;
 import boofcv.core.image.GeneralizedImageOps;
+import boofcv.core.image.border.FactoryImageBorder;
+import boofcv.factory.filter.derivative.FactoryDerivative;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.BoofDefaults;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.ImageGray;
+import sapphire.compiler.FDGenerator;
 
 /**
  * Wrapper around {@link OrientationHistogramSift} for {@link OrientationImage}.  Selects
@@ -41,12 +53,6 @@ import boofcv.struct.image.ImageGray;
 public class OrientationSiftToImage<T extends ImageGray>
 		implements OrientationImage<T>
 {
-	private static FastHessianFeatureDetector FHFD;
-	private static GImageMiscOps GIMO;
-	private static InputSanityCheck ISC;
-	private static ImageMiscOps IMO;
-	private static GeneralizedImageOps GIO;
-	private static ConvertImage CI;
 	UnrollSiftScaleSpaceGradient scaleSpace;
 	OrientationHistogramSift<GrayF32> alg;
 	UnrollSiftScaleSpaceGradient.ImageScale image;
@@ -56,14 +62,18 @@ public class OrientationSiftToImage<T extends ImageGray>
 	GrayF32 imageFloat = new GrayF32(1,1);
 
 	public OrientationSiftToImage(OrientationHistogramSift<GrayF32> alg,
-								  SiftScaleSpace ss, Class<T> imageType ) {
+								  SiftScaleSpace ss, Class<T> imageType, FactoryDerivative FD,
+								  GeneralizedImageOps GIO, FactoryImageBorder FIB) {
 		this.alg = alg;
-		this.scaleSpace = new UnrollSiftScaleSpaceGradient(ss);
+		this.scaleSpace = new UnrollSiftScaleSpaceGradient(ss, FD, GIO, FIB);
 		this.imageType = imageType;
 	}
 
 	@Override
-	public void setImage(T image) {
+	public void setImage(T image, InputSanityCheck ISC, GeneralizedImageOps GIO, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB,
+						 ConvolveJustBorder_General CJBG, GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO, FactoryKernelGaussian FKG,
+						 GImageMiscOps GIMO, ImageMiscOps IMO, ConvertImage CI, FactoryImageBorder FIB, ConvolveNormalizedNaive CNN, ConvolveNormalized_JustBorder CNJB,
+						 ConvolveNormalized CN) {
 
 		GrayF32 input;
 		if( image instanceof GrayF32) {
@@ -74,8 +84,8 @@ public class OrientationSiftToImage<T extends ImageGray>
 			input = imageFloat;
 		}
 
-		scaleSpace.setImage(input);
-		setObjectRadius(sigma*BoofDefaults.SIFT_SCALE_TO_RADIUS);
+		scaleSpace.setImage(input, FIB, ISC, CNN, CINB, CNJB, CN, DHF, CJBG, GSO, GSUO);
+		setObjectRadius(sigma*BoofDefaults.SIFT_SCALE_TO_RADIUS, FKG);
 	}
 
 	@Override
@@ -84,13 +94,13 @@ public class OrientationSiftToImage<T extends ImageGray>
 	}
 
 	@Override
-	public void setObjectRadius(double radius) {
+	public void setObjectRadius(double radius, FactoryKernelGaussian FKG) {
 		sigma = radius / BoofDefaults.SIFT_SCALE_TO_RADIUS;
 		this.image = scaleSpace.lookup(sigma);
 	}
 
 	@Override
-	public double compute(double c_x, double c_y) {
+	public double compute(double c_x, double c_y, FastHessianFeatureDetector FHFD) {
 		alg.setImageGradient(image.derivX,image.derivY);
 
 		double imageToInput = image.imageToInput;

@@ -25,8 +25,10 @@ import boofcv.alg.feature.describe.*;
 import boofcv.alg.feature.describe.brief.BinaryCompareDefinition_I32;
 import boofcv.alg.feature.describe.impl.*;
 import boofcv.alg.interpolate.InterpolatePixelS;
+import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.BorderType;
 import boofcv.core.image.border.FactoryImageBorder;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.struct.feature.TupleDesc;
 import boofcv.struct.image.GrayF32;
@@ -42,27 +44,25 @@ import boofcv.struct.image.ImageType;
  */
 @SuppressWarnings({"unchecked"})
 public class FactoryDescribePointAlgs {
-	private static ImageType IT;
-	private static FactoryImageBorder FIB;
 	public static <T extends ImageGray>
-	DescribePointSurf<T> surfSpeed(ConfigSurfDescribe.Speed config, Class<T> imageType) {
+	DescribePointSurf<T> surfSpeed(ConfigSurfDescribe.Speed config, Class<T> imageType, FactoryKernelGaussian FKG) {
 		if( config == null )
 			config = new ConfigSurfDescribe.Speed();
 		config.checkValidity();
 
 
 		return new DescribePointSurf<>(config.widthLargeGrid, config.widthSubRegion, config.widthSample,
-				config.weightSigma, config.useHaar, imageType);
+				config.weightSigma, config.useHaar, imageType, FKG);
 	}
 
 	public static <T extends ImageGray>
-	DescribePointSurfMod<T> surfStability(ConfigSurfDescribe.Stability config, Class<T> imageType) {
+	DescribePointSurfMod<T> surfStability(ConfigSurfDescribe.Stability config, Class<T> imageType, FactoryKernelGaussian FKG) {
 		if( config == null )
 			config = new ConfigSurfDescribe.Stability();
 		config.checkValidity();
 
 		return new DescribePointSurfMod<>(config.widthLargeGrid, config.widthSubRegion, config.widthSample,
-				config.overLap, config.sigmaLargeGrid, config.sigmaSubRegion, config.useHaar, imageType);
+				config.overLap, config.sigmaLargeGrid, config.sigmaSubRegion, config.useHaar, imageType, FKG);
 	}
 
 	public static <T extends ImageGray>
@@ -72,7 +72,7 @@ public class FactoryDescribePointAlgs {
 	}
 
 	public static <T extends ImageGray>
-	DescribePointBrief<T> brief(BinaryCompareDefinition_I32 definition, BlurFilter<T> filterBlur ) {
+	DescribePointBrief<T> brief(BinaryCompareDefinition_I32 definition, BlurFilter<T> filterBlur, ImageType IT, GeneralizedImageOps GIO) {
 		Class<T> imageType = filterBlur.getInputType(IT).getImageClass();
 
 		DescribePointBinaryCompare<T> compare;
@@ -85,26 +85,26 @@ public class FactoryDescribePointAlgs {
 			throw new IllegalArgumentException("Unknown image type: "+imageType.getSimpleName());
 		}
 
-		return new DescribePointBrief<>(compare, filterBlur);
+		return new DescribePointBrief<>(compare, filterBlur, IT, GIO);
 	}
 
 	// todo remove filterBlur for all BRIEF change to radius,sigma,type
 	public static <T extends ImageGray>
-	DescribePointBriefSO<T> briefso(BinaryCompareDefinition_I32 definition, BlurFilter<T> filterBlur) {
+	DescribePointBriefSO<T> briefso(BinaryCompareDefinition_I32 definition, BlurFilter<T> filterBlur, ImageType IT, FactoryImageBorder FIB, GeneralizedImageOps GIO) {
 		Class<T> imageType = filterBlur.getInputType(IT).getImageClass();
 
 		InterpolatePixelS<T> interp = FactoryInterpolation.bilinearPixelS(imageType, BorderType.EXTENDED, FIB);
 
-		return new DescribePointBriefSO<>(definition, filterBlur, interp);
+		return new DescribePointBriefSO<>(definition, filterBlur, interp, IT, GIO);
 	}
 
 	public static <T extends ImageGray>
-	DescribePointSift<T> sift(ConfigSiftDescribe config , Class<T> derivType ) {
+	DescribePointSift<T> sift(ConfigSiftDescribe config , Class<T> derivType, FactoryKernelGaussian FKG) {
 		if( config == null )
 			config = new ConfigSiftDescribe();
 
 		return new DescribePointSift(config.widthSubregion,config.widthGrid,config.numHistogramBins
-				,config.sigmaToPixels, config.weightingSigmaFraction,config.maxDescriptorElementValue,derivType);
+				,config.sigmaToPixels, config.weightingSigmaFraction,config.maxDescriptorElementValue,derivType, FKG);
 	}
 
 	public static <T extends ImageGray, D extends TupleDesc>

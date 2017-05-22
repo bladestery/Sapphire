@@ -65,7 +65,6 @@ import boofcv.struct.sparse.SparseScaleGradient;
  * @author Peter Abeles
  */
 public class DescribePointSurf<II extends ImageGray> {
-	private static FactoryKernelGaussian FKG;
 	// Number of sub-regions wide the large grid is
 	protected int widthLargeGrid;
 	// Number of sample points wide a sub-region is
@@ -107,7 +106,7 @@ public class DescribePointSurf<II extends ImageGray> {
 	 */
 	public DescribePointSurf(int widthLargeGrid, int widthSubRegion, int widthSample,
 							 double weightSigma , boolean useHaar,
-							 Class<II> inputType ) {
+							 Class<II> inputType, FactoryKernelGaussian FKG) {
 		this.widthLargeGrid = widthLargeGrid;
 		this.widthSubRegion = widthSubRegion;
 		this.widthSample = widthSample;
@@ -134,8 +133,8 @@ public class DescribePointSurf<II extends ImageGray> {
 	/**
 	 * Create a SURF-64 descriptor.  See [1] for details.
 	 */
-	public DescribePointSurf(Class<II> inputType ) {
-		this(4,5,3, 4.5 , false,inputType);
+	public DescribePointSurf(Class<II> inputType, FactoryKernelGaussian FKG) {
+		this(4,5,3, 4.5 , false,inputType, FKG);
 	}
 
 	public BrightFeature createDescription() {

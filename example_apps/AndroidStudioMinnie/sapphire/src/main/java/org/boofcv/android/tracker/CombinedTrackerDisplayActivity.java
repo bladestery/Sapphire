@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
+import org.boofcv.android.CreateDetectorDescriptor;
 import org.boofcv.android.R;
 
 import java.util.ArrayList;
@@ -18,10 +19,20 @@ import boofcv.abst.feature.associate.ScoreAssociation;
 import boofcv.abst.feature.detdesc.DetectDescribePoint;
 import boofcv.abst.feature.tracker.PointTracker;
 import boofcv.alg.tracker.klt.PkltConfig;
+import boofcv.core.image.GeneralizedImageOps;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.feature.associate.FactoryAssociation;
+import boofcv.factory.feature.detect.extract.FactoryFeatureExtractor;
+import boofcv.factory.feature.detect.intensity.FactoryIntensityPointAlg;
+import boofcv.factory.feature.detect.interest.FactoryInterestPoint;
+import boofcv.factory.feature.detect.interest.FactoryInterestPointAlgs;
 import boofcv.factory.feature.tracker.FactoryPointTracker;
+import boofcv.factory.filter.blur.FactoryBlurFilter;
+import boofcv.factory.filter.derivative.FactoryDerivative;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.feature.TupleDesc_B;
 import boofcv.struct.image.GrayU8;
+import boofcv.struct.image.ImageType;
 
 import static org.boofcv.android.CreateDetectorDescriptor.DESC_BRIEF;
 import static org.boofcv.android.CreateDetectorDescriptor.DESC_NCC;
@@ -29,7 +40,6 @@ import static org.boofcv.android.CreateDetectorDescriptor.DESC_SURF;
 import static org.boofcv.android.CreateDetectorDescriptor.DETECT_FAST;
 import static org.boofcv.android.CreateDetectorDescriptor.DETECT_FH;
 import static org.boofcv.android.CreateDetectorDescriptor.DETECT_SHITOMASI;
-import static org.boofcv.android.CreateDetectorDescriptor.create;
 
 /**
  * Displays tracking results from the combined tracker.
@@ -39,7 +49,18 @@ import static org.boofcv.android.CreateDetectorDescriptor.create;
 public class CombinedTrackerDisplayActivity extends PointTrackerDisplayActivity
 		implements AdapterView.OnItemSelectedListener
 {
-
+	private static FactoryAssociation FA;
+	private static CreateDetectorDescriptor CDD;
+	private static FactoryInterestPoint FIP;
+	private static FactoryInterestPointAlgs FIrPA;
+	private static FactoryIntensityPointAlg FIPA;
+	private static FactoryFeatureExtractor FFE;
+	private static FactoryDerivative FD;
+	private static FactoryImageBorder FIB;
+	private static GeneralizedImageOps GIO;
+	private static FactoryKernelGaussian FKG;
+	private static ImageType IT;
+	private static FactoryBlurFilter FBF;
 	int tableDet[] = new int[]{DETECT_SHITOMASI,DETECT_FAST,DETECT_FH};
 	int tableDesc[] = new int[]{DESC_BRIEF,DESC_SURF,DESC_NCC};
 
@@ -99,11 +120,11 @@ public class CombinedTrackerDisplayActivity extends PointTrackerDisplayActivity
 
 	private PointTracker<GrayU8> createTracker( int detector , int descriptor  )
 	{
-		DetectDescribePoint detDesc = create(tableDet[detector],tableDesc[descriptor],GrayU8.class);
+		DetectDescribePoint detDesc = CDD.create(tableDet[detector],tableDesc[descriptor],GrayU8.class, FIP, FIrPA, FIPA, FFE, FIB, FD, GIO, FKG, IT, FBF);
 
-		ScoreAssociation score = FactoryAssociation.defaultScore(detDesc.getDescriptionType());
+		ScoreAssociation score = FA.defaultScore(detDesc.getDescriptionType());
 
-		AssociateDescription<TupleDesc_B> association = FactoryAssociation.greedy(score, Double.MAX_VALUE, true);
+		AssociateDescription<TupleDesc_B> association = FA.greedy(score, Double.MAX_VALUE, true);
 
 		PkltConfig config = new PkltConfig();
 		config.templateRadius = 3;

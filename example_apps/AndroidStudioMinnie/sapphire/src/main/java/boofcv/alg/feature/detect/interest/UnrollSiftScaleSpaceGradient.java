@@ -33,6 +33,7 @@ import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.filter.derivative.FactoryDerivative;
 import boofcv.struct.image.GrayF32;
+import sapphire.compiler.FDGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,18 +45,6 @@ import java.util.List;
  * @author Peter Abeles
  */
 public class UnrollSiftScaleSpaceGradient {
-	private static FactoryDerivative FD;
-	private static GeneralizedImageOps GIO;
-	private static FactoryImageBorder FIB;
-	private static InputSanityCheck ISC;
-	private static DerivativeHelperFunctions DHF;
-	private static ConvolveImageNoBorder CINB;
-	private static ConvolveJustBorder_General CJBG;
-	private static GradientSobel_Outer GSO;
-	private static GradientSobel_UnrolledOuter GSUO;
-	private static ConvolveNormalizedNaive CNN;
-	private static ConvolveNormalized_JustBorder CNJB;
-	private static ConvolveNormalized CN;
 	// input scale space
 	SiftScaleSpace scaleSpace;
 
@@ -65,10 +54,12 @@ public class UnrollSiftScaleSpaceGradient {
 	List<ImageScale> allScales = new ArrayList<>();
 
 	// used to compute the image gradient
-	ImageGradient<GrayF32,GrayF32> gradient = FD.three(GrayF32.class,null, GIO, FIB);
+	ImageGradient<GrayF32,GrayF32> gradient;
 
-	public UnrollSiftScaleSpaceGradient(SiftScaleSpace scaleSpace) {
+	public UnrollSiftScaleSpaceGradient(SiftScaleSpace scaleSpace, FactoryDerivative FD, GeneralizedImageOps GIO, FactoryImageBorder FIB) {
 		this.scaleSpace = scaleSpace;
+
+		gradient = FD.three(GrayF32.class,null, GIO, FIB);
 
 		// create one image for each scale to minimize memory being created/destroyed
 		int numScales = scaleSpace.getNumScales()*scaleSpace.getTotalOctaves();
@@ -81,7 +72,9 @@ public class UnrollSiftScaleSpaceGradient {
 	 * Sets the input image.  Scale-space is computed and unrolled from this image
 	 * @param image
 	 */
-	public void setImage(GrayF32 image) {
+	public void setImage(GrayF32 image, FactoryImageBorder FIB, InputSanityCheck ISC, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB,
+						 ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN, DerivativeHelperFunctions DHF, ConvolveJustBorder_General CJBG,
+					 GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO) {
 
 		scaleSpace.initialize(image, FIB, ISC, CNN, CINB, CNJB, CN);
 

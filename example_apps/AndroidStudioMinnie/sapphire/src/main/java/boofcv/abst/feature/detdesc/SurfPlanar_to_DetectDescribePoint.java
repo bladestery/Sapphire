@@ -101,7 +101,7 @@ public class SurfPlanar_to_DetectDescribePoint<T extends ImageGray, II extends I
 		for( int i = 0; i < input.getNumBands(); i++)
 			GIntegralImageOps.transform(input.getBand(i), bandII.getBand(i), ISC, GIO);
 
-		alg.detect(grayII,bandII);
+		alg.detect(grayII,bandII, FKG, FIBA, IBV, FHFD);
 	}
 
 	@Override
@@ -145,7 +145,7 @@ public class SurfPlanar_to_DetectDescribePoint<T extends ImageGray, II extends I
 	}
 
 	@Override
-	public double getOrientation(int featureIndex) {
+	public double getOrientation(int featureIndex, FactoryKernelGaussian FKG, FastHessianFeatureDetector FHFD) {
 		return alg.getOrientation(featureIndex);
 	}
 }

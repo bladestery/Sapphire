@@ -19,6 +19,8 @@
 package boofcv.alg.feature.orientation;
 
 import boofcv.abst.feature.orientation.OrientationGradient;
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.feature.detect.interest.FastHessianFeatureDetector;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.misc.BoofMiscOps;
 import boofcv.struct.ImageRectangle;
@@ -37,7 +39,6 @@ import boofcv.struct.image.ImageGray;
  */
 public abstract class OrientationAverage<D extends ImageGray> implements OrientationGradient<D> {
 	// image gradient
-	private FactoryKernelGaussian FKG;
 	protected D derivX;
 	protected D derivY;
 
@@ -64,9 +65,9 @@ public abstract class OrientationAverage<D extends ImageGray> implements Orienta
 		return sampleRadius;
 	}
 
-	public void setSampleRadius(int sampleRadius) {
+	public void setSampleRadius(int sampleRadius, FactoryKernelGaussian FKG) {
 		this.sampleRadius = sampleRadius;
-		setObjectRadius(sampleRadius);
+		setObjectRadius(sampleRadius, FKG);
 	}
 
 	public Kernel2D_F32 getWeights() {
@@ -74,7 +75,7 @@ public abstract class OrientationAverage<D extends ImageGray> implements Orienta
 	}
 
 	@Override
-	public void setObjectRadius(double radius) {
+	public void setObjectRadius(double radius, FactoryKernelGaussian FKG) {
 		radiusScale = (int)Math.ceil(radius*objectToSample);
 		if( isWeighted ) {
 			weights = FKG.gaussian(2,true, 32, -1,radiusScale);
@@ -82,13 +83,13 @@ public abstract class OrientationAverage<D extends ImageGray> implements Orienta
 	}
 
 	@Override
-	public void setImage(D derivX, D derivY) {
+	public void setImage(D derivX, D derivY, InputSanityCheck ISC) {
 		this.derivX = derivX;
 		this.derivY = derivY;
 	}
 
 	@Override
-	public double compute(double X, double Y) {
+	public double compute(double X, double Y, FastHessianFeatureDetector FHFD) {
 
 		int c_x = (int)X;
 		int c_y = (int)Y;

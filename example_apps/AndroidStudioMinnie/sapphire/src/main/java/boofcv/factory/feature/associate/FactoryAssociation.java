@@ -21,6 +21,8 @@ package boofcv.factory.feature.associate;
 import boofcv.abst.feature.associate.*;
 import boofcv.alg.feature.associate.AssociateGreedy;
 import boofcv.struct.feature.*;
+import sapphire.app.SapphireObject;
+
 import org.ddogleg.nn.FactoryNearestNeighbor;
 import org.ddogleg.nn.NearestNeighbor;
 
@@ -31,7 +33,8 @@ import org.ddogleg.nn.NearestNeighbor;
  * @author Peter Abeles
  */
 @SuppressWarnings("unchecked")
-public class FactoryAssociation {
+public class FactoryAssociation implements SapphireObject {
+	public FactoryAssociation() {}
 
 	/**
 	 * Returns an algorithm for associating features together which uses a brute force greedy algorithm.
@@ -44,7 +47,7 @@ public class FactoryAssociation {
 	 * @param <D> Data structure being associated
 	 * @return AssociateDescription
 	 */
-	public static <D> AssociateDescription<D>
+	public <D> AssociateDescription<D>
 	greedy( ScoreAssociation<D> score ,
 			double maxError ,
 			boolean backwardsValidation )
@@ -67,7 +70,7 @@ public class FactoryAssociation {
 	 * @param maxNodesSearched  Maximum number of nodes it will search.  Controls speed and accuracy.
 	 * @return Association using approximate nearest neighbor
 	 */
-	public static AssociateDescription<TupleDesc_F64> kdtree( int dimension, int maxNodesSearched ) {
+	public AssociateDescription<TupleDesc_F64> kdtree( int dimension, int maxNodesSearched ) {
 		NearestNeighbor nn = FactoryNearestNeighbor.kdtree(maxNodesSearched);
 
 		return new AssociateNearestNeighbor<>(nn, dimension);
@@ -88,7 +91,7 @@ public class FactoryAssociation {
 	 * @param randomSeed Seed used by random number generator
 	 * @return Association using approximate nearest neighbor
 	 */
-	public static AssociateDescription<TupleDesc_F64> kdRandomForest( int dimension,
+	public AssociateDescription<TupleDesc_F64> kdRandomForest( int dimension,
 																	  int maxNodesSearched ,
 																	  int numTrees ,
 																	  int numConsiderSplit ,
@@ -105,7 +108,7 @@ public class FactoryAssociation {
 	 * @param tupleType Class type which extends {@link boofcv.struct.feature.TupleDesc}
 	 * @return A class which can score two potential associations
 	 */
-	public static <D>
+	public <D>
 	ScoreAssociation<D> defaultScore( Class<D> tupleType ) {
 		if( NccFeature.class.isAssignableFrom(tupleType) ) {
 			return (ScoreAssociation)new ScoreAssociateNccFeature();
@@ -128,7 +131,7 @@ public class FactoryAssociation {
 	 * @param tupleType Type of descriptor being scored
 	 * @return SAD scorer
 	 */
-	public static <D>
+	public <D>
 	ScoreAssociation<D> scoreSad( Class<D> tupleType ) {
 		if( TupleDesc_F64.class.isAssignableFrom(tupleType) ) {
 			return (ScoreAssociation)new ScoreAssociateSad_F64();
@@ -148,7 +151,7 @@ public class FactoryAssociation {
 	 *
 	 * @return NCC score
 	 */
-	public static ScoreAssociation<NccFeature> scoreNcc() {
+	public ScoreAssociation<NccFeature> scoreNcc() {
 		return new ScoreAssociateNccFeature();
 	}
 
@@ -160,7 +163,7 @@ public class FactoryAssociation {
 	 * @param squared IF true the distance squared is returned.  Usually true
 	 * @return Euclidean distance measure
 	 */
-	public static <D>
+	public <D>
 	ScoreAssociation<D> scoreEuclidean( Class<D> tupleType , boolean squared ) {
 		if( TupleDesc_F64.class.isAssignableFrom(tupleType) ) {
 			if( squared )
@@ -181,7 +184,7 @@ public class FactoryAssociation {
 	 * @param tupleType Type of descriptor being scored
 	 * @return Hamming distance measure
 	 */
-	public static <D>
+	public <D>
 	ScoreAssociation<D> scoreHamming( Class<D> tupleType ) {
 		if( tupleType == TupleDesc_B.class ) {
 			return (ScoreAssociation)new ScoreAssociateHamming_B();

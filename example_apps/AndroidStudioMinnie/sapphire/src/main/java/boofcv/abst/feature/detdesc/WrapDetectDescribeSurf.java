@@ -147,8 +147,8 @@ public class WrapDetectDescribeSurf
 			ScalePoint p = foundPoints.get(i);
 			double radius = p.scale* BoofDefaults.SURF_SCALE_TO_RADIUS;
 
-			orientation.setObjectRadius(radius);
-			double angle = orientation.compute(p.x,p.y);
+			orientation.setObjectRadius(radius, FKG);
+			double angle = orientation.compute(p.x,p.y, FHFD);
 			describe.describe(p.x,p.y, angle, p.scale, features.grow());
 			featureAngles.push(angle);
 		}
@@ -170,7 +170,7 @@ public class WrapDetectDescribeSurf
 	}
 
 	@Override
-	public double getOrientation(int featureIndex) {
+	public double getOrientation(int featureIndex, FactoryKernelGaussian FKG, FastHessianFeatureDetector FHFD) {
 		return featureAngles.get(featureIndex);
 	}
 

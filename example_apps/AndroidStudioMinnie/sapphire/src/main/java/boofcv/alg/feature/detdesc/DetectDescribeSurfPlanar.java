@@ -23,6 +23,7 @@ import boofcv.alg.feature.describe.DescribePointSurfPlanar;
 import boofcv.alg.feature.detect.interest.FastHessianFeatureDetector;
 import boofcv.core.image.border.FactoryImageBorderAlgs;
 import boofcv.core.image.border.ImageBorderValue;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.feature.BrightFeature;
 import boofcv.struct.feature.ScalePoint;
 import boofcv.struct.feature.SurfFeatureQueue;
@@ -48,8 +49,6 @@ import java.util.List;
  */
 public class DetectDescribeSurfPlanar<II extends ImageGray>
 {
-	private static FactoryImageBorderAlgs FIBA;
-	private static ImageBorderValue IBV;
 	// SURF algorithms
 	private FastHessianFeatureDetector<II> detector;
 	private OrientationIntegral<II> orientation;
@@ -88,7 +87,7 @@ public class DetectDescribeSurfPlanar<II extends ImageGray>
 	 * @param grayII Gray-scale integral image
 	 * @param colorII Color integral image
 	 */
-	public void detect( II grayII , Planar<II> colorII ) {
+	public void detect(II grayII , Planar<II> colorII , FactoryKernelGaussian FKG, FactoryImageBorderAlgs FIBA, ImageBorderValue IBV, FastHessianFeatureDetector FHFD) {
 
 		orientation.setImage(grayII);
 		describe.setImage(grayII,colorII);
@@ -104,8 +103,8 @@ public class DetectDescribeSurfPlanar<II extends ImageGray>
 
 		for( int i = 0; i < foundPoints.size(); i++ ) {
 			ScalePoint p = foundPoints.get(i);
-			orientation.setObjectRadius(p.scale);
-			double angle = orientation.compute(p.x,p.y);
+			orientation.setObjectRadius(p.scale, FKG);
+			double angle = orientation.compute(p.x,p.y, FHFD);
 
 			describe.describe(p.x, p.y, angle, p.scale, descriptions.grow());
 

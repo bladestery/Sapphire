@@ -69,30 +69,6 @@ import java.util.Arrays;
  * @author Peter Abeles
  */
 public class DescribePointBriefSO<T extends ImageGray> {
-	private static GeneralizedImageOps GIO;
-	private static ImageType IT;
-	private static GBlurImageOps GBIO;
-	private static InputSanityCheck ISC;
-	private static BlurImageOps BIO;
-	private static ConvolveImageMean CIM;
-	private static FactoryKernelGaussian FKG;
-	private static ConvolveNormalized CN;
-	private static ConvolveNormalizedNaive CNN;
-	private static ConvolveImageNoBorder CINB;
-	private static ConvolveNormalized_JustBorder CNJB;
-	private static ImplMedianHistogramInner IMHI;
-	private static ImplMedianSortEdgeNaive IMSEN;
-	private static ImplMedianSortNaive IMSN;
-	private static ImplConvolveMean ICM;
-	private static GThresholdImageOps GTIO;
-	private static GImageStatistics GIS;
-	private static ImageStatistics IS;
-	private static ThresholdImageOps TIO;
-	private static GImageMiscOps GIMO;
-	private static ImageMiscOps IMO;
-	private static ConvolveJustBorder_General CJBG;
-	private static ConvertImage CI;
-	private static UtilWavelet UW;
 	// describes the BRIEF feature
 	protected BinaryCompareDefinition_I32 definition;
 
@@ -109,7 +85,7 @@ public class DescribePointBriefSO<T extends ImageGray> {
 
 	public DescribePointBriefSO(BinaryCompareDefinition_I32 definition,
 								BlurFilter<T> filterBlur,
-								InterpolatePixelS<T> interp) {
+								InterpolatePixelS<T> interp, ImageType IT, GeneralizedImageOps GIO) {
 		this.definition = definition;
 		this.filterBlur = filterBlur;
 		this.interp = interp;
@@ -123,7 +99,10 @@ public class DescribePointBriefSO<T extends ImageGray> {
 		return new TupleDesc_B(definition.getLength());
 	}
 
-	public void setImage(T image) {
+	public void setImage(T image, GBlurImageOps GBIO, InputSanityCheck ISC, GeneralizedImageOps GIO, BlurImageOps BIO, ConvolveImageMean CIM, FactoryKernelGaussian FKG,
+						 ConvolveNormalized CN, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ImplMedianHistogramInner IMHI,
+						 ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM, GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS,
+						 ThresholdImageOps TIO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvolveJustBorder_General CJBG, ConvertImage CI, UtilWavelet UW) {
 		blur.reshape(image.width,image.height);
 		filterBlur.process(image,blur, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW);
 		interp.setImage(blur);

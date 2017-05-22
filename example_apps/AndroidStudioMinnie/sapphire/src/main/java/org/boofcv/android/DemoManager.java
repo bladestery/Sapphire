@@ -1,10 +1,17 @@
 package org.boofcv.android;
 
+import com.sun.org.apache.bcel.internal.generic.FADD;
+
+import org.boofcv.android.assoc.Assoc;
 import org.ddogleg.struct.FastQueue;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import boofcv.abst.feature.associate.AssociateDescription;
+import boofcv.abst.feature.associate.ScoreAssociation;
 import boofcv.abst.feature.describe.ConfigSiftScaleSpace;
+import boofcv.abst.feature.detdesc.DetectDescribePoint;
 import boofcv.abst.feature.detect.extract.ConfigExtract;
 import boofcv.abst.feature.detect.extract.NonMaxSuppression;
 import boofcv.abst.feature.detect.intensity.GeneralFeatureIntensity;
@@ -23,6 +30,7 @@ import boofcv.abst.segmentation.ImageSuperpixels;
 import boofcv.abst.transform.fft.DiscreteFourierTransform;
 import boofcv.abst.transform.wavelet.WaveletTransform;
 import boofcv.alg.InputSanityCheck;
+import boofcv.alg.descriptor.UtilFeature;
 import boofcv.alg.enhance.EnhanceImageOps;
 import boofcv.alg.feature.detect.edge.CannyEdge;
 import boofcv.alg.feature.detect.edge.EdgeContour;
@@ -71,6 +79,7 @@ import boofcv.core.image.ConvertImage;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.BorderType;
 import boofcv.core.image.border.FactoryImageBorder;
+import boofcv.factory.feature.associate.FactoryAssociation;
 import boofcv.factory.transform.pyramid.FactoryPyramid;
 import boofcv.factory.transform.wavelet.FactoryWaveletTransform;
 import boofcv.factory.transform.wavelet.GFactoryWavelet;
@@ -100,8 +109,10 @@ import boofcv.factory.shape.ConfigPolygonDetector;
 import boofcv.factory.shape.FactoryShapeDetector;
 import boofcv.struct.ConnectRule;
 import boofcv.struct.QueueCorner;
+import boofcv.struct.feature.AssociatedIndex;
 import boofcv.struct.feature.ColorQueue_F32;
 import boofcv.struct.feature.ScalePoint;
+import boofcv.struct.feature.TupleDesc;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.GrayS16;
 import boofcv.struct.image.GrayS16pair;
@@ -129,10 +140,39 @@ import static sapphire.runtime.Sapphire.new_;
  */
 
 public class DemoManager implements SapphireObject<sapphire.policy.offload.CodeOffload>  {
+    //Top Level Objects which need to be created
     private FactoryEdgeDetectors FED;
     private ImageType IT;
     private FactoryBlurFilter FBF;
     private FactoryDerivative FD;
+    private ImageStatistics IS;
+    private GThresholdImageOps GTIO;
+    private ThresholdImageOps TIO;
+    private BinaryImageOps BIO;
+    private InputSanityCheck ISC;
+    private FactoryShapeDetector FSD;
+    private FactoryThresholdBinary FTB;
+    private FactoryDetectLineAlgs FDLA;
+    private FactoryFeatureExtractor FFE;
+    private FactoryIntensityPoint FIP;
+    private FactoryInterestPoint FIrP;
+    private FactoryInterestPointAlgs FIrPA;
+    private FactoryImageSegmentation FIS;
+    private FactorySegmentationAlg FSA;
+    private ImageSegmentationOps ISO;
+    private EnhanceImageOps EIO;
+    private ConvertImage CI;
+    private DiscreteFourierTransformOps DFTO;
+    private FactoryPyramid FP;
+    private GFactoryWavelet GFW;
+    private FactoryWaveletTransform FWT;
+    private UtilWavelet UW;
+    private CreateDetectorDescriptor CDD;
+    private FactoryAssociation FA;
+
+    //  Lower Level Objects (TODO: check if necessary??)
+    /** info: Necessary when using entire Sapphire, but current
+              code is incomplete, so some should be removed??   **/
     private ImageMiscOps IMO;
     private GeneralizedImageOps GIO;
     private FactoryImageBorder FIB;
@@ -142,12 +182,7 @@ public class DemoManager implements SapphireObject<sapphire.policy.offload.CodeO
     private ImplEdgeNonMaxSuppression IENMS;
     private FactoryImageBorderAlgs FIBA;
     private GGradientToEdgeFeatures GGTEF;
-    private ImageStatistics IS;
-    private GThresholdImageOps GTIO;
-    private ThresholdImageOps TIO;
-    private BinaryImageOps BIO;
     private GImageStatistics GIS;
-    private InputSanityCheck ISC;
     private ImplBinaryInnerOps IBIO;
     private ImplBinaryBorderOps IBBO;
     private BlurImageOps BlIO;
@@ -162,31 +197,16 @@ public class DemoManager implements SapphireObject<sapphire.policy.offload.CodeO
     private ImplMedianSortNaive IMSN;
     private ImplConvolveMean ICM;
     private DerivativeHelperFunctions DHF;
-    private FactoryShapeDetector FSD;
-    private FactoryThresholdBinary FTB;
-    private FactoryDetectLineAlgs FDLA;
-    private FactoryFeatureExtractor FFE;
     private ConvolveJustBorder_General CJBG;
     private GradientSobel_Outer GSO;
     private GradientSobel_UnrolledOuter GSUO;
     private ImplEdgeNonMaxSuppressionCrude IENMSC;
-    private FactoryIntensityPoint FIP;
     private FactoryIntensityPointAlg FIPA;
     private GImageMiscOps GIMO;
-    private FactoryInterestPoint FIrP;
-    private FactoryInterestPointAlgs FIrPA;
     private FastHessianFeatureDetector FHFD;
-    private FactoryImageSegmentation FIS;
-    private FactorySegmentationAlg FSA;
-    private ImageSegmentationOps ISO;
-    private EnhanceImageOps EIO;
-    private ConvertImage CI;
-    private DiscreteFourierTransformOps DFTO;
-    private FactoryPyramid FP;
-    private GFactoryWavelet GFW;
-    private FactoryWaveletTransform FWT;
-    private UtilWavelet UW;
 
+    //  Objects which are used in applications
+    /** info: Some are redundantly used to save space **/
     CannyEdge<GrayU8,GrayS16> canny;
     LinearContourLabelChang2004 contour8;
     LinearContourLabelChang2004 contour4;
@@ -224,7 +244,14 @@ public class DemoManager implements SapphireObject<sapphire.policy.offload.CodeO
     ImagePyramid<GrayU8> pyramid;
     WaveletDescription<WlCoef> desc;
     WaveletTransform<GrayU8,GrayS32,WlCoef> waveletTran;
+    DetectDescribePoint<GrayF32,TupleDesc> detDesc;
+    AssociateDescription<TupleDesc> associate;
+    FastQueue<TupleDesc> listSrc;
+    FastQueue<TupleDesc> listDst;
+    FastQueue<Point2D_F64> locationSrc;
+    FastQueue<Point2D_F64> locationDst;
 
+    //Initialization
     public DemoManager() {
         FED = (FactoryEdgeDetectors) new_(FactoryEdgeDetectors.class);
         IT = (ImageType) new_(ImageType.class);
@@ -283,7 +310,10 @@ public class DemoManager implements SapphireObject<sapphire.policy.offload.CodeO
         GFW = (GFactoryWavelet) new_(GFactoryWavelet.class);
         FWT = (FactoryWaveletTransform) new_(FactoryWaveletTransform.class);
         UW = (UtilWavelet) new_(UtilWavelet.class);
+        CDD = (CreateDetectorDescriptor) new_(CreateDetectorDescriptor.class);
+        FA = (FactoryAssociation) new_(FactoryAssociation.class);
 
+        //TODO: move these initializations to functions below
         contour8 = new LinearContourLabelChang2004(ConnectRule.EIGHT);
         contour4 = new LinearContourLabelChang2004(ConnectRule.FOUR);
         blackBinary = new GrayU8(1,1);
@@ -925,7 +955,57 @@ public class DemoManager implements SapphireObject<sapphire.policy.offload.CodeO
         return pixelToRegion;
     }
 
+    public void startAssoc(int selectedDet, int selectedDesc) {
+        detDesc = CDD.create(selectedDet, selectedDesc, GrayF32.class, FIrP, FIrPA, FIPA, FFE,FIB, FD, GIO, FKG, IT, FBF);
+        ScoreAssociation score = FA.defaultScore(detDesc.getDescriptionType());
+        associate = FA.greedy(score,Double.MAX_VALUE,true);
+        listSrc = UtilFeature.createQueue(detDesc,10);
+        listDst = UtilFeature.createQueue(detDesc,10);
+        locationSrc = new FastQueue<>(Point2D_F64.class, true);
+        locationDst = new FastQueue<Point2D_F64>(Point2D_F64.class,true);
+    }
 
+    public void assocDetectleft(GrayF32 graySrc) {
+        detDesc.detect(graySrc, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN,
+                GBIO, GIO, BlIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF, CI, UW);
+
+        listSrc.reset();
+        locationSrc.reset();
+        int N = detDesc.getNumberOfFeatures();
+        for( int i = 0; i < N; i++ ) {
+            locationSrc.grow().set(detDesc.getLocation(i));
+            listSrc.grow().setTo(detDesc.getDescription(i));
+        }
+    }
+
+    public void assocDetectright(GrayF32 graySrc) {
+        detDesc.detect(graySrc, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN,
+                GBIO, GIO, BlIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF, CI, UW);
+
+        listDst.reset();
+        locationDst.reset();
+        int N = detDesc.getNumberOfFeatures();
+        for( int i = 0; i < N; i++ ) {
+            locationDst.grow().set(detDesc.getLocation(i));
+            listDst.grow().setTo(detDesc.getDescription(i));
+        }
+    }
+
+    public Assoc associate() {
+        associate.setSource(listSrc);
+        associate.setDestination(listDst);
+        associate.associate();
+
+        Assoc points = new Assoc();
+        FastQueue<AssociatedIndex> matches = associate.getMatches();
+        for( int i = 0; i < matches.size; i++ ) {
+            AssociatedIndex m = matches.get(i);
+            points.Src.add(locationSrc.get(m.src));
+            points.Dst.add(locationDst.get(m.dst));
+        }
+
+        return points;
+    }
 
 }
 

@@ -106,7 +106,7 @@ public class WrapFLPtoInterestPoint<T extends ImageGray, D extends ImageGray> im
 	}
 
 	@Override
-	public double getOrientation(int featureIndex) {
+	public double getOrientation(int featureIndex, FactoryKernelGaussian FKG, FastHessianFeatureDetector FHFD) {
 		return 0;
 	}
 
