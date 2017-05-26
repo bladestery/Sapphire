@@ -36,6 +36,7 @@ import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
 import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
+import boofcv.alg.filter.derivative.GradientSobel;
 import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
 import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
 import boofcv.alg.flow.DenseOpticalFlowKlt;
@@ -56,6 +57,7 @@ import boofcv.struct.flow.ImageFlow;
 import boofcv.struct.image.ImageGray;
 import boofcv.struct.image.ImageType;
 import boofcv.struct.pyramid.ImagePyramid;
+import sapphire.compiler.GIOGenerator;
 import sapphire.compiler.ITGenerator;
 
 import java.lang.reflect.Array;
@@ -68,38 +70,6 @@ import java.lang.reflect.Array;
 public class FlowKlt_to_DenseOpticalFlow<I extends ImageGray, D extends ImageGray>
 	implements DenseOpticalFlow<I>
 {
-	private static InputSanityCheck ISC;
-	private static DerivativeHelperFunctions DHF;
-	private static ConvolveImageNoBorder CINB;
-	private static ConvolveJustBorder_General CJBG;
-	private static GradientSobel_Outer GSO;
-	private static GradientSobel_UnrolledOuter GSUO;
-	private static GImageMiscOps GIMO;
-	private static ImageMiscOps IMO;
-	private static ConvolveNormalizedNaive CNN;
-	private static ConvolveNormalized_JustBorder CNJB;
-	private static ConvolveNormalized CN;
-	private static GBlurImageOps GBIO;
-	private static GeneralizedImageOps GIO;
-	private static BlurImageOps BIO;
-	private static ConvolveImageMean CIM;
-	private static FactoryKernelGaussian FKG;
-	private static ImplMedianHistogramInner IMHI;
-	private static ImplMedianSortEdgeNaive IMSEN;
-	private static ImplMedianSortNaive IMSN;
-	private static ImplConvolveMean ICM;
-	private static GThresholdImageOps GTIO;
-	private static GImageStatistics GIS;
-	private static ImageStatistics IS;
-	private static ThresholdImageOps TIO;
-	private static FactoryImageBorderAlgs FIBA;
-	private static ImageBorderValue IBV;
-	private static FastHessianFeatureDetector FHFD;
-	private static FactoryImageBorder FIB;
-	private static FactoryBlurFilter FBF;
-	private static ConvertImage CI;
-	private static UtilWavelet UW;
-	private static ImageType IT;
 	DenseOpticalFlowKlt<I,D> flowKlt;
 	ImageGradient<I,D> gradient;
 
@@ -115,7 +85,7 @@ public class FlowKlt_to_DenseOpticalFlow<I extends ImageGray, D extends ImageGra
 									   ImageGradient<I, D> gradient,
 									   ImagePyramid<I> pyramidSrc,
 									   ImagePyramid<I> pyramidDst,
-									   Class<I> inputType , Class<D> derivType ) {
+									   Class<I> inputType , Class<D> derivType, ImageType IT, GeneralizedImageOps GIO) {
 		if( pyramidSrc.getNumLayers() != pyramidDst.getNumLayers() )
 			throw new IllegalArgumentException("Pyramids do not have the same number of layers!");
 
@@ -136,16 +106,21 @@ public class FlowKlt_to_DenseOpticalFlow<I extends ImageGray, D extends ImageGra
 	}
 
 	@Override
-	public void process(I source, I destination, ImageFlow flow) {
-		pyramidSrc.process(source, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG, CI, UW);
-		pyramidDst.process(destination, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG, CI, UW);
+	public void process(I source, I destination, ImageFlow flow, InputSanityCheck ISC, ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG,
+						GImageMiscOps GIMO, ImageMiscOps IMO, ConvolveNormalizedNaive CNN,
+						ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN, GBlurImageOps GBIO, GeneralizedImageOps GIO, BlurImageOps BIO, ConvolveImageMean CIM,
+						FactoryKernelGaussian FKG, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM,
+						GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO, FactoryBlurFilter FBF, ConvertImage CI, UtilWavelet UW,
+						DerivativeHelperFunctions DHF, GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO, ImageType IT) {
+		pyramidSrc.process(source, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG, CI, UW, IT);
+		pyramidDst.process(destination, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG, CI, UW, IT);
 
 		PyramidOps.reshapeOutput(pyramidSrc,srcDerivX);
 		PyramidOps.reshapeOutput(pyramidSrc,srcDerivY);
 
-		PyramidOps.gradient(pyramidSrc, gradient, srcDerivX,srcDerivY);
+		PyramidOps.gradient(pyramidSrc, gradient, srcDerivX,srcDerivY, ISC, DHF, CINB, CJBG, GSO, GSUO);
 
-		flowKlt.process(pyramidSrc,srcDerivX,srcDerivY,pyramidDst,flow);
+		flowKlt.process(pyramidSrc,srcDerivX,srcDerivY,pyramidDst,flow, IMO);
 	}
 
 	@Override

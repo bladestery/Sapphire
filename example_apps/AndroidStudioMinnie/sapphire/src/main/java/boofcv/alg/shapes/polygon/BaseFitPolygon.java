@@ -22,6 +22,7 @@ import boofcv.abst.distort.FDistort;
 import boofcv.alg.misc.GImageMiscOps;
 import boofcv.alg.misc.ImageMiscOps;
 import boofcv.core.image.GeneralizedImageOps;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.gui.ListDisplayPanel;
 import boofcv.gui.image.ShowImages;
 import boofcv.struct.image.GrayF32;
@@ -44,6 +45,7 @@ public class BaseFitPolygon {
 	private GeneralizedImageOps GIO;
 	private static GImageMiscOps GIMO;
 	private static ImageMiscOps IMO;
+	private static FactoryImageBorder FIB;
 	boolean showRendered = false;
 
 	Random rand = new Random(234);
@@ -85,7 +87,7 @@ public class BaseFitPolygon {
 		GIMO.fillRectangle(work, fg, x0, y0, x1 - x0, y1 - y0, IMO);
 
 		if( affine != null ) {
-			new FDistort(work, image).border(bg).affine(affine).apply();
+			new FDistort(work, image, FIB).border(bg, FIB).affine(affine).apply();
 		} else {
 			image.setTo(work);
 		}

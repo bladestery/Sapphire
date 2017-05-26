@@ -24,6 +24,7 @@ import boofcv.alg.feature.detect.peak.MeanShiftPeak;
 import boofcv.alg.weights.WeightPixelGaussian_F32;
 import boofcv.alg.weights.WeightPixelUniform_F32;
 import boofcv.alg.weights.WeightPixel_F32;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.struct.image.ImageGray;
 
 /**
@@ -41,9 +42,9 @@ public class FactorySearchLocalPeak {
 	 * @return mean-shift search
 	 */
 	public static <T extends ImageGray>
-	SearchLocalPeak<T> meanShiftUniform( int maxIterations, float convergenceTol , Class<T> imageType ) {
+	SearchLocalPeak<T> meanShiftUniform( int maxIterations, float convergenceTol , Class<T> imageType, FactoryImageBorder FIB) {
 		WeightPixel_F32 weights = new WeightPixelUniform_F32();
-		MeanShiftPeak<T> alg = new MeanShiftPeak<>(maxIterations, convergenceTol, weights, imageType);
+		MeanShiftPeak<T> alg = new MeanShiftPeak<>(maxIterations, convergenceTol, weights, imageType, FIB);
 		return new MeanShiftPeak_to_SearchLocalPeak<>(alg);
 	}
 
@@ -55,9 +56,9 @@ public class FactorySearchLocalPeak {
 	 * @return mean-shift search
 	 */
 	public static <T extends ImageGray>
-	SearchLocalPeak<T> meanShiftGaussian( int maxIterations, float convergenceTol , Class<T> imageType) {
+	SearchLocalPeak<T> meanShiftGaussian(int maxIterations, float convergenceTol , Class<T> imageType, FactoryImageBorder FIB) {
 		WeightPixel_F32 weights = new WeightPixelGaussian_F32();
-		MeanShiftPeak<T> alg = new MeanShiftPeak<>(maxIterations, convergenceTol, weights, imageType);
+		MeanShiftPeak<T> alg = new MeanShiftPeak<>(maxIterations, convergenceTol, weights, imageType, FIB);
 		return new MeanShiftPeak_to_SearchLocalPeak<>(alg);
 	}
 }

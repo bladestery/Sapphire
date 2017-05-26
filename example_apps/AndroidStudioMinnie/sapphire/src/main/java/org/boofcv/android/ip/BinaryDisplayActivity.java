@@ -52,6 +52,7 @@ public class BinaryDisplayActivity extends DemoVideoDisplayActivity
 	int action;
 	OMSServer server;
 	DemoManager dm;
+	ImageType IT = new ImageType();
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -142,7 +143,7 @@ public class BinaryDisplayActivity extends DemoVideoDisplayActivity
 		GrayU8 afterOps;
 
 		protected ThresholdProcessing() {
-			super(dm.single(GrayU8.class));
+			super(IT.single(GrayU8.class));
 		}
 
 		@Override

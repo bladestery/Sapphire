@@ -57,6 +57,7 @@ import boofcv.factory.feature.describe.FactoryDescribePointAlgs;
 import boofcv.factory.feature.describe.FactoryDescribeRegionPoint;
 import boofcv.factory.feature.detdesc.FactoryDetectDescribe;
 import boofcv.factory.feature.detect.extract.FactoryFeatureExtractor;
+import boofcv.factory.feature.detect.intensity.FactoryIntensityPoint;
 import boofcv.factory.feature.detect.intensity.FactoryIntensityPointAlg;
 import boofcv.factory.feature.detect.interest.FactoryDetectPoint;
 import boofcv.factory.feature.detect.interest.FactoryInterestPoint;
@@ -73,6 +74,7 @@ import boofcv.struct.feature.*;
 import boofcv.struct.image.ImageGray;
 import boofcv.struct.image.ImageType;
 import boofcv.struct.pyramid.PyramidDiscrete;
+import sapphire.app.SapphireObject;
 
 import java.util.Random;
 
@@ -87,20 +89,8 @@ import java.util.Random;
  *
  * @author Peter Abeles
  */
-public class FactoryPointTracker {
-	private static FactoryBlurFilter FBF;
-	private static FactoryDerivative FD;
-	private static GeneralizedImageOps GIO;
-	private static FactoryImageBorder FIB;
-	private static FactoryInterestPointAlgs FIrPA;
-	private static FactoryIntensityPointAlg FIPA;
-	private static FactoryKernelGaussian FKG;
-	private static FactoryInterestPoint FIP;
-	private static FactoryPyramid FP;
-	private static FactoryAssociation FA;
-	private static FactoryFeatureExtractor FFE;
-	private static ImageType IT;
-
+public class FactoryPointTracker implements SapphireObject {
+	public FactoryPointTracker() {}
 	/**
 	 * Pyramid KLT feature tracker.
 	 *
@@ -113,14 +103,15 @@ public class FactoryPointTracker {
 	 * @param derivType     Image derivative  type.
 	 * @return KLT based tracker.
 	 */
-	public static <I extends ImageGray, D extends ImageGray>
+	public <I extends ImageGray, D extends ImageGray>
 	PointTracker<I> klt(int scaling[], ConfigGeneralDetector configExtract, int featureRadius,
-							 Class<I> imageType, Class<D> derivType) {
+							 Class<I> imageType, Class<D> derivType, FactoryDerivative FD, GeneralizedImageOps GIO, FactoryImageBorder FIB,
+						FactoryKernelGaussian FKG, FactoryPyramid FP, FactoryFeatureExtractor FFE, FactoryIntensityPointAlg FIPA) {
 		PkltConfig config = new PkltConfig();
 		config.pyramidScaling = scaling;
 		config.templateRadius = featureRadius;
 
-		return klt(config, configExtract, imageType, derivType );
+		return klt(config, configExtract, imageType, derivType, FD, GIO, FIB, FKG, FP, FFE, FIPA);
 	}
 
 	/**
@@ -132,9 +123,10 @@ public class FactoryPointTracker {
 	 * @param configExtract Configuration for extracting features
 	 * @return KLT based tracker.
 	 */
-	public static <I extends ImageGray, D extends ImageGray>
+	public <I extends ImageGray, D extends ImageGray>
 	PointTracker<I> klt(PkltConfig config, ConfigGeneralDetector configExtract,
-						Class<I> imageType, Class<D> derivType ) {
+						Class<I> imageType, Class<D> derivType, FactoryDerivative FD, GeneralizedImageOps GIO, FactoryImageBorder FIB,
+						FactoryKernelGaussian FKG, FactoryPyramid FP, FactoryFeatureExtractor FFE, FactoryIntensityPointAlg FIPA) {
 
 		if( derivType == null )
 			derivType = GImageDerivativeOps.getDerivativeType(imageType);
@@ -147,7 +139,7 @@ public class FactoryPointTracker {
 			configExtract = new ConfigGeneralDetector();
 		}
 
-		GeneralFeatureDetector<I, D> detector = createShiTomasi(configExtract, derivType);
+		GeneralFeatureDetector<I, D> detector = createShiTomasi(configExtract, derivType, GIO, FKG, FFE, FIPA);
 
 		InterpolateRectangle<I> interpInput = FactoryInterpolation.<I>bilinearRectangle(imageType);
 		InterpolateRectangle<D> interpDeriv = FactoryInterpolation.<D>bilinearRectangle(derivType);
@@ -174,12 +166,13 @@ public class FactoryPointTracker {
 	 * @return SURF based tracker.
 	 */
 	// TODO remove maxTracks?  Use number of detected instead
-	public static <I extends ImageGray>
+	public <I extends ImageGray>
 	PointTracker<I> dda_FH_SURF_Fast(
 										  ConfigFastHessian configDetector ,
 										  ConfigSurfDescribe.Speed configDescribe ,
 										  ConfigAverageIntegral configOrientation ,
-										  Class<I> imageType)
+										  Class<I> imageType, FactoryAssociation FA, FactoryFeatureExtractor FFE, FactoryInterestPointAlgs FIrPA,
+										  FactoryKernelGaussian FKG)
 	{
 		ScoreAssociation<TupleDesc_F64> score = FA.scoreEuclidean(TupleDesc_F64.class, true);
 		AssociateSurfBasic assoc = new AssociateSurfBasic(FA.greedy(score, 5, true));
@@ -209,12 +202,13 @@ public class FactoryPointTracker {
 	 * @return SURF based tracker.
 	 */
 	// TODO remove maxTracks?  Use number of detected instead
-	public static <I extends ImageGray>
+	public <I extends ImageGray>
 	PointTracker<I> dda_FH_SURF_Stable(
 											ConfigFastHessian configDetector ,
 											ConfigSurfDescribe.Stability configDescribe ,
 											ConfigSlidingIntegral configOrientation ,
-											Class<I> imageType)
+											Class<I> imageType, FactoryAssociation FA, FactoryFeatureExtractor FFE,
+											FactoryInterestPointAlgs FIrPA, FactoryKernelGaussian FKG)
 	{
 		ScoreAssociation<TupleDesc_F64> score = FA.scoreEuclidean(TupleDesc_F64.class, true);
 		AssociateSurfBasic assoc = new AssociateSurfBasic(FA.greedy(score, 5, true));
@@ -242,10 +236,12 @@ public class FactoryPointTracker {
 	 * @param imageType           Type of image being processed.
 	 * @param derivType Type of image used to store the image derivative. null == use default
 	 */
-	public static <I extends ImageGray, D extends ImageGray>
+	public <I extends ImageGray, D extends ImageGray>
 	PointTracker<I> dda_ST_BRIEF(int maxAssociationError,
 									  ConfigGeneralDetector configExtract,
-									  Class<I> imageType, Class<D> derivType)
+									  Class<I> imageType, Class<D> derivType, GeneralizedImageOps GIO, ImageType IT, FactoryDerivative FD,
+								 FactoryImageBorder FIB, FactoryBlurFilter FBF, FactoryAssociation FA,
+								 FactoryKernelGaussian FKG, FactoryFeatureExtractor FFE, FactoryIntensityPointAlg FIPA)
 	{
 		if( derivType == null )
 			derivType = GImageDerivativeOps.getDerivativeType(imageType);
@@ -253,7 +249,7 @@ public class FactoryPointTracker {
 		DescribePointBrief<I> brief = FactoryDescribePointAlgs.brief(FactoryBriefDefinition.gaussian2(new Random(123), 16, 512),
 				FBF.gaussian(imageType, 0, 4, GIO), IT, GIO);
 
-		GeneralFeatureDetector<I, D> detectPoint = createShiTomasi(configExtract, derivType);
+		GeneralFeatureDetector<I, D> detectPoint = createShiTomasi(configExtract, derivType, GIO, FKG, FFE, FIPA);
 		EasyGeneralFeatureDetector<I,D> easy = new EasyGeneralFeatureDetector<>(detectPoint, imageType, derivType, FD, GIO, FIB);
 
 		ScoreAssociateHamming_B score = new ScoreAssociateHamming_B();
@@ -279,11 +275,12 @@ public class FactoryPointTracker {
 	 * @param maxAssociationError Maximum allowed association error.  Try 200.
 	 * @param imageType           Type of image being processed.
 	 */
-	public static <I extends ImageGray, D extends ImageGray>
+	public <I extends ImageGray, D extends ImageGray>
 	PointTracker<I> dda_FAST_BRIEF(ConfigFast configFast,
 								   ConfigGeneralDetector configExtract,
 								   int maxAssociationError,
-								   Class<I> imageType )
+								   Class<I> imageType , FactoryAssociation FA, FactoryFeatureExtractor FFE, FactoryIntensityPointAlg FIPA,
+								   FactoryDerivative FD, GeneralizedImageOps GIO, FactoryImageBorder FIB, ImageType IT, FactoryBlurFilter FBF)
 	{
 		DescribePointBrief<I> brief = FactoryDescribePointAlgs.brief(FactoryBriefDefinition.gaussian2(new Random(123), 16, 512),
 				FBF.gaussian(imageType, 0, 4, GIO), IT, GIO);
@@ -314,9 +311,10 @@ public class FactoryPointTracker {
 	 * @param describeRadius Radius of the region being described.  Try 2.
 	 * @param imageType      Type of image being processed.
 	 * @param derivType      Type of image used to store the image derivative. null == use default     */
-	public static <I extends ImageGray, D extends ImageGray>
+	public <I extends ImageGray, D extends ImageGray>
 	PointTracker<I> dda_ST_NCC(ConfigGeneralDetector configExtract, int describeRadius,
-									Class<I> imageType, Class<D> derivType) {
+									Class<I> imageType, Class<D> derivType, FactoryDerivative FD, GeneralizedImageOps GIO, FactoryImageBorder FIB,
+							   FactoryAssociation FA, ImageType IT, FactoryKernelGaussian FKG, FactoryFeatureExtractor FFE, FactoryIntensityPointAlg FIPA) {
 
 		if( derivType == null )
 			derivType = GImageDerivativeOps.getDerivativeType(imageType);
@@ -325,7 +323,7 @@ public class FactoryPointTracker {
 
 		DescribePointPixelRegionNCC<I> alg = FactoryDescribePointAlgs.pixelRegionNCC(w, w, imageType);
 
-		GeneralFeatureDetector<I, D> corner = createShiTomasi(configExtract, derivType);
+		GeneralFeatureDetector<I, D> corner = createShiTomasi(configExtract, derivType, GIO, FKG, FFE, FIPA);
 		EasyGeneralFeatureDetector<I,D> easy = new EasyGeneralFeatureDetector<>(corner, imageType, derivType, FD, GIO, FIB);
 
 		ScoreAssociateNccFeature score = new ScoreAssociateNccFeature();
@@ -352,7 +350,7 @@ public class FactoryPointTracker {
 	 * @param <Desc> Type of region description
 	 * @return tracker
 	 */
-	public static <I extends ImageGray, Desc extends TupleDesc>
+	public <I extends ImageGray, Desc extends TupleDesc>
 	DetectDescribeAssociate<I,Desc> dda(InterestPointDetector<I> detector,
 										OrientationImage<I> orientation ,
 										DescribeRegionPoint<I, Desc> describe,
@@ -371,7 +369,7 @@ public class FactoryPointTracker {
 		return dat;
 	}
 
-	public static <I extends ImageGray, Desc extends TupleDesc>
+	public <I extends ImageGray, Desc extends TupleDesc>
 	DetectDescribeAssociate<I,Desc> dda( DetectDescribePoint<I, Desc> detDesc,
 										AssociateDescription2D<Desc> associate ,
 										boolean updateDescription ) {
@@ -400,13 +398,14 @@ public class FactoryPointTracker {
 	 * @param <I>            Input image type.
 	 * @return SURF based tracker.
 	 */
-	public static <I extends ImageGray>
+	public <I extends ImageGray>
 	PointTracker<I> combined_FH_SURF_KLT( PkltConfig kltConfig ,
 										  int reactivateThreshold ,
 										  ConfigFastHessian configDetector ,
 										  ConfigSurfDescribe.Stability configDescribe ,
 										  ConfigSlidingIntegral configOrientation ,
-										  Class<I> imageType) {
+										  Class<I> imageType, FactoryFeatureExtractor FFE, FactoryInterestPointAlgs FIrPA, FactoryKernelGaussian FKG,
+										  FactoryAssociation FA, FactoryPyramid FP, FactoryDerivative FD, GeneralizedImageOps GIO, FactoryImageBorder FIB) {
 
 		ScoreAssociation<TupleDesc_F64> score = FA.defaultScore(TupleDesc_F64.class);
 		AssociateSurfBasic assoc = new AssociateSurfBasic(FA.greedy(score, 100000, true));
@@ -416,7 +415,7 @@ public class FactoryPointTracker {
 		DetectDescribePoint<I,BrightFeature> fused =
 				FactoryDetectDescribe.surfStable(configDetector, configDescribe, configOrientation,imageType, FFE, FIrPA, FKG);
 
-		return combined(fused,generalAssoc, kltConfig,reactivateThreshold, imageType);
+		return combined(fused,generalAssoc, kltConfig,reactivateThreshold, imageType, FP, FKG, FD, GIO, FIB);
 	}
 
 	/**
@@ -435,19 +434,21 @@ public class FactoryPointTracker {
 	 * @param imageType      Type of image the input is.
 	 * @param derivType      Image derivative type.        @return SURF based tracker.
 	 */
-	public static <I extends ImageGray, D extends ImageGray>
+	public <I extends ImageGray, D extends ImageGray>
 	PointTracker<I> combined_ST_SURF_KLT(ConfigGeneralDetector configExtract,
 										 PkltConfig kltConfig,
 										 int reactivateThreshold,
 										 ConfigSurfDescribe.Stability configDescribe,
 										 ConfigSlidingIntegral configOrientation,
 										 Class<I> imageType,
-										 Class<D> derivType) {
+										 Class<D> derivType, FactoryAssociation FA, FactoryDerivative FD, GeneralizedImageOps GIO, FactoryImageBorder FIB,
+										 FactoryKernelGaussian FKG, ImageType IT, FactoryInterestPoint FIP, FactoryFeatureExtractor FFE, FactoryIntensityPointAlg FIPA,
+										 FactoryPyramid FP) {
 
 		if( derivType == null )
 			derivType = GImageDerivativeOps.getDerivativeType(imageType);
 
-		GeneralFeatureDetector<I, D> corner = createShiTomasi(configExtract, derivType);
+		GeneralFeatureDetector<I, D> corner = createShiTomasi(configExtract, derivType, GIO, FKG, FFE, FIPA);
 		InterestPointDetector<I> detector = FIP.wrapPoint(corner, 1, imageType, derivType, FD, GIO, FIB);
 
 		DescribeRegionPoint<I,BrightFeature> regionDesc
@@ -467,7 +468,7 @@ public class FactoryPointTracker {
 		}
 
 		return combined(detector,orientation,regionDesc,generalAssoc, kltConfig,reactivateThreshold,
-				imageType);
+				imageType, FP, FKG, FD, GIO, FIB);
 	}
 
 	/**
@@ -483,18 +484,19 @@ public class FactoryPointTracker {
 	 * @param reactivateThreshold Tracks are reactivated after this many have been dropped.  Try 10% of maxMatches
 	 * @param imageType Input image type.     @return Feature tracker
 	 */
-	public static <I extends ImageGray, Desc extends TupleDesc>
+	public <I extends ImageGray, Desc extends TupleDesc>
 	PointTracker<I> combined(InterestPointDetector<I> detector,
 							 OrientationImage<I> orientation,
 							 DescribeRegionPoint<I, Desc> describe,
 							 AssociateDescription<Desc> associate,
 							 PkltConfig kltConfig ,
 							 int reactivateThreshold,
-							 Class<I> imageType)
+							 Class<I> imageType, FactoryPyramid FP, FactoryKernelGaussian FKG,
+							 FactoryDerivative FD, GeneralizedImageOps GIO, FactoryImageBorder FIB)
 	{
 		DetectDescribeFusion<I,Desc> fused = new DetectDescribeFusion<>(detector, orientation, describe);
 
-		return combined(fused,associate, kltConfig, reactivateThreshold,imageType);
+		return combined(fused,associate, kltConfig, reactivateThreshold,imageType, FP, FKG, FD, GIO, FIB);
 	}
 
 	/**
@@ -508,11 +510,12 @@ public class FactoryPointTracker {
 	 * @param reactivateThreshold Tracks are reactivated after this many have been dropped.  Try 10% of maxMatches
 	 * @param imageType Input image type.     @return Feature tracker
 	 */
-	public static <I extends ImageGray, D extends ImageGray, Desc extends TupleDesc>
+	public <I extends ImageGray, D extends ImageGray, Desc extends TupleDesc>
 	PointTracker<I> combined(DetectDescribePoint<I, Desc> detector,
 							 AssociateDescription<Desc> associate,
 							 PkltConfig kltConfig ,
-							 int reactivateThreshold, Class<I> imageType )
+							 int reactivateThreshold, Class<I> imageType, FactoryPyramid FP, FactoryKernelGaussian FKG,
+							 FactoryDerivative FD, GeneralizedImageOps GIO, FactoryImageBorder FIB)
 	{
 		Class<D> derivType = GImageDerivativeOps.getDerivativeType(imageType);
 
@@ -523,16 +526,16 @@ public class FactoryPointTracker {
 		CombinedTrackerScalePoint<I, D,Desc> tracker =
 				FactoryTrackerAlg.combined(detector,associate, kltConfig,imageType,derivType);
 
-		return new PointTrackerCombined<>(tracker, reactivateThreshold, imageType, derivType);
+		return new PointTrackerCombined<>(tracker, reactivateThreshold, imageType, derivType, FP, FKG, FD, GIO, FIB);
 	}
 
 
-	public static <I extends ImageGray, D extends ImageGray, Desc extends TupleDesc>
+	public <I extends ImageGray, D extends ImageGray, Desc extends TupleDesc>
 	PointTracker<I> dda(GeneralFeatureDetector<I, D> detector,
 						DescribeRegionPoint<I, Desc> describe,
 						AssociateDescription2D<Desc> associate,
 						double scale,
-						Class<I> imageType) {
+						Class<I> imageType, FactoryDerivative FD, GeneralizedImageOps GIO, FactoryImageBorder FIB) {
 
 		EasyGeneralFeatureDetector<I,D> easy = new EasyGeneralFeatureDetector<>(detector, imageType, null, FD, GIO, FIB);
 
@@ -547,9 +550,10 @@ public class FactoryPointTracker {
 	 * Variable detectRadius to control the number of features.  When larger features are used weighting should
 	 * be set to true, but because this is so small, it is set to false
 	 */
-	public static <I extends ImageGray, D extends ImageGray>
+	public <I extends ImageGray, D extends ImageGray>
 	GeneralFeatureDetector<I, D> createShiTomasi(ConfigGeneralDetector config ,
-												 Class<D> derivType)
+												 Class<D> derivType, GeneralizedImageOps GIO, FactoryKernelGaussian FKG, FactoryFeatureExtractor FFE,
+												 FactoryIntensityPointAlg FIPA)
 	{
 		GradientCornerIntensity<D> cornerIntensity = FIPA.shiTomasi(1, false, derivType, GIO, FKG);
 

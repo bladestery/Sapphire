@@ -30,25 +30,21 @@ import boofcv.alg.interpolate.InterpolateRectangle;
 import boofcv.alg.tracker.klt.PkltConfig;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.FactoryImageBorder;
+import boofcv.factory.feature.detect.extract.FactoryFeatureExtractor;
+import boofcv.factory.feature.detect.intensity.FactoryIntensityPointAlg;
 import boofcv.factory.filter.derivative.FactoryDerivative;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.factory.transform.pyramid.FactoryPyramid;
 import boofcv.struct.feature.TupleDesc;
 import boofcv.struct.image.ImageGray;
+import boofcv.struct.image.ImageType;
 import boofcv.struct.pyramid.PyramidDiscrete;
-
-import static boofcv.factory.feature.tracker.FactoryPointTracker.createShiTomasi;
 
 /**
  * @author Peter Abeles
  */
 public class FactoryPointTrackerTwoPass {
-	private static FactoryDerivative FD;
-	private static GeneralizedImageOps GIO;
-	private static FactoryImageBorder FIB;
-	private static FactoryKernelGaussian FKG;
-	private static FactoryPyramid FP;
 	/**
 	 * Pyramid KLT feature tracker.
 	 *
@@ -58,9 +54,10 @@ public class FactoryPointTrackerTwoPass {
 	 */
 	public static <I extends ImageGray, D extends ImageGray>
 	PointTrackerTwoPass<I> klt(PkltConfig config, ConfigGeneralDetector configExtract,
-							   Class<I> imageType, Class<D> derivType) {
+							   Class<I> imageType, Class<D> derivType, GeneralizedImageOps GIO, FactoryKernelGaussian FKG, FactoryFeatureExtractor FFE,
+							   FactoryIntensityPointAlg FIPA, FactoryPyramid FP, FactoryDerivative FD, FactoryImageBorder FIB, ImageType IT, FactoryPointTracker FPT) {
 
-		GeneralFeatureDetector<I, D> detector = createShiTomasi(configExtract, derivType);
+		GeneralFeatureDetector<I, D> detector = FPT.createShiTomasi(configExtract, derivType, GIO, FKG, FFE, FIPA);
 
 		InterpolateRectangle<I> interpInput = FactoryInterpolation.<I>bilinearRectangle(imageType);
 		InterpolateRectangle<D> interpDeriv = FactoryInterpolation.<D>bilinearRectangle(derivType);
@@ -70,7 +67,7 @@ public class FactoryPointTrackerTwoPass {
 		PyramidDiscrete<I> pyramid = FP.discreteGaussian(config.pyramidScaling,-1,2,true,imageType, FKG);
 
 		return new PointTrackerTwoPassKltPyramid<>(config.config, config.templateRadius, pyramid, detector,
-				gradient, interpInput, interpDeriv);
+				gradient, interpInput, interpDeriv, IT);
 	}
 
 	public static <I extends ImageGray, D extends ImageGray, Desc extends TupleDesc>
@@ -79,7 +76,7 @@ public class FactoryPointTrackerTwoPass {
 							   AssociateDescription2D<Desc> associate1,
 							   AssociateDescription2D<Desc> associate2,
 							   double scale,
-							   Class<I> imageType) {
+							   Class<I> imageType, FactoryDerivative FD, GeneralizedImageOps GIO, FactoryImageBorder FIB) {
 
 		EasyGeneralFeatureDetector<I,D> easy = new EasyGeneralFeatureDetector<>(detector, imageType, null, FD, GIO, FIB);
 

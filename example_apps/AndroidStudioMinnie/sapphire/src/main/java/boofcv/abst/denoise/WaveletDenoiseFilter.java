@@ -84,20 +84,20 @@ public class WaveletDenoiseFilter<T extends ImageGray> implements FilterImageInt
 						ConvolveImageMean CIM, FactoryKernelGaussian FKG, ConvolveNormalized CN, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB,
 						ConvolveNormalized_JustBorder CNJB, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM,
 						GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvolveJustBorder_General CJBG,
-						ConvertImage CI, UtilWavelet UW) {
+						ConvertImage CI, UtilWavelet UW, ImageType IT) {
 
 		// compute the wavelet transform
 		if( transform != null ) {
 			ImageDimension d = UW.transformDimension(original,wavelet.getLevels());
 			transform.reshape(d.width,d.height);
 		}
-		transform = wavelet.transform(original,transform, ISC, GIO, GIMO, IMO, CI, UW);
+		transform = wavelet.transform(original,transform, ISC, GIO, GIMO, IMO, CI, UW, IT);
 
 		// remove noise from the transformed image
 		alg.denoise(transform,wavelet.getLevels());
 
 		// reverse the transform
-		wavelet.invert(transform,denoised, ISC, GIO, GIMO, IMO, CI, UW);
+		wavelet.invert(transform,denoised, ISC, GIO, GIMO, IMO, CI, UW, IT);
 	}
 
 	@Override

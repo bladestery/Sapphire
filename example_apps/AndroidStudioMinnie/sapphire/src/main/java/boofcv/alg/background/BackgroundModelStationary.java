@@ -18,6 +18,11 @@
 
 package boofcv.alg.background;
 
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
+import boofcv.core.image.ConvertImage;
+import boofcv.core.image.GeneralizedImageOps;
 import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.ImageBase;
 import boofcv.struct.image.ImageType;
@@ -38,7 +43,7 @@ public abstract class BackgroundModelStationary<T extends ImageBase> extends Bac
 	/**
 	 *  Updates the background with new image information.
 	 */
-	public abstract void updateBackground( T frame );
+	public abstract void updateBackground(T frame, InputSanityCheck ISC, GeneralizedImageOps GIO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvertImage CI, ImageType IT );
 
 	/**
 	 * Invoke to use the background image to segment the current frame into background and foreground pixels
@@ -46,5 +51,5 @@ public abstract class BackgroundModelStationary<T extends ImageBase> extends Bac
 	 * @param frame current image
 	 * @param segmented Segmented image. 0 = background, 1 = foreground/moving
 	 */
-	public abstract void segment( T frame , GrayU8 segmented );
+	public abstract void segment( T frame , GrayU8 segmented, InputSanityCheck ISC, ImageMiscOps IMO );
 }

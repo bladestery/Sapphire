@@ -20,6 +20,7 @@ package boofcv.gui.feature;
 
 import boofcv.abst.distort.FDistort;
 import boofcv.core.image.GeneralizedImageOps;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.io.image.ConvertBufferedImage;
 import boofcv.struct.feature.ScalePoint;
 import boofcv.struct.image.ImageGray;
@@ -39,6 +40,7 @@ import java.util.List;
  */
 public class ScaleSpacePyramidPointPanel extends JPanel implements MouseListener {
 	private GeneralizedImageOps GIO;
+	private static FactoryImageBorder FIB;
 	private PyramidFloat ss;
 	BufferedImage background;
 	List<ScalePoint> points = new ArrayList<>();
@@ -86,7 +88,7 @@ public class ScaleSpacePyramidPointPanel extends JPanel implements MouseListener
 
 			ImageGray small = ss.getLayer(level-1);
 			ImageGray enlarge = GIO.createSingleBand(small.getClass(), ss.getInputWidth(), ss.getInputHeight());
-			new FDistort(small,enlarge).interpNN().apply();
+			new FDistort(small,enlarge, FIB).interpNN(FIB).apply();
 
 			// if the size isn't the same null it so a new image will be declared
 			if( levelImage != null &&

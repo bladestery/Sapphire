@@ -18,12 +18,14 @@
 
 package boofcv.alg.tracker.klt;
 
+import java.io.Serializable;
+
 /**
  * Configuration class for {@link PyramidKltTracker}.
  *
  * @author Peter Abeles
  */
-public class PkltConfig{
+public class PkltConfig implements Serializable {
 	/** configuration for low level KLT tracker */
 	public KltConfig config = new KltConfig();
 

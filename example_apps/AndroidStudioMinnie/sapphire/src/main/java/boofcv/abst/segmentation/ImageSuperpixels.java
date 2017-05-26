@@ -46,7 +46,7 @@ public interface ImageSuperpixels<T extends ImageBase> {
 	 * @param output (Output) Labeled image
 	 */
 	public void segment(T input , GrayS32 output , InputSanityCheck ISC, GeneralizedImageOps GIO, GImageMiscOps GIMO, ImageMiscOps IMO, ImageSegmentationOps ISO, BinaryImageOps BIO,
-					   ConvertImage CI);
+					   ConvertImage CI, ImageType IT);
 
 	/**
 	 * Returns the total number of image segments/superpixels found

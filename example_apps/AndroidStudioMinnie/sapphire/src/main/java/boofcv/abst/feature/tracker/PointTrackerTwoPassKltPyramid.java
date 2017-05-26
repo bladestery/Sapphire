@@ -60,6 +60,7 @@ import boofcv.misc.BoofMiscOps;
 import boofcv.struct.image.ImageGray;
 import boofcv.struct.image.ImageType;
 import boofcv.struct.pyramid.PyramidDiscrete;
+import sapphire.compiler.IMOGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,38 +73,6 @@ import java.util.List;
 public class PointTrackerTwoPassKltPyramid<I extends ImageGray,D extends ImageGray>
 	extends PointTrackerKltPyramid<I,D> implements PointTrackerTwoPass<I>
 {
-	private static InputSanityCheck ISC;
-	private static DerivativeHelperFunctions DHF;
-	private static ConvolveImageNoBorder CINB;
-	private static ConvolveJustBorder_General CJBG;
-	private static GradientSobel_Outer GSO;
-	private static GradientSobel_UnrolledOuter GSUO;
-	private static GImageMiscOps GIMO;
-	private static ImageMiscOps IMO;
-	private static ConvolveNormalizedNaive CNN;
-	private static ConvolveNormalized_JustBorder CNJB;
-	private static ConvolveNormalized CN;
-	private static GBlurImageOps GBIO;
-	private static GeneralizedImageOps GIO;
-	private static BlurImageOps BIO;
-	private static ConvolveImageMean CIM;
-	private static FactoryKernelGaussian FKG;
-	private static ImplMedianHistogramInner IMHI;
-	private static ImplMedianSortEdgeNaive IMSEN;
-	private static ImplMedianSortNaive IMSN;
-	private static ImplConvolveMean ICM;
-	private static GThresholdImageOps GTIO;
-	private static GImageStatistics GIS;
-	private static ImageStatistics IS;
-	private static ThresholdImageOps TIO;
-	private static FactoryImageBorderAlgs FIBA;
-	private static ImageBorderValue IBV;
-	private static FastHessianFeatureDetector FHFD;
-	private static FactoryImageBorder FIB;
-	private static ImageType IT;
-	private static FactoryBlurFilter FBF;
-	private static ConvertImage CI;
-	private static UtilWavelet UW;
 	// list of active tracks before the current image is processed
 	List<PyramidKltFeature> originalActive = new ArrayList<>();
 
@@ -119,14 +88,19 @@ public class PointTrackerTwoPassKltPyramid<I extends ImageGray,D extends ImageGr
 										 GeneralFeatureDetector<I, D> detector,
 										 ImageGradient<I, D> gradient,
 										 InterpolateRectangle<I> interpInput,
-										 InterpolateRectangle<D> interpDeriv)
+										 InterpolateRectangle<D> interpDeriv, ImageType IT)
 	{
 		super(config, templateRadius, pyramid , detector, gradient, interpInput, interpDeriv,
 				gradient.getDerivativeType(IT).getImageClass());
 	}
 
 	@Override
-	public void process(I image) {
+	public void process(I image, InputSanityCheck ISC, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG,
+						GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvolveNormalizedNaive CNN,
+						ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN, GBlurImageOps GBIO, GeneralizedImageOps GIO, BlurImageOps BIO, ConvolveImageMean CIM,
+						FactoryKernelGaussian FKG, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM,
+						GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO, FactoryImageBorderAlgs FIBA, ImageBorderValue IBV,
+						FastHessianFeatureDetector FHFD, FactoryImageBorder FIB, FactoryBlurFilter FBF, ConvertImage CI, UtilWavelet UW, ImageType IT) {
 		this.input = image;
 
 		finishedTracking = false;
@@ -134,9 +108,9 @@ public class PointTrackerTwoPassKltPyramid<I extends ImageGray,D extends ImageGr
 		dropped.clear();
 
 		// update image pyramids
-		basePyramid.process(image, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG, CI, UW);
-		declareOutput();
-		PyramidOps.gradient(basePyramid, gradient, derivX, derivY);
+		basePyramid.process(image, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG, CI, UW, IT);
+		declareOutput(GIO);
+		PyramidOps.gradient(basePyramid, gradient, derivX, derivY, ISC, DHF, CINB, CJBG, GSO, GSUO);
 
 		// setup active list
 		originalActive.clear();
@@ -149,7 +123,7 @@ public class PointTrackerTwoPassKltPyramid<I extends ImageGray,D extends ImageGr
 		tracker.setImage(basePyramid,derivX,derivY);
 		for( int i = 0; i < originalActive.size(); i++ ) {
 			PyramidKltFeature t = originalActive.get(i);
-			KltTrackFault ret = tracker.track(t);
+			KltTrackFault ret = tracker.track(t, IMO);
 
 			boolean success = false;
 
@@ -170,13 +144,13 @@ public class PointTrackerTwoPassKltPyramid<I extends ImageGray,D extends ImageGr
 	}
 
 	@Override
-	public void performSecondPass() {
+	public void performSecondPass(ImageMiscOps IMO) {
 		candidateDrop.clear();
 		active.clear();
 
 		for( int i = 0; i < originalActive.size(); i++ ) {
 			PyramidKltFeature t = originalActive.get(i);
-			KltTrackFault ret = tracker.track(t);
+			KltTrackFault ret = tracker.track(t, IMO);
 
 			boolean success = false;
 
@@ -196,10 +170,10 @@ public class PointTrackerTwoPassKltPyramid<I extends ImageGray,D extends ImageGr
 	}
 
 	@Override
-	public void finishTracking() {
+	public void finishTracking(ImageMiscOps IMO) {
 		for( int i = 0; i < active.size(); ) {
 			PyramidKltFeature t = active.get(i);
-			if( tracker.setDescription(t) ) {
+			if( tracker.setDescription(t, IMO) ) {
 				i++;
 			} else {
 				candidateDrop.add(t);

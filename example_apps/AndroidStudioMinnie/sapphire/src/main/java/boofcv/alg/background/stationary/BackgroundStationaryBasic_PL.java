@@ -36,11 +36,6 @@ import boofcv.struct.image.*;
 public class BackgroundStationaryBasic_PL<T extends ImageGray>
 	extends BackgroundStationaryBasic<Planar<T>>
 {
-	private static ImageMiscOps IMO;
-	private static InputSanityCheck ISC;
-	private static GImageMiscOps GIMO;
-	private static GeneralizedImageOps GIO;
-	private static ConvertImage CI;
 	// storage for background image
 	protected Planar<GrayF32> background;
 
@@ -77,10 +72,10 @@ public class BackgroundStationaryBasic_PL<T extends ImageGray>
 	}
 
 	@Override
-	public void updateBackground( Planar<T> frame) {
+	public void updateBackground( Planar<T> frame, InputSanityCheck ISC, GeneralizedImageOps GIO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvertImage CI, ImageType IT) {
 		if( background.width == 1 ) {
 			background.reshape(frame.width, frame.height);
-			GConvertImage.convert(frame, background, ISC, GIO, GIMO, IMO, CI);
+			GConvertImage.convert(frame, background, ISC, GIO, GIMO, IMO, CI, IT);
 			return;
 		} else {
 			ISC.checkSameShape(background,frame);
@@ -110,7 +105,7 @@ public class BackgroundStationaryBasic_PL<T extends ImageGray>
 	}
 
 	@Override
-	public void segment(Planar<T> frame, GrayU8 segmented) {
+	public void segment(Planar<T> frame, GrayU8 segmented, InputSanityCheck ISC, ImageMiscOps IMO) {
 		if( background.width == 1 ) {
 			IMO.fill(segmented,unknownValue);
 			return;

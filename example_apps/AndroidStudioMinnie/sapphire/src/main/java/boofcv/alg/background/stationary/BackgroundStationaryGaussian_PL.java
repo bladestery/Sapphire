@@ -36,11 +36,6 @@ import boofcv.struct.image.*;
 public class BackgroundStationaryGaussian_PL<T extends ImageGray>
 		extends BackgroundStationaryGaussian<Planar<T>>
 {
-	private static ImageMiscOps IMO;
-	private static GImageMiscOps GIMO;
-	private static InputSanityCheck ISC;
-	private static GeneralizedImageOps GIO;
-	private static ConvertImage CI;
 	// wrappers which provide abstraction across image types
 	protected GImageMultiBand inputWrapper;
 	protected GImageMultiBand bgWrapper;
@@ -81,12 +76,12 @@ public class BackgroundStationaryGaussian_PL<T extends ImageGray>
 	}
 
 	@Override
-	public void updateBackground( Planar<T> frame) {
+	public void updateBackground( Planar<T> frame, InputSanityCheck ISC, GeneralizedImageOps GIO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvertImage CI, ImageType IT) {
 		if( background.width == 1 ) {
 			background.reshape(frame.width, frame.height);
 			// initialize the mean to the current image and the initial variance is whatever it is set to
 			for (int band = 0; band < background.getNumBands(); band += 2) {
-				GConvertImage.convert(frame.getBand(band / 2), background.getBand(band), ISC, GIO, GIMO, IMO, CI);
+				GConvertImage.convert(frame.getBand(band / 2), background.getBand(band), ISC, GIO, GIMO, IMO, CI, IT);
 				GIMO.fill(background.getBand(band + 1), initialVariance, IMO);
 			}
 			return;
@@ -127,7 +122,7 @@ public class BackgroundStationaryGaussian_PL<T extends ImageGray>
 	}
 
 	@Override
-	public void segment(Planar<T> frame, GrayU8 segmented) {
+	public void segment(Planar<T> frame, GrayU8 segmented, InputSanityCheck ISC, ImageMiscOps IMO) {
 		if( background.width == 1 ) {
 			IMO.fill(segmented, unknownValue);
 			return;

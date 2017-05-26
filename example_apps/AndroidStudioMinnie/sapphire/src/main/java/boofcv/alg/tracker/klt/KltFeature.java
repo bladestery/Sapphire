@@ -18,6 +18,8 @@
 
 package boofcv.alg.tracker.klt;
 
+import java.io.Serializable;
+
 import boofcv.struct.image.GrayF32;
 
 /**
@@ -25,7 +27,7 @@ import boofcv.struct.image.GrayF32;
  *
  * @author Peter Abeles
  */
-public class KltFeature {
+public class KltFeature implements Serializable {
 
 	/**
 	 * Feature's location inside the image in pixels

@@ -20,6 +20,7 @@ package boofcv.abst.feature.tracker;
 
 import boofcv.abst.filter.derivative.ImageGradient;
 import boofcv.alg.InputSanityCheck;
+import boofcv.alg.feature.detect.interest.FastHessianFeatureDetector;
 import boofcv.alg.feature.detect.interest.GeneralFeatureDetector;
 import boofcv.alg.filter.binary.GThresholdImageOps;
 import boofcv.alg.filter.binary.ThresholdImageOps;
@@ -35,6 +36,9 @@ import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
 import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
+import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
+import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
+import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
 import boofcv.alg.interpolate.InterpolateRectangle;
 import boofcv.alg.misc.GImageMiscOps;
 import boofcv.alg.misc.GImageStatistics;
@@ -45,12 +49,17 @@ import boofcv.alg.transform.pyramid.PyramidOps;
 import boofcv.alg.transform.wavelet.UtilWavelet;
 import boofcv.core.image.ConvertImage;
 import boofcv.core.image.GeneralizedImageOps;
+import boofcv.core.image.border.FactoryImageBorder;
+import boofcv.core.image.border.FactoryImageBorderAlgs;
+import boofcv.core.image.border.ImageBorderValue;
 import boofcv.factory.filter.blur.FactoryBlurFilter;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.QueueCorner;
 import boofcv.struct.image.ImageGray;
+import boofcv.struct.image.ImageType;
 import boofcv.struct.pyramid.PyramidDiscrete;
 import georegression.struct.point.Point2D_I16;
+import sapphire.compiler.IMOGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,30 +74,6 @@ import java.util.List;
 public class PointTrackerKltPyramid<I extends ImageGray,D extends ImageGray>
 		implements PointTracker<I>
 {
-	private static GImageMiscOps GIMO;
-	private static ImageMiscOps IMO;
-	private static InputSanityCheck ISC;
-	private static ConvolveNormalizedNaive CNN;
-	private static ConvolveImageNoBorder CINB;
-	private static ConvolveNormalized_JustBorder CNJB;
-	private static ConvolveNormalized CN;
-	private static GBlurImageOps GBIO;
-	private static GeneralizedImageOps GIO;
-	private static BlurImageOps BIO;
-	private static ConvolveImageMean CIM;
-	private static FactoryKernelGaussian FKG;
-	private static ImplMedianHistogramInner IMHI;
-	private static ImplMedianSortEdgeNaive IMSEN;
-	private static ImplMedianSortNaive IMSN;
-	private static ImplConvolveMean ICM;
-	private static GThresholdImageOps GTIO;
-	private static GImageStatistics GIS;
-	private static ImageStatistics IS;
-	private static ThresholdImageOps TIO;
-	private static FactoryBlurFilter FBF;
-	private static ConvolveJustBorder_General CJBG;
-	private static ConvertImage CI;
-	private static UtilWavelet UW;
 	// reference to input image
 	protected I input;
 
@@ -184,7 +169,7 @@ public class PointTrackerKltPyramid<I extends ImageGray,D extends ImageGray>
 	 * @param y y-coordinate
 	 * @return the new track if successful or null if no new track could be created
 	 */
-	public PointTrack addTrack( double x , double y ) {
+	public PointTrack addTrack(double x , double y, ImageMiscOps IMO) {
 		if( !input.isInBounds((int)x,(int)y))
 			return null;
 
@@ -196,7 +181,7 @@ public class PointTrackerKltPyramid<I extends ImageGray,D extends ImageGray>
 
 		PyramidKltFeature t = unused.remove(unused.size() - 1);
 		t.setPosition((float)x,(float)y);
-		tracker.setDescription(t);
+		tracker.setDescription(t, IMO);
 
 		PointTrack p = (PointTrack)t.cookie;
 		p.set(x,y);
@@ -210,7 +195,12 @@ public class PointTrackerKltPyramid<I extends ImageGray,D extends ImageGray>
 	}
 
 	@Override
-	public void spawnTracks() {
+	public void spawnTracks(InputSanityCheck ISC, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG,
+							GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvolveNormalizedNaive CNN,
+							ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN, GBlurImageOps GBIO, GeneralizedImageOps GIO, BlurImageOps BIO, ConvolveImageMean CIM,
+							FactoryKernelGaussian FKG, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM,
+							GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO, FactoryImageBorderAlgs FIBA, ImageBorderValue IBV,
+							FastHessianFeatureDetector FHFD, FactoryImageBorder FIB, FactoryBlurFilter FBF, ConvertImage CI, UtilWavelet UW, ImageType IT) {
 		spawned.clear();
 
 		// used to convert it from the scale of the bottom layer into the original image
@@ -226,7 +216,7 @@ public class PointTrackerKltPyramid<I extends ImageGray,D extends ImageGray>
 		// find new tracks, but no more than the max
 		detector.setExcludeMaximum(excludeList);
 		detector.process(basePyramid.getLayer(0), derivX[0], derivY[0], null, null, null, GIMO, IMO, ISC, CNN, CINB, CNJB, CN,
-				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, CJBG, CI, UW);
+				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, CJBG, CI, UW, IT);
 
 		// extract the features
 		QueueCorner found = detector.getMaximums();
@@ -243,7 +233,7 @@ public class PointTrackerKltPyramid<I extends ImageGray,D extends ImageGray>
 			t.x = pt.x * scaleBottom;
 			t.y = pt.y * scaleBottom;
 
-			tracker.setDescription(t);
+			tracker.setDescription(t, IMO);
 
 			// set up point description
 			PointTrack p = t.getCookie();
@@ -276,28 +266,33 @@ public class PointTrackerKltPyramid<I extends ImageGray,D extends ImageGray>
 	}
 
 	@Override
-	public void process(I image) {
+	public void process(I image, InputSanityCheck ISC, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG,
+						GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvolveNormalizedNaive CNN,
+						ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN, GBlurImageOps GBIO, GeneralizedImageOps GIO, BlurImageOps BIO, ConvolveImageMean CIM,
+						FactoryKernelGaussian FKG, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM,
+						GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO, FactoryImageBorderAlgs FIBA, ImageBorderValue IBV,
+						FastHessianFeatureDetector FHFD, FactoryImageBorder FIB, FactoryBlurFilter FBF, ConvertImage CI, UtilWavelet UW, ImageType IT) {
 		this.input = image;
 
 		spawned.clear();
 		dropped.clear();
 
 		// update image pyramids
-		basePyramid.process(image, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG, CI, UW);
-		declareOutput();
-		PyramidOps.gradient(basePyramid, gradient, derivX,derivY);
+		basePyramid.process(image, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG, CI, UW, IT);
+		declareOutput(GIO);
+		PyramidOps.gradient(basePyramid, gradient, derivX,derivY, ISC, DHF, CINB, CJBG, GSO, GSUO);
 
 		// track features
 		tracker.setImage(basePyramid,derivX,derivY);
 		for( int i = 0; i < active.size(); ) {
 			PyramidKltFeature t = active.get(i);
-			KltTrackFault ret = tracker.track(t);
+			KltTrackFault ret = tracker.track(t, IMO);
 
 			boolean success = false;
 
 			if( ret == KltTrackFault.SUCCESS ) {
 				// discard a track if its center drifts outside the image.
-				if( image.isInBounds((int)t.x,(int)t.y) && tracker.setDescription(t) ) {
+				if( image.isInBounds((int)t.x,(int)t.y) && tracker.setDescription(t, IMO) ) {
 					PointTrack p = t.getCookie();
 					p.set(t.x,t.y);
 					i++;
@@ -313,11 +308,11 @@ public class PointTrackerKltPyramid<I extends ImageGray,D extends ImageGray>
 		}
 	}
 
-	protected void declareOutput() {
+	protected void declareOutput(GeneralizedImageOps GIO) {
 		if( derivX == null ) {
 			// declare storage for image derivative since the image size is now known
-			derivX = PyramidOps.declareOutput(basePyramid, derivType);
-			derivY = PyramidOps.declareOutput(basePyramid,derivType);
+			derivX = PyramidOps.declareOutput(basePyramid, derivType, GIO);
+			derivY = PyramidOps.declareOutput(basePyramid,derivType, GIO);
 		}
 		else if( derivX[0].width != basePyramid.getLayer(0).width ||
 				derivX[0].height != basePyramid.getLayer(0).height )

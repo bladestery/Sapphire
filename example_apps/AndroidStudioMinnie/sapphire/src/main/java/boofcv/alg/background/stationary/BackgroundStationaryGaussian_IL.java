@@ -19,9 +19,12 @@
 package boofcv.alg.background.stationary;
 
 import boofcv.alg.InputSanityCheck;
+import boofcv.alg.misc.GImageMiscOps;
 import boofcv.alg.misc.ImageMiscOps;
+import boofcv.core.image.ConvertImage;
 import boofcv.core.image.FactoryGImageMultiBand;
 import boofcv.core.image.GImageMultiBand;
+import boofcv.core.image.GeneralizedImageOps;
 import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.ImageInterleaved;
 import boofcv.struct.image.ImageType;
@@ -35,8 +38,6 @@ import boofcv.struct.image.InterleavedF32;
 public class BackgroundStationaryGaussian_IL<T extends ImageInterleaved>
 		extends BackgroundStationaryGaussian<T>
 {
-	private static ImageMiscOps IMO;
-	private static InputSanityCheck ISC;
 	// wrappers which provide abstraction across image types
 	protected GImageMultiBand inputWrapper;
 	protected GImageMultiBand bgWrapper;
@@ -79,7 +80,7 @@ public class BackgroundStationaryGaussian_IL<T extends ImageInterleaved>
 	}
 
 	@Override
-	public void updateBackground( T frame) {
+	public void updateBackground(T frame, InputSanityCheck ISC, GeneralizedImageOps GIO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvertImage CI, ImageType IT) {
 		inputWrapper.wrap(frame);
 
 		if( background.width == 1 ) {
@@ -127,7 +128,7 @@ public class BackgroundStationaryGaussian_IL<T extends ImageInterleaved>
 	}
 
 	@Override
-	public void segment( T frame, GrayU8 segmented) {
+	public void segment( T frame, GrayU8 segmented, InputSanityCheck ISC, ImageMiscOps IMO) {
 		if( background.width == 1 ) {
 			IMO.fill(segmented, unknownValue);
 			return;

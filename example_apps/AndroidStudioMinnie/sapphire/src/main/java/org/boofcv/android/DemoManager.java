@@ -1,14 +1,22 @@
 package org.boofcv.android;
 
 import com.sun.org.apache.bcel.internal.generic.FADD;
+import com.thoughtworks.xstream.core.util.Pool;
 
 import org.boofcv.android.assoc.Assoc;
+import org.boofcv.android.tracker.track;
+import org.boofcv.android.tracker.trackInfo;
+import org.boofcv.android.tracker.trackList;
 import org.ddogleg.struct.FastQueue;
+import org.hamcrest.Factory;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import boofcv.abst.distort.FDistort;
+import boofcv.abst.feature.associate.AssociateDescTo2D;
 import boofcv.abst.feature.associate.AssociateDescription;
+import boofcv.abst.feature.associate.AssociateDescription2D;
 import boofcv.abst.feature.associate.ScoreAssociation;
 import boofcv.abst.feature.describe.ConfigSiftScaleSpace;
 import boofcv.abst.feature.detdesc.DetectDescribePoint;
@@ -16,6 +24,7 @@ import boofcv.abst.feature.detect.extract.ConfigExtract;
 import boofcv.abst.feature.detect.extract.NonMaxSuppression;
 import boofcv.abst.feature.detect.intensity.GeneralFeatureIntensity;
 import boofcv.abst.feature.detect.interest.ConfigFastHessian;
+import boofcv.abst.feature.detect.interest.ConfigGeneralDetector;
 import boofcv.abst.feature.detect.interest.ConfigSiftDetector;
 import boofcv.abst.feature.detect.interest.InterestPointDetector;
 import boofcv.abst.feature.detect.line.DetectLine;
@@ -23,13 +32,23 @@ import boofcv.abst.feature.detect.line.DetectLineHoughFoot;
 import boofcv.abst.feature.detect.line.DetectLineHoughPolar;
 import boofcv.abst.feature.detect.line.DetectLineSegment;
 import boofcv.abst.feature.detect.line.DetectLineSegmentsGridRansac;
+import boofcv.abst.feature.tracker.PointTrack;
+import boofcv.abst.feature.tracker.PointTracker;
 import boofcv.abst.filter.binary.InputToBinary;
 import boofcv.abst.filter.blur.BlurFilter;
 import boofcv.abst.filter.derivative.ImageGradient;
 import boofcv.abst.segmentation.ImageSuperpixels;
+import boofcv.abst.tracker.ConfigCirculantTracker;
+import boofcv.abst.tracker.ConfigComaniciu2003;
+import boofcv.abst.tracker.ConfigTld;
+import boofcv.abst.tracker.MeanShiftLikelihoodType;
+import boofcv.abst.tracker.TrackerObjectQuad;
 import boofcv.abst.transform.fft.DiscreteFourierTransform;
 import boofcv.abst.transform.wavelet.WaveletTransform;
 import boofcv.alg.InputSanityCheck;
+import boofcv.alg.background.BackgroundModelStationary;
+import boofcv.alg.background.stationary.BackgroundStationaryBasic;
+import boofcv.alg.background.stationary.BackgroundStationaryGaussian;
 import boofcv.alg.descriptor.UtilFeature;
 import boofcv.alg.enhance.EnhanceImageOps;
 import boofcv.alg.feature.detect.edge.CannyEdge;
@@ -73,13 +92,21 @@ import boofcv.alg.segmentation.ComputeRegionMeanColor;
 import boofcv.alg.segmentation.ImageSegmentationOps;
 import boofcv.alg.shapes.ellipse.BinaryEllipseDetector;
 import boofcv.alg.shapes.polygon.BinaryPolygonDetector;
+import boofcv.alg.tracker.klt.PkltConfig;
+import boofcv.alg.tracker.sfot.SfotConfig;
 import boofcv.alg.transform.fft.DiscreteFourierTransformOps;
 import boofcv.alg.transform.wavelet.UtilWavelet;
 import boofcv.core.image.ConvertImage;
+import boofcv.core.image.GConvertImage;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.BorderType;
 import boofcv.core.image.border.FactoryImageBorder;
+import boofcv.factory.background.ConfigBackgroundBasic;
+import boofcv.factory.background.ConfigBackgroundGaussian;
+import boofcv.factory.background.FactoryBackgroundModel;
 import boofcv.factory.feature.associate.FactoryAssociation;
+import boofcv.factory.feature.tracker.FactoryPointTracker;
+import boofcv.factory.tracker.FactoryTrackerObjectQuad;
 import boofcv.factory.transform.pyramid.FactoryPyramid;
 import boofcv.factory.transform.wavelet.FactoryWaveletTransform;
 import boofcv.factory.transform.wavelet.GFactoryWavelet;
@@ -113,13 +140,17 @@ import boofcv.struct.feature.AssociatedIndex;
 import boofcv.struct.feature.ColorQueue_F32;
 import boofcv.struct.feature.ScalePoint;
 import boofcv.struct.feature.TupleDesc;
+import boofcv.struct.feature.TupleDesc_B;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.GrayS16;
 import boofcv.struct.image.GrayS16pair;
 import boofcv.struct.image.GrayS32;
 import boofcv.struct.image.GrayU8;
+import boofcv.struct.image.ImageBase;
+import boofcv.struct.image.ImageDataType;
 import boofcv.struct.image.ImageDimension;
 import boofcv.struct.image.ImageGray;
+import boofcv.struct.image.ImageInterleaved;
 import boofcv.struct.image.ImageType;
 import boofcv.struct.image.InterleavedF32;
 import boofcv.struct.image.Planar;
@@ -129,10 +160,18 @@ import boofcv.struct.wavelet.WlCoef;
 import georegression.struct.line.LineParametric2D_F32;
 import georegression.struct.line.LineSegment2D_F32;
 import georegression.struct.point.Point2D_F64;
+import georegression.struct.point.Point2D_I32;
 import georegression.struct.shapes.EllipseRotated_F64;
 import georegression.struct.shapes.Polygon2D_F64;
+import georegression.struct.shapes.Quadrilateral_F64;
 import sapphire.app.SapphireObject;
 
+import static org.boofcv.android.CreateDetectorDescriptor.DESC_BRIEF;
+import static org.boofcv.android.CreateDetectorDescriptor.DESC_NCC;
+import static org.boofcv.android.CreateDetectorDescriptor.DESC_SURF;
+import static org.boofcv.android.CreateDetectorDescriptor.DETECT_FAST;
+import static org.boofcv.android.CreateDetectorDescriptor.DETECT_FH;
+import static org.boofcv.android.CreateDetectorDescriptor.DETECT_SHITOMASI;
 import static sapphire.runtime.Sapphire.new_;
 
 /**
@@ -169,6 +208,9 @@ public class DemoManager implements SapphireObject<sapphire.policy.offload.CodeO
     private UtilWavelet UW;
     private CreateDetectorDescriptor CDD;
     private FactoryAssociation FA;
+    private FactoryTrackerObjectQuad FTOQ;
+    private FactoryPointTracker FPT;
+    private FactoryBackgroundModel FBM;
 
     //  Lower Level Objects (TODO: check if necessary??)
     /** info: Necessary when using entire Sapphire, but current
@@ -250,6 +292,17 @@ public class DemoManager implements SapphireObject<sapphire.policy.offload.CodeO
     FastQueue<TupleDesc> listDst;
     FastQueue<Point2D_F64> locationSrc;
     FastQueue<Point2D_F64> locationDst;
+    TrackerObjectQuad tracker;
+    PointTracker<GrayU8> pointTracker;
+    trackList tracklist;
+    List<PointTrack> inactive;
+    long tick;
+    BackgroundModelStationary model;
+    ImageBase scaled;
+    ImageGray work;
+    FDistort shrink;
+    int tableDet[] = new int[]{DETECT_SHITOMASI,DETECT_FAST,DETECT_FH};
+    int tableDesc[] = new int[]{DESC_BRIEF,DESC_SURF,DESC_NCC};
 
     //Initialization
     public DemoManager() {
@@ -312,6 +365,9 @@ public class DemoManager implements SapphireObject<sapphire.policy.offload.CodeO
         UW = (UtilWavelet) new_(UtilWavelet.class);
         CDD = (CreateDetectorDescriptor) new_(CreateDetectorDescriptor.class);
         FA = (FactoryAssociation) new_(FactoryAssociation.class);
+        FTOQ = (FactoryTrackerObjectQuad) new_(FactoryTrackerObjectQuad.class);
+        FPT = (FactoryPointTracker) new_(FactoryPointTracker.class);
+        FBM = (FactoryBackgroundModel) new_(FactoryBackgroundModel.class); 
 
         //TODO: move these initializations to functions below
         contour8 = new LinearContourLabelChang2004(ConnectRule.EIGHT);
@@ -320,31 +376,35 @@ public class DemoManager implements SapphireObject<sapphire.policy.offload.CodeO
     }
 
     public void LatencyCheck() {}
-
+    /*
     public <I extends ImageGray> ImageType<I> single(Class<I> imageType ) {
         return IT.single(imageType);
-    }
+    }*/
 
     public void canny( int blurRadius , boolean saveTrace , boolean dynamicThreshold) {
         canny = cannyEdge(blurRadius, saveTrace, dynamicThreshold, GrayU8.class, GrayS16.class);
     }
 
     public <T extends ImageGray, D extends ImageGray>
-    CannyEdge<T,D> cannyEdge( int blurRadius , boolean saveTrace , boolean dynamicThreshold, Class<T> imageType , Class<D> derivType ) {
-        return FED.canny(blurRadius, saveTrace, dynamicThreshold, imageType, derivType, FBF, FD, GIO, IT, FIB);
+    CannyEdge<T,D> cannyEdge( int blurRadius , boolean saveTrace , boolean dynamicThreshold,
+                              Class<T> imageType , Class<D> derivType ) {
+        return FED.canny(blurRadius, saveTrace, dynamicThreshold, imageType, derivType,
+                FBF, FD, GIO, IT, FIB);
     }
 
     public List<EdgeContour> edgeProcess(GrayU8 input , float threshLow, float threshHigh , GrayU8 output) {
         canny.process(input, threshLow, threshHigh, output,
-                IMO, GBIO, IBV, GTEF, IENMS, FIBA, GGTEF, IS, ISC, GIO, BlIO, CIM, FKG, CN, CNN, CINB,
-                CNJB, IMHI, IMSEN, IMSN, ICM, DHF, GTIO, GIS, TIO, CJBG, GSO, GSUO, GIMO, CI, UW);
+                IMO, GBIO, IBV, GTEF, IENMS, FIBA, GGTEF, IS, ISC, GIO, BlIO, CIM, FKG, CN, CNN,
+                CINB, CNJB, IMHI, IMSEN, IMSN, ICM, DHF, GTIO, GIS, TIO, CJBG, GSO, GSUO, GIMO, CI,
+                UW, IT);
         return canny.getContours();
     }
 
     public void process(GrayU8 input , float threshLow, float threshHigh , GrayU8 output) {
         canny.process(input, threshLow, threshHigh, output,
-                IMO, GBIO, IBV, GTEF, IENMS, FIBA, GGTEF, IS, ISC, GIO, BlIO, CIM, FKG, CN, CNN, CINB,
-                CNJB, IMHI, IMSEN, IMSN, ICM, DHF, GTIO, GIS, TIO, CJBG, GSO, GSUO, GIMO, CI, UW);
+                IMO, GBIO, IBV, GTEF, IENMS, FIBA, GGTEF, IS, ISC, GIO, BlIO, CIM, FKG, CN, CNN,
+                CINB, CNJB, IMHI, IMSEN, IMSN, ICM, DHF, GTIO, GIS, TIO, CJBG, GSO, GSUO, GIMO, CI,
+                UW, IT);
     }
 
     public List<EdgeContour> getContours() {
@@ -422,12 +482,14 @@ public class DemoManager implements SapphireObject<sapphire.policy.offload.CodeO
     }
 
     public GrayU8 thresholdProcess(GrayU8 input) {
-        inputToBinary.process(input, binary, GBIO, ISC, GIO, BlIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW);
+        inputToBinary.process(input, binary, GBIO, ISC, GIO, BlIO, CIM, FKG, CN, CNN, CINB, CNJB,
+                IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW, IT);
         return binary;
     }
 
     public void inputProcess(GrayU8 image) {
-        inputToBinary.process(image, blackBinary, GBIO, ISC, GIO, BlIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW);
+        inputToBinary.process(image, blackBinary, GBIO, ISC, GIO, BlIO, CIM, FKG, CN, CNN, CINB,
+                CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW, IT);
     }
 
     public void reshape(int width, int height) {
@@ -483,7 +545,8 @@ public class DemoManager implements SapphireObject<sapphire.policy.offload.CodeO
     }
 
     public List<LineParametric2D_F32> lineDetect(GrayU8 gray) {
-        return lineDetector.detect(gray, ISC, DHF, CINB, GTEF, GIO, TIO, GGTEF, CJBG, GSO, GSUO, IMO, IENMSC, FIBA, IBV);
+        return lineDetector.detect(gray, ISC, DHF, CINB, GTEF, GIO, TIO, GGTEF, CJBG, GSO, GSUO,
+                IMO, IENMSC, FIBA, IBV);
     }
 
     public void lineRansac() {
@@ -497,7 +560,8 @@ public class DemoManager implements SapphireObject<sapphire.policy.offload.CodeO
                                                  boolean connectLines,
                                                  Class<I> imageType ,
                                                  Class<D> derivType) {
-        return FDLA.lineRansac(regionSize, thresholdEdge, thresholdAngle, connectLines, imageType, derivType, FD, GIO, FIB);
+        return FDLA.lineRansac(regionSize, thresholdEdge, thresholdAngle, connectLines, imageType,
+                derivType, FD, GIO, FIB);
     }
 
     public List<LineSegment2D_F32> segDetect (GrayU8 gray) {
@@ -509,12 +573,14 @@ public class DemoManager implements SapphireObject<sapphire.policy.offload.CodeO
     }
 
     public void point() {
-        pointDetector = new EasyGeneralFeatureDetector<GrayU8,GrayS16>(general,GrayU8.class,GrayS16.class, FD, GIO, FIB);
+        pointDetector = new EasyGeneralFeatureDetector<GrayU8,GrayS16>(general,GrayU8.class,
+                GrayS16.class, FD, GIO, FIB);
     }
 
     public void general_point() {
         general = new GeneralFeatureDetector<GrayU8, GrayS16>(intensity,nonmax);
-        pointDetector = new EasyGeneralFeatureDetector<GrayU8,GrayS16>(general,GrayU8.class,GrayS16.class, FD, GIO, FIB);
+        pointDetector = new EasyGeneralFeatureDetector<GrayU8,GrayS16>(general,GrayU8.class,
+                GrayS16.class, FD, GIO, FIB);
     }
 
     public void setMaxFeatures(int numFeatures) {
@@ -523,14 +589,14 @@ public class DemoManager implements SapphireObject<sapphire.policy.offload.CodeO
 
     public void pointDetect(GrayU8 gray) {
         pointDetector.detect(gray, null, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN,
-                GBIO, GIO, BlIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, CI, UW);
+                GBIO, GIO, BlIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, CI, UW, IT);
     }
 
     public void set_pointDetect(GrayU8 gray) {
         nonmax.setSearchRadius( 3*gray.width/320 );
         general.setMaxFeatures(200*gray.width/320);
         pointDetector.detect(gray, null, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN,
-                GBIO, GIO, BlIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, CI, UW);
+                GBIO, GIO, BlIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, CI, UW, IT);
     }
 
     public QueueCorner pointgetMaximums() {
@@ -596,8 +662,9 @@ public class DemoManager implements SapphireObject<sapphire.policy.offload.CodeO
     }
 
     public void scaleDetect(GrayU8 gray) {
-        scaleDetector.detect(gray, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN,
-                GBIO, GIO, BlIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF, CI, UW);
+        scaleDetector.detect(gray, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN, GBIO,
+                GIO, BlIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD,
+                FIB, FBF, CI, UW, IT);
     }
 
     public int getNumberOfFeatures() {
@@ -626,30 +693,35 @@ public class DemoManager implements SapphireObject<sapphire.policy.offload.CodeO
     public void hessianPyramid() {
         foundGUI = new FastQueue<ScalePoint>(ScalePoint.class,true);
         double[] scales = {1,2,4,8,16,32};
-        scaleDetector = FIrP.wrapDetector(FIrPA.hessianPyramid(10,4,40,GrayU8.class,GrayS16.class,FFE, GIO, FIB), scales, false, GrayU8.class, FIB, FP);
+        scaleDetector = FIrP.wrapDetector(FIrPA.hessianPyramid(10,4,40,GrayU8.class,GrayS16.class,
+                FFE, GIO, FIB), scales, false, GrayU8.class, FIB, FP);
     }
 
     public void hessianLaplace() {
         foundGUI = new FastQueue<ScalePoint>(ScalePoint.class,true);
         double[] scales = {1,2,4,8,16,32};
-        scaleDetector = FIrP.wrapDetector(FIrPA.hessianLaplace(10,3,50,GrayU8.class,GrayS16.class, FFE, GIO, FIB), scales, false ,GrayU8.class, FIB, FP);
+        scaleDetector = FIrP.wrapDetector(FIrPA.hessianLaplace(10,3,50,GrayU8.class,GrayS16.class,
+                FFE, GIO, FIB), scales, false ,GrayU8.class, FIB, FP);
     }
 
     public void harrisPyramid() {
         foundGUI = new FastQueue<ScalePoint>(ScalePoint.class,true);
         double[] scales = {1,2,4,8,16,32};
-        scaleDetector = FIrP.wrapDetector(FIrPA.harrisPyramid(7,3,40,GrayU8.class,GrayS16.class, FIPA, GIO, FKG, FFE, FIB), scales, false ,GrayU8.class, FIB, FP);
+        scaleDetector = FIrP.wrapDetector(FIrPA.harrisPyramid(7,3,40,GrayU8.class,GrayS16.class,
+                FIPA, GIO, FKG, FFE, FIB), scales, false ,GrayU8.class, FIB, FP);
     }
 
     public void harrisLaplace() {
         foundGUI = new FastQueue<ScalePoint>(ScalePoint.class,true);
         double[] scales = {1,2,4,8,16,32};
-        scaleDetector = FIrP.wrapDetector(FIrPA.harrisLaplace(7,3,40,GrayU8.class,GrayS16.class, FIPA, GIO, FKG, FFE, FIB), scales, false ,GrayU8.class, FIB, FP);
+        scaleDetector = FIrP.wrapDetector(FIrPA.harrisLaplace(7,3,40,GrayU8.class,GrayS16.class,
+                FIPA, GIO, FKG, FFE, FIB), scales, false ,GrayU8.class, FIB, FP);
     }
 
+    /*
     public <I extends ImageGray> ImageType<Planar<GrayU8>> pl(int numBands) {
         return IT.pl(numBands, GrayU8.class);
-    }
+    }*/
 
     public void pL(int numBands) {
         type = IT.pl(numBands, GrayU8.class);
@@ -685,7 +757,7 @@ public class DemoManager implements SapphireObject<sapphire.policy.offload.CodeO
 
     public GrayS32 segment(Planar<GrayU8> input) {
         background.setTo(input);
-        segmentation.segment(input, pixelToRegion, ISC, GIO, GIMO, IMO, ISO, BIO, CI);
+        segmentation.segment(input, pixelToRegion, ISC, GIO, GIMO, IMO, ISO, BIO, CI, IT);
         return pixelToRegion;
     }
 
@@ -788,7 +860,8 @@ public class DemoManager implements SapphireObject<sapphire.policy.offload.CodeO
     }
 
     public GrayU8 blurProcess(GrayU8 input) {
-        filter.process(input,binary, GBIO, ISC, GIO, BlIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW);
+        filter.process(input,binary, GBIO, ISC, GIO, BlIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI,
+                IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW, IT);
         return binary;
     }
 
@@ -829,7 +902,8 @@ public class DemoManager implements SapphireObject<sapphire.policy.offload.CodeO
 
     public Planar<GrayU8> equalizelocal(Planar<GrayU8> input, int radius) {
         for( int i = 0; i < 3; i++ )
-            EIO.equalizeLocal(input.getBand(i), radius, background.getBand(i), histogram, transform, IS, ISC);
+            EIO.equalizeLocal(input.getBand(i), radius, background.getBand(i), histogram, transform,
+                    IS, ISC);
         return background;
     }
 
@@ -900,7 +974,8 @@ public class DemoManager implements SapphireObject<sapphire.policy.offload.CodeO
     }
 
     public GrayU8 pyramidProcess(GrayU8 input) {
-        pyramid.process(input, GBIO, ISC, GIO, BlIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG, CI, UW);
+        pyramid.process(input, GBIO, ISC, GIO, BlIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN,
+                IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG, CI, UW, IT);
         binary.subimage(0,0,pyramid.getLayer(0).width,pyramid.getLayer(0).height,afterOps);
         afterOps.setTo(pyramid.getLayer(0));
         int height = 0;
@@ -948,7 +1023,7 @@ public class DemoManager implements SapphireObject<sapphire.policy.offload.CodeO
     }
 
     public GrayS32 waveletProcess(GrayU8 input) {
-        waveletTran.transform(input,pixelToRegion, ISC, GIO, GIMO, IMO, CI, UW);
+        waveletTran.transform(input,pixelToRegion, ISC, GIO, GIMO, IMO, CI, UW, IT);
         //System.out.println("BOOF: num levels " + waveletTran.getLevels());
         //System.out.println("BOOF: width "+pixelToRegion.getWidth()+" "+pixelToRegion.getHeight());
         UW.adjustForDisplay(pixelToRegion, waveletTran.getLevels(), 255);
@@ -956,7 +1031,8 @@ public class DemoManager implements SapphireObject<sapphire.policy.offload.CodeO
     }
 
     public void startAssoc(int selectedDet, int selectedDesc) {
-        detDesc = CDD.create(selectedDet, selectedDesc, GrayF32.class, FIrP, FIrPA, FIPA, FFE,FIB, FD, GIO, FKG, IT, FBF);
+        detDesc = CDD.create(selectedDet, selectedDesc, GrayF32.class, FIrP, FIrPA, FIPA, FFE,FIB,
+                FD, GIO, FKG, IT, FBF);
         ScoreAssociation score = FA.defaultScore(detDesc.getDescriptionType());
         associate = FA.greedy(score,Double.MAX_VALUE,true);
         listSrc = UtilFeature.createQueue(detDesc,10);
@@ -966,8 +1042,9 @@ public class DemoManager implements SapphireObject<sapphire.policy.offload.CodeO
     }
 
     public void assocDetectleft(GrayF32 graySrc) {
-        detDesc.detect(graySrc, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN,
-                GBIO, GIO, BlIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF, CI, UW);
+        detDesc.detect(graySrc, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN, GBIO,
+                GIO, BlIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD,
+                FIB, FBF, CI, UW, IT);
 
         listSrc.reset();
         locationSrc.reset();
@@ -979,8 +1056,9 @@ public class DemoManager implements SapphireObject<sapphire.policy.offload.CodeO
     }
 
     public void assocDetectright(GrayF32 graySrc) {
-        detDesc.detect(graySrc, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN,
-                GBIO, GIO, BlIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF, CI, UW);
+        detDesc.detect(graySrc, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN, GBIO,
+                GIO, BlIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD,
+                FIB, FBF, CI, UW, IT);
 
         listDst.reset();
         locationDst.reset();
@@ -1005,6 +1083,200 @@ public class DemoManager implements SapphireObject<sapphire.policy.offload.CodeO
         }
 
         return points;
+    }
+
+    public void circulant(ConfigCirculantTracker config) {
+        tracker = FTOQ.circulant(config, GrayU8.class, FIB, IT, DFTO, ISC);
+    }
+
+    public void meanShiftComaniciu2003(ConfigComaniciu2003 config, ImageType imageType) {
+        tracker = FTOQ.meanShiftComaniciu2003(config, imageType, FIB);
+    }
+
+    public void meanShiftLikelihood(int maxIterations,
+                                    int numBins,
+                                    double maxPixelValue,
+                                    MeanShiftLikelihoodType modelType, ImageType imageType) {
+        tracker = FTOQ.meanShiftLikelihood(maxIterations,numBins,maxPixelValue, modelType, imageType);
+    }
+
+    public void sparseFlow(SfotConfig config) {
+        tracker = FTOQ.sparseFlow(config,GrayU8.class,null, FD, FIB, GIO, IT);
+    }
+
+    public void tld(ConfigTld config) {
+        tracker = FTOQ.tld(config,GrayU8.class, FD, FIB, GIO, IT);
+    }
+
+    public<T extends ImageBase> track trackerProcess(T input , Quadrilateral_F64 location) {
+        track ret = new track();
+        ret.visible = tracker.process(input, location, GBIO, ISC, GIO, BlIO, CIM, FKG, CN, CNN,
+                CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG, CI,
+                UW, DHF, GSO, GSUO, FP, DFTO, IT);
+        ret.location = location;
+        return ret;
+    }
+
+    public<T extends ImageBase> Quadrilateral_F64 trackerMoved(T input, Quadrilateral_F64 location) {
+        tracker.initialize(input, location, GBIO, ISC, GIO, BlIO, CIM, FKG, CN, CNN, CINB, CNJB,
+                IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG, CI, UW, DHF, GSO,
+                GSUO, FP, DFTO, IT);
+        return location;
+    }
+
+    public GrayU8 convertAverage(Planar<GrayU8> input) {
+        return CI.average(input, null, ISC);
+    }
+
+    public void klt(int scaling[], ConfigGeneralDetector configExtract, int featureRadius) {
+        pointTracker = FPT.klt(scaling,configExtract,featureRadius,GrayU8.class, GrayS16.class, FD,
+                GIO, FIB, FKG, FP, FFE, FIPA);
+    }
+
+    public void initPoint() {
+        tracklist = new trackList();
+        inactive = new ArrayList<PointTrack>();
+    }
+
+    public trackList pointProcess(GrayU8 gray) {
+        pointTracker.process(gray, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN, GBIO,
+                GIO, BlIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD,
+                FIB, FBF, CI, UW, IT);
+
+        // drop tracks which are no longer being used
+        inactive.clear();
+        pointTracker.getInactiveTracks(inactive);
+        for( int i = 0; i < inactive.size(); i++ ) {
+            PointTrack t = inactive.get(i);
+            trackInfo info = t.getCookie();
+            if( tick - info.lastActive > 2 ) {
+                pointTracker.dropTrack(t);
+            }
+        }
+
+        tracklist.active.clear();
+        pointTracker.getActiveTracks(tracklist.active);
+        for( int i = 0; i < tracklist.active.size(); i++ ) {
+            PointTrack t = tracklist.active.get(i);
+            trackInfo info = t.getCookie();
+            info.lastActive = tick;
+        }
+
+        tracklist.spawned.clear();
+        if( tracklist.active.size() < 50 )  {
+            pointTracker.spawnTracks(ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN,
+                    GBIO, GIO, BlIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA,
+                    IBV, FHFD, FIB, FBF, CI, UW, IT);
+
+            // update the track's initial position
+            for( int i = 0; i < tracklist.active.size(); i++ ) {
+                PointTrack t = tracklist.active.get(i);
+                trackInfo info = t.getCookie();
+                info.spawn.set(t);
+            }
+
+            pointTracker.getNewTracks(tracklist.spawned);
+            for( int i = 0; i < tracklist.spawned.size(); i++ ) {
+                PointTrack t = tracklist.spawned.get(i);
+                if( t.cookie == null ) {
+                    t.cookie = new trackInfo();
+                }
+                trackInfo info = t.getCookie();
+                info.lastActive = tick;
+                info.spawn.set(t);
+            }
+        }
+
+        tick++;
+        return tracklist;
+    }
+
+    public void combinedTracker( int detector , int descriptor , PkltConfig config ) {
+        DetectDescribePoint detDesc = CDD.create(tableDet[detector],tableDesc[descriptor],GrayU8.class, FIrP, FIrPA, FIPA, FFE, FIB, FD, GIO, FKG, IT, FBF);
+        ScoreAssociation score = FA.defaultScore(detDesc.getDescriptionType());
+        AssociateDescription<TupleDesc_B> association = FA.greedy(score, Double.MAX_VALUE, true);
+        pointTracker = FPT.combined(detDesc,association,config,75,GrayU8.class, FP, FKG, FD, GIO, FIB);
+    }
+
+    public void ddaTracker(int detector , int descriptor) {
+        DetectDescribePoint detDesc = CDD.create(tableDet[detector],tableDesc[descriptor],GrayU8.class, FIrP, FIrPA, FIPA, FFE, FIB, FD, GIO, FKG, IT, FBF);
+        ScoreAssociation score = FA.defaultScore(detDesc.getDescriptionType());
+        AssociateDescription2D<TupleDesc_B> association =
+                new AssociateDescTo2D<TupleDesc_B>(
+                        FA.greedy(score, Double.MAX_VALUE, true));
+        pointTracker = FPT.dda(detDesc,association,false);
+    }
+
+    public void stationaryBasic(ConfigBackgroundBasic configBasic) {
+        model = FBM.stationaryBasic(configBasic,IT.single(GrayU8.class), IT);
+    }
+
+    public void stationaryBasicColor(ConfigBackgroundBasic configBasic) {
+        model = FBM.stationaryBasic(configBasic,IT.il(3, ImageDataType.U8), IT);
+    }
+
+    public void stationaryGaussian(ConfigBackgroundGaussian configGaussian) {
+        model = FBM.stationaryGaussian(configGaussian, IT.single(GrayU8.class), IT);
+    }
+
+    public void stationaryGaussianColor(ConfigBackgroundGaussian configGaussian) {
+        model = FBM.stationaryGaussian(configGaussian, IT.il(3, ImageDataType.U8), IT);
+    }
+
+    public ImageType getImageType() {
+        return model.getImageType();
+    }
+
+    public void motionInit() {
+        scaled = model.getImageType().createImage(1, 1);
+        work = GIO.createSingleBand(model.getImageType().getDataType(),1,1, IT);
+    }
+
+    public void initbg(int width, int height) {
+        blackBinary.reshape(width, height);
+        work.reshape(width, height);
+        scaled.reshape(width/3,height/3);
+        shrink = new FDistort();
+    }
+
+    public void setThreshold(float progress) {
+        if( model instanceof BackgroundStationaryBasic) {
+            ((BackgroundStationaryBasic)model).setThreshold(progress);
+        } else if( model instanceof BackgroundStationaryGaussian) {
+            ((BackgroundStationaryGaussian)model).setThreshold(progress);
+        }
+    }
+
+    public void reset() {
+        model.reset();
+        IMO.fill(blackBinary, 0);
+    }
+
+    public<T extends ImageBase> GrayU8 set(T image) {
+        model.segment(image, blackBinary, ISC, IMO);
+        model.updateBackground(image, ISC, GIO, GIMO, IMO, CI, IT);
+        return blackBinary;
+    }
+
+    public<T extends ImageBase> T pip(T image) {
+        // shrink the input image
+        shrink.init(image, scaled, FIB).scaleExt(FIB);
+        shrink.apply();
+
+        // rescale the binary image so that it can be viewed
+        PixelMath.multiply(blackBinary, 255, blackBinary, ISC);
+
+        // overwrite the original image with the binary one
+        GConvertImage.convert(blackBinary, work, ISC, GIO, GIMO, IMO, CI, IT);
+        // if the input image is color then it needs a gray scale image of the same type
+        GConvertImage.convert(work, image, ISC, GIO, GIMO, IMO, CI, IT);
+
+        // render the shrunk image inside the original
+        int x0 = image.width  - scaled.width;
+        int y0 = image.height - scaled.height;
+
+        image.subimage(x0,y0,blackBinary.width,blackBinary.height).setTo(scaled);
+        return image;
     }
 
 }

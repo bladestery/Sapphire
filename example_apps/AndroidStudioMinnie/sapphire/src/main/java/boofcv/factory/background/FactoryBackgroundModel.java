@@ -25,6 +25,7 @@ import boofcv.struct.distort.Point2Transform2Model_F32;
 import boofcv.struct.image.ImageBase;
 import boofcv.struct.image.ImageType;
 import georegression.struct.InvertibleTransform;
+import sapphire.app.SapphireObject;
 
 /**
  * Factory for creating implementations of {@link BackgroundModelStationary} and {@link boofcv.alg.background.BackgroundModelMoving}
@@ -32,7 +33,8 @@ import georegression.struct.InvertibleTransform;
  * @author Peter Abeles
  */
 @SuppressWarnings("unchecked")
-public class FactoryBackgroundModel {
+public class FactoryBackgroundModel implements SapphireObject {
+	public FactoryBackgroundModel() {}
 
 	/**
 	 * Creates an instance of {@link BackgroundMovingBasic}.
@@ -41,14 +43,14 @@ public class FactoryBackgroundModel {
 	 * @param imageType Type of input image
 	 * @return new instance of the background model
 	 */
-	public static <T extends ImageBase>
-	BackgroundStationaryBasic<T> stationaryBasic( ConfigBackgroundBasic config , ImageType<T> imageType ) {
+	public <T extends ImageBase>
+	BackgroundStationaryBasic<T> stationaryBasic( ConfigBackgroundBasic config , ImageType<T> imageType, ImageType IT) {
 
 		config.checkValidity();
 
 		switch( imageType.getFamily() ) {
 			case GRAY:
-				return new BackgroundStationaryBasic_SB(config.learnRate,config.threshold,imageType.getImageClass());
+				return new BackgroundStationaryBasic_SB(config.learnRate,config.threshold,imageType.getImageClass(), IT);
 
 			case PLANAR:
 				return new BackgroundStationaryBasic_PL(config.learnRate,config.threshold,imageType);
@@ -67,7 +69,7 @@ public class FactoryBackgroundModel {
 	 * @param imageType Type of input image
 	 * @return new instance of the background model
 	 */
-	public static <T extends ImageBase, Motion extends InvertibleTransform<Motion>>
+	public <T extends ImageBase, Motion extends InvertibleTransform<Motion>>
 	BackgroundMovingBasic<T,Motion> movingBasic(ConfigBackgroundBasic config ,
 												Point2Transform2Model_F32<Motion> transform, ImageType<T> imageType ) {
 
@@ -97,8 +99,8 @@ public class FactoryBackgroundModel {
 	 * @param imageType Type of input image
 	 * @return new instance of the background model
 	 */
-	public static <T extends ImageBase>
-	BackgroundStationaryGaussian<T> stationaryGaussian( ConfigBackgroundGaussian config , ImageType<T> imageType ) {
+	public <T extends ImageBase>
+	BackgroundStationaryGaussian<T> stationaryGaussian( ConfigBackgroundGaussian config , ImageType<T> imageType, ImageType IT) {
 
 		config.checkValidity();
 
@@ -106,7 +108,7 @@ public class FactoryBackgroundModel {
 
 		switch( imageType.getFamily() ) {
 			case GRAY:
-				ret = new BackgroundStationaryGaussian_SB(config.learnRate,config.threshold,imageType.getImageClass());
+				ret = new BackgroundStationaryGaussian_SB(config.learnRate,config.threshold,imageType.getImageClass(), IT);
 				break;
 
 			case PLANAR:
@@ -134,7 +136,7 @@ public class FactoryBackgroundModel {
 	 * @param imageType Type of input image
 	 * @return new instance of the background model
 	 */
-	public static <T extends ImageBase,Motion extends InvertibleTransform<Motion>>
+	public <T extends ImageBase,Motion extends InvertibleTransform<Motion>>
 	BackgroundMovingGaussian<T,Motion> movingGaussian( ConfigBackgroundGaussian config ,
 													   Point2Transform2Model_F32<Motion> transform,
 													   ImageType<T> imageType ) {

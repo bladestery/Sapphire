@@ -72,7 +72,7 @@ public class GlobalFixedBinaryFilter<T extends ImageGray> implements InputToBina
 						ConvolveImageMean CIM, FactoryKernelGaussian FKG, ConvolveNormalized CN, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB,
 						ConvolveNormalized_JustBorder CNJB, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM,
 						GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvolveJustBorder_General CJBG,
-						ConvertImage CI, UtilWavelet UW) {
+						ConvertImage CI, UtilWavelet UW, ImageType IT) {
 		GTIO.threshold(input,output,threshold,down, TIO, ISC, GIO);
 	}
 

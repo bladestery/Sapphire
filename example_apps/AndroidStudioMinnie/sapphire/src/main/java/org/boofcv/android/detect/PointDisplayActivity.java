@@ -59,6 +59,7 @@ public class PointDisplayActivity extends DemoVideoDisplayActivity
 
 	OMSServer server;
 	DemoManager dm;
+	ImageType IT = new ImageType();
 
 
 	public void onCreate(Bundle savedInstanceState) {
@@ -199,7 +200,7 @@ public class PointDisplayActivity extends DemoVideoDisplayActivity
 
 
 		public PointProcessing() {
-			super(dm.single(GrayU8.class));
+			super(IT.single(GrayU8.class));
 			dm.general_point();
 			//this.nonmax = nonmax;
 		}

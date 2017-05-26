@@ -18,6 +18,7 @@
 
 package boofcv.alg.flow;
 
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.tracker.klt.KltTrackFault;
 import boofcv.alg.tracker.klt.KltTracker;
 import boofcv.alg.tracker.klt.PyramidKltFeature;
@@ -59,8 +60,8 @@ public class DenseOpticalFlowKlt<I extends ImageGray, D extends ImageGray> {
 		this.regionRadius = radius;
 	}
 
-	public void process( ImagePyramid<I> prev, D[] prevDerivX, D[] prevDerivY,
-						 ImagePyramid<I> curr , ImageFlow output ) {
+	public void process(ImagePyramid<I> prev, D[] prevDerivX, D[] prevDerivY,
+						ImagePyramid<I> curr , ImageFlow output, ImageMiscOps IMO) {
 
 		this.width = output.width;
 		this.height = output.height;
@@ -81,10 +82,10 @@ public class DenseOpticalFlowKlt<I extends ImageGray, D extends ImageGray> {
 				tracker.setImage(prev,prevDerivX,prevDerivY);
 				feature.setPosition(x,y);
 
-				if( tracker.setDescription(feature) ) {
+				if( tracker.setDescription(feature, IMO) ) {
 					// derivX and derivY are not used, but can't be null for setImage()
 					tracker.setImage(curr);
-					KltTrackFault fault = tracker.track(feature);
+					KltTrackFault fault = tracker.track(feature, IMO);
 					if( fault == KltTrackFault.SUCCESS ) {
 						float score = tracker.getError();
 						// bias the result to prefer the central template

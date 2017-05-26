@@ -78,12 +78,12 @@ public class LocalSauvolaBinaryFilter<T extends ImageGray> implements InputToBin
 						ConvolveImageMean CIM, FactoryKernelGaussian FKG, ConvolveNormalized CN, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB,
 						ConvolveNormalized_JustBorder CNJB, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM,
 						GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvolveJustBorder_General CJBG,
-						ConvertImage CI, UtilWavelet UW) {
+						ConvertImage CI, UtilWavelet UW, ImageType IT) {
 		if( this.input == null )
 			alg.process((GrayF32)input,output, BIO, ISC, CIM, CN, CNN, CINB, CNJB, ICM, IS);
 		else {
 			this.input.reshape(input.width,input.height);
-			GConvertImage.convert(input,this.input, ISC, GIO, GIMO, IMO, CI);
+			GConvertImage.convert(input,this.input, ISC, GIO, GIMO, IMO, CI, IT);
 			alg.process(this.input,output, BIO, ISC, CIM, CN, CNN, CINB, CNJB, ICM, IS);
 		}
 	}

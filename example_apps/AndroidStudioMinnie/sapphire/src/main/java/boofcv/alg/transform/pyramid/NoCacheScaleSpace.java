@@ -51,6 +51,7 @@ import boofcv.struct.BoofDefaults;
 import boofcv.struct.convolve.Kernel1D;
 import boofcv.struct.gss.GaussianScaleSpace;
 import boofcv.struct.image.ImageGray;
+import boofcv.struct.image.ImageType;
 
 
 /**
@@ -89,6 +90,7 @@ public class NoCacheScaleSpace<I extends ImageGray, D extends ImageGray>
 	private static ConvolveJustBorder_General CJBG;
 	private static ConvertImage CI;
 	private static UtilWavelet UW;
+	private static ImageType IT;
 	// reference to the original input image
 	private I originalImage;
 
@@ -154,8 +156,8 @@ public class NoCacheScaleSpace<I extends ImageGray, D extends ImageGray>
 		ConvolveInterface<I, I> blurY = FactoryConvolve.convolve(kernel,inputType,inputType, borderBlur ,false, FIB);
 
 		// compute the scale image
-		blurX.process(originalImage,workImage, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW);
-		blurY.process(workImage,scaledImage, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW);
+		blurX.process(originalImage,workImage, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW, IT);
+		blurY.process(workImage,scaledImage, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW, IT);
 
 		anyDeriv.setInput(scaledImage);
 	}
@@ -193,6 +195,6 @@ public class NoCacheScaleSpace<I extends ImageGray, D extends ImageGray>
 	 */
 	@Override
 	public D getDerivative(boolean... isX) {
-		return anyDeriv.getDerivative(GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW, isX);
+		return anyDeriv.getDerivative(GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW, IT, isX);
 	}
 }

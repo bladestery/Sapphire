@@ -19,12 +19,14 @@
 package boofcv.struct.feature;
 
 
+import java.io.Serializable;
+
 /**
  * Basic description of an image feature's attributes using an array.
  *
  * @author Peter Abeles
  */
-public class TupleDesc_F32 implements TupleDesc<TupleDesc_F32> {
+public class TupleDesc_F32 implements TupleDesc<TupleDesc_F32>, Serializable {
 	public float value[];
 
 	public TupleDesc_F32(int numFeatures) {

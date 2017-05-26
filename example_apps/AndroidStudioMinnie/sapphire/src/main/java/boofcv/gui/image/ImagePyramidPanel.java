@@ -20,6 +20,7 @@ package boofcv.gui.image;
 
 import boofcv.abst.distort.FDistort;
 import boofcv.alg.interpolate.InterpolatePixelS;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.gui.ListDisplayPanel;
 import boofcv.io.image.ConvertBufferedImage;
@@ -38,7 +39,7 @@ import java.awt.image.BufferedImage;
  */
 @SuppressWarnings({"unchecked"})
 public class ImagePyramidPanel<T extends ImageGray> extends ListDisplayPanel {
-
+	private static FactoryImageBorder FIB;
 	// the image pyramid.
 	ImagePyramid<T> pyramid;
 	// interpolation used for upscaling
@@ -106,7 +107,7 @@ public class ImagePyramidPanel<T extends ImageGray> extends ListDisplayPanel {
 		int N = pyramid.getNumLayers();
 
 		for( int i = 0; i < N; i++ ) {
-			new FDistort(pyramid.getLayer(i),upscale).interpNN().scaleExt().apply();
+			new FDistort(pyramid.getLayer(i),upscale, FIB).interpNN(FIB).scaleExt(FIB).apply();
 			BufferedImage b = ConvertBufferedImage.convertTo(upscale,null,true);
 			if( showScales )
 				addImage(b,String.format("%5.2f",pyramid.getScale(i)));

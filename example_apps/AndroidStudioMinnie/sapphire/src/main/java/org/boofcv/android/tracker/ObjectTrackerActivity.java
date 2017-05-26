@@ -15,8 +15,13 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import org.boofcv.android.DemoManager;
 import org.boofcv.android.DemoVideoDisplayActivity;
 import org.boofcv.android.R;
+
+import java.net.InetSocketAddress;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
 import boofcv.abst.tracker.ConfigComaniciu2003;
 import boofcv.abst.tracker.ConfigTld;
@@ -35,6 +40,10 @@ import boofcv.struct.image.Planar;
 import georegression.struct.point.Point2D_F64;
 import georegression.struct.point.Point2D_I32;
 import georegression.struct.shapes.Quadrilateral_F64;
+import sapphire.kernel.server.KernelServerImpl;
+import sapphire.oms.OMSServer;
+
+import static sapphire.kernel.common.GlobalKernelReferences.nodeServer;
 
 /**
  * Allow the user to select an object in the image and then track it
@@ -44,9 +53,6 @@ import georegression.struct.shapes.Quadrilateral_F64;
 public class ObjectTrackerActivity extends DemoVideoDisplayActivity
 		implements AdapterView.OnItemSelectedListener, View.OnTouchListener
 {
-	private ImageType IT;
-	private static InputSanityCheck ISC;
-	private static ConvertImage CI;
 	Spinner spinnerView;
 
 	int mode = 0;
@@ -57,6 +63,12 @@ public class ObjectTrackerActivity extends DemoVideoDisplayActivity
 	Point2D_I32 click0 = new Point2D_I32();
 	Point2D_I32 click1 = new Point2D_I32();
 
+	OMSServer server;
+	DemoManager dm;
+	ImageType IT = new ImageType();
+	ConvertImage CI = new ConvertImage();
+	InputSanityCheck ISC = new InputSanityCheck();
+
 	public ObjectTrackerActivity() {
 		super(true);
 	}
@@ -64,6 +76,33 @@ public class ObjectTrackerActivity extends DemoVideoDisplayActivity
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		InetSocketAddress host, omsHost;
+
+		try {
+			Registry registry = LocateRegistry.getRegistry("157.82.159.58", 22346);
+			server = (OMSServer) registry.lookup("SapphireOMS");
+			System.out.println(server);
+
+			host = new InetSocketAddress("192.168.0.7", 22346);
+			omsHost = new InetSocketAddress("157.82.159.58", 22346);
+			nodeServer = new KernelServerImpl(host, omsHost);
+			System.out.println(nodeServer);
+
+			System.setProperty("java.rmi.server.hostname", host.getAddress().getHostAddress());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		try {
+			//Server is initiated with appObject to perform remote RPCs
+			dm = (DemoManager) server.getAppEntryPoint();
+			System.out.println("Got AppEntryPoint");
+			//dm.LatencyCheck();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(0);
+		}
 
 		LayoutInflater inflater = getLayoutInflater();
 		LinearLayout controls = (LinearLayout)inflater.inflate(R.layout.objecttrack_controls,null);
@@ -94,28 +133,28 @@ public class ObjectTrackerActivity extends DemoVideoDisplayActivity
 	}
 
 	private void startObjectTracking(int pos) {
-		TrackerObjectQuad tracker = null;
+		//TrackerObjectQuad tracker = null;
 		ImageType imageType = null;
 
 		switch (pos) {
 			case 0:
 				imageType = IT.single(GrayU8.class);
-				tracker = FactoryTrackerObjectQuad.circulant(null,GrayU8.class);
+				dm.circulant(null);
 				break;
 
 			case 1:
 				imageType = IT.pl(3, GrayU8.class);
-				tracker = FactoryTrackerObjectQuad.meanShiftComaniciu2003(new ConfigComaniciu2003(false),imageType);
+				dm.meanShiftComaniciu2003(new ConfigComaniciu2003(false), imageType);
 				break;
 
 			case 2:
 				imageType = IT.pl(3, GrayU8.class);
-				tracker = FactoryTrackerObjectQuad.meanShiftComaniciu2003(new ConfigComaniciu2003(true),imageType);
+				dm.meanShiftComaniciu2003(new ConfigComaniciu2003(true), imageType);
 				break;
 
 			case 3:
 				imageType = IT.pl(3, GrayU8.class);
-				tracker = FactoryTrackerObjectQuad.meanShiftLikelihood(30,5,256, MeanShiftLikelihoodType.HISTOGRAM,imageType);
+				dm.meanShiftLikelihood(30,5,256, MeanShiftLikelihoodType.HISTOGRAM, imageType);
 				break;
 
 			case 4:{
@@ -123,18 +162,18 @@ public class ObjectTrackerActivity extends DemoVideoDisplayActivity
 				SfotConfig config = new SfotConfig();
 				config.numberOfSamples = 10;
 				config.robustMaxError = 30;
-				tracker = FactoryTrackerObjectQuad.sparseFlow(config,GrayU8.class,null);
+				dm.sparseFlow(config);
 			}break;
 
 			case 5:
 				imageType = IT.single(GrayU8.class);
-				tracker = FactoryTrackerObjectQuad.tld(new ConfigTld(false),GrayU8.class);
+				dm.tld(new ConfigTld(false));
 				break;
 
 			default:
 				throw new RuntimeException("Unknown tracker: "+pos);
 		}
-		setProcessing(new TrackingProcessing(tracker,imageType) );
+		setProcessing(new TrackingProcessing(imageType));
 	}
 
 	@Override
@@ -165,11 +204,10 @@ public class ObjectTrackerActivity extends DemoVideoDisplayActivity
 
 	protected class TrackingProcessing<T extends ImageBase> extends VideoImageProcessing<Planar<GrayU8>>
 	{
-
 		T input;
 		ImageType<T> inputType;
 
-		TrackerObjectQuad tracker;
+		//TrackerObjectQuad tracker;
 		boolean visible;
 
 		Quadrilateral_F64 location = new Quadrilateral_F64();
@@ -181,7 +219,7 @@ public class ObjectTrackerActivity extends DemoVideoDisplayActivity
 		Paint paintLine3 = new Paint();
 		private Paint textPaint = new Paint();
 
-		protected TrackingProcessing(TrackerObjectQuad tracker , ImageType<T> inputType) {
+		protected TrackingProcessing(ImageType<T> inputType) {
 			super(IT.pl(3, GrayU8.class));
 			this.inputType = inputType;
 
@@ -190,7 +228,7 @@ public class ObjectTrackerActivity extends DemoVideoDisplayActivity
 			}
 
 			mode = 0;
-			this.tracker = tracker;
+			//this.tracker = tracker;
 
 			paintSelected.setColor(Color.argb(0xFF/2,0xFF,0,0));
 
@@ -219,6 +257,7 @@ public class ObjectTrackerActivity extends DemoVideoDisplayActivity
 		private void updateTracker(Planar<GrayU8> color) {
 			if( inputType.getFamily() == ImageType.Family.GRAY ) {
 				input.reshape(color.width,color.height);
+				//input = (T) dm.convertAverage(color);
 				CI.average(color,(GrayU8)input, ISC);
 			} else {
 				input = (T)color;
@@ -237,7 +276,7 @@ public class ObjectTrackerActivity extends DemoVideoDisplayActivity
 					location.b.set(location.c.x, location.a.y);
 					location.d.set( location.a.x, location.c.y );
 
-					tracker.initialize(input, location);
+					location = dm.trackerMoved(input, location);
 					visible = true;
 					mode = 3;
 				} else {
@@ -251,7 +290,9 @@ public class ObjectTrackerActivity extends DemoVideoDisplayActivity
 					mode = 0;
 				}
 			} else if( mode == 3 ) {
-				visible = tracker.process(input,location);
+				track Track = dm.trackerProcess(input, location);
+				visible = Track.visible;
+				location = Track.location;
 			}
 		}
 

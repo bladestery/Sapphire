@@ -23,6 +23,7 @@ import boofcv.alg.transform.ii.GIntegralImageOps;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.struct.ImageRectangle;
 import boofcv.struct.image.*;
+import sapphire.compiler.GIOGenerator;
 
 /**
  * Compute the variance for a rectangular region using the integral image.  Supports both U8 and F32 input images.
@@ -33,8 +34,7 @@ import boofcv.struct.image.*;
  * @author Peter Abeles
  */
 public class TldVarianceFilter<T extends ImageGray> {
-	private GeneralizedImageOps GIO;
-	private static InputSanityCheck ISC;
+
 	// threshold for selecting candidate regions
 	private double thresholdLower;
 
@@ -48,7 +48,7 @@ public class TldVarianceFilter<T extends ImageGray> {
 	 *
 	 * @param imageType  Either {@link GrayU8} or {@link GrayF32}
 	 */
-	public TldVarianceFilter( Class<T> imageType ) {
+	public TldVarianceFilter(Class<T> imageType, GeneralizedImageOps GIO) {
 
 		// declare integral images.
 		if(GIO.isFloatingPoint(imageType) ) {
@@ -68,7 +68,7 @@ public class TldVarianceFilter<T extends ImageGray> {
 	 *
 	 * @param gray input image
 	 */
-	public void setImage(T gray) {
+	public void setImage(T gray, InputSanityCheck ISC, GeneralizedImageOps GIO) {
 		integral.reshape(gray.width,gray.height);
 		integralSq.reshape(gray.width,gray.height);
 

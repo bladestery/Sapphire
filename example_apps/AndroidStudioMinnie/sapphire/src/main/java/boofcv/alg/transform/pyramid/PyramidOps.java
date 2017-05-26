@@ -53,6 +53,7 @@ import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.ImageGray;
+import boofcv.struct.image.ImageType;
 import boofcv.struct.pyramid.ImagePyramid;
 
 import java.lang.reflect.Array;
@@ -64,32 +65,6 @@ import java.lang.reflect.Array;
  * @author Peter Abeles
  */
 public class PyramidOps {
-	private static GeneralizedImageOps GIO;
-	private static GBlurImageOps GBIO;
-	private static InputSanityCheck ISC;
-	private static BlurImageOps BIO;
-	private static ConvolveImageMean CIM;
-	private static FactoryKernelGaussian FKG;
-	private static ConvolveNormalized CN;
-	private static ConvolveNormalizedNaive CNN;
-	private static ConvolveImageNoBorder CINB;
-	private static ConvolveNormalized_JustBorder CNJB;
-	private static ImplMedianHistogramInner IMHI;
-	private static ImplMedianSortEdgeNaive IMSEN;
-	private static ImplMedianSortNaive IMSN;
-	private static ImplConvolveMean ICM;
-	private static DerivativeHelperFunctions DHF;
-	private static GThresholdImageOps GTIO;
-	private static GImageStatistics GIS;
-	private static ImageStatistics IS;
-	private static ThresholdImageOps TIO;
-	private static ConvolveJustBorder_General CJBG;
-	private static GradientSobel_Outer GSO;
-	private static GradientSobel_UnrolledOuter GSUO;
-	private static GImageMiscOps GIMO;
-	private static ImageMiscOps IMO;
-	private static ConvertImage CI;
-	private static UtilWavelet UW;
 	/**
 	 * Creates an array of single band images for each layer in the provided pyramid.  Each image will
 	 * be the same size as the corresponding layer in the pyramid.
@@ -100,7 +75,7 @@ public class PyramidOps {
 	 * @return An array of images
 	 */
 	public static <O extends ImageGray>
-	O[] declareOutput( ImagePyramid<?> pyramid , Class<O> outputType ) {
+	O[] declareOutput( ImagePyramid<?> pyramid , Class<O> outputType, GeneralizedImageOps GIO) {
 		O[] ret = (O[])Array.newInstance(outputType,pyramid.getNumLayers());
 
 		for( int i = 0; i < ret.length; i++ ) {
@@ -144,11 +119,14 @@ public class PyramidOps {
 	 * @param output Output pyramid where filter results are saved.
 	 */
 	public static <I extends ImageGray, O extends ImageGray>
-	void filter(ImagePyramid<I> input, FilterImageInterface<I, O> filter, O[] output )
+	void filter(ImagePyramid<I> input, FilterImageInterface<I, O> filter, O[] output, GBlurImageOps GBIO, InputSanityCheck ISC, GeneralizedImageOps GIO, BlurImageOps BIO, ConvolveImageMean CIM,
+				FactoryKernelGaussian FKG, ConvolveNormalized CN, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN,
+				ImplMedianSortNaive IMSN, ImplConvolveMean ICM, GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO, GImageMiscOps GIMO, ImageMiscOps IMO,
+				ConvolveJustBorder_General CJBG, ConvertImage CI, UtilWavelet UW, ImageType IT)
 	{
 		for( int i = 0; i < input.getNumLayers(); i++ ) {
 			I imageIn = input.getLayer(i);
-			filter.process(imageIn,output[i], GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW);
+			filter.process(imageIn,output[i], GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW, IT);
 		}
 	}
 
@@ -169,7 +147,8 @@ public class PyramidOps {
 	 * @param derivY Pyramid where y-derivative is stored.
 	 */
 	public static <I extends ImageGray, O extends ImageGray>
-	void gradient(ImagePyramid<I> input, ImageGradient<I, O> gradient, O[] derivX, O[] derivY )
+	void gradient(ImagePyramid<I> input, ImageGradient<I, O> gradient, O[] derivX, O[] derivY, InputSanityCheck ISC, DerivativeHelperFunctions DHF,
+			  ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG, GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO)
 	{
 		for( int i = 0; i < input.getNumLayers(); i++ ) {
 			I imageIn = input.getLayer(i);
@@ -190,7 +169,8 @@ public class PyramidOps {
 	 * @param derivXY (Output) Second derivative XY
 	 */
 	public static <I extends ImageGray, O extends ImageGray>
-	void hessian(O[] derivX, O[] derivY , ImageHessian<O> hessian , O[] derivXX, O[] derivYY , O[] derivXY )
+	void hessian(O[] derivX, O[] derivY , ImageHessian<O> hessian , O[] derivXX, O[] derivYY , O[] derivXY, InputSanityCheck ISC, DerivativeHelperFunctions DHF,
+				 ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG, GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO)
 	{
 		for( int i = 0; i < derivX.length; i++ ) {
 			hessian.process(derivX[i],derivY[i],derivXX[i],derivYY[i],derivXY[i], ISC, DHF, CINB, CJBG, GSO, GSUO);

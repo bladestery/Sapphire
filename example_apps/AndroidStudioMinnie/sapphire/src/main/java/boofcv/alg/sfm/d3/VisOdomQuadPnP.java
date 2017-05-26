@@ -60,6 +60,7 @@ import boofcv.struct.distort.Point2Transform2_F64;
 import boofcv.struct.feature.AssociatedIndex;
 import boofcv.struct.feature.TupleDesc;
 import boofcv.struct.image.ImageGray;
+import boofcv.struct.image.ImageType;
 import boofcv.struct.sfm.Stereo2D3D;
 import georegression.geometry.ConvertRotation3D_F64;
 import georegression.struct.EulerType;
@@ -122,6 +123,7 @@ public class VisOdomQuadPnP<T extends ImageGray,TD extends TupleDesc> {
 	private static FactoryImageBorder FIB;
 	private static FactoryBlurFilter FBF;
 	private static FastHessianFeatureDetector FHFD;
+	private static ImageType IT;
 
 	// used to estimate each feature's 3D location using a stereo pair
 	private TriangulateTwoViewsCalibrated triangulate;
@@ -441,7 +443,7 @@ public class VisOdomQuadPnP<T extends ImageGray,TD extends TupleDesc> {
 	 */
 	private void describeImage(T left , ImageInfo<TD> info ) {
 		detector.process(left,ISC ,DHF, CINB, CJBG,  GSO, GSUO, GIMO, IMO,CNN,CNJB, CN, GBIO, GIO,BIO, CIM, FKG,IMHI,IMSEN, IMSN, ICM,GTIO, GIS,IS, TIO,
-				FIBA, IBV, FHFD, FIB, FBF, CI, UW);
+				FIBA, IBV, FHFD, FIB, FBF, CI, UW, IT);
 		for( int i = 0; i < detector.getNumberOfSets(); i++ ) {
 			PointDescSet<TD> set = detector.getFeatureSet(i);
 			FastQueue<Point2D_F64> l = info.location[i];

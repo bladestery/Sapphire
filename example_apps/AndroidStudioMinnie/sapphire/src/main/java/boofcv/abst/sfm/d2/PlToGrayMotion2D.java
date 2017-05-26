@@ -20,15 +20,43 @@ package boofcv.abst.sfm.d2;
 
 import boofcv.abst.sfm.AccessPointTracks;
 import boofcv.alg.InputSanityCheck;
+import boofcv.alg.feature.detect.interest.FastHessianFeatureDetector;
+import boofcv.alg.filter.binary.GThresholdImageOps;
+import boofcv.alg.filter.binary.ThresholdImageOps;
+import boofcv.alg.filter.blur.BlurImageOps;
+import boofcv.alg.filter.blur.GBlurImageOps;
+import boofcv.alg.filter.blur.impl.ImplMedianHistogramInner;
+import boofcv.alg.filter.blur.impl.ImplMedianSortEdgeNaive;
+import boofcv.alg.filter.blur.impl.ImplMedianSortNaive;
+import boofcv.alg.filter.convolve.ConvolveImageMean;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
+import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
+import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
+import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
+import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
 import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.GImageStatistics;
 import boofcv.alg.misc.ImageMiscOps;
+import boofcv.alg.misc.ImageStatistics;
+import boofcv.alg.transform.wavelet.UtilWavelet;
 import boofcv.core.image.ConvertImage;
 import boofcv.core.image.GConvertImage;
 import boofcv.core.image.GeneralizedImageOps;
+import boofcv.core.image.border.FactoryImageBorder;
+import boofcv.core.image.border.FactoryImageBorderAlgs;
+import boofcv.core.image.border.ImageBorderValue;
+import boofcv.factory.filter.blur.FactoryBlurFilter;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.image.ImageGray;
+import boofcv.struct.image.ImageType;
 import boofcv.struct.image.Planar;
 import georegression.struct.InvertibleTransform;
 import georegression.struct.point.Point2D_F64;
+import sapphire.compiler.GIOGenerator;
 
 import java.util.List;
 
@@ -40,9 +68,6 @@ import java.util.List;
 public class PlToGrayMotion2D<T extends ImageGray,IT extends InvertibleTransform>
 	implements ImageMotion2D<Planar<T>,IT>, AccessPointTracks
 {
-	private GeneralizedImageOps GIO;
-	private static InputSanityCheck ISC;
-	private static ConvertImage CI;
 	// motion estimation algorithm for a single band image
 	ImageMotion2D<T,IT> motion;
 	// if supposed, provides access to track points
@@ -50,7 +75,7 @@ public class PlToGrayMotion2D<T extends ImageGray,IT extends InvertibleTransform
 	// storage for gray scale image
 	T gray;
 
-	public PlToGrayMotion2D(ImageMotion2D<T,IT> motion , Class<T> imageType ) {
+	public PlToGrayMotion2D(ImageMotion2D<T,IT> motion , Class<T> imageType, GeneralizedImageOps GIO) {
 		this.motion = motion;
 		gray = GIO.createSingleBand(imageType,1,1);
 		if( motion instanceof AccessPointTracks ) {
@@ -59,10 +84,16 @@ public class PlToGrayMotion2D<T extends ImageGray,IT extends InvertibleTransform
 	}
 
 	@Override
-	public boolean process(Planar<T> input) {
+	public boolean process(Planar<T> input, InputSanityCheck ISC, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG,
+						   GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvolveNormalizedNaive CNN,
+						   ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN, GBlurImageOps GBIO, GeneralizedImageOps GIO, BlurImageOps BIO, ConvolveImageMean CIM,
+						   FactoryKernelGaussian FKG, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM,
+						   GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO, FactoryImageBorderAlgs FIBA, ImageBorderValue IBV,
+						   FastHessianFeatureDetector FHFD, FactoryImageBorder FIB, FactoryBlurFilter FBF, ConvertImage CI, UtilWavelet UW, ImageType IT) {
 		gray.reshape(input.width,input.height);
 		GConvertImage.average(input, gray, ISC, CI);
-		return motion.process(gray);
+		return motion.process(gray,ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN,
+				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF, CI, UW, IT);
 	}
 
 	@Override
@@ -71,8 +102,14 @@ public class PlToGrayMotion2D<T extends ImageGray,IT extends InvertibleTransform
 	}
 
 	@Override
-	public void setToFirst() {
-		motion.setToFirst();
+	public void setToFirst(InputSanityCheck ISC, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG,
+							 GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvolveNormalizedNaive CNN,
+							 ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN, GBlurImageOps GBIO, GeneralizedImageOps GIO, BlurImageOps BIO, ConvolveImageMean CIM,
+							 FactoryKernelGaussian FKG, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM,
+							 GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO, FactoryImageBorderAlgs FIBA, ImageBorderValue IBV,
+							 FastHessianFeatureDetector FHFD, FactoryImageBorder FIB, FactoryBlurFilter FBF, ConvertImage CI, UtilWavelet UW, ImageType IT) {
+		motion.setToFirst(ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN,
+				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF, CI, UW, IT);
 	}
 
 	@Override

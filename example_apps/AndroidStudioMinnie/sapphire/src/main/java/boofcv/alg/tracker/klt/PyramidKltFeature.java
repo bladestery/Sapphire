@@ -18,12 +18,14 @@
 
 package boofcv.alg.tracker.klt;
 
+import java.io.Serializable;
+
 /**
  * Feature which is tracked by the {@link PyramidKltTracker}.  Each layer has its own feature description.
  *
  * @author Peter Abeles
  */
-public class PyramidKltFeature {
+public class PyramidKltFeature implements Serializable {
 	/** KLT feature description for each layer in the pyramid */
 	public KltFeature desc[];
 	/** the feature's location in the original image */

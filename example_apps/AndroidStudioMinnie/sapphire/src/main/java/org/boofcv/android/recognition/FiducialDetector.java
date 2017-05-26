@@ -131,7 +131,7 @@ public class FiducialDetector extends BaseDetectFiducialSquare<GrayU8> {
 		int off = (gray.width-binary.width)/2;
 		gray.subimage(off, off, gray.width - off, gray.width - off, grayNoBorder);
 
-		threshold.process(grayNoBorder, binary, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW);
+		threshold.process(grayNoBorder, binary, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW, IT);
 		return true;
 	}
 

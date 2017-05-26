@@ -68,8 +68,6 @@ import org.ddogleg.fitting.modelset.ransac.Ransac;
  * @author Peter Abeles
  */
 public class FactoryVisualOdometry {
-	private static ImageType IT;
-	private static FactoryAssociation FA;
 	/**
 	 * Monocular plane based visual odometry algorithm which uses both points on the plane and off plane for motion
 	 * estimation.
@@ -239,7 +237,7 @@ public class FactoryVisualOdometry {
 												 boolean doublePass ,
 												 DepthSparse3D<Depth> sparseDepth,
 												 PointTrackerTwoPass<Vis> tracker ,
-												 Class<Vis> visualType , Class<Depth> depthType ) {
+												 Class<Vis> visualType , Class<Depth> depthType, ImageType IT) {
 
 		// Range from sparse disparity
 		ImagePixelTo3D pixelTo3D = new DepthSparse3D_to_PixelTo3D<>(sparseDepth);
@@ -293,7 +291,7 @@ public class FactoryVisualOdometry {
 												 int refineIterations,
 												 PointTracker<T> trackerLeft, PointTracker<T> trackerRight,
 												 DescribeRegionPoint<T,Desc> descriptor,
-												 Class<T> imageType)
+												 Class<T> imageType, FactoryAssociation FA)
 	{
 		EstimateNofPnP pnp = FactoryMultiView.computePnP_N(EnumPNP.P3P_FINSTERWALDER, -1);
 		DistanceModelMonoPixels<Se3_F64,Point2D3D> distanceMono = new PnPDistanceReprojectionSq();
@@ -347,7 +345,7 @@ public class FactoryVisualOdometry {
 										   int ransacIterations ,
 										   int refineIterations ,
 										   DetectDescribeMulti<T,Desc> detector,
-										   Class<T> imageType )
+										   Class<T> imageType , FactoryAssociation FA)
 	{
 		EstimateNofPnP pnp = FactoryMultiView.computePnP_N(EnumPNP.P3P_FINSTERWALDER, -1);
 		DistanceModelMonoPixels<Se3_F64,Point2D3D> distanceMono = new PnPDistanceReprojectionSq();
@@ -399,9 +397,9 @@ public class FactoryVisualOdometry {
 	 * @param <T> Image type
 	 * @return StereoVisualOdometry
 	 */
-	public static <T extends ImageBase> StereoVisualOdometry<T> scaleInput( StereoVisualOdometry<T> vo , double scaleFactor )
+	public static <T extends ImageBase> StereoVisualOdometry<T> scaleInput( StereoVisualOdometry<T> vo , double scaleFactor, ImageType IT )
 	{
-		return new StereoVisualOdometryScaleInput<>(vo, scaleFactor);
+		return new StereoVisualOdometryScaleInput<>(vo, scaleFactor, IT);
 	}
 
 	/**

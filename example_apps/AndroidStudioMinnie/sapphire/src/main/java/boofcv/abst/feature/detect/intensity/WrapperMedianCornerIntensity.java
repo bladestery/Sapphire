@@ -46,6 +46,7 @@ import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.QueueCorner;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.ImageGray;
+import boofcv.struct.image.ImageType;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -78,7 +79,7 @@ public class WrapperMedianCornerIntensity<I extends ImageGray, D extends ImageGr
 						InputSanityCheck ISC, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN,
 						GBlurImageOps GBIO, GeneralizedImageOps GIO, BlurImageOps BIO, ConvolveImageMean CIM, FactoryKernelGaussian FKG, ImplMedianHistogramInner IMHI,
 						ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM, GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS,
-						ThresholdImageOps TIO, ConvolveJustBorder_General CJBG, ConvertImage CI, UtilWavelet UW) {
+						ThresholdImageOps TIO, ConvolveJustBorder_General CJBG, ConvertImage CI, UtilWavelet UW, ImageType IT) {
 		init(input.width,input.height, GIMO, IMO);
 
 		if( medianImage == null ) {
@@ -87,7 +88,7 @@ public class WrapperMedianCornerIntensity<I extends ImageGray, D extends ImageGr
 			medianImage.reshape(input.width,input.height);
 		}
 		
-		medianFilter.process(input,medianImage, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW);
+		medianFilter.process(input,medianImage, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW, IT);
 		try {
 			m.invoke(null,intensity,input,medianImage, ISC);
 		} catch (IllegalAccessException | InvocationTargetException e) {

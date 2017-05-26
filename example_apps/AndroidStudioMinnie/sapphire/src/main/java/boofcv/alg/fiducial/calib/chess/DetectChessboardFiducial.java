@@ -50,6 +50,7 @@ import boofcv.core.image.border.ImageBorderValue;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.ImageGray;
+import boofcv.struct.image.ImageType;
 import georegression.struct.point.Point2D_F64;
 
 import java.util.List;
@@ -102,6 +103,7 @@ public class DetectChessboardFiducial<T extends ImageGray> {
 	private static ImageMiscOps IMO;
 	private static ConvertImage CI;
 	private static UtilWavelet UW;
+	private static ImageType IT;
 	// detects the chess board
 	private DetectChessSquarePoints<T> findSeeds;
 	// binary images used to detect chess board
@@ -148,7 +150,7 @@ public class DetectChessboardFiducial<T extends ImageGray> {
 		binary.reshape(gray.width, gray.height);
 		eroded.reshape(gray.width, gray.height);
 
-		inputToBinary.process(gray,binary, GBIO, ISC, GIO, BlIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW);
+		inputToBinary.process(gray,binary, GBIO, ISC, GIO, BlIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW, IT);
 
 		// erode to make the squares separated
 		BIO.erode8(binary, 1, eroded, ISC, IBIO, IBBO, IBV);

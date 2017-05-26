@@ -54,6 +54,7 @@ implements AdapterView.OnItemSelectedListener
 
 	OMSServer server;
 	DemoManager dm;
+	ImageType IT = new ImageType();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -157,7 +158,7 @@ implements AdapterView.OnItemSelectedListener
 		//ImageGradient<GrayU8,GrayS16> gradient;
 
 		public GradientProcessing() {
-			super( dm.single(GrayU8.class));
+			super( IT.single(GrayU8.class));
 			//this.gradient = gradient;
 		}
 

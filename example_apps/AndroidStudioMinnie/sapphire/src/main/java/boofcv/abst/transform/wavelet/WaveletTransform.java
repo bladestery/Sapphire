@@ -26,6 +26,7 @@ import boofcv.core.image.ConvertImage;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.BorderType;
 import boofcv.struct.image.ImageGray;
+import boofcv.struct.image.ImageType;
 import boofcv.struct.wavelet.WaveletDescription;
 import boofcv.struct.wavelet.WlCoef;
 
@@ -52,7 +53,7 @@ public interface WaveletTransform
 	 * @param transformed Where the computed transform is stored.  If null a new image is created. Modified.
 	 * @return Wavelet transform.
 	 */
-	public T transform(O original , T transformed , InputSanityCheck ISC, GeneralizedImageOps GIO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvertImage CI, UtilWavelet UW);
+	public T transform(O original , T transformed , InputSanityCheck ISC, GeneralizedImageOps GIO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvertImage CI, UtilWavelet UW, ImageType IT);
 
 	/**
 	 * Applies the inverse wavelet transform to the specified image.
@@ -60,7 +61,7 @@ public interface WaveletTransform
 	 * @param transformed Wavelet transform of the image. Not modified.
 	 * @param original Reconstructed image from transform. Modified.
 	 */
-	public void invert( T transformed , O original , InputSanityCheck ISC, GeneralizedImageOps GIO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvertImage CI, UtilWavelet UW);
+	public void invert( T transformed , O original , InputSanityCheck ISC, GeneralizedImageOps GIO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvertImage CI, UtilWavelet UW, ImageType IT);
 
 	/**
 	 * Number of levels in the wavelet transform.

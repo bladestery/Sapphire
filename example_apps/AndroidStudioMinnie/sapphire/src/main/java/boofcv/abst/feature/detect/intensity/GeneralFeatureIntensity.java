@@ -44,6 +44,7 @@ import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.QueueCorner;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.ImageGray;
+import boofcv.struct.image.ImageType;
 
 /**
  * Extracts corners from a the image and or its gradient.  This is a generalized interface and lacks some of the functionality
@@ -76,7 +77,7 @@ public interface GeneralFeatureIntensity<I extends ImageGray,D extends ImageGray
 						InputSanityCheck ISC, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN,
 						GBlurImageOps GBIO, GeneralizedImageOps GIO, BlurImageOps BIO, ConvolveImageMean CIM, FactoryKernelGaussian FKG, ImplMedianHistogramInner IMHI,
 						ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM, GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS,
-						ThresholdImageOps TIO, ConvolveJustBorder_General CJBG, ConvertImage CI, UtilWavelet UW);
+						ThresholdImageOps TIO, ConvolveJustBorder_General CJBG, ConvertImage CI, UtilWavelet UW, ImageType IT);
 
 	/**
 	 * Returns an image containing an intensity mapping showing how corner like each pixel is.

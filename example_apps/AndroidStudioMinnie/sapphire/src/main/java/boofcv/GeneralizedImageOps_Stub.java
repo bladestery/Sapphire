@@ -208,18 +208,19 @@ public final class GeneralizedImageOps_Stub extends boofcv.core.image.Generalize
         return ((boofcv.struct.image.ImageGray) $__result);
     }
 
-    // Implementation of createSingleBand(ImageDataType, int, int)
-    public boofcv.struct.image.ImageGray createSingleBand(boofcv.struct.image.ImageDataType $param_ImageDataType_1, int $param_int_2, int $param_int_3) {
+    // Implementation of createSingleBand(ImageDataType, int, int, ImageType)
+    public boofcv.struct.image.ImageGray createSingleBand(boofcv.struct.image.ImageDataType $param_ImageDataType_1, int $param_int_2, int $param_int_3, boofcv.struct.image.ImageType $param_ImageType_4) {
         java.lang.Object $__result = null;
         try {
             if ($__directInvocation)
-                $__result = super.createSingleBand( $param_ImageDataType_1,  $param_int_2,  $param_int_3);
+                $__result = super.createSingleBand( $param_ImageDataType_1,  $param_int_2,  $param_int_3,  $param_ImageType_4);
             else {
                 java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
-                String $__method = "public <T> T boofcv.core.image.GeneralizedImageOps.createSingleBand(boofcv.struct.image.ImageDataType,int,int)";
+                String $__method = "public <T> T boofcv.core.image.GeneralizedImageOps.createSingleBand(boofcv.struct.image.ImageDataType,int,int,boofcv.struct.image.ImageType)";
                 $__params.add($param_ImageDataType_1);
                 $__params.add($param_int_2);
                 $__params.add($param_int_3);
+                $__params.add($param_ImageType_4);
                 $__result = $__client.onRPC($__method, $__params);
             }
         } catch (Exception e) {
@@ -249,19 +250,20 @@ public final class GeneralizedImageOps_Stub extends boofcv.core.image.Generalize
         return ((boofcv.struct.image.ImageInterleaved) $__result);
     }
 
-    // Implementation of createInterleaved(ImageDataType, int, int, int)
-    public boofcv.struct.image.ImageInterleaved createInterleaved(boofcv.struct.image.ImageDataType $param_ImageDataType_1, int $param_int_2, int $param_int_3, int $param_int_4) {
+    // Implementation of createInterleaved(ImageDataType, int, int, int, ImageType)
+    public boofcv.struct.image.ImageInterleaved createInterleaved(boofcv.struct.image.ImageDataType $param_ImageDataType_1, int $param_int_2, int $param_int_3, int $param_int_4, boofcv.struct.image.ImageType $param_ImageType_5) {
         java.lang.Object $__result = null;
         try {
             if ($__directInvocation)
-                $__result = super.createInterleaved( $param_ImageDataType_1,  $param_int_2,  $param_int_3,  $param_int_4);
+                $__result = super.createInterleaved( $param_ImageDataType_1,  $param_int_2,  $param_int_3,  $param_int_4,  $param_ImageType_5);
             else {
                 java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
-                String $__method = "public <T> T boofcv.core.image.GeneralizedImageOps.createInterleaved(boofcv.struct.image.ImageDataType,int,int,int)";
+                String $__method = "public <T> T boofcv.core.image.GeneralizedImageOps.createInterleaved(boofcv.struct.image.ImageDataType,int,int,int,boofcv.struct.image.ImageType)";
                 $__params.add($param_ImageDataType_1);
                 $__params.add($param_int_2);
                 $__params.add($param_int_3);
                 $__params.add($param_int_4);
+                $__params.add($param_ImageType_5);
                 $__result = $__client.onRPC($__method, $__params);
             }
         } catch (Exception e) {
@@ -291,18 +293,24 @@ public final class GeneralizedImageOps_Stub extends boofcv.core.image.Generalize
         return ((boofcv.struct.image.ImageBase) $__result);
     }
 
-    // Implementation of convert(ImageGray, ImageGray, Class)
-    public boofcv.struct.image.ImageGray convert(boofcv.struct.image.ImageGray $param_ImageGray_1, boofcv.struct.image.ImageGray $param_ImageGray_2, java.lang.Class $param_Class_3) {
+    // Implementation of convert(ImageGray, ImageGray, Class, InputSanityCheck, GeneralizedImageOps, GImageMiscOps, ImageMiscOps, ConvertImage, ImageType)
+    public boofcv.struct.image.ImageGray convert(boofcv.struct.image.ImageGray $param_ImageGray_1, boofcv.struct.image.ImageGray $param_ImageGray_2, java.lang.Class $param_Class_3, boofcv.alg.InputSanityCheck $param_InputSanityCheck_4, boofcv.core.image.GeneralizedImageOps $param_GeneralizedImageOps_5, boofcv.alg.misc.GImageMiscOps $param_GImageMiscOps_6, boofcv.alg.misc.ImageMiscOps $param_ImageMiscOps_7, boofcv.core.image.ConvertImage $param_ConvertImage_8, boofcv.struct.image.ImageType $param_ImageType_9) {
         java.lang.Object $__result = null;
         try {
             if ($__directInvocation)
-                $__result = super.convert( $param_ImageGray_1,  $param_ImageGray_2,  $param_Class_3);
+                $__result = super.convert( $param_ImageGray_1,  $param_ImageGray_2,  $param_Class_3,  $param_InputSanityCheck_4,  $param_GeneralizedImageOps_5,  $param_GImageMiscOps_6,  $param_ImageMiscOps_7,  $param_ConvertImage_8,  $param_ImageType_9);
             else {
                 java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
-                String $__method = "public <T> T boofcv.core.image.GeneralizedImageOps.convert(boofcv.struct.image.ImageGray<?>,T,java.lang.Class<T>)";
+                String $__method = "public <T> T boofcv.core.image.GeneralizedImageOps.convert(boofcv.struct.image.ImageGray<?>,T,java.lang.Class<T>,boofcv.alg.InputSanityCheck,boofcv.core.image.GeneralizedImageOps,boofcv.alg.misc.GImageMiscOps,boofcv.alg.misc.ImageMiscOps,boofcv.core.image.ConvertImage,boofcv.struct.image.ImageType)";
                 $__params.add($param_ImageGray_1);
                 $__params.add($param_ImageGray_2);
                 $__params.add($param_Class_3);
+                $__params.add($param_InputSanityCheck_4);
+                $__params.add($param_GeneralizedImageOps_5);
+                $__params.add($param_GImageMiscOps_6);
+                $__params.add($param_ImageMiscOps_7);
+                $__params.add($param_ConvertImage_8);
+                $__params.add($param_ImageType_9);
                 $__result = $__client.onRPC($__method, $__params);
             }
         } catch (Exception e) {

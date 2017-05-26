@@ -18,7 +18,36 @@
 
 package boofcv.abst.tracker;
 
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.filter.binary.GThresholdImageOps;
+import boofcv.alg.filter.binary.ThresholdImageOps;
+import boofcv.alg.filter.blur.BlurImageOps;
+import boofcv.alg.filter.blur.GBlurImageOps;
+import boofcv.alg.filter.blur.impl.ImplMedianHistogramInner;
+import boofcv.alg.filter.blur.impl.ImplMedianSortEdgeNaive;
+import boofcv.alg.filter.blur.impl.ImplMedianSortNaive;
+import boofcv.alg.filter.convolve.ConvolveImageMean;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
+import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
+import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
+import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
+import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
+import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.GImageStatistics;
+import boofcv.alg.misc.ImageMiscOps;
+import boofcv.alg.misc.ImageStatistics;
 import boofcv.alg.tracker.circulant.CirculantTracker;
+import boofcv.alg.transform.fft.DiscreteFourierTransformOps;
+import boofcv.alg.transform.wavelet.UtilWavelet;
+import boofcv.core.image.ConvertImage;
+import boofcv.core.image.GeneralizedImageOps;
+import boofcv.factory.filter.blur.FactoryBlurFilter;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
+import boofcv.factory.transform.pyramid.FactoryPyramid;
 import boofcv.struct.image.ImageGray;
 import boofcv.struct.image.ImageType;
 import georegression.geometry.UtilPolygons2D_F64;
@@ -45,7 +74,11 @@ public class Circulant_to_TrackerObjectQuad<T extends ImageGray> implements Trac
 	}
 
 	@Override
-	public boolean initialize(T image, Quadrilateral_F64 location) {
+	public boolean initialize(T image, Quadrilateral_F64 location, GBlurImageOps GBIO, InputSanityCheck ISC, GeneralizedImageOps GIO, BlurImageOps BIO, ConvolveImageMean CIM,
+							  FactoryKernelGaussian FKG, ConvolveNormalized CN, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ImplMedianHistogramInner IMHI,
+							  ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM, GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO,
+							  GImageMiscOps GIMO, ImageMiscOps IMO, FactoryBlurFilter FBF, ConvolveJustBorder_General CJBG, ConvertImage CI, UtilWavelet UW, DerivativeHelperFunctions DHF, GradientSobel_Outer GSO,
+							  GradientSobel_UnrolledOuter GSUO, FactoryPyramid FP, DiscreteFourierTransformOps DFTO, ImageType IT) {
 
 
 		UtilPolygons2D_F64.bounding(location, rect);
@@ -53,15 +86,19 @@ public class Circulant_to_TrackerObjectQuad<T extends ImageGray> implements Trac
 		int width = (int)(rect.p1.x - rect.p0.x);
 		int height = (int)(rect.p1.y - rect.p0.y);
 
-		tracker.initialize(image,(int)rect.p0.x,(int)rect.p0.y,width,height);
+		tracker.initialize(image,(int)rect.p0.x,(int)rect.p0.y,width,height, DFTO, ISC);
 
 		return true;
 	}
 
 	@Override
-	public boolean process(T image, Quadrilateral_F64 location) {
+	public boolean process(T image, Quadrilateral_F64 location, GBlurImageOps GBIO, InputSanityCheck ISC, GeneralizedImageOps GIO, BlurImageOps BIO, ConvolveImageMean CIM,
+						   FactoryKernelGaussian FKG, ConvolveNormalized CN, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ImplMedianHistogramInner IMHI,
+						   ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM, GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO,
+						   GImageMiscOps GIMO, ImageMiscOps IMO, FactoryBlurFilter FBF, ConvolveJustBorder_General CJBG, ConvertImage CI, UtilWavelet UW, DerivativeHelperFunctions DHF, GradientSobel_Outer GSO,
+						   GradientSobel_UnrolledOuter GSUO, FactoryPyramid FP, DiscreteFourierTransformOps DFTO, ImageType IT) {
 
-		tracker.performTracking(image);
+		tracker.performTracking(image, DFTO, ISC);
 		RectangleLength2D_F32 r = tracker.getTargetLocation();
 
 		if( r.x0 >= image.width || r.y0 >= image.height )

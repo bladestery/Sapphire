@@ -46,6 +46,7 @@ import boofcv.struct.QueueCorner;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.ImageGray;
+import boofcv.struct.image.ImageType;
 
 /**
  *
@@ -60,7 +61,7 @@ public class WrapperLaplacianBlobIntensity<I extends ImageGray>
 						InputSanityCheck ISC, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN,
 						GBlurImageOps GBIO, GeneralizedImageOps GIO, BlurImageOps BIO, ConvolveImageMean CIM, FactoryKernelGaussian FKG, ImplMedianHistogramInner IMHI,
 						ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM, GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS,
-						ThresholdImageOps TIO, ConvolveJustBorder_General CJBG, ConvertImage CI, UtilWavelet UW) {
+						ThresholdImageOps TIO, ConvolveJustBorder_General CJBG, ConvertImage CI, UtilWavelet UW, ImageType IT) {
 		init(image.width,image.height, GIMO, IMO);
 		if( image instanceof GrayU8) {
 			LaplacianEdge.process((GrayU8)image,intensity, ISC);

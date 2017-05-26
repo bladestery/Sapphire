@@ -45,7 +45,6 @@ import java.util.Arrays;
  *
  */
 public class GeneralPurposeFFT_F64_1D {
-	private static DiscreteFourierTransformOps DFTO;
 	private static enum Plans {
 		SPLIT_RADIX, MIXED_RADIX, BLUESTEIN
 	}
@@ -90,7 +89,7 @@ public class GeneralPurposeFFT_F64_1D {
 	 * @param n
 	 *            size of data
 	 */
-	public GeneralPurposeFFT_F64_1D(int n) {
+	public GeneralPurposeFFT_F64_1D(int n, DiscreteFourierTransformOps DFTO) {
 		if (n < 1) {
 			throw new IllegalArgumentException("n must be greater than 0");
 		}

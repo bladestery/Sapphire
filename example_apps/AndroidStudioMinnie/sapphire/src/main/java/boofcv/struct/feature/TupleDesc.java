@@ -23,7 +23,7 @@ package boofcv.struct.feature;
  *
  * @author Peter Abeles
  */
-public interface TupleDesc<T extends TupleDesc> {
+public interface TupleDesc<T extends TupleDesc>  {
 
 	/**
 	 * Sets this tuple to be the same as the provided tuple

@@ -37,6 +37,7 @@ import boofcv.struct.image.ImageBase;
 import boofcv.struct.image.ImageType;
 import georegression.struct.affine.Affine2D_F32;
 import georegression.struct.affine.Affine2D_F64;
+import sapphire.compiler.FIBAGenerator;
 
 /**
  * <p>High level interface for rendering a distorted image into another one.  Uses a flow style interface to remove
@@ -52,7 +53,6 @@ import georegression.struct.affine.Affine2D_F64;
  */
 public class FDistort
 {
-	private static FactoryImageBorder FIB;
 	// type of input image
 	ImageType inputType;
 
@@ -76,8 +76,8 @@ public class FDistort
 	 * @param input Input image
 	 * @param output output image
 	 */
-	public FDistort(ImageBase input, ImageBase output) {
-		init(input, output);
+	public FDistort(ImageBase input, ImageBase output, FactoryImageBorder FIB) {
+		init(input, output, FIB);
 	}
 
 	/**
@@ -94,13 +94,13 @@ public class FDistort
 	/**
 	 * Specifies the input and output image and sets interpolation to BILINEAR, black image border, cache is off.
 	 */
-	public FDistort init(ImageBase input, ImageBase output) {
+	public FDistort init(ImageBase input, ImageBase output, FactoryImageBorder FIB) {
 		this.input = input;
 		this.output = output;
 
 		inputType = input.getImageType();
-		interp(InterpolationType.BILINEAR);
-		border(0);
+		interp(InterpolationType.BILINEAR, FIB);
+		border(0, FIB);
 
 		cached = false;
 		distorter = null;
@@ -169,7 +169,7 @@ public class FDistort
 	/**
 	 * Sets the border by type.
 	 */
-	public FDistort border( BorderType type ) {
+	public FDistort border( BorderType type, FactoryImageBorder FIB) {
 		if( borderType == type )
 			return this;
 		borderType = type;
@@ -179,7 +179,7 @@ public class FDistort
 	/**
 	 * Sets the border to a fixed gray-scale value
 	 */
-	public FDistort border( double value ) {
+	public FDistort border( double value, FactoryImageBorder FIB) {
 		// to recycle here the value also needs to be saved
 //		if( borderType == BorderType.VALUE )
 //			return this;
@@ -190,8 +190,8 @@ public class FDistort
 	/**
 	 * <p>Sets the border to EXTEND.</p>
 	 */
-	public FDistort borderExt() {
-		return border(BorderType.EXTENDED);
+	public FDistort borderExt(FactoryImageBorder FIB) {
+		return border(BorderType.EXTENDED, FIB);
 	}
 
 
@@ -212,7 +212,7 @@ public class FDistort
 	/**
 	 * Specifies the interpolation used by type.
 	 */
-	public FDistort interp(InterpolationType type) {
+	public FDistort interp(InterpolationType type, FactoryImageBorder FIB) {
 		distorter = null;
 		this.interp = FactoryInterpolation.createPixel(0, 255, type, BorderType.EXTENDED, inputType, FIB);
 
@@ -222,8 +222,8 @@ public class FDistort
 	/**
 	 * Sets interpolation to use nearest-neighbor
 	 */
-	public FDistort interpNN() {
-		return interp(InterpolationType.NEAREST_NEIGHBOR);
+	public FDistort interpNN(FactoryImageBorder FIB) {
+		return interp(InterpolationType.NEAREST_NEIGHBOR, FIB);
 	}
 
 	/**
@@ -306,8 +306,8 @@ public class FDistort
 	 * boundaries it will go outside the image bounds and if a fixed value of 0 is used it will average towards
 	 * zero.
 	 */
-	public FDistort scaleExt() {
-		return scale().borderExt();
+	public FDistort scaleExt(FactoryImageBorder FIB) {
+		return scale().borderExt(FIB);
 	}
 
 	/**

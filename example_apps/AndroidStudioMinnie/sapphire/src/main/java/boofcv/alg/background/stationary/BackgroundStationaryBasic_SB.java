@@ -37,12 +37,6 @@ import boofcv.struct.image.*;
 public class BackgroundStationaryBasic_SB<T extends ImageGray>
 	extends BackgroundStationaryBasic<T>
 {
-	private static ImageType IT;
-	private static ImageMiscOps IMO;
-	private static InputSanityCheck ISC;
-	private static GeneralizedImageOps GIO;
-	private static GImageMiscOps GIMO;
-	private static ConvertImage CI;
 	// storage for background image
 	protected GrayF32 background = new GrayF32(1,1);
 
@@ -50,7 +44,7 @@ public class BackgroundStationaryBasic_SB<T extends ImageGray>
 	protected GImageGray inputWrapper;
 
 	public BackgroundStationaryBasic_SB(float learnRate, float threshold,
-										Class<T> imageType) {
+										Class<T> imageType, ImageType IT) {
 		super(learnRate, threshold, IT.single(imageType));
 
 		inputWrapper = FactoryGImageGray.create(imageType);
@@ -71,10 +65,10 @@ public class BackgroundStationaryBasic_SB<T extends ImageGray>
 	}
 
 	@Override
-	public void updateBackground( T frame) {
+	public void updateBackground( T frame, InputSanityCheck ISC, GeneralizedImageOps GIO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvertImage CI, ImageType IT) {
 		if( background.width == 1 ) {
 			background.reshape(frame.width, frame.height);
-			GConvertImage.convert(frame, background, ISC, GIO, GIMO, IMO, CI);
+			GConvertImage.convert(frame, background, ISC, GIO, GIMO, IMO, CI, IT);
 			return;
 		} else {
 			ISC.checkSameShape(background,frame);
@@ -98,7 +92,7 @@ public class BackgroundStationaryBasic_SB<T extends ImageGray>
 	}
 
 	@Override
-	public void segment(T frame, GrayU8 segmented) {
+	public void segment(T frame, GrayU8 segmented, InputSanityCheck ISC, ImageMiscOps IMO) {
 		if( background.width == 1 ) {
 			IMO.fill(segmented,unknownValue);
 			return;

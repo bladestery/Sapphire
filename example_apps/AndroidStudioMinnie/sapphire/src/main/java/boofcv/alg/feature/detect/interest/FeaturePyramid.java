@@ -52,6 +52,7 @@ import boofcv.struct.QueueCorner;
 import boofcv.struct.feature.ScalePoint;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.ImageGray;
+import boofcv.struct.image.ImageType;
 import boofcv.struct.pyramid.PyramidFloat;
 import georegression.struct.point.Point2D_I16;
 import sapphire.app.SapphireObject;
@@ -125,7 +126,7 @@ public class FeaturePyramid<T extends ImageGray, D extends ImageGray>
 	public void detect(PyramidFloat<T> ss, GBlurImageOps GBIO, InputSanityCheck ISC, GeneralizedImageOps GIO, BlurImageOps BIO, ConvolveImageMean CIM, FactoryKernelGaussian FKG,
 					   ConvolveNormalized CN, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN,
 					   ImplMedianSortNaive IMSN, ImplConvolveMean ICM, GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO, GImageMiscOps GIMO, ImageMiscOps IMO,
-					   FastHessianFeatureDetector FHFD, FactoryImageBorderAlgs FIBA, ImageBorderValue IBV, ConvolveJustBorder_General CJBG, ConvertImage CI, UtilWavelet UW) {
+					   FastHessianFeatureDetector FHFD, FactoryImageBorderAlgs FIBA, ImageBorderValue IBV, ConvolveJustBorder_General CJBG, ConvertImage CI, UtilWavelet UW, ImageType IT) {
 		spaceIndex = 0;
 		if (intensities == null) {
 			intensities = new GrayF32[3];
@@ -143,7 +144,7 @@ public class FeaturePyramid<T extends ImageGray, D extends ImageGray>
 		// compute feature intensity in each level
 		for (int i = 0; i < ss.getNumLayers(); i++) {
 			detectCandidateFeatures(ss.getLayer(i), ss.getSigma(i), GIMO, IMO, ISC, CNN, CINB, CNJB, CN,
-					GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, CJBG, CI, UW);
+					GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, CJBG, CI, UW, IT);
 
 			// find maximum in NxNx3 (local image and scale space) region
 			if (i >= 2) {
@@ -159,7 +160,7 @@ public class FeaturePyramid<T extends ImageGray, D extends ImageGray>
 	private void detectCandidateFeatures(T image, double sigma, GImageMiscOps GIMO, ImageMiscOps IMO, InputSanityCheck ISC, ConvolveNormalizedNaive CNN,
 										 ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN, GBlurImageOps GBIO, GeneralizedImageOps GIO,
 										 BlurImageOps BIO, ConvolveImageMean CIM, FactoryKernelGaussian FKG, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM,
-										 GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO, ConvolveJustBorder_General CJBG, ConvertImage CI, UtilWavelet UW) {
+										 GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO, ConvolveJustBorder_General CJBG, ConvertImage CI, UtilWavelet UW, ImageType IT) {
 		// adjust corner intensity threshold based upon the current scale factor
 		float scaleThreshold = (float) (baseThreshold / Math.pow(sigma, scalePower));
 		detector.setThreshold(scaleThreshold);
@@ -169,17 +170,17 @@ public class FeaturePyramid<T extends ImageGray, D extends ImageGray>
 		D derivXX = null, derivYY = null, derivXY = null;
 
 		if (detector.getRequiresGradient()) {
-			derivX = computeDerivative.getDerivative(GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW, true);
-			derivY = computeDerivative.getDerivative(GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW, false);
+			derivX = computeDerivative.getDerivative(GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW, IT, true);
+			derivY = computeDerivative.getDerivative(GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW, IT, false);
 		}
 		if (detector.getRequiresHessian()) {
-			derivXX = computeDerivative.getDerivative(GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW, true, true);
-			derivYY = computeDerivative.getDerivative(GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW, false, false);
-			derivXY = computeDerivative.getDerivative(GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW, true, false);
+			derivXX = computeDerivative.getDerivative(GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW, IT, true, true);
+			derivYY = computeDerivative.getDerivative(GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW, IT, false, false);
+			derivXY = computeDerivative.getDerivative(GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW, IT, true, false);
 		}
 
 		detector.process(image, derivX, derivY, derivXX, derivYY, derivXY, GIMO, IMO, ISC, CNN, CINB, CNJB, CN,
-				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, CJBG, CI, UW);
+				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, CJBG, CI, UW, IT);
 
 		intensities[spaceIndex].reshape(image.width, image.height);
 		intensities[spaceIndex].setTo(detector.getIntensity());

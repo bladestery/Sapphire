@@ -61,6 +61,8 @@ public class ContourShapeFittingActivity extends DemoVideoDisplayActivity
 
 	OMSServer server;
 	DemoManager dm;
+	ImageType IT = new ImageType();
+
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -156,7 +158,7 @@ public class ContourShapeFittingActivity extends DemoVideoDisplayActivity
 		//LinearContourLabelChang2004 findContours = new LinearContourLabelChang2004(ConnectRule.EIGHT);
 
 		protected BaseProcessing() {
-			super(dm.single(GrayU8.class));
+			super(IT.single(GrayU8.class));
 		}
 
 		@Override

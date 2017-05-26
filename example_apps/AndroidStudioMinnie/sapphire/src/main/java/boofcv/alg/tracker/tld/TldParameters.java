@@ -18,6 +18,8 @@
 
 package boofcv.alg.tracker.tld;
 
+import java.io.Serializable;
+
 import boofcv.alg.tracker.klt.KltConfig;
 
 /**
@@ -27,7 +29,7 @@ import boofcv.alg.tracker.klt.KltConfig;
  *
  * @author Peter Abeles
  */
-public class TldParameters {
+public class TldParameters implements Serializable {
 
 	/**
 	 * Maximum number of NCC templates it will examine inside the detection cascade.  Used to limit the amount

@@ -47,6 +47,7 @@ import boofcv.core.image.GeneralizedImageOps;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.ImageGray;
+import boofcv.struct.image.ImageType;
 import georegression.struct.point.Point2D_F64;
 import georegression.struct.shapes.EllipseRotated_F64;
 import org.ddogleg.struct.FastQueue;
@@ -103,6 +104,7 @@ public class DetectAsymmetricCircleGrid<T extends ImageGray> {
 	private static ConvolveJustBorder_General CJBG;
 	private static ConvertImage CI;
 	private static UtilWavelet UW;
+	private static ImageType IT;
 
 	private BinaryEllipseDetector<T> ellipseDetector;
 	private InputToBinary<T> inputToBinary;
@@ -160,7 +162,7 @@ public class DetectAsymmetricCircleGrid<T extends ImageGray> {
 
 		this.binary.reshape(gray.width,gray.height);
 
-		inputToBinary.process(gray, binary, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW);
+		inputToBinary.process(gray, binary, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW, IT);
 
 		ellipseDetector.process(gray, binary, cF, IMO);
 		List<EllipseRotated_F64> found = ellipseDetector.getFoundEllipses().toList();

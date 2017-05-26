@@ -51,7 +51,7 @@ public class Fh04_to_ImageSuperpixels<T extends ImageBase> implements ImageSuper
 
 	@Override
 	public void segment(T input, GrayS32 output, InputSanityCheck ISC, GeneralizedImageOps GIO, GImageMiscOps GIMO, ImageMiscOps IMO, ImageSegmentationOps ISO, BinaryImageOps BIO,
-					   ConvertImage CI) {
+					   ConvertImage CI, ImageType IT) {
 
 		pixelToSegment.reshape(input.width, input.height);
 

@@ -29,6 +29,7 @@ import boofcv.core.image.GImageGray;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.struct.image.*;
 import sapphire.compiler.GIOGenerator;
+import sapphire.compiler.IMOGenerator;
 
 /**
  * Implementation of {@link BackgroundMovingGaussian} for {@link ImageGray}.
@@ -38,12 +39,6 @@ import sapphire.compiler.GIOGenerator;
 public class BackgroundStationaryGaussian_SB<T extends ImageGray>
 		extends BackgroundStationaryGaussian<T>
 {
-	private static InputSanityCheck ISC;
-	private static ImageType IT;
-	private static ImageMiscOps IMO;
-	private static GImageMiscOps GIMO;
-	private static GeneralizedImageOps GIO;
-	private static ConvertImage CI;
 	// wrappers which provide abstraction across image types
 	protected GImageGray inputWrapper;
 
@@ -57,7 +52,7 @@ public class BackgroundStationaryGaussian_SB<T extends ImageGray>
 	 * @param threshold Threshold for background.  Try 10.
 	 * @param imageType Type of input image.
 	 */
-	public BackgroundStationaryGaussian_SB(float learnRate, float threshold, Class<T> imageType)
+	public BackgroundStationaryGaussian_SB(float learnRate, float threshold, Class<T> imageType, ImageType IT)
 	{
 		super(learnRate, threshold, IT.single(imageType));
 
@@ -70,10 +65,10 @@ public class BackgroundStationaryGaussian_SB<T extends ImageGray>
 	}
 
 	@Override
-	public void updateBackground( T frame) {
+	public void updateBackground( T frame, InputSanityCheck ISC, GeneralizedImageOps GIO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvertImage CI, ImageType IT) {
 		if( background.width == 1 ) {
 			background.reshape(frame.width, frame.height);
-			GConvertImage.convert(frame, background.getBand(0), ISC, GIO, GIMO, IMO, CI);
+			GConvertImage.convert(frame, background.getBand(0), ISC, GIO, GIMO, IMO, CI, IT);
 			GIMO.fill(background.getBand(1),initialVariance, IMO);
 			return;
 		} else {
@@ -108,7 +103,7 @@ public class BackgroundStationaryGaussian_SB<T extends ImageGray>
 	}
 
 	@Override
-	public void segment( T frame, GrayU8 segmented) {
+	public void segment(T frame, GrayU8 segmented, InputSanityCheck ISC, ImageMiscOps IMO) {
 		if( background.width == 1 ) {
 			IMO.fill(segmented, unknownValue);
 			return;

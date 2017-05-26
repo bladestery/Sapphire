@@ -59,6 +59,7 @@ public class SegmentationDisplayActivity extends DemoVideoDisplayActivity
 
 	OMSServer server;
 	DemoManager dm;
+	ImageType IT = new ImageType();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -191,7 +192,7 @@ public class SegmentationDisplayActivity extends DemoVideoDisplayActivity
 		//GrowQueue_I32 regionMemberCount = new GrowQueue_I32();
 
 		public SegmentationProcessing() {
-			super(dm.pl(3));
+			super(IT.pl(3, GrayU8.class));
 			//this.segmentation = segmentation;
 			//this.colorize = FactorySegmentationAlg.regionMeanColor(segmentation.getImageType());
 		}

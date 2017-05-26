@@ -19,7 +19,38 @@
 package boofcv.abst.sfm.d3;
 
 import boofcv.abst.distort.FDistort;
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.feature.detect.interest.FastHessianFeatureDetector;
+import boofcv.alg.filter.binary.GThresholdImageOps;
+import boofcv.alg.filter.binary.ThresholdImageOps;
+import boofcv.alg.filter.blur.BlurImageOps;
+import boofcv.alg.filter.blur.GBlurImageOps;
+import boofcv.alg.filter.blur.impl.ImplMedianHistogramInner;
+import boofcv.alg.filter.blur.impl.ImplMedianSortEdgeNaive;
+import boofcv.alg.filter.blur.impl.ImplMedianSortNaive;
+import boofcv.alg.filter.convolve.ConvolveImageMean;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
+import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
+import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
+import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
+import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
 import boofcv.alg.geo.PerspectiveOps;
+import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.GImageStatistics;
+import boofcv.alg.misc.ImageMiscOps;
+import boofcv.alg.misc.ImageStatistics;
+import boofcv.alg.transform.wavelet.UtilWavelet;
+import boofcv.core.image.ConvertImage;
+import boofcv.core.image.GeneralizedImageOps;
+import boofcv.core.image.border.FactoryImageBorder;
+import boofcv.core.image.border.FactoryImageBorderAlgs;
+import boofcv.core.image.border.ImageBorderValue;
+import boofcv.factory.filter.blur.FactoryBlurFilter;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.calib.StereoParameters;
 import boofcv.struct.image.ImageBase;
 import boofcv.struct.image.ImageType;
@@ -42,11 +73,11 @@ public class StereoVisualOdometryScaleInput<T extends ImageBase> implements Ster
 
 	StereoVisualOdometry<T> alg;
 
-	public StereoVisualOdometryScaleInput( StereoVisualOdometry<T> alg , double scaleFactor ) {
+	public StereoVisualOdometryScaleInput( StereoVisualOdometry<T> alg , double scaleFactor, ImageType IT) {
 		this.alg = alg;
       this.scaleFactor = scaleFactor;
-		scaleLeft = alg.getImageType().createImage(1, 1);
-		scaleRight = alg.getImageType().createImage(1, 1);
+		scaleLeft = alg.getImageType(IT).createImage(1, 1);
+		scaleRight = alg.getImageType(IT).createImage(1, 1);
 	}
 
 	@Override
@@ -63,17 +94,23 @@ public class StereoVisualOdometryScaleInput<T extends ImageBase> implements Ster
 	}
 
 	@Override
-	public boolean process(T leftImage, T rightImage) {
+	public boolean process(T leftImage, T rightImage, InputSanityCheck ISC, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG,
+						   GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvolveNormalizedNaive CNN,
+						   ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN, GBlurImageOps GBIO, GeneralizedImageOps GIO, BlurImageOps BIO, ConvolveImageMean CIM,
+						   FactoryKernelGaussian FKG, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM,
+						   GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO, FactoryImageBorderAlgs FIBA, ImageBorderValue IBV,
+						   FastHessianFeatureDetector FHFD, FactoryImageBorder FIB, FactoryBlurFilter FBF, ConvertImage CI, UtilWavelet UW, ImageType IT) {
 
-		new FDistort(leftImage,scaleLeft).scaleExt().apply();
-		new FDistort(rightImage,scaleRight).scaleExt().apply();
+		new FDistort(leftImage,scaleLeft, FIB).scaleExt(FIB).apply();
+		new FDistort(rightImage,scaleRight, FIB).scaleExt(FIB).apply();
 
-		return alg.process(scaleLeft,scaleRight);
+		return alg.process(scaleLeft,scaleRight,ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN,
+				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF, CI, UW, IT);
 	}
 
 	@Override
-	public ImageType<T> getImageType() {
-		return alg.getImageType();
+	public ImageType<T> getImageType(ImageType IT) {
+		return alg.getImageType(IT);
 	}
 
 	@Override

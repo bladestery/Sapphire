@@ -25,6 +25,7 @@ import boofcv.alg.misc.ImageMiscOps;
 import boofcv.struct.image.*;
 import boofcv.testing.BoofTesting;
 import sapphire.app.SapphireObject;
+import sapphire.compiler.ITGenerator;
 
 /**
  * <p>
@@ -36,13 +37,6 @@ import sapphire.app.SapphireObject;
  */
 // TODO rename to GImageOps ?
 public class GeneralizedImageOps implements SapphireObject {
-	private static ImageType IT;
-	private static InputSanityCheck ISC;
-	private static GeneralizedImageOps GIO;
-	private static GImageMiscOps GIMO;
-	private static ImageMiscOps IMO;
-	private static ConvertImage CI;
-
 	public GeneralizedImageOps() {}
 
 	/**
@@ -54,14 +48,14 @@ public class GeneralizedImageOps implements SapphireObject {
 	 * @param typeDst The type of output image.
 	 * @return Converted image.
 	 */
-	public <T extends ImageGray> T convert(ImageGray<?> src , T dst , Class<T> typeDst  )
+public <T extends ImageGray> T convert(ImageGray<?> src , T dst , Class<T> typeDst, InputSanityCheck ISC, GeneralizedImageOps GIO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvertImage CI, ImageType IT)
 	{
 		if (dst == null) {
 			dst =(T) createSingleBand(typeDst, src.width, src.height);
 		} else {
 			ISC.checkSameShape(src, dst);
 		}
-		GConvertImage.convert(src,dst, ISC, GIO, GIMO, IMO, CI);
+		GConvertImage.convert(src,dst, ISC, GIO, GIMO, IMO, CI, IT);
 
 		return dst;
 	}
@@ -126,7 +120,7 @@ public class GeneralizedImageOps implements SapphireObject {
 		}
 	}
 
-	public <T extends ImageGray> T createSingleBand(ImageDataType type, int width, int height) {
+	public <T extends ImageGray> T createSingleBand(ImageDataType type, int width, int height, ImageType IT) {
 		Class<T> typeClass = IT.getImageClass(ImageType.Family.GRAY, type);
 		return createSingleBand(typeClass, width, height);
 	}
@@ -168,7 +162,7 @@ public class GeneralizedImageOps implements SapphireObject {
 		throw new RuntimeException("Unknown type: "+type.getSimpleName());
 	}
 
-	public <T extends ImageInterleaved> T createInterleaved(ImageDataType type, int width, int height , int numBands) {
+	public <T extends ImageInterleaved> T createInterleaved(ImageDataType type, int width, int height , int numBands, ImageType IT) {
 		Class<T> typeClass = IT.getImageClass(ImageType.Family.INTERLEAVED, type);
 		return createInterleaved(typeClass,width,height,numBands);
 	}

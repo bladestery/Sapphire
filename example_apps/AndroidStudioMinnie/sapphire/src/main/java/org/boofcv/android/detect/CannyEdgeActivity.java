@@ -24,6 +24,7 @@ import boofcv.android.VisualizeImageData;
 import boofcv.android.gui.VideoImageProcessing;
 import boofcv.struct.image.GrayS16;
 import boofcv.struct.image.GrayU8;
+import boofcv.struct.image.ImageType;
 import sapphire.kernel.server.KernelServerImpl;
 import sapphire.oms.OMSServer;
 
@@ -45,6 +46,7 @@ public class CannyEdgeActivity extends DemoVideoDisplayActivity
 
 	OMSServer server;
 	DemoManager dm;
+	ImageType IT = new ImageType();
 
 	public CannyEdgeActivity() {
 		super(true);
@@ -125,7 +127,7 @@ public class CannyEdgeActivity extends DemoVideoDisplayActivity
 		CannyEdge<GrayU8,GrayS16> canny;
 
 		public CannyProcessing() {
-			super(dm.single(GrayU8.class));
+			super(IT.single(GrayU8.class));
 			dm.canny(2, true, true);
 		}
 

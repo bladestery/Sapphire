@@ -96,13 +96,13 @@ public class DescribeRegionPoint_SIFT <T extends ImageGray>
 	public void setImage(T image, GBlurImageOps GBIO, InputSanityCheck ISC, GeneralizedImageOps GIO, BlurImageOps BIO, ConvolveImageMean CIM, FactoryKernelGaussian FKG, ConvolveNormalized CN,
 						 ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN,
 						 ImplConvolveMean ICM, GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvolveJustBorder_General CJBG,
-						 ConvertImage CI, UtilWavelet UW, DerivativeHelperFunctions DHF, GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO, FactoryImageBorder FIB) {
+						 ConvertImage CI, UtilWavelet UW, DerivativeHelperFunctions DHF, GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO, FactoryImageBorder FIB, ImageType IT) {
 		GrayF32 input;
 		if( image instanceof GrayF32) {
 			input = (GrayF32)image;
 		} else {
 			imageFloat.reshape(image.width,image.height);
-			GConvertImage.convert(image,imageFloat, ISC, GIO, GIMO, IMO, CI);
+			GConvertImage.convert(image,imageFloat, ISC, GIO, GIMO, IMO, CI, IT);
 			input = imageFloat;
 		}
 

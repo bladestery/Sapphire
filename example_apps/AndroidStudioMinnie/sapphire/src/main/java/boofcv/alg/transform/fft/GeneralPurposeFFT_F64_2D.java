@@ -43,7 +43,6 @@ package boofcv.alg.transform.fft;
  *
  */
 public class GeneralPurposeFFT_F64_2D {
-	private static DiscreteFourierTransformOps DFTO;
 	private int rows;
 
 	private int columns;
@@ -66,7 +65,7 @@ public class GeneralPurposeFFT_F64_2D {
 	 * @param columns
 	 *            number of columns
 	 */
-	public GeneralPurposeFFT_F64_2D(int rows, int columns) {
+	public GeneralPurposeFFT_F64_2D(int rows, int columns, DiscreteFourierTransformOps DFTO) {
 		if (rows < 1 || columns < 1 ) {
 			throw new IllegalArgumentException("rows and columns must be greater than 0");
 		}
@@ -86,11 +85,11 @@ public class GeneralPurposeFFT_F64_2D {
 			t = new double[nt];
 		}
 
-		fftRows = new GeneralPurposeFFT_F64_1D(rows);
+		fftRows = new GeneralPurposeFFT_F64_1D(rows, DFTO);
 		if (rows == columns) {
 			fftColumns = fftRows;
 		} else {
-			fftColumns = new GeneralPurposeFFT_F64_1D(columns);
+			fftColumns = new GeneralPurposeFFT_F64_1D(columns, DFTO);
 		}
 
 		temp = new double[2 * rows];

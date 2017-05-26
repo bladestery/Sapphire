@@ -24,6 +24,7 @@ import boofcv.alg.InputSanityCheck;
 import boofcv.alg.interpolate.InterpolatePixelS;
 import boofcv.alg.misc.PixelMath;
 import boofcv.alg.transform.fft.DiscreteFourierTransformOps;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.feature.detect.peak.FactorySearchLocalPeak;
 import boofcv.misc.BoofMiscOps;
 import boofcv.struct.image.GrayF64;
@@ -64,8 +65,6 @@ import java.util.Random;
  * @author Peter Abeles
  */
 public class CirculantTracker<T extends ImageGray> {
-	private static InputSanityCheck ISC;
-	private static DiscreteFourierTransformOps DFTO;
 	// --- Tuning parameters
 	// spatial bandwidth (proportional to target)
 	private double output_sigma_factor;
@@ -86,7 +85,7 @@ public class CirculantTracker<T extends ImageGray> {
 
 	//----- Internal variables
 	// computes the FFT
-	private DiscreteFourierTransform<GrayF64,InterleavedF64> fft = DFTO.createTransformF64();
+	private DiscreteFourierTransform<GrayF64,InterleavedF64> fft;
 
 	// storage for subimage of input image
 	protected GrayF64 templateNew = new GrayF64(1,1);
@@ -127,8 +126,7 @@ public class CirculantTracker<T extends ImageGray> {
 	private InterpolatePixelS<T> interp;
 
 	// used to compute sub-pixel location
-	private SearchLocalPeak<GrayF64> localPeak =
-			FactorySearchLocalPeak.meanShiftUniform(5, 1e-4f, GrayF64.class);
+	private SearchLocalPeak<GrayF64> localPeak;
 
 	// adjustment from sub-pixel
 	protected float offX,offY;
@@ -156,9 +154,12 @@ public class CirculantTracker<T extends ImageGray> {
 							double padding ,
 							int workRegionSize ,
 							double maxPixelValue,
-							InterpolatePixelS<T> interp ) {
+							InterpolatePixelS<T> interp, DiscreteFourierTransformOps DFTO, InputSanityCheck ISC, FactoryImageBorder FIB) {
 		if( workRegionSize < 3 )
 			throw new IllegalArgumentException("Minimum size of work region is 3 pixels.");
+
+		localPeak = FactorySearchLocalPeak.meanShiftUniform(5, 1e-4f, GrayF64.class, FIB);
+		fft = DFTO.createTransformF64();
 
 		this.output_sigma_factor = output_sigma_factor;
 		this.sigma = sigma;
@@ -172,7 +173,7 @@ public class CirculantTracker<T extends ImageGray> {
 
 		resizeImages(workRegionSize);
 		computeCosineWindow(cosine);
-		computeGaussianWeights(workRegionSize);
+		computeGaussianWeights(workRegionSize, DFTO, ISC);
 
 		localPeak.setImage(response);
 	}
@@ -185,7 +186,7 @@ public class CirculantTracker<T extends ImageGray> {
 	 * @param regionWidth region's width
 	 * @param regionHeight region's height
 	 */
-	public void initialize( T image , int x0 , int y0 , int regionWidth , int regionHeight ) {
+	public void initialize( T image , int x0 , int y0 , int regionWidth , int regionHeight, DiscreteFourierTransformOps DFTO, InputSanityCheck ISC) {
 
 		if( image.width < regionWidth || image.height < regionHeight)
 			throw new IllegalArgumentException("Track region is larger than input image: "+regionWidth+" "+regionHeight);
@@ -210,20 +211,20 @@ public class CirculantTracker<T extends ImageGray> {
 
 		updateRegionOut();
 
-		initialLearning(image);
+		initialLearning(image, DFTO, ISC);
 	}
 
 
 	/**
 	 * Learn the target's appearance.
 	 */
-	protected void initialLearning( T image ) {
+	protected void initialLearning( T image, DiscreteFourierTransformOps DFTO, InputSanityCheck ISC) {
 		// get subwindow at current estimated target position, to train classifier
-		get_subwindow(image, template);
+		get_subwindow(image, template, ISC);
 
 		// Kernel Regularized Least-Squares, calculate alphas (in Fourier domain)
 		//	k = dense_gauss_kernel(sigma, x);
-		dense_gauss_kernel(sigma, template, template,k);
+		dense_gauss_kernel(sigma, template, template,k, DFTO, ISC);
 		fft.forward(k, kf, DFTO, ISC);
 
 		// new_alphaf = yf ./ (fft2(k) + lambda);   %(Eq. 7)
@@ -254,7 +255,7 @@ public class CirculantTracker<T extends ImageGray> {
 	 * to one the more likely it is the true target.  It should be a peak in the image center.  If it is not then
 	 * it will learn an incorrect model.
 	 */
-	protected void computeGaussianWeights( int width ) {
+	protected void computeGaussianWeights( int width, DiscreteFourierTransformOps DFTO, InputSanityCheck ISC) {
 		// desired output (gaussian shaped), bandwidth proportional to target size
 		double output_sigma = Math.sqrt(width*width) * output_sigma_factor;
 
@@ -301,21 +302,21 @@ public class CirculantTracker<T extends ImageGray> {
 	 *
 	 * @param image Next image in the sequence
 	 */
-	public void performTracking( T image ) {
-		updateTrackLocation(image);
+	public void performTracking( T image, DiscreteFourierTransformOps DFTO, InputSanityCheck ISC ) {
+		updateTrackLocation(image, DFTO, ISC);
 		if( interp_factor != 0 )
-			performLearning(image);
+			performLearning(image, DFTO, ISC);
 	}
 
 	/**
 	 * Find the target inside the current image by searching around its last known location
 	 */
-	protected void updateTrackLocation(T image) {
-		get_subwindow(image, templateNew);
+	protected void updateTrackLocation(T image, DiscreteFourierTransformOps DFTO, InputSanityCheck ISC) {
+		get_subwindow(image, templateNew, ISC);
 
 		// calculate response of the classifier at all locations
 		// matlab: k = dense_gauss_kernel(sigma, x, z);
-		dense_gauss_kernel(sigma, templateNew, template,k);
+		dense_gauss_kernel(sigma, templateNew, template,k, DFTO, ISC);
 
 		fft.forward(k,kf, DFTO, ISC);
 
@@ -376,13 +377,13 @@ public class CirculantTracker<T extends ImageGray> {
 	/**
 	 * Update the alphas and the track's appearance
 	 */
-	public void performLearning(T image) {
+	public void performLearning(T image, DiscreteFourierTransformOps DFTO, InputSanityCheck ISC) {
 		// use the update track location
-		get_subwindow(image, templateNew);
+		get_subwindow(image, templateNew, ISC);
 
 		// Kernel Regularized Least-Squares, calculate alphas (in Fourier domain)
 		//	k = dense_gauss_kernel(sigma, x);
-		dense_gauss_kernel(sigma, templateNew, templateNew, k);
+		dense_gauss_kernel(sigma, templateNew, templateNew, k, DFTO, ISC);
 		fft.forward(k,kf, DFTO, ISC);
 
 		// new_alphaf = yf ./ (fft2(k) + lambda);   %(Eq. 7)
@@ -415,7 +416,7 @@ public class CirculantTracker<T extends ImageGray> {
 	 * @param y Input image
 	 * @param k Output containing Gaussian kernel for each element in target region
 	 */
-	public void dense_gauss_kernel(double sigma , GrayF64 x , GrayF64 y , GrayF64 k ) {
+	public void dense_gauss_kernel(double sigma , GrayF64 x , GrayF64 y , GrayF64 k, DiscreteFourierTransformOps DFTO, InputSanityCheck ISC ) {
 
 		InterleavedF64 xf=tmpFourier0,yf,xyf=tmpFourier2;
 		GrayF64 xy = tmpReal0;
@@ -555,7 +556,7 @@ public class CirculantTracker<T extends ImageGray> {
 	/**
 	 * Copies the target into the output image and applies the cosine window to it.
 	 */
-	protected void get_subwindow( T image , GrayF64 output ) {
+	protected void get_subwindow( T image , GrayF64 output, InputSanityCheck ISC ) {
 
 		// copy the target region
 

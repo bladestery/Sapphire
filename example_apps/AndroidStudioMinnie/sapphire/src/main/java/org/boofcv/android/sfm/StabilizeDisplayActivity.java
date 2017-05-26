@@ -21,12 +21,46 @@ import boofcv.abst.feature.detect.interest.ConfigGeneralDetector;
 import boofcv.abst.feature.tracker.PointTracker;
 import boofcv.abst.sfm.AccessPointTracks;
 import boofcv.abst.sfm.d2.ImageMotion2D;
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.feature.detect.interest.FastHessianFeatureDetector;
+import boofcv.alg.filter.binary.GThresholdImageOps;
+import boofcv.alg.filter.binary.ThresholdImageOps;
+import boofcv.alg.filter.blur.BlurImageOps;
+import boofcv.alg.filter.blur.GBlurImageOps;
+import boofcv.alg.filter.blur.impl.ImplMedianHistogramInner;
+import boofcv.alg.filter.blur.impl.ImplMedianSortEdgeNaive;
+import boofcv.alg.filter.blur.impl.ImplMedianSortNaive;
+import boofcv.alg.filter.convolve.ConvolveImageMean;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
+import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
+import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
+import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
+import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
+import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.GImageStatistics;
+import boofcv.alg.misc.ImageMiscOps;
+import boofcv.alg.misc.ImageStatistics;
 import boofcv.alg.sfm.d2.StitchingFromMotion2D;
+import boofcv.alg.transform.wavelet.UtilWavelet;
 import boofcv.android.ConvertBitmap;
 import boofcv.android.gui.VideoRenderProcessing;
+import boofcv.core.image.ConvertImage;
+import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.FactoryImageBorder;
+import boofcv.core.image.border.FactoryImageBorderAlgs;
+import boofcv.core.image.border.ImageBorderValue;
+import boofcv.factory.feature.detect.extract.FactoryFeatureExtractor;
+import boofcv.factory.feature.detect.intensity.FactoryIntensityPointAlg;
 import boofcv.factory.feature.tracker.FactoryPointTracker;
+import boofcv.factory.filter.blur.FactoryBlurFilter;
+import boofcv.factory.filter.derivative.FactoryDerivative;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.factory.sfm.FactoryMotion2D;
+import boofcv.factory.transform.pyramid.FactoryPyramid;
 import boofcv.struct.image.GrayS16;
 import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.ImageType;
@@ -43,8 +77,43 @@ import georegression.transform.homography.HomographyPointOps_F64;
 public class StabilizeDisplayActivity extends DemoVideoDisplayActivity
 implements CompoundButton.OnCheckedChangeListener
 {
+	private static FactoryDerivative FD;
+	private static FactoryPyramid FP;
+	private static FactoryFeatureExtractor FFE;
+	private static FactoryIntensityPointAlg FIPA;
+	private static InputSanityCheck ISC;
+	private static DerivativeHelperFunctions DHF;
+	private static ConvolveImageNoBorder CINB;
+	private static ConvolveJustBorder_General CJBG;
+	private static GradientSobel_Outer GSO;
+	private static GradientSobel_UnrolledOuter GSUO;
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
+	private static ConvolveNormalizedNaive CNN;
+	private static ConvolveNormalized_JustBorder CNJB;
+	private static ConvolveNormalized CN;
+	private static GBlurImageOps GBIO;
+	private static GeneralizedImageOps GIO;
+	private static BlurImageOps BIO;
+	private static ConvolveImageMean CIM;
+	private static FactoryKernelGaussian FKG;
+	private static ImplMedianHistogramInner IMHI;
+	private static ImplMedianSortEdgeNaive IMSEN;
+	private static ImplMedianSortNaive IMSN;
+	private static ImplConvolveMean ICM;
+	private static GThresholdImageOps GTIO;
+	private static GImageStatistics GIS;
+	private static ImageStatistics IS;
+	private static ThresholdImageOps TIO;
+	private static FactoryImageBorderAlgs FIBA;
+	private static ImageBorderValue IBV;
+	private static FastHessianFeatureDetector FHFD;
 	private static FactoryImageBorder FIB;
-	private ImageType IT;
+	private static FactoryBlurFilter FBF;
+	private static ConvertImage CI;
+	private static UtilWavelet UW;
+	private static ImageType IT;
+	private static FactoryPointTracker FPT;
 	Paint paintInlier;
 	Paint paintOutlier;
 
@@ -97,8 +166,8 @@ implements CompoundButton.OnCheckedChangeListener
 		config.threshold = 40;
 		config.radius = 3;
 
-		PointTracker<GrayU8> tracker = FactoryPointTracker.
-				klt(new int[]{1, 2,4}, config, 3, GrayU8.class, GrayS16.class);
+		PointTracker<GrayU8> tracker = FPT.
+				klt(new int[]{1, 2,4}, config, 3, GrayU8.class, GrayS16.class, FD, GIO, FIB, FKG, FP, FFE, FIPA);
 
 		ImageMotion2D<GrayU8,Affine2D_F64> motion = FactoryMotion2D.createMotion2D(100, 1.5, 2, 40,
 				0.5, 0.6, false, tracker, new Affine2D_F64());
@@ -140,7 +209,8 @@ implements CompoundButton.OnCheckedChangeListener
 
 		@Override
 		protected void process(GrayU8 gray) {
-			if( !resetRequested && alg.process(gray) ) {
+			if( !resetRequested && alg.process(gray, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN,
+					GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF, CI, UW, IT) ) {
 				synchronized ( lockGui ) {
 					alg.getImageCorners(gray.width,gray.height,corners);
 					ConvertBitmap.grayToBitmap(alg.getStitchedImage(),bitmap,storage);

@@ -80,7 +80,7 @@ public class LocalGaussianBinaryFilter<T extends ImageGray> implements InputToBi
 						ConvolveImageMean CIM, FactoryKernelGaussian FKG, ConvolveNormalized CN, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB,
 						ConvolveNormalized_JustBorder CNJB, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM,
 						GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvolveJustBorder_General CJBG,
-						ConvertImage CI, UtilWavelet UW) {
+						ConvertImage CI, UtilWavelet UW, ImageType IT) {
 		work1.reshape(input.width,input.height);
 		work2.reshape(input.width,input.height);
 		GTIO.localGaussian(input, output, radius, scale, down, work1, work2, TIO, ISC, GIO, BIO, FKG, CN, CNN, CINB, CNJB);

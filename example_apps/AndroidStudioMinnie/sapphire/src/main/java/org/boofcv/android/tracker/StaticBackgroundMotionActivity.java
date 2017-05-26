@@ -12,8 +12,13 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 
+import org.boofcv.android.DemoManager;
 import org.boofcv.android.DemoVideoDisplayActivity;
 import org.boofcv.android.R;
+
+import java.net.InetSocketAddress;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
 import boofcv.abst.distort.FDistort;
 import boofcv.alg.InputSanityCheck;
@@ -36,7 +41,13 @@ import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.ImageBase;
 import boofcv.struct.image.ImageDataType;
 import boofcv.struct.image.ImageGray;
+import boofcv.struct.image.ImageInterleaved;
 import boofcv.struct.image.ImageType;
+import boofcv.struct.image.InterleavedF32;
+import sapphire.kernel.server.KernelServerImpl;
+import sapphire.oms.OMSServer;
+
+import static sapphire.kernel.common.GlobalKernelReferences.nodeServer;
 
 /**
  * Motion detection using static video images
@@ -46,26 +57,50 @@ import boofcv.struct.image.ImageType;
 public class StaticBackgroundMotionActivity extends DemoVideoDisplayActivity
 		implements AdapterView.OnItemSelectedListener, View.OnTouchListener
 {
-	private ImageType IT;
-	private GeneralizedImageOps GIO;
-	private ImageMiscOps IMO;
-	private static InputSanityCheck ISC;
-	private static GImageMiscOps GIMO;
-	private static ConvertImage CI;
 	int selected;
 
 	boolean resetRequested;
 	float threshold;
 
 	SeekBar seek;
-	BackgroundModelStationary model;
+	//BackgroundModelStationary model;
 
 	// if true turn on picture-in-picture mode
 	boolean pip = true;
 
+	OMSServer server;
+	DemoManager dm;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		InetSocketAddress host, omsHost;
+
+		try {
+			Registry registry = LocateRegistry.getRegistry("157.82.159.58", 22346);
+			server = (OMSServer) registry.lookup("SapphireOMS");
+			System.out.println(server);
+
+			host = new InetSocketAddress("192.168.0.7", 22346);
+			omsHost = new InetSocketAddress("157.82.159.58", 22346);
+			nodeServer = new KernelServerImpl(host, omsHost);
+			System.out.println(nodeServer);
+
+			System.setProperty("java.rmi.server.hostname", host.getAddress().getHostAddress());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		try {
+			//Server is initiated with appObject to perform remote RPCs
+			dm = (DemoManager) server.getAppEntryPoint();
+			System.out.println("Got AppEntryPoint");
+			//dm.LatencyCheck();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(0);
+		}
 
 		LayoutInflater inflater = getLayoutInflater();
 		LinearLayout controls = (LinearLayout) inflater.inflate(R.layout.background_controls, null);
@@ -89,11 +124,13 @@ public class StaticBackgroundMotionActivity extends DemoVideoDisplayActivity
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 				threshold = progress;
+				dm.setThreshold(threshold);
+				/*
 				if( model instanceof BackgroundStationaryBasic) {
 					((BackgroundStationaryBasic)model).setThreshold(threshold);
 				} else if( model instanceof BackgroundStationaryGaussian ) {
 					((BackgroundStationaryGaussian)model).setThreshold(threshold);
-				}
+				}*/
 			}
 
 			@Override
@@ -147,27 +184,26 @@ public class StaticBackgroundMotionActivity extends DemoVideoDisplayActivity
 
 		switch( selected ) {
 			case 0:
-				model = FactoryBackgroundModel.stationaryBasic(
-						configBasic,IT.single(GrayU8.class));
+				dm.stationaryBasic(configBasic);
 				break;
 
 			case 1:
-				model = FactoryBackgroundModel.stationaryBasic(configBasic,IT.il(3, ImageDataType.U8));
+				dm.stationaryGaussian(configGaussian);
 				break;
 
 			case 2:
-				model = FactoryBackgroundModel.stationaryGaussian(configGaussian, IT.single(GrayU8.class));
+				dm.stationaryBasicColor(configBasic);
 				break;
 
 			case 3:
-				model = FactoryBackgroundModel.stationaryGaussian(configGaussian, IT.il(3, ImageDataType.U8));
+				dm.stationaryGaussianColor(configGaussian);
 				break;
 
 			default:
 				throw new RuntimeException("unknown selected");
 		}
 
-		setProcessing(new BackgroundProcessing(model));
+		setProcessing(new BackgroundProcessing());
 	}
 
 	@Override
@@ -180,45 +216,51 @@ public class StaticBackgroundMotionActivity extends DemoVideoDisplayActivity
 	}
 
 	protected class BackgroundProcessing<T extends ImageBase> extends VideoImageProcessing<T> {
-		BackgroundModelStationary<T> model;
+		//BackgroundModelStationary<T> model;
 
-		GrayU8 binary = new GrayU8(1,1);
-		T scaled;
+		GrayU8 binary;
+		//T scaled;
 
-		ImageGray work;
-		FDistort shrink;
+		//ImageGray work;
+		//FDistort shrink;
 
-		public BackgroundProcessing(BackgroundModelStationary<T> model ) {
-			super(model.getImageType());
-			this.model = model;
-			this.scaled = model.getImageType().createImage(1, 1);
-
-			this.work = GIO.createSingleBand(model.getImageType().getDataType(),1,1);
+		public BackgroundProcessing() {
+			super(dm.getImageType());
+			dm.motionInit();
+			//this.model = model;
+			//this.scaled = (T) dm.createImage();
+			//this.work = GIO.createSingleBand(dm.getImageType().getDataType(),1,1, IT);
 		}
 
 		@Override
 		protected void declareImages(int width, int height) {
 			super.declareImages(width, height);
-			binary.reshape(width, height);
-			work.reshape(width, height);
-			scaled.reshape(width/3,height/3);
+			dm.initbg(width, height);
 
-			shrink = new FDistort();
+			//binary.reshape(width, height);
+			//work.reshape(width, height);
+			//scaled.reshape(width/3,height/3);
+
+			//shrink = new FDistort();
 		}
 
 		@Override
 		protected void process(T image, Bitmap output, byte[] storage) {
 			if( resetRequested ) {
 				resetRequested = false;
-				model.reset();
-				IMO.fill(binary,0);
+				dm.reset();
+				//model.reset();
+				//IMO.fill(binary,0);
 			} else {
-				model.segment(image, binary);
-				model.updateBackground(image);
+
+				binary = dm.set(image);
+				//model.segment(image, binary);
+				//model.updateBackground(image);
 			}
 
 			if( pip ) {
-
+				image = dm.pip(image);
+				/*
 				// shrink the input image
 				shrink.init(image,scaled).scaleExt();
 				shrink.apply();
@@ -235,7 +277,8 @@ public class StaticBackgroundMotionActivity extends DemoVideoDisplayActivity
 				int x0 = image.width  - scaled.width;
 				int y0 = image.height - scaled.height;
 
-				image.subimage(x0,y0,binary.width,binary.height).setTo(scaled);
+				image.subimage(x0,y0,binary.width,binary.height).setTo(scaled);*/
+				//System.out.println(image.getImageType());
 				ConvertBitmap.boofToBitmap(image,output,storage);
 			} else {
 				VisualizeImageData.binaryToBitmap(binary, false, output, storage);

@@ -52,6 +52,7 @@ import boofcv.factory.filter.derivative.FactoryDerivative;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.QueueCorner;
 import boofcv.struct.image.ImageGray;
+import boofcv.struct.image.ImageType;
 import sapphire.app.SapphireObject;
 import sun.java2d.loops.DrawGlyphListAA;
 
@@ -138,7 +139,7 @@ public class EasyGeneralFeatureDetector<T extends ImageGray, D extends ImageGray
 					   GImageMiscOps GIMO, ImageMiscOps IMO, ConvolveNormalizedNaive CNN, ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN,
 					   GBlurImageOps GBIO, GeneralizedImageOps GIO, BlurImageOps BIO, ConvolveImageMean CIM, FactoryKernelGaussian FKG, ImplMedianHistogramInner IMHI,
 					   ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM, GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS,
-					   ThresholdImageOps TIO, ConvertImage CI, UtilWavelet UW) {
+					   ThresholdImageOps TIO, ConvertImage CI, UtilWavelet UW, ImageType IT) {
 
 		initializeDerivatives(input);
 
@@ -149,7 +150,7 @@ public class EasyGeneralFeatureDetector<T extends ImageGray, D extends ImageGray
 
 		detector.setExcludeMaximum(exclude);
 		detector.process(input, derivX, derivY, derivXX, derivYY, derivXY, GIMO, IMO, ISC, CNN, CINB, CNJB, CN,
-				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, CJBG, CI, UW);
+				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, CJBG, CI, UW, IT);
 	}
 
 	/**

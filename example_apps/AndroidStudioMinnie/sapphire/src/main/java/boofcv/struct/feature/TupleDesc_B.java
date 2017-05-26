@@ -18,12 +18,14 @@
 
 package boofcv.struct.feature;
 
+import java.io.Serializable;
+
 /**
  * Binary descriptor which is stored inside of an array of ints.
  *
  * @author Peter Abeles
  */
-public class TupleDesc_B implements TupleDesc<TupleDesc_B> {
+public class TupleDesc_B implements TupleDesc<TupleDesc_B>, Serializable {
 	public int[] data;
 	public int numBits;
 

@@ -46,6 +46,7 @@ public class EnhanceDisplayActivity extends DemoVideoDisplayActivity
 
 	OMSServer server;
 	DemoManager dm;
+	ImageType IT = new ImageType();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -157,7 +158,7 @@ public class EnhanceDisplayActivity extends DemoVideoDisplayActivity
 		GrayU8 enhanced;
 
 		protected EnhanceProcessing() {
-			super( dm.single(GrayU8.class));
+			super( IT.single(GrayU8.class));
 		}
 
 		@Override
@@ -173,7 +174,7 @@ public class EnhanceDisplayActivity extends DemoVideoDisplayActivity
 		//GrayU8 gray;
 
 		public EnhanceProcessingColor() {
-			super( dm.pl(3));
+			super( IT.pl(3, GrayU8.class));
 		}
 
 		@Override

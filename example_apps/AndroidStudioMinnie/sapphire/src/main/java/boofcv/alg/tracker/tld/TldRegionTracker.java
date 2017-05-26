@@ -26,6 +26,7 @@ import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
 import boofcv.alg.filter.derivative.GradientSobel;
 import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
 import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.tracker.klt.KltTrackFault;
 import boofcv.alg.tracker.klt.PyramidKltFeature;
 import boofcv.alg.tracker.klt.PyramidKltTracker;
@@ -38,6 +39,8 @@ import boofcv.struct.pyramid.ImagePyramid;
 import boofcv.struct.pyramid.PyramidDiscrete;
 import georegression.geometry.UtilPoint2D_F32;
 import georegression.struct.shapes.Rectangle2D_F64;
+import sapphire.compiler.IMOGenerator;
+
 import org.ddogleg.sorting.QuickSelect;
 import org.ddogleg.struct.FastQueue;
 
@@ -54,15 +57,6 @@ import java.lang.reflect.Array;
  * @author Peter Abeles
  */
 public class TldRegionTracker< Image extends ImageGray, Derivative extends ImageGray> {
-	private GeneralizedImageOps GIO;
-	private static InputSanityCheck ISC;
-	private static DerivativeHelperFunctions DHF;
-	private static ConvolveImageNoBorder CINB;
-	private static ConvolveJustBorder_General CJBG;
-	private static GradientSobel_Outer GSO;
-	private static GradientSobel_UnrolledOuter GSUO;
-	private static FactoryKernelGaussian FKG;
-	private static FactoryPyramid FP;
 	// maximum allowed median forwards-backwards error in pixels squared
 	private double maxErrorFB;
 
@@ -136,10 +130,12 @@ public class TldRegionTracker< Image extends ImageGray, Derivative extends Image
 	 *
 	 * @param image Most recent video image.
 	 */
-	public void initialize(PyramidDiscrete<Image> image ) {
+	public void initialize(PyramidDiscrete<Image> image, InputSanityCheck ISC, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB,
+						   ConvolveJustBorder_General CJBG, GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO, GeneralizedImageOps GIO,
+						   FactoryPyramid FP, FactoryKernelGaussian FKG) {
 		if( previousDerivX == null || previousDerivX.length != image.getNumLayers()
-				|| previousImage.getInputWidth() != image.getInputWidth() || previousImage.getInputHeight() != image.getInputHeight() ) {
-			declareDataStructures(image);
+				|| previousImage.getInputWidth() != image.getInputWidth() || previousImage.getInputHeight() != image.getInputHeight()) {
+			declareDataStructures(image, GIO, FP, FKG);
 		}
 
 		for( int i = 0; i < image.getNumLayers(); i++ ) {
@@ -152,7 +148,7 @@ public class TldRegionTracker< Image extends ImageGray, Derivative extends Image
 	/**
 	 * Declares internal data structures based on the input image pyramid
 	 */
-	protected void declareDataStructures(PyramidDiscrete<Image> image) {
+	protected void declareDataStructures(PyramidDiscrete<Image> image, GeneralizedImageOps GIO, FactoryPyramid FP, FactoryKernelGaussian FKG) {
 		numPyramidLayers = image.getNumLayers();
 
 		previousDerivX = (Derivative[])Array.newInstance(derivType,image.getNumLayers());
@@ -187,16 +183,18 @@ public class TldRegionTracker< Image extends ImageGray, Derivative extends Image
 	 * @param targetRectangle Location of target in previous frame. Not modified.
 	 * @return true if tracking was successful or false if not
 	 */
-	public boolean process( ImagePyramid<Image> image , Rectangle2D_F64 targetRectangle ) {
+	public boolean process( ImagePyramid<Image> image , Rectangle2D_F64 targetRectangle, InputSanityCheck ISC,
+							DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG,
+							GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO, ImageMiscOps IMO) {
 
 		boolean success = true;
-		updateCurrent(image);
+		updateCurrent(image, ISC, DHF, CINB, CJBG, GSO, GSUO);
 
 		// create feature tracks
-		spawnGrid(targetRectangle);
+		spawnGrid(targetRectangle, IMO);
 
 		// track features while computing forward/backward error and NCC error
-		if( !trackFeature() )
+		if( !trackFeature(IMO) )
 			success = false;
 
 		// makes the current image into a previous image
@@ -208,7 +206,9 @@ public class TldRegionTracker< Image extends ImageGray, Derivative extends Image
 	/**
 	 * Computes the gradient and changes the reference to the current pyramid
 	 */
-	protected void updateCurrent(ImagePyramid<Image> image) {
+	protected void updateCurrent(ImagePyramid<Image> image, InputSanityCheck ISC, DerivativeHelperFunctions DHF,
+								 ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG, GradientSobel_Outer GSO,
+								 GradientSobel_UnrolledOuter GSUO) {
 		this.currentImage = image;
 		for( int i = 0; i < image.getNumLayers(); i++ ) {
 			gradient.process(image.getLayer(i), currentDerivX[i], currentDerivY[i], ISC, DHF, CINB, CJBG, GSO, GSUO);
@@ -231,7 +231,7 @@ public class TldRegionTracker< Image extends ImageGray, Derivative extends Image
 	/**
 	 * Tracks KLT features in forward/reverse direction and the tracking error metrics
 	 */
-	protected boolean trackFeature() {
+	protected boolean trackFeature(ImageMiscOps IMO) {
 
 		pairs.reset();
 		// total number of tracks which contribute to FB error
@@ -249,7 +249,7 @@ public class TldRegionTracker< Image extends ImageGray, Derivative extends Image
 
 			// track in forwards direction
 			tracker.setImage(currentImage,currentDerivX,currentDerivY);
-			KltTrackFault result = tracker.track(t.klt);
+			KltTrackFault result = tracker.track(t.klt, IMO);
 			if( result != KltTrackFault.SUCCESS ) {
 				t.active = false;
 				continue;
@@ -259,9 +259,9 @@ public class TldRegionTracker< Image extends ImageGray, Derivative extends Image
 			float currY = t.klt.y;
 
 			// track in reverse direction
-			tracker.setDescription(t.klt);
+			tracker.setDescription(t.klt, IMO);
 			tracker.setImage(previousImage, previousDerivX, previousDerivY);
-			result = tracker.track(t.klt);
+			result = tracker.track(t.klt, IMO);
 			if( result != KltTrackFault.SUCCESS ) {
 				t.active = false;
 				continue;
@@ -301,7 +301,7 @@ public class TldRegionTracker< Image extends ImageGray, Derivative extends Image
 	/**
 	 * Spawn KLT tracks at evenly spaced points inside a grid
 	 */
-	protected void spawnGrid(Rectangle2D_F64 prevRect ) {
+	protected void spawnGrid(Rectangle2D_F64 prevRect, ImageMiscOps IMO) {
 		// Shrink the rectangle to ensure that all features are entirely contained inside
 		spawnRect.p0.x = prevRect.p0.x + featureRadius;
 		spawnRect.p0.y = prevRect.p0.y + featureRadius;
@@ -325,7 +325,7 @@ public class TldRegionTracker< Image extends ImageGray, Derivative extends Image
 				t.klt.x = x;
 				t.klt.y = y;
 
-				if( tracker.setDescription(t.klt) ) {
+				if( tracker.setDescription(t.klt, IMO) ) {
 					t.active = true;
 				} else {
 					t.active = false;

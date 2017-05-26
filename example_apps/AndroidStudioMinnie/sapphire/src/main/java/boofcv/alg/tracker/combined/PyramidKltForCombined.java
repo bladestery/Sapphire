@@ -19,6 +19,7 @@
 package boofcv.alg.tracker.combined;
 
 import boofcv.alg.interpolate.InterpolateRectangle;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.tracker.klt.*;
 import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.struct.image.ImageGray;
@@ -60,9 +61,9 @@ public class PyramidKltForCombined<I extends ImageGray, D extends ImageGray> {
 	protected PyramidKltForCombined() {
 	}
 
-	public void setDescription( float x , float y , PyramidKltFeature ret ) {
+	public void setDescription(float x , float y , PyramidKltFeature ret, ImageMiscOps IMO) {
 		ret.setPosition(x,y);
-		tracker.setDescription(ret);
+		tracker.setDescription(ret, IMO);
 	}
 
 	public void setInputs( ImagePyramid<I> image , D[] derivX , D[] derivY ) {
@@ -76,14 +77,14 @@ public class PyramidKltForCombined<I extends ImageGray, D extends ImageGray> {
 	 * @param feature Feature being updated
 	 * @return true if tracking was successful, false otherwise
 	 */
-	public boolean performTracking(  PyramidKltFeature feature ) {
+	public boolean performTracking(  PyramidKltFeature feature, ImageMiscOps IMO) {
 
-		KltTrackFault result = tracker.track(feature);
+		KltTrackFault result = tracker.track(feature, IMO);
 
 		if( result != KltTrackFault.SUCCESS ) {
 			return false;
 		} else {
-			tracker.setDescription(feature);
+			tracker.setDescription(feature, IMO);
 			return true;
 		}
 	}

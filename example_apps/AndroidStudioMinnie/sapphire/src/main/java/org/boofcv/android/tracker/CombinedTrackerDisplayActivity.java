@@ -9,8 +9,12 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import org.boofcv.android.CreateDetectorDescriptor;
+import org.boofcv.android.DemoManager;
 import org.boofcv.android.R;
 
+import java.net.InetSocketAddress;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,9 +34,12 @@ import boofcv.factory.feature.tracker.FactoryPointTracker;
 import boofcv.factory.filter.blur.FactoryBlurFilter;
 import boofcv.factory.filter.derivative.FactoryDerivative;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
+import boofcv.factory.transform.pyramid.FactoryPyramid;
 import boofcv.struct.feature.TupleDesc_B;
 import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.ImageType;
+import sapphire.kernel.server.KernelServerImpl;
+import sapphire.oms.OMSServer;
 
 import static org.boofcv.android.CreateDetectorDescriptor.DESC_BRIEF;
 import static org.boofcv.android.CreateDetectorDescriptor.DESC_NCC;
@@ -40,6 +47,7 @@ import static org.boofcv.android.CreateDetectorDescriptor.DESC_SURF;
 import static org.boofcv.android.CreateDetectorDescriptor.DETECT_FAST;
 import static org.boofcv.android.CreateDetectorDescriptor.DETECT_FH;
 import static org.boofcv.android.CreateDetectorDescriptor.DETECT_SHITOMASI;
+import static sapphire.kernel.common.GlobalKernelReferences.nodeServer;
 
 /**
  * Displays tracking results from the combined tracker.
@@ -49,20 +57,8 @@ import static org.boofcv.android.CreateDetectorDescriptor.DETECT_SHITOMASI;
 public class CombinedTrackerDisplayActivity extends PointTrackerDisplayActivity
 		implements AdapterView.OnItemSelectedListener
 {
-	private static FactoryAssociation FA;
-	private static CreateDetectorDescriptor CDD;
-	private static FactoryInterestPoint FIP;
-	private static FactoryInterestPointAlgs FIrPA;
-	private static FactoryIntensityPointAlg FIPA;
-	private static FactoryFeatureExtractor FFE;
-	private static FactoryDerivative FD;
-	private static FactoryImageBorder FIB;
-	private static GeneralizedImageOps GIO;
-	private static FactoryKernelGaussian FKG;
-	private static ImageType IT;
-	private static FactoryBlurFilter FBF;
-	int tableDet[] = new int[]{DETECT_SHITOMASI,DETECT_FAST,DETECT_FH};
-	int tableDesc[] = new int[]{DESC_BRIEF,DESC_SURF,DESC_NCC};
+	//int tableDet[] = new int[]{DETECT_SHITOMASI,DETECT_FAST,DETECT_FH};
+	//int tableDesc[] = new int[]{DESC_BRIEF,DESC_SURF,DESC_NCC};
 
 	int selectedDetector = 0;
 	int selectedDescriptor = 0;
@@ -73,6 +69,33 @@ public class CombinedTrackerDisplayActivity extends PointTrackerDisplayActivity
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		InetSocketAddress host, omsHost;
+
+		try {
+			Registry registry = LocateRegistry.getRegistry("157.82.159.58", 22346);
+			server = (OMSServer) registry.lookup("SapphireOMS");
+			System.out.println(server);
+
+			host = new InetSocketAddress("192.168.0.7", 22346);
+			omsHost = new InetSocketAddress("157.82.159.58", 22346);
+			nodeServer = new KernelServerImpl(host, omsHost);
+			System.out.println(nodeServer);
+
+			System.setProperty("java.rmi.server.hostname", host.getAddress().getHostAddress());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		try {
+			//Server is initiated with appObject to perform remote RPCs
+			dm = (DemoManager) server.getAppEntryPoint();
+			System.out.println("Got AppEntryPoint");
+			//dm.LatencyCheck();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(0);
+		}
 
 		LayoutInflater inflater = getLayoutInflater();
 		LinearLayout controls = (LinearLayout)inflater.inflate(R.layout.combined_tracker_controls,null);
@@ -112,12 +135,16 @@ public class CombinedTrackerDisplayActivity extends PointTrackerDisplayActivity
 	@Override
 	protected void onResume() {
 		super.onResume();
+		PkltConfig config = new PkltConfig();
+		config.templateRadius = 3;
+		config.pyramidScaling = new int[]{1,2,4};
 
-		PointTracker<GrayU8> tracker = createTracker(selectedDetector,selectedDescriptor);
-		setProcessing(new PointProcessing(tracker));
+		dm.combinedTracker(selectedDetector,selectedDescriptor, config);
+
+		//PointTracker<GrayU8> tracker = createTracker(selectedDetector,selectedDescriptor);
+		setProcessing(new PointProcessing());
 	}
-
-
+	/*
 	private PointTracker<GrayU8> createTracker( int detector , int descriptor  )
 	{
 		DetectDescribePoint detDesc = CDD.create(tableDet[detector],tableDesc[descriptor],GrayU8.class, FIP, FIrPA, FIPA, FFE, FIB, FD, GIO, FKG, IT, FBF);
@@ -130,8 +157,8 @@ public class CombinedTrackerDisplayActivity extends PointTrackerDisplayActivity
 		config.templateRadius = 3;
 		config.pyramidScaling = new int[]{1,2,4};
 
-		return FactoryPointTracker.combined(detDesc,association,config,75,GrayU8.class);
-	}
+		return FPT.combined(detDesc,association,config,75,GrayU8.class, FP, FKG, FD, GIO, FIB);
+	}*/
 
 	@Override
 	public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long id ) {
@@ -144,9 +171,12 @@ public class CombinedTrackerDisplayActivity extends PointTrackerDisplayActivity
 				return;
 			selectedDetector = spinnerDet.getSelectedItemPosition();
 		}
-
-		PointTracker<GrayU8> tracker = createTracker(selectedDetector,selectedDescriptor);
-		setProcessing(new PointProcessing(tracker));
+		PkltConfig config = new PkltConfig();
+		config.templateRadius = 3;
+		config.pyramidScaling = new int[]{1,2,4};
+		//PointTracker<GrayU8> tracker = createTracker(selectedDetector,selectedDescriptor);
+		dm.combinedTracker(selectedDetector,selectedDescriptor, config);
+		setProcessing(new PointProcessing());
 	}
 
 	@Override

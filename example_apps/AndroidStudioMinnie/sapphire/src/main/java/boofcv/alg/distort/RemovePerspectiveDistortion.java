@@ -21,6 +21,7 @@ package boofcv.alg.distort;
 import boofcv.abst.distort.FDistort;
 import boofcv.abst.geo.Estimate1ofEpipolar;
 import boofcv.alg.interpolate.InterpolationType;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.geo.FactoryMultiView;
 import boofcv.struct.geo.AssociatedPair;
 import boofcv.struct.image.ImageBase;
@@ -38,6 +39,7 @@ import java.util.ArrayList;
  * @author Peter Abeles
  */
 public class RemovePerspectiveDistortion<T extends ImageBase> {
+	private static FactoryImageBorder FIB;
 	FDistort distort;
 
 	// computes the homography
@@ -69,7 +71,7 @@ public class RemovePerspectiveDistortion<T extends ImageBase> {
 		distort = new FDistort(imageType);
 		distort.output(output);
 
-		distort.interp(InterpolationType.BILINEAR).transform(homography);
+		distort.interp(InterpolationType.BILINEAR, FIB).transform(homography);
 
 		for (int i = 0; i < 4; i++) {
 			associatedPairs.add( new AssociatedPair());

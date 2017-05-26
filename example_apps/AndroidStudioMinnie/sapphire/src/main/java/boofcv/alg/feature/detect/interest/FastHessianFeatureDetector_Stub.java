@@ -10,12 +10,12 @@ public final class FastHessianFeatureDetector_Stub extends boofcv.alg.feature.de
     sapphire.policy.SapphirePolicy.SapphireClientPolicy $__client = null;
     boolean $__directInvocation = false;
 
-    public FastHessianFeatureDetector_Stub (boofcv.abst.feature.detect.extract.NonMaxSuppression $param_NonMaxSuppression_1, int $param_int_2, int $param_int_3, int $param_int_4, int $param_int_5, int $param_int_6, int $param_int_7) {
-        super($param_NonMaxSuppression_1, $param_int_2, $param_int_3, $param_int_4, $param_int_5, $param_int_6, $param_int_7);
-    }
-
     public FastHessianFeatureDetector_Stub () {
         super();
+    }
+
+    public FastHessianFeatureDetector_Stub (boofcv.abst.feature.detect.extract.NonMaxSuppression $param_NonMaxSuppression_1, int $param_int_2, int $param_int_3, int $param_int_4, int $param_int_5, int $param_int_6, int $param_int_7) {
+        super($param_NonMaxSuppression_1, $param_int_2, $param_int_3, $param_int_4, $param_int_5, $param_int_6, $param_int_7);
     }
 
 

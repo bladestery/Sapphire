@@ -18,6 +18,8 @@
 
 package boofcv.abst.tracker;
 
+import java.io.Serializable;
+
 import boofcv.alg.interpolate.InterpolationType;
 
 /**
@@ -25,7 +27,7 @@ import boofcv.alg.interpolate.InterpolationType;
  *
  * @author Peter Abeles
  */
-public class ConfigComaniciu2003 {
+public class ConfigComaniciu2003 implements Serializable {
 	/**
 	 * Number of points it samples along each axis of the rectangle.  Default is 30.
 	 */

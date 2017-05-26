@@ -21,6 +21,7 @@ package boofcv.factory.tracker;
 import boofcv.abst.filter.derivative.ImageGradient;
 import boofcv.abst.tracker.ConfigCirculantTracker;
 import boofcv.abst.tracker.ConfigComaniciu2003;
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.interpolate.InterpolatePixelMB;
 import boofcv.alg.interpolate.InterpolatePixelS;
 import boofcv.alg.tracker.circulant.CirculantTracker;
@@ -29,11 +30,14 @@ import boofcv.alg.tracker.sfot.SfotConfig;
 import boofcv.alg.tracker.sfot.SparseFlowObjectTracker;
 import boofcv.alg.tracker.tld.TldParameters;
 import boofcv.alg.tracker.tld.TldTracker;
+import boofcv.alg.transform.fft.DiscreteFourierTransformOps;
+import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.BorderType;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.struct.image.*;
 import sapphire.compiler.FIBAGenerator;
+import sapphire.compiler.GIOGenerator;
 
 /**
  * Factory for creating low level implementations of object tracking algorithms.  These algorithms allow
@@ -45,10 +49,10 @@ import sapphire.compiler.FIBAGenerator;
 public class FactoryTrackerObjectAlgs {
 
 	public static <T extends ImageGray,D extends ImageGray>
-	TldTracker<T,D> createTLD( TldParameters config ,
-							   InterpolatePixelS<T> interpolate , ImageGradient<T,D> gradient ,
-							   Class<T> imageType , Class<D> derivType ) {
-		return new TldTracker<>(config, interpolate, gradient, imageType, derivType);
+	TldTracker<T,D> createTLD(TldParameters config ,
+							  InterpolatePixelS<T> interpolate , ImageGradient<T,D> gradient ,
+							  Class<T> imageType , Class<D> derivType, GeneralizedImageOps GIO) {
+		return new TldTracker<>(config, interpolate, gradient, imageType, derivType, GIO);
 	}
 
 	public static <T extends ImageGray,D extends ImageGray>
@@ -112,7 +116,7 @@ public class FactoryTrackerObjectAlgs {
 	}
 
 	public static <T extends ImageGray>
-	CirculantTracker<T> circulant(ConfigCirculantTracker config , Class<T> imageType, FactoryImageBorder FIB) {
+	CirculantTracker<T> circulant(ConfigCirculantTracker config , Class<T> imageType, FactoryImageBorder FIB, DiscreteFourierTransformOps DFTO, InputSanityCheck ISC) {
 		if( config == null )
 			config = new ConfigCirculantTracker();
 
@@ -122,7 +126,7 @@ public class FactoryTrackerObjectAlgs {
 				config.output_sigma_factor,config.sigma,config.lambda,config.interp_factor,
 				config.padding,
 				config.workSpace,
-				config.maxPixelValue,interp);
+				config.maxPixelValue,interp, DFTO, ISC, FIB);
 	}
 
 	public static <T extends ImageBase>

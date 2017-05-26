@@ -79,6 +79,7 @@ public class DetectBlackEllipseActivity extends DemoVideoDisplayActivity
 
 	OMSServer server;
 	DemoManager dm;
+	ImageType IT = new ImageType();
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -197,7 +198,7 @@ public class DetectBlackEllipseActivity extends DemoVideoDisplayActivity
 		RectF r = new RectF();
 
 		protected EllipseProcessing() {
-			super(dm.single(GrayU8.class));
+			super(IT.single(GrayU8.class));
 		}
 
 		@Override

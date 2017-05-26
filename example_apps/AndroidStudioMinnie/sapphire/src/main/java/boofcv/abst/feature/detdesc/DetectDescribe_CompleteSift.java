@@ -54,6 +54,7 @@ import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.feature.BrightFeature;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.ImageGray;
+import boofcv.struct.image.ImageType;
 import georegression.struct.point.Point2D_F64;
 import sapphire.compiler.FIBAGenerator;
 
@@ -93,12 +94,12 @@ public class DetectDescribe_CompleteSift<In extends ImageGray>
 					   GBlurImageOps GBIO, GeneralizedImageOps GIO, BlurImageOps BIO, ConvolveImageMean CIM, FactoryKernelGaussian FKG, ImplMedianHistogramInner IMHI,
 					   ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM, GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS,
 					   ThresholdImageOps TIO, FactoryImageBorderAlgs FIBA, ImageBorderValue IBV, FastHessianFeatureDetector FHFD, FactoryImageBorder FIB, FactoryBlurFilter FBF,
-					   ConvertImage CI, UtilWavelet UW) {
+					   ConvertImage CI, UtilWavelet UW, ImageType IT) {
 		if( input instanceof GrayF32)
 			alg.process((GrayF32)input, FHFD, FIB, ISC, CNN, CINB, CNJB, CN, DHF, CJBG, GSO, GSUO);
 		else {
 			imageFloat.reshape(input.width,input.height);
-			GConvertImage.convert(input,imageFloat, ISC, GIO, GIMO, IMO, CI);
+			GConvertImage.convert(input,imageFloat, ISC, GIO, GIMO, IMO, CI, IT);
 			alg.process(imageFloat, FHFD, FIB, ISC, CNN, CINB, CNJB, CN, DHF, CJBG, GSO, GSUO);
 		}
 	}

@@ -36,10 +36,10 @@ public class CameraInformationActivity extends Activity {
 
 		int numCamera = Camera.getNumberOfCameras();
 		write("Number of cameras: "+numCamera);
-		write("-------- Intrinsic --------");
-		for( int i = 0; i < numCamera; i++ ) {
-			printIntrinsic(i);
-		}
+		//write("-------- Intrinsic --------");
+		//for( int i = 0; i < numCamera; i++ ) {
+		//	printIntrinsic(i);
+		//}
 		write("-------- Capabilities --------");
 
 		for( int i = 0; i < numCamera; i++ ) {

@@ -48,7 +48,7 @@ public class MeanShift_to_ImageSuperpixels<T extends ImageBase>
 
 	@Override
 	public void segment(T input, GrayS32 output, InputSanityCheck ISC, GeneralizedImageOps GIO, GImageMiscOps GIMO, ImageMiscOps IMO, ImageSegmentationOps ISO, BinaryImageOps BIO,
-					   ConvertImage CI) {
+					   ConvertImage CI, ImageType IT) {
 		ms.process(input,output, ISC, BIO, IMO);
 	}
 

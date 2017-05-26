@@ -78,7 +78,7 @@ public abstract class OrientationImageAverage<T extends ImageGray> implements Or
 	public void setImage(T image, InputSanityCheck ISC, GeneralizedImageOps GIO, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB,
 						 ConvolveJustBorder_General CJBG, GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO, FactoryKernelGaussian FKG, GImageMiscOps GIMO, ImageMiscOps IMO, ConvertImage CI,
 						 FactoryImageBorder FIB, ConvolveNormalizedNaive CNN, ConvolveNormalized_JustBorder CNJB,
-						 ConvolveNormalized CN) {
+						 ConvolveNormalized CN, ImageType IT) {
 		this.image = image;
 	}
 

@@ -57,6 +57,7 @@ import boofcv.struct.feature.BrightFeature;
 import boofcv.struct.feature.ScalePoint;
 import boofcv.struct.feature.SurfFeatureQueue;
 import boofcv.struct.image.ImageGray;
+import boofcv.struct.image.ImageType;
 import georegression.struct.point.Point2D_F64;
 import org.ddogleg.struct.GrowQueue_F64;
 
@@ -125,7 +126,7 @@ public class WrapDetectDescribeSurf
 					   GBlurImageOps GBIO, GeneralizedImageOps GIO, BlurImageOps BIO, ConvolveImageMean CIM, FactoryKernelGaussian FKG, ImplMedianHistogramInner IMHI,
 					   ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM, GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS,
 					   ThresholdImageOps TIO, FactoryImageBorderAlgs FIBA, ImageBorderValue IBV, FastHessianFeatureDetector FHFD, FactoryImageBorder FIB, FactoryBlurFilter FBF,
-					   ConvertImage CI, UtilWavelet UW) {
+					   ConvertImage CI, UtilWavelet UW, ImageType IT) {
 		if( ii != null ) {
 			ii.reshape(input.width,input.height);
 		}

@@ -84,6 +84,7 @@ public class ImageTransformActivity extends DemoVideoDisplayActivity
 
 	OMSServer server;
 	DemoManager dm;
+	ImageType IT = new ImageType();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -186,7 +187,7 @@ public class ImageTransformActivity extends DemoVideoDisplayActivity
 		//InterleavedF32 transform;
 
 		protected FourierProcessing() {
-			super(dm.single(GrayU8.class));
+			super(IT.single(GrayU8.class));
 		}
 
 		@Override
@@ -221,7 +222,7 @@ public class ImageTransformActivity extends DemoVideoDisplayActivity
 		//GrayU8 sub = new GrayU8();
 
 		protected PyramidProcessing() {
-			super(dm.single(GrayU8.class));
+			super(IT.single(GrayU8.class));
 		}
 
 		@Override
@@ -262,7 +263,7 @@ public class ImageTransformActivity extends DemoVideoDisplayActivity
 		GrayS32 transform;
 
 		protected WaveletProcessing() {
-			super(dm.single(GrayU8.class));
+			super(IT.single(GrayU8.class));
 		}
 
 		@Override

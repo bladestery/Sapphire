@@ -57,6 +57,7 @@ import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.factory.transform.pyramid.FactoryPyramid;
 import boofcv.struct.feature.TupleDesc;
 import boofcv.struct.image.ImageGray;
+import boofcv.struct.image.ImageType;
 import boofcv.struct.pyramid.PyramidDiscrete;
 import sapphire.compiler.FDGenerator;
 
@@ -74,39 +75,6 @@ import java.util.List;
 // TODO Speed up combination of respawn and spawn
 public class PointTrackerCombined<I extends ImageGray, D extends ImageGray, Desc extends TupleDesc>
 		implements PointTracker<I> {
-	private static InputSanityCheck ISC;
-	private static DerivativeHelperFunctions DHF;
-	private static ConvolveImageNoBorder CINB;
-	private static ConvolveJustBorder_General CJBG;
-	private static GradientSobel_Outer GSO;
-	private static GradientSobel_UnrolledOuter GSUO;
-	private static GImageMiscOps GIMO;
-	private static ImageMiscOps IMO;
-	private static ConvolveNormalizedNaive CNN;
-	private static ConvolveNormalized_JustBorder CNJB;
-	private static ConvolveNormalized CN;
-	private static GBlurImageOps GBIO;
-	private static GeneralizedImageOps GIO;
-	private static BlurImageOps BIO;
-	private static ConvolveImageMean CIM;
-	private static FactoryKernelGaussian FKG;
-	private static ImplMedianHistogramInner IMHI;
-	private static ImplMedianSortEdgeNaive IMSEN;
-	private static ImplMedianSortNaive IMSN;
-	private static ImplConvolveMean ICM;
-	private static GThresholdImageOps GTIO;
-	private static GImageStatistics GIS;
-	private static ImageStatistics IS;
-	private static ThresholdImageOps TIO;
-	private static FactoryImageBorderAlgs FIBA;
-	private static ImageBorderValue IBV;
-	private static FastHessianFeatureDetector FHFD;
-	private static FactoryImageBorder FIB;
-	private static FactoryBlurFilter FBF;
-	private static FactoryDerivative FD;
-	private static ConvertImage CI;
-	private static FactoryPyramid FP;
-	private static UtilWavelet UW;
 	CombinedTrackerScalePoint<I,D, Desc> tracker;
 
 	PyramidDiscrete<I> pyramid;
@@ -123,7 +91,8 @@ public class PointTrackerCombined<I extends ImageGray, D extends ImageGray, Desc
 
 	public PointTrackerCombined(CombinedTrackerScalePoint<I, D, Desc> tracker,
 								int reactivateThreshold,
-								Class<I> imageType, Class<D> derivType) {
+								Class<I> imageType, Class<D> derivType, FactoryPyramid FP, FactoryKernelGaussian FKG, FactoryDerivative FD,
+								GeneralizedImageOps GIO, FactoryImageBorder FIB) {
 		this.tracker = tracker;
 		this.reactivateThreshold = reactivateThreshold;
 		this.derivType = derivType;
@@ -143,25 +112,30 @@ public class PointTrackerCombined<I extends ImageGray, D extends ImageGray, Desc
 	}
 
 	@Override
-	public void process(I image) {
+	public void process(I image, InputSanityCheck ISC, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG,
+						GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvolveNormalizedNaive CNN,
+						ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN, GBlurImageOps GBIO, GeneralizedImageOps GIO, BlurImageOps BIO, ConvolveImageMean CIM,
+						FactoryKernelGaussian FKG, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM,
+						GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO, FactoryImageBorderAlgs FIBA, ImageBorderValue IBV,
+						FastHessianFeatureDetector FHFD, FactoryImageBorder FIB, FactoryBlurFilter FBF, ConvertImage CI, UtilWavelet UW, ImageType IT) {
 		detected = false;
 
 		// update the image pyramid
-		pyramid.process(image, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG, CI, UW);
+		pyramid.process(image, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG, CI, UW, IT);
 		if( derivX == null ) {
-			derivX = PyramidOps.declareOutput(pyramid, derivType);
-			derivY = PyramidOps.declareOutput(pyramid, derivType);
+			derivX = PyramidOps.declareOutput(pyramid, derivType, GIO);
+			derivY = PyramidOps.declareOutput(pyramid, derivType, GIO);
 		}
-		PyramidOps.gradient(pyramid, gradient, derivX, derivY);
+		PyramidOps.gradient(pyramid, gradient, derivX, derivY, ISC, DHF, CINB, CJBG, GSO, GSUO);
 
 		// pass in filtered inputs
-		tracker.updateTracks(image, pyramid, derivX, derivY);
+		tracker.updateTracks(image, pyramid, derivX, derivY, IMO);
 
 		int numActive = tracker.getPureKlt().size() + tracker.getReactivated().size();
 
 		if( previousSpawn-numActive > reactivateThreshold) {
 			detected = true;
-			tracker.associateAllToDetected();
+			tracker.associateAllToDetected(ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN, GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF, CI, UW, IT);
 			previousSpawn = tracker.getPureKlt().size() + tracker.getReactivated().size();
 		}
 
@@ -176,11 +150,16 @@ public class PointTrackerCombined<I extends ImageGray, D extends ImageGray, Desc
 	}
 
 	@Override
-	public void spawnTracks() {
+	public void spawnTracks(InputSanityCheck ISC, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG,
+							  GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvolveNormalizedNaive CNN,
+							  ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN, GBlurImageOps GBIO, GeneralizedImageOps GIO, BlurImageOps BIO, ConvolveImageMean CIM,
+							  FactoryKernelGaussian FKG, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM,
+							  GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO, FactoryImageBorderAlgs FIBA, ImageBorderValue IBV,
+							  FastHessianFeatureDetector FHFD, FactoryImageBorder FIB, FactoryBlurFilter FBF, ConvertImage CI, UtilWavelet UW, ImageType IT) {
 		if( !detected ) {
-			tracker.associateAllToDetected();
+			tracker.associateAllToDetected(ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN, GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF, CI, UW, IT);
 		}
-		tracker.spawnTracksFromDetected();
+		tracker.spawnTracksFromDetected(IMO);
 
 		List<CombinedTrack<Desc>> spawned = tracker.getSpawned();
 

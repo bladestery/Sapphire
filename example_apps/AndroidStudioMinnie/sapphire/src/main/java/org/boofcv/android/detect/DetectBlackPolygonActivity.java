@@ -103,6 +103,7 @@ public class DetectBlackPolygonActivity extends DemoVideoDisplayActivity
 
 	OMSServer server;
 	DemoManager dm;
+	ImageType IT = new ImageType();
 
 	public DetectBlackPolygonActivity() {
 		double rgb[] = new double[3];
@@ -294,7 +295,7 @@ public class DetectBlackPolygonActivity extends DemoVideoDisplayActivity
 	protected class PolygonProcessing extends VideoImageProcessing<GrayU8> {
 
 		protected PolygonProcessing() {
-			super( dm.single(GrayU8.class));
+			super( IT.single(GrayU8.class));
 		}
 
 		@Override

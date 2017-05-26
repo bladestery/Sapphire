@@ -35,6 +35,7 @@ import boofcv.alg.misc.PixelMath;
 import boofcv.alg.shapes.polygon.BinaryPolygonDetector;
 import boofcv.core.image.ConvertImage;
 import boofcv.core.image.GeneralizedImageOps;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.ImageGray;
@@ -74,6 +75,7 @@ public class DetectFiducialSquareImage<T extends ImageGray>
 	private static GeneralizedImageOps GIO;
 	private static GImageMiscOps GIMO;
 	private static ConvertImage CI;
+	private static FactoryImageBorder FIB;
 	// Width of black border (units = pixels)
 	private final static int w=16;
 	private final static int squareLength=w*4; // this must be a multiple of 16
@@ -146,7 +148,7 @@ public class DetectFiducialSquareImage<T extends ImageGray>
 			if( inputBinary.width > squareLength && inputBinary.height > squareLength ) {
 				AverageDownSampleOps.down(inputGray,scaled);
 			} else {
-				new FDistort(inputGray,scaled).scaleExt().apply();
+				new FDistort(inputGray,scaled, FIB).scaleExt(FIB).apply();
 			}
 			GTIO.threshold(scaled,binary,255/2.0,false, TIO, ISC, GIO);
 		} else {

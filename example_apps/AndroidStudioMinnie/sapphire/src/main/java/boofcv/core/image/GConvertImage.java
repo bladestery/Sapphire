@@ -54,7 +54,7 @@ public class GConvertImage {
 	 * @param output (Optional) The output image.  If null a new image is created. Modified.
 	 * @return Converted image.
 	 */
-	public static void convert(ImageBase input , ImageBase output , InputSanityCheck ISC, GeneralizedImageOps GIO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvertImage CI) {
+	public static void convert(ImageBase input , ImageBase output , InputSanityCheck ISC, GeneralizedImageOps GIO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvertImage CI, ImageType IT) {
 
 		if( input instanceof ImageGray) {
 			ImageGray sb = (ImageGray)input;
@@ -75,7 +75,7 @@ public class GConvertImage {
 			} else if( output instanceof Planar) {
 				Planar ms = (Planar)output;
 				for (int i = 0; i < ms.getNumBands(); i++) {
-					convert(input,ms.getBand(i), ISC, GIO, GIMO, IMO, CI);
+					convert(input,ms.getBand(i), ISC, GIO, GIMO, IMO, CI, IT);
 				}
 			} else if( output instanceof ImageInterleaved ) {
 				ImageInterleaved il = (ImageInterleaved)output;
@@ -101,9 +101,9 @@ public class GConvertImage {
 			if( mi.getImageType().getDataType() != so.getDataType() ) {
 				int w = output.width;
 				int h = output.height;
-				ImageGray tmp = GIO.createSingleBand(mi.getImageType().getDataType(),w,h);
+				ImageGray tmp = GIO.createSingleBand(mi.getImageType().getDataType(),w,h, IT);
 				average(mi,tmp, ISC, CI);
-				convert(tmp,so, ISC, GIO, GIMO, IMO, CI);
+				convert(tmp,so, ISC, GIO, GIMO, IMO, CI, IT);
 			} else {
 				average(mi,so, ISC, CI);
 			}
@@ -122,7 +122,7 @@ public class GConvertImage {
 				mo.setTo(mi);
 			} else {
 				for (int i = 0; i < mi.getNumBands(); i++) {
-					convert(mi.getBand(i), mo.getBand(i), ISC, GIO, GIMO, IMO, CI);
+					convert(mi.getBand(i), mo.getBand(i), ISC, GIO, GIMO, IMO, CI, IT);
 				}
 			}
 		} else if( input instanceof ImageInterleaved && output instanceof Planar)  {
@@ -139,9 +139,9 @@ public class GConvertImage {
 			if( mb.getImageType().getDataType() != so.getDataType() ) {
 				int w = output.width;
 				int h = output.height;
-				ImageGray tmp = GIO.createSingleBand(mb.getImageType().getDataType(),w,h);
+				ImageGray tmp = GIO.createSingleBand(mb.getImageType().getDataType(),w,h, IT);
 				average(mb,tmp, ISC, CI);
-				convert(tmp,so, ISC, GIO, GIMO, IMO, CI);
+				convert(tmp,so, ISC, GIO, GIMO, IMO, CI, IT);
 			} else {
 				average(mb,so, ISC, CI);
 			}
@@ -223,13 +223,13 @@ public class GConvertImage {
 	 * @param output (Optional) Storage for the output image.  Can be null.
 	 * @return The converted output image.
 	 */
-	public static GrayU8 convert(ImageGray input , double min , double max , int numValues , GrayU8 output , InputSanityCheck ISC, GeneralizedImageOps GIO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvertImage CI)
+	public static GrayU8 convert(ImageGray input , double min , double max , int numValues , GrayU8 output , InputSanityCheck ISC, GeneralizedImageOps GIO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvertImage CI, ImageType IT)
 	{
 		// see if it can use the faster straight forward convert
 		if( min == 0 && max == 255 && numValues == 256 ) {
 			if( output == null )
 				output = new GrayU8(input.width,input.height);
-			convert(input,output, ISC, GIO, GIMO, IMO, CI);
+			convert(input,output, ISC, GIO, GIMO, IMO, CI, IT);
 			return output;
 		}
 

@@ -165,7 +165,7 @@ public class DisparityCalculation<Desc extends TupleDesc> {
 	public void setSource( GrayF32 image ) {
 		distortedLeft.setTo(image);
 		detDesc.detect(image, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN,
-				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF, CI, UW);
+				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF, CI, UW, IT);
 		describeImage(listSrc, locationSrc);
 		associate.setSource(listSrc);
 	}
@@ -173,7 +173,7 @@ public class DisparityCalculation<Desc extends TupleDesc> {
 	public void setDestination( GrayF32 image ) {
 		distortedRight.setTo(image);
 		detDesc.detect(image, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN,
-				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF, CI, UW);
+				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF, CI, UW, IT);
 		describeImage(listDst, locationDst);
 		associate.setDestination(listDst);
 

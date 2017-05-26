@@ -19,12 +19,14 @@
 package boofcv.struct.feature;
 
 
+import java.io.Serializable;
+
 /**
  * Feature description storage in an array of bytes.
  *
  * @author Peter Abeles
  */
-public abstract class TupleDesc_I8<TD extends TupleDesc_I8> implements TupleDesc<TD> {
+public abstract class TupleDesc_I8<TD extends TupleDesc_I8> implements TupleDesc<TD>, Serializable {
 	public byte value[];
 
 	public TupleDesc_I8(int numFeatures) {

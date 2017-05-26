@@ -71,6 +71,7 @@ public class ThresholdDisplayActivity extends DemoVideoDisplayActivity
 
 	OMSServer server;
 	DemoManager dm;
+	ImageType IT = new ImageType();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -218,7 +219,7 @@ public class ThresholdDisplayActivity extends DemoVideoDisplayActivity
 		//InputToBinary<GrayU8> filter;
 
 		public ThresholdingProcessing() {
-			super(dm.single(GrayU8.class));
+			super(IT.single(GrayU8.class));
 		}
 
 		@Override

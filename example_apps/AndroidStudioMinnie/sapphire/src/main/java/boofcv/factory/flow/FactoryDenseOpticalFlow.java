@@ -38,6 +38,7 @@ import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.ImageGray;
 import boofcv.struct.image.ImageType;
 import boofcv.struct.pyramid.PyramidDiscrete;
+import sapphire.compiler.GIOGenerator;
 
 /**
  * Creates implementations of {@link DenseOpticalFlow}.
@@ -45,12 +46,6 @@ import boofcv.struct.pyramid.PyramidDiscrete;
  * @author Peter Abeles
  */
 public class FactoryDenseOpticalFlow {
-	private static FactoryDerivative FD;
-	private static ImageType IT;
-	private static GeneralizedImageOps GIO;
-	private static FactoryImageBorder FIB;
-	private static FactoryKernelGaussian FKG;
-	private static FactoryPyramid FP;
 	/**
 	 * Compute optical flow using {@link PyramidKltTracker}.
 	 *
@@ -65,7 +60,8 @@ public class FactoryDenseOpticalFlow {
 	 * @return DenseOpticalFlow
 	 */
 	public static <I extends ImageGray, D extends ImageGray>
-	DenseOpticalFlow<I> flowKlt( PkltConfig configKlt, int radius , Class<I> inputType , Class<D> derivType ) {
+	DenseOpticalFlow<I> flowKlt(PkltConfig configKlt, int radius , Class<I> inputType , Class<D> derivType, FactoryPyramid FP, FactoryKernelGaussian FKG,
+								ImageType IT, GeneralizedImageOps GIO, FactoryImageBorder FIB, FactoryDerivative FD) {
 
 		if( configKlt == null )
 			configKlt = new PkltConfig();
@@ -83,7 +79,7 @@ public class FactoryDenseOpticalFlow {
 		DenseOpticalFlowKlt<I, D> flowKlt = new DenseOpticalFlowKlt<>(tracker, numLayers, radius);
 		ImageGradient<I, D> gradient = FD.sobel(inputType,derivType, GIO, FIB);
 
-		return new FlowKlt_to_DenseOpticalFlow<>(flowKlt, gradient, pyramidA, pyramidB, inputType, derivType);
+		return new FlowKlt_to_DenseOpticalFlow<>(flowKlt, gradient, pyramidA, pyramidB, inputType, derivType, IT, GIO);
 	}
 
 	/**
@@ -97,7 +93,7 @@ public class FactoryDenseOpticalFlow {
 	 * @return
 	 */
 	public static <T extends ImageGray>
-	DenseOpticalFlow<T> region( ConfigOpticalFlowBlockPyramid config , Class<T> imageType )
+	DenseOpticalFlow<T> region( ConfigOpticalFlowBlockPyramid config , Class<T> imageType, ImageType IT)
 	{
 		if( config == null )
 			config = new ConfigOpticalFlowBlockPyramid();
@@ -112,7 +108,7 @@ public class FactoryDenseOpticalFlow {
 		else
 			throw new IllegalArgumentException("Unsupported image type "+imageType);
 
-		return new FlowBlock_to_DenseOpticalFlow<>(alg, config.pyramidScale, config.maxPyramidLayers, imageType);
+		return new FlowBlock_to_DenseOpticalFlow<>(alg, config.pyramidScale, config.maxPyramidLayers, imageType, IT);
 	}
 
 	/**
@@ -125,7 +121,7 @@ public class FactoryDenseOpticalFlow {
 	 * @return dense optical flow
 	 */
 	public static <T extends ImageGray,D extends ImageGray>
-	DenseOpticalFlow<T> hornSchunck( ConfigHornSchunck config , Class<T> imageType )
+	DenseOpticalFlow<T> hornSchunck( ConfigHornSchunck config , Class<T> imageType, ImageType IT)
 	{
 		if( config == null )
 			config = new ConfigHornSchunck();
@@ -151,7 +147,7 @@ public class FactoryDenseOpticalFlow {
 	 * @return Dense optical flow implementation of HornSchunckPyramid
 	 */
 	public static <T extends ImageGray>
-	DenseOpticalFlow<T> hornSchunckPyramid( ConfigHornSchunckPyramid config , Class<T> imageType )
+	DenseOpticalFlow<T> hornSchunckPyramid( ConfigHornSchunckPyramid config , Class<T> imageType, FactoryImageBorder FIB)
 	{
 		if( config == null )
 			config = new ConfigHornSchunckPyramid();
@@ -165,7 +161,7 @@ public class FactoryDenseOpticalFlow {
 	}
 
 	public static <T extends ImageGray>
-	DenseOpticalFlow<T> broxWarping( ConfigBroxWarping config , Class<T> imageType )
+	DenseOpticalFlow<T> broxWarping( ConfigBroxWarping config , Class<T> imageType, FactoryImageBorder FIB)
 	{
 		if( config == null )
 			config = new ConfigBroxWarping();

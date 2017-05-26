@@ -54,6 +54,7 @@ import boofcv.factory.filter.blur.FactoryBlurFilter;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.ImageGray;
+import boofcv.struct.image.ImageType;
 import boofcv.struct.pyramid.ImagePyramid;
 import boofcv.struct.pyramid.PyramidFloat;
 
@@ -94,6 +95,7 @@ public abstract class DenseFlowPyramidBase<T extends ImageGray> {
 	private static FactoryBlurFilter FBF;
 	private static ConvertImage CI;
 	private static UtilWavelet UW;
+	private static ImageType IT;
 	// storage for normalized image
 	private GrayF32 norm1 = new GrayF32(1,1);
 	private GrayF32 norm2 = new GrayF32(1,1);
@@ -140,8 +142,8 @@ public abstract class DenseFlowPyramidBase<T extends ImageGray> {
 		imageNormalization(image1, image2, norm1, norm2);
 
 		// create image pyramid
-		pyr1.process(norm1, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG, CI, UW);
-		pyr2.process(norm2, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG, CI, UW);
+		pyr1.process(norm1, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG, CI, UW, IT);
+		pyr2.process(norm2, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG, CI, UW, IT);
 
 		// compute flow from pyramid
 		process(pyr1, pyr2);
@@ -236,8 +238,8 @@ public abstract class DenseFlowPyramidBase<T extends ImageGray> {
 				}
 			}
 		} else {
-			GConvertImage.convert(image1, normalized1, ISC, GIO, GIMO, IMO, CI);
-			GConvertImage.convert(image2, normalized2, ISC, GIO, GIMO, IMO, CI);
+			GConvertImage.convert(image1, normalized1, ISC, GIO, GIMO, IMO, CI, IT);
+			GConvertImage.convert(image2, normalized2, ISC, GIO, GIMO, IMO, CI, IT);
 		}
 	}
 }

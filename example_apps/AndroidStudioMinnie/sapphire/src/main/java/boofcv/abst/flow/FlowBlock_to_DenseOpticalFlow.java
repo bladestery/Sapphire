@@ -65,38 +65,6 @@ import sapphire.compiler.ITGenerator;
 public class FlowBlock_to_DenseOpticalFlow<T extends ImageGray>
 	implements DenseOpticalFlow<T>
 {
-	private static InputSanityCheck ISC;
-	private static DerivativeHelperFunctions DHF;
-	private static ConvolveImageNoBorder CINB;
-	private static ConvolveJustBorder_General CJBG;
-	private static GradientSobel_Outer GSO;
-	private static GradientSobel_UnrolledOuter GSUO;
-	private static GImageMiscOps GIMO;
-	private static ImageMiscOps IMO;
-	private static ConvolveNormalizedNaive CNN;
-	private static ConvolveNormalized_JustBorder CNJB;
-	private static ConvolveNormalized CN;
-	private static GBlurImageOps GBIO;
-	private static GeneralizedImageOps GIO;
-	private static BlurImageOps BIO;
-	private static ConvolveImageMean CIM;
-	private static FactoryKernelGaussian FKG;
-	private static ImplMedianHistogramInner IMHI;
-	private static ImplMedianSortEdgeNaive IMSEN;
-	private static ImplMedianSortNaive IMSN;
-	private static ImplConvolveMean ICM;
-	private static GThresholdImageOps GTIO;
-	private static GImageStatistics GIS;
-	private static ImageStatistics IS;
-	private static ThresholdImageOps TIO;
-	private static FactoryImageBorderAlgs FIBA;
-	private static ImageBorderValue IBV;
-	private static FastHessianFeatureDetector FHFD;
-	private static FactoryImageBorder FIB;
-	private static FactoryBlurFilter FBF;
-	private static ImageType IT;
-	private static UtilWavelet UW;
-	private static ConvertImage CI;
 	DenseOpticalFlowBlockPyramid<T> flowAlg;
 
 	// width and height of input image.  used to see if anything changes
@@ -116,7 +84,7 @@ public class FlowBlock_to_DenseOpticalFlow<T extends ImageGray>
 	public FlowBlock_to_DenseOpticalFlow(DenseOpticalFlowBlockPyramid<T> flowAlg,
 										 double scale,
 										 int maxLayers,
-										 Class<T> imageType) {
+										 Class<T> imageType, ImageType IT) {
 		this.flowAlg = flowAlg;
 		this.scale = scale;
 		this.maxLayers = maxLayers;
@@ -125,7 +93,12 @@ public class FlowBlock_to_DenseOpticalFlow<T extends ImageGray>
 	}
 
 	@Override
-	public void process(T source, T destination, ImageFlow flow) {
+	public void process(T source, T destination, ImageFlow flow, InputSanityCheck ISC, ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG,
+						GImageMiscOps GIMO, ImageMiscOps IMO, ConvolveNormalizedNaive CNN,
+						ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN, GBlurImageOps GBIO, GeneralizedImageOps GIO, BlurImageOps BIO, ConvolveImageMean CIM,
+						FactoryKernelGaussian FKG, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM,
+						GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO, FactoryBlurFilter FBF, ConvertImage CI, UtilWavelet UW,
+						DerivativeHelperFunctions DHF, GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO, ImageType IT) {
 
 		if( width != source.width || height != source.height ) {
 			width = source.width;
@@ -140,8 +113,8 @@ public class FlowBlock_to_DenseOpticalFlow<T extends ImageGray>
 					minSize,maxLayers,source.getImageType().getImageClass());
 		}
 
-		pyramidSrc.process(source, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG, CI, UW);
-		pyramidDst.process(destination, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG, CI, UW);
+		pyramidSrc.process(source, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG, CI, UW, IT);
+		pyramidDst.process(destination, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG, CI, UW, IT);
 
 		flowAlg.process(pyramidSrc,pyramidDst);
 

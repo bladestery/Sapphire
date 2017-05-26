@@ -349,7 +349,7 @@ public class GThresholdImageOps implements SapphireObject {
 						GeneralizedImageOps GIO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvertImage CI,
 						BlurImageOps BIO, ConvolveImageMean CIM, ConvolveNormalized CN, ConvolveNormalizedNaive CNN,
 						ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ImplConvolveMean ICM,
-						ImageStatistics IS)
+						ImageStatistics IS, ImageType IT)
 	{
 		ThresholdSauvola alg = new ThresholdSauvola(radius,k, down);
 
@@ -360,7 +360,7 @@ public class GThresholdImageOps implements SapphireObject {
 			alg.process((GrayF32)input,output, BIO, ISC, CIM, CN, CNN, CINB, CNJB, ICM, IS);
 		} else {
 			GrayF32 conv = new GrayF32(input.width,input.height);
-			GConvertImage.convert(input, conv, ISC, GIO, GIMO, IMO, CI);
+			GConvertImage.convert(input, conv, ISC, GIO, GIMO, IMO, CI, IT);
 			alg.process(conv,output, BIO, ISC, CIM, CN, CNN, CINB, CNJB, ICM, IS);
 		}
 
@@ -392,7 +392,7 @@ public class GThresholdImageOps implements SapphireObject {
 		if( output == null )
 			output = new GrayU8(input.width,input.height);
 
-		alg.process(input,output, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW);
+		alg.process(input,output, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW, IT);
 
 		return output;
 	}

@@ -60,6 +60,7 @@ import boofcv.struct.geo.AssociatedPair;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.ImageGray;
+import boofcv.struct.image.ImageType;
 import georegression.geometry.UtilPolygons2D_F64;
 import georegression.struct.homography.UtilHomography;
 import georegression.struct.point.Point2D_F64;
@@ -116,6 +117,7 @@ public abstract class BaseDetectFiducialSquare<T extends ImageGray> {
 	private static ConvolveJustBorder_General CJBG;
 	private static ConvertImage CI;
 	private static UtilWavelet UW;
+	private static ImageType IT;
 	private LinearContourLabelChang2004 cF = new LinearContourLabelChang2004(ConnectRule.FOUR);
 
 	// Storage for the found fiducials
@@ -247,7 +249,7 @@ public abstract class BaseDetectFiducialSquare<T extends ImageGray> {
 	public void process( T gray ) {
 		binary.reshape(gray.width,gray.height);
 
-		inputToBinary.process(gray,binary, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW);
+		inputToBinary.process(gray,binary, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW, IT);
 		squareDetector.process(gray,binary, ISC, IMO, cF);
 		// These are in undistorted pixels
 		FastQueue<Polygon2D_F64> candidates = squareDetector.getFoundPolygons();

@@ -53,8 +53,6 @@ import boofcv.struct.image.ImageGray;
  */
 @SuppressWarnings({"SuspiciousNameCombination"})
 public class KltTracker<InputImage extends ImageGray, DerivativeImage extends ImageGray> {
-	private static ImageMiscOps IMO;
-	private static InputSanityCheck ISC;
 
 	// input image
 	protected InputImage image;
@@ -118,7 +116,7 @@ public class KltTracker<InputImage extends ImageGray, DerivativeImage extends Im
 	 * @param derivX Image derivative along the x-axis
 	 * @param derivY Image derivative along the y-axis
 	 */
-	public void setImage(InputImage image, DerivativeImage derivX, DerivativeImage derivY) {
+	public void setImage(InputImage image, DerivativeImage derivX, DerivativeImage derivY, InputSanityCheck ISC) {
 		ISC.checkSameShape(image, derivX, derivY);
 
 		this.image = image;
@@ -146,14 +144,14 @@ public class KltTracker<InputImage extends ImageGray, DerivativeImage extends Im
 	 * @return true if the feature's description was modified.
 	 */
 	@SuppressWarnings({"SuspiciousNameCombination"})
-	public boolean setDescription(KltFeature feature) {
+	public boolean setDescription(KltFeature feature, ImageMiscOps IMO) {
 		setAllowedBounds(feature);
 
 		if (!isFullyInside(feature.x, feature.y)) {
 			if( isFullyOutside(feature.x,feature.y))
 				return false;
 			else
-				return internalSetDescriptionBorder(feature);
+				return internalSetDescriptionBorder(feature, IMO);
 		}
 
 		return internalSetDescription(feature);
@@ -197,7 +195,7 @@ public class KltTracker<InputImage extends ImageGray, DerivativeImage extends Im
 	 * is save the pixel value, but derivative information is also computed
 	 * so that it can reject bad features immediately.
 	 */
-	protected boolean internalSetDescriptionBorder(KltFeature feature) {
+	protected boolean internalSetDescriptionBorder(KltFeature feature, ImageMiscOps IMO) {
 
 		computeSubImageBounds(feature, feature.x, feature.y);
 
@@ -250,7 +248,7 @@ public class KltTracker<InputImage extends ImageGray, DerivativeImage extends Im
 	 * @param feature Feature being tracked.
 	 * @return If the tracking was successful or not.
 	 */
-	public KltTrackFault track(KltFeature feature) {
+	public KltTrackFault track(KltFeature feature, ImageMiscOps IMO) {
 
 		// precompute bounds and other values
 		setAllowedBounds(feature);
@@ -289,7 +287,7 @@ public class KltTracker<InputImage extends ImageGray, DerivativeImage extends Im
 				computeE(feature, feature.x, feature.y);
 			} else {
 				// once it goes outside it must remain outside.  If it starts outside
-				int length = computeGandE_border(feature, feature.x, feature.y);
+				int length = computeGandE_border(feature, feature.x, feature.y, IMO);
 
 				det = Gxx * Gyy - Gxy * Gxy;
 				if (det <= config.minDeterminant*length) {
@@ -378,7 +376,7 @@ public class KltTracker<InputImage extends ImageGray, DerivativeImage extends Im
 	/**
 	 * When part of the region is outside the image G and E need to be recomputed
 	 */
-	protected int computeGandE_border(KltFeature feature, float cx, float cy) {
+	protected int computeGandE_border(KltFeature feature, float cx, float cy, ImageMiscOps IMO) {
 
 		computeSubImageBounds(feature, cx, cy);
 

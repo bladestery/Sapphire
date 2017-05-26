@@ -37,6 +37,7 @@ import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.image.ImageGray;
+import boofcv.struct.image.ImageType;
 
 /**
  * Converts an implementation of {@link OrientationGradient} into {@link OrientationImage}.
@@ -73,7 +74,7 @@ public class OrientationGradientToImage<T extends ImageGray, D extends ImageGray
 						 ConvolveJustBorder_General CJBG, GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO, FactoryKernelGaussian FKG,
 						 GImageMiscOps GIMO, ImageMiscOps IMO, ConvertImage CI,
 						 FactoryImageBorder FIB, ConvolveNormalizedNaive CNN, ConvolveNormalized_JustBorder CNJB,
-						 ConvolveNormalized CN) {
+						 ConvolveNormalized CN, ImageType IT) {
 		derivX.reshape(image.width,image.height);
 		derivY.reshape(image.width,image.height);
 

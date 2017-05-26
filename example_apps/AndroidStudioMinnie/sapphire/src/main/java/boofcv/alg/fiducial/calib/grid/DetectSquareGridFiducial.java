@@ -48,6 +48,7 @@ import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.ConnectRule;
 import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.ImageGray;
+import boofcv.struct.image.ImageType;
 import georegression.struct.point.Point2D_F64;
 import georegression.struct.shapes.Polygon2D_F64;
 import org.ddogleg.struct.FastQueue;
@@ -97,6 +98,7 @@ public class DetectSquareGridFiducial<T extends ImageGray> {
 	private static ConvolveJustBorder_General CJBG;
 	private static ConvertImage CI;
 	private static UtilWavelet UW;
+	private static ImageType IT;
 	private LinearContourLabelChang2004 cF = new LinearContourLabelChang2004(ConnectRule.FOUR);
 	// dimension of square grid.  This only refers to black squares and not the white space
 	int numCols;
@@ -157,7 +159,7 @@ public class DetectSquareGridFiducial<T extends ImageGray> {
 	public boolean process( T image ) {
 		binary.reshape(image.width,image.height);
 
-		inputToBinary.process(image,binary, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW);
+		inputToBinary.process(image,binary, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW, IT);
 		detectorSquare.process(image, binary, ISC, IMO, cF);
 
 		FastQueue<Polygon2D_F64> found = detectorSquare.getFoundPolygons();

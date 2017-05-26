@@ -75,6 +75,7 @@ public class ScalePointDisplayActivity extends DemoVideoDisplayActivity
 
 	OMSServer server;
 	DemoManager DM;
+	ImageType IT = new ImageType();
 
 
 	public void onCreate(Bundle savedInstanceState) {
@@ -200,7 +201,7 @@ public class ScalePointDisplayActivity extends DemoVideoDisplayActivity
 		FastQueue<ScalePoint> foundGUI = new FastQueue<ScalePoint>(ScalePoint.class,true);
 		//FastQueue<ScalePoint> foundGUI;
 		public PointProcessing() {
-			super(DM.single(GrayU8.class));
+			super(IT.single(GrayU8.class));
 			//this.detector = detector;
 		}
 

@@ -23,9 +23,41 @@ import boofcv.abst.feature.tracker.PointTracker;
 import boofcv.abst.feature.tracker.PointTrackerTwoPass;
 import boofcv.abst.geo.RefinePnP;
 import boofcv.abst.sfm.ImagePixelTo3D;
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.feature.detect.interest.FastHessianFeatureDetector;
+import boofcv.alg.filter.binary.GThresholdImageOps;
+import boofcv.alg.filter.binary.ThresholdImageOps;
+import boofcv.alg.filter.blur.BlurImageOps;
+import boofcv.alg.filter.blur.GBlurImageOps;
+import boofcv.alg.filter.blur.impl.ImplMedianHistogramInner;
+import boofcv.alg.filter.blur.impl.ImplMedianSortEdgeNaive;
+import boofcv.alg.filter.blur.impl.ImplMedianSortNaive;
+import boofcv.alg.filter.convolve.ConvolveImageMean;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
+import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
+import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
+import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
+import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
+import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.GImageStatistics;
+import boofcv.alg.misc.ImageMiscOps;
+import boofcv.alg.misc.ImageStatistics;
+import boofcv.alg.transform.wavelet.UtilWavelet;
+import boofcv.core.image.ConvertImage;
+import boofcv.core.image.GeneralizedImageOps;
+import boofcv.core.image.border.FactoryImageBorder;
+import boofcv.core.image.border.FactoryImageBorderAlgs;
+import boofcv.core.image.border.ImageBorderValue;
+import boofcv.factory.filter.blur.FactoryBlurFilter;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.distort.Point2Transform2_F64;
 import boofcv.struct.geo.Point2D3D;
 import boofcv.struct.image.ImageBase;
+import boofcv.struct.image.ImageType;
 import boofcv.struct.sfm.Point2D3DTrack;
 import georegression.struct.point.Point2D_F64;
 import georegression.struct.point.Point3D_F64;
@@ -100,28 +132,27 @@ public class VisOdomPixelDepthPnP<T extends ImageBase> {
 	/**
 	 * Configures magic numbers and estimation algorithms.
 	 *
-	 * @param thresholdAdd Add new tracks when less than this number are in the inlier set.  Tracker dependent. Set to
-	 *                     a value &le; 0 to add features every frame.
+	 * @param thresholdAdd    Add new tracks when less than this number are in the inlier set.  Tracker dependent. Set to
+	 *                        a value &le; 0 to add features every frame.
 	 * @param thresholdRetire Discard a track if it is not in the inlier set after this many updates.  Try 2
-	 * @param doublePass Associate image features a second time using the estimated model from the first
-	 *                   try to improve results
+	 * @param doublePass      Associate image features a second time using the estimated model from the first
+	 *                        try to improve results
 	 * @param motionEstimator PnP motion estimator.  P3P algorithm is recommended/
-	 * @param pixelTo3D Computes the 3D location of pixels.
-	 * @param refine Optional algorithm for refining the pose estimate.  Can be null.
-	 * @param tracker Point feature tracker.
-	 * @param pixelToNorm Converts from raw image pixels into normalized image coordinates.
-	 * @param normToPixel Converts from normalized image coordinates into raw pixels
+	 * @param pixelTo3D       Computes the 3D location of pixels.
+	 * @param refine          Optional algorithm for refining the pose estimate.  Can be null.
+	 * @param tracker         Point feature tracker.
+	 * @param pixelToNorm     Converts from raw image pixels into normalized image coordinates.
+	 * @param normToPixel     Converts from normalized image coordinates into raw pixels
 	 */
 	public VisOdomPixelDepthPnP(int thresholdAdd,
-								int thresholdRetire ,
-								boolean doublePass ,
+								int thresholdRetire,
+								boolean doublePass,
 								ModelMatcher<Se3_F64, Point2D3D> motionEstimator,
 								ImagePixelTo3D pixelTo3D,
-								RefinePnP refine ,
-								PointTrackerTwoPass<T> tracker ,
-								Point2Transform2_F64 pixelToNorm ,
-								Point2Transform2_F64 normToPixel )
-	{
+								RefinePnP refine,
+								PointTrackerTwoPass<T> tracker,
+								Point2Transform2_F64 pixelToNorm,
+								Point2Transform2_F64 normToPixel) {
 		this.thresholdAdd = thresholdAdd;
 		this.thresholdRetire = thresholdRetire;
 		this.doublePass = doublePass;
@@ -151,26 +182,34 @@ public class VisOdomPixelDepthPnP<T extends ImageBase> {
 	 * @param image Camera image.
 	 * @return true if successful or false if it failed
 	 */
-	public boolean process( T image ) {
-		tracker.process(image);
+	public boolean process(T image, InputSanityCheck ISC, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG,
+						   GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvolveNormalizedNaive CNN,
+						   ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN, GBlurImageOps GBIO, GeneralizedImageOps GIO, BlurImageOps BIO, ConvolveImageMean CIM,
+						   FactoryKernelGaussian FKG, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM,
+						   GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO, FactoryImageBorderAlgs FIBA, ImageBorderValue IBV,
+						   FastHessianFeatureDetector FHFD, FactoryImageBorder FIB, FactoryBlurFilter FBF, ConvertImage CI, UtilWavelet UW, ImageType IT) {
+		tracker.process(image, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN,
+				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF, CI, UW, IT);
 
 		tick++;
 		inlierTracks.clear();
 
-		if( first ) {
-			addNewTracks();
+		if (first) {
+			addNewTracks( ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN,
+					GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF, CI, UW, IT);
 			first = false;
 		} else {
-			if( !estimateMotion() ) {
+			if (!estimateMotion(IMO)) {
 				return false;
 			}
 
 			dropUnusedTracks();
 			int N = motionEstimator.getMatchSet().size();
 
-			if( thresholdAdd <= 0 || N < thresholdAdd ) {
+			if (thresholdAdd <= 0 || N < thresholdAdd) {
 				changePoseToReference();
-				addNewTracks();
+				addNewTracks( ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN,
+						GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF, CI, UW, IT);
 			}
 
 //			System.out.println("  num inliers = "+N+"  num dropped "+numDropped+" total active "+tracker.getActivePairs().size());
@@ -189,9 +228,9 @@ public class VisOdomPixelDepthPnP<T extends ImageBase> {
 
 		List<PointTrack> all = tracker.getAllTracks(null);
 
-		for( PointTrack t : all ) {
+		for (PointTrack t : all) {
 			Point2D3DTrack p = t.getCookie();
-			SePointOps_F64.transform(keyToCurr,p.location,p.location);
+			SePointOps_F64.transform(keyToCurr, p.location, p.location);
 		}
 
 		concatMotion();
@@ -207,9 +246,9 @@ public class VisOdomPixelDepthPnP<T extends ImageBase> {
 		List<PointTrack> all = tracker.getAllTracks(null);
 		int num = 0;
 
-		for( PointTrack t : all ) {
+		for (PointTrack t : all) {
 			Point2D3DTrack p = t.getCookie();
-			if( tick - p.lastInlier > thresholdRetire ) {
+			if (tick - p.lastInlier > thresholdRetire) {
 				tracker.dropTrack(t);
 				num++;
 			}
@@ -221,10 +260,16 @@ public class VisOdomPixelDepthPnP<T extends ImageBase> {
 	/**
 	 * Detects new features and computes their 3D coordinates
 	 */
-	private void addNewTracks() {
+	private void addNewTracks(InputSanityCheck ISC, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG,
+							   GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvolveNormalizedNaive CNN,
+							   ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN, GBlurImageOps GBIO, GeneralizedImageOps GIO, BlurImageOps BIO, ConvolveImageMean CIM,
+							   FactoryKernelGaussian FKG, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM,
+							   GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO, FactoryImageBorderAlgs FIBA, ImageBorderValue IBV,
+							   FastHessianFeatureDetector FHFD, FactoryImageBorder FIB, FactoryBlurFilter FBF, ConvertImage CI, UtilWavelet UW, ImageType IT) {
 //		System.out.println("----------- Adding new tracks ---------------");
 
-		tracker.spawnTracks();
+		tracker.spawnTracks(ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN,
+				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF, CI, UW, IT);
 		List<PointTrack> spawned = tracker.getNewTracks(null);
 
 		// estimate 3D coordinate using stereo vision
@@ -258,7 +303,7 @@ public class VisOdomPixelDepthPnP<T extends ImageBase> {
 	 *
 	 * @return true if successful.
 	 */
-	private boolean estimateMotion() {
+	private boolean estimateMotion(ImageMiscOps IMO) {
 		List<PointTrack> active = tracker.getActiveTracks(null);
 		List<Point2D3D> obs = new ArrayList<>();
 
@@ -273,10 +318,10 @@ public class VisOdomPixelDepthPnP<T extends ImageBase> {
 			return false;
 
 		if( doublePass ) {
-			if (!performSecondPass(active, obs))
+			if (!performSecondPass(active, obs, IMO))
 				return false;
 		}
-		tracker.finishTracking();
+		tracker.finishTracking(IMO);
 
 		Se3_F64 keyToCurr;
 
@@ -301,7 +346,7 @@ public class VisOdomPixelDepthPnP<T extends ImageBase> {
 		return true;
 	}
 
-	private boolean performSecondPass(List<PointTrack> active, List<Point2D3D> obs) {
+	private boolean performSecondPass(List<PointTrack> active, List<Point2D3D> obs, ImageMiscOps IMO) {
 		Se3_F64 keyToCurr = motionEstimator.getModelParameters();
 
 		Point3D_F64 cameraPt = new Point3D_F64();
@@ -318,7 +363,7 @@ public class VisOdomPixelDepthPnP<T extends ImageBase> {
 		}
 
 		// redo tracking with the additional information
-		tracker.performSecondPass();
+		tracker.performSecondPass(IMO);
 
 		active.clear();
 		obs.clear();

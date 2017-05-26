@@ -18,10 +18,12 @@
 
 package boofcv.alg.tracker.klt;
 
+import java.io.Serializable;
+
 /**
  * @author Peter Abeles
  */
-public class KltConfig {
+public class KltConfig implements Serializable {
 
 	/**
 	 * Due to how the image derivative and interpolation is performed outer most pixels. Features are

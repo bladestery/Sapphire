@@ -48,6 +48,7 @@ import boofcv.core.image.GeneralizedImageOps;
 import boofcv.factory.filter.blur.FactoryBlurFilter;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.image.ImageGray;
+import boofcv.struct.image.ImageType;
 import boofcv.struct.pyramid.PyramidFloat;
 
 
@@ -113,7 +114,7 @@ public class PyramidFloatGaussianScale< T extends ImageGray> extends PyramidFloa
 	public void process(T input, GBlurImageOps GBIO, InputSanityCheck ISC, GeneralizedImageOps GIO, BlurImageOps BIO, ConvolveImageMean CIM, FactoryKernelGaussian FKG,
 						ConvolveNormalized CN, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN,
 						ImplMedianSortNaive IMSN, ImplConvolveMean ICM, GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO, GImageMiscOps GIMO, ImageMiscOps IMO,
-						FactoryBlurFilter FBF, ConvolveJustBorder_General CJBG, ConvertImage CI, UtilWavelet UW) {
+						FactoryBlurFilter FBF, ConvolveJustBorder_General CJBG, ConvertImage CI, UtilWavelet UW, ImageType IT) {
 		super.initialize(input.width,input.height);
 
 		if( isSaveOriginalReference() )
@@ -130,7 +131,7 @@ public class PyramidFloatGaussianScale< T extends ImageGray> extends PyramidFloa
 			// Apply the requested blur to the previous layer
 			BlurStorageFilter<T> blur = (BlurStorageFilter<T>) FBF.gaussian(layer.getClass(), sigmaLayers[i],-1, GIO);
 			tempImage.reshape(prev.width,prev.height);
-			blur.process(prev,tempImage, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW);
+			blur.process(prev,tempImage, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW, IT);
 
 			// Resample the blurred image
 			if( scale[i] == 1 ) {

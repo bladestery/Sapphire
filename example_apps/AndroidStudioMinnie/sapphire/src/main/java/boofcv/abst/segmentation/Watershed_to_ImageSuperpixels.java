@@ -76,11 +76,11 @@ public class Watershed_to_ImageSuperpixels<T extends ImageBase> implements Image
 
 	@Override
 	public void segment(T input, GrayS32 output, InputSanityCheck ISC, GeneralizedImageOps GIO, GImageMiscOps GIMO, ImageMiscOps IMO, ImageSegmentationOps ISO, BinaryImageOps BIO,
-					   ConvertImage CI) {
+					   ConvertImage CI, ImageType IT) {
 		ISC.checkSameShape(input,output);
 		converted.reshape(input.width,input.height);
 
-		GConvertImage.convert(input,converted, ISC, GIO, GIMO, IMO, CI);
+		GConvertImage.convert(input,converted, ISC, GIO, GIMO, IMO, CI, IT);
 
 		// segment the image
 		alg.process(converted, IMO);

@@ -37,6 +37,7 @@ import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
 import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
+import boofcv.alg.filter.derivative.GradientSobel;
 import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
 import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
 import boofcv.alg.misc.GImageMiscOps;
@@ -54,6 +55,7 @@ import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.feature.AssociatedIndex;
 import boofcv.struct.feature.TupleDesc;
 import boofcv.struct.image.ImageGray;
+import boofcv.struct.image.ImageType;
 import boofcv.struct.pyramid.PyramidDiscrete;
 import georegression.struct.point.Point2D_F64;
 import org.ddogleg.struct.FastQueue;
@@ -75,37 +77,6 @@ import java.util.Stack;
 // TODO Two versions.  One for InterestPointDetector and one for corners
 public class CombinedTrackerScalePoint
 		<I extends ImageGray, D extends ImageGray, TD extends TupleDesc> {
-	private static InputSanityCheck ISC;
-	private static DerivativeHelperFunctions DHF;
-	private static ConvolveImageNoBorder CINB;
-	private static ConvolveJustBorder_General CJBG;
-	private static GradientSobel_Outer GSO;
-	private static GradientSobel_UnrolledOuter GSUO;
-	private static GImageMiscOps GIMO;
-	private static ImageMiscOps IMO;
-	private static ConvolveNormalizedNaive CNN;
-	private static ConvolveNormalized_JustBorder CNJB;
-	private static ConvolveNormalized CN;
-	private static GBlurImageOps GBIO;
-	private static GeneralizedImageOps GIO;
-	private static BlurImageOps BIO;
-	private static ConvolveImageMean CIM;
-	private static FactoryKernelGaussian FKG;
-	private static ImplMedianHistogramInner IMHI;
-	private static ImplMedianSortEdgeNaive IMSEN;
-	private static ImplMedianSortNaive IMSN;
-	private static ImplConvolveMean ICM;
-	private static GThresholdImageOps GTIO;
-	private static GImageStatistics GIS;
-	private static ImageStatistics IS;
-	private static ThresholdImageOps TIO;
-	private static FactoryImageBorderAlgs FIBA;
-	private static ImageBorderValue IBV;
-	private static FastHessianFeatureDetector FHFD;
-	private static FactoryImageBorder FIB;
-	private static FactoryBlurFilter FBF;
-	private static UtilWavelet UW;
-	private static ConvertImage CI;
 
 	// current image in sequence
 	private I input;
@@ -185,7 +156,7 @@ public class CombinedTrackerScalePoint
 	public void updateTracks( I input ,
 							  PyramidDiscrete<I> pyramid ,
 							  D[] derivX,
-							  D[] derivY ) {
+							  D[] derivY, ImageMiscOps IMO) {
 		// forget recently dropped or spawned tracks
 		tracksSpawned.clear();
 
@@ -194,18 +165,18 @@ public class CombinedTrackerScalePoint
 
 		trackerKlt.setInputs(pyramid, derivX, derivY);
 
-		trackUsingKlt(tracksPureKlt);
-		trackUsingKlt(tracksReactivated);
+		trackUsingKlt(tracksPureKlt, IMO);
+		trackUsingKlt(tracksReactivated, IMO);
 	}
 
 	/**
 	 * Tracks features in the list using KLT and update their state
 	 */
-	private void trackUsingKlt(List<CombinedTrack<TD>> tracks) {
+	private void trackUsingKlt(List<CombinedTrack<TD>> tracks, ImageMiscOps IMO) {
 		for( int i = 0; i < tracks.size();  ) {
 			CombinedTrack<TD> track = tracks.get(i);
 
-			if( !trackerKlt.performTracking(track.track) ) {
+			if( !trackerKlt.performTracking(track.track, IMO) ) {
 				// handle the dropped track
 				tracks.remove(i);
 				tracksDormant.add(track);
@@ -222,7 +193,7 @@ public class CombinedTrackerScalePoint
 	 *
 	 * Note: Must be called after {@link #associateAllToDetected}.
 	 */
-	public void spawnTracksFromDetected() {
+	public void spawnTracksFromDetected(ImageMiscOps IMO) {
 		// mark detected features with no matches as available
 		FastQueue<AssociatedIndex> matches = associate.getMatches();
 
@@ -254,7 +225,7 @@ public class CombinedTrackerScalePoint
 			}
 
 			// create the descriptor for tracking
-			trackerKlt.setDescription((float)p.x,(float)p.y,track.track);
+			trackerKlt.setDescription((float)p.x,(float)p.y,track.track, IMO);
 			// set track ID and location
 			track.featureId = totalTracks++;
 			track.desc.setTo(d);
@@ -303,7 +274,12 @@ public class CombinedTrackerScalePoint
 	 * will be reactivated.  If a reactivated track is associated it's state will be updated.  PureKLT
 	 * tracks are left unmodified.
 	 */
-	public void associateAllToDetected() {
+	public void associateAllToDetected(InputSanityCheck ISC, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG,
+									   GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvolveNormalizedNaive CNN,
+						   ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN, GBlurImageOps GBIO, GeneralizedImageOps GIO, BlurImageOps BIO, ConvolveImageMean CIM,
+									   FactoryKernelGaussian FKG, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM,
+									   GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO, FactoryImageBorderAlgs FIBA, ImageBorderValue IBV,
+									   FastHessianFeatureDetector FHFD, FactoryImageBorder FIB, FactoryBlurFilter FBF, ConvertImage CI, UtilWavelet UW, ImageType IT) {
 		// initialize data structures
 		List<CombinedTrack<TD>> all = new ArrayList<>();
 		all.addAll(tracksReactivated);
@@ -317,7 +293,7 @@ public class CombinedTrackerScalePoint
 
 		// detect features
 		detector.detect(input, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN,
-				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF, CI, UW);
+				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF, CI, UW, IT);
 		// associate features
 		associateToDetected(all);
 
@@ -336,7 +312,7 @@ public class CombinedTrackerScalePoint
 			CombinedTrack<TD> t = all.get(a.src);
 
 			t.set(detector.getLocation(a.dst));
-			trackerKlt.setDescription((float) t.x, (float) t.y, t.track);
+			trackerKlt.setDescription((float) t.x, (float) t.y, t.track, IMO);
 			tracksReactivated.add(t);
 			associated[a.src] = true;
 		}

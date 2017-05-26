@@ -25,6 +25,7 @@ import boofcv.alg.filter.kernel.impl.SteerableKernel_F32;
 import boofcv.alg.filter.kernel.impl.SteerableKernel_I32;
 import boofcv.alg.misc.GImageMiscOps;
 import boofcv.alg.misc.ImageMiscOps;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.struct.convolve.Kernel1D;
 import boofcv.struct.convolve.Kernel2D;
 import boofcv.struct.convolve.Kernel2D_F32;
@@ -44,6 +45,7 @@ public class FactorySteerable {
 	private static FactoryKernelGaussian FKG;
 	private static GImageMiscOps GIMO;
 	private static ImageMiscOps IMO;
+	private static FactoryImageBorder FIB;
 	/**
 	 * Steerable filter for 2D Gaussian derivatives.  The basis is composed of a set of rotated kernels.
 	 *
@@ -92,7 +94,7 @@ public class FactorySteerable {
 			float angle = (float)(angleStep*index);
 
 			GIMO.fill(imageRotated, 0, IMO);
-			new FDistort(image,imageRotated).rotate(angle).apply();
+			new FDistort(image,imageRotated, FIB).rotate(angle).apply();
 
 			basis[index] = GKernelMath.convertToKernel(imageRotated);
 		}

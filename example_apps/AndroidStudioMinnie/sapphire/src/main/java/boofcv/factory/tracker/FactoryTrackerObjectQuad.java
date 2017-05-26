@@ -20,6 +20,7 @@ package boofcv.factory.tracker;
 
 import boofcv.abst.filter.derivative.ImageGradient;
 import boofcv.abst.tracker.*;
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.filter.derivative.GImageDerivativeOps;
 import boofcv.alg.interpolate.InterpolatePixelS;
 import boofcv.alg.tracker.circulant.CirculantTracker;
@@ -29,6 +30,7 @@ import boofcv.alg.tracker.meanshift.TrackerMeanShiftLikelihood;
 import boofcv.alg.tracker.sfot.SfotConfig;
 import boofcv.alg.tracker.sfot.SparseFlowObjectTracker;
 import boofcv.alg.tracker.tld.TldTracker;
+import boofcv.alg.transform.fft.DiscreteFourierTransformOps;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.BorderType;
 import boofcv.core.image.border.FactoryImageBorder;
@@ -37,6 +39,8 @@ import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.struct.image.ImageBase;
 import boofcv.struct.image.ImageGray;
 import boofcv.struct.image.ImageType;
+import sapphire.app.SapphireObject;
+import sapphire.compiler.FDGenerator;
 
 /**
  * Factory for implementations of {@link TrackerObjectQuad}, a high level interface for tracking user specified
@@ -45,11 +49,8 @@ import boofcv.struct.image.ImageType;
  *
  * @author Peter Abeles
  */
-public class FactoryTrackerObjectQuad {
-	private static FactoryDerivative FD;
-	private static ImageType IT;
-	private static GeneralizedImageOps GIO;
-	private static FactoryImageBorder FIB;
+public class FactoryTrackerObjectQuad implements SapphireObject {
+	public FactoryTrackerObjectQuad() {}
 	/**
 	 *
 	 * Create an instance of {@link TldTracker  Tracking-Learning-Detection (TLD)} tracker for the
@@ -59,8 +60,8 @@ public class FactoryTrackerObjectQuad {
 	 * @param <D> Image derivative type
 	 * @return TrackerObjectQuad
 	 */
-	public static <T extends ImageGray,D extends ImageGray>
-	TrackerObjectQuad<T> tld(ConfigTld config , Class<T> imageType ) {
+	public <T extends ImageGray,D extends ImageGray>
+	TrackerObjectQuad<T> tld(ConfigTld config , Class<T> imageType, FactoryDerivative FD, FactoryImageBorder FIB, GeneralizedImageOps GIO, ImageType IT) {
 		if( config == null )
 			config = new ConfigTld();
 
@@ -69,9 +70,9 @@ public class FactoryTrackerObjectQuad {
 		InterpolatePixelS<T> interpolate = FactoryInterpolation.bilinearPixelS(imageType, BorderType.EXTENDED, FIB);
 		ImageGradient<T,D> gradient =  FD.sobel(imageType, derivType, GIO, FIB);
 
-		TldTracker<T,D> tracker = new TldTracker<>(config.parameters, interpolate, gradient, imageType, derivType);
+		TldTracker<T,D> tracker = new TldTracker<>(config.parameters, interpolate, gradient, imageType, derivType, GIO);
 
-		return new Tld_to_TrackerObjectQuad<>(tracker, imageType);
+		return new Tld_to_TrackerObjectQuad<>(tracker, imageType, IT);
 	}
 
 	/**
@@ -82,8 +83,8 @@ public class FactoryTrackerObjectQuad {
 	 * @param <D> Image derivative type.  Null for default.
 	 * @return TrackerObjectQuad
 	 */
-	public static <T extends ImageGray,D extends ImageGray>
-	TrackerObjectQuad<T> sparseFlow(SfotConfig config, Class<T> imageType , Class<D> derivType ) {
+	public <T extends ImageGray,D extends ImageGray>
+	TrackerObjectQuad<T> sparseFlow(SfotConfig config, Class<T> imageType , Class<D> derivType, FactoryDerivative FD, FactoryImageBorder FIB, GeneralizedImageOps GIO, ImageType IT) {
 
 		if( derivType == null )
 			derivType = GImageDerivativeOps.getDerivativeType(imageType);
@@ -95,7 +96,7 @@ public class FactoryTrackerObjectQuad {
 
 		SparseFlowObjectTracker<T,D> tracker = new SparseFlowObjectTracker<>(config, imageType, derivType, gradient);
 
-		return new Sfot_to_TrackObjectQuad<>(tracker, imageType);
+		return new Sfot_to_TrackObjectQuad<>(tracker, imageType, IT);
 	}
 
 	/**
@@ -111,7 +112,7 @@ public class FactoryTrackerObjectQuad {
 	 * @param imageType Type of image
 	 * @return TrackerObjectQuad based on {@link TrackerMeanShiftLikelihood}.
 	 */
-	public static <T extends ImageBase>
+	public <T extends ImageBase>
 	TrackerObjectQuad<T> meanShiftLikelihood(int maxIterations,
 											 int numBins,
 											 double maxPixelValue,
@@ -158,8 +159,8 @@ public class FactoryTrackerObjectQuad {
 	 * @param <T> Image type
 	 * @return TrackerObjectQuad based on Comaniciu2003
 	 */
-	public static <T extends ImageBase>
-	TrackerObjectQuad<T> meanShiftComaniciu2003(ConfigComaniciu2003 config, ImageType<T> imageType ) {
+	public <T extends ImageBase>
+	TrackerObjectQuad<T> meanShiftComaniciu2003(ConfigComaniciu2003 config, ImageType<T> imageType, FactoryImageBorder FIB) {
 
 		TrackerMeanShiftComaniciu2003<T> alg = FactoryTrackerObjectAlgs.meanShiftComaniciu2003(config,imageType, FIB);
 
@@ -176,10 +177,10 @@ public class FactoryTrackerObjectQuad {
 	 * @param config Configuration
 	 * @return CirculantTracker
 	 */
-	public static <T extends ImageGray>
-	TrackerObjectQuad<T> circulant( ConfigCirculantTracker config , Class<T> imageType ) {
+	public <T extends ImageGray>
+	TrackerObjectQuad<T> circulant(ConfigCirculantTracker config , Class<T> imageType, FactoryImageBorder FIB, ImageType IT, DiscreteFourierTransformOps DFTO, InputSanityCheck ISC) {
 
-		CirculantTracker<T> alg = FactoryTrackerObjectAlgs.circulant(config,imageType, FIB);
+		CirculantTracker<T> alg = FactoryTrackerObjectAlgs.circulant(config,imageType, FIB, DFTO, ISC);
 
 		return new Circulant_to_TrackerObjectQuad<>(alg, IT.single(imageType));
 	}

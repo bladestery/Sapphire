@@ -18,6 +18,8 @@
 
 package boofcv.alg.tracker.sfot;
 
+import java.io.Serializable;
+
 import boofcv.alg.tracker.klt.KltConfig;
 
 /**
@@ -25,7 +27,7 @@ import boofcv.alg.tracker.klt.KltConfig;
  *
  * @author Peter Abeles
  */
-public class SfotConfig {
+public class SfotConfig implements Serializable {
 
 	/**
 	 * Random seed used by random number generator

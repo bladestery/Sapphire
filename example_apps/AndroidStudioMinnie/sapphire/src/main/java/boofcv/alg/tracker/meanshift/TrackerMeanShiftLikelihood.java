@@ -47,7 +47,6 @@ import georegression.struct.shapes.RectangleLength2D_I32;
  * @author Peter Abeles
  */
 public class TrackerMeanShiftLikelihood<T extends ImageBase> {
-	private ImageMiscOps IMO;
 
 	// likelihood model for the target being tracked
 	private SparseImageSample_F32<T> targetModel;
@@ -91,7 +90,7 @@ public class TrackerMeanShiftLikelihood<T extends ImageBase> {
 	 * @param image Image
 	 * @param initial Initial target location and the mean-shift bandwidth
 	 */
-	public void initialize( T image , RectangleLength2D_I32 initial ) {
+	public void initialize( T image , RectangleLength2D_I32 initial, ImageMiscOps IMO) {
 		if( !image.isInBounds(initial.x0,initial.y0) )
 			throw new IllegalArgumentException("Initial rectangle is out of bounds!");
 		if( !image.isInBounds(initial.x0+initial.width,initial.y0+initial.height) )
@@ -129,7 +128,7 @@ public class TrackerMeanShiftLikelihood<T extends ImageBase> {
 	 * @param image Most recent image in the sequence
 	 * @return true for success or false if it failed
 	 */
-	public boolean process( T image ) {
+	public boolean process( T image, ImageMiscOps IMO) {
 
 		if( failed )
 			return false;

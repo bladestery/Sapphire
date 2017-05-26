@@ -19,6 +19,7 @@
 package boofcv.struct.feature;
 
 
+import java.io.Serializable;
 import java.util.Arrays;
 
 /**
@@ -26,7 +27,7 @@ import java.util.Arrays;
  *
  * @author Peter Abeles
  */
-public class TupleDesc_F64 implements TupleDesc<TupleDesc_F64> {
+public class TupleDesc_F64 implements TupleDesc<TupleDesc_F64>, Serializable {
 	public double value[];
 
 	public TupleDesc_F64( int numFeatures ) {

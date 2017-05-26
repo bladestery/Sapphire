@@ -18,8 +18,10 @@
 
 package boofcv.alg.tracker.klt;
 
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.struct.image.ImageGray;
 import boofcv.struct.pyramid.ImagePyramid;
+import sapphire.compiler.IMOGenerator;
 
 /**
  * <p>
@@ -55,7 +57,7 @@ public class PyramidKltTracker<InputImage extends ImageGray, DerivativeImage ext
 	 * @param feature Feature's whose description is being setup.
 	 * @return true if there was sufficient information to create a feature or false if not
 	 */
-	public boolean setDescription(PyramidKltFeature feature) {
+	public boolean setDescription(PyramidKltFeature feature, ImageMiscOps IMO) {
 		for (int layer = 0; layer < image.getNumLayers(); layer++) {
 			float scale = (float)image.getScale(layer);
 			float x = feature.x / scale;
@@ -64,7 +66,7 @@ public class PyramidKltTracker<InputImage extends ImageGray, DerivativeImage ext
 			setupKltTracker(layer);
 
 			feature.desc[layer].setPosition(x, y);
-			if( !tracker.setDescription(feature.desc[layer]) )
+			if( !tracker.setDescription(feature.desc[layer], IMO) )
 				return false;
 		}
 		return true;
@@ -110,7 +112,7 @@ public class PyramidKltTracker<InputImage extends ImageGray, DerivativeImage ext
 	 * @param feature The feature being tracked.
 	 * @return If tracking failed or not.
 	 */
-	public KltTrackFault track(PyramidKltFeature feature) {
+	public KltTrackFault track(PyramidKltFeature feature, ImageMiscOps IMO) {
 
 		// this is the first level it was able to track the feature at
 		int firstLevelTracked = -1;
@@ -129,7 +131,7 @@ public class PyramidKltTracker<InputImage extends ImageGray, DerivativeImage ext
 
 			KltFeature f = feature.desc[layer];
 			f.setPosition(x, y);
-			KltTrackFault ret = tracker.track(f);
+			KltTrackFault ret = tracker.track(f, IMO);
 
 			if (ret == KltTrackFault.SUCCESS) {
 				if( firstLevelTracked == -1 )

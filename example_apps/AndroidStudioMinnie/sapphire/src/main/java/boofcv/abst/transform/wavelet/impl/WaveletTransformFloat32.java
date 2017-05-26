@@ -29,6 +29,7 @@ import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.BorderType;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.ImageDimension;
+import boofcv.struct.image.ImageType;
 import boofcv.struct.wavelet.WaveletDescription;
 import boofcv.struct.wavelet.WlCoef_F32;
 
@@ -39,7 +40,6 @@ import boofcv.struct.wavelet.WlCoef_F32;
  * @author Peter Abeles
  */
 public class WaveletTransformFloat32 implements WaveletTransform<GrayF32,GrayF32, WlCoef_F32> {
-	private static UtilWavelet UW;
 	GrayF32 copy = new GrayF32(1,1);
 	GrayF32 temp = new GrayF32(1,1);
 	WaveletDescription<WlCoef_F32> desc;
@@ -59,7 +59,7 @@ public class WaveletTransformFloat32 implements WaveletTransform<GrayF32,GrayF32
 	}
 
 	@Override
-	public GrayF32 transform(GrayF32 original, GrayF32 transformed, InputSanityCheck ISC, GeneralizedImageOps GIO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvertImage CI, UtilWavelet UW ) {
+	public GrayF32 transform(GrayF32 original, GrayF32 transformed, InputSanityCheck ISC, GeneralizedImageOps GIO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvertImage CI, UtilWavelet UW, ImageType IT) {
 
 		if( transformed == null ) {
 			ImageDimension d = UW.transformDimension(original,numLevels);
@@ -75,7 +75,7 @@ public class WaveletTransformFloat32 implements WaveletTransform<GrayF32,GrayF32
 	}
 
 	@Override
-	public void invert(GrayF32 transformed, GrayF32 original, InputSanityCheck ISC, GeneralizedImageOps GIO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvertImage CI, UtilWavelet UW) {
+	public void invert(GrayF32 transformed, GrayF32 original, InputSanityCheck ISC, GeneralizedImageOps GIO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvertImage CI, UtilWavelet UW, ImageType IT) {
 		temp.reshape(transformed.width,transformed.height);
 		copy.reshape(transformed.width,transformed.height);
 		copy.setTo(transformed);

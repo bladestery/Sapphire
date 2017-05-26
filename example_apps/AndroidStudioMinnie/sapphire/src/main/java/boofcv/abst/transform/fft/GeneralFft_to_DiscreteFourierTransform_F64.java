@@ -32,8 +32,6 @@ import boofcv.struct.image.InterleavedF64;
 public class GeneralFft_to_DiscreteFourierTransform_F64
 		implements DiscreteFourierTransform<GrayF64,InterleavedF64>
 {
-	private static DiscreteFourierTransformOps DFTO;
-	private static InputSanityCheck ISC;
 	// previous size of input image
 	private int prevWidth = -1;
 	private int prevHeight = -1;
@@ -53,7 +51,7 @@ public class GeneralFft_to_DiscreteFourierTransform_F64
 		if( image.isSubimage() )
 			throw new IllegalArgumentException("Subimages are not supported");
 
-		checkDeclareAlg(image);
+		checkDeclareAlg(image, DFTO);
 
 		int N = image.width*image.height;
 		System.arraycopy(image.data,0,transform.data,0,N);
@@ -68,7 +66,7 @@ public class GeneralFft_to_DiscreteFourierTransform_F64
 		if( image.isSubimage() )
 			throw new IllegalArgumentException("Subimages are not supported");
 
-		checkDeclareAlg(image);
+		checkDeclareAlg(image, DFTO);
 
 		// If he user lets us, modify the transform
 		InterleavedF64 workImage;
@@ -92,11 +90,11 @@ public class GeneralFft_to_DiscreteFourierTransform_F64
 	/**
 	 * Declare the algorithm if the image size has changed
 	 */
-	private void checkDeclareAlg(GrayF64 image) {
+	private void checkDeclareAlg(GrayF64 image, DiscreteFourierTransformOps DFTO) {
 		if( prevWidth != image.width || prevHeight != image.height ) {
 			prevWidth = image.width;
 			prevHeight = image.height;
-			alg = new GeneralPurposeFFT_F64_2D(image.height,image.width);
+			alg = new GeneralPurposeFFT_F64_2D(image.height,image.width, DFTO);
 		}
 	}
 

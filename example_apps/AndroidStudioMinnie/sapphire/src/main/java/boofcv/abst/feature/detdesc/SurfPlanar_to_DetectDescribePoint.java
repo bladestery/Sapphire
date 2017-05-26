@@ -54,6 +54,7 @@ import boofcv.factory.filter.blur.FactoryBlurFilter;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.feature.BrightFeature;
 import boofcv.struct.image.ImageGray;
+import boofcv.struct.image.ImageType;
 import boofcv.struct.image.Planar;
 import georegression.struct.point.Point2D_F64;
 
@@ -91,7 +92,7 @@ public class SurfPlanar_to_DetectDescribePoint<T extends ImageGray, II extends I
 					   GBlurImageOps GBIO, GeneralizedImageOps GIO, BlurImageOps BIO, ConvolveImageMean CIM, FactoryKernelGaussian FKG, ImplMedianHistogramInner IMHI,
 					   ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM, GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS,
 					   ThresholdImageOps TIO, FactoryImageBorderAlgs FIBA, ImageBorderValue IBV, FastHessianFeatureDetector FHFD, FactoryImageBorder FIB, FactoryBlurFilter FBF,
-					   ConvertImage CI, UtilWavelet UW) {
+					   ConvertImage CI, UtilWavelet UW, ImageType IT) {
 		gray.reshape(input.width,input.height);
 		grayII.reshape(input.width,input.height);
 		bandII.reshape(input.width,input.height);

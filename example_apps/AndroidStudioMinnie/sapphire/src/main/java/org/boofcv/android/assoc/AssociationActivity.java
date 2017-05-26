@@ -98,6 +98,7 @@ public class AssociationActivity extends DemoVideoDisplayActivity
 
 	OMSServer server;
 	DemoManager dm;
+	ImageType IT = new ImageType();
 
 
 	public AssociationActivity() {
@@ -247,7 +248,7 @@ public class AssociationActivity extends DemoVideoDisplayActivity
 		Assoc points;
 
 		public AssociationProcessing( ) {
-			super(dm.single(GrayF32.class));
+			super(IT.single(GrayF32.class));
 
 
 			//this.detDesc = detDesc;

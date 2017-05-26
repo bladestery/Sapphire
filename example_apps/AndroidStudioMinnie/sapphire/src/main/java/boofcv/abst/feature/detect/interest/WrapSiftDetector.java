@@ -53,6 +53,7 @@ import boofcv.factory.filter.blur.FactoryBlurFilter;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.ImageBase;
+import boofcv.struct.image.ImageType;
 import georegression.struct.point.Point2D_F64;
 import sapphire.compiler.FBFGenerator;
 
@@ -81,14 +82,14 @@ public class WrapSiftDetector<T extends ImageBase>
 					   GBlurImageOps GBIO, GeneralizedImageOps GIO, BlurImageOps BIO, ConvolveImageMean CIM, FactoryKernelGaussian FKG, ImplMedianHistogramInner IMHI,
 					   ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM, GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS,
 					   ThresholdImageOps TIO, FactoryImageBorderAlgs FIBA, ImageBorderValue IBV, FastHessianFeatureDetector FHFD, FactoryImageBorder FIB, FactoryBlurFilter FBF,
-					   ConvertImage CI, UtilWavelet UW) {
+					   ConvertImage CI, UtilWavelet UW, ImageType IT) {
 
 		GrayF32 input;
 		if( image instanceof GrayF32) {
 			input = (GrayF32)image;
 		} else {
 			imageFloat.reshape(image.width,image.height);
-			GConvertImage.convert(image,imageFloat, ISC, GIO, GIMO, IMO, CI);
+			GConvertImage.convert(image,imageFloat, ISC, GIO, GIMO, IMO, CI, IT);
 			input = imageFloat;
 		}
 

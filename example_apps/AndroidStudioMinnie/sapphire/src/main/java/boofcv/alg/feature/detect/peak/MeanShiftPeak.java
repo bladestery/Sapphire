@@ -37,7 +37,6 @@ import boofcv.struct.image.ImageGray;
  * @author Peter Abeles
  */
 public class MeanShiftPeak<T extends ImageGray> {
-	private static FactoryImageBorder FIB;
 	// Input image and interpolation function
 	protected T image;
 	protected InterpolatePixelS<T> interpolate;
@@ -70,7 +69,7 @@ public class MeanShiftPeak<T extends ImageGray> {
 	 */
 	public MeanShiftPeak(int maxIterations, float convergenceTol,
 						 WeightPixel_F32 weights,
-						 Class<T> imageType) {
+						 Class<T> imageType, FactoryImageBorder FIB) {
 		this.maxIterations = maxIterations;
 		this.convergenceTol = convergenceTol;
 		this.weights = weights;

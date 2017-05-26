@@ -50,7 +50,7 @@ import java.util.List;
 public class CalibrationFiducialDetector<T extends ImageGray>
 		extends FiducialDetectorPnP<T>
 {
-	private ImageType IT;
+	private static ImageType IT;
 	private static GeneralizedImageOps GIO;
 	private static GImageMiscOps GIMO;
 	private static ImageMiscOps IMO;
@@ -157,7 +157,7 @@ public class CalibrationFiducialDetector<T extends ImageGray>
 			converted = (GrayF32)input;
 		} else {
 			converted.reshape(input.width,input.height);
-			GConvertImage.convert(input, converted, ISC, GIO, GIMO, IMO, CI);
+			GConvertImage.convert(input, converted, ISC, GIO, GIMO, IMO, CI, IT);
 		}
 
 		if( !detector.process(converted) ) {

@@ -68,6 +68,7 @@ public class BlurDisplayActivity extends DemoVideoDisplayActivity
 
 	OMSServer server;
 	DemoManager dm;
+	ImageType IT = new ImageType();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -177,7 +178,7 @@ public class BlurDisplayActivity extends DemoVideoDisplayActivity
 		//final BlurFilter<GrayU8> filter;
 
 		public BlurProcessing() {
-			super(dm.single(GrayU8.class));
+			super(IT.single(GrayU8.class));
 			//this.filter = filter;
 		}
 

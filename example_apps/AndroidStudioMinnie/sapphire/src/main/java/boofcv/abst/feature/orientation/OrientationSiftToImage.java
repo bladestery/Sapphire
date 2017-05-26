@@ -42,6 +42,7 @@ import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.BoofDefaults;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.ImageGray;
+import boofcv.struct.image.ImageType;
 import sapphire.compiler.FDGenerator;
 
 /**
@@ -73,14 +74,14 @@ public class OrientationSiftToImage<T extends ImageGray>
 	public void setImage(T image, InputSanityCheck ISC, GeneralizedImageOps GIO, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB,
 						 ConvolveJustBorder_General CJBG, GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO, FactoryKernelGaussian FKG,
 						 GImageMiscOps GIMO, ImageMiscOps IMO, ConvertImage CI, FactoryImageBorder FIB, ConvolveNormalizedNaive CNN, ConvolveNormalized_JustBorder CNJB,
-						 ConvolveNormalized CN) {
+						 ConvolveNormalized CN, ImageType IT) {
 
 		GrayF32 input;
 		if( image instanceof GrayF32) {
 			input = (GrayF32)image;
 		} else {
 			imageFloat.reshape(image.width,image.height);
-			GConvertImage.convert(image,imageFloat, ISC, GIO, GIMO, IMO, CI);
+			GConvertImage.convert(image,imageFloat, ISC, GIO, GIMO, IMO, CI, IT);
 			input = imageFloat;
 		}
 

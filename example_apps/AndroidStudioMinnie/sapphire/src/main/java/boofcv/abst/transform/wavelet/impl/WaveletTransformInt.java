@@ -31,6 +31,7 @@ import boofcv.core.image.border.BorderType;
 import boofcv.struct.image.GrayI;
 import boofcv.struct.image.GrayS32;
 import boofcv.struct.image.ImageDimension;
+import boofcv.struct.image.ImageType;
 import boofcv.struct.wavelet.WaveletDescription;
 import boofcv.struct.wavelet.WlCoef_I32;
 
@@ -75,7 +76,7 @@ public class WaveletTransformInt<T extends GrayI> implements WaveletTransform<T,
 	}
 
 	@Override
-	public GrayS32 transform(T original, GrayS32 transformed, InputSanityCheck ISC, GeneralizedImageOps GIO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvertImage CI, UtilWavelet UW) {
+	public GrayS32 transform(T original, GrayS32 transformed, InputSanityCheck ISC, GeneralizedImageOps GIO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvertImage CI, UtilWavelet UW, ImageType IT) {
 
 		if( transformed == null ) {
 			ImageDimension d = UW.transformDimension(original,numLevels);
@@ -87,7 +88,7 @@ public class WaveletTransformInt<T extends GrayI> implements WaveletTransform<T,
 		if( original.getDataType().getDataType() == int.class ) {
 			copyInput.setTo((GrayS32)original);
 		} else {
-			GConvertImage.convert(original, copyInput, ISC, GIO, GIMO, IMO, CI);
+			GConvertImage.convert(original, copyInput, ISC, GIO, GIMO, IMO, CI, IT);
 		}
 		WaveletTransformOps.transformN(desc, copyInput,transformed,temp,numLevels, ISC, UW);
 
@@ -95,7 +96,7 @@ public class WaveletTransformInt<T extends GrayI> implements WaveletTransform<T,
 	}
 
 	@Override
-	public void invert(GrayS32 transformed, T original, InputSanityCheck ISC, GeneralizedImageOps GIO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvertImage CI, UtilWavelet UW) {
+	public void invert(GrayS32 transformed, T original, InputSanityCheck ISC, GeneralizedImageOps GIO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvertImage CI, UtilWavelet UW, ImageType IT) {
 		copyInput.reshape(transformed.width,transformed.height);
 		temp.reshape(transformed.width,transformed.height);
 		copyInput.setTo(transformed);
@@ -106,7 +107,7 @@ public class WaveletTransformInt<T extends GrayI> implements WaveletTransform<T,
 		} else {
 			copyOutput.reshape(original.width,original.height);
 			WaveletTransformOps.inverseN(desc, copyInput, copyOutput,temp,numLevels,minPixelValue,maxPixelValue, ISC, UW);
-			GConvertImage.convert(copyOutput,original, ISC, GIO, GIMO, IMO, CI);
+			GConvertImage.convert(copyOutput,original, ISC, GIO, GIMO, IMO, CI, IT);
 		}
 	}
 

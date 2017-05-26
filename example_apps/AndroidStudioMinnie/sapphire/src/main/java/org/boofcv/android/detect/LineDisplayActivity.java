@@ -64,6 +64,7 @@ public class LineDisplayActivity extends DemoVideoDisplayActivity
 
 	OMSServer server;
 	DemoManager dm;
+	ImageType IT = new ImageType();
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -219,7 +220,7 @@ public class LineDisplayActivity extends DemoVideoDisplayActivity
 		byte[] storage;
 
 		public LineProcessing() {
-			super( dm.single(GrayU8.class));
+			super( IT.single(GrayU8.class));
 		}
 		/*
 		public LineProcessing(DetectLine<GrayU8> detector) {
