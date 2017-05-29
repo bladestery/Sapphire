@@ -3,6 +3,8 @@
     <string-array name="background_models">
         <item>Basic: Grey</item>
         <item>Gaussian: Grey</item>
+        <item>Basic: Color</item>
+        <item>Gaussian: Color</item>
     </string-array>
     <string-array name="binary_filters">
         <item>None</item>

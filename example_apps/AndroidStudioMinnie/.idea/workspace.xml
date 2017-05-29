@@ -46,86 +46,30 @@
       <file leaf-file-name="DemoManager.java" pinned="true" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/DemoManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="19200">
-              <caret line="1280" column="0" selection-start-line="1280" selection-start-column="0" selection-end-line="1280" selection-end-column="0" />
+            <state relative-caret-position="754">
+              <caret line="1273" column="78" selection-start-line="1273" selection-start-column="78" selection-end-line="1273" selection-end-column="78" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#20081#20082#0" expanded="true" />
-                <element signature="e#20123#20124#0" expanded="true" />
-                <element signature="e#21307#21308#0" expanded="true" />
-                <element signature="e#21352#21353#0" expanded="true" />
-                <element signature="e#23284#23285#0" expanded="true" />
-                <element signature="e#23334#23335#0" expanded="true" />
-                <element signature="e#23671#23672#0" expanded="true" />
-                <element signature="e#23717#23718#0" expanded="true" />
-                <element signature="e#23774#23775#0" expanded="true" />
-                <element signature="e#23829#23830#0" expanded="true" />
-                <element signature="e#24038#24039#0" expanded="true" />
-                <element signature="e#24092#24093#0" expanded="true" />
-                <element signature="e#26821#26822#0" expanded="true" />
-                <element signature="e#26872#26873#0" expanded="true" />
-                <element signature="e#27525#27526#0" expanded="true" />
-                <element signature="e#27575#27576#0" expanded="true" />
-                <element signature="e#29916#29917#0" expanded="true" />
-                <element signature="e#29974#29975#0" expanded="true" />
-                <element signature="e#30144#30145#0" expanded="true" />
-                <element signature="e#30204#30205#0" expanded="true" />
-                <element signature="e#32071#32072#0" expanded="true" />
-                <element signature="e#32123#32124#0" expanded="true" />
-                <element signature="e#37168#37169#0" expanded="true" />
-                <element signature="e#37217#37218#0" expanded="true" />
-                <element signature="e#37514#37515#0" expanded="true" />
-                <element signature="e#37554#37555#0" expanded="true" />
-                <element signature="e#39474#39475#0" expanded="true" />
-                <element signature="e#39548#39549#0" expanded="true" />
-                <element signature="e#39575#39576#0" expanded="true" />
-                <element signature="e#39649#39650#0" expanded="true" />
-                <element signature="e#39678#39679#0" expanded="true" />
-                <element signature="e#39754#39755#0" expanded="true" />
-                <element signature="e#39780#39781#0" expanded="true" />
-                <element signature="e#39853#39854#0" expanded="true" />
-                <element signature="e#39879#39880#0" expanded="true" />
-                <element signature="e#39952#39953#0" expanded="true" />
-                <element signature="e#40007#40008#0" expanded="true" />
-                <element signature="e#40061#40062#0" expanded="true" />
-                <element signature="e#41668#41669#0" expanded="true" />
-                <element signature="e#41715#41716#0" expanded="true" />
-                <element signature="e#46190#46191#0" expanded="true" />
-                <element signature="e#46263#46264#0" expanded="true" />
-                <element signature="e#47120#47121#0" expanded="true" />
-                <element signature="e#47171#47172#0" expanded="true" />
-                <element signature="e#51367#51368#0" expanded="true" />
-                <element signature="e#51410#51411#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="StaticBackgroundMotionActivity.java" pinned="true" current-in-tab="false">
+      <file leaf-file-name="CalibrationActivity.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/calib/CalibrationActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="150">
+              <caret line="320" column="0" selection-start-line="320" selection-start-column="0" selection-end-line="320" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="StaticBackgroundMotionActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/tracker/StaticBackgroundMotionActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="664">
-              <caret line="251" column="32" selection-start-line="251" selection-start-column="32" selection-end-line="251" selection-end-column="32" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="VideoImageProcessing.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/android/gui/VideoImageProcessing.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="489">
-              <caret line="42" column="0" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="VideoRenderProcessing.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/android/gui/VideoRenderProcessing.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1087">
-              <caret line="258" column="73" selection-start-line="258" selection-start-column="73" selection-end-line="258" selection-end-column="73" />
+            <state relative-caret-position="370">
+              <caret line="267" column="59" selection-start-line="267" selection-start-column="59" selection-end-line="267" selection-end-column="59" />
               <folding />
             </state>
           </provider>
@@ -2327,16 +2271,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/sfm/d3/WrapVisOdomPixelDepthPnP.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/flow/FlowKlt_to_DenseOpticalFlow.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/flow/DenseOpticalFlow.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/flow/FlowBlock_to_DenseOpticalFlow.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/feature/detect/interest/WrapFPtoInterestPoint.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/feature/detect/interest/WrapFLPtoInterestPoint.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/feature/tracker/PointTrackerKltPyramid.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/feature/tracker/PointTrackerTwoPassKltPyramid.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/feature/tracker/PointTrackerTwoPassCombined.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/feature/tracker/PointTrackerToTwoPass.java" />
         <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/sfm/d2/ImageMotionPtkSmartRespawn.java" />
         <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/feature/detect/interest/EasyGeneralFeatureDetector.java" />
         <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/sfm/d3/MonoPlaneInfinity_to_MonocularPlaneVisualOdometry.java" />
@@ -2351,7 +2285,6 @@
         <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/flow/BroxWarpingSpacial_to_DenseOpticalFlow.java" />
         <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/flow/HornSchunck_to_DenseOpticalFlow.java" />
         <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/sfm/d3/VisOdomMonoOverheadMotion2D.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/sfm/d3/MonocularPlaneVisualOdometryScaleInput.java" />
         <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/sfm/d3/MonoOverhead_to_MonocularPlaneVisualOdometry.java" />
         <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/sfm/d2/ImageMotion2D.java" />
         <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/sfm/d2/PlToGrayMotion2D.java" />
@@ -2375,15 +2308,26 @@
         <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/factory/background/FactoryBackgroundModel.java" />
         <option value="$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/CameraInformationActivity.java" />
         <option value="$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/AboutActivity.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/DemoManager.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/core/image/GConvertImage.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/distort/FDistort.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/fiducial/square/DetectFiducialSquareImage.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/factory/filter/kernel/FactorySteerable.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/distort/RemovePerspectiveDistortion.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/shapes/polygon/BaseFitPolygon.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/gui/image/ImagePyramidPanel.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/gui/feature/ScaleSpacePyramidPointPanel.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/sfm/d3/MonocularPlaneVisualOdometryScaleInput.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/sfm/d3/StereoVisualOdometryScaleInput.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/factory/distort/FactoryDistort.java" />
         <option value="$PROJECT_DIR$/sapphire/src/main/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/tracker/StaticBackgroundMotionActivity.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/DemoManager.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="306" />
-    <option name="y" value="191" />
+    <option name="x" value="370" />
+    <option name="y" value="86" />
     <option name="width" value="1835" />
     <option name="height" value="940" />
   </component>
@@ -2412,6 +2356,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
+      <pane id="ProjectPane" />
       <pane id="Scope" />
       <pane id="AndroidView">
         <subPane>
@@ -2434,6 +2380,28 @@
               <option name="myItemId" value="sapphire" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="values" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AndroidStudioMinnie" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sapphire" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
+            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -2449,11 +2417,37 @@
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AndroidStudioMinnie" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sapphire" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="org" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AndroidStudioMinnie" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sapphire" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="Scratches" />
-      <pane id="PackagesPane" />
-      <pane id="ProjectPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -2464,7 +2458,7 @@
     <property name="device.picker.selection" value="7PN7N17118000271" />
     <property name="android.project.structure.last.selected" value="SDK Location" />
     <property name="android.project.structure.proportion" value="0.15" />
-    <property name="SearchEverywhereHistoryKey" value="VIdeoRender&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/android/gui/VideoRenderProcessing.java&#10;VIdeoImagePro&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/android/gui/VideoImageProcessing.java&#10;GconvertImage&#9;PSI&#9;JAVA://boofcv.core.image.GConvertImage&#10;Stationarybasic&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/alg/background/stationary/BackgroundStationaryBasic.java&#10;BackgroundmodelStationary&#9;PSI&#9;JAVA://boofcv.alg.background.BackgroundModelStationary&#10;BackgroundModel&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/factory/background/FactoryBackgroundModel.java&#10;BackgroundMoving&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/alg/background/moving/BackgroundMovingBasic.java&#10;BackgroundAl&#9;PSI&#9;JAVA://boofcv.alg.background.BackgroundAlgorithmBasic&#10;BackgroundMovingBas&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/alg/background/moving/BackgroundMovingBasic.java&#10;VisualizeImage&#9;PSI&#9;JAVA://boofcv.android.VisualizeImageData&#10;FPT&#9;PSI&#9;JAVA://boofcv.factory.feature.tracker.FactoryPointTracker&#10;CDD&#9;PSI&#9;JAVA://org.boofcv.android.CreateDetectorDescriptor&#10;ConvertBi&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/android/ConvertBitmap.java&#10;ImageType&#9;PSI&#9;JAVA://boofcv.struct.image.ImageType&#10;BackgroundStationary&#9;PSI&#9;JAVA://boofcv.alg.background.stationary.BackgroundStationaryBasic&#10;BackgroundMovingBasic&#9;PSI&#9;JAVA://boofcv.alg.background.moving.BackgroundMovingBasic&#10;FBM&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/factory/background/FactoryBackgroundModel.java&#10;GrayU8&#9;PSI&#9;JAVA://boofcv.struct.image.GrayU8&#10;VIdeoPRo&#9;PSI&#9;JAVA://boofcv.android.gui.VideoProcessing&#10;VIdeoREnder&#9;PSI&#9;JAVA://boofcv.android.gui.VideoRenderProcessing&#10;VideoImagePRoces&#9;PSI&#9;JAVA://boofcv.android.gui.VideoImageProcessing&#10;convert&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/android/ConvertBitmap.java&#10;ConvertBitmap&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/android/ConvertBitmap.java&#10;ImageMultiband&#9;PSI&#9;JAVA://boofcv.struct.image.ImageMultiBand&#10;ImageInterleaved&#9;PSI&#9;JAVA://boofcv.struct.image.ImageInterleaved&#10;DetectorInter&#9;PSI&#9;JAVA://boofcv.abst.feature.detect.interest.DetectorInterestPointMulti&#10;ImageMotion2d&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/abst/sfm/d2/ImageMotion2D.java&#10;TrackerObj&#9;PSI&#9;JAVA://boofcv.abst.tracker.TrackerObjectQuad&#10;ImageMotion2&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/abst/sfm/d2/ImageMotion2D.java&#10;DepthVIsualOdo&#9;PSI&#9;JAVA://boofcv.abst.sfm.d3.DepthVisualOdometry&#10;MonocularPlane&#9;PSI&#9;JAVA://boofcv.abst.sfm.d3.MonocularPlaneVisualOdometry&#10;DenseOpti&#9;PSI&#9;JAVA://boofcv.abst.flow.DenseOpticalFlow&#10;FeaturePyramid&#9;PSI&#9;JAVA://boofcv.alg.feature.detect.interest.FeaturePyramid&#10;PointTracker&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/abst/feature/tracker/PointTracker.java&#10;PointTrackerTwo&#9;PSI&#9;JAVA://boofcv.abst.feature.tracker.PointTrackerTwoPass&#10;GeneralFEature&#9;PSI&#9;JAVA://boofcv.abst.feature.detect.intensity.GeneralFeatureIntensity&#10;BaseGeneralFeatureI&#9;PSI&#9;JAVA://boofcv.abst.feature.detect.intensity.BaseGeneralFeatureIntensity&#10;GlobalOts&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/abst/filter/binary/GlobalOtsuBinaryFilter.java&#10;StereoVisualO&#9;PSI&#9;JAVA://boofcv.abst.sfm.d3.StereoVisualOdometry&#10;ImagePyramid&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/struct/pyramid/ImagePyramid.java&#10;ImagePyramidBase&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/struct/pyramid/ImagePyramidBase.java&#10;PyramidDi&#9;PSI&#9;JAVA://boofcv.struct.pyramid.PyramidDiscrete&#10;ImagePyra&#9;PSI&#9;JAVA://boofcv.struct.pyramid.ImagePyramidBase&#10;PyramidFloat&#9;PSI&#9;JAVA://boofcv.struct.pyramid.PyramidFloat&#10;Interestpointscal&#9;PSI&#9;JAVA://boofcv.abst.feature.detect.interest.InterestPointScaleSpacePyramid&#10;InterestPointScaleSpace&#9;PSI&#9;JAVA://boofcv.abst.feature.detect.interest.InterestPointScaleSpace&#10;DetectDescribeMu&#9;PSI&#9;JAVA://boofcv.abst.feature.detdesc.DetectDescribeMulti&#10;ddaFeat&#9;PSI&#9;JAVA://boofcv.abst.feature.tracker.DdaFeatureManager&#10;BAckgroundStationaryGa&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/alg/background/stationary/BackgroundStationaryGaussian_PL.java&#10;ImageSuperPi&#9;PSI&#9;JAVA://boofcv.abst.segmentation.ImageSuperpixels" />
+    <property name="SearchEverywhereHistoryKey" value="ImplImageDistort_&#9;PSI&#9;JAVA://boofcv.alg.distort.impl.ImplImageDistort_IL_U8&#10;ImplImageDistort&#9;PSI&#9;JAVA://boofcv.alg.distort.impl.ImplImageDistort_IL_U8&#10;ImplDistort_U8&#9;PSI&#9;JAVA://boofcv.alg.distort.impl.ImplImageDistort_IL_U8&#10;GrayI8&#9;PSI&#9;JAVA://boofcv.struct.image.GrayI8&#10;FactoryDisto&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/factory/distort/FactoryDistort.java&#10;FactoryDistor&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/factory/distort/FactoryDistort.java&#10;BilinearPixelS&#9;PSI&#9;JAVA://boofcv.alg.interpolate.BilinearPixelS&#10;BIlinearPixelU&#9;PSI&#9;JAVA://boofcv.alg.interpolate.impl.ImplBilinearPixel_U8&#10;ImplBilinearPixel_U8&#9;PSI&#9;JAVA://boofcv.alg.interpolate.impl.ImplBilinearPixel_U8&#10;Imageinter&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/struct/image/ImageInterleaved.java&#10;InterleavedU8&#9;PSI&#9;JAVA://boofcv.struct.image.InterleavedU8&#10;ConvertImage&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/core/image/ConvertImage.java&#10;ConvertImage.java&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/core/image/ConvertImage.java&#10;InterleavedF32&#9;PSI&#9;JAVA://boofcv.struct.image.InterleavedF32&#10;BackgroundStation&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/alg/background/stationary/BackgroundStationaryBasic_IL.java&#10;BackgroundBasic_i&#9;PSI&#9;JAVA://boofcv.alg.background.moving.BackgroundMovingBasic_IL&#10;FBM&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/factory/background/FactoryBackgroundModel.java&#10;ImageMultiBand&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/struct/image/ImageMultiBand.java&#10;ImageInterleaved&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/struct/image/ImageInterleaved.java&#10;Planar&#9;PSI&#9;JAVA://boofcv.struct.image.Planar&#10;ImageGray&#9;PSI&#9;JAVA://boofcv.struct.image.ImageGray&#10;ImageBase&#9;PSI&#9;JAVA://boofcv.struct.image.ImageBase&#10;Gconver&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/core/image/GConvertImage.java&#10;Canny&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/org/boofcv/android/detect/CannyEdgeActivity.java&#10;VIdeoRender&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/android/gui/VideoRenderProcessing.java&#10;VIdeoImagePro&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/android/gui/VideoImageProcessing.java&#10;GconvertImage&#9;PSI&#9;JAVA://boofcv.core.image.GConvertImage&#10;Stationarybasic&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/alg/background/stationary/BackgroundStationaryBasic.java&#10;BackgroundmodelStationary&#9;PSI&#9;JAVA://boofcv.alg.background.BackgroundModelStationary&#10;BackgroundModel&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/factory/background/FactoryBackgroundModel.java&#10;BackgroundMoving&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/alg/background/moving/BackgroundMovingBasic.java&#10;BackgroundAl&#9;PSI&#9;JAVA://boofcv.alg.background.BackgroundAlgorithmBasic&#10;BackgroundMovingBas&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/alg/background/moving/BackgroundMovingBasic.java&#10;VisualizeImage&#9;PSI&#9;JAVA://boofcv.android.VisualizeImageData&#10;FPT&#9;PSI&#9;JAVA://boofcv.factory.feature.tracker.FactoryPointTracker&#10;CDD&#9;PSI&#9;JAVA://org.boofcv.android.CreateDetectorDescriptor&#10;ConvertBi&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/android/ConvertBitmap.java&#10;ImageType&#9;PSI&#9;JAVA://boofcv.struct.image.ImageType&#10;BackgroundStationary&#9;PSI&#9;JAVA://boofcv.alg.background.stationary.BackgroundStationaryBasic&#10;BackgroundMovingBasic&#9;PSI&#9;JAVA://boofcv.alg.background.moving.BackgroundMovingBasic&#10;GrayU8&#9;PSI&#9;JAVA://boofcv.struct.image.GrayU8&#10;VIdeoPRo&#9;PSI&#9;JAVA://boofcv.android.gui.VideoProcessing&#10;VIdeoREnder&#9;PSI&#9;JAVA://boofcv.android.gui.VideoRenderProcessing&#10;VideoImagePRoces&#9;PSI&#9;JAVA://boofcv.android.gui.VideoImageProcessing&#10;convert&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/android/ConvertBitmap.java&#10;ConvertBitmap&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/android/ConvertBitmap.java&#10;ImageMultiband&#9;PSI&#9;JAVA://boofcv.struct.image.ImageMultiBand&#10;DetectorInter&#9;PSI&#9;JAVA://boofcv.abst.feature.detect.interest.DetectorInterestPointMulti&#10;ImageMotion2d&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/abst/sfm/d2/ImageMotion2D.java&#10;TrackerObj&#9;PSI&#9;JAVA://boofcv.abst.tracker.TrackerObjectQuad" />
     <property name="AnalyzeApkAction.lastApkPath" value="$PROJECT_DIR$/openCVSamplefacedetection/build/outputs/apk/openCVSamplefacedetection-debug.apk" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/sapphire/src/main/java" />
     <property name="ExportApk.ApkPath" value="$PROJECT_DIR$/openCVSamplefacedetection" />
@@ -3850,29 +3844,29 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="306" y="191" width="1835" height="940" extended-state="0" />
+    <frame x="370" y="86" width="1835" height="940" extended-state="0" />
     <editor active="false" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32894737" sideWeight="0.47978768" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.46826625" sideWeight="0.3968967" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.74071205" sideWeight="0.392398" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.47325438" sideWeight="0.328125" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4868421" sideWeight="0.48754594" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.80759805" sideWeight="0.5550587" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.80759805" sideWeight="0.4449413" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.822335" sideWeight="0.5477921" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.822335" sideWeight="0.45220792" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3614551" sideWeight="0.46998775" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33359134" sideWeight="0.54675376" order="11" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.37003914" sideWeight="0.671875" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27836782" sideWeight="0.671875" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2498618" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39914164" sideWeight="0.49806523" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39914164" sideWeight="0.49806523" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -3947,271 +3941,10 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/BlurStorageFilter_Stub.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="496">
-          <caret line="78" column="58" selection-start-line="78" selection-start-column="58" selection-end-line="78" selection-end-column="58" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/feature/detect/edge/CannyEdge.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="140">
-          <caret line="143" column="87" selection-start-line="143" selection-start-column="87" selection-end-line="143" selection-end-column="87" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/filter/binary/GThresholdImageOps.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="181">
-          <caret line="363" column="82" selection-start-line="363" selection-start-column="82" selection-end-line="363" selection-end-column="82" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/filter/binary/GlobalOtsuBinaryFilter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="51" column="59" selection-start-line="51" selection-start-column="59" selection-end-line="51" selection-end-column="59" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/filter/binary/GlobalOtsuBinaryFilter_Stub.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="58">
-          <caret line="33" column="0" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/filter/binary/LocalSquareBinaryFilter_Stub.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="316">
-          <caret line="43" column="66" selection-start-line="43" selection-start-column="66" selection-end-line="43" selection-end-column="66" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/feature/detect/intensity/WrapperFastCornerIntensity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="52" column="3" selection-start-line="52" selection-start-column="3" selection-end-line="52" selection-end-column="3" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/feature/detect/interest/GeneralToInterestPoint.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="455">
-          <caret line="117" column="9" selection-start-line="117" selection-start-column="9" selection-end-line="117" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/feature/detect/interest/GeneralToInterestPoint_Stub.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="140" column="5" selection-start-line="140" selection-start-column="5" selection-end-line="140" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/core/image/GeneralizedImageOps.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="134" column="75" selection-start-line="134" selection-start-column="75" selection-end-line="134" selection-end-column="75" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/factory/background/FactoryBackgroundModel_Stub.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="242">
-          <caret line="56" column="0" selection-start-line="56" selection-start-column="0" selection-end-line="56" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/background/stationary/BackgroundStationaryBasic_SB.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="53" column="0" selection-start-line="53" selection-start-column="0" selection-end-line="53" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/factory/background/ConfigBackgroundGaussian.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="28" column="13" selection-start-line="28" selection-start-column="13" selection-end-line="28" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/factory/background/ConfigBackgroundBasic.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="28" column="13" selection-start-line="28" selection-start-column="13" selection-end-line="28" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/struct/image/ImageMultiBand.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="25" column="22" selection-start-line="25" selection-start-column="22" selection-end-line="25" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/struct/image/ImageInterleaved.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="242">
-          <caret line="35" column="22" selection-start-line="35" selection-start-column="22" selection-end-line="35" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/detect/CannyEdgeActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-989">
-          <caret line="37" column="13" selection-start-line="37" selection-start-column="13" selection-end-line="37" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/detect/ContourShapeFittingActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1935">
-          <caret line="54" column="13" selection-start-line="54" selection-start-column="13" selection-end-line="54" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/detect/LineDisplayActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2369">
-          <caret line="52" column="13" selection-start-line="52" selection-start-column="13" selection-end-line="52" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/detect/SegmentationDisplayActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2025">
-          <caret line="49" column="13" selection-start-line="49" selection-start-column="13" selection-end-line="49" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/CameraSpecs.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/android/gui/VideoProcessing.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="242">
-          <caret line="37" column="17" selection-start-line="37" selection-start-column="17" selection-end-line="37" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/AboutActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="17" column="30" selection-start-line="17" selection-start-column="30" selection-end-line="17" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/CameraInformationActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-183">
-          <caret line="37" column="47" selection-start-line="37" selection-start-column="47" selection-end-line="37" selection-end-column="47" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/tracker/PointTrackerDisplayActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="954">
-          <caret line="167" column="0" selection-start-line="167" selection-start-column="0" selection-end-line="167" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <marker date="1495782337594" expanded="false" signature="3171:3183" ph="&lt;~&gt;" />
-            <marker date="1495782337594" expanded="false" signature="3231:3243" ph="&lt;~&gt;" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/sapphire/kernel/server/KernelObject.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="262">
-          <caret line="35" column="0" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/sapphire/common/ObjectHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="358">
-          <caret line="64" column="0" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/sapphire/dms/DefaultSapphirePolicyUpcallImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="397">
-          <caret line="35" column="0" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/background/stationary/BackgroundStationaryGaussian_SB.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="38" column="0" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/struct/image/GrayU8.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="27" column="13" selection-start-line="27" selection-start-column="13" selection-end-line="27" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/factory/distort/FactoryDistort.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="332">
-          <caret line="97" column="89" selection-start-line="97" selection-start-column="89" selection-end-line="97" selection-end-column="89" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/struct/image/ImageType.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-678">
           <caret line="69" column="56" selection-start-line="69" selection-start-column="53" selection-end-line="69" selection-end-column="56" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/android/ConvertBitmap.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="414">
-          <caret line="200" column="56" selection-start-line="200" selection-start-column="56" selection-end-line="200" selection-end-column="56" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4237,7 +3970,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1345">
           <caret line="353" column="40" selection-start-line="353" selection-start-column="36" selection-end-line="353" selection-end-column="40" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4245,7 +3977,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-62">
           <caret line="35" column="22" selection-start-line="35" selection-start-column="22" selection-end-line="35" selection-end-column="22" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4253,7 +3984,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="375">
           <caret line="41" column="17" selection-start-line="41" selection-start-column="17" selection-end-line="41" selection-end-column="17" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4277,31 +4007,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="315">
           <caret line="46" column="0" selection-start-line="46" selection-start-column="0" selection-end-line="46" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/core/image/GConvertImage.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="557">
-          <caret line="71" column="81" selection-start-line="71" selection-start-column="81" selection-end-line="71" selection-end-column="81" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/distort/FDistort.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="213">
-          <caret line="331" column="0" selection-start-line="331" selection-start-column="0" selection-end-line="331" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/background/stationary/BackgroundStationaryBasic_IL.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="35" column="0" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4309,102 +4014,311 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
           <caret line="33" column="22" selection-start-line="33" selection-start-column="22" selection-end-line="33" selection-end-column="22" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/res/values/strings.xml">
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/android/gui/VideoRenderProcessing.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="172">
-          <caret line="31" column="35" selection-start-line="31" selection-start-column="35" selection-end-line="31" selection-end-column="35" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/factory/background/FactoryBackgroundModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="840">
-          <caret line="82" column="24" selection-start-line="82" selection-start-column="24" selection-end-line="82" selection-end-column="24" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/DemoManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="19200">
-          <caret line="1280" column="0" selection-start-line="1280" selection-start-column="0" selection-end-line="1280" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#20081#20082#0" expanded="true" />
-            <element signature="e#20123#20124#0" expanded="true" />
-            <element signature="e#21307#21308#0" expanded="true" />
-            <element signature="e#21352#21353#0" expanded="true" />
-            <element signature="e#23284#23285#0" expanded="true" />
-            <element signature="e#23334#23335#0" expanded="true" />
-            <element signature="e#23671#23672#0" expanded="true" />
-            <element signature="e#23717#23718#0" expanded="true" />
-            <element signature="e#23774#23775#0" expanded="true" />
-            <element signature="e#23829#23830#0" expanded="true" />
-            <element signature="e#24038#24039#0" expanded="true" />
-            <element signature="e#24092#24093#0" expanded="true" />
-            <element signature="e#26821#26822#0" expanded="true" />
-            <element signature="e#26872#26873#0" expanded="true" />
-            <element signature="e#27525#27526#0" expanded="true" />
-            <element signature="e#27575#27576#0" expanded="true" />
-            <element signature="e#29916#29917#0" expanded="true" />
-            <element signature="e#29974#29975#0" expanded="true" />
-            <element signature="e#30144#30145#0" expanded="true" />
-            <element signature="e#30204#30205#0" expanded="true" />
-            <element signature="e#32071#32072#0" expanded="true" />
-            <element signature="e#32123#32124#0" expanded="true" />
-            <element signature="e#37168#37169#0" expanded="true" />
-            <element signature="e#37217#37218#0" expanded="true" />
-            <element signature="e#37514#37515#0" expanded="true" />
-            <element signature="e#37554#37555#0" expanded="true" />
-            <element signature="e#39474#39475#0" expanded="true" />
-            <element signature="e#39548#39549#0" expanded="true" />
-            <element signature="e#39575#39576#0" expanded="true" />
-            <element signature="e#39649#39650#0" expanded="true" />
-            <element signature="e#39678#39679#0" expanded="true" />
-            <element signature="e#39754#39755#0" expanded="true" />
-            <element signature="e#39780#39781#0" expanded="true" />
-            <element signature="e#39853#39854#0" expanded="true" />
-            <element signature="e#39879#39880#0" expanded="true" />
-            <element signature="e#39952#39953#0" expanded="true" />
-            <element signature="e#40007#40008#0" expanded="true" />
-            <element signature="e#40061#40062#0" expanded="true" />
-            <element signature="e#41668#41669#0" expanded="true" />
-            <element signature="e#41715#41716#0" expanded="true" />
-            <element signature="e#46190#46191#0" expanded="true" />
-            <element signature="e#46263#46264#0" expanded="true" />
-            <element signature="e#47120#47121#0" expanded="true" />
-            <element signature="e#47171#47172#0" expanded="true" />
-            <element signature="e#51367#51368#0" expanded="true" />
-            <element signature="e#51410#51411#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/tracker/StaticBackgroundMotionActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="664">
-          <caret line="251" column="32" selection-start-line="251" selection-start-column="32" selection-end-line="251" selection-end-column="32" />
+        <state relative-caret-position="732">
+          <caret line="258" column="73" selection-start-line="258" selection-start-column="73" selection-end-line="258" selection-end-column="73" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/android/gui/VideoImageProcessing.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="489">
+        <state relative-caret-position="540">
           <caret line="42" column="0" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/android/gui/VideoRenderProcessing.java">
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/detect/CannyEdgeActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1087">
-          <caret line="258" column="73" selection-start-line="258" selection-start-column="73" selection-end-line="258" selection-end-column="73" />
+        <state relative-caret-position="-930">
+          <caret line="37" column="13" selection-start-line="37" selection-start-column="13" selection-end-line="37" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/struct/image/ImageBase.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="30" column="22" selection-start-line="30" selection-start-column="22" selection-end-line="30" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/struct/image/ImageGray.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="283">
+          <caret line="59" column="22" selection-start-line="59" selection-start-column="22" selection-end-line="59" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/struct/image/Planar.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="283">
+          <caret line="60" column="13" selection-start-line="60" selection-start-column="13" selection-end-line="60" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/struct/image/ImageMultiBand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="25" column="85" selection-start-line="25" selection-start-column="85" selection-end-line="25" selection-end-column="85" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/background/stationary/BackgroundStationaryGaussian_SB.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="45" column="67" selection-start-line="45" selection-start-column="67" selection-end-line="45" selection-end-column="67" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/background/moving/BackgroundMovingBasic_IL.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="38" column="13" selection-start-line="38" selection-start-column="13" selection-end-line="38" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/struct/image/InterleavedF32.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="27" column="13" selection-start-line="27" selection-start-column="13" selection-end-line="27" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/factory/background/FactoryBackgroundModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-180">
+          <caret line="58" column="101" selection-start-line="58" selection-start-column="101" selection-end-line="58" selection-end-column="101" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/background/stationary/BackgroundStationaryBasic_SB.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="515">
+          <caret line="70" column="47" selection-start-line="70" selection-start-column="47" selection-end-line="70" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/GImageMiscOps_Stub.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="283">
+          <caret line="110" column="0" selection-start-line="110" selection-start-column="0" selection-end-line="110" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/misc/GImageMiscOps.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="275">
+          <caret line="221" column="0" selection-start-line="221" selection-start-column="0" selection-end-line="221" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/core/image/ConvertImage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="200">
+          <caret line="14" column="31" selection-start-line="14" selection-start-column="30" selection-end-line="14" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/core/image/GConvertImage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-10">
+          <caret line="130" column="49" selection-start-line="130" selection-start-column="49" selection-end-line="130" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/background/stationary/BackgroundStationaryBasic_IL.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="211">
+          <caret line="74" column="0" selection-start-line="74" selection-start-column="0" selection-end-line="74" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/struct/image/InterleavedU8.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="200">
+          <caret line="45" column="15" selection-start-line="45" selection-start-column="15" selection-end-line="45" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/sapphire/common/ObjectHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="202">
+          <caret line="64" column="0" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/android/ConvertBitmap.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="182">
+          <caret line="203" column="0" selection-start-line="203" selection-start-column="0" selection-end-line="203" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/struct/image/ImageInterleaved.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="164">
+          <caret line="35" column="27" selection-start-line="35" selection-start-column="25" selection-end-line="35" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/interpolate/BilinearPixelS.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="31" column="22" selection-start-line="31" selection-start-column="22" selection-end-line="31" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/interpolate/impl/ImplBilinearPixel_U8.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="219">
+          <caret line="37" column="13" selection-start-line="37" selection-start-column="13" selection-end-line="37" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/fiducial/square/DetectFiducialSquareImage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="234">
+          <caret line="150" column="72" selection-start-line="150" selection-start-column="72" selection-end-line="150" selection-end-column="72" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/factory/filter/kernel/FactorySteerable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="312">
+          <caret line="96" column="70" selection-start-line="96" selection-start-column="70" selection-end-line="96" selection-end-column="70" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/distort/RemovePerspectiveDistortion.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="417">
+          <caret line="112" column="35" selection-start-line="112" selection-start-column="35" selection-end-line="112" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/shapes/polygon/BaseFitPolygon.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="234">
+          <caret line="89" column="80" selection-start-line="89" selection-start-column="80" selection-end-line="89" selection-end-column="80" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/gui/image/ImagePyramidPanel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="432">
+          <caret line="109" column="93" selection-start-line="109" selection-start-column="93" selection-end-line="109" selection-end-column="93" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/gui/feature/ScaleSpacePyramidPointPanel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="226">
+          <caret line="90" column="65" selection-start-line="90" selection-start-column="65" selection-end-line="90" selection-end-column="65" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/struct/image/GrayI8.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="22" column="15" selection-start-line="22" selection-start-column="14" selection-end-line="22" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/sfm/d3/MonocularPlaneVisualOdometryScaleInput.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="720">
+          <caret line="101" column="64" selection-start-line="101" selection-start-column="64" selection-end-line="101" selection-end-column="64" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/sfm/d3/StereoVisualOdometryScaleInput.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="765">
+          <caret line="103" column="55" selection-start-line="103" selection-start-column="55" selection-end-line="103" selection-end-column="55" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/distort/impl/ImplImageDistort_IL_U8.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="30" column="0" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/distort/ImageDistortBasic_IL.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="29" column="0" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/distort/ImageDistortBasic.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="578">
+          <caret line="62" column="0" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/distort/FDistort.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="848">
+          <caret line="333" column="76" selection-start-line="333" selection-start-column="76" selection-end-line="333" selection-end-column="76" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/factory/distort/FactoryDistort.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="518">
+          <caret line="114" column="14" selection-start-line="114" selection-start-column="14" selection-end-line="114" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/res/values/strings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="33" column="36" selection-start-line="33" selection-start-column="36" selection-end-line="33" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/DemoManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="754">
+          <caret line="1273" column="78" selection-start-line="1273" selection-start-column="78" selection-end-line="1273" selection-end-column="78" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/tracker/StaticBackgroundMotionActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="370">
+          <caret line="267" column="59" selection-start-line="267" selection-start-column="59" selection-end-line="267" selection-end-column="59" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/calib/CalibrationActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="320" column="0" selection-start-line="320" selection-start-column="0" selection-end-line="320" selection-end-column="0" />
           <folding />
         </state>
       </provider>

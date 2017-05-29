@@ -88,8 +88,8 @@ public class GConvertImage {
 				output.setTo(input);
 			} else {
 				try {
-					Method m = ConvertImage.class.getMethod("convert", input.getClass(), output.getClass());
-					m.invoke(null, input, output);
+					Method m = ConvertImage.class.getMethod("convert", input.getClass(), output.getClass(), InputSanityCheck.class);
+					m.invoke(CI, input, output, ISC);
 				} catch (Exception e) {
 					throw new IllegalArgumentException("Unknown conversion");
 				}
@@ -109,8 +109,8 @@ public class GConvertImage {
 			}
 		} else if( input instanceof Planar && output instanceof ImageInterleaved )  {
 			try {
-				Method m = ConvertImage.class.getMethod("convert", input.getClass(), output.getClass());
-				m.invoke(null, input, output);
+				Method m = ConvertImage.class.getMethod("convert", input.getClass(), output.getClass(), InputSanityCheck.class);
+				m.invoke(CI, input, output, ISC);
 			} catch (Exception e) {
 				throw new IllegalArgumentException("Unknown conversion");
 			}
@@ -127,8 +127,8 @@ public class GConvertImage {
 			}
 		} else if( input instanceof ImageInterleaved && output instanceof Planar)  {
 			try {
-				Method m = ConvertImage.class.getMethod("convert", input.getClass(), output.getClass());
-				m.invoke(null, input, output);
+				Method m = ConvertImage.class.getMethod("convert", input.getClass(), output.getClass(), InputSanityCheck.class);
+				m.invoke(CI, input, output, ISC);
 			} catch (Exception e) {
 				throw new IllegalArgumentException("Unknown conversion");
 			}

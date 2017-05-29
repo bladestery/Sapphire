@@ -153,6 +153,7 @@ import boofcv.struct.image.ImageGray;
 import boofcv.struct.image.ImageInterleaved;
 import boofcv.struct.image.ImageType;
 import boofcv.struct.image.InterleavedF32;
+import boofcv.struct.image.InterleavedU8;
 import boofcv.struct.image.Planar;
 import boofcv.struct.pyramid.ImagePyramid;
 import boofcv.struct.wavelet.WaveletDescription;
@@ -178,7 +179,7 @@ import static sapphire.runtime.Sapphire.new_;
  * Created by ubuntu on 17/04/03.
  */
 
-public class DemoManager implements SapphireObject<sapphire.policy.offload.CodeOffload>  {
+public class DemoManager<T extends ImageBase> implements SapphireObject<sapphire.policy.offload.CodeOffload>  {
     //Top Level Objects which need to be created
     private FactoryEdgeDetectors FED;
     private ImageType IT;
@@ -250,12 +251,12 @@ public class DemoManager implements SapphireObject<sapphire.policy.offload.CodeO
     //  Objects which are used in applications
     /** info: Some are redundantly used to save space **/
     CannyEdge<GrayU8,GrayS16> canny;
-    LinearContourLabelChang2004 contour8;
-    LinearContourLabelChang2004 contour4;
+    LinearContourLabelChang2004 contour8 = new LinearContourLabelChang2004(ConnectRule.EIGHT);
+    LinearContourLabelChang2004 contour4 = new LinearContourLabelChang2004(ConnectRule.FOUR);
     BinaryEllipseDetector<GrayU8> ellipseDetector;
     InputToBinary<GrayU8> inputToBinary;
     BinaryPolygonDetector<GrayU8> polyDetector;
-    GrayU8 blackBinary;
+    GrayU8 blackBinary = new GrayU8(1,1);
     DetectLine<GrayU8> lineDetector;
     DetectLineSegment<GrayU8> segDetector;
     GeneralFeatureDetector<GrayU8,GrayS16> general;
@@ -298,11 +299,14 @@ public class DemoManager implements SapphireObject<sapphire.policy.offload.CodeO
     List<PointTrack> inactive;
     long tick;
     BackgroundModelStationary model;
-    ImageBase scaled;
+    T scaled;
     ImageGray work;
     FDistort shrink;
     int tableDet[] = new int[]{DETECT_SHITOMASI,DETECT_FAST,DETECT_FH};
     int tableDesc[] = new int[]{DESC_BRIEF,DESC_SURF,DESC_NCC};
+    InterleavedU8 rainbow = new InterleavedU8(1,1,3);
+    GrayU8 monotone = new GrayU8(1,1);
+    boolean col, set;
 
     //Initialization
     public DemoManager() {
@@ -367,12 +371,7 @@ public class DemoManager implements SapphireObject<sapphire.policy.offload.CodeO
         FA = (FactoryAssociation) new_(FactoryAssociation.class);
         FTOQ = (FactoryTrackerObjectQuad) new_(FactoryTrackerObjectQuad.class);
         FPT = (FactoryPointTracker) new_(FactoryPointTracker.class);
-        FBM = (FactoryBackgroundModel) new_(FactoryBackgroundModel.class); 
-
-        //TODO: move these initializations to functions below
-        contour8 = new LinearContourLabelChang2004(ConnectRule.EIGHT);
-        contour4 = new LinearContourLabelChang2004(ConnectRule.FOUR);
-        blackBinary = new GrayU8(1,1);
+        FBM = (FactoryBackgroundModel) new_(FactoryBackgroundModel.class);
     }
 
     public void LatencyCheck() {}
@@ -1209,18 +1208,26 @@ public class DemoManager implements SapphireObject<sapphire.policy.offload.CodeO
 
     public void stationaryBasic(ConfigBackgroundBasic configBasic) {
         model = FBM.stationaryBasic(configBasic,IT.single(GrayU8.class), IT);
+        col = false;
+        set = true;
     }
 
     public void stationaryBasicColor(ConfigBackgroundBasic configBasic) {
         model = FBM.stationaryBasic(configBasic,IT.il(3, ImageDataType.U8), IT);
+        col = true;
+        set = true;
     }
 
     public void stationaryGaussian(ConfigBackgroundGaussian configGaussian) {
         model = FBM.stationaryGaussian(configGaussian, IT.single(GrayU8.class), IT);
+        col = false;
+        set = true;
     }
 
     public void stationaryGaussianColor(ConfigBackgroundGaussian configGaussian) {
         model = FBM.stationaryGaussian(configGaussian, IT.il(3, ImageDataType.U8), IT);
+        col = true;
+        set = true;
     }
 
     public ImageType getImageType() {
@@ -1228,12 +1235,14 @@ public class DemoManager implements SapphireObject<sapphire.policy.offload.CodeO
     }
 
     public void motionInit() {
-        scaled = model.getImageType().createImage(1, 1);
+        scaled = (T) model.getImageType().createImage(1, 1);
         work = GIO.createSingleBand(model.getImageType().getDataType(),1,1, IT);
     }
 
     public void initbg(int width, int height) {
         blackBinary.reshape(width, height);
+        rainbow.reshape(width,height);
+        monotone.reshape(width,height);
         work.reshape(width, height);
         scaled.reshape(width/3,height/3);
         shrink = new FDistort();
@@ -1252,13 +1261,26 @@ public class DemoManager implements SapphireObject<sapphire.policy.offload.CodeO
         IMO.fill(blackBinary, 0);
     }
 
-    public<T extends ImageBase> GrayU8 set(T image) {
-        model.segment(image, blackBinary, ISC, IMO);
-        model.updateBackground(image, ISC, GIO, GIMO, IMO, CI, IT);
+    public GrayU8 set(T image) {
+        if (set) {
+            set = false;
+            if (col) {
+                GConvertImage.convert(image, rainbow, ISC, GIO, GIMO, IMO, CI, IT);
+                model.segment(rainbow, blackBinary, ISC, IMO);
+                model.updateBackground(rainbow, ISC, GIO, GIMO, IMO, CI, IT);
+            } else {
+                GConvertImage.convert(image, monotone, ISC, GIO, GIMO, IMO, CI, IT);
+                model.segment(monotone, blackBinary, ISC, IMO);
+                model.updateBackground(monotone, ISC, GIO, GIMO, IMO, CI, IT);
+            }
+        } else {
+            model.segment(image, blackBinary, ISC, IMO);
+            model.updateBackground(image, ISC, GIO, GIMO, IMO, CI, IT);
+        }
         return blackBinary;
     }
 
-    public<T extends ImageBase> T pip(T image) {
+    public T pip(T image) {
         // shrink the input image
         shrink.init(image, scaled, FIB).scaleExt(FIB);
         shrink.apply();

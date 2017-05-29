@@ -66,7 +66,7 @@ public class StaticBackgroundMotionActivity extends DemoVideoDisplayActivity
 	//BackgroundModelStationary model;
 
 	// if true turn on picture-in-picture mode
-	boolean pip = true;
+	boolean pip = false;
 
 	OMSServer server;
 	DemoManager dm;
@@ -252,14 +252,13 @@ public class StaticBackgroundMotionActivity extends DemoVideoDisplayActivity
 				//model.reset();
 				//IMO.fill(binary,0);
 			} else {
-
 				binary = dm.set(image);
 				//model.segment(image, binary);
 				//model.updateBackground(image);
 			}
 
 			if( pip ) {
-				image = dm.pip(image);
+				image = (T) dm.pip(image);
 				/*
 				// shrink the input image
 				shrink.init(image,scaled).scaleExt();

@@ -570,7 +570,7 @@ public final class DemoManager_Stub extends org.boofcv.android.DemoManager imple
                 $__result = super.set( $param_ImageBase_1);
             else {
                 java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
-                String $__method = "public <T> boofcv.struct.image.GrayU8 org.boofcv.android.DemoManager.set(T)";
+                String $__method = "public boofcv.struct.image.GrayU8 org.boofcv.android.DemoManager.set(T)";
                 $__params.add($param_ImageBase_1);
                 $__result = $__client.onRPC($__method, $__params);
             }
@@ -888,7 +888,7 @@ public final class DemoManager_Stub extends org.boofcv.android.DemoManager imple
                 $__result = super.pip( $param_ImageBase_1);
             else {
                 java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
-                String $__method = "public <T> T org.boofcv.android.DemoManager.pip(T)";
+                String $__method = "public T org.boofcv.android.DemoManager.pip(T)";
                 $__params.add($param_ImageBase_1);
                 $__result = $__client.onRPC($__method, $__params);
             }

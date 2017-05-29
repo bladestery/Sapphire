@@ -51,13 +51,15 @@ import sapphire.compiler.FIBAGenerator;
  *
  * @author Peter Abeles
  */
-public class FDistort
+public class FDistort<T extends ImageBase, D extends ImageBase>
 {
 	// type of input image
 	ImageType inputType;
 
 	// input and output images
-	ImageBase input,output;
+	T input;
+	D output;
+	//ImageBase input,output;
 	// specifies how the borders are handled
 	ImageDistort distorter;
 	InterpolatePixel interp;
@@ -76,7 +78,7 @@ public class FDistort
 	 * @param input Input image
 	 * @param output output image
 	 */
-	public FDistort(ImageBase input, ImageBase output, FactoryImageBorder FIB) {
+	public FDistort(T input, D output, FactoryImageBorder FIB) {
 		init(input, output, FIB);
 	}
 
@@ -94,7 +96,7 @@ public class FDistort
 	/**
 	 * Specifies the input and output image and sets interpolation to BILINEAR, black image border, cache is off.
 	 */
-	public FDistort init(ImageBase input, ImageBase output, FactoryImageBorder FIB) {
+	public FDistort init(T input, D output, FactoryImageBorder FIB) {
 		this.input = input;
 		this.output = output;
 
@@ -125,7 +127,7 @@ public class FDistort
 	 * 1) Update the transform
 	 * </pre>
 	 */
-	public FDistort setRefs( ImageBase input, ImageBase output ) {
+	public FDistort setRefs( T input, D output ) {
 		this.input = input;
 		this.output = output;
 
@@ -137,7 +139,7 @@ public class FDistort
 	 * Changes the input image.  The previous distortion is thrown away only if the input
 	 * image has a different shape
 	 */
-	public FDistort input( ImageBase input ) {
+	public FDistort input( T input ) {
 		if( this.input == null || this.input.width != input.width || this.input.height != input.height ) {
 			distorter = null;
 		}
@@ -150,7 +152,7 @@ public class FDistort
 	 * Changes the output image.  The previous distortion is thrown away only if the output
 	 * image has a different shape
 	 */
-	public FDistort output( ImageBase output ) {
+	public FDistort output( D output ) {
 		if( this.output == null || this.output.width != output.width || this.output.height != output.height ) {
 			distorter = null;
 		}
