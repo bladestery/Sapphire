@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 
+
 import org.boofcv.android.DemoManager;
 import org.boofcv.android.DemoVideoDisplayActivity;
 import org.boofcv.android.R;
@@ -47,6 +48,8 @@ import boofcv.struct.image.InterleavedF32;
 import sapphire.kernel.server.KernelServerImpl;
 import sapphire.oms.OMSServer;
 
+import static org.boofcv.android.DemoMain.client;
+import static org.boofcv.android.DemoMain.edge;
 import static sapphire.kernel.common.GlobalKernelReferences.nodeServer;
 
 /**
@@ -78,12 +81,12 @@ public class StaticBackgroundMotionActivity extends DemoVideoDisplayActivity
 		InetSocketAddress host, omsHost;
 
 		try {
-			Registry registry = LocateRegistry.getRegistry("157.82.159.58", 22346);
+			Registry registry = LocateRegistry.getRegistry(edge, 22346);
 			server = (OMSServer) registry.lookup("SapphireOMS");
 			System.out.println(server);
 
-			host = new InetSocketAddress("192.168.0.7", 22346);
-			omsHost = new InetSocketAddress("157.82.159.58", 22346);
+			host = new InetSocketAddress(client, 22346);
+			omsHost = new InetSocketAddress(edge, 22346);
 			nodeServer = new KernelServerImpl(host, omsHost);
 			System.out.println(nodeServer);
 
@@ -95,7 +98,6 @@ public class StaticBackgroundMotionActivity extends DemoVideoDisplayActivity
 		try {
 			//Server is initiated with appObject to perform remote RPCs
 			dm = (DemoManager) server.getAppEntryPoint();
-			System.out.println("Got AppEntryPoint");
 			//dm.LatencyCheck();
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -54,6 +54,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -71,6 +72,9 @@ public class DemoMain extends Activity implements ExpandableListView.OnChildClic
 	// If another activity modifies the demo preferences this needs to be set to true so that it knows to reload
 	// camera parameters.
 	public static boolean changedPreferences = false;
+
+	public static String client = "192.168.0.3"; //TODO: ask for user IP
+	public static String edge = "157.82.159.58";
 
 	List<Group> groups = new ArrayList<Group>();
 
@@ -146,7 +150,6 @@ public class DemoMain extends Activity implements ExpandableListView.OnChildClic
 		detect.addChild("Contour Shapes",ContourShapeFittingActivity.class);
 		detect.addChild("Black Polygon",DetectBlackPolygonActivity.class);
 		detect.addChild("Black Ellipse",DetectBlackEllipseActivity.class);
-		// segmentation is just too slow right now
 		detect.addChild("Segmentation",SegmentationDisplayActivity.class);
 
 		assoc.addChild("Two Pictures",AssociationActivity.class);
@@ -155,21 +158,21 @@ public class DemoMain extends Activity implements ExpandableListView.OnChildClic
 		tracker.addChild("KLT Pyramid", KltDisplayActivity.class);
 		tracker.addChild("Motion Detection", StaticBackgroundMotionActivity.class);
 		// To most people the trackers below will look like a broken KLT
-		tracker.addChild("Point: Det-Desc-Assoc", DdaTrackerDisplayActivity.class);
-		tracker.addChild("Point: Combined", CombinedTrackerDisplayActivity.class);
+		tracker.addChild("Bad KLT(Det-Desc-Assoc)", DdaTrackerDisplayActivity.class);
+		tracker.addChild("Bad KLT(Combined)", CombinedTrackerDisplayActivity.class);
 
-		recognition.addChild("Image Classification", ImageClassificationActivity.class);
-		recognition.addChild("Square Binary",FiducialSquareBinaryActivity.class);
-		recognition.addChild("Square Image",FiducialSquareImageActivity.class);
-		recognition.addChild("Square Image Library",FiducialImageLibraryAcitivity.class);
-		recognition.addChild("Calib Targets",FiducialCalibrationActivity.class);
+		//recognition.addChild("Image Classification", ImageClassificationActivity.class);
+		//recognition.addChild("Square Binary",FiducialSquareBinaryActivity.class);
+		//recognition.addChild("Square Image",FiducialSquareImageActivity.class);
+		//recognition.addChild("Square Image Library",FiducialImageLibraryAcitivity.class);
+		//recognition.addChild("Calib Targets",FiducialCalibrationActivity.class);
 
-		calib.addChild("Calibrate",CalibrationActivity.class);
-		calib.addChild("Undistort",UndistortDisplayActivity.class);
+		//calib.addChild("Calibrate",CalibrationActivity.class);
+		//calib.addChild("Undistort",UndistortDisplayActivity.class);
 
-		sfm.addChild("Stereo",DisparityActivity.class);
-		sfm.addChild("Stabilization",StabilizeDisplayActivity.class);
-		sfm.addChild("Mosaic",MosaicDisplayActivity.class);
+		//sfm.addChild("Stereo",DisparityActivity.class);
+		//sfm.addChild("Stabilization",StabilizeDisplayActivity.class);
+		//sfm.addChild("Mosaic",MosaicDisplayActivity.class);
 
 		groups.add(ip);
 		groups.add(detect);

@@ -1,14 +1,10 @@
 package org.boofcv.android;
 
-import com.sun.org.apache.bcel.internal.generic.FADD;
-import com.thoughtworks.xstream.core.util.Pool;
-
 import org.boofcv.android.assoc.Assoc;
 import org.boofcv.android.tracker.track;
 import org.boofcv.android.tracker.trackInfo;
 import org.boofcv.android.tracker.trackList;
 import org.ddogleg.struct.FastQueue;
-import org.hamcrest.Factory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -150,7 +146,6 @@ import boofcv.struct.image.ImageBase;
 import boofcv.struct.image.ImageDataType;
 import boofcv.struct.image.ImageDimension;
 import boofcv.struct.image.ImageGray;
-import boofcv.struct.image.ImageInterleaved;
 import boofcv.struct.image.ImageType;
 import boofcv.struct.image.InterleavedF32;
 import boofcv.struct.image.InterleavedU8;
@@ -161,7 +156,6 @@ import boofcv.struct.wavelet.WlCoef;
 import georegression.struct.line.LineParametric2D_F32;
 import georegression.struct.line.LineSegment2D_F32;
 import georegression.struct.point.Point2D_F64;
-import georegression.struct.point.Point2D_I32;
 import georegression.struct.shapes.EllipseRotated_F64;
 import georegression.struct.shapes.Polygon2D_F64;
 import georegression.struct.shapes.Quadrilateral_F64;
@@ -179,7 +173,7 @@ import static sapphire.runtime.Sapphire.new_;
  * Created by ubuntu on 17/04/03.
  */
 
-public class DemoManager<T extends ImageBase> implements SapphireObject<sapphire.policy.offload.CodeOffload>  {
+public class DemoManager<T extends ImageBase> implements SapphireObject<sapphire.policy.offload.CodeOffload> {
     //Top Level Objects which need to be created
     private FactoryEdgeDetectors FED;
     private ImageType IT;
@@ -273,8 +267,12 @@ public class DemoManager<T extends ImageBase> implements SapphireObject<sapphire
     FastQueue<float[]> segmentColor;
     FastQueue<Integer> regionMemberCount;
     GrayS32 pixelToRegion;
+    GrayS32 wavelet;
     Planar<GrayU8> background;
+    Planar<GrayU8> enhanced;
     GrayU8 binary;
+    GrayU8 binaryBlur;
+    GrayU8 binaryEnhance;
     GrayU8 afterOps;
     BlurFilter<GrayU8> filter;
     int histogram[];
@@ -305,6 +303,7 @@ public class DemoManager<T extends ImageBase> implements SapphireObject<sapphire
     int tableDet[] = new int[]{DETECT_SHITOMASI,DETECT_FAST,DETECT_FH};
     int tableDesc[] = new int[]{DESC_BRIEF,DESC_SURF,DESC_NCC};
     InterleavedU8 rainbow = new InterleavedU8(1,1,3);
+    GrayU8 MotionBinary = new GrayU8(1,1);
     GrayU8 monotone = new GrayU8(1,1);
     boolean col, set;
 
@@ -481,9 +480,9 @@ public class DemoManager<T extends ImageBase> implements SapphireObject<sapphire
     }
 
     public GrayU8 thresholdProcess(GrayU8 input) {
-        inputToBinary.process(input, binary, GBIO, ISC, GIO, BlIO, CIM, FKG, CN, CNN, CINB, CNJB,
+        inputToBinary.process(input, binaryBlur, GBIO, ISC, GIO, BlIO, CIM, FKG, CN, CNN, CINB, CNJB,
                 IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW, IT);
-        return binary;
+        return binaryBlur;
     }
 
     public void inputProcess(GrayU8 image) {
@@ -855,13 +854,13 @@ public class DemoManager<T extends ImageBase> implements SapphireObject<sapphire
     }
 
     public void initBlurred(int width, int height) {
-        binary = new GrayU8(width,height);
+        binaryBlur = new GrayU8(width,height);
     }
 
     public GrayU8 blurProcess(GrayU8 input) {
-        filter.process(input,binary, GBIO, ISC, GIO, BlIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI,
+        filter.process(input,binaryBlur, GBIO, ISC, GIO, BlIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI,
                 IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW, IT);
-        return binary;
+        return binaryBlur;
     }
 
     public void setRadius(int radius) {
@@ -869,8 +868,8 @@ public class DemoManager<T extends ImageBase> implements SapphireObject<sapphire
     }
 
     public void initEnhanced(int width, int height) {
-        binary = new GrayU8(width,height);
-        background = new Planar<GrayU8>(GrayU8.class,width,height,3);
+        binaryEnhance = new GrayU8(width,height);
+        enhanced = new Planar<GrayU8>(GrayU8.class,width,height,3);
     }
 
     public void initHistogram(int size) {
@@ -881,49 +880,49 @@ public class DemoManager<T extends ImageBase> implements SapphireObject<sapphire
     public GrayU8 histogram(GrayU8 input) {
         IS.histogram(input, histogram);
         EIO.equalize(histogram, transform);
-        EIO.applyTransform(input, transform, binary, ISC);
-        return binary;
+        EIO.applyTransform(input, transform, binaryEnhance, ISC);
+        return binaryEnhance;
     }
 
     public Planar<GrayU8> average(Planar<GrayU8> input) {
-        CI.average(input,binary, ISC);
-        IS.histogram(binary, histogram);
+        CI.average(input,binaryEnhance, ISC);
+        IS.histogram(binaryEnhance, histogram);
         EIO.equalize(histogram, transform);
         for( int i = 0; i < 3; i++ )
-            EIO.applyTransform(input.getBand(i), transform, background.getBand(i), ISC);
-        return background;
+            EIO.applyTransform(input.getBand(i), transform, enhanced.getBand(i), ISC);
+        return enhanced;
     }
 
     public GrayU8 equalizeLocal(GrayU8 input, int radius) {
-        EIO.equalizeLocal(input, radius, binary, histogram, transform, IS, ISC);
-        return binary;
+        EIO.equalizeLocal(input, radius, binaryEnhance, histogram, transform, IS, ISC);
+        return binaryEnhance;
     }
 
     public Planar<GrayU8> equalizelocal(Planar<GrayU8> input, int radius) {
         for( int i = 0; i < 3; i++ )
-            EIO.equalizeLocal(input.getBand(i), radius, background.getBand(i), histogram, transform,
+            EIO.equalizeLocal(input.getBand(i), radius, enhanced.getBand(i), histogram, transform,
                     IS, ISC);
-        return background;
+        return enhanced;
     }
 
     public GrayU8 sharpen(GrayU8 input, int which) {
         if( which == 4 ) {
-            EIO.sharpen4(input, binary, ISC);
+            EIO.sharpen4(input, binaryEnhance, ISC);
         }
         else {
-            EIO.sharpen8(input, binary, ISC);
+            EIO.sharpen8(input, binaryEnhance, ISC);
         }
-        return binary;
+        return binaryEnhance;
     }
 
     public Planar<GrayU8> sharpenColor(Planar<GrayU8> input, int which) {
         for( int i = 0; i < 3; i++ ) {
             if( which == 4 )
-                EIO.sharpen4(input.getBand(i), background.getBand(i), ISC);
+                EIO.sharpen4(input.getBand(i), enhanced.getBand(i), ISC);
             else
-                EIO.sharpen8(input.getBand(i), background.getBand(i), ISC);
+                EIO.sharpen8(input.getBand(i), enhanced.getBand(i), ISC);
         }
-        return background;
+        return enhanced;
     }
 
     public void three() {
@@ -959,6 +958,7 @@ public class DemoManager<T extends ImageBase> implements SapphireObject<sapphire
         grayF = new GrayF32(width,height);
         interleavedTransform = new InterleavedF32(width,height,2);
     }
+
 
     public GrayF32 fourierProcess(GrayU8 input) {
         CI.convert(input, grayF, ISC);
@@ -1018,15 +1018,15 @@ public class DemoManager<T extends ImageBase> implements SapphireObject<sapphire
 
     public void initWavelet(int width, int height) {
         ImageDimension d = UW.transformDimension(width, height, waveletTran.getLevels());
-        pixelToRegion = new GrayS32(d.width,d.height);
+        wavelet = new GrayS32(d.width,d.height);
     }
 
     public GrayS32 waveletProcess(GrayU8 input) {
-        waveletTran.transform(input,pixelToRegion, ISC, GIO, GIMO, IMO, CI, UW, IT);
-        //System.out.println("BOOF: num levels " + waveletTran.getLevels());
-        //System.out.println("BOOF: width "+pixelToRegion.getWidth()+" "+pixelToRegion.getHeight());
-        UW.adjustForDisplay(pixelToRegion, waveletTran.getLevels(), 255);
-        return pixelToRegion;
+        waveletTran.transform(input,wavelet, ISC, GIO, GIMO, IMO, CI, UW, IT);
+        //System.binary.println("BOOF: num levels " + waveletTran.getLevels());
+        //System.binary.println("BOOF: width "+wavelet.getWidth()+" "+wavelet.getHeight());
+        UW.adjustForDisplay(wavelet, waveletTran.getLevels(), 255);
+        return wavelet;
     }
 
     public void startAssoc(int selectedDet, int selectedDesc) {
@@ -1240,7 +1240,7 @@ public class DemoManager<T extends ImageBase> implements SapphireObject<sapphire
     }
 
     public void initbg(int width, int height) {
-        blackBinary.reshape(width, height);
+        MotionBinary.reshape(width, height);
         rainbow.reshape(width,height);
         monotone.reshape(width,height);
         work.reshape(width, height);
@@ -1258,7 +1258,7 @@ public class DemoManager<T extends ImageBase> implements SapphireObject<sapphire
 
     public void reset() {
         model.reset();
-        IMO.fill(blackBinary, 0);
+        IMO.fill(MotionBinary, 0);
     }
 
     public GrayU8 set(T image) {
@@ -1266,18 +1266,18 @@ public class DemoManager<T extends ImageBase> implements SapphireObject<sapphire
             set = false;
             if (col) {
                 GConvertImage.convert(image, rainbow, ISC, GIO, GIMO, IMO, CI, IT);
-                model.segment(rainbow, blackBinary, ISC, IMO);
+                model.segment(rainbow, MotionBinary, ISC, IMO);
                 model.updateBackground(rainbow, ISC, GIO, GIMO, IMO, CI, IT);
             } else {
                 GConvertImage.convert(image, monotone, ISC, GIO, GIMO, IMO, CI, IT);
-                model.segment(monotone, blackBinary, ISC, IMO);
+                model.segment(monotone, MotionBinary, ISC, IMO);
                 model.updateBackground(monotone, ISC, GIO, GIMO, IMO, CI, IT);
             }
         } else {
-            model.segment(image, blackBinary, ISC, IMO);
+            model.segment(image, MotionBinary, ISC, IMO);
             model.updateBackground(image, ISC, GIO, GIMO, IMO, CI, IT);
         }
-        return blackBinary;
+        return MotionBinary;
     }
 
     public T pip(T image) {
@@ -1286,10 +1286,10 @@ public class DemoManager<T extends ImageBase> implements SapphireObject<sapphire
         shrink.apply();
 
         // rescale the binary image so that it can be viewed
-        PixelMath.multiply(blackBinary, 255, blackBinary, ISC);
+        PixelMath.multiply(MotionBinary, 255, MotionBinary, ISC);
 
         // overwrite the original image with the binary one
-        GConvertImage.convert(blackBinary, work, ISC, GIO, GIMO, IMO, CI, IT);
+        GConvertImage.convert(MotionBinary, work, ISC, GIO, GIMO, IMO, CI, IT);
         // if the input image is color then it needs a gray scale image of the same type
         GConvertImage.convert(work, image, ISC, GIO, GIMO, IMO, CI, IT);
 
@@ -1297,7 +1297,7 @@ public class DemoManager<T extends ImageBase> implements SapphireObject<sapphire
         int x0 = image.width  - scaled.width;
         int y0 = image.height - scaled.height;
 
-        image.subimage(x0,y0,blackBinary.width,blackBinary.height).setTo(scaled);
+        image.subimage(x0,y0,MotionBinary.width,MotionBinary.height).setTo(scaled);
         return image;
     }
 
