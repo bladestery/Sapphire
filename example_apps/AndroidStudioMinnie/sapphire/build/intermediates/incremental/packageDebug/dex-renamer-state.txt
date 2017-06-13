@@ -1,4 +1,4 @@
-#Tue Jun 13 11:31:40 JST 2017
+#Tue Jun 13 17:12:06 JST 2017
 base.0=/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_f79d4b3849251d0df0108ee58c382645257e0f81
 renamed.1=classes.dex
 renamed.0=classes2.dex

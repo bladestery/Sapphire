@@ -68,6 +68,8 @@ import boofcv.struct.sfm.Stereo2D3D;
 import georegression.struct.point.Point2D_F64;
 import georegression.struct.point.Point3D_F64;
 import georegression.struct.se.Se3_F64;
+import sapphire.compiler.FIBAGenerator;
+
 import org.ddogleg.fitting.modelset.ModelMatcher;
 import org.ddogleg.struct.FastQueue;
 
@@ -144,7 +146,7 @@ public class WrapVisOdomQuadPnP<T extends ImageGray,TD extends TupleDesc>
 	}
 
 	@Override
-	public void setCalibration(StereoParameters parameters, FactoryInterpolation FI, FactoryDistort FDs, LensDistortionOps LDO) {
+	public void setCalibration(StereoParameters parameters, FactoryImageBorder FIB, FactoryInterpolation FI, FactoryDistort FDs, LensDistortionOps LDO) {
 		Se3_F64 leftToRight = parameters.getRightToLeft().invert(null);
 
 		alg.setCalibration(parameters, LDO);

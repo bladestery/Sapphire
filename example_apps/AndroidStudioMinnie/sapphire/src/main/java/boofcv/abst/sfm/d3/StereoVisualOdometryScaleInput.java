@@ -58,6 +58,7 @@ import boofcv.struct.calib.StereoParameters;
 import boofcv.struct.image.ImageBase;
 import boofcv.struct.image.ImageType;
 import georegression.struct.se.Se3_F64;
+import sapphire.compiler.FIBAGenerator;
 
 /**
  * Wrapper around {@link StereoVisualOdometry} which scales the input images.
@@ -84,7 +85,7 @@ public class StereoVisualOdometryScaleInput<T extends ImageBase> implements Ster
 	}
 
 	@Override
-	public void setCalibration(StereoParameters parameters, FactoryInterpolation FI, FactoryDistort FDs, LensDistortionOps LDO) {
+	public void setCalibration(StereoParameters parameters, FactoryImageBorder FIB, FactoryInterpolation FI, FactoryDistort FDs, LensDistortionOps LDO) {
 		scaleParameter = new StereoParameters(parameters);
 
 		PerspectiveOps.scaleIntrinsic(scaleParameter.left,scaleFactor);
@@ -93,7 +94,7 @@ public class StereoVisualOdometryScaleInput<T extends ImageBase> implements Ster
 		scaleLeft.reshape(scaleParameter.left.width,scaleParameter.left.height);
 		scaleRight.reshape(scaleParameter.right.width,scaleParameter.right.height);
 
-      alg.setCalibration(scaleParameter, FI, FDs, LDO);
+      alg.setCalibration(scaleParameter, FIB, FI, FDs, LDO);
 	}
 
 	@Override

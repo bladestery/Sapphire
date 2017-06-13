@@ -18,6 +18,7 @@
 
 package boofcv.abst.feature.disparity;
 
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.feature.disparity.DisparityScoreRowFormat;
 import boofcv.alg.geo.pose.P3PFinsterwalder;
 import boofcv.alg.misc.GImageMiscOps;
@@ -31,9 +32,6 @@ import boofcv.struct.image.ImageGray;
 public class WrapDisparitySadRect <T extends ImageGray, D extends ImageGray>
 		implements StereoDisparity<T,D>
 {
-	private GeneralizedImageOps GIO;
-	private static GImageMiscOps GIMO;
-	private static ImageMiscOps IMO;
 	DisparityScoreRowFormat<T,D> alg;
 	D disparity;
 
@@ -42,14 +40,14 @@ public class WrapDisparitySadRect <T extends ImageGray, D extends ImageGray>
 	}
 
 	@Override
-	public void process(T imageLeft, T imageRight) {
+	public void process(T imageLeft, T imageRight, GImageMiscOps GIMO, ImageMiscOps IMO, GeneralizedImageOps GIO, InputSanityCheck ISC) {
 		if( disparity == null || disparity.width != imageLeft.width || disparity.height != imageLeft.height )  {
 			// make sure the image borders are marked as invalid
 			disparity = GIO.createSingleBand(alg.getDisparityType(),imageLeft.width,imageLeft.height);
 			GIMO.fill(disparity, getMaxDisparity() + 1, IMO);
 		}
 
-		alg.process(imageLeft,imageRight,disparity);
+		alg.process(imageLeft,imageRight,disparity, ISC);
 	}
 
 	public D getDisparity() {

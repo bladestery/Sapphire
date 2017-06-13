@@ -25,6 +25,7 @@ import boofcv.alg.geo.RectifyImageOps;
 import boofcv.alg.geo.rectify.RectifyCalibrated;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.BorderType;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.distort.FactoryDistort;
 import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.struct.calib.CameraPinholeRadial;
@@ -93,7 +94,7 @@ public class StereoProcessingBase<T extends ImageGray> {
 	 *
 	 * @param stereoParam stereo parameters
 	 */
-	public void setCalibration(StereoParameters stereoParam, FactoryInterpolation FI, FactoryDistort FDs, LensDistortionOps LDO) {
+	public void setCalibration(StereoParameters stereoParam, FactoryImageBorder FIB, FactoryInterpolation FI, FactoryDistort FDs, LensDistortionOps LDO) {
 		CameraPinholeRadial left = stereoParam.getLeft();
 		CameraPinholeRadial right = stereoParam.getRight();
 
@@ -119,8 +120,8 @@ public class StereoProcessingBase<T extends ImageGray> {
 		rectR = rectifyAlg.getRectifiedRotation();
 
 		ImageType<T> imageType = imageLeftRect.getImageType();
-		distortLeftRect = RectifyImageOps.rectifyImage(stereoParam.left, rect1, BorderType.SKIP, imageType, FI, FDs, LDO);
-		distortRightRect = RectifyImageOps.rectifyImage(stereoParam.right, rect2, BorderType.SKIP, imageType, FI, FDs, LDO);
+		distortLeftRect = RectifyImageOps.rectifyImage(stereoParam.left, rect1, BorderType.SKIP, imageType, FIB, FI, FDs, LDO);
+		distortRightRect = RectifyImageOps.rectifyImage(stereoParam.right, rect2, BorderType.SKIP, imageType, FIB, FI, FDs, LDO);
 
 		// Compute parameters that are needed when converting to 3D
 		baseline = stereoParam.getBaseline();

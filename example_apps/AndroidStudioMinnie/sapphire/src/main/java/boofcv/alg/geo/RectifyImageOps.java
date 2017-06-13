@@ -60,7 +60,6 @@ import org.ejml.simple.SimpleMatrix;
  * @author Peter Abeles
  */
 public class RectifyImageOps {
-	private static FactoryImageBorder FIB;
 	/**
 	 * <p>
 	 * Rectification for calibrated stereo pairs.  Two stereo camera care considered calibrated if
@@ -400,7 +399,7 @@ public class RectifyImageOps {
 	 * @return ImageDistort for rectifying the image.
 	 */
 	public static <T extends ImageGray> ImageDistort<T,T>
-	rectifyImage( DenseMatrix64F rectify , BorderType borderType, Class<T> imageType, FactoryInterpolation FI, FactoryDistort FDs)
+	rectifyImage( DenseMatrix64F rectify , BorderType borderType, Class<T> imageType, FactoryImageBorder FIB, FactoryInterpolation FI, FactoryDistort FDs)
 	{
 		boolean skip = borderType == BorderType.SKIP;
 		if( skip ) {
@@ -431,7 +430,7 @@ public class RectifyImageOps {
 	 * @return ImageDistort for rectifying the image.
 	 */
 	public static <T extends ImageBase> ImageDistort<T,T>
-	rectifyImage(CameraPinholeRadial param, DenseMatrix64F rectify , BorderType borderType, ImageType<T> imageType, FactoryInterpolation FI, FactoryDistort FDs, LensDistortionOps LDO)
+	rectifyImage(CameraPinholeRadial param, DenseMatrix64F rectify , BorderType borderType, ImageType<T> imageType, FactoryImageBorder FIB, FactoryInterpolation FI, FactoryDistort FDs, LensDistortionOps LDO)
 	{
 		boolean skip = borderType == BorderType.SKIP;
 		if( skip ) {

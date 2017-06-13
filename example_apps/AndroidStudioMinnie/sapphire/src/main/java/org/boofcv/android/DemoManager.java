@@ -3,6 +3,10 @@ package org.boofcv.android;
 import org.boofcv.android.assoc.Assoc;
 import org.boofcv.android.calib.Calib;
 import org.boofcv.android.detect.Kueue;
+import org.boofcv.android.sfm.DisparityCalculation;
+import org.boofcv.android.sfm.disparities;
+import org.boofcv.android.sfm.leftright;
+import org.boofcv.android.sfm.mosaic;
 import org.boofcv.android.tracker.track;
 import org.boofcv.android.tracker.trackInfo;
 import org.boofcv.android.tracker.trackList;
@@ -45,6 +49,8 @@ import boofcv.abst.geo.calibration.CalibrateMonoPlanar;
 import boofcv.abst.geo.calibration.DetectorFiducialCalibration;
 import boofcv.abst.geo.calibration.ImageResults;
 import boofcv.abst.segmentation.ImageSuperpixels;
+import boofcv.abst.sfm.AccessPointTracks;
+import boofcv.abst.sfm.d2.ImageMotion2D;
 import boofcv.abst.tracker.ConfigCirculantTracker;
 import boofcv.abst.tracker.ConfigComaniciu2003;
 import boofcv.abst.tracker.ConfigTld;
@@ -108,6 +114,7 @@ import boofcv.alg.misc.ImageStatistics;
 import boofcv.alg.misc.PixelMath;
 import boofcv.alg.segmentation.ComputeRegionMeanColor;
 import boofcv.alg.segmentation.ImageSegmentationOps;
+import boofcv.alg.sfm.d2.StitchingFromMotion2D;
 import boofcv.alg.shapes.ellipse.BinaryEllipseDetector;
 import boofcv.alg.shapes.polygon.BinaryPolygonDetector;
 import boofcv.alg.tracker.klt.PkltConfig;
@@ -124,9 +131,13 @@ import boofcv.factory.background.ConfigBackgroundGaussian;
 import boofcv.factory.background.FactoryBackgroundModel;
 import boofcv.factory.distort.FactoryDistort;
 import boofcv.factory.feature.associate.FactoryAssociation;
+import boofcv.factory.feature.detdesc.FactoryDetectDescribe;
+import boofcv.factory.feature.disparity.DisparityAlgorithms;
+import boofcv.factory.feature.disparity.FactoryStereoDisparity;
 import boofcv.factory.feature.tracker.FactoryPointTracker;
 import boofcv.factory.fiducial.FactoryFiducialCalibration;
 import boofcv.factory.interpolate.FactoryInterpolation;
+import boofcv.factory.sfm.FactoryMotion2D;
 import boofcv.factory.tracker.FactoryTrackerObjectQuad;
 import boofcv.factory.transform.pyramid.FactoryPyramid;
 import boofcv.factory.transform.wavelet.FactoryWaveletTransform;
@@ -155,10 +166,13 @@ import boofcv.factory.segmentation.FactorySegmentationAlg;
 import boofcv.factory.shape.ConfigEllipseDetector;
 import boofcv.factory.shape.ConfigPolygonDetector;
 import boofcv.factory.shape.FactoryShapeDetector;
+import boofcv.gui.feature.FancyInterestPointRender;
+import boofcv.misc.BoofMiscOps;
 import boofcv.struct.ConnectRule;
 import boofcv.struct.calib.CameraPinholeRadial;
 import boofcv.struct.distort.Point2Transform2_F32;
 import boofcv.struct.feature.AssociatedIndex;
+import boofcv.struct.feature.BrightFeature;
 import boofcv.struct.feature.ColorQueue_F32;
 import boofcv.struct.feature.ScalePoint;
 import boofcv.struct.feature.TupleDesc;
@@ -179,12 +193,15 @@ import boofcv.struct.image.Planar;
 import boofcv.struct.pyramid.ImagePyramid;
 import boofcv.struct.wavelet.WaveletDescription;
 import boofcv.struct.wavelet.WlCoef;
+import georegression.struct.affine.Affine2D_F64;
+import georegression.struct.homography.Homography2D_F64;
 import georegression.struct.line.LineParametric2D_F32;
 import georegression.struct.line.LineSegment2D_F32;
 import georegression.struct.point.Point2D_F64;
 import georegression.struct.shapes.EllipseRotated_F64;
 import georegression.struct.shapes.Polygon2D_F64;
 import georegression.struct.shapes.Quadrilateral_F64;
+import georegression.transform.homography.HomographyPointOps_F64;
 import sapphire.app.SapphireObject;
 
 import static org.boofcv.android.CreateDetectorDescriptor.DESC_BRIEF;
@@ -236,10 +253,10 @@ public class DemoManager<T extends ImageBase> implements SapphireObject<sapphire
     private FactoryInterpolation FI;
     private FactoryDistort FDs;
 
-    //  Lower Level Objects (TODO: check if necessary??)
+    //  Lower Level Objects TODO: check if necessary??
     /**
      * info: Necessary when using entire Sapphire, but current
-     * code is incomplete, so some should be removed??
+     * code is incomplete, so some should be removed...
      **/
     private ImageMiscOps IMO;
     private GeneralizedImageOps GIO;
@@ -276,6 +293,8 @@ public class DemoManager<T extends ImageBase> implements SapphireObject<sapphire
     //  Objects which are used in applications
     /**
      * info: Some are redundantly used to save space
+     *       TODO: These objects need to be unique and created
+     *             per application instance to support multiple users
      **/
     CannyEdge<GrayU8, GrayS16> canny;
     LinearContourLabelChang2004 contour8 = new LinearContourLabelChang2004(ConnectRule.EIGHT);
@@ -343,6 +362,15 @@ public class DemoManager<T extends ImageBase> implements SapphireObject<sapphire
     DetectorFiducialCalibration fidDetector;
     CalibrationPlanarGridZhang99 calibrationAlg;
     Planar<GrayU8> undistorted;
+    DisparityCalculation<BrightFeature> disparity;
+    StitchingFromMotion2D<GrayU8,Affine2D_F64> distortAlg;
+    FastQueue<Point2D_F64> inliersGui;
+    FastQueue<Point2D_F64> outliersGui;
+    Homography2D_F64 imageToDistorted;
+    Homography2D_F64 distortedToImage;
+    Point2D_F64 distPt;
+    StitchingFromMotion2D.Corners corners;
+    GrayU8 stitched;
 
     //Initialization
     public DemoManager() {
@@ -1461,6 +1489,162 @@ public class DemoManager<T extends ImageBase> implements SapphireObject<sapphire
         return ret;
     }
 
+    public void initDisparity(CameraPinholeRadial intrinsic) {
+        DetectDescribePoint<GrayF32, BrightFeature> detDesc =
+                FactoryDetectDescribe.surfFast(null,null,null,GrayF32.class, FFE, FIrPA, FKG);
+
+        ScoreAssociation<BrightFeature> score = FA.defaultScore(BrightFeature.class);
+        AssociateDescription<BrightFeature> associate =
+                FA.greedy(score,Double.MAX_VALUE,true);
+
+        disparity = new DisparityCalculation<BrightFeature>(detDesc,associate,intrinsic);
+    }
+
+    public void declDisparity(int width, int height) {
+        disparity.init(width,height);
+    }
+
+    public void setDisparityAlg(DisparityAlgorithms which) {
+        disparity.setDisparityAlg(FactoryStereoDisparity.regionSubpixelWta(which,
+                5, 40, 5, 5, 100, 1, 0.1, GrayF32.class));
+    }
+
+    public void setSource(GrayF32 gray) {
+        disparity.setSource(gray, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN,
+                GBIO, GIO, BlIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV,
+                FHFD, FIB, FBF, CI, UW, IT, FI, FDs);
+    }
+
+    public void setDestination(GrayF32 gray) {
+        disparity.setDestination(gray, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN,
+                GBIO, GIO, BlIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV,
+                FHFD, FIB, FBF, CI, UW, IT, FI, FDs);
+    }
+
+    public boolean rectify() {
+        return disparity.rectifyImage(IMO, ISC, IT, FIB, FI, FDs, LDO);
+    }
+
+    public disparities computeDisparity() {
+        disparities ret = new disparities();
+        disparity.computeDisparity(GIMO, IMO, GIO, ISC);
+        ret.disparityMin = disparity.getDisparityAlg().getMinDisparity();
+        ret.disparityMax = disparity.getDisparityAlg().getMaxDisparity();
+        ret.disparity = disparity.getDisparity();
+        ret.Inliers = disparity.getInliersPixel();
+        return ret;
+    }
+
+    public GrayF32 getLeft() {
+        return disparity.rectifiedLeft;
+    }
+
+    public leftright getleftright() {
+        leftright ret = new leftright();
+        ret.Left = disparity.rectifiedLeft;
+        ret.Right = disparity.rectifiedRight;
+        return ret;
+    }
+
+    public boolean isAvailable() {
+        return disparity.isDisparityAvailable();
+    }
+
+    public void createStabilization(ConfigGeneralDetector config) {
+        PointTracker<GrayU8> tracker = FPT.
+                klt(new int[]{1, 2,4}, config, 3, GrayU8.class, GrayS16.class, FD, GIO, FIB, FKG, FP, FFE, FIPA, FI);
+
+        ImageMotion2D<GrayU8,Affine2D_F64> motion = FactoryMotion2D.createMotion2D(100, 1.5, 2, 40,
+                0.5, 0.6, false,tracker, new Affine2D_F64());
+
+        distortAlg = FactoryMotion2D.createVideoStitch(0.2,motion, IT.single(GrayU8.class), FIB, FI, FDs);
+
+        inliersGui = new FastQueue<Point2D_F64>(Point2D_F64.class,true);
+        outliersGui = new FastQueue<Point2D_F64>(Point2D_F64.class,true);
+        imageToDistorted = new Homography2D_F64();
+        distortedToImage = new Homography2D_F64();
+        distPt = new Point2D_F64();
+        corners = new StitchingFromMotion2D.Corners();
+    }
+
+    public void declMosaic(int width, int height) {
+        int outputWidth = width*2;
+        int outputHeight = height;
+
+        int tx = outputWidth/2 - width/4;
+        int ty = outputHeight/2 - height/4;
+
+        Affine2D_F64 init = new Affine2D_F64(0.5,0,0,0.5,tx,ty);
+        init = init.invert(null);
+
+        distortAlg.configure(outputWidth,outputHeight,init);
+        //stitched = new GrayU8(outputWidth,outputHeight);
+    }
+
+    public void declStabalize(int width, int height) {
+        distortAlg.configure(width,height,null);
+        //stitched = new GrayU8(width, height);
+    }
+
+    public GrayU8 mosaicProcess(GrayU8 gray) {
+        if (distortAlg.process(gray, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN,
+                GBIO, GIO, BlIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV,
+                FHFD, FIB, FBF, CI, UW, IT, FI, FDs)) {
+            stitched = distortAlg.getStitchedImage();
+            return stitched;
+        } else {
+            return null;
+        }
+    }
+
+    public void mosaicReset() {
+        distortAlg.reset(IMO, GIMO);
+        inliersGui.reset();outliersGui.reset();
+    }
+
+    public mosaic updateGUI(boolean showFeatures, GrayU8 gray, boolean mos) {
+        mosaic ret = new mosaic();
+        ImageMotion2D<?,?> motion = distortAlg.getMotion();
+        if( showFeatures && (motion instanceof AccessPointTracks) ) {
+            AccessPointTracks access = (AccessPointTracks)motion;
+
+            distortAlg.getWorldToCurr(imageToDistorted);
+            imageToDistorted.invert(distortedToImage);
+            inliersGui.reset();outliersGui.reset();
+            List<Point2D_F64> points = access.getAllTracks();
+            for( int i = 0; i < points.size(); i++ ) {
+                HomographyPointOps_F64.transform(distortedToImage,points.get(i),distPt);
+
+                if( access.isInlier(i) ) {
+                    inliersGui.grow().set(distPt.x,distPt.y);
+                } else {
+                    outliersGui.grow().set(distPt.x,distPt.y);
+                }
+            }
+        }
+
+        distortAlg.getImageCorners(gray.width,gray.height,corners);
+
+        ret.inliersGui=inliersGui;
+        ret.outliersGui=outliersGui;
+        ret.corners=corners;
+
+        if (mos) {
+            boolean inside = true;
+
+            inside &= BoofMiscOps.checkInside(stitched,corners.p0.x,corners.p0.y,5);
+            inside &= BoofMiscOps.checkInside(stitched,corners.p1.x,corners.p1.y,5);
+            inside &= BoofMiscOps.checkInside(stitched,corners.p2.x,corners.p2.y,5);
+            inside &= BoofMiscOps.checkInside(stitched,corners.p3.x,corners.p3.y,5);
+
+            if( !inside ) {
+                distortAlg.setOriginToCurrent(ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN,
+                        GBIO, GIO, BlIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV,
+                        FHFD, FIB, FBF, CI, UW, IT, FI, FDs);
+            }
+        }
+        return ret;
+    }
 
 }
 

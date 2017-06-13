@@ -327,7 +327,7 @@ public class CalibratedImageGridPanel extends JPanel {
 			this.remove_p_to_p = LDO.transform_F32(AdjustmentType.FULL_VIEW, param, null, false);
 		} else {
 			this.undoRadial =
-					RectifyImageOps.rectifyImage(param, rect, BorderType.ZERO, IT.single(GrayF32.class), FI, FDs, LDO);
+					RectifyImageOps.rectifyImage(param, rect, BorderType.ZERO, IT.single(GrayF32.class), FIB, FI, FDs, LDO);
 			this.remove_p_to_p = RectifyImageOps.transformPixelToRect_F32(param, rect, LDO);
 		}
 	}

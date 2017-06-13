@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Tue Jun 13 11:31:40 JST 2017
+#Tue Jun 13 17:12:06 JST 2017
 210.set=ANDROID_RESOURCE
 282.file=/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/res/resources-debug.ap_/res/layout/abc_screen_simple_overlay_action_mode.xml
 14.set=ANDROID_RESOURCE

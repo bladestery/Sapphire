@@ -18,6 +18,8 @@
 
 package boofcv.alg.sfm.d2;
 
+import java.io.Serializable;
+
 import boofcv.abst.sfm.d2.ImageMotion2D;
 import boofcv.alg.InputSanityCheck;
 import boofcv.alg.distort.DistortImageOps;
@@ -377,7 +379,7 @@ public void resizeStitchImage(int widthStitch, int heightStitch , IT newToOldSti
 		return motion;
 	}
 
-	public static class Corners {
+	public static class Corners implements Serializable {
 		public Point2D_F64 p0 = new Point2D_F64();
 		public Point2D_F64 p1 = new Point2D_F64();
 		public Point2D_F64 p2 = new Point2D_F64();

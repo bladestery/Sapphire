@@ -18,6 +18,10 @@
 
 package boofcv.abst.feature.disparity;
 
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
+import boofcv.core.image.GeneralizedImageOps;
 import boofcv.struct.image.ImageGray;
 
 /**
@@ -48,7 +52,7 @@ public interface StereoDisparity<Image extends ImageGray, Disparity extends Imag
 	 * @param imageLeft Input left rectified image.
 	 * @param imageRight Input right rectified image.
 	 */
-	public void process( Image imageLeft , Image imageRight );
+	public void process(Image imageLeft , Image imageRight, GImageMiscOps GIMO, ImageMiscOps IMO, GeneralizedImageOps GIO, InputSanityCheck ISC);
 
 	/**
 	 * Return the computed disparity image.  See comments in class description on disparity image format.

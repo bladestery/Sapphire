@@ -56,6 +56,7 @@ import boofcv.struct.calib.StereoParameters;
 import boofcv.struct.image.ImageBase;
 import boofcv.struct.image.ImageType;
 import georegression.struct.se.Se3_F64;
+import sapphire.compiler.FIBAGenerator;
 
 /**
  * <p>
@@ -91,7 +92,7 @@ public interface StereoVisualOdometry<T extends ImageBase> extends VisualOdometr
 	 *
 	 * @param parameters stereo calibration
 	 */
-	public void setCalibration(StereoParameters parameters, FactoryInterpolation FI, FactoryDistort FDs, LensDistortionOps LDO);
+	public void setCalibration(StereoParameters parameters, FactoryImageBorder FIB, FactoryInterpolation FI, FactoryDistort FDs, LensDistortionOps LDO);
 
 	/**
 	 * Process the new image and update the motion estimate.  The return value must be checked

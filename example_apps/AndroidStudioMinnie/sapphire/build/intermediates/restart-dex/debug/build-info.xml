@@ -6,25 +6,25 @@
     density="xxhdpi"
     format="10"
     plugin-version="2.3.3"
-    timestamp="1497321017301"
+    timestamp="1497341441172"
     token="-8978815605272838873"
     verifier="COLD_SWAP_REQUESTED" >
 
     <task
         name="javac"
-        duration="6156" />
+        duration="6181" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="1" />
+        duration="4" />
     <task
         name="verifier"
-        duration="14" />
+        duration="0" />
 
     <artifact
-        location="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/split-apk/debug/slices/slice_9.apk"
+        location="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/split-apk/debug/slices/slice_2.apk"
         type="SPLIT" />
     <artifact
         location="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/outputs/apk/sapphire-debug.apk"
@@ -73,17 +73,6 @@
     </build>
     <build
         build-mode="COLD"
-        timestamp="1497319861364"
-        verifier="COLD_SWAP_REQUESTED" >
-        <artifact
-            location="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/split-apk/debug/slices/slice_5.apk"
-            type="SPLIT" />
-        <artifact
-            location="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/split-apk/debug/slices/slice_1.apk"
-            type="SPLIT" />
-    </build>
-    <build
-        build-mode="COLD"
         timestamp="1497320132183"
         verifier="COLD_SWAP_REQUESTED" >
         <artifact
@@ -92,15 +81,31 @@
     </build>
     <build
         build-mode="COLD"
-        timestamp="1497320368144"
+        timestamp="1497321017301"
         verifier="COLD_SWAP_REQUESTED" >
         <artifact
-            location="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/split-apk/debug/slices/slice_7.apk"
+            location="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/split-apk/debug/slices/slice_9.apk"
             type="SPLIT" />
     </build>
     <build
         build-mode="COLD"
-        timestamp="1497320798037"
+        timestamp="1497328013752"
+        verifier="COLD_SWAP_REQUESTED" >
+        <artifact
+            location="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/split-apk/debug/slices/slice_1.apk"
+            type="SPLIT" />
+    </build>
+    <build
+        build-mode="COLD"
+        timestamp="1497328442538"
+        verifier="COLD_SWAP_REQUESTED" >
+        <artifact
+            location="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/split-apk/debug/slices/slice_4.apk"
+            type="SPLIT" />
+    </build>
+    <build
+        build-mode="COLD"
+        timestamp="1497328719439"
         verifier="COLD_SWAP_REQUESTED" >
         <artifact
             location="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/split-apk/debug/slices/slice_6.apk"
@@ -108,10 +113,34 @@
     </build>
     <build
         build-mode="COLD"
-        timestamp="1497321017301"
+        timestamp="1497335608196"
         verifier="COLD_SWAP_REQUESTED" >
         <artifact
-            location="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/split-apk/debug/slices/slice_9.apk"
+            location="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/split-apk/debug/slices/slice_3.apk"
+            type="SPLIT" />
+    </build>
+    <build
+        build-mode="COLD"
+        timestamp="1497337738503"
+        verifier="COLD_SWAP_REQUESTED" >
+        <artifact
+            location="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/split-apk/debug/slices/slice_7.apk"
+            type="SPLIT" />
+    </build>
+    <build
+        build-mode="COLD"
+        timestamp="1497340259997"
+        verifier="COLD_SWAP_REQUESTED" >
+        <artifact
+            location="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/split-apk/debug/slices/slice_5.apk"
+            type="SPLIT" />
+    </build>
+    <build
+        build-mode="COLD"
+        timestamp="1497341441172"
+        verifier="COLD_SWAP_REQUESTED" >
+        <artifact
+            location="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/intermediates/split-apk/debug/slices/slice_2.apk"
             type="SPLIT" />
         <artifact
             location="/home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/build/outputs/apk/sapphire-debug.apk"

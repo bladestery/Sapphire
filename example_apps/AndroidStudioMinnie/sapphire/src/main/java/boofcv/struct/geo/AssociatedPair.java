@@ -18,6 +18,8 @@
 
 package boofcv.struct.geo;
 
+import java.io.Serializable;
+
 import georegression.struct.point.Point2D_F64;
 
 
@@ -30,7 +32,7 @@ import georegression.struct.point.Point2D_F64;
  *
  * @author Peter Abeles
  */
-public class AssociatedPair {
+public class AssociatedPair implements Serializable {
 
 	/**
 	 * Location of the feature in the first image

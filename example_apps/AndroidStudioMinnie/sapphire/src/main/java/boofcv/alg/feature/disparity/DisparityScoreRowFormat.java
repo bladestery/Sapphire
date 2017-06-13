@@ -41,7 +41,6 @@ import boofcv.struct.image.ImageGray;
 public abstract class DisparityScoreRowFormat
 		<Input extends ImageGray, Disparity extends ImageGray>
 {
-	private static InputSanityCheck ISC;
 	// the minimum disparity that it will check
 	protected int minDisparity;
 	// maximum allowed image disparity
@@ -90,7 +89,7 @@ public abstract class DisparityScoreRowFormat
 	 * @param right Right rectified stereo image. Input
 	 * @param disparity Disparity between the two images. Output
 	 */
-	public void process( Input left , Input right , Disparity disparity ) {
+	public void process( Input left , Input right , Disparity disparity , InputSanityCheck ISC) {
 		// initialize data structures
 		ISC.checkSameShape(left, right, disparity);
 

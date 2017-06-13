@@ -11,10 +11,14 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 
+import org.boofcv.android.DemoManager;
 import org.boofcv.android.DemoVideoDisplayActivity;
 import org.boofcv.android.R;
 import org.ddogleg.struct.FastQueue;
 
+import java.net.InetSocketAddress;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.List;
 
 import boofcv.abst.feature.detect.interest.ConfigGeneralDetector;
@@ -70,6 +74,12 @@ import georegression.struct.affine.Affine2D_F64;
 import georegression.struct.homography.Homography2D_F64;
 import georegression.struct.point.Point2D_F64;
 import georegression.transform.homography.HomographyPointOps_F64;
+import sapphire.kernel.server.KernelServerImpl;
+import sapphire.oms.OMSServer;
+
+import static org.boofcv.android.DemoMain.client;
+import static org.boofcv.android.DemoMain.edge;
+import static sapphire.kernel.common.GlobalKernelReferences.nodeServer;
 
 /**
  * Displays image stabilization.
@@ -79,50 +89,15 @@ import georegression.transform.homography.HomographyPointOps_F64;
 public class StabilizeDisplayActivity extends DemoVideoDisplayActivity
 implements CompoundButton.OnCheckedChangeListener
 {
-	private static FactoryDerivative FD;
-	private static FactoryPyramid FP;
-	private static FactoryFeatureExtractor FFE;
-	private static FactoryIntensityPointAlg FIPA;
-	private static InputSanityCheck ISC;
-	private static DerivativeHelperFunctions DHF;
-	private static ConvolveImageNoBorder CINB;
-	private static ConvolveJustBorder_General CJBG;
-	private static GradientSobel_Outer GSO;
-	private static GradientSobel_UnrolledOuter GSUO;
-	private static GImageMiscOps GIMO;
-	private static ImageMiscOps IMO;
-	private static ConvolveNormalizedNaive CNN;
-	private static ConvolveNormalized_JustBorder CNJB;
-	private static ConvolveNormalized CN;
-	private static GBlurImageOps GBIO;
-	private static GeneralizedImageOps GIO;
-	private static BlurImageOps BIO;
-	private static ConvolveImageMean CIM;
-	private static FactoryKernelGaussian FKG;
-	private static ImplMedianHistogramInner IMHI;
-	private static ImplMedianSortEdgeNaive IMSEN;
-	private static ImplMedianSortNaive IMSN;
-	private static ImplConvolveMean ICM;
-	private static GThresholdImageOps GTIO;
-	private static GImageStatistics GIS;
-	private static ImageStatistics IS;
-	private static ThresholdImageOps TIO;
-	private static FactoryImageBorderAlgs FIBA;
-	private static ImageBorderValue IBV;
-	private static FastHessianFeatureDetector FHFD;
-	private static FactoryImageBorder FIB;
-	private static FactoryBlurFilter FBF;
-	private static ConvertImage CI;
-	private static UtilWavelet UW;
-	private static ImageType IT;
-	private static FactoryPointTracker FPT;
-	private static FactoryInterpolation FI;
-	private static FactoryDistort FDs;
 	Paint paintInlier;
 	Paint paintOutlier;
 
 	boolean showFeatures;
 	boolean resetRequested;
+
+	OMSServer server;
+	DemoManager dm;
+	ImageType IT = new ImageType();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -135,7 +110,32 @@ implements CompoundButton.OnCheckedChangeListener
 		paintOutlier.setColor(Color.BLUE);
 		paintOutlier.setStyle(Paint.Style.FILL);
 
-		resetRequested = false;
+		resetRequested = true;
+
+		InetSocketAddress host, omsHost;
+
+		try {
+			Registry registry = LocateRegistry.getRegistry(edge, 22346);
+			server = (OMSServer) registry.lookup("SapphireOMS");
+			System.out.println(server);
+
+			host = new InetSocketAddress(client, 22346);
+			omsHost = new InetSocketAddress(edge, 22346);
+			nodeServer = new KernelServerImpl(host, omsHost);
+			System.out.println(nodeServer);
+
+			System.setProperty("java.rmi.server.hostname", host.getAddress().getHostAddress());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		try {
+			dm = (DemoManager) server.getAppEntryPoint();
+			//dm.LatencyCheck();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(0);
+		}
 
 		LayoutInflater inflater = getLayoutInflater();
 		LinearLayout controls = (LinearLayout)inflater.inflate(R.layout.stabilization_controls,null);
@@ -146,37 +146,37 @@ implements CompoundButton.OnCheckedChangeListener
 		CheckBox seek = (CheckBox)controls.findViewById(R.id.check_features);
 		seek.setOnCheckedChangeListener(this);
 
+		createStabilization();
 
-		StitchingFromMotion2D<GrayU8,Affine2D_F64> distortAlg = createStabilization();
-
-		setProcessing(new PointProcessing(distortAlg));
+		setProcessing(new PointProcessing());
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		StitchingFromMotion2D<GrayU8,Affine2D_F64> distortAlg = createStabilization();
-		setProcessing(new PointProcessing(distortAlg));
+		createStabilization();
+		setProcessing(new PointProcessing());
 	}
 
 	public void resetPressed( View view ) {
 		resetRequested = true;
 	}
-
-	private StitchingFromMotion2D<GrayU8,Affine2D_F64> createStabilization() {
+	private void createStabilization() {
 
 		ConfigGeneralDetector config = new ConfigGeneralDetector();
 		config.maxFeatures = 150;
 		config.threshold = 40;
 		config.radius = 3;
 
+		dm.createStabilization(config);
+		/*
 		PointTracker<GrayU8> tracker = FPT.
 				klt(new int[]{1, 2,4}, config, 3, GrayU8.class, GrayS16.class, FD, GIO, FIB, FKG, FP, FFE, FIPA, FI);
 
 		ImageMotion2D<GrayU8,Affine2D_F64> motion = FactoryMotion2D.createMotion2D(100, 1.5, 2, 40,
 				0.5, 0.6, false, tracker, new Affine2D_F64());
 
-		return FactoryMotion2D.createVideoStitch(0.2,motion, IT.single(GrayU8.class), FIB, FI, FDs);
+		return FactoryMotion2D.createVideoStitch(0.2,motion, IT.single(GrayU8.class), FIB, FI, FDs);*/
 	}
 
 	@Override
@@ -185,63 +185,73 @@ implements CompoundButton.OnCheckedChangeListener
 	}
 
 	protected class PointProcessing extends VideoRenderProcessing<GrayU8> {
-		StitchingFromMotion2D<GrayU8,Affine2D_F64> alg;
-		Homography2D_F64 imageToDistorted = new Homography2D_F64();
-		Homography2D_F64 distortedToImage = new Homography2D_F64();
+		//StitchingFromMotion2D<GrayU8,Affine2D_F64> alg;
+		//Homography2D_F64 imageToDistorted = new Homography2D_F64();
+		//Homography2D_F64 distortedToImage = new Homography2D_F64();
 
 		Bitmap bitmap;
 		byte[] storage;
 
 		StitchingFromMotion2D.Corners corners = new StitchingFromMotion2D.Corners();
-		Point2D_F64 distPt = new Point2D_F64();
+		//Point2D_F64 distPt = new Point2D_F64();
 
 		FastQueue<Point2D_F64> inliersGui = new FastQueue<Point2D_F64>(Point2D_F64.class,true);
 		FastQueue<Point2D_F64> outliersGui = new FastQueue<Point2D_F64>(Point2D_F64.class,true);
 
-		public PointProcessing( StitchingFromMotion2D<GrayU8,Affine2D_F64> alg  ) {
+		public PointProcessing( ) {
 			super(IT.single(GrayU8.class));
-			this.alg = alg;
+			//this.alg = alg;
 		}
 
 		@Override
 		protected void declareImages(int width, int height) {
 			super.declareImages(width, height);
-			alg.configure(width,height,null);
+
+			dm.declStabalize(width,height);
 			bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
 			storage = ConvertBitmap.declareStorage(bitmap, storage);
 		}
 
 		@Override
 		protected void process(GrayU8 gray) {
-			if( !resetRequested && alg.process(gray, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN,
-					GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF, CI, UW, IT, FI, FDs) ) {
-				synchronized ( lockGui ) {
-					alg.getImageCorners(gray.width,gray.height,corners);
-					ConvertBitmap.grayToBitmap(alg.getStitchedImage(),bitmap,storage);
+			if( !resetRequested ) {
+				GrayU8 stitched = dm.mosaicProcess(gray);
+				if (stitched != null) {
+					mosaic ret;
+					synchronized ( lockGui ) {
+						if (stitched.getHeight() != bitmap.getHeight() || stitched.getWidth() != bitmap.getWidth())
+							stitched.reshape(bitmap.getWidth(), bitmap.getHeight());
+						ConvertBitmap.grayToBitmap(stitched,bitmap,storage);
+						/*
+						alg.getImageCorners(gray.width,gray.height,corners);
+						ImageMotion2D<?,?> motion = alg.getMotion();
+						if( showFeatures && (motion instanceof AccessPointTracks) ) {
+							AccessPointTracks access = (AccessPointTracks)motion;
 
+							alg.getWorldToCurr(imageToDistorted);
+							imageToDistorted.invert(distortedToImage);
+							inliersGui.reset();outliersGui.reset();
+							List<Point2D_F64> points = access.getAllTracks();
+							for( int i = 0; i < points.size(); i++ ) {
+								HomographyPointOps_F64.transform(distortedToImage,points.get(i),distPt);
 
-					ImageMotion2D<?,?> motion = alg.getMotion();
-					if( showFeatures && (motion instanceof AccessPointTracks) ) {
-						AccessPointTracks access = (AccessPointTracks)motion;
-
-						alg.getWorldToCurr(imageToDistorted);
-						imageToDistorted.invert(distortedToImage);
-						inliersGui.reset();outliersGui.reset();
-						List<Point2D_F64> points = access.getAllTracks();
-						for( int i = 0; i < points.size(); i++ ) {
-							HomographyPointOps_F64.transform(distortedToImage,points.get(i),distPt);
-
-							if( access.isInlier(i) ) {
-								inliersGui.grow().set(distPt.x,distPt.y);
-							} else {
-								outliersGui.grow().set(distPt.x,distPt.y);
+								if( access.isInlier(i) ) {
+									inliersGui.grow().set(distPt.x,distPt.y);
+								} else {
+									outliersGui.grow().set(distPt.x,distPt.y);
+								}
 							}
-						}
+						}*/
+
+						ret = dm.updateGUI(showFeatures, gray, false);
+						corners = ret.corners;
+						inliersGui = ret.inliersGui;
+						outliersGui = ret.outliersGui;
 					}
 				}
 			} else {
 				resetRequested = false;
-				alg.reset(IMO, GIMO);
+				dm.mosaicReset();
 			}
 		}
 

@@ -16,9 +16,14 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import org.boofcv.android.DemoMain;
+import org.boofcv.android.DemoManager;
 import org.boofcv.android.DemoVideoDisplayActivity;
 import org.boofcv.android.R;
 import org.boofcv.android.assoc.AssociationVisualize;
+
+import java.net.InetSocketAddress;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
 import boofcv.abst.feature.associate.AssociateDescription;
 import boofcv.abst.feature.associate.ScoreAssociation;
@@ -39,6 +44,13 @@ import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.feature.BrightFeature;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.ImageType;
+import sapphire.kernel.server.KernelServerImpl;
+import sapphire.oms.OMSServer;
+
+import static org.boofcv.android.DemoMain.client;
+import static org.boofcv.android.DemoMain.edge;
+import static org.boofcv.android.DemoMain.preference;
+import static sapphire.kernel.common.GlobalKernelReferences.nodeServer;
 
 /**
  * Computes the stereo disparity between two images captured by the camera.  The user selects the images and which
@@ -49,12 +61,6 @@ import boofcv.struct.image.ImageType;
 public class DisparityActivity extends DemoVideoDisplayActivity
 		implements AdapterView.OnItemSelectedListener
 {
-	private ImageMiscOps IMO;
-	private ImageType IT;
-	private static FactoryFeatureExtractor FFE;
-	private static FactoryKernelGaussian FKG;
-	private static FactoryInterestPointAlgs FIPA;
-	private static FactoryAssociation FA;
 	Spinner spinnerView;
 	Spinner spinnerAlgs;
 
@@ -77,9 +83,39 @@ public class DisparityActivity extends DemoVideoDisplayActivity
 		visualize = new AssociationVisualize(this);
 	}
 
+	OMSServer server;
+	DemoManager dm;
+	ImageType IT = new ImageType();
+	ImageMiscOps IMO = new ImageMiscOps();
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		InetSocketAddress host, omsHost;
+
+		try {
+			Registry registry = LocateRegistry.getRegistry(edge, 22346);
+			server = (OMSServer) registry.lookup("SapphireOMS");
+			System.out.println(server);
+
+			host = new InetSocketAddress(client, 22346);
+			omsHost = new InetSocketAddress(edge, 22346);
+			nodeServer = new KernelServerImpl(host, omsHost);
+			System.out.println(nodeServer);
+
+			System.setProperty("java.rmi.server.hostname", host.getAddress().getHostAddress());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		try {
+			dm = (DemoManager) server.getAppEntryPoint();
+			//dm.LatencyCheck();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(0);
+		}
 
 		LayoutInflater inflater = getLayoutInflater();
 		LinearLayout controls = (LinearLayout)inflater.inflate(R.layout.disparity_controls,null);
@@ -120,7 +156,6 @@ public class DisparityActivity extends DemoVideoDisplayActivity
 		visualize.setDestination(null);
 		changeDisparityAlg = spinnerAlgs.getSelectedItemPosition();
 	}
-
 
 
 	@Override
@@ -203,14 +238,17 @@ public class DisparityActivity extends DemoVideoDisplayActivity
 
 	protected class DisparityProcessing extends VideoRenderProcessing<GrayF32> {
 
-		DisparityCalculation<BrightFeature> disparity;
+		//DisparityCalculation<BrightFeature> disparity;
+
+		boolean init = false;
 
 		GrayF32 disparityImage;
 		int disparityMin,disparityMax;
 
 		public DisparityProcessing() {
 			super(IT.single(GrayF32.class));
-
+			dm.initDisparity(DemoMain.preference.intrinsic);
+			/*
 			DetectDescribePoint<GrayF32, BrightFeature> detDesc =
 					FactoryDetectDescribe.surfFast(null,null,null,GrayF32.class, FFE, FIPA, FKG);
 
@@ -219,22 +257,23 @@ public class DisparityActivity extends DemoVideoDisplayActivity
 					FA.greedy(score,Double.MAX_VALUE,true);
 
 			disparity = new DisparityCalculation<BrightFeature>(detDesc,associate,DemoMain.preference.intrinsic);
+			*/
 		}
 
 		@Override
 		protected void declareImages(int width, int height) {
 			super.declareImages(width, height);
-
+			dm.declDisparity(width, height);
 			disparityImage = new GrayF32(width,height);
 
 			visualize.initializeImages( width, height );
 			outputWidth = visualize.getOutputWidth();
 			outputHeight = visualize.getOutputHeight();
 
-			disparity.init(width,height);
+			//disparity.init(width,height);
 		}
 
-		private StereoDisparity<GrayF32, GrayF32> createDisparity() {
+		private void createDisparity() {
 
 			DisparityAlgorithms which;
 			switch( changeDisparityAlg ) {
@@ -251,8 +290,7 @@ public class DisparityActivity extends DemoVideoDisplayActivity
 			}
 
 
-			return FactoryStereoDisparity.regionSubpixelWta(which,
-					5, 40, 5, 5, 100, 1, 0.1, GrayF32.class);
+			dm.setDisparityAlg(which);
 		}
 
 		@Override
@@ -296,11 +334,13 @@ public class DisparityActivity extends DemoVideoDisplayActivity
 			// compute image features for left or right depending on user selection
 			if( target == 1 ) {
 				setProgressMessage("Detecting Features Left");
-				disparity.setSource(gray);
+				dm.setSource(gray);
+				//disparity.setSource(gray);
 				computedFeatures = true;
 			} else if( target == 2 ) {
 				setProgressMessage("Detecting Features Right");
-				disparity.setDestination(gray);
+				dm.setDestination(gray);
+				//disparity.setDestination(gray);
 				computedFeatures = true;
 			}
 
@@ -313,22 +353,27 @@ public class DisparityActivity extends DemoVideoDisplayActivity
 			}
 
 			if( changeDisparityAlg != -1 ) {
-				disparity.setDisparityAlg(createDisparity());
+				createDisparity();
+				init = true;
+				//disparity.setDisparityAlg(createDisparity());
 			}
 
-			if( disparity.disparityAlg != null ) {
+			if( init ) {
 				if( computedFeatures && visualize.hasLeft && visualize.hasRight ) {
 					// rectify the images and compute the disparity
 					setProgressMessage("Rectifying");
-					boolean success = disparity.rectifyImage();
+					//boolean success = disparity.rectifyImage();
+					boolean success = dm.rectify();
 					if( success ) {
 						setProgressMessage("Disparity");
-						disparity.computeDisparity();
+						disparities disparity = dm.computeDisparity();
+						//disparity.computeDisparity();
 						synchronized ( lockGui ) {
-							disparityMin = disparity.getDisparityAlg().getMinDisparity();
-							disparityMax = disparity.getDisparityAlg().getMaxDisparity();
-							disparityImage.setTo(disparity.getDisparity());
-							visualize.setMatches(disparity.getInliersPixel());
+							disparityMin = disparity.disparityMin;
+							disparityMax = disparity.disparityMax;
+
+							disparityImage.setTo(disparity.disparity);
+							visualize.setMatches(disparity.Inliers);
 							visualize.forgetSelection();
 
 							runOnUiThread(new Runnable() {
@@ -350,12 +395,13 @@ public class DisparityActivity extends DemoVideoDisplayActivity
 				} else if( changeDisparityAlg != -1 && visualize.hasLeft && visualize.hasRight ) {
 					// recycle the rectified image but compute the disparity using the new algorithm
 					setProgressMessage("Disparity");
-					disparity.computeDisparity();
+					disparities disparity = dm.computeDisparity();
+					//disparity.computeDisparity();
 
 					synchronized ( lockGui ) {
-						disparityMin = disparity.getDisparityAlg().getMinDisparity();
-						disparityMax = disparity.getDisparityAlg().getMaxDisparity();
-						disparityImage.setTo(disparity.getDisparity());
+						disparityMin = disparity.disparityMin;
+						disparityMax = disparity.disparityMax;
+						disparityImage.setTo(disparity.disparity);
 					}
 				}
 			}
@@ -376,10 +422,10 @@ public class DisparityActivity extends DemoVideoDisplayActivity
 				canvas.drawText("Calibrate Camera First", (canvas.getWidth() - textLength) / 2, canvas.getHeight() / 2, paint);
 			} else if( activeView == DView.DISPARITY ) {
 				// draw rectified image
-				ConvertBitmap.grayToBitmap(disparity.rectifiedLeft, visualize.bitmapSrc, visualize.storage);
+				ConvertBitmap.grayToBitmap(dm.getLeft(), visualize.bitmapSrc, visualize.storage);
 				canvas.drawBitmap(visualize.bitmapSrc,0,0,null);
 
-				if( disparity.isDisparityAvailable() ) {
+				if(dm.isAvailable() ) {
 					VisualizeImageData.disparity(disparityImage,disparityMin,disparityMax,0,
 							visualize.bitmapDst,visualize.storage);
 
@@ -387,10 +433,11 @@ public class DisparityActivity extends DemoVideoDisplayActivity
 					canvas.drawBitmap(visualize.bitmapDst,startX,0,null);
 				}
 			} else if( activeView == DView.RECTIFICATION ) {
-				ConvertBitmap.grayToBitmap(disparity.rectifiedLeft,visualize.bitmapSrc,visualize.storage);
-				ConvertBitmap.grayToBitmap(disparity.rectifiedRight,visualize.bitmapDst,visualize.storage);
+				leftright disp = dm.getleftright();
+				ConvertBitmap.grayToBitmap(disp.Left,visualize.bitmapSrc,visualize.storage);
+				ConvertBitmap.grayToBitmap(disp.Right,visualize.bitmapDst,visualize.storage);
 
-				int startX = disparity.rectifiedLeft.getWidth() + AssociationVisualize.SEPARATION;
+				int startX = disp.Left.getWidth() + AssociationVisualize.SEPARATION;
 				canvas.drawBitmap(visualize.bitmapSrc,0,0,null);
 				canvas.drawBitmap(visualize.bitmapDst,startX,0,null);
 

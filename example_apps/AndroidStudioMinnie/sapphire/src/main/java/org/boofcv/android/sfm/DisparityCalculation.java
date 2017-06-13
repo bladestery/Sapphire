@@ -38,6 +38,7 @@ import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
 import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
 import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
+import boofcv.alg.filter.derivative.GradientSobel;
 import boofcv.alg.filter.derivative.LaplacianEdge;
 import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
 import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
@@ -68,6 +69,7 @@ import boofcv.struct.distort.Point2Transform2_F64;
 import boofcv.struct.feature.AssociatedIndex;
 import boofcv.struct.feature.TupleDesc;
 import boofcv.struct.geo.AssociatedPair;
+import boofcv.struct.image.FactoryImage;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.ImageType;
 import georegression.fitting.se.ModelManagerSe3_F64;
@@ -81,41 +83,6 @@ import georegression.struct.se.Se3_F64;
  * @author Peter Abeles
  */
 public class DisparityCalculation<Desc extends TupleDesc> {
-	private static InputSanityCheck ISC;
-	private static DerivativeHelperFunctions DHF;
-	private static ConvolveImageNoBorder CINB;
-	private static ConvolveJustBorder_General CJBG;
-	private static GradientSobel_Outer GSO;
-	private static GradientSobel_UnrolledOuter GSUO;
-	private static GImageMiscOps GIMO;
-	private static ImageMiscOps IMO;
-	private static ConvolveNormalizedNaive CNN;
-	private static ConvolveNormalized_JustBorder CNJB;
-	private static ConvolveNormalized CN;
-	private static GBlurImageOps GBIO;
-	private static GeneralizedImageOps GIO;
-	private static BlurImageOps BIO;
-	private static ConvolveImageMean CIM;
-	private static FactoryKernelGaussian FKG;
-	private static ImplMedianHistogramInner IMHI;
-	private static ImplMedianSortEdgeNaive IMSEN;
-	private static ImplMedianSortNaive IMSN;
-	private static ImplConvolveMean ICM;
-	private static GThresholdImageOps GTIO;
-	private static GImageStatistics GIS;
-	private static ImageStatistics IS;
-	private static ThresholdImageOps TIO;
-	private static FactoryImageBorderAlgs FIBA;
-	private static ImageBorderValue IBV;
-	private static FastHessianFeatureDetector FHFD;
-	private static FactoryImageBorder FIB;
-	private static ImageType IT;
-	private static UtilWavelet UW;
-	private static ConvertImage CI;
-	private static FactoryBlurFilter FBF;
-	private static LensDistortionOps LDO;
-	private static FactoryInterpolation FI;
-	private static FactoryDistort FDs;
 	DetectDescribePoint<GrayF32,Desc> detDesc;
 	AssociateDescription<Desc> associate;
 	CameraPinholeRadial intrinsic;
@@ -131,10 +98,10 @@ public class DisparityCalculation<Desc extends TupleDesc> {
 
 	boolean directionLeftToRight;
 
-	GrayF32 distortedLeft;
-	GrayF32 distortedRight;
-	GrayF32 rectifiedLeft;
-	GrayF32 rectifiedRight;
+	public GrayF32 distortedLeft;
+	public GrayF32 distortedRight;
+	public GrayF32 rectifiedLeft;
+	public GrayF32 rectifiedRight;
 
 	// Laplacian that has been applied to rectified images
 	GrayF32 edgeLeft;
@@ -167,7 +134,11 @@ public class DisparityCalculation<Desc extends TupleDesc> {
 		edgeRight = new GrayF32(width,height);
 	}
 
-	public void setSource( GrayF32 image ) {
+	public void setSource(GrayF32 image, InputSanityCheck ISC, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG, GradientSobel_Outer GSO,
+						  GradientSobel_UnrolledOuter GSUO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvolveNormalizedNaive CNN, ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN,
+						  GBlurImageOps GBIO, GeneralizedImageOps GIO, BlurImageOps BIO, ConvolveImageMean CIM, FactoryKernelGaussian FKG, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN,
+						  ImplMedianSortNaive IMSN, ImplConvolveMean ICM, GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO, FactoryImageBorderAlgs FIBA, ImageBorderValue IBV,
+						  FastHessianFeatureDetector FHFD, FactoryImageBorder FIB, FactoryBlurFilter FBF, ConvertImage CI, UtilWavelet UW, ImageType IT, FactoryInterpolation FI, FactoryDistort FDs) {
 		distortedLeft.setTo(image);
 		detDesc.detect(image, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN,
 				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF, CI, UW, IT, FI, FDs);
@@ -175,7 +146,11 @@ public class DisparityCalculation<Desc extends TupleDesc> {
 		associate.setSource(listSrc);
 	}
 
-	public void setDestination( GrayF32 image ) {
+	public void setDestination( GrayF32 image, InputSanityCheck ISC, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB, ConvolveJustBorder_General CJBG, GradientSobel_Outer GSO,
+								GradientSobel_UnrolledOuter GSUO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvolveNormalizedNaive CNN, ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN,
+								GBlurImageOps GBIO, GeneralizedImageOps GIO, BlurImageOps BIO, ConvolveImageMean CIM, FactoryKernelGaussian FKG, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN,
+								ImplMedianSortNaive IMSN, ImplConvolveMean ICM, GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO, FactoryImageBorderAlgs FIBA, ImageBorderValue IBV,
+								FastHessianFeatureDetector FHFD, FactoryImageBorder FIB, FactoryBlurFilter FBF, ConvertImage CI, UtilWavelet UW, ImageType IT, FactoryInterpolation FI, FactoryDistort FDs ) {
 		distortedRight.setTo(image);
 		detDesc.detect(image, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN,
 				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF, CI, UW, IT, FI, FDs);
@@ -199,11 +174,11 @@ public class DisparityCalculation<Desc extends TupleDesc> {
 	 *
 	 * @return true it was able to rectify the input images or false if not
 	 */
-	public boolean rectifyImage() {
+	public boolean rectifyImage(ImageMiscOps IMO, InputSanityCheck ISC, ImageType IT, FactoryImageBorder FIB, FactoryInterpolation FI, FactoryDistort FDs, LensDistortionOps LDO) {
 		computedDisparity = false;
 
 		associate.associate();
-		List<AssociatedPair> pairs = convertToNormalizedCoordinates();
+		List<AssociatedPair> pairs = convertToNormalizedCoordinates(LDO);
 
 		Se3_F64 leftToRight = estimateCameraMotion(pairs);
 
@@ -231,7 +206,7 @@ public class DisparityCalculation<Desc extends TupleDesc> {
 		}
 
 		DenseMatrix64F rectifiedK = new DenseMatrix64F(3,3);
-		rectifyImages(leftToRight, rectifiedK);
+		rectifyImages(leftToRight, rectifiedK, IMO, ISC, IT, FIB, FI, FDs, LDO);
 
 		return true;
 	}
@@ -239,18 +214,18 @@ public class DisparityCalculation<Desc extends TupleDesc> {
 	/**
 	 * Computes the disparity between the two rectified images
 	 */
-	public void computeDisparity() {
+	public void computeDisparity(GImageMiscOps GIMO, ImageMiscOps IMO, GeneralizedImageOps GIO, InputSanityCheck ISC) {
 		if( disparityAlg == null )
 			return;
 
-		disparityAlg.process(edgeLeft, edgeRight);
+		disparityAlg.process(edgeLeft, edgeRight, GIMO, IMO, GIO, ISC);
 		computedDisparity = true;
 	}
 
 	/**
 	 * Convert a set of associated point features from pixel coordinates into normalized image coordinates.
 	 */
-	public List<AssociatedPair> convertToNormalizedCoordinates() {
+	public List<AssociatedPair> convertToNormalizedCoordinates(LensDistortionOps LDO) {
 
 		Point2Transform2_F64 tran = LDO.transformPoint(intrinsic).undistort_F64(true,false);
 
@@ -338,7 +313,8 @@ public class DisparityCalculation<Desc extends TupleDesc> {
 	 * @param rectifiedK     Output camera calibration matrix for rectified camera
 	 */
 	public void rectifyImages(Se3_F64 leftToRight,
-							  DenseMatrix64F rectifiedK) {
+							  DenseMatrix64F rectifiedK, ImageMiscOps IMO, InputSanityCheck ISC, ImageType IT, FactoryImageBorder FIB,
+							  FactoryInterpolation FI, FactoryDistort FDs, LensDistortionOps LDO) {
 		RectifyCalibrated rectifyAlg = RectifyImageOps.createCalibrated();
 
 		// original camera calibration matrices
@@ -358,9 +334,9 @@ public class DisparityCalculation<Desc extends TupleDesc> {
 
 		// undistorted and rectify images
 		ImageDistort<GrayF32,GrayF32> distortLeft =
-				RectifyImageOps.rectifyImage(intrinsic, rect1, BorderType.ZERO, IT.single(GrayF32.class), FI, FDs, LDO);
+				RectifyImageOps.rectifyImage(intrinsic, rect1, BorderType.ZERO, IT.single(GrayF32.class), FIB, FI, FDs, LDO);
 		ImageDistort<GrayF32,GrayF32> distortRight =
-				RectifyImageOps.rectifyImage(intrinsic, rect2, BorderType.ZERO, IT.single(GrayF32.class), FI, FDs, LDO);
+				RectifyImageOps.rectifyImage(intrinsic, rect2, BorderType.ZERO, IT.single(GrayF32.class), FIB, FI, FDs, LDO);
 
 		// Apply the Laplacian for some lighting invariance
 		IMO.fill(rectifiedLeft,0);

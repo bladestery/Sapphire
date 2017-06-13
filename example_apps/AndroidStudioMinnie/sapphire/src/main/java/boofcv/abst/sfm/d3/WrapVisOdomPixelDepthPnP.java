@@ -130,8 +130,8 @@ public class WrapVisOdomPixelDepthPnP<T extends ImageGray>
 	}
 
 	@Override
-	public void setCalibration(StereoParameters parameters, FactoryInterpolation FI, FactoryDistort FDs, LensDistortionOps LDO) {
-		stereo.setCalibration(parameters, FI, FDs, LDO);
+	public void setCalibration(StereoParameters parameters, FactoryImageBorder FIB, FactoryInterpolation FI, FactoryDistort FDs, LensDistortionOps LDO) {
+		stereo.setCalibration(parameters, FIB, FI, FDs, LDO);
 
 		CameraPinholeRadial l = parameters.left;
 

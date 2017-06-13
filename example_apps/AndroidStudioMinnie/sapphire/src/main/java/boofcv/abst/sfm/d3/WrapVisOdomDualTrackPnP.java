@@ -68,6 +68,7 @@ import boofcv.struct.image.ImageType;
 import georegression.struct.point.Point2D_F64;
 import georegression.struct.point.Point3D_F64;
 import georegression.struct.se.Se3_F64;
+import sapphire.compiler.FIBAGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -142,7 +143,7 @@ public class WrapVisOdomDualTrackPnP<T extends ImageGray>
 	}
 
 	@Override
-	public void setCalibration(StereoParameters parameters, FactoryInterpolation FI, FactoryDistort FDs, LensDistortionOps LDO) {
+	public void setCalibration(StereoParameters parameters, FactoryImageBorder FIB, FactoryInterpolation FI, FactoryDistort FDs, LensDistortionOps LDO) {
 
 		Se3_F64 leftToRight = parameters.getRightToLeft().invert(null);
 
