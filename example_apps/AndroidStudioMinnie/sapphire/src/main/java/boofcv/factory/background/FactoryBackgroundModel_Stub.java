@@ -69,18 +69,21 @@ public final class FactoryBackgroundModel_Stub extends boofcv.factory.background
         return ((boofcv.alg.background.stationary.BackgroundStationaryBasic) $__result);
     }
 
-    // Implementation of movingGaussian(ConfigBackgroundGaussian, Point2Transform2Model_F32, ImageType)
-    public boofcv.alg.background.moving.BackgroundMovingGaussian movingGaussian(boofcv.factory.background.ConfigBackgroundGaussian $param_ConfigBackgroundGaussian_1, boofcv.struct.distort.Point2Transform2Model_F32 $param_Point2Transform2Model_F32_2, boofcv.struct.image.ImageType $param_ImageType_3) {
+    // Implementation of movingGaussian(ConfigBackgroundGaussian, Point2Transform2Model_F32, ImageType, ImageType, FactoryImageBorder, FactoryInterpolation)
+    public boofcv.alg.background.moving.BackgroundMovingGaussian movingGaussian(boofcv.factory.background.ConfigBackgroundGaussian $param_ConfigBackgroundGaussian_1, boofcv.struct.distort.Point2Transform2Model_F32 $param_Point2Transform2Model_F32_2, boofcv.struct.image.ImageType $param_ImageType_3, boofcv.struct.image.ImageType $param_ImageType_4, boofcv.core.image.border.FactoryImageBorder $param_FactoryImageBorder_5, boofcv.factory.interpolate.FactoryInterpolation $param_FactoryInterpolation_6) {
         java.lang.Object $__result = null;
         try {
             if ($__directInvocation)
-                $__result = super.movingGaussian( $param_ConfigBackgroundGaussian_1,  $param_Point2Transform2Model_F32_2,  $param_ImageType_3);
+                $__result = super.movingGaussian( $param_ConfigBackgroundGaussian_1,  $param_Point2Transform2Model_F32_2,  $param_ImageType_3,  $param_ImageType_4,  $param_FactoryImageBorder_5,  $param_FactoryInterpolation_6);
             else {
                 java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
-                String $__method = "public <T,Motion> boofcv.alg.background.moving.BackgroundMovingGaussian<T, Motion> boofcv.factory.background.FactoryBackgroundModel.movingGaussian(boofcv.factory.background.ConfigBackgroundGaussian,boofcv.struct.distort.Point2Transform2Model_F32<Motion>,boofcv.struct.image.ImageType<T>)";
+                String $__method = "public <T,Motion> boofcv.alg.background.moving.BackgroundMovingGaussian<T, Motion> boofcv.factory.background.FactoryBackgroundModel.movingGaussian(boofcv.factory.background.ConfigBackgroundGaussian,boofcv.struct.distort.Point2Transform2Model_F32<Motion>,boofcv.struct.image.ImageType<T>,boofcv.struct.image.ImageType,boofcv.core.image.border.FactoryImageBorder,boofcv.factory.interpolate.FactoryInterpolation)";
                 $__params.add($param_ConfigBackgroundGaussian_1);
                 $__params.add($param_Point2Transform2Model_F32_2);
                 $__params.add($param_ImageType_3);
+                $__params.add($param_ImageType_4);
+                $__params.add($param_FactoryImageBorder_5);
+                $__params.add($param_FactoryInterpolation_6);
                 $__result = $__client.onRPC($__method, $__params);
             }
         } catch (Exception e) {
@@ -89,18 +92,21 @@ public final class FactoryBackgroundModel_Stub extends boofcv.factory.background
         return ((boofcv.alg.background.moving.BackgroundMovingGaussian) $__result);
     }
 
-    // Implementation of movingBasic(ConfigBackgroundBasic, Point2Transform2Model_F32, ImageType)
-    public boofcv.alg.background.moving.BackgroundMovingBasic movingBasic(boofcv.factory.background.ConfigBackgroundBasic $param_ConfigBackgroundBasic_1, boofcv.struct.distort.Point2Transform2Model_F32 $param_Point2Transform2Model_F32_2, boofcv.struct.image.ImageType $param_ImageType_3) {
+    // Implementation of movingBasic(ConfigBackgroundBasic, Point2Transform2Model_F32, ImageType, ImageType, FactoryImageBorder, FactoryInterpolation)
+    public boofcv.alg.background.moving.BackgroundMovingBasic movingBasic(boofcv.factory.background.ConfigBackgroundBasic $param_ConfigBackgroundBasic_1, boofcv.struct.distort.Point2Transform2Model_F32 $param_Point2Transform2Model_F32_2, boofcv.struct.image.ImageType $param_ImageType_3, boofcv.struct.image.ImageType $param_ImageType_4, boofcv.core.image.border.FactoryImageBorder $param_FactoryImageBorder_5, boofcv.factory.interpolate.FactoryInterpolation $param_FactoryInterpolation_6) {
         java.lang.Object $__result = null;
         try {
             if ($__directInvocation)
-                $__result = super.movingBasic( $param_ConfigBackgroundBasic_1,  $param_Point2Transform2Model_F32_2,  $param_ImageType_3);
+                $__result = super.movingBasic( $param_ConfigBackgroundBasic_1,  $param_Point2Transform2Model_F32_2,  $param_ImageType_3,  $param_ImageType_4,  $param_FactoryImageBorder_5,  $param_FactoryInterpolation_6);
             else {
                 java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
-                String $__method = "public <T,Motion> boofcv.alg.background.moving.BackgroundMovingBasic<T, Motion> boofcv.factory.background.FactoryBackgroundModel.movingBasic(boofcv.factory.background.ConfigBackgroundBasic,boofcv.struct.distort.Point2Transform2Model_F32<Motion>,boofcv.struct.image.ImageType<T>)";
+                String $__method = "public <T,Motion> boofcv.alg.background.moving.BackgroundMovingBasic<T, Motion> boofcv.factory.background.FactoryBackgroundModel.movingBasic(boofcv.factory.background.ConfigBackgroundBasic,boofcv.struct.distort.Point2Transform2Model_F32<Motion>,boofcv.struct.image.ImageType<T>,boofcv.struct.image.ImageType,boofcv.core.image.border.FactoryImageBorder,boofcv.factory.interpolate.FactoryInterpolation)";
                 $__params.add($param_ConfigBackgroundBasic_1);
                 $__params.add($param_Point2Transform2Model_F32_2);
                 $__params.add($param_ImageType_3);
+                $__params.add($param_ImageType_4);
+                $__params.add($param_FactoryImageBorder_5);
+                $__params.add($param_FactoryInterpolation_6);
                 $__result = $__client.onRPC($__method, $__params);
             }
         } catch (Exception e) {

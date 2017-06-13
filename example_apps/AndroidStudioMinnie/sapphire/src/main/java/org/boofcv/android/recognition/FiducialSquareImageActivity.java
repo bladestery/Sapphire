@@ -8,11 +8,18 @@ import boofcv.abst.fiducial.FiducialDetector;
 import boofcv.abst.fiducial.SquareImage_to_FiducialDetector;
 import boofcv.alg.InputSanityCheck;
 import boofcv.alg.filter.binary.BinaryImageOps;
+import boofcv.alg.filter.binary.GThresholdImageOps;
+import boofcv.alg.filter.binary.ThresholdImageOps;
 import boofcv.alg.misc.PixelMath;
+import boofcv.core.image.GeneralizedImageOps;
+import boofcv.factory.distort.FactoryDistort;
 import boofcv.factory.fiducial.ConfigFiducialImage;
 import boofcv.factory.fiducial.FactoryFiducial;
 import boofcv.factory.filter.binary.ConfigThreshold;
+import boofcv.factory.filter.binary.FactoryThresholdBinary;
 import boofcv.factory.filter.binary.ThresholdType;
+import boofcv.factory.interpolate.FactoryInterpolation;
+import boofcv.factory.shape.FactoryShapeDetector;
 import boofcv.struct.image.GrayU8;
 
 /**
@@ -24,6 +31,13 @@ public class FiducialSquareImageActivity extends FiducialSquareActivity
 {
 	private static BinaryImageOps BIO;
 	private static InputSanityCheck ISC;
+	private static FactoryShapeDetector FSD;
+	private static FactoryThresholdBinary FTB;
+	private static FactoryInterpolation FI;
+	private static FactoryDistort FDs;
+	private static ThresholdImageOps TIO;
+	private static GeneralizedImageOps GIO;
+
 	FiducialManager manager;
 	List<FiducialManager.Info> list;
 
@@ -62,14 +76,14 @@ public class FiducialSquareImageActivity extends FiducialSquareActivity
 			} else {
 				configThreshold = ConfigThreshold.fixed(binaryThreshold);
 			}
-			detector = FactoryFiducial.squareImage(config, configThreshold, GrayU8.class);
+			detector = FactoryFiducial.squareImage(config, configThreshold, GrayU8.class, IT, FSD, FTB, FI, FDs);
 		}
 
 		for (int i = 0; i < list.size(); i++) {
 			GrayU8 binary = manager.loadBinaryImage(list.get(i).id);
 			BIO.invert(binary,binary, ISC);
 			PixelMath.multiply(binary,255,0,255,binary, ISC);
-			detector.addPatternImage(binary,125,list.get(i).sideLength);
+			detector.addPatternImage(binary,125,list.get(i).sideLength, GTIO, TIO, ISC, GIO, FI, FDs);
 		}
 
 		return detector;

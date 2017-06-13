@@ -28,12 +28,26 @@ import java.util.List;
 
 import boofcv.abst.feature.detect.line.DetectLine;
 import boofcv.abst.feature.detect.line.DetectLineSegment;
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.feature.detect.edge.GGradientToEdgeFeatures;
+import boofcv.alg.feature.detect.edge.GradientToEdgeFeatures;
 import boofcv.alg.feature.detect.line.LineImageOps;
+import boofcv.alg.filter.binary.GThresholdImageOps;
+import boofcv.alg.filter.binary.ThresholdImageOps;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
+import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
+import boofcv.alg.filter.derivative.GradientSobel;
+import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
+import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
 import boofcv.android.ConvertBitmap;
 import boofcv.android.gui.VideoRenderProcessing;
+import boofcv.core.image.GeneralizedImageOps;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.feature.detect.line.ConfigHoughFoot;
 import boofcv.factory.feature.detect.line.ConfigHoughPolar;
 import boofcv.factory.feature.detect.line.FactoryDetectLineAlgs;
+import boofcv.factory.filter.derivative.FactoryDerivative;
 import boofcv.struct.image.GrayS16;
 import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.ImageType;
@@ -67,6 +81,23 @@ public class LineDisplayActivity extends DemoVideoDisplayActivity
 	OMSServer server;
 	DemoManager dm;
 	ImageType IT = new ImageType();
+	/*
+	FactoryDetectLineAlgs FDLA = new FactoryDetectLineAlgs();
+	FactoryDerivative FD = new FactoryDerivative();
+	GeneralizedImageOps GIO = new GeneralizedImageOps();
+	FactoryImageBorder FIB = new FactoryImageBorder();
+	InputSanityCheck ISC = new InputSanityCheck();
+	DerivativeHelperFunctions DHF = new DerivativeHelperFunctions();
+	ConvolveImageNoBorder CINB = new ConvolveImageNoBorder();
+	GradientToEdgeFeatures GTEF = new GradientToEdgeFeatures();
+	ThresholdImageOps TIO = new ThresholdImageOps();
+	GGradientToEdgeFeatures GGTEF = new GGradientToEdgeFeatures();
+	GThresholdImageOps GTIO = new GThresholdImageOps();
+	ConvolveJustBorder_General CJBG = new ConvolveJustBorder_General();
+	GradientSobel_Outer GSO = new GradientSobel_Outer();
+	GradientSobel_UnrolledOuter GSUO = new GradientSobel_UnrolledOuter();
+
+	DetectLineSegment<GrayU8> detectorSegment;*/
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -152,7 +183,7 @@ public class LineDisplayActivity extends DemoVideoDisplayActivity
 
 	private void createLineDetector() {
 		//DetectLine<GrayU8> detector = null;
-		//DetectLineSegment<GrayU8> detectorSegment = null;
+		//DetectLineSegment<GrayU8> detectorSegment;
 
 		switch( active ) {
 			case 0:
@@ -169,6 +200,7 @@ public class LineDisplayActivity extends DemoVideoDisplayActivity
 
 			case 2:
 				dm.lineRansac();
+				//detectorSegment = FDLA.lineRansac(40, 30, 2.36, true, GrayU8.class, GrayS16.class, FD, GIO, FIB);
 				break;
 
 			default:
@@ -258,7 +290,13 @@ public class LineDisplayActivity extends DemoVideoDisplayActivity
 					break;
 
 				case 2:
+					//List<LineSegment2D_F32> segFound = dm.segDetect(gray);
+					//long startTime, elapsedTime;
+					//startTime = System.nanoTime();
+					//List<LineSegment2D_F32> segFound = detectorSegment.detect(gray, ISC, DHF, CINB, GTEF, TIO, GIO, GGTEF, GTIO, CJBG, GSO, GSUO);
+					//elapsedTime = (System.nanoTime() - startTime) / (1000000);
 					List<LineSegment2D_F32> segFound = dm.segDetect(gray);
+					//System.out.println(elapsedTime);
 					synchronized ( lockGui ) {
 						ConvertBitmap.grayToBitmap(gray,bitmap,storage);
 						lines.reset();

@@ -20,6 +20,7 @@ package boofcv.alg.fiducial.calib.squares;
 
 import org.ddogleg.struct.FastQueue;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 

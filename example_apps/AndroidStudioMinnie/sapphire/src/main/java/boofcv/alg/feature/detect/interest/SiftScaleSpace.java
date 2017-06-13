@@ -172,10 +172,11 @@ public class SiftScaleSpace {
 	 *
 	 * @param input Input image.  No prior blur should be applied to this image. Not modified.
 	 */
-	public void initialize(GrayF32 input, FactoryImageBorder FIB, InputSanityCheck ISC, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN) {
+	public void initialize(GrayF32 input, FactoryImageBorder FIB, InputSanityCheck ISC, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN,
+						   FactoryInterpolation FI) {
 		this.input = input;
 		currentOctave = firstOctave;
-		interp = FactoryInterpolation.bilinearPixelS(GrayF32.class, BorderType.EXTENDED, FIB);
+		interp = FI.bilinearPixelS(GrayF32.class, BorderType.EXTENDED, FIB);
 
 		if( firstOctave < 0 ) {
 			PyramidOps.scaleImageUp(input,tempImage1,-2*firstOctave,interp);

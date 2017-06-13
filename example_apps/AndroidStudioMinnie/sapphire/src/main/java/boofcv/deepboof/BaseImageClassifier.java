@@ -19,6 +19,8 @@
 package boofcv.deepboof;
 
 import boofcv.abst.scene.ImageClassifier;
+import boofcv.factory.distort.FactoryDistort;
+import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.ImageType;
 import boofcv.struct.image.Planar;
@@ -38,7 +40,9 @@ import java.util.List;
  * @author Peter Abeles
  */
 public abstract class BaseImageClassifier implements ImageClassifier<Planar<GrayF32>> {
-	private ImageType IT;
+	private static ImageType IT;
+	private static FactoryInterpolation FI;
+	private static FactoryDistort FDs;
 
 	protected FunctionSequence<Tensor_F32,Function<Tensor_F32>> network;
 
@@ -48,7 +52,7 @@ public abstract class BaseImageClassifier implements ImageClassifier<Planar<Gray
 	protected ImageType<Planar<GrayF32>> imageType = IT.pl(3,GrayF32.class);
 
 	// Resizes input image for the network
-	protected ClipAndReduce<Planar<GrayF32>> massage = new ClipAndReduce<>(true,imageType);
+	protected ClipAndReduce<Planar<GrayF32>> massage = new ClipAndReduce<>(true,imageType, FI, FDs);
 
 	// size of square image
 	protected int imageSize;

@@ -33,6 +33,7 @@ import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.filter.blur.FactoryBlurFilter;
 import boofcv.factory.filter.derivative.FactoryDerivative;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
+import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.struct.feature.*;
 import boofcv.struct.image.*;
 import sapphire.compiler.GIOGenerator;
@@ -193,7 +194,7 @@ public class FactoryDescribeRegionPoint {
 	 */
 	public static <T extends ImageGray>
 	DescribeRegionPoint<T,TupleDesc_B> brief(ConfigBrief config , Class<T> imageType, FactoryBlurFilter FBF, GeneralizedImageOps GIO, ImageType IT,
-											 FactoryImageBorder FIB)
+											 FactoryImageBorder FIB, FactoryInterpolation FI)
 	{
 		if( config == null )
 			config = new ConfigBrief();
@@ -206,7 +207,7 @@ public class FactoryDescribeRegionPoint {
 		if( config.fixed) {
 			return new WrapDescribeBrief<>(FactoryDescribePointAlgs.brief(definition, filter, IT, GIO), imageType, IT);
 		} else {
-			return new WrapDescribeBriefSo<>(FactoryDescribePointAlgs.briefso(definition, filter, IT, FIB, GIO), imageType, IT);
+			return new WrapDescribeBriefSo<>(FactoryDescribePointAlgs.briefso(definition, filter, IT, FIB, GIO, FI), imageType, IT);
 		}
 	}
 

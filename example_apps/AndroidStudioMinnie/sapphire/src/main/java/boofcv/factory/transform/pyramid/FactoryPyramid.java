@@ -71,9 +71,9 @@ public class FactoryPyramid implements SapphireObject {
 	 * @return PyramidFloat
 	 */
 	public <T extends ImageGray>
-	PyramidFloat<T> floatGaussian( double scaleFactors[], double []sigmas , Class<T> imageType, FactoryImageBorder FIB) {
+	PyramidFloat<T> floatGaussian( double scaleFactors[], double []sigmas , Class<T> imageType, FactoryImageBorder FIB, FactoryInterpolation FI) {
 
-		InterpolatePixelS<T> interp = FactoryInterpolation.bilinearPixelS(imageType, BorderType.EXTENDED, FIB);
+		InterpolatePixelS<T> interp = FI.bilinearPixelS(imageType, BorderType.EXTENDED, FIB);
 
 		return new PyramidFloatGaussianScale<>(interp, scaleFactors, sigmas, imageType);
 	}
@@ -87,7 +87,7 @@ public class FactoryPyramid implements SapphireObject {
 	 * @return PyramidFloat
 	 */
 	public <T extends ImageGray>
-	PyramidFloat<T> scaleSpacePyramid( double scaleSpace[], Class<T> imageType , FactoryImageBorder FIB) {
+	PyramidFloat<T> scaleSpacePyramid( double scaleSpace[], Class<T> imageType , FactoryImageBorder FIB, FactoryInterpolation FI) {
 
 		double[] sigmas = new double[ scaleSpace.length ];
 
@@ -103,7 +103,7 @@ public class FactoryPyramid implements SapphireObject {
 			sigmas[i] /= scaleSpace[i-1];
 		}
 
-		return floatGaussian(scaleSpace,sigmas,imageType, FIB);
+		return floatGaussian(scaleSpace,sigmas,imageType, FIB, FI);
 	}
 
 	/**
@@ -116,7 +116,7 @@ public class FactoryPyramid implements SapphireObject {
 	 * @return Scale-space image pyramid
 	 */
 	public <T extends ImageGray>
-	PyramidFloat<T> scaleSpace( double scaleSpace[], Class<T> imageType, FactoryImageBorder FIB) {
+	PyramidFloat<T> scaleSpace( double scaleSpace[], Class<T> imageType, FactoryImageBorder FIB, FactoryInterpolation FI) {
 
 		double[] scaleFactors = new double[ scaleSpace.length ];
 
@@ -137,6 +137,6 @@ public class FactoryPyramid implements SapphireObject {
 			sigmas[i] = Math.sqrt(c*c-b*b);
 		}
 
-		return floatGaussian(scaleFactors,sigmas,imageType, FIB);
+		return floatGaussian(scaleFactors,sigmas,imageType, FIB, FI);
 	}
 }

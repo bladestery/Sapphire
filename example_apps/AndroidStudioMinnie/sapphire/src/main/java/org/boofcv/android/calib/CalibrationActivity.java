@@ -18,11 +18,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.boofcv.android.DemoMain;
+import org.boofcv.android.DemoManager;
 import org.boofcv.android.R;
 import org.boofcv.android.recognition.SelectCalibrationFiducial;
 import org.boofcv.android.tracker.PointTrackerDisplayActivity;
 import org.ddogleg.struct.FastQueue;
 
+import java.net.InetSocketAddress;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,6 +54,12 @@ import georegression.struct.point.Point2D_F64;
 import georegression.struct.point.Point2D_I32;
 import georegression.struct.shapes.EllipseRotated_F64;
 import georegression.struct.shapes.Polygon2D_F64;
+import sapphire.kernel.server.KernelServerImpl;
+import sapphire.oms.OMSServer;
+
+import static org.boofcv.android.DemoMain.client;
+import static org.boofcv.android.DemoMain.edge;
+import static sapphire.kernel.common.GlobalKernelReferences.nodeServer;
 
 /**
  * Activity for collecting images of calibration targets. The user must first specify the type of target it is
@@ -59,12 +69,11 @@ import georegression.struct.shapes.Polygon2D_F64;
  */
 public class CalibrationActivity extends PointTrackerDisplayActivity
 {
-	private ImageType IT;
 	public static final int TARGET_DIALOG = 10;
 
 	public static CalibrationPatterns targetType = CalibrationPatterns.CHESSBOARD;
-	public static int numRows = 5;
-	public static int numCols = 7;
+	public static int numRows = 7;
+	public static int numCols = 9;
 
 	Paint paintPoint = new Paint();
 	Paint paintFailed = new Paint();
@@ -93,6 +102,10 @@ public class CalibrationActivity extends PointTrackerDisplayActivity
 	// handles gestures
 	GestureDetector mDetector;
 
+	OMSServer server;
+	DemoManager dm;
+	ImageType IT = new ImageType();
+
 	public CalibrationActivity() {
 		paintPoint.setColor(Color.RED);
 		paintPoint.setStyle(Paint.Style.FILL);
@@ -104,6 +117,31 @@ public class CalibrationActivity extends PointTrackerDisplayActivity
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		InetSocketAddress host, omsHost;
+
+		try {
+			Registry registry = LocateRegistry.getRegistry(edge, 22346);
+			server = (OMSServer) registry.lookup("SapphireOMS");
+			System.out.println(server);
+
+			host = new InetSocketAddress(client, 22346);
+			omsHost = new InetSocketAddress(edge, 22346);
+			nodeServer = new KernelServerImpl(host, omsHost);
+			System.out.println(nodeServer);
+
+			System.setProperty("java.rmi.server.hostname", host.getAddress().getHostAddress());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		try {
+			dm = (DemoManager) server.getAppEntryPoint();
+			//dm.LatencyCheck();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(0);
+		}
 
 		LayoutInflater inflater = getLayoutInflater();
 		LinearLayout controls = (LinearLayout)inflater.inflate(R.layout.calibration_view,null);
@@ -142,22 +180,25 @@ public class CalibrationActivity extends PointTrackerDisplayActivity
 	 * Configures the detector, configures target description for calibration and starts the detector thread.
 	 */
 	private void startVideoProcessing() {
-		DetectorFiducialCalibration detector;
+		//DetectorFiducialCalibration detector;
 
 		if( targetType == CalibrationPatterns.CHESSBOARD ) {
-			ConfigChessboard config = new ConfigChessboard(numCols,numRows, 30);
-			detector = FactoryFiducialCalibration.chessboard(config);
+			//ConfigChessboard config = new ConfigChessboard(numCols,numRows, 30);
+			//detector = FactoryFiducialCalibration.chessboard(config);
+			CalibrationComputeActivity.targetLayout = dm.chessboard(numCols,numRows);
 		} else if( targetType == CalibrationPatterns.SQUARE_GRID ) {
-			ConfigSquareGrid config = new ConfigSquareGrid(numCols,numRows, 30 , 30);
-			detector = FactoryFiducialCalibration.squareGrid(config);
+			//ConfigSquareGrid config = new ConfigSquareGrid(numCols,numRows, 30 , 30);
+			//detector = FactoryFiducialCalibration.squareGrid(config);
+			CalibrationComputeActivity.targetLayout = dm.square(numCols, numRows);
 		} else if( targetType == CalibrationPatterns.CIRCLE_ASYMMETRIC_GRID ){
-			ConfigCircleAsymmetricGrid config = new ConfigCircleAsymmetricGrid(numCols,numRows, 1 , 6);
-			detector = FactoryFiducialCalibration.circleAsymmGrid(config);
+			//ConfigCircleAsymmetricGrid config = new ConfigCircleAsymmetricGrid(numCols,numRows, 1 , 6);
+			//detector = FactoryFiducialCalibration.circleAsymmGrid(config);
+			CalibrationComputeActivity.targetLayout = dm.circle(numCols, numRows);
 		} else {
 			throw new RuntimeException("Unknown targetType "+targetType);
 		}
-		CalibrationComputeActivity.targetLayout = detector.getLayout();
-		setProcessing(new DetectTarget(detector));
+		//CalibrationComputeActivity.targetLayout = detector.getLayout();
+		setProcessing(new DetectTarget());
 	}
 
 	public void pressedOK( View view ) {
@@ -224,7 +265,7 @@ public class CalibrationActivity extends PointTrackerDisplayActivity
 
 	private class DetectTarget extends VideoRenderProcessing<GrayF32> {
 
-		DetectorFiducialCalibration detector;
+		//DetectorFiducialCalibration detector;
 
 		FastQueue<Point2D_F64> pointsGui = new FastQueue<Point2D_F64>(Point2D_F64.class,true);
 
@@ -235,9 +276,9 @@ public class CalibrationActivity extends PointTrackerDisplayActivity
 		Bitmap bitmap;
 		byte[] storage;
 
-		protected DetectTarget( DetectorFiducialCalibration detector ) {
+		protected DetectTarget() {
 			super(IT.single(GrayF32.class));
-			this.detector = detector;
+			//this.detector = detector;
 		}
 
 		@Override
@@ -279,25 +320,25 @@ public class CalibrationActivity extends PointTrackerDisplayActivity
 				debugQuads.clear();
 				debugEllipses.clear();
 				if( detected ) {
-					CalibrationObservation found = detector.getDetectedPoints();
+					CalibrationObservation found = dm.getDetectedPoints();
 					for( PointIndex2D_F64 p : found.points )
 						pointsGui.grow().set(p);
 				} else if( showDetectDebug ) {
 					// show binary image to aid in debugging and detected rectangles
-					if( detector instanceof CalibrationDetectorChessboard) {
-						DetectChessboardFiducial<GrayF32> alg = ((CalibrationDetectorChessboard) detector).getAlgorithm();
-						VisualizeImageData.binaryToBitmap(alg.getBinary(), false, bitmap, storage);
-						extractQuads(alg.getFindSeeds().getDetectorSquare().getFoundPolygons());
-					} else if( detector instanceof CalibrationDetectorSquareGrid) {
-						DetectSquareGridFiducial<GrayF32> alg = ((CalibrationDetectorSquareGrid) detector).getAlgorithm();
-						VisualizeImageData.binaryToBitmap(alg.getBinary(), false ,bitmap, storage);
-						extractQuads(alg.getDetectorSquare().getFoundPolygons());
-					} else if( detector instanceof CalibrationDetectorCircleAsymmGrid) {
-						DetectAsymmetricCircleGrid<GrayF32> alg = ((CalibrationDetectorCircleAsymmGrid) detector).getDetector();
-						VisualizeImageData.binaryToBitmap(alg.getBinary(), false ,bitmap, storage);
+					if( targetType == CalibrationPatterns.CHESSBOARD ) {
+						//DetectChessboardFiducial<GrayF32> alg = ((CalibrationDetectorChessboard) detector).getAlgorithm();
+						VisualizeImageData.binaryToBitmap(dm.getChess(), false, bitmap, storage);
+						extractQuads(dm.getChessSeeds());
+					} else if( targetType == CalibrationPatterns.SQUARE_GRID) {
+						//DetectSquareGridFiducial<GrayF32> alg = ((CalibrationDetectorSquareGrid) detector).getAlgorithm();
+						VisualizeImageData.binaryToBitmap(dm.getSquare(), false ,bitmap, storage);
+						extractQuads(dm.getSquarePoly());
+					} else if(targetType == CalibrationPatterns.CIRCLE_ASYMMETRIC_GRID ) {
+						//DetectAsymmetricCircleGrid<GrayF32> alg = ((CalibrationDetectorCircleAsymmGrid) detector).getDetector();
+						VisualizeImageData.binaryToBitmap(dm.getCircle(), false ,bitmap, storage);
 
 						debugEllipses.clear();
-						debugEllipses.addAll(alg.getEllipseDetector().getFoundEllipses().toList());
+						debugEllipses.addAll(dm.getCircleEllipse());
 					}
 				}
 			}
@@ -325,14 +366,13 @@ public class CalibrationActivity extends PointTrackerDisplayActivity
 		 */
 		private boolean collectMeasurement(GrayF32 gray) {
 
-
-			boolean success = detector.process(gray);
+			boolean success = dm.calibProcess(gray);
 
 			// pause the display to provide feed back to the user
 			timeResume = System.currentTimeMillis()+1500;
 
 			if( success ) {
-				shots.add( new CalibrationImageInfo(gray,detector.getDetectedPoints()));
+				shots.add( new CalibrationImageInfo(gray, dm.getDetectedPoints()) );
 				updateShotCountInUiThread();
 				return true;
 			}  else {
@@ -354,7 +394,7 @@ public class CalibrationActivity extends PointTrackerDisplayActivity
 		}
 
 		private boolean detectTarget(GrayF32 gray) {
-			if( detector.process(gray) ) {
+			if( dm.calibProcess(gray) ) {
 				return true;
 			} else {
 				showDetectDebug = true;

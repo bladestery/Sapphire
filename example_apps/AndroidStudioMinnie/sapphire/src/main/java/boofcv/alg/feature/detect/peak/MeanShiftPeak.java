@@ -69,11 +69,11 @@ public class MeanShiftPeak<T extends ImageGray> {
 	 */
 	public MeanShiftPeak(int maxIterations, float convergenceTol,
 						 WeightPixel_F32 weights,
-						 Class<T> imageType, FactoryImageBorder FIB) {
+						 Class<T> imageType, FactoryImageBorder FIB, FactoryInterpolation FI) {
 		this.maxIterations = maxIterations;
 		this.convergenceTol = convergenceTol;
 		this.weights = weights;
-		interpolate = FactoryInterpolation.bilinearPixelS(imageType, BorderType.EXTENDED, FIB);
+		interpolate = FI.bilinearPixelS(imageType, BorderType.EXTENDED, FIB);
 	}
 
 	/**

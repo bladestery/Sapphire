@@ -24,13 +24,38 @@ import boofcv.abst.fiducial.calib.ConfigSquareGrid;
 import boofcv.abst.fiducial.calib.ConfigSquareGridBinary;
 import boofcv.abst.geo.calibration.DetectorFiducialCalibration;
 import boofcv.alg.InputSanityCheck;
+import boofcv.alg.filter.binary.BinaryImageOps;
+import boofcv.alg.filter.binary.GThresholdImageOps;
+import boofcv.alg.filter.binary.LinearContourLabelChang2004;
+import boofcv.alg.filter.binary.ThresholdImageOps;
+import boofcv.alg.filter.binary.impl.ImplBinaryBorderOps;
+import boofcv.alg.filter.binary.impl.ImplBinaryInnerOps;
+import boofcv.alg.filter.blur.BlurImageOps;
+import boofcv.alg.filter.blur.GBlurImageOps;
+import boofcv.alg.filter.blur.impl.ImplMedianHistogramInner;
+import boofcv.alg.filter.blur.impl.ImplMedianSortEdgeNaive;
+import boofcv.alg.filter.blur.impl.ImplMedianSortNaive;
+import boofcv.alg.filter.convolve.ConvolveImageMean;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
+import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
 import boofcv.alg.geo.calibration.CalibrationObservation;
 import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.GImageStatistics;
 import boofcv.alg.misc.ImageMiscOps;
+import boofcv.alg.misc.ImageStatistics;
+import boofcv.alg.transform.wavelet.UtilWavelet;
 import boofcv.core.image.ConvertImage;
 import boofcv.core.image.GConvertImage;
 import boofcv.core.image.GeneralizedImageOps;
+import boofcv.core.image.border.ImageBorderValue;
 import boofcv.factory.fiducial.FactoryFiducialCalibration;
+import boofcv.factory.filter.binary.FactoryThresholdBinary;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
+import boofcv.factory.shape.FactoryShapeDetector;
 import boofcv.struct.geo.Point2D3D;
 import boofcv.struct.geo.PointIndex2D_F64;
 import boofcv.struct.image.GrayF32;
@@ -50,12 +75,6 @@ import java.util.List;
 public class CalibrationFiducialDetector<T extends ImageGray>
 		extends FiducialDetectorPnP<T>
 {
-	private static ImageType IT;
-	private static GeneralizedImageOps GIO;
-	private static GImageMiscOps GIMO;
-	private static ImageMiscOps IMO;
-	private static InputSanityCheck ISC;
-	private static ConvertImage CI;
 	// detects the calibration target
 	private DetectorFiducialCalibration detector;
 
@@ -78,22 +97,22 @@ public class CalibrationFiducialDetector<T extends ImageGray>
 	 * Configure it to detect chessboard style targets
 	 */
 	public CalibrationFiducialDetector(ConfigChessboard config,
-									   Class<T> imageType) {
-		DetectorFiducialCalibration detector = FactoryFiducialCalibration.chessboard(config);
+									   Class<T> imageType, FactoryShapeDetector FSD, ImageType IT, FactoryThresholdBinary FTB) {
+		DetectorFiducialCalibration detector = FactoryFiducialCalibration.chessboard(config, FSD, IT, FTB);
 		double sideWidth = config.numCols*config.squareWidth;
 		double sideHeight = config.numRows*config.squareWidth;
 
 		width = (sideWidth+sideHeight)/2.0;
 
-		init(detector, width, imageType);
+		init(detector, width, imageType, IT);
 	}
 
 	/**
 	 * Configure it to detect square-grid style targets
 	 */
 	public CalibrationFiducialDetector(ConfigSquareGrid config,
-									   Class<T> imageType) {
-		DetectorFiducialCalibration detector = FactoryFiducialCalibration.squareGrid(config);
+									   Class<T> imageType, FactoryShapeDetector FSD, ImageType IT, FactoryThresholdBinary FTB) {
+		DetectorFiducialCalibration detector = FactoryFiducialCalibration.squareGrid(config, FSD, IT, FTB);
 		int squareCols = config.numCols;
 		int squareRows = config.numRows;
 		double sideWidth = squareCols* config.squareWidth + (squareCols-1)*config.spaceWidth;
@@ -101,14 +120,14 @@ public class CalibrationFiducialDetector<T extends ImageGray>
 
 		double width = (sideWidth+sideHeight)/2.0;
 
-		init(detector, width, imageType);
+		init(detector, width, imageType, IT);
 	}
 
 	/**
 	 * Configure it to detect square-grid style targets
 	 */
 	public CalibrationFiducialDetector(ConfigSquareGridBinary config,
-									   Class<T> imageType) {
+									   Class<T> imageType, ImageType IT) {
 		DetectorFiducialCalibration detector = FactoryFiducialCalibration.binaryGrid(config);
 		int squareCols = config.numCols;
 		int squareRows = config.numRows;
@@ -117,12 +136,12 @@ public class CalibrationFiducialDetector<T extends ImageGray>
 
 		double width = (sideWidth+sideHeight)/2.0;
 
-		init(detector, width, imageType);
+		init(detector, width, imageType, IT);
 	}
 
 	public CalibrationFiducialDetector(ConfigCircleAsymmetricGrid config,
-									   Class<T> imageType) {
-		DetectorFiducialCalibration detector = FactoryFiducialCalibration.circleAsymmGrid(config);
+									   Class<T> imageType, FactoryShapeDetector FSD, ImageType IT, FactoryThresholdBinary FTB) {
+		DetectorFiducialCalibration detector = FactoryFiducialCalibration.circleAsymmGrid(config, FSD, IT, FTB);
 		int squareCols = config.numCols;
 		int squareRows = config.numRows;
 		double sideWidth = squareCols*config.centerDistance/2.0;
@@ -130,10 +149,10 @@ public class CalibrationFiducialDetector<T extends ImageGray>
 
 		double width = (sideWidth+sideHeight)/2.0;
 
-		init(detector, width, imageType);
+		init(detector, width, imageType, IT);
 	}
 
-	protected void init(DetectorFiducialCalibration detector, double width, Class<T> imageType) {
+	protected void init(DetectorFiducialCalibration detector, double width, Class<T> imageType, ImageType IT) {
 		this.detector = detector;
 		this.type = IT.single(imageType);
 		this.converted = new GrayF32(1,1);
@@ -152,7 +171,11 @@ public class CalibrationFiducialDetector<T extends ImageGray>
 	}
 
 	@Override
-	public void detect(T input) {
+	public void detect(T input, GBlurImageOps GBIO, InputSanityCheck ISC, GeneralizedImageOps GIO, BlurImageOps BlIO, ConvolveImageMean CIM, FactoryKernelGaussian FKG,
+				   ConvolveNormalized CN, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ImplMedianHistogramInner IMHI,
+				   ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM, GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS,
+				   ThresholdImageOps TIO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvolveJustBorder_General CJBG, ConvertImage CI, UtilWavelet UW, ImageType IT,
+				   ImplBinaryInnerOps IBIO, ImplBinaryBorderOps IBBO, ImageBorderValue IBV, BinaryImageOps BIO, LinearContourLabelChang2004 cF) {
 		if( input instanceof GrayF32) {
 			converted = (GrayF32)input;
 		} else {
@@ -160,7 +183,9 @@ public class CalibrationFiducialDetector<T extends ImageGray>
 			GConvertImage.convert(input, converted, ISC, GIO, GIMO, IMO, CI, IT);
 		}
 
-		if( !detector.process(converted) ) {
+		if( !detector.process(converted,  GBIO, ISC, GIO, BlIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI,
+				IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW, IT, IBIO, IBBO, IBV,
+				BIO, cF) ) {
 			targetDetected = false;
 			return;
 		} else {

@@ -30,8 +30,10 @@ import boofcv.alg.misc.ImageStatistics;
 import boofcv.alg.transform.wavelet.UtilWavelet;
 import boofcv.core.image.ConvertImage;
 import boofcv.core.image.GeneralizedImageOps;
+import boofcv.factory.distort.FactoryDistort;
 import boofcv.factory.filter.binary.FactoryThresholdBinary;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
+import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.factory.shape.ConfigPolygonDetector;
 import boofcv.factory.shape.FactoryShapeDetector;
 import boofcv.struct.image.GrayF32;
@@ -71,6 +73,8 @@ public class FiducialDetector extends BaseDetectFiducialSquare<GrayU8> {
 	private static ConvolveJustBorder_General CJBG;
 	private static ConvertImage CI;
 	private static UtilWavelet UW;
+	private static FactoryInterpolation FI;
+	private static FactoryDistort FDs;
 	private static final String TAG = "FiducialDetector";
 
 	// Width of black border (units = pixels)
@@ -86,7 +90,7 @@ public class FiducialDetector extends BaseDetectFiducialSquare<GrayU8> {
 	public FiducialDetector() {
 		super(FTB.globalOtsu(0, 255, true, GrayU8.class, IT), FSD.polygon(
 						new ConfigPolygonDetector(false, 4, 4), GrayU8.class),
-				0.25, 0.5, squareLength + squareLength, GrayU8.class);
+				0.25, 0.5, squareLength + squareLength, GrayU8.class, FI, FDs);
 
 		foundBinary = new FastQueue<GrayU8>(GrayU8.class,true) {
 			@Override

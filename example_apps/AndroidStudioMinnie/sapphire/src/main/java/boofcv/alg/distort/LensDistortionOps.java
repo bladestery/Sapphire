@@ -33,6 +33,8 @@ import boofcv.struct.image.ImageBase;
 import boofcv.struct.image.ImageType;
 import georegression.struct.shapes.RectangleLength2D_F32;
 import georegression.struct.shapes.RectangleLength2D_F64;
+import sapphire.app.SapphireObject;
+
 import org.ejml.data.DenseMatrix64F;
 import org.ejml.ops.CommonOps;
 
@@ -41,8 +43,7 @@ import org.ejml.ops.CommonOps;
  *
  * @author Peter Abeles
  */
-public class LensDistortionOps {
-	private static FactoryImageBorder FIB;
+public class LensDistortionOps implements SapphireObject {
 	/**
 	 * <p>
 	 * Creates an {@link ImageDistort} class which will remove the lens distortion.  The user
@@ -63,10 +64,10 @@ public class LensDistortionOps {
 	 * @param imageType Type of image it will undistort
 	 * @return ImageDistort which removes lens distortion
 	 */
-	public static <T extends ImageBase>
+	public <T extends ImageBase>
 	ImageDistort<T,T> imageRemoveDistortion(AdjustmentType type, BorderType borderType,
 											CameraPinholeRadial param, CameraPinholeRadial paramAdj,
-											ImageType<T> imageType)
+											ImageType<T> imageType, FactoryImageBorder FIB, FactoryInterpolation FI, FactoryDistort FDs)
 	{
 		Class bandType = imageType.getImageClass();
 		boolean skip = borderType == BorderType.SKIP;
@@ -75,7 +76,7 @@ public class LensDistortionOps {
 		if( skip )
 			borderType = BorderType.EXTENDED;
 
-		InterpolatePixelS interp = FactoryInterpolation.createPixelS(0, 255, InterpolationType.BILINEAR,borderType, bandType, FIB);
+		InterpolatePixelS interp = FI.createPixelS(0, 255, InterpolationType.BILINEAR,borderType, bandType, FIB);
 
 		Point2Transform2_F32 undistToDist = null;
 		switch( type ) {
@@ -89,7 +90,7 @@ public class LensDistortionOps {
 				break;
 		}
 
-		ImageDistort<T,T> distort = FactoryDistort.distort(true, interp, imageType);
+		ImageDistort<T,T> distort = FDs.distort(true, interp, imageType);
 
 		distort.setModel(new PointToPixelTransform_F32(undistToDist));
 		distort.setRenderAll(!skip );
@@ -108,7 +109,7 @@ public class LensDistortionOps {
 	 *                       is returned.
 	 * @return The requested transform
 	 */
-	public static Point2Transform2_F32 transform_F32(AdjustmentType type,
+	public Point2Transform2_F32 transform_F32(AdjustmentType type,
 													 CameraPinholeRadial param,
 													 CameraPinholeRadial paramAdj,
 													 boolean undistortedToDistorted)
@@ -120,11 +121,11 @@ public class LensDistortionOps {
 			bound = DistortImageOps.boundBox_F32(param.width, param.height,
 					new PointToPixelTransform_F32(remove_p_to_p));
 		} else if( type == AdjustmentType.EXPAND) {
-			bound = LensDistortionOps.boundBoxInside(param.width, param.height,
+			bound = boundBoxInside(param.width, param.height,
 					new PointToPixelTransform_F32(remove_p_to_p));
 
 			// ensure there are no strips of black
-			LensDistortionOps.roundInside(bound);
+			roundInside(bound);
 		} else {
 			throw new IllegalArgumentException("Unsupported type "+type);
 		}
@@ -153,7 +154,7 @@ public class LensDistortionOps {
 	 * Given the lens distortion and the intrinsic adjustment matrix compute the new intrinsic parameters
 	 * and {@link Point2Transform2_F32}
 	 */
-	private static Point2Transform2_F32 adjustmentTransform_F32(CameraPinholeRadial param,
+	private  Point2Transform2_F32 adjustmentTransform_F32(CameraPinholeRadial param,
 																CameraPinholeRadial paramAdj,
 																boolean undistToDist,
 																Point2Transform2_F32 remove_p_to_p,
@@ -194,7 +195,7 @@ public class LensDistortionOps {
 	 *                       is returned.
 	 * @return The requested transform
 	 */
-	public static Point2Transform2_F64 transform_F64(AdjustmentType type,
+	public Point2Transform2_F64 transform_F64(AdjustmentType type,
 													 CameraPinholeRadial param,
 													 CameraPinholeRadial paramAdj,
 													 boolean undistortedToDistorted)
@@ -206,11 +207,11 @@ public class LensDistortionOps {
 			bound = DistortImageOps.boundBox_F64(param.width, param.height,
 					new PointToPixelTransform_F64(remove_p_to_p));
 		} else if( type == AdjustmentType.EXPAND) {
-			bound = LensDistortionOps.boundBoxInside(param.width, param.height,
+			bound = boundBoxInside(param.width, param.height,
 					new PointToPixelTransform_F64(remove_p_to_p));
 
 			// ensure there are no strips of black
-			LensDistortionOps.roundInside(bound);
+			roundInside(bound);
 		} else {
 			throw new IllegalArgumentException("If you don't want to adjust the view just call transformPoint()");
 		}
@@ -239,7 +240,7 @@ public class LensDistortionOps {
 	 * Given the lens distortion and the intrinsic adjustment matrix compute the new intrinsic parameters
 	 * and {@link Point2Transform2_F32}
 	 */
-	private static Point2Transform2_F64 adjustmentTransform_F64(CameraPinholeRadial param,
+	private  Point2Transform2_F64 adjustmentTransform_F64(CameraPinholeRadial param,
 																CameraPinholeRadial paramAdj,
 																boolean adjToDistorted,
 																Point2Transform2_F64 remove_p_to_p,
@@ -283,7 +284,7 @@ public class LensDistortionOps {
 	 * </p>
 	 *
 	 */
-	public static LensDistortionNarrowFOV transformPoint(CameraPinholeRadial param) {
+	public LensDistortionNarrowFOV transformPoint(CameraPinholeRadial param) {
 		if( param.isDistorted())
 			return new LensDistortionRadialTangential(param);
 		else
@@ -300,7 +301,7 @@ public class LensDistortionOps {
 	 * @param transform Transform being applied to the image
 	 * @return Bounding box
 	 */
-	public static RectangleLength2D_F32 boundBoxInside(int srcWidth, int srcHeight,
+	public RectangleLength2D_F32 boundBoxInside(int srcWidth, int srcHeight,
 												 PixelTransform2_F32 transform) {
 
 		float x0,y0,x1,y1;
@@ -345,7 +346,7 @@ public class LensDistortionOps {
 	 * @param transform Transform being applied to the image
 	 * @return Bounding box
 	 */
-	public static RectangleLength2D_F64 boundBoxInside(int srcWidth, int srcHeight,
+	public RectangleLength2D_F64 boundBoxInside(int srcWidth, int srcHeight,
 													   PixelTransform2_F64 transform) {
 
 		double x0,y0,x1,y1;
@@ -384,7 +385,7 @@ public class LensDistortionOps {
 	 * Adjust bound to ensure the entire image is contained inside, otherwise there might be
 	 * single pixel wide black regions
 	 */
-	public static void roundInside( RectangleLength2D_F32 bound ) {
+	public void roundInside( RectangleLength2D_F32 bound ) {
 		float x0 = (float)Math.ceil(bound.x0);
 		float y0 = (float)Math.ceil(bound.y0);
 		float x1 = (float)Math.floor(bound.x0+bound.width);
@@ -400,7 +401,7 @@ public class LensDistortionOps {
 	 * Adjust bound to ensure the entire image is contained inside, otherwise there might be
 	 * single pixel wide black regions
 	 */
-	public static void roundInside( RectangleLength2D_F64 bound ) {
+	public void roundInside( RectangleLength2D_F64 bound ) {
 		double x0 = Math.ceil(bound.x0);
 		double y0 = Math.ceil(bound.y0);
 		double x1 = Math.floor(bound.x0+bound.width);

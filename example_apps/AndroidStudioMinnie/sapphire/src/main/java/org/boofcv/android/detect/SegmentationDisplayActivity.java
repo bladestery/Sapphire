@@ -148,7 +148,7 @@ public class SegmentationDisplayActivity extends DemoVideoDisplayActivity
 				break;
 
 			case 2:
-				dm.slic(3, new ConfigSlic(100));
+				dm.slic(3);
 				break;
 
 			case 3:

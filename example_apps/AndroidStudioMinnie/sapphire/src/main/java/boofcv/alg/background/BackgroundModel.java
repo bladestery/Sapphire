@@ -18,6 +18,8 @@
 
 package boofcv.alg.background;
 
+import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.struct.image.ImageBase;
 import boofcv.struct.image.ImageType;
 
@@ -41,7 +43,7 @@ public abstract class BackgroundModel<T extends ImageBase> {
 	/**
 	 * Resets model to its original state
 	 */
-	public abstract void reset();
+	public abstract void reset(ImageMiscOps IMO, GImageMiscOps GIMO);
 
 
 	/**

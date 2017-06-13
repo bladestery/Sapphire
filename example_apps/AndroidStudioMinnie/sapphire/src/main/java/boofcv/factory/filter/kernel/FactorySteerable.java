@@ -26,6 +26,8 @@ import boofcv.alg.filter.kernel.impl.SteerableKernel_I32;
 import boofcv.alg.misc.GImageMiscOps;
 import boofcv.alg.misc.ImageMiscOps;
 import boofcv.core.image.border.FactoryImageBorder;
+import boofcv.factory.distort.FactoryDistort;
+import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.struct.convolve.Kernel1D;
 import boofcv.struct.convolve.Kernel2D;
 import boofcv.struct.convolve.Kernel2D_F32;
@@ -42,10 +44,6 @@ import boofcv.struct.image.ImageGray;
  */
 @SuppressWarnings({"unchecked"})
 public class FactorySteerable {
-	private static FactoryKernelGaussian FKG;
-	private static GImageMiscOps GIMO;
-	private static ImageMiscOps IMO;
-	private static FactoryImageBorder FIB;
 	/**
 	 * Steerable filter for 2D Gaussian derivatives.  The basis is composed of a set of rotated kernels.
 	 *
@@ -56,7 +54,8 @@ public class FactorySteerable {
 	 * @param sigma
 	 *@param radius Radius of the kernel.  @return Steerable kernel generator for the specified gaussian derivative.
 	 */
-	public static <K extends Kernel2D> SteerableKernel<K> gaussian(Class<K> kernelType, int orderX, int orderY, double sigma, int radius) {
+	public static <K extends Kernel2D> SteerableKernel<K> gaussian(Class<K> kernelType, int orderX, int orderY, double sigma, int radius, FactoryKernelGaussian FKG, FactoryImageBorder FIB, ImageMiscOps IMO,
+																   GImageMiscOps GIMO, FactoryInterpolation FI, FactoryDistort FDs) {
 		if( orderX < 0 || orderX > 4 )
 			throw new IllegalArgumentException("derivX must be from 0 to 4 inclusive.");
 		if( orderY < 0 || orderY > 4 )
@@ -94,7 +93,7 @@ public class FactorySteerable {
 			float angle = (float)(angleStep*index);
 
 			GIMO.fill(imageRotated, 0, IMO);
-			new FDistort(image,imageRotated, FIB).rotate(angle).apply();
+			new FDistort(image,imageRotated, FIB, FI).rotate(angle).apply(FDs);
 
 			basis[index] = GKernelMath.convertToKernel(imageRotated);
 		}

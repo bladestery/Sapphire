@@ -57,10 +57,12 @@ import boofcv.core.image.border.BorderType;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.core.image.border.FactoryImageBorderAlgs;
 import boofcv.core.image.border.ImageBorderValue;
+import boofcv.factory.distort.FactoryDistort;
 import boofcv.factory.filter.blur.FactoryBlurFilter;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.factory.geo.EnumEpipolar;
 import boofcv.factory.geo.FactoryMultiView;
+import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.struct.calib.CameraPinholeRadial;
 import boofcv.struct.distort.Point2Transform2_F64;
 import boofcv.struct.feature.AssociatedIndex;
@@ -111,6 +113,9 @@ public class DisparityCalculation<Desc extends TupleDesc> {
 	private static UtilWavelet UW;
 	private static ConvertImage CI;
 	private static FactoryBlurFilter FBF;
+	private static LensDistortionOps LDO;
+	private static FactoryInterpolation FI;
+	private static FactoryDistort FDs;
 	DetectDescribePoint<GrayF32,Desc> detDesc;
 	AssociateDescription<Desc> associate;
 	CameraPinholeRadial intrinsic;
@@ -165,7 +170,7 @@ public class DisparityCalculation<Desc extends TupleDesc> {
 	public void setSource( GrayF32 image ) {
 		distortedLeft.setTo(image);
 		detDesc.detect(image, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN,
-				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF, CI, UW, IT);
+				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF, CI, UW, IT, FI, FDs);
 		describeImage(listSrc, locationSrc);
 		associate.setSource(listSrc);
 	}
@@ -173,7 +178,7 @@ public class DisparityCalculation<Desc extends TupleDesc> {
 	public void setDestination( GrayF32 image ) {
 		distortedRight.setTo(image);
 		detDesc.detect(image, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN,
-				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF, CI, UW, IT);
+				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF, CI, UW, IT, FI, FDs);
 		describeImage(listDst, locationDst);
 		associate.setDestination(listDst);
 
@@ -247,7 +252,7 @@ public class DisparityCalculation<Desc extends TupleDesc> {
 	 */
 	public List<AssociatedPair> convertToNormalizedCoordinates() {
 
-		Point2Transform2_F64 tran = LensDistortionOps.transformPoint(intrinsic).undistort_F64(true,false);
+		Point2Transform2_F64 tran = LDO.transformPoint(intrinsic).undistort_F64(true,false);
 
 		List<AssociatedPair> calibratedFeatures = new ArrayList<AssociatedPair>();
 
@@ -353,9 +358,9 @@ public class DisparityCalculation<Desc extends TupleDesc> {
 
 		// undistorted and rectify images
 		ImageDistort<GrayF32,GrayF32> distortLeft =
-				RectifyImageOps.rectifyImage(intrinsic, rect1, BorderType.ZERO, IT.single(GrayF32.class));
+				RectifyImageOps.rectifyImage(intrinsic, rect1, BorderType.ZERO, IT.single(GrayF32.class), FI, FDs, LDO);
 		ImageDistort<GrayF32,GrayF32> distortRight =
-				RectifyImageOps.rectifyImage(intrinsic, rect2, BorderType.ZERO, IT.single(GrayF32.class));
+				RectifyImageOps.rectifyImage(intrinsic, rect2, BorderType.ZERO, IT.single(GrayF32.class), FI, FDs, LDO);
 
 		// Apply the Laplacian for some lighting invariance
 		IMO.fill(rectifiedLeft,0);

@@ -18,12 +18,14 @@
 
 package boofcv.alg.distort.radtan;
 
+import java.io.Serializable;
+
 /**
  * Distortion parameters for radial and tangential model
  *
  * @author Peter Abeles
  */
-public class RadialTangential_F32 {
+public class RadialTangential_F32 implements Serializable {
 	/**
 	 * Radial distortion parameters
 	 */

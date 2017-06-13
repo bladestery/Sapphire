@@ -18,6 +18,7 @@
 
 package boofcv.alg.sfm.overhead;
 
+import boofcv.alg.distort.LensDistortionOps;
 import boofcv.struct.calib.CameraPinholeRadial;
 import boofcv.struct.image.ImageBase;
 import boofcv.struct.image.ImageType;
@@ -78,10 +79,10 @@ public class SelectOverheadParameters {
 	 * @param planeToCamera Extrinsic camera parameters which specify the plane
 	 * @return true if successful or false if it failed
 	 */
-	public boolean process(CameraPinholeRadial intrinsic , Se3_F64 planeToCamera )
+	public boolean process(CameraPinholeRadial intrinsic , Se3_F64 planeToCamera, LensDistortionOps LDO)
 	{
 		proj.setPlaneToCamera(planeToCamera,true);
-		proj.setIntrinsic(intrinsic);
+		proj.setIntrinsic(intrinsic, LDO);
 
 		// find a bounding rectangle on the ground which is visible to the camera and at a high enough resolution
 		double x0 = Double.MAX_VALUE;

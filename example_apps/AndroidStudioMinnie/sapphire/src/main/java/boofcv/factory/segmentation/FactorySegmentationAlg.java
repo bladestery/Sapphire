@@ -82,7 +82,7 @@ public class FactorySegmentationAlg implements SapphireObject {
 	 * @return SegmentMeanShift
 	 */
 	public <T extends ImageBase>
-	SegmentMeanShift<T> meanShift( ConfigSegmentMeanShift config,  ImageType<T> imageType, FactoryImageBorder FIB)
+	SegmentMeanShift<T> meanShift( ConfigSegmentMeanShift config,  ImageType<T> imageType, FactoryImageBorder FIB, FactoryInterpolation FI)
 	{
 		if( config == null )
 			config = new ConfigSegmentMeanShift();
@@ -96,11 +96,11 @@ public class FactorySegmentationAlg implements SapphireObject {
 		SegmentMeanShiftSearch<T> search;
 
 		if( imageType.getFamily() == ImageType.Family.GRAY) {
-			InterpolatePixelS interp = FactoryInterpolation.bilinearPixelS(imageType.getImageClass(), BorderType.EXTENDED, FIB);
+			InterpolatePixelS interp = FI.bilinearPixelS(imageType.getImageClass(), BorderType.EXTENDED, FIB);
 			search = new SegmentMeanShiftSearchGray(maxIterations,convergenceTol,interp,
 					spacialRadius,spacialRadius,colorRadius,config.fast);
 		} else {
-			InterpolatePixelMB interp = FactoryInterpolation.createPixelMB(0,255,
+			InterpolatePixelMB interp = FI.createPixelMB(0,255,
 					InterpolationType.BILINEAR, BorderType.EXTENDED,(ImageType)imageType, FIB);
 			search = new SegmentMeanShiftSearchColor(maxIterations,convergenceTol,interp,
 					spacialRadius,spacialRadius,colorRadius,config.fast,imageType);

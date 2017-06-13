@@ -36,6 +36,7 @@ import boofcv.core.image.border.BorderType;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.core.image.border.ImageBorder;
 import boofcv.factory.filter.convolve.FactoryConvolveSparse;
+import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.struct.convolve.Kernel1D_F32;
 import boofcv.struct.convolve.Kernel2D_F32;
 import boofcv.struct.feature.ScalePoint;
@@ -173,8 +174,8 @@ public class SiftDetector implements SapphireObject {
 	 * @param input Input image.  Not modified.
 	 */
 	public void process(GrayF32 input, FastHessianFeatureDetector FHFD, FactoryImageBorder FIB, InputSanityCheck ISC, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN,
-						DerivativeHelperFunctions DHF, ConvolveJustBorder_General CJBG, GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO) {
-		scaleSpace.initialize(input, FIB, ISC, CNN, CINB, CNJB, CN);
+						DerivativeHelperFunctions DHF, ConvolveJustBorder_General CJBG, GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO, FactoryInterpolation FI) {
+		scaleSpace.initialize(input, FIB, ISC, CNN, CINB, CNJB, CN, FI);
 		detections.reset();
 
 		do {

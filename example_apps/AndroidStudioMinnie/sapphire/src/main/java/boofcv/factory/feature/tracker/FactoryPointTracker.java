@@ -71,6 +71,7 @@ import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.factory.tracker.FactoryTrackerAlg;
 import boofcv.factory.transform.pyramid.FactoryPyramid;
 import boofcv.struct.feature.*;
+import boofcv.struct.image.FactoryImage;
 import boofcv.struct.image.ImageGray;
 import boofcv.struct.image.ImageType;
 import boofcv.struct.pyramid.PyramidDiscrete;
@@ -106,12 +107,13 @@ public class FactoryPointTracker implements SapphireObject {
 	public <I extends ImageGray, D extends ImageGray>
 	PointTracker<I> klt(int scaling[], ConfigGeneralDetector configExtract, int featureRadius,
 							 Class<I> imageType, Class<D> derivType, FactoryDerivative FD, GeneralizedImageOps GIO, FactoryImageBorder FIB,
-						FactoryKernelGaussian FKG, FactoryPyramid FP, FactoryFeatureExtractor FFE, FactoryIntensityPointAlg FIPA) {
+						FactoryKernelGaussian FKG, FactoryPyramid FP, FactoryFeatureExtractor FFE, FactoryIntensityPointAlg FIPA,
+						FactoryInterpolation FI) {
 		PkltConfig config = new PkltConfig();
 		config.pyramidScaling = scaling;
 		config.templateRadius = featureRadius;
 
-		return klt(config, configExtract, imageType, derivType, FD, GIO, FIB, FKG, FP, FFE, FIPA);
+		return klt(config, configExtract, imageType, derivType, FD, GIO, FIB, FKG, FP, FFE, FIPA, FI);
 	}
 
 	/**
@@ -126,7 +128,8 @@ public class FactoryPointTracker implements SapphireObject {
 	public <I extends ImageGray, D extends ImageGray>
 	PointTracker<I> klt(PkltConfig config, ConfigGeneralDetector configExtract,
 						Class<I> imageType, Class<D> derivType, FactoryDerivative FD, GeneralizedImageOps GIO, FactoryImageBorder FIB,
-						FactoryKernelGaussian FKG, FactoryPyramid FP, FactoryFeatureExtractor FFE, FactoryIntensityPointAlg FIPA) {
+						FactoryKernelGaussian FKG, FactoryPyramid FP, FactoryFeatureExtractor FFE, FactoryIntensityPointAlg FIPA,
+						FactoryInterpolation FI) {
 
 		if( derivType == null )
 			derivType = GImageDerivativeOps.getDerivativeType(imageType);
@@ -141,8 +144,8 @@ public class FactoryPointTracker implements SapphireObject {
 
 		GeneralFeatureDetector<I, D> detector = createShiTomasi(configExtract, derivType, GIO, FKG, FFE, FIPA);
 
-		InterpolateRectangle<I> interpInput = FactoryInterpolation.<I>bilinearRectangle(imageType);
-		InterpolateRectangle<D> interpDeriv = FactoryInterpolation.<D>bilinearRectangle(derivType);
+		InterpolateRectangle<I> interpInput = FI.<I>bilinearRectangle(imageType);
+		InterpolateRectangle<D> interpDeriv = FI.<D>bilinearRectangle(derivType);
 
 		ImageGradient<I,D> gradient = FD.sobel(imageType, derivType, GIO, FIB);
 
@@ -405,7 +408,7 @@ public class FactoryPointTracker implements SapphireObject {
 										  ConfigSurfDescribe.Stability configDescribe ,
 										  ConfigSlidingIntegral configOrientation ,
 										  Class<I> imageType, FactoryFeatureExtractor FFE, FactoryInterestPointAlgs FIrPA, FactoryKernelGaussian FKG,
-										  FactoryAssociation FA, FactoryPyramid FP, FactoryDerivative FD, GeneralizedImageOps GIO, FactoryImageBorder FIB) {
+										  FactoryAssociation FA, FactoryPyramid FP, FactoryDerivative FD, GeneralizedImageOps GIO, FactoryImageBorder FIB, FactoryInterpolation FI) {
 
 		ScoreAssociation<TupleDesc_F64> score = FA.defaultScore(TupleDesc_F64.class);
 		AssociateSurfBasic assoc = new AssociateSurfBasic(FA.greedy(score, 100000, true));
@@ -415,7 +418,7 @@ public class FactoryPointTracker implements SapphireObject {
 		DetectDescribePoint<I,BrightFeature> fused =
 				FactoryDetectDescribe.surfStable(configDetector, configDescribe, configOrientation,imageType, FFE, FIrPA, FKG);
 
-		return combined(fused,generalAssoc, kltConfig,reactivateThreshold, imageType, FP, FKG, FD, GIO, FIB);
+		return combined(fused,generalAssoc, kltConfig,reactivateThreshold, imageType, FP, FKG, FD, GIO, FIB, FI);
 	}
 
 	/**
@@ -443,7 +446,7 @@ public class FactoryPointTracker implements SapphireObject {
 										 Class<I> imageType,
 										 Class<D> derivType, FactoryAssociation FA, FactoryDerivative FD, GeneralizedImageOps GIO, FactoryImageBorder FIB,
 										 FactoryKernelGaussian FKG, ImageType IT, FactoryInterestPoint FIP, FactoryFeatureExtractor FFE, FactoryIntensityPointAlg FIPA,
-										 FactoryPyramid FP) {
+										 FactoryPyramid FP, FactoryInterpolation FI) {
 
 		if( derivType == null )
 			derivType = GImageDerivativeOps.getDerivativeType(imageType);
@@ -468,7 +471,7 @@ public class FactoryPointTracker implements SapphireObject {
 		}
 
 		return combined(detector,orientation,regionDesc,generalAssoc, kltConfig,reactivateThreshold,
-				imageType, FP, FKG, FD, GIO, FIB);
+				imageType, FP, FKG, FD, GIO, FIB, FI);
 	}
 
 	/**
@@ -492,11 +495,11 @@ public class FactoryPointTracker implements SapphireObject {
 							 PkltConfig kltConfig ,
 							 int reactivateThreshold,
 							 Class<I> imageType, FactoryPyramid FP, FactoryKernelGaussian FKG,
-							 FactoryDerivative FD, GeneralizedImageOps GIO, FactoryImageBorder FIB)
+							 FactoryDerivative FD, GeneralizedImageOps GIO, FactoryImageBorder FIB, FactoryInterpolation FI)
 	{
 		DetectDescribeFusion<I,Desc> fused = new DetectDescribeFusion<>(detector, orientation, describe);
 
-		return combined(fused,associate, kltConfig, reactivateThreshold,imageType, FP, FKG, FD, GIO, FIB);
+		return combined(fused,associate, kltConfig, reactivateThreshold,imageType, FP, FKG, FD, GIO, FIB, FI);
 	}
 
 	/**
@@ -515,7 +518,7 @@ public class FactoryPointTracker implements SapphireObject {
 							 AssociateDescription<Desc> associate,
 							 PkltConfig kltConfig ,
 							 int reactivateThreshold, Class<I> imageType, FactoryPyramid FP, FactoryKernelGaussian FKG,
-							 FactoryDerivative FD, GeneralizedImageOps GIO, FactoryImageBorder FIB)
+							 FactoryDerivative FD, GeneralizedImageOps GIO, FactoryImageBorder FIB, FactoryInterpolation FI)
 	{
 		Class<D> derivType = GImageDerivativeOps.getDerivativeType(imageType);
 
@@ -524,7 +527,7 @@ public class FactoryPointTracker implements SapphireObject {
 		}
 
 		CombinedTrackerScalePoint<I, D,Desc> tracker =
-				FactoryTrackerAlg.combined(detector,associate, kltConfig,imageType,derivType);
+				FactoryTrackerAlg.combined(detector,associate, kltConfig,imageType,derivType, FI);
 
 		return new PointTrackerCombined<>(tracker, reactivateThreshold, imageType, derivType, FP, FKG, FD, GIO, FIB);
 	}

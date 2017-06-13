@@ -39,7 +39,9 @@ import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.filter.derivative.FactoryDerivative;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
+import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.struct.BoofDefaults;
+import boofcv.struct.image.FactoryImage;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.ImageGray;
 import boofcv.struct.image.ImageType;
@@ -74,7 +76,7 @@ public class OrientationSiftToImage<T extends ImageGray>
 	public void setImage(T image, InputSanityCheck ISC, GeneralizedImageOps GIO, DerivativeHelperFunctions DHF, ConvolveImageNoBorder CINB,
 						 ConvolveJustBorder_General CJBG, GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO, FactoryKernelGaussian FKG,
 						 GImageMiscOps GIMO, ImageMiscOps IMO, ConvertImage CI, FactoryImageBorder FIB, ConvolveNormalizedNaive CNN, ConvolveNormalized_JustBorder CNJB,
-						 ConvolveNormalized CN, ImageType IT) {
+						 ConvolveNormalized CN, ImageType IT, FactoryInterpolation FI) {
 
 		GrayF32 input;
 		if( image instanceof GrayF32) {
@@ -85,7 +87,7 @@ public class OrientationSiftToImage<T extends ImageGray>
 			input = imageFloat;
 		}
 
-		scaleSpace.setImage(input, FIB, ISC, CNN, CINB, CNJB, CN, DHF, CJBG, GSO, GSUO);
+		scaleSpace.setImage(input, FIB, ISC, CNN, CINB, CNJB, CN, DHF, CJBG, GSO, GSUO, FI);
 		setObjectRadius(sigma*BoofDefaults.SIFT_SCALE_TO_RADIUS, FKG);
 	}
 

@@ -218,12 +218,12 @@ public class PerspectiveOps {
 	 * @param pixel Optional storage for output.  If null a new instance will be declared.
 	 * @return pixel image coordinate
 	 */
-	public static Point2D_F64 convertNormToPixel(CameraPinholeRadial param , double x , double y , Point2D_F64 pixel ) {
+	public static Point2D_F64 convertNormToPixel(CameraPinholeRadial param , double x , double y , Point2D_F64 pixel , LensDistortionOps LDO ) {
 
 		if( pixel == null )
 			pixel = new Point2D_F64();
 
-		Point2Transform2_F64 normToPixel = LensDistortionOps.transformPoint(param).distort_F64(false,true);
+		Point2Transform2_F64 normToPixel = LDO.transformPoint(param).distort_F64(false,true);
 
 		normToPixel.compute(x,y,pixel);
 
@@ -242,11 +242,11 @@ public class PerspectiveOps {
 	 * @param pixel Optional storage for output.  If null a new instance will be declared.
 	 * @return pixel image coordinate
 	 */
-	public static Point2D_F32 convertNormToPixel(CameraPinholeRadial param , float x , float y , Point2D_F32 pixel ) {
+	public static Point2D_F32 convertNormToPixel(CameraPinholeRadial param , float x , float y , Point2D_F32 pixel  , LensDistortionOps LDO) {
 		if( pixel == null )
 			pixel = new Point2D_F32();
 
-		Point2Transform2_F32 normToPixel = LensDistortionOps.transformPoint(param).distort_F32(false, true);
+		Point2Transform2_F32 normToPixel = LDO.transformPoint(param).distort_F32(false, true);
 
 		normToPixel.compute(x,y,pixel);
 
@@ -266,8 +266,8 @@ public class PerspectiveOps {
 	 * @param pixel Optional storage for output.  If null a new instance will be declared.
 	 * @return pixel image coordinate
 	 */
-	public static Point2D_F64 convertNormToPixel(CameraPinholeRadial param , Point2D_F64 norm , Point2D_F64 pixel ) {
-		return convertNormToPixel(param,norm.x,norm.y,pixel);
+	public static Point2D_F64 convertNormToPixel(CameraPinholeRadial param , Point2D_F64 norm , Point2D_F64 pixel  , LensDistortionOps LDO) {
+		return convertNormToPixel(param,norm.x,norm.y,pixel, LDO);
 	}
 
 	/**
@@ -308,11 +308,11 @@ public class PerspectiveOps {
 	 * @param norm Optional storage for output.  If null a new instance will be declared.
 	 * @return normalized image coordinate
 	 */
-	public static Point2D_F64 convertPixelToNorm(CameraPinholeRadial param , Point2D_F64 pixel , Point2D_F64 norm ) {
+	public static Point2D_F64 convertPixelToNorm(CameraPinholeRadial param , Point2D_F64 pixel , Point2D_F64 norm , LensDistortionOps LDO ) {
 		if( norm == null )
 			norm = new Point2D_F64();
 
-		Point2Transform2_F64 pixelToNorm = LensDistortionOps.transformPoint(param).distort_F64(true, false);
+		Point2Transform2_F64 pixelToNorm = LDO.transformPoint(param).distort_F64(true, false);
 
 		pixelToNorm.compute(pixel.x,pixel.y,norm);
 
@@ -332,11 +332,11 @@ public class PerspectiveOps {
 	 * @param norm Optional storage for output.  If null a new instance will be declared.
 	 * @return normalized image coordinate
 	 */
-	public static Point2D_F32 convertPixelToNorm(CameraPinholeRadial param , Point2D_F32 pixel , Point2D_F32 norm ) {
+	public static Point2D_F32 convertPixelToNorm(CameraPinholeRadial param , Point2D_F32 pixel , Point2D_F32 norm , LensDistortionOps LDO) {
 		if( norm == null )
 			norm = new Point2D_F32();
 
-		Point2Transform2_F32 pixelToNorm = LensDistortionOps.transformPoint(param).distort_F32(true, false);
+		Point2Transform2_F32 pixelToNorm = LDO.transformPoint(param).distort_F32(true, false);
 
 		pixelToNorm.compute(pixel.x,pixel.y,norm);
 
@@ -402,9 +402,9 @@ public class PerspectiveOps {
 	 * @param X 3D Point in world reference frame..
 	 * @return 2D Render point on image plane or null if it's behind the camera
 	 */
-	public static Point2D_F64 renderPixel(CameraPinholeRadial intrinsic , Point3D_F64 X ) {
+	public static Point2D_F64 renderPixel(CameraPinholeRadial intrinsic , Point3D_F64 X  , LensDistortionOps LDO) {
 		Point2D_F64 norm = new Point2D_F64(X.x/X.z,X.y/X.z);
-		return PerspectiveOps.convertNormToPixel(intrinsic, norm, norm);
+		return PerspectiveOps.convertNormToPixel(intrinsic, norm, norm, LDO);
 	}
 
 	/**

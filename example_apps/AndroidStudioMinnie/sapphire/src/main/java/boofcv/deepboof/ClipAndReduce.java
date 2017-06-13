@@ -56,11 +56,11 @@ public class ClipAndReduce<T extends ImageBase<T>> {
 	 *             sides are scaled independently to make it square
 	 * @param imageType Type of image it iwll be processing
 	 */
-	public ClipAndReduce( boolean clip , ImageType<T> imageType ) {
+	public ClipAndReduce( boolean clip , ImageType<T> imageType, FactoryInterpolation FI, FactoryDistort FDs ) {
 		this.clip = clip;
 		InterpolatePixel<T> interp =
-				FactoryInterpolation.createPixel(0,255, InterpolationType.BILINEAR, BorderType.EXTENDED,imageType, FIB);
-		distort = FactoryDistort.distort(false,interp,imageType);
+				FI.createPixel(0,255, InterpolationType.BILINEAR, BorderType.EXTENDED,imageType, FIB);
+		distort = FDs.distort(false,interp,imageType);
 		distort.setModel(new PixelTransformAffine_F32(transform));
 	}
 

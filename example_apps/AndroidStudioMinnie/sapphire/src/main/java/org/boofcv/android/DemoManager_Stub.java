@@ -65,6 +65,24 @@ public final class DemoManager_Stub extends org.boofcv.android.DemoManager imple
         }
     }
 
+    // Implementation of undis(Planar)
+    public boofcv.struct.image.GrayU8 undis(boofcv.struct.image.Planar $param_Planar_1) {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                $__result = super.undis( $param_Planar_1);
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public boofcv.struct.image.GrayU8 org.boofcv.android.DemoManager.undis(boofcv.struct.image.Planar<boofcv.struct.image.GrayU8>)";
+                $__params.add($param_Planar_1);
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ((boofcv.struct.image.GrayU8) $__result);
+    }
+
     // Implementation of two1()
     public void two1() {
         java.lang.Object $__result = null;
@@ -334,6 +352,25 @@ public final class DemoManager_Stub extends org.boofcv.android.DemoManager imple
         }
     }
 
+    // Implementation of square(int, int)
+    public java.util.List square(int $param_int_1, int $param_int_2) {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                $__result = super.square( $param_int_1,  $param_int_2);
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public java.util.List<georegression.struct.point.Point2D_F64> org.boofcv.android.DemoManager.square(int,int)";
+                $__params.add($param_int_1);
+                $__params.add($param_int_2);
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ((java.util.List) $__result);
+    }
+
     // Implementation of sparseFlow(SfotConfig)
     public void sparseFlow(boofcv.alg.tracker.sfot.SfotConfig $param_SfotConfig_1) {
         java.lang.Object $__result = null;
@@ -367,17 +404,16 @@ public final class DemoManager_Stub extends org.boofcv.android.DemoManager imple
         }
     }
 
-    // Implementation of slic(int, ConfigSlic)
-    public void slic(int $param_int_1, boofcv.factory.segmentation.ConfigSlic $param_ConfigSlic_2) {
+    // Implementation of slic(int)
+    public void slic(int $param_int_1) {
         java.lang.Object $__result = null;
         try {
             if ($__directInvocation)
-                super.slic( $param_int_1,  $param_ConfigSlic_2);
+                super.slic( $param_int_1);
             else {
                 java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
-                String $__method = "public void org.boofcv.android.DemoManager.slic(int,boofcv.factory.segmentation.ConfigSlic)";
+                String $__method = "public void org.boofcv.android.DemoManager.slic(int)";
                 $__params.add($param_int_1);
-                $__params.add($param_ConfigSlic_2);
                 $__result = $__client.onRPC($__method, $__params);
             }
         } catch (Exception e) {
@@ -385,17 +421,16 @@ public final class DemoManager_Stub extends org.boofcv.android.DemoManager imple
         }
     }
 
-    // Implementation of sift(ConfigSiftScaleSpace, ConfigSiftDetector)
-    public void sift(boofcv.abst.feature.describe.ConfigSiftScaleSpace $param_ConfigSiftScaleSpace_1, boofcv.abst.feature.detect.interest.ConfigSiftDetector $param_ConfigSiftDetector_2) {
+    // Implementation of sift(ConfigSiftScaleSpace)
+    public void sift(boofcv.abst.feature.describe.ConfigSiftScaleSpace $param_ConfigSiftScaleSpace_1) {
         java.lang.Object $__result = null;
         try {
             if ($__directInvocation)
-                super.sift( $param_ConfigSiftScaleSpace_1,  $param_ConfigSiftDetector_2);
+                super.sift( $param_ConfigSiftScaleSpace_1);
             else {
                 java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
-                String $__method = "public void org.boofcv.android.DemoManager.sift(boofcv.abst.feature.describe.ConfigSiftScaleSpace,boofcv.abst.feature.detect.interest.ConfigSiftDetector)";
+                String $__method = "public void org.boofcv.android.DemoManager.sift(boofcv.abst.feature.describe.ConfigSiftScaleSpace)";
                 $__params.add($param_ConfigSiftScaleSpace_1);
-                $__params.add($param_ConfigSiftDetector_2);
                 $__result = $__client.onRPC($__method, $__params);
             }
         } catch (Exception e) {
@@ -460,20 +495,21 @@ public final class DemoManager_Stub extends org.boofcv.android.DemoManager imple
     }
 
     // Implementation of set_pointDetect(GrayU8)
-    public void set_pointDetect(boofcv.struct.image.GrayU8 $param_GrayU8_1) {
+    public org.boofcv.android.detect.Kueue set_pointDetect(boofcv.struct.image.GrayU8 $param_GrayU8_1) {
         java.lang.Object $__result = null;
         try {
             if ($__directInvocation)
-                super.set_pointDetect( $param_GrayU8_1);
+                $__result = super.set_pointDetect( $param_GrayU8_1);
             else {
                 java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
-                String $__method = "public void org.boofcv.android.DemoManager.set_pointDetect(boofcv.struct.image.GrayU8)";
+                String $__method = "public org.boofcv.android.detect.Kueue org.boofcv.android.DemoManager.set_pointDetect(boofcv.struct.image.GrayU8)";
                 $__params.add($param_GrayU8_1);
                 $__result = $__client.onRPC($__method, $__params);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return ((org.boofcv.android.detect.Kueue) $__result);
     }
 
     // Implementation of setThreshold(float)
@@ -617,20 +653,21 @@ public final class DemoManager_Stub extends org.boofcv.android.DemoManager imple
     }
 
     // Implementation of scaleDetect(GrayU8)
-    public void scaleDetect(boofcv.struct.image.GrayU8 $param_GrayU8_1) {
+    public org.ddogleg.struct.FastQueue scaleDetect(boofcv.struct.image.GrayU8 $param_GrayU8_1) {
         java.lang.Object $__result = null;
         try {
             if ($__directInvocation)
-                super.scaleDetect( $param_GrayU8_1);
+                $__result = super.scaleDetect( $param_GrayU8_1);
             else {
                 java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
-                String $__method = "public void org.boofcv.android.DemoManager.scaleDetect(boofcv.struct.image.GrayU8)";
+                String $__method = "public org.ddogleg.struct.FastQueue<boofcv.struct.feature.ScalePoint> org.boofcv.android.DemoManager.scaleDetect(boofcv.struct.image.GrayU8)";
                 $__params.add($param_GrayU8_1);
                 $__result = $__client.onRPC($__method, $__params);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return ((org.ddogleg.struct.FastQueue) $__result);
     }
 
     // Implementation of reshape(int, int)
@@ -698,6 +735,24 @@ public final class DemoManager_Stub extends org.boofcv.android.DemoManager imple
                 $__params.add($param_ImageGray_1);
                 $__params.add($param_double_2);
                 $__params.add($param_boolean_3);
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ((boofcv.struct.image.GrayU8) $__result);
+    }
+
+    // Implementation of remDistort(Planar)
+    public boofcv.struct.image.GrayU8 remDistort(boofcv.struct.image.Planar $param_Planar_1) {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                $__result = super.remDistort( $param_Planar_1);
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public boofcv.struct.image.GrayU8 org.boofcv.android.DemoManager.remDistort(boofcv.struct.image.Planar<boofcv.struct.image.GrayU8>)";
+                $__params.add($param_Planar_1);
                 $__result = $__client.onRPC($__method, $__params);
             }
         } catch (Exception e) {
@@ -793,40 +848,6 @@ public final class DemoManager_Stub extends org.boofcv.android.DemoManager imple
             e.printStackTrace();
         }
         return ((boofcv.struct.image.GrayU8) $__result);
-    }
-
-    // Implementation of pointgetMinimums()
-    public boofcv.struct.QueueCorner pointgetMinimums() {
-        java.lang.Object $__result = null;
-        try {
-            if ($__directInvocation)
-                $__result = super.pointgetMinimums();
-            else {
-                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
-                String $__method = "public boofcv.struct.QueueCorner org.boofcv.android.DemoManager.pointgetMinimums()";
-                $__result = $__client.onRPC($__method, $__params);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return ((boofcv.struct.QueueCorner) $__result);
-    }
-
-    // Implementation of pointgetMaximums()
-    public boofcv.struct.QueueCorner pointgetMaximums() {
-        java.lang.Object $__result = null;
-        try {
-            if ($__directInvocation)
-                $__result = super.pointgetMaximums();
-            else {
-                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
-                String $__method = "public boofcv.struct.QueueCorner org.boofcv.android.DemoManager.pointgetMaximums()";
-                $__result = $__client.onRPC($__method, $__params);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return ((boofcv.struct.QueueCorner) $__result);
     }
 
     // Implementation of pointProcess(GrayU8)
@@ -1358,6 +1379,23 @@ public final class DemoManager_Stub extends org.boofcv.android.DemoManager imple
         }
     }
 
+    // Implementation of initDistort(Point2Transform2_F32)
+    public void initDistort(boofcv.struct.distort.Point2Transform2_F32 $param_Point2Transform2_F32_1) {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                super.initDistort( $param_Point2Transform2_F32_1);
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public void org.boofcv.android.DemoManager.initDistort(boofcv.struct.distort.Point2Transform2_F32)";
+                $__params.add($param_Point2Transform2_F32_1);
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     // Implementation of initBlurred(int, int)
     public void initBlurred(int $param_int_1, int $param_int_2) {
         java.lang.Object $__result = null;
@@ -1615,6 +1653,40 @@ public final class DemoManager_Stub extends org.boofcv.android.DemoManager imple
         }
     }
 
+    // Implementation of getSquarePoly()
+    public org.ddogleg.struct.FastQueue getSquarePoly() {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                $__result = super.getSquarePoly();
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public org.ddogleg.struct.FastQueue<georegression.struct.shapes.Polygon2D_F64> org.boofcv.android.DemoManager.getSquarePoly()";
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ((org.ddogleg.struct.FastQueue) $__result);
+    }
+
+    // Implementation of getSquare()
+    public boofcv.struct.image.GrayU8 getSquare() {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                $__result = super.getSquare();
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public boofcv.struct.image.GrayU8 org.boofcv.android.DemoManager.getSquare()";
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ((boofcv.struct.image.GrayU8) $__result);
+    }
+
     // Implementation of getRadius(int)
     public double getRadius(int $param_int_1) {
         java.lang.Object $__result = null;
@@ -1668,23 +1740,6 @@ public final class DemoManager_Stub extends org.boofcv.android.DemoManager imple
         return ((georegression.struct.point.Point2D_F64) $__result);
     }
 
-    // Implementation of getInterestPoints()
-    public org.ddogleg.struct.FastQueue getInterestPoints() {
-        java.lang.Object $__result = null;
-        try {
-            if ($__directInvocation)
-                $__result = super.getInterestPoints();
-            else {
-                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
-                String $__method = "public org.ddogleg.struct.FastQueue<boofcv.struct.feature.ScalePoint> org.boofcv.android.DemoManager.getInterestPoints()";
-                $__result = $__client.onRPC($__method, $__params);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return ((org.ddogleg.struct.FastQueue) $__result);
-    }
-
     // Implementation of getImageType()
     public boofcv.struct.image.ImageType getImageType() {
         java.lang.Object $__result = null;
@@ -1736,6 +1791,23 @@ public final class DemoManager_Stub extends org.boofcv.android.DemoManager imple
         return ((org.ddogleg.struct.FastQueue) $__result);
     }
 
+    // Implementation of getDetectedPoints()
+    public boofcv.alg.geo.calibration.CalibrationObservation getDetectedPoints() {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                $__result = super.getDetectedPoints();
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public boofcv.alg.geo.calibration.CalibrationObservation org.boofcv.android.DemoManager.getDetectedPoints()";
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ((boofcv.alg.geo.calibration.CalibrationObservation) $__result);
+    }
+
     // Implementation of getContours()
     public java.util.List getContours() {
         java.lang.Object $__result = null;
@@ -1751,6 +1823,74 @@ public final class DemoManager_Stub extends org.boofcv.android.DemoManager imple
             e.printStackTrace();
         }
         return ((java.util.List) $__result);
+    }
+
+    // Implementation of getCircleEllipse()
+    public java.util.List getCircleEllipse() {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                $__result = super.getCircleEllipse();
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public java.util.List<georegression.struct.shapes.EllipseRotated_F64> org.boofcv.android.DemoManager.getCircleEllipse()";
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ((java.util.List) $__result);
+    }
+
+    // Implementation of getCircle()
+    public boofcv.struct.image.GrayU8 getCircle() {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                $__result = super.getCircle();
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public boofcv.struct.image.GrayU8 org.boofcv.android.DemoManager.getCircle()";
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ((boofcv.struct.image.GrayU8) $__result);
+    }
+
+    // Implementation of getChessSeeds()
+    public org.ddogleg.struct.FastQueue getChessSeeds() {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                $__result = super.getChessSeeds();
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public org.ddogleg.struct.FastQueue<georegression.struct.shapes.Polygon2D_F64> org.boofcv.android.DemoManager.getChessSeeds()";
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ((org.ddogleg.struct.FastQueue) $__result);
+    }
+
+    // Implementation of getChess()
+    public boofcv.struct.image.GrayU8 getChess() {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                $__result = super.getChess();
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public boofcv.struct.image.GrayU8 org.boofcv.android.DemoManager.getChess()";
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ((boofcv.struct.image.GrayU8) $__result);
     }
 
     // Implementation of general_point()
@@ -1876,16 +2016,15 @@ public final class DemoManager_Stub extends org.boofcv.android.DemoManager imple
         }
     }
 
-    // Implementation of fastHessian(ConfigFastHessian)
-    public void fastHessian(boofcv.abst.feature.detect.interest.ConfigFastHessian $param_ConfigFastHessian_1) {
+    // Implementation of fastHessian()
+    public void fastHessian() {
         java.lang.Object $__result = null;
         try {
             if ($__directInvocation)
-                super.fastHessian( $param_ConfigFastHessian_1);
+                super.fastHessian();
             else {
                 java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
-                String $__method = "public void org.boofcv.android.DemoManager.fastHessian(boofcv.abst.feature.detect.interest.ConfigFastHessian)";
-                $__params.add($param_ConfigFastHessian_1);
+                String $__method = "public void org.boofcv.android.DemoManager.fastHessian()";
                 $__result = $__client.onRPC($__method, $__params);
             }
         } catch (Exception e) {
@@ -1991,16 +2130,15 @@ public final class DemoManager_Stub extends org.boofcv.android.DemoManager imple
         return ((boofcv.struct.image.GrayU8) $__result);
     }
 
-    // Implementation of ellipse(ConfigEllipseDetector)
-    public void ellipse(boofcv.factory.shape.ConfigEllipseDetector $param_ConfigEllipseDetector_1) {
+    // Implementation of ellipse()
+    public void ellipse() {
         java.lang.Object $__result = null;
         try {
             if ($__directInvocation)
-                super.ellipse( $param_ConfigEllipseDetector_1);
+                super.ellipse();
             else {
                 java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
-                String $__method = "public void org.boofcv.android.DemoManager.ellipse(boofcv.factory.shape.ConfigEllipseDetector)";
-                $__params.add($param_ConfigEllipseDetector_1);
+                String $__method = "public void org.boofcv.android.DemoManager.ellipse()";
                 $__result = $__client.onRPC($__method, $__params);
             }
         } catch (Exception e) {
@@ -2143,6 +2281,24 @@ public final class DemoManager_Stub extends org.boofcv.android.DemoManager imple
             e.printStackTrace();
         }
         return ((boofcv.struct.image.GrayU8) $__result);
+    }
+
+    // Implementation of declDistort(int, int)
+    public void declDistort(int $param_int_1, int $param_int_2) {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                super.declDistort( $param_int_1,  $param_int_2);
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public void org.boofcv.android.DemoManager.declDistort(int,int)";
+                $__params.add($param_int_1);
+                $__params.add($param_int_2);
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     // Implementation of ddaTracker(int, int)
@@ -2294,6 +2450,24 @@ public final class DemoManager_Stub extends org.boofcv.android.DemoManager imple
         return ((org.ddogleg.struct.FastQueue) $__result);
     }
 
+    // Implementation of colDistort(Planar)
+    public boofcv.struct.image.Planar colDistort(boofcv.struct.image.Planar $param_Planar_1) {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                $__result = super.colDistort( $param_Planar_1);
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public boofcv.struct.image.Planar<boofcv.struct.image.GrayU8> org.boofcv.android.DemoManager.colDistort(boofcv.struct.image.Planar<boofcv.struct.image.GrayU8>)";
+                $__params.add($param_Planar_1);
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ((boofcv.struct.image.Planar) $__result);
+    }
+
     // Implementation of circulant(ConfigCirculantTracker)
     public void circulant(boofcv.abst.tracker.ConfigCirculantTracker $param_ConfigCirculantTracker_1) {
         java.lang.Object $__result = null;
@@ -2309,6 +2483,44 @@ public final class DemoManager_Stub extends org.boofcv.android.DemoManager imple
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    // Implementation of circle(int, int)
+    public java.util.List circle(int $param_int_1, int $param_int_2) {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                $__result = super.circle( $param_int_1,  $param_int_2);
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public java.util.List<georegression.struct.point.Point2D_F64> org.boofcv.android.DemoManager.circle(int,int)";
+                $__params.add($param_int_1);
+                $__params.add($param_int_2);
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ((java.util.List) $__result);
+    }
+
+    // Implementation of chessboard(int, int)
+    public java.util.List chessboard(int $param_int_1, int $param_int_2) {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                $__result = super.chessboard( $param_int_1,  $param_int_2);
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public java.util.List<georegression.struct.point.Point2D_F64> org.boofcv.android.DemoManager.chessboard(int,int)";
+                $__params.add($param_int_1);
+                $__params.add($param_int_2);
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ((java.util.List) $__result);
     }
 
     // Implementation of cannyEdge(int, boolean, boolean, Class, Class)
@@ -2352,6 +2564,41 @@ public final class DemoManager_Stub extends org.boofcv.android.DemoManager imple
         }
     }
 
+    // Implementation of calibProcess(GrayF32)
+    public boolean calibProcess(boofcv.struct.image.GrayF32 $param_GrayF32_1) {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                $__result = super.calibProcess( $param_GrayF32_1);
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public boolean org.boofcv.android.DemoManager.calibProcess(boofcv.struct.image.GrayF32)";
+                $__params.add($param_GrayF32_1);
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ((java.lang.Boolean) $__result).booleanValue();
+    }
+
+    // Implementation of calibAlg(List)
+    public void calibAlg(java.util.List $param_List_1) {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                super.calibAlg( $param_List_1);
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public void org.boofcv.android.DemoManager.calibAlg(java.util.List<georegression.struct.point.Point2D_F64>)";
+                $__params.add($param_List_1);
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     // Implementation of blurProcess(GrayU8)
     public boofcv.struct.image.GrayU8 blurProcess(boofcv.struct.image.GrayU8 $param_GrayU8_1) {
         java.lang.Object $__result = null;
@@ -2385,6 +2632,24 @@ public final class DemoManager_Stub extends org.boofcv.android.DemoManager imple
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    // Implementation of blackEllipse(GrayU8)
+    public boofcv.struct.image.GrayU8 blackEllipse(boofcv.struct.image.GrayU8 $param_GrayU8_1) {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                $__result = super.blackEllipse( $param_GrayU8_1);
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public boofcv.struct.image.GrayU8 org.boofcv.android.DemoManager.blackEllipse(boofcv.struct.image.GrayU8)";
+                $__params.add($param_GrayU8_1);
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ((boofcv.struct.image.GrayU8) $__result);
     }
 
     // Implementation of biorthogoalWavelet()
@@ -2470,6 +2735,25 @@ public final class DemoManager_Stub extends org.boofcv.android.DemoManager imple
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    // Implementation of algProcess(List, List)
+    public org.boofcv.android.calib.Calib algProcess(java.util.List $param_List_1, java.util.List $param_List_2) {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                $__result = super.algProcess( $param_List_1,  $param_List_2);
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public org.boofcv.android.calib.Calib org.boofcv.android.DemoManager.algProcess(java.util.List<boofcv.alg.geo.calibration.CalibrationObservation>,java.util.List<georegression.struct.point.Point2D_F64>)";
+                $__params.add($param_List_1);
+                $__params.add($param_List_2);
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ((org.boofcv.android.calib.Calib) $__result);
     }
 
     // Implementation of Polygon(ConfigPolygonDetector, Class)

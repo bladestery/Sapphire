@@ -18,6 +18,8 @@
 
 package boofcv.alg.distort;
 
+import java.io.Serializable;
+
 import boofcv.struct.distort.Point2Transform2_F32;
 import georegression.struct.point.Point2D_F32;
 
@@ -27,7 +29,7 @@ import georegression.struct.point.Point2D_F32;
  *
  * @author Peter Abeles
  */
-public class Transform2ThenPixel_F32 implements Point2Transform2_F32 {
+public class Transform2ThenPixel_F32 implements Point2Transform2_F32, Serializable {
 
 	float fx, fy, skew, cx, cy;
 	Point2Transform2_F32 first;

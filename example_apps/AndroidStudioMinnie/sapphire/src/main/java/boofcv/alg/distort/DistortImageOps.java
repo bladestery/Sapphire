@@ -69,7 +69,7 @@ public class DistortImageOps {
 	public static <T extends ImageBase>
 	void affine(T input, T output, BorderType borderType, InterpolationType interpType,
 				double a11, double a12, double a21, double a22,
-				double dx, double dy, FactoryImageBorder FIB)
+				double dx, double dy, FactoryImageBorder FIB, FactoryInterpolation FI, FactoryDistort FDs)
 	{
 		Affine2D_F32 m = new Affine2D_F32();
 		m.a11 = (float)a11;
@@ -84,9 +84,9 @@ public class DistortImageOps {
 		PixelTransformAffine_F32 model = new PixelTransformAffine_F32(m);
 
 		if( input instanceof ImageGray) {
-			distortSingle((ImageGray)input, (ImageGray)output, model, interpType, borderType, FIB);
+			distortSingle((ImageGray)input, (ImageGray)output, model, interpType, borderType, FIB, FI, FDs);
 		} else if( input instanceof Planar) {
-			distortPL((Planar) input, (Planar) output, model, borderType, interpType, FIB);
+			distortPL((Planar) input, (Planar) output, model, borderType, interpType, FIB, FI, FDs);
 		}
 	}
 
@@ -104,7 +104,7 @@ public class DistortImageOps {
 	public static <Input extends ImageGray,Output extends ImageGray>
 	void distortSingle(Input input, Output output,
 					   PixelTransform2_F32 transform,
-					   InterpolationType interpType, BorderType borderType, FactoryImageBorder FIB)
+					   InterpolationType interpType, BorderType borderType, FactoryImageBorder FIB, FactoryInterpolation FI, FactoryDistort FDs)
 	{
 		boolean skip = borderType == BorderType.SKIP;
 		if( skip )
@@ -112,9 +112,9 @@ public class DistortImageOps {
 
 		Class<Input> inputType = (Class<Input>)input.getClass();
 		Class<Output> outputType = (Class<Output>)input.getClass();
-		InterpolatePixelS<Input> interp = FactoryInterpolation.createPixelS(0, 255, interpType, borderType, inputType, FIB);
+		InterpolatePixelS<Input> interp = FI.createPixelS(0, 255, interpType, borderType, inputType, FIB);
 
-		ImageDistort<Input,Output> distorter = FactoryDistort.distortSB(false, interp, outputType);
+		ImageDistort<Input,Output> distorter = FDs.distortSB(false, interp, outputType);
 		distorter.setRenderAll(!skip);
 		distorter.setModel(transform);
 		distorter.apply(input,output);
@@ -134,10 +134,10 @@ public class DistortImageOps {
 	public static <Input extends ImageGray,Output extends ImageGray>
 	void distortSingle(Input input, Output output,
 					   boolean renderAll, PixelTransform2_F32 transform,
-					   InterpolatePixelS<Input> interp)
+					   InterpolatePixelS<Input> interp, FactoryDistort FDs)
 	{
 		Class<Output> inputType = (Class<Output>)input.getClass();
-		ImageDistort<Input,Output> distorter = FactoryDistort.distortSB(false, interp, inputType);
+		ImageDistort<Input,Output> distorter = FDs.distortSB(false, interp, inputType);
 		distorter.setRenderAll(renderAll);
 		distorter.setModel(transform);
 		distorter.apply(input,output);
@@ -158,13 +158,13 @@ public class DistortImageOps {
 			M extends Planar<Input>,N extends Planar<Output>>
 	void distortPL(M input, N output,
 				   PixelTransform2_F32 transform,
-				   BorderType borderType, InterpolationType interpType, FactoryImageBorder FIB)
+				   BorderType borderType, InterpolationType interpType, FactoryImageBorder FIB, FactoryInterpolation FI, FactoryDistort FDs)
 	{
 		Class<Input> inputBandType = input.getBandType();
 		Class<Output> outputBandType = output.getBandType();
-		InterpolatePixelS<Input> interp = FactoryInterpolation.createPixelS(0, 255, interpType, borderType, inputBandType, FIB);
+		InterpolatePixelS<Input> interp = FI.createPixelS(0, 255, interpType, borderType, inputBandType, FIB);
 
-		ImageDistort<Input,Output> distorter = FactoryDistort.distortSB(false, interp, outputBandType);
+		ImageDistort<Input,Output> distorter = FDs.distortSB(false, interp, outputBandType);
 		distorter.setModel(transform);
 
 		distortPL(input,output,distorter);
@@ -187,11 +187,11 @@ public class DistortImageOps {
 	public static <Input extends ImageGray,Output extends ImageGray>
 	ImageDistort<Input,Output> createImageDistort(Point2Transform2_F32 transform,
 												  InterpolationType interpType, BorderType borderType,
-												  Class<Input> inputType, Class<Output> outputType, FactoryImageBorder FIB)
+												  Class<Input> inputType, Class<Output> outputType, FactoryImageBorder FIB, FactoryInterpolation FI, FactoryDistort FDs)
 	{
-		InterpolatePixelS<Input> interp = FactoryInterpolation.createPixelS(0, 255, interpType,borderType, inputType, FIB);
+		InterpolatePixelS<Input> interp = FI.createPixelS(0, 255, interpType,borderType, inputType, FIB);
 		ImageDistort<Input,Output> distorter =
-				FactoryDistort.distortSB(true, interp, outputType);
+				FDs.distortSB(true, interp, outputType);
 		distorter.setModel(new PointToPixelTransform_F32(transform));
 
 		return distorter;
@@ -207,14 +207,14 @@ public class DistortImageOps {
 	 */
 	@Deprecated
 	public static <T extends ImageBase>
-	void scale(T input, T output, BorderType borderType, InterpolationType interpType, FactoryImageBorder FIB) {
+	void scale(T input, T output, BorderType borderType, InterpolationType interpType, FactoryImageBorder FIB, FactoryInterpolation FI, FactoryDistort FDs) {
 
 		PixelTransformAffine_F32 model = DistortSupport.transformScale(output, input, null);
 
 		if( input instanceof ImageGray) {
-			distortSingle((ImageGray) input, (ImageGray) output, model, interpType, borderType, FIB);
+			distortSingle((ImageGray) input, (ImageGray) output, model, interpType, borderType, FIB, FI, FDs);
 		} else if( input instanceof Planar) {
-			distortPL((Planar) input, (Planar) output, model,  borderType, interpType, FIB);
+			distortPL((Planar) input, (Planar) output, model,  borderType, interpType, FIB, FI, FDs);
 		}
 	}
 
@@ -240,7 +240,7 @@ public class DistortImageOps {
 	 */
 	@Deprecated
 	public static <T extends ImageBase>
-	void rotate(T input, T output, BorderType borderType, InterpolationType interpType, float angleInputToOutput, FactoryImageBorder FIB) {
+	void rotate(T input, T output, BorderType borderType, InterpolationType interpType, float angleInputToOutput, FactoryImageBorder FIB, FactoryInterpolation FI, FactoryDistort FDs) {
 
 		float offX = 0;//(output.width+1)%2;
 		float offY = 0;//(output.height+1)%2;
@@ -249,9 +249,9 @@ public class DistortImageOps {
 				output.width / 2 - offX, output.height / 2 - offY, angleInputToOutput);
 
 		if( input instanceof ImageGray) {
-			distortSingle((ImageGray) input, (ImageGray) output, model, interpType, borderType, FIB);
+			distortSingle((ImageGray) input, (ImageGray) output, model, interpType, borderType, FIB, FI, FDs);
 		} else if( input instanceof Planar) {
-			distortPL((Planar) input, (Planar) output, model,borderType, interpType, FIB);
+			distortPL((Planar) input, (Planar) output, model,borderType, interpType, FIB, FI, FDs);
 		}
 	}
 

@@ -62,10 +62,10 @@ public class CreateSyntheticOverheadViewPL<T extends ImageGray>
 	 * @param numBands Number of bands in the image.
 	 * @param imageType Image of each band
 	 */
-	public CreateSyntheticOverheadViewPL(InterpolationType type , int numBands , Class<T> imageType ) {
+	public CreateSyntheticOverheadViewPL(InterpolationType type , int numBands , Class<T> imageType, FactoryInterpolation FI ) {
 		this.interp = new InterpolatePixelS[numBands];
 		for( int i = 0; i < numBands; i++ ) {
-			interp[i] = FactoryInterpolation.createPixelS(0, 255, type, BorderType.EXTENDED, imageType, FIB);
+			interp[i] = FI.createPixelS(0, 255, type, BorderType.EXTENDED, imageType, FIB);
 		}
 		output = new GImageGray[interp.length];
 	}

@@ -61,16 +61,16 @@ public class FactoryTrackerObjectQuad implements SapphireObject {
 	 * @return TrackerObjectQuad
 	 */
 	public <T extends ImageGray,D extends ImageGray>
-	TrackerObjectQuad<T> tld(ConfigTld config , Class<T> imageType, FactoryDerivative FD, FactoryImageBorder FIB, GeneralizedImageOps GIO, ImageType IT) {
+	TrackerObjectQuad<T> tld(ConfigTld config , Class<T> imageType, FactoryDerivative FD, FactoryImageBorder FIB, GeneralizedImageOps GIO, ImageType IT, FactoryInterpolation FI) {
 		if( config == null )
 			config = new ConfigTld();
 
 		Class<D> derivType = GImageDerivativeOps.getDerivativeType(imageType);
 
-		InterpolatePixelS<T> interpolate = FactoryInterpolation.bilinearPixelS(imageType, BorderType.EXTENDED, FIB);
+		InterpolatePixelS<T> interpolate = FI.bilinearPixelS(imageType, BorderType.EXTENDED, FIB);
 		ImageGradient<T,D> gradient =  FD.sobel(imageType, derivType, GIO, FIB);
 
-		TldTracker<T,D> tracker = new TldTracker<>(config.parameters, interpolate, gradient, imageType, derivType, GIO);
+		TldTracker<T,D> tracker = new TldTracker<>(config.parameters, interpolate, gradient, imageType, derivType, GIO, FI);
 
 		return new Tld_to_TrackerObjectQuad<>(tracker, imageType, IT);
 	}
@@ -84,7 +84,7 @@ public class FactoryTrackerObjectQuad implements SapphireObject {
 	 * @return TrackerObjectQuad
 	 */
 	public <T extends ImageGray,D extends ImageGray>
-	TrackerObjectQuad<T> sparseFlow(SfotConfig config, Class<T> imageType , Class<D> derivType, FactoryDerivative FD, FactoryImageBorder FIB, GeneralizedImageOps GIO, ImageType IT) {
+	TrackerObjectQuad<T> sparseFlow(SfotConfig config, Class<T> imageType , Class<D> derivType, FactoryDerivative FD, FactoryImageBorder FIB, GeneralizedImageOps GIO, ImageType IT, FactoryInterpolation FI) {
 
 		if( derivType == null )
 			derivType = GImageDerivativeOps.getDerivativeType(imageType);
@@ -94,7 +94,7 @@ public class FactoryTrackerObjectQuad implements SapphireObject {
 
 		ImageGradient<T, D> gradient = FD.sobel(imageType,derivType, GIO, FIB);
 
-		SparseFlowObjectTracker<T,D> tracker = new SparseFlowObjectTracker<>(config, imageType, derivType, gradient);
+		SparseFlowObjectTracker<T,D> tracker = new SparseFlowObjectTracker<>(config, imageType, derivType, gradient, FI);
 
 		return new Sfot_to_TrackObjectQuad<>(tracker, imageType, IT);
 	}
@@ -160,9 +160,9 @@ public class FactoryTrackerObjectQuad implements SapphireObject {
 	 * @return TrackerObjectQuad based on Comaniciu2003
 	 */
 	public <T extends ImageBase>
-	TrackerObjectQuad<T> meanShiftComaniciu2003(ConfigComaniciu2003 config, ImageType<T> imageType, FactoryImageBorder FIB) {
+	TrackerObjectQuad<T> meanShiftComaniciu2003(ConfigComaniciu2003 config, ImageType<T> imageType, FactoryImageBorder FIB, FactoryInterpolation FI) {
 
-		TrackerMeanShiftComaniciu2003<T> alg = FactoryTrackerObjectAlgs.meanShiftComaniciu2003(config,imageType, FIB);
+		TrackerMeanShiftComaniciu2003<T> alg = FactoryTrackerObjectAlgs.meanShiftComaniciu2003(config,imageType, FIB, FI);
 
 		return new Comaniciu2003_to_TrackerObjectQuad<>(alg, imageType);
 	}
@@ -178,9 +178,9 @@ public class FactoryTrackerObjectQuad implements SapphireObject {
 	 * @return CirculantTracker
 	 */
 	public <T extends ImageGray>
-	TrackerObjectQuad<T> circulant(ConfigCirculantTracker config , Class<T> imageType, FactoryImageBorder FIB, ImageType IT, DiscreteFourierTransformOps DFTO, InputSanityCheck ISC) {
+	TrackerObjectQuad<T> circulant(ConfigCirculantTracker config , Class<T> imageType, FactoryImageBorder FIB, ImageType IT, DiscreteFourierTransformOps DFTO, InputSanityCheck ISC, FactoryInterpolation FI) {
 
-		CirculantTracker<T> alg = FactoryTrackerObjectAlgs.circulant(config,imageType, FIB, DFTO, ISC);
+		CirculantTracker<T> alg = FactoryTrackerObjectAlgs.circulant(config,imageType, FIB, DFTO, ISC, FI);
 
 		return new Circulant_to_TrackerObjectQuad<>(alg, IT.single(imageType));
 	}

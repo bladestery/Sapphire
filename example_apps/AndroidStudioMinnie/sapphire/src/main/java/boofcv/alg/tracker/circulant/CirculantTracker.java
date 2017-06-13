@@ -26,6 +26,7 @@ import boofcv.alg.misc.PixelMath;
 import boofcv.alg.transform.fft.DiscreteFourierTransformOps;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.feature.detect.peak.FactorySearchLocalPeak;
+import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.misc.BoofMiscOps;
 import boofcv.struct.image.GrayF64;
 import boofcv.struct.image.ImageGray;
@@ -154,11 +155,11 @@ public class CirculantTracker<T extends ImageGray> {
 							double padding ,
 							int workRegionSize ,
 							double maxPixelValue,
-							InterpolatePixelS<T> interp, DiscreteFourierTransformOps DFTO, InputSanityCheck ISC, FactoryImageBorder FIB) {
+							InterpolatePixelS<T> interp, DiscreteFourierTransformOps DFTO, InputSanityCheck ISC, FactoryImageBorder FIB, FactoryInterpolation FI) {
 		if( workRegionSize < 3 )
 			throw new IllegalArgumentException("Minimum size of work region is 3 pixels.");
 
-		localPeak = FactorySearchLocalPeak.meanShiftUniform(5, 1e-4f, GrayF64.class, FIB);
+		localPeak = FactorySearchLocalPeak.meanShiftUniform(5, 1e-4f, GrayF64.class, FIB, FI);
 		fft = DFTO.createTransformF64();
 
 		this.output_sigma_factor = output_sigma_factor;

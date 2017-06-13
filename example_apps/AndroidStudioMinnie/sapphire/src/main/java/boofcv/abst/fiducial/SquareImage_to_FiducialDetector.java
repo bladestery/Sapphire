@@ -18,11 +18,15 @@
 
 package boofcv.abst.fiducial;
 
+import org.hamcrest.Factory;
+
 import boofcv.alg.InputSanityCheck;
 import boofcv.alg.fiducial.square.DetectFiducialSquareImage;
 import boofcv.alg.filter.binary.GThresholdImageOps;
 import boofcv.alg.filter.binary.ThresholdImageOps;
 import boofcv.core.image.GeneralizedImageOps;
+import boofcv.factory.distort.FactoryDistort;
+import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.ImageGray;
 
@@ -34,10 +38,6 @@ import boofcv.struct.image.ImageGray;
 public class SquareImage_to_FiducialDetector<T extends ImageGray>
 	extends SquareBase_to_FiducialDetector<T,DetectFiducialSquareImage<T>>
 {
-	private static GThresholdImageOps GTIO;
-	private static ThresholdImageOps TIO;
-	private static InputSanityCheck ISC;
-	private static GeneralizedImageOps GIO;
 	DetectFiducialSquareImage<T> alg;
 
 	public SquareImage_to_FiducialDetector(DetectFiducialSquareImage<T> alg) {
@@ -52,10 +52,11 @@ public class SquareImage_to_FiducialDetector<T extends ImageGray>
 	 * @param threshold Threshold used to convert it into a binary image
 	 * @param lengthSide Length of a side on the square in world units.
 	 */
-	public void addPatternImage(T pattern, double threshold, double lengthSide) {
+	public void addPatternImage(T pattern, double threshold, double lengthSide, GThresholdImageOps GTIO, ThresholdImageOps TIO, InputSanityCheck ISC, GeneralizedImageOps GIO,
+								FactoryInterpolation FI, FactoryDistort FDs) {
 		GrayU8 binary = new GrayU8(pattern.width,pattern.height);
 		GTIO.threshold(pattern,binary,threshold,false, TIO, ISC, GIO);
-		alg.addPattern(binary, lengthSide);
+		alg.addPattern(binary, lengthSide, FI, FDs);
 	}
 
 	/**
@@ -64,8 +65,8 @@ public class SquareImage_to_FiducialDetector<T extends ImageGray>
 	 * @param binary Binary image of the pattern.  0 = black, 1 = white.
 	 * @param lengthSide Length of a side on the square in world units.
 	 */
-	public void addPatternBinary(GrayU8 binary, double lengthSide) {
-		alg.addPattern(binary, lengthSide);
+	public void addPatternBinary(GrayU8 binary, double lengthSide, FactoryInterpolation FI, FactoryDistort FDs) {
+		alg.addPattern(binary, lengthSide, FI, FDs);
 	}
 
 	@Override

@@ -44,10 +44,12 @@ import boofcv.alg.sfm.StereoSparse3D;
 import boofcv.alg.sfm.d3.*;
 import boofcv.alg.sfm.robust.DistancePlane2DToPixelSq;
 import boofcv.alg.sfm.robust.GenerateSe2_PlanePtPixel;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.feature.associate.FactoryAssociation;
 import boofcv.factory.geo.EnumPNP;
 import boofcv.factory.geo.EstimatorToGenerator;
 import boofcv.factory.geo.FactoryMultiView;
+import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.struct.feature.TupleDesc;
 import boofcv.struct.geo.Point2D3D;
 import boofcv.struct.image.ImageBase;
@@ -59,6 +61,8 @@ import georegression.fitting.se.ModelManagerSe2_F64;
 import georegression.fitting.se.ModelManagerSe3_F64;
 import georegression.struct.se.Se2_F64;
 import georegression.struct.se.Se3_F64;
+import sapphire.compiler.FIBAGenerator;
+
 import org.ddogleg.fitting.modelset.ModelMatcher;
 import org.ddogleg.fitting.modelset.ransac.Ransac;
 
@@ -149,7 +153,7 @@ public class FactoryVisualOdometry {
 													  double respawnCoverageFraction,
 
 													  PointTracker<T> tracker ,
-													  ImageType<T> imageType ) {
+													  ImageType<T> imageType, FactoryImageBorder FIB, FactoryInterpolation FI) {
 
 		ImageMotion2D<T,Se2_F64> motion2D = FactoryMotion2D.createMotion2D(
 				ransacIterations,inlierGroundTol*inlierGroundTol,thresholdRetire,
@@ -157,7 +161,7 @@ public class FactoryVisualOdometry {
 
 
 		VisOdomMonoOverheadMotion2D<T> alg =
-				new VisOdomMonoOverheadMotion2D<>(cellSize, maxCellsPerPixel, mapHeightFraction, motion2D, imageType);
+				new VisOdomMonoOverheadMotion2D<>(cellSize, maxCellsPerPixel, mapHeightFraction, motion2D, imageType, FIB, FI);
 
 		return new MonoOverhead_to_MonocularPlaneVisualOdometry<>(alg, imageType);
 	}

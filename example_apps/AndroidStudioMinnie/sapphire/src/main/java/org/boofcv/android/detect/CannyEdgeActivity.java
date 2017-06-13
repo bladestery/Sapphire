@@ -125,7 +125,7 @@ public class CannyEdgeActivity extends DemoVideoDisplayActivity
 	}
 
 	protected class CannyProcessing extends VideoImageProcessing<GrayU8> {
-		CannyEdge<GrayU8,GrayS16> canny;
+		//CannyEdge<GrayU8,GrayS16> canny;
 
 		public CannyProcessing() {
 			super(IT.single(GrayU8.class));

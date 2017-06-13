@@ -135,7 +135,7 @@ public class FactoryMotion2D {
 	@SuppressWarnings("unchecked")
 	public static <I extends ImageBase, IT extends InvertibleTransform>
 	StitchingFromMotion2D<I, IT>
-	createVideoStitch(double maxJumpFraction , ImageMotion2D<I,IT> motion2D , ImageType<I> imageType, FactoryImageBorder FIB) {
+	createVideoStitch(double maxJumpFraction , ImageMotion2D<I,IT> motion2D , ImageType<I> imageType, FactoryImageBorder FIB, FactoryInterpolation FI, FactoryDistort FDs) {
 		StitchingTransform<IT> transform;
 
 		if( motion2D.getTransformType() == Affine2D_F64.class ) {
@@ -147,13 +147,13 @@ public class FactoryMotion2D {
 		InterpolatePixel<I> interp;
 
 		if( imageType.getFamily() == ImageType.Family.GRAY || imageType.getFamily() == ImageType.Family.PLANAR ) {
-			interp = FactoryInterpolation.createPixelS(0, 255, InterpolationType.BILINEAR, BorderType.EXTENDED,
+			interp = FI.createPixelS(0, 255, InterpolationType.BILINEAR, BorderType.EXTENDED,
 					imageType.getImageClass(), FIB);
 		} else {
 			throw new IllegalArgumentException("Unsupported image type");
 		}
 
-		ImageDistort<I,I> distorter = FactoryDistort.distort(false, interp, imageType);
+		ImageDistort<I,I> distorter = FDs.distort(false, interp, imageType);
 		distorter.setRenderAll(false);
 
 		return new StitchingFromMotion2D<>(motion2D, distorter, transform, maxJumpFraction);

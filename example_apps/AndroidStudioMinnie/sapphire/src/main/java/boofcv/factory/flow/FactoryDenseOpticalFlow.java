@@ -61,7 +61,7 @@ public class FactoryDenseOpticalFlow {
 	 */
 	public static <I extends ImageGray, D extends ImageGray>
 	DenseOpticalFlow<I> flowKlt(PkltConfig configKlt, int radius , Class<I> inputType , Class<D> derivType, FactoryPyramid FP, FactoryKernelGaussian FKG,
-								ImageType IT, GeneralizedImageOps GIO, FactoryImageBorder FIB, FactoryDerivative FD) {
+								ImageType IT, GeneralizedImageOps GIO, FactoryImageBorder FIB, FactoryDerivative FD, FactoryInterpolation FI) {
 
 		if( configKlt == null )
 			configKlt = new PkltConfig();
@@ -75,7 +75,7 @@ public class FactoryDenseOpticalFlow {
 		PyramidDiscrete<I> pyramidA = FP.discreteGaussian(configKlt.pyramidScaling, -1, 2, true, inputType, FKG);
 		PyramidDiscrete<I> pyramidB = FP.discreteGaussian(configKlt.pyramidScaling, -1, 2, true, inputType, FKG);
 
-		PyramidKltTracker<I, D> tracker = FactoryTrackerAlg.kltPyramid(configKlt.config, inputType, derivType);
+		PyramidKltTracker<I, D> tracker = FactoryTrackerAlg.kltPyramid(configKlt.config, inputType, derivType, FI);
 		DenseOpticalFlowKlt<I, D> flowKlt = new DenseOpticalFlowKlt<>(tracker, numLayers, radius);
 		ImageGradient<I, D> gradient = FD.sobel(inputType,derivType, GIO, FIB);
 
@@ -147,13 +147,13 @@ public class FactoryDenseOpticalFlow {
 	 * @return Dense optical flow implementation of HornSchunckPyramid
 	 */
 	public static <T extends ImageGray>
-	DenseOpticalFlow<T> hornSchunckPyramid( ConfigHornSchunckPyramid config , Class<T> imageType, FactoryImageBorder FIB)
+	DenseOpticalFlow<T> hornSchunckPyramid( ConfigHornSchunckPyramid config , Class<T> imageType, FactoryImageBorder FIB, FactoryInterpolation FI)
 	{
 		if( config == null )
 			config = new ConfigHornSchunckPyramid();
 
 		InterpolatePixelS<GrayF32> interpolate =
-				FactoryInterpolation.createPixelS(0,255,config.interpolation, BorderType.EXTENDED, GrayF32.class, FIB);
+				FI.createPixelS(0,255,config.interpolation, BorderType.EXTENDED, GrayF32.class, FIB);
 
 		HornSchunckPyramid<T> alg = new HornSchunckPyramid<>(config, interpolate);
 
@@ -161,13 +161,13 @@ public class FactoryDenseOpticalFlow {
 	}
 
 	public static <T extends ImageGray>
-	DenseOpticalFlow<T> broxWarping( ConfigBroxWarping config , Class<T> imageType, FactoryImageBorder FIB)
+	DenseOpticalFlow<T> broxWarping( ConfigBroxWarping config , Class<T> imageType, FactoryImageBorder FIB, FactoryInterpolation FI)
 	{
 		if( config == null )
 			config = new ConfigBroxWarping();
 
 		InterpolatePixelS<GrayF32> interpolate =
-				FactoryInterpolation.createPixelS(0,255,config.interpolation, BorderType.EXTENDED, GrayF32.class, FIB);
+				FI.createPixelS(0,255,config.interpolation, BorderType.EXTENDED, GrayF32.class, FIB);
 
 		BroxWarpingSpacial<T> alg = new BroxWarpingSpacial<>(config, interpolate);
 

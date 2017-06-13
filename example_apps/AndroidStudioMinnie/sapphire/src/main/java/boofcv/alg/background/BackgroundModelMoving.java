@@ -21,6 +21,8 @@ package boofcv.alg.background;
 import android.renderscript.ScriptGroup;
 
 import boofcv.alg.InputSanityCheck;
+import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.ImageMiscOps;
 import boofcv.struct.distort.Point2Transform2Model_F32;
 import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.ImageBase;
@@ -107,7 +109,7 @@ public abstract class BackgroundModelMoving<T extends ImageBase,MotionModel exte
 	 * @param backgroundHeight Height of background
 	 * @param homeToWorld Transform from home to world.
 	 */
-	public abstract void initialize( int backgroundWidth , int backgroundHeight , MotionModel homeToWorld );
+	public abstract void initialize(int backgroundWidth , int backgroundHeight , MotionModel homeToWorld , ImageMiscOps IMO, GImageMiscOps GIMO);
 
 	/**
 	 * Updates the background with new image information.

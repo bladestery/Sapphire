@@ -33,7 +33,6 @@ import boofcv.struct.pyramid.PyramidFloat;
  * @author Peter Abeles
  */
 public class UtilDenseOpticalFlow {
-	private static FactoryImageBorder FIB;
 	/**
 	 * <p>
 	 * Create a standard image pyramid used by dense optical flow parameters.  The first layer is the size
@@ -61,7 +60,7 @@ public class UtilDenseOpticalFlow {
 	public static <T extends ImageGray>
 	PyramidFloat<T> standardPyramid( int width , int height ,
 									 double scale, double sigma ,
-									 int minSize, int maxLayers , Class<T> imageType ) {
+									 int minSize, int maxLayers , Class<T> imageType, FactoryImageBorder FIB, FactoryInterpolation FI) {
 		if( scale > 1.0 || scale < 0 )
 			throw new IllegalArgumentException("Scale must be 0 <= scale <= 1");
 
@@ -92,7 +91,7 @@ public class UtilDenseOpticalFlow {
 			numScales++;
 		}
 
-		InterpolatePixelS<T> interp = FactoryInterpolation.bilinearPixelS(imageType, BorderType.EXTENDED, FIB);
+		InterpolatePixelS<T> interp = FI.bilinearPixelS(imageType, BorderType.EXTENDED, FIB);
 
 		if( sigma > 0 ) {
 			double layerSigma = sigma*Math.sqrt(Math.pow(scale,-2)-1);

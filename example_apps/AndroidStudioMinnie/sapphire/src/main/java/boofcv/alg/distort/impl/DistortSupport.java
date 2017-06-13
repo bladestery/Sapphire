@@ -100,9 +100,9 @@ public class DistortSupport {
 	public static <Input extends ImageGray,Output extends ImageGray>
 	ImageDistort<Planar<Input>,Planar<Output>>
 	createDistortPL(Class<Output> outputType, PixelTransform2_F32 dstToSrc,
-					InterpolatePixelS<Input> interp, boolean cached )
+					InterpolatePixelS<Input> interp, boolean cached, FactoryDistort FDs)
 	{
-		ImageDistort<Input,Output> bandDistort = FactoryDistort.distortSB(cached, interp, outputType);
+		ImageDistort<Input,Output> bandDistort = FDs.distortSB(cached, interp, outputType);
 		bandDistort.setModel(dstToSrc);
 		return new ImplImageDistort_PL<>(bandDistort);
 	}

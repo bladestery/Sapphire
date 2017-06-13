@@ -46,24 +46,8 @@
       <file leaf-file-name="DemoManager.java" pinned="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/DemoManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="274">
-              <caret line="245" column="57" selection-start-line="245" selection-start-column="57" selection-end-line="245" selection-end-column="57" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#23258#23259#0" expanded="true" />
-                <element signature="e#23308#23309#0" expanded="true" />
-                <element signature="e#37142#37143#0" expanded="true" />
-                <element signature="e#37195#37196#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DemoMain.java" pinned="true" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/DemoMain.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="113">
-              <caret line="104" column="42" selection-start-line="104" selection-start-column="42" selection-end-line="104" selection-end-column="42" />
+            <state relative-caret-position="236">
+              <caret line="1440" column="0" selection-start-line="1440" selection-start-column="0" selection-end-line="1440" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -71,11 +55,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CacheLeasePolicy.java" pinned="true" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/sapphire/dms/cache/CacheLeasePolicy.java">
+      <file leaf-file-name="CalibrationActivity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/calib/CalibrationActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="32" column="83" selection-start-line="32" selection-start-column="83" selection-end-line="32" selection-end-column="83" />
+            <state relative-caret-position="-1611">
+              <caret line="194" column="76" selection-start-line="194" selection-start-column="76" selection-end-line="194" selection-end-column="76" />
               <folding />
             </state>
           </provider>
@@ -1593,7 +1577,7 @@
     </option>
     <option name="modificationStamps">
       <map>
-        <entry key="$PROJECT_DIR$" value="4478455024601" />
+        <entry key="$PROJECT_DIR$" value="4480607984875" />
       </map>
     </option>
     <option name="projectBuildClasspath">
@@ -1608,13 +1592,19 @@
                       <ExternalModuleBuildClasspathPojo>
                         <option name="entries">
                           <list>
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/gradle/2.3.2/gradle-2.3.2.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/gradle-core/2.3.2/gradle-core-2.3.2.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/builder/2.3.2/builder-2.3.2.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/lint/lint/25.3.2/lint-25.3.2.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/gradle/2.3.3/gradle-2.3.3-sources.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/gradle/2.3.3/gradle-2.3.3.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/gradle-core/2.3.3/gradle-core-2.3.3-sources.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/gradle-core/2.3.3/gradle-core-2.3.3.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/builder/2.3.3/builder-2.3.3-sources.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/builder/2.3.3/builder-2.3.3.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/lint/lint/25.3.3/lint-25.3.3-sources.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/lint/lint/25.3.3/lint-25.3.3.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/transform-api/2.0.0-deprecated-use-gradle-api/transform-api-2.0.0-deprecated-use-gradle-api.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/gradle-api/2.3.2/gradle-api-2.3.2.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/databinding/compilerCommon/2.3.2/compilerCommon-2.3.2.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/gradle-api/2.3.3/gradle-api-2.3.3-sources.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/gradle-api/2.3.3/gradle-api-2.3.3.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/databinding/compilerCommon/2.3.3/compilerCommon-2.3.3-sources.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/databinding/compilerCommon/2.3.3/compilerCommon-2.3.3.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/ow2/asm/asm/5.0.4/asm-5.0.4-sources.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/ow2/asm/asm/5.0.4/asm-5.0.4.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/ow2/asm/asm-commons/5.0.4/asm-commons-5.0.4.jar" />
@@ -1623,41 +1613,58 @@
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/jacoco/org.jacoco.report/0.7.5.201505241946/org.jacoco.report-0.7.5.201505241946.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/net/sf/jopt-simple/jopt-simple/4.9/jopt-simple-4.9.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/google/protobuf/protobuf-java/3.0.0/protobuf-java-3.0.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/builder-model/2.3.2/builder-model-2.3.2.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/builder-test-api/2.3.2/builder-test-api-2.3.2.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/sdklib/25.3.2/sdklib-25.3.2.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/sdk-common/25.3.2/sdk-common-25.3.2.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/common/25.3.2/common-25.3.2.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/manifest-merger/25.3.2/manifest-merger-25.3.2.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/ddms/ddmlib/25.3.2/ddmlib-25.3.2.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/builder-model/2.3.3/builder-model-2.3.3-sources.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/builder-model/2.3.3/builder-model-2.3.3.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/builder-test-api/2.3.3/builder-test-api-2.3.3-sources.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/builder-test-api/2.3.3/builder-test-api-2.3.3.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/sdklib/25.3.3/sdklib-25.3.3-sources.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/sdklib/25.3.3/sdklib-25.3.3.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/sdk-common/25.3.3/sdk-common-25.3.3-sources.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/sdk-common/25.3.3/sdk-common-25.3.3.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/common/25.3.3/common-25.3.3-sources.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/common/25.3.3/common-25.3.3.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/manifest-merger/25.3.3/manifest-merger-25.3.3-sources.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/manifest-merger/25.3.3/manifest-merger-25.3.3.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/ddms/ddmlib/25.3.3/ddmlib-25.3.3-sources.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/ddms/ddmlib/25.3.3/ddmlib-25.3.3.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/jack/jack-api/0.13.0/jack-api-0.13.0.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/jill/jill-api/0.10.0/jill-api-0.10.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/analytics-library/protos/25.3.2/protos-25.3.2.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/analytics-library/shared/25.3.2/shared-25.3.2.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/analytics-library/tracker/25.3.2/tracker-25.3.2.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/analytics-library/protos/25.3.3/protos-25.3.3-sources.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/analytics-library/protos/25.3.3/protos-25.3.3.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/analytics-library/shared/25.3.3/shared-25.3.3-sources.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/analytics-library/shared/25.3.3/shared-25.3.3.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/analytics-library/tracker/25.3.3/tracker-25.3.3-sources.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/analytics-library/tracker/25.3.3/tracker-25.3.3.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/squareup/javawriter/2.5.0/javawriter-2.5.0.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/bouncycastle/bcpkix-jdk15on/1.48/bcpkix-jdk15on-1.48.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/bouncycastle/bcprov-jdk15on/1.48/bcprov-jdk15on-1.48.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/ow2/asm/asm-tree/5.0.4/asm-tree-5.0.4.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/lint/lint-checks/25.3.2/lint-checks-25.3.2.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/lint/lint-checks/25.3.3/lint-checks-25.3.3-sources.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/lint/lint-checks/25.3.3/lint-checks-25.3.3.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/eclipse/jdt/core/compiler/ecj/4.6.1/ecj-4.6.1.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/google/guava/guava/18.0/guava-18.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/databinding/baseLibrary/2.3.2/baseLibrary-2.3.2.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/databinding/baseLibrary/2.3.3/baseLibrary-2.3.3-sources.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/databinding/baseLibrary/2.3.3/baseLibrary-2.3.3.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/antlr/antlr4/4.5.3/antlr4-4.5.3.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/commons-io/commons-io/2.4/commons-io-2.4.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/googlecode/juniversalchardet/juniversalchardet/1.0.3/juniversalchardet-1.0.3.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/annotations/25.3.2/annotations-25.3.2.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/annotations/25.3.3/annotations-25.3.3-sources.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/annotations/25.3.3/annotations-25.3.3.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/net/sf/proguard/proguard-base/5.3.2/proguard-base-5.3.2.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/ow2/asm/asm-debug-all/5.0.1/asm-debug-all-5.0.1.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/layoutlib/layoutlib-api/25.3.2/layoutlib-api-25.3.2.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/dvlib/25.3.2/dvlib-25.3.2.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/repository/25.3.2/repository-25.3.2.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/layoutlib/layoutlib-api/25.3.3/layoutlib-api-25.3.3-sources.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/layoutlib/layoutlib-api/25.3.3/layoutlib-api-25.3.3.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/dvlib/25.3.3/dvlib-25.3.3-sources.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/dvlib/25.3.3/dvlib-25.3.3.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/repository/25.3.3/repository-25.3.3-sources.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/repository/25.3.3/repository-25.3.3.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/google/code/gson/gson/2.2.4/gson-2.2.4.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/apache/commons/commons-compress/1.8.1/commons-compress-1.8.1.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/apache/httpcomponents/httpclient/4.1.1/httpclient-4.1.1.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/apache/httpcomponents/httpmime/4.1/httpmime-4.1.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/net/sf/kxml/kxml2/2.3.0/kxml2-2.3.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/lint/lint-api/25.3.2/lint-api-25.3.2.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/lint/lint-api/25.3.3/lint-api-25.3.3-sources.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/lint/lint-api/25.3.3/lint-api-25.3.3.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/ow2/asm/asm-analysis/5.0.4/asm-analysis-5.0.4.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/intellij/annotations/12.0/annotations-12.0.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/google/jimfs/jimfs/1.1/jimfs-1.1.jar" />
@@ -2192,13 +2199,19 @@
                       <ExternalModuleBuildClasspathPojo>
                         <option name="entries">
                           <list>
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/gradle/2.3.2/gradle-2.3.2.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/gradle-core/2.3.2/gradle-core-2.3.2.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/builder/2.3.2/builder-2.3.2.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/lint/lint/25.3.2/lint-25.3.2.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/gradle/2.3.3/gradle-2.3.3-sources.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/gradle/2.3.3/gradle-2.3.3.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/gradle-core/2.3.3/gradle-core-2.3.3-sources.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/gradle-core/2.3.3/gradle-core-2.3.3.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/builder/2.3.3/builder-2.3.3-sources.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/builder/2.3.3/builder-2.3.3.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/lint/lint/25.3.3/lint-25.3.3-sources.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/lint/lint/25.3.3/lint-25.3.3.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/transform-api/2.0.0-deprecated-use-gradle-api/transform-api-2.0.0-deprecated-use-gradle-api.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/gradle-api/2.3.2/gradle-api-2.3.2.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/databinding/compilerCommon/2.3.2/compilerCommon-2.3.2.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/gradle-api/2.3.3/gradle-api-2.3.3-sources.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/gradle-api/2.3.3/gradle-api-2.3.3.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/databinding/compilerCommon/2.3.3/compilerCommon-2.3.3-sources.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/databinding/compilerCommon/2.3.3/compilerCommon-2.3.3.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/ow2/asm/asm/5.0.4/asm-5.0.4-sources.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/ow2/asm/asm/5.0.4/asm-5.0.4.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/ow2/asm/asm-commons/5.0.4/asm-commons-5.0.4.jar" />
@@ -2207,41 +2220,58 @@
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/jacoco/org.jacoco.report/0.7.5.201505241946/org.jacoco.report-0.7.5.201505241946.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/net/sf/jopt-simple/jopt-simple/4.9/jopt-simple-4.9.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/google/protobuf/protobuf-java/3.0.0/protobuf-java-3.0.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/builder-model/2.3.2/builder-model-2.3.2.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/builder-test-api/2.3.2/builder-test-api-2.3.2.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/sdklib/25.3.2/sdklib-25.3.2.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/sdk-common/25.3.2/sdk-common-25.3.2.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/common/25.3.2/common-25.3.2.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/manifest-merger/25.3.2/manifest-merger-25.3.2.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/ddms/ddmlib/25.3.2/ddmlib-25.3.2.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/builder-model/2.3.3/builder-model-2.3.3-sources.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/builder-model/2.3.3/builder-model-2.3.3.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/builder-test-api/2.3.3/builder-test-api-2.3.3-sources.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/builder-test-api/2.3.3/builder-test-api-2.3.3.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/sdklib/25.3.3/sdklib-25.3.3-sources.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/sdklib/25.3.3/sdklib-25.3.3.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/sdk-common/25.3.3/sdk-common-25.3.3-sources.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/sdk-common/25.3.3/sdk-common-25.3.3.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/common/25.3.3/common-25.3.3-sources.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/common/25.3.3/common-25.3.3.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/manifest-merger/25.3.3/manifest-merger-25.3.3-sources.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/build/manifest-merger/25.3.3/manifest-merger-25.3.3.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/ddms/ddmlib/25.3.3/ddmlib-25.3.3-sources.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/ddms/ddmlib/25.3.3/ddmlib-25.3.3.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/jack/jack-api/0.13.0/jack-api-0.13.0.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/jill/jill-api/0.10.0/jill-api-0.10.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/analytics-library/protos/25.3.2/protos-25.3.2.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/analytics-library/shared/25.3.2/shared-25.3.2.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/analytics-library/tracker/25.3.2/tracker-25.3.2.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/analytics-library/protos/25.3.3/protos-25.3.3-sources.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/analytics-library/protos/25.3.3/protos-25.3.3.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/analytics-library/shared/25.3.3/shared-25.3.3-sources.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/analytics-library/shared/25.3.3/shared-25.3.3.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/analytics-library/tracker/25.3.3/tracker-25.3.3-sources.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/analytics-library/tracker/25.3.3/tracker-25.3.3.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/squareup/javawriter/2.5.0/javawriter-2.5.0.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/bouncycastle/bcpkix-jdk15on/1.48/bcpkix-jdk15on-1.48.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/bouncycastle/bcprov-jdk15on/1.48/bcprov-jdk15on-1.48.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/ow2/asm/asm-tree/5.0.4/asm-tree-5.0.4.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/lint/lint-checks/25.3.2/lint-checks-25.3.2.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/lint/lint-checks/25.3.3/lint-checks-25.3.3-sources.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/lint/lint-checks/25.3.3/lint-checks-25.3.3.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/eclipse/jdt/core/compiler/ecj/4.6.1/ecj-4.6.1.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/google/guava/guava/18.0/guava-18.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/databinding/baseLibrary/2.3.2/baseLibrary-2.3.2.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/databinding/baseLibrary/2.3.3/baseLibrary-2.3.3-sources.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/databinding/baseLibrary/2.3.3/baseLibrary-2.3.3.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/antlr/antlr4/4.5.3/antlr4-4.5.3.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/commons-io/commons-io/2.4/commons-io-2.4.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/googlecode/juniversalchardet/juniversalchardet/1.0.3/juniversalchardet-1.0.3.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/annotations/25.3.2/annotations-25.3.2.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/annotations/25.3.3/annotations-25.3.3-sources.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/annotations/25.3.3/annotations-25.3.3.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/net/sf/proguard/proguard-base/5.3.2/proguard-base-5.3.2.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/ow2/asm/asm-debug-all/5.0.1/asm-debug-all-5.0.1.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/layoutlib/layoutlib-api/25.3.2/layoutlib-api-25.3.2.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/dvlib/25.3.2/dvlib-25.3.2.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/repository/25.3.2/repository-25.3.2.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/layoutlib/layoutlib-api/25.3.3/layoutlib-api-25.3.3-sources.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/layoutlib/layoutlib-api/25.3.3/layoutlib-api-25.3.3.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/dvlib/25.3.3/dvlib-25.3.3-sources.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/dvlib/25.3.3/dvlib-25.3.3.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/repository/25.3.3/repository-25.3.3-sources.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/repository/25.3.3/repository-25.3.3.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/google/code/gson/gson/2.2.4/gson-2.2.4.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/apache/commons/commons-compress/1.8.1/commons-compress-1.8.1.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/apache/httpcomponents/httpclient/4.1.1/httpclient-4.1.1.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/apache/httpcomponents/httpmime/4.1/httpmime-4.1.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/net/sf/kxml/kxml2/2.3.0/kxml2-2.3.0.jar" />
-                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/lint/lint-api/25.3.2/lint-api-25.3.2.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/lint/lint-api/25.3.3/lint-api-25.3.3-sources.jar" />
+                            <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/android/tools/lint/lint-api/25.3.3/lint-api-25.3.3.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/org/ow2/asm/asm-analysis/5.0.4/asm-analysis-5.0.4.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/intellij/annotations/12.0/annotations-12.0.jar" />
                             <option value="$APPLICATION_HOME_DIR$/gradle/m2repository/com/google/jimfs/jimfs/1.1/jimfs-1.1.jar" />
@@ -2277,57 +2307,57 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/feature/describe/WrapDescribePixelRegionNCC.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/feature/describe/DescribeRegionPointConvert.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/feature/describe/WrapDescribePixelRegion.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/feature/describe/WrapDescribeBrief.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/feature/describe/SurfPlanar_to_DescribeRegionPoint.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/feature/describe/WrapDescribeSurf.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/feature/describe/WrapDescribeBriefSo.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/sfm/DisparityCalculation.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/recognition/FiducialSquareActivity.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/recognition/FiducialSquareImageActivity.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/recognition/FiducialSquareBinaryActivity.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/sfm/d3/VisOdomQuadPnP.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/scene/ClassifierKNearestNeighborsBow.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/sfm/d3/VisOdomPixelDepthPnP_to_DepthVisualOdometry.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/sfm/d3/DepthVisualOdometry.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/sfm/d3/WrapVisOdomPixelDepthPnP.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/tracker/Msl_to_TrackerObjectQuad.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/tracker/Comaniciu2003_to_TrackerObjectQuad.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/tracker/Circulant_to_TrackerObjectQuad.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/feature/tracker/PointTrackerTwoPassKltPyramid.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/feature/tracker/PointTrackerCombined.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/feature/tracker/PointTracker.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/feature/tracker/PointTrackerToTwoPass.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/feature/dense/DescribeImageDenseHoG.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/feature/dense/DescribeImageDense_Convert.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/feature/dense/DescribeImageDenseSift.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/sfm/d3/VisOdomPixelDepthPnP.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/sfm/d3/VisOdomMonoPlaneInfinity.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/sfm/d3/VisOdomDualTrackPnP.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/sfm/d2/ImageMotionPointTrackerKey.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/sfm/d3/MonoPlaneInfinity_to_MonocularPlaneVisualOdometry.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/sfm/d2/WrapImageMotionPtkSmartRespawn.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/sfm/d2/ImageMotion2D.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/feature/tracker/PointTrackerKltPyramid.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/feature/tracker/DetectDescribeAssociate.java" />
         <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/sfm/d2/StitchingFromMotion2D.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/feature/detdesc/DetectDescribeMultiFusion.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/sfm/d3/VisOdomMonoOverheadMotion2D.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/sfm/d2/ImageMotionPtkSmartRespawn.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/sfm/d2/PlToGrayMotion2D.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/sfm/d3/MonoOverhead_to_MonocularPlaneVisualOdometry.java" />
         <option value="$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/sfm/StabilizeDisplayActivity.java" />
         <option value="$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/sfm/MosaicDisplayActivity.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/feature/detect/interest/EasyGeneralFeatureDetector_Stub.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/BlurStorageFilter_Stub.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/filter/binary/GlobalOtsuBinaryFilter_Stub.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/filter/binary/LocalSquareBinaryFilter_Stub.java" />
         <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/feature/detect/interest/GeneralToInterestPoint_Stub.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/background/stationary/BackgroundStationaryBasic_SB.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/factory/background/FactoryBackgroundModel.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/CameraInformationActivity.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/AboutActivity.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/core/image/GConvertImage.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/distort/FDistort.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/fiducial/square/DetectFiducialSquareImage.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/factory/filter/kernel/FactorySteerable.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/distort/RemovePerspectiveDistortion.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/shapes/polygon/BaseFitPolygon.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/gui/image/ImagePyramidPanel.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/gui/feature/ScaleSpacePyramidPointPanel.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/sfm/d3/MonocularPlaneVisualOdometryScaleInput.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/sfm/d3/StereoVisualOdometryScaleInput.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/factory/distort/FactoryDistort.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/res/values/strings.xml" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/tracker/AppManager.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/tracker/PointTrackerDisplayActivity.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/AppManager.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/DemoStart.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/tracker/StaticBackgroundMotionActivity.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/tracker/ObjectTrackerActivity.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/DemoMain.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/detect/SegmentationDisplayActivity.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/detect/DetectBlackEllipseActivity.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/detect/CannyEdgeActivity.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/detect/PointDisplayActivity.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/detect/ScalePointDisplayActivity.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/detect/DetectBlackPolygonActivity.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/detect/ContourShapeFittingActivity.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/detect/LineDisplayActivity.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/tracker/CombinedTrackerDisplayActivity.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/tracker/DdaTrackerDisplayActivity.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/tracker/KltDisplayActivity.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/assoc/AssociationActivity.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/ip/ImageTransformActivity.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/ip/ThresholdDisplayActivity.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/ip/BlurDisplayActivity.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/ip/BinaryDisplayActivity.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/ip/EnhanceDisplayActivity.java" />
-        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/ip/GradientDisplayActivity.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/feature/detect/interest/EasyGeneralFeatureDetector_Stub.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/calib/UndistortDisplayActivity.java" />
         <option value="$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/DemoManager.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/struct/distort/SequencePoint2Transform2_F32.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/distort/Transform2ThenPixel_F32.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/distort/radtan/RemoveRadialPtoN_F32.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/distort/radtan/RadialTangential_F32.java" />
+        <option value="$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/distort/PointTransformHomography_F32.java" />
       </list>
     </option>
   </component>
@@ -2362,8 +2392,9 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="ProjectPane" />
       <pane id="Scratches" />
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="AndroidView">
         <subPane>
           <PATH>
@@ -2385,28 +2416,6 @@
               <option name="myItemId" value="sapphire" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="values" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="AndroidStudioMinnie" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sapphire" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
-            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -2420,32 +2429,6 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="java" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sapphire" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="runtime" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="AndroidStudioMinnie" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sapphire" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sapphire" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -2486,73 +2469,22 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="android" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="AndroidStudioMinnie" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sapphire" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="org" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="android" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ip" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="AndroidStudioMinnie" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sapphire" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="AndroidStudioMinnie" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="sapphire" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
+      <pane id="ProjectPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="android.sdk.path" value="$USER_HOME$/Android/Sdk" />
     <property name="settings.editor.selected.configurable" value="gradle.compiler" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/sapphire/src/main/java" />
-    <property name="device.picker.selection" value="AHK0217106000604" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Downloads/BoofAndroidDemo" />
+    <property name="device.picker.selection" value="7PN7N17118000271" />
     <property name="android.project.structure.last.selected" value="SDK Location" />
     <property name="android.project.structure.proportion" value="0.15" />
-    <property name="SearchEverywhereHistoryKey" value="ImplImageDistort_&#9;PSI&#9;JAVA://boofcv.alg.distort.impl.ImplImageDistort_IL_U8&#10;ImplImageDistort&#9;PSI&#9;JAVA://boofcv.alg.distort.impl.ImplImageDistort_IL_U8&#10;ImplDistort_U8&#9;PSI&#9;JAVA://boofcv.alg.distort.impl.ImplImageDistort_IL_U8&#10;GrayI8&#9;PSI&#9;JAVA://boofcv.struct.image.GrayI8&#10;FactoryDisto&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/factory/distort/FactoryDistort.java&#10;FactoryDistor&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/factory/distort/FactoryDistort.java&#10;BilinearPixelS&#9;PSI&#9;JAVA://boofcv.alg.interpolate.BilinearPixelS&#10;BIlinearPixelU&#9;PSI&#9;JAVA://boofcv.alg.interpolate.impl.ImplBilinearPixel_U8&#10;ImplBilinearPixel_U8&#9;PSI&#9;JAVA://boofcv.alg.interpolate.impl.ImplBilinearPixel_U8&#10;Imageinter&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/struct/image/ImageInterleaved.java&#10;InterleavedU8&#9;PSI&#9;JAVA://boofcv.struct.image.InterleavedU8&#10;ConvertImage&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/core/image/ConvertImage.java&#10;ConvertImage.java&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/core/image/ConvertImage.java&#10;InterleavedF32&#9;PSI&#9;JAVA://boofcv.struct.image.InterleavedF32&#10;BackgroundStation&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/alg/background/stationary/BackgroundStationaryBasic_IL.java&#10;BackgroundBasic_i&#9;PSI&#9;JAVA://boofcv.alg.background.moving.BackgroundMovingBasic_IL&#10;FBM&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/factory/background/FactoryBackgroundModel.java&#10;ImageMultiBand&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/struct/image/ImageMultiBand.java&#10;ImageInterleaved&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/struct/image/ImageInterleaved.java&#10;Planar&#9;PSI&#9;JAVA://boofcv.struct.image.Planar&#10;ImageGray&#9;PSI&#9;JAVA://boofcv.struct.image.ImageGray&#10;ImageBase&#9;PSI&#9;JAVA://boofcv.struct.image.ImageBase&#10;Gconver&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/core/image/GConvertImage.java&#10;Canny&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/org/boofcv/android/detect/CannyEdgeActivity.java&#10;VIdeoRender&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/android/gui/VideoRenderProcessing.java&#10;VIdeoImagePro&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/android/gui/VideoImageProcessing.java&#10;GconvertImage&#9;PSI&#9;JAVA://boofcv.core.image.GConvertImage&#10;Stationarybasic&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/alg/background/stationary/BackgroundStationaryBasic.java&#10;BackgroundmodelStationary&#9;PSI&#9;JAVA://boofcv.alg.background.BackgroundModelStationary&#10;BackgroundModel&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/factory/background/FactoryBackgroundModel.java&#10;BackgroundMoving&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/alg/background/moving/BackgroundMovingBasic.java&#10;BackgroundAl&#9;PSI&#9;JAVA://boofcv.alg.background.BackgroundAlgorithmBasic&#10;BackgroundMovingBas&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/alg/background/moving/BackgroundMovingBasic.java&#10;VisualizeImage&#9;PSI&#9;JAVA://boofcv.android.VisualizeImageData&#10;FPT&#9;PSI&#9;JAVA://boofcv.factory.feature.tracker.FactoryPointTracker&#10;CDD&#9;PSI&#9;JAVA://org.boofcv.android.CreateDetectorDescriptor&#10;ConvertBi&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/android/ConvertBitmap.java&#10;ImageType&#9;PSI&#9;JAVA://boofcv.struct.image.ImageType&#10;BackgroundStationary&#9;PSI&#9;JAVA://boofcv.alg.background.stationary.BackgroundStationaryBasic&#10;BackgroundMovingBasic&#9;PSI&#9;JAVA://boofcv.alg.background.moving.BackgroundMovingBasic&#10;GrayU8&#9;PSI&#9;JAVA://boofcv.struct.image.GrayU8&#10;VIdeoPRo&#9;PSI&#9;JAVA://boofcv.android.gui.VideoProcessing&#10;VIdeoREnder&#9;PSI&#9;JAVA://boofcv.android.gui.VideoRenderProcessing&#10;VideoImagePRoces&#9;PSI&#9;JAVA://boofcv.android.gui.VideoImageProcessing&#10;convert&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/android/ConvertBitmap.java&#10;ConvertBitmap&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/android/ConvertBitmap.java&#10;ImageMultiband&#9;PSI&#9;JAVA://boofcv.struct.image.ImageMultiBand&#10;DetectorInter&#9;PSI&#9;JAVA://boofcv.abst.feature.detect.interest.DetectorInterestPointMulti&#10;ImageMotion2d&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/abst/sfm/d2/ImageMotion2D.java&#10;TrackerObj&#9;PSI&#9;JAVA://boofcv.abst.tracker.TrackerObjectQuad" />
+    <property name="SearchEverywhereHistoryKey" value="Calibra&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/org/boofcv/android/calib/CalibrationActivity.java&#10;PointTransformHo&#9;PSI&#9;JAVA://boofcv.alg.distort.PointTransformHomography_F32&#10;RadialTan&#9;PSI&#9;JAVA://boofcv.alg.distort.radtan.RadialTangential_F32&#10;RemoveRadialPt&#9;PSI&#9;JAVA://boofcv.alg.distort.radtan.RemoveRadialPtoN_F32&#10;Transform2ThenPix&#9;PSI&#9;JAVA://boofcv.alg.distort.Transform2ThenPixel_F32&#10;SequencePoint2Tran&#9;PSI&#9;JAVA://boofcv.struct.distort.SequencePoint2Transform2_F32&#10;Point2Transform2&#9;PSI&#9;JAVA://boofcv.struct.distort.Point2Transform2_F32&#10;LensDistor&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/alg/distort/LensDistortionOps.java&#10;PointToPixelT&#9;PSI&#9;JAVA://boofcv.alg.distort.PointToPixelTransform_F32&#10;FactoryInter&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/factory/interpolate/FactoryInterpolation.java&#10;FactoryDi&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/factory/distort/FactoryDistort.java&#10;DetectSquareGrid&#9;PSI&#9;JAVA://boofcv.alg.fiducial.calib.DetectFiducialSquareGrid&#10;CalibrationDetecto&#9;PSI&#9;JAVA://boofcv.abst.fiducial.calib.CalibrationDetectorSquareGrid&#10;CalibrationDEte&#9;PSI&#9;JAVA://boofcv.abst.fiducial.calib.CalibrationDetectorCircleAsymmGrid&#10;FactoryFiducial&#9;PSI&#9;JAVA://boofcv.factory.fiducial.FactoryFiducialCalibration&#10;ImageDistort&#9;PSI&#9;JAVA://boofcv.alg.distort.ImageDistort&#10;BinaryPol&#9;PSI&#9;JAVA://boofcv.alg.shapes.polygon.BinaryPolygonDetector&#10;binaryEllipse&#9;PSI&#9;JAVA://boofcv.alg.shapes.ellipse.BinaryEllipseDetector&#10;ImageMotion&#9;PSI&#9;JAVA://boofcv.abst.sfm.d2.ImageMotion2D&#10;Acces&#9;PSI&#9;JAVA://boofcv.abst.sfm.AccessPointTracks&#10;PointTracker&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/abst/feature/tracker/PointTracker.java&#10;DepthVisu&#9;PSI&#9;JAVA://boofcv.abst.sfm.d3.DepthVisualOdometry&#10;FiducialSquare&#9;PSI&#9;JAVA://org.boofcv.android.recognition.FiducialSquareActivity&#10;DetectDescribeMu&#9;PSI&#9;JAVA://boofcv.abst.feature.detdesc.DetectDescribeMulti&#10;DescribeImageD&#9;PSI&#9;JAVA://boofcv.abst.feature.dense.DescribeImageDense&#10;PoinTrackerTwoPAss&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/abst/feature/tracker/PointTrackerTwoPass.java&#10;PoinTt&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/abst/feature/tracker/PointTrackerTwoPass.java&#10;Tw&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/abst/feature/tracker/PointTrackerTwoPass.java&#10;DdaFeat&#9;PSI&#9;JAVA://boofcv.abst.feature.tracker.DdaFeatureManager&#10;TrackerObjectQuad&#9;PSI&#9;JAVA://boofcv.abst.tracker.TrackerObjectQuad&#10;DescribeREgion&#9;PSI&#9;JAVA://boofcv.abst.feature.describe.DescribeRegionPoint&#10;Orien&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/abst/feature/orientation/OrientationImage.java&#10;OrientationImage&#9;PSI&#9;JAVA://boofcv.abst.feature.orientation.OrientationImage&#10;PointTrackerTwo&#9;PSI&#9;JAVA://boofcv.abst.feature.tracker.PointTrackerTwoPass&#10;Interes&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/abst/feature/detect/interest/InterestPointDetector.java&#10;InterestPointDete&#9;PSI&#9;JAVA://boofcv.abst.feature.detect.interest.InterestPointDetector&#10;Dens&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/abst/flow/DenseOpticalFlow.java&#10;stereovi&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/abst/sfm/d3/StereoVisualOdometry.java&#10;Monocu&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/abst/sfm/d3/MonocularPlaneVisualOdometry.java&#10;Stereo&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/abst/sfm/d3/StereoVisualOdometry.java&#10;ImagePyramid&#9;FILE&#9;file:///home/ubuntu/Sapphire/example_apps/AndroidStudioMinnie/sapphire/src/main/java/boofcv/struct/pyramid/ImagePyramid.java&#10;ImagePYramidBase&#9;PSI&#9;JAVA://boofcv.struct.pyramid.ImagePyramidBase&#10;PYramidDiscrete&#9;PSI&#9;JAVA://boofcv.struct.pyramid.PyramidDiscrete&#10;DensOpti&#9;PSI&#9;JAVA://boofcv.abst.flow.DenseOpticalFlow&#10;StereoVIsual&#9;PSI&#9;JAVA://boofcv.abst.sfm.d3.StereoVisualOdometry&#10;MonocularPlane&#9;PSI&#9;JAVA://boofcv.abst.sfm.d3.MonocularPlaneVisualOdometry&#10;MouseList&#9;PSI&#9;JAVA://java.awt.event.MouseListener&#10;REfine&#9;PSI&#9;JAVA://boofcv.alg.shapes.polygon.RefineBinaryPolygon&#10;ImagePyra&#9;PSI&#9;JAVA://boofcv.struct.pyramid.ImagePyramid&#10;PyramidFlo&#9;PSI&#9;JAVA://boofcv.struct.pyramid.PyramidFloat" />
     <property name="AnalyzeApkAction.lastApkPath" value="$PROJECT_DIR$/openCVSamplefacedetection/build/outputs/apk/openCVSamplefacedetection-debug.apk" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/sapphire/src/main/java" />
     <property name="ExportApk.ApkPath" value="$PROJECT_DIR$/openCVSamplefacedetection" />
@@ -2981,6 +2913,36 @@
       <envs />
       <method />
     </configuration>
+    <configuration default="false" name="boofcv.alg.distortGenerator" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" value="sapphire.compiler.CVGenerator" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="$PROJECT_DIR$/sapphire/build/intermediates/classes/debug/boofcv/alg/distort boofcv.alg.distort $PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/distort" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="ALTERNATIVE_JRE_PATH" value="/usr/lib/jvm/java-8-oracle/jre" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="sapphire" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="boofcv.alg.shapesGenerator" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" value="sapphire.compiler.CVGenerator" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="$PROJECT_DIR$/sapphire/build/intermediates/classes/debug/boofcv/alg/shapes boofcv.alg.shapes $PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/shapes" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="ALTERNATIVE_JRE_PATH" value="/usr/lib/jvm/java-8-oracle/jre" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="sapphire" />
+      <envs />
+      <method />
+    </configuration>
     <configuration default="false" name="org.ddogleg.structGenerator" type="Application" factoryName="Application">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <option name="MAIN_CLASS_NAME" value="sapphire.compiler.CVGenerator" />
@@ -3091,6 +3053,36 @@
       <option name="MAIN_CLASS_NAME" value="sapphire.compiler.CVGenerator" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="$PROJECT_DIR$/sapphire/build/intermediates/classes/debug/boofcv/factory/segmentation boofcv.factory.segmentation $PROJECT_DIR$/sapphire/src/main/java/boofcv/factory/segmentation" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="ALTERNATIVE_JRE_PATH" value="/usr/lib/jvm/java-8-oracle/jre" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="sapphire" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="boofcv.factory.distortGenerator" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" value="sapphire.compiler.CVGenerator" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="$PROJECT_DIR$/sapphire/build/intermediates/classes/debug/boofcv/factory/distort boofcv.factory.distort $PROJECT_DIR$/sapphire/src/main/java/boofcv/factory/distort" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="ALTERNATIVE_JRE_PATH" value="/usr/lib/jvm/java-8-oracle/jre" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="sapphire" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="boofcv.factory.interpolateGenerator" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" value="sapphire.compiler.CVGenerator" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="$PROJECT_DIR$/sapphire/build/intermediates/classes/debug/boofcv/factory/interpolate boofcv.factory.interpolate $PROJECT_DIR$/sapphire/src/main/java/boofcv/factory/interpolate" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="ALTERNATIVE_JRE_PATH" value="/usr/lib/jvm/java-8-oracle/jre" />
@@ -3791,7 +3783,7 @@
       <envs />
       <method />
     </configuration>
-    <list size="62">
+    <list size="66">
       <item index="0" class="java.lang.String" itemvalue="Android App.sapphire" />
       <item index="1" class="java.lang.String" itemvalue="Application.PolicyGeneratorAll" />
       <item index="2" class="java.lang.String" itemvalue="Application.CodeOffloadPolicyGenerator" />
@@ -3800,60 +3792,64 @@
       <item index="5" class="java.lang.String" itemvalue="Application.CVGenerator" />
       <item index="6" class="java.lang.String" itemvalue="Application.GrayS16pairGenerator" />
       <item index="7" class="java.lang.String" itemvalue="Application.boofcv.alg.feature.detect.edgeGenerator" />
-      <item index="8" class="java.lang.String" itemvalue="Application.org.ddogleg.structGenerator" />
-      <item index="9" class="java.lang.String" itemvalue="Application.boofcv.alg.feature.detect.interestGenerator" />
-      <item index="10" class="java.lang.String" itemvalue="Application.boofcv.alg.feature.detect.intensityGenerator" />
-      <item index="11" class="java.lang.String" itemvalue="Application.abst.fiter.binaryGenerator" />
-      <item index="12" class="java.lang.String" itemvalue="Application.boofcv.abst.feature.detect.interestGenerator" />
-      <item index="13" class="java.lang.String" itemvalue="Application.boofcv.abst.feature.detect.intensityGenerator" />
-      <item index="14" class="java.lang.String" itemvalue="Application.boofcv.factory.feature.detect.intensityGenerator" />
-      <item index="15" class="java.lang.String" itemvalue="Application.boofcv.factory.segmentationGenerator" />
-      <item index="16" class="java.lang.String" itemvalue="Application.boofcv.factory.trackerGenerator" />
-      <item index="17" class="java.lang.String" itemvalue="Application.boofcv.factory.backgroundGenerator" />
-      <item index="18" class="java.lang.String" itemvalue="Application.boofcv.factory.feature.associateGenerator" />
-      <item index="19" class="java.lang.String" itemvalue="Application.boofcv.factory.feature.trackerGenerator" />
-      <item index="20" class="java.lang.String" itemvalue="Application.boofcv.factory.transformGenerator" />
-      <item index="21" class="java.lang.String" itemvalue="Application.boofcv.factory.feature.detect.interestGenerator" />
-      <item index="22" class="java.lang.String" itemvalue="Application.MethodGenerator" />
-      <item index="23" class="java.lang.String" itemvalue="Application.boofcv.core.image.borderGenerator" />
-      <item index="24" class="java.lang.String" itemvalue="Application.boofcv.core.imageGenerator" />
-      <item index="25" class="java.lang.String" itemvalue="Application.FIBGenerator" />
-      <item index="26" class="java.lang.String" itemvalue="Application.boofcv.alg.filter.binaryGenerator" />
-      <item index="27" class="java.lang.String" itemvalue="Application.boofcv.alg.segmentationGenerator" />
-      <item index="28" class="java.lang.String" itemvalue="Application.boofcv.alg.transformGenerator" />
-      <item index="29" class="java.lang.String" itemvalue="Application.boofcv.alg.filter.convolveGenerator" />
-      <item index="30" class="java.lang.String" itemvalue="Application.boofcv.alg.filter.derivativeGenerator" />
-      <item index="31" class="java.lang.String" itemvalue="Application.boofcv.abst.feature.detect.lineGenerator" />
-      <item index="32" class="java.lang.String" itemvalue="Application.boofcv.alg.feature.detect.lineGenerator" />
-      <item index="33" class="java.lang.String" itemvalue="Application.FKGGenerator" />
-      <item index="34" class="java.lang.String" itemvalue="Application.boofcv.alg.filter.blurGenerator" />
-      <item index="35" class="java.lang.String" itemvalue="Application.boofcv.alg.enhanceGenerator" />
-      <item index="36" class="java.lang.String" itemvalue="Application.FIBAGenerator" />
-      <item index="37" class="java.lang.String" itemvalue="Application.GIMOGenerator" />
-      <item index="38" class="java.lang.String" itemvalue="Application.QCGenerator" />
-      <item index="39" class="java.lang.String" itemvalue="Application.IBVGenerator" />
-      <item index="40" class="java.lang.String" itemvalue="Application.FEDGenerator" />
-      <item index="41" class="java.lang.String" itemvalue="Application.FSDGenerator" />
-      <item index="42" class="java.lang.String" itemvalue="Application.FDLAGenerator" />
-      <item index="43" class="java.lang.String" itemvalue="Application.FTBGenerator" />
-      <item index="44" class="java.lang.String" itemvalue="Application.BEDGenerator" />
-      <item index="45" class="java.lang.String" itemvalue="Application.BPDGenerator" />
-      <item index="46" class="java.lang.String" itemvalue="Application.BEDPGenerator" />
-      <item index="47" class="java.lang.String" itemvalue="Application.ISGenerator" />
-      <item index="48" class="java.lang.String" itemvalue="Application.CEGenerator" />
-      <item index="49" class="java.lang.String" itemvalue="Application.IGRGenerator" />
-      <item index="50" class="java.lang.String" itemvalue="Application.CEDGenerator" />
-      <item index="51" class="java.lang.String" itemvalue="Application.GTEFGenerator" />
-      <item index="52" class="java.lang.String" itemvalue="Application.FBFGenerator" />
-      <item index="53" class="java.lang.String" itemvalue="Application.GBIOGenerator" />
-      <item index="54" class="java.lang.String" itemvalue="Application.BSFGenerator" />
-      <item index="55" class="java.lang.String" itemvalue="Application.GIOGenerator" />
-      <item index="56" class="java.lang.String" itemvalue="Application.FDGenerator" />
-      <item index="57" class="java.lang.String" itemvalue="Application.FFEGenerator" />
-      <item index="58" class="java.lang.String" itemvalue="Application.IMOGenerator" />
-      <item index="59" class="java.lang.String" itemvalue="Application.ITGenerator" />
-      <item index="60" class="java.lang.String" itemvalue="Application.oms" />
-      <item index="61" class="java.lang.String" itemvalue="Application.server" />
+      <item index="8" class="java.lang.String" itemvalue="Application.boofcv.alg.distortGenerator" />
+      <item index="9" class="java.lang.String" itemvalue="Application.boofcv.alg.shapesGenerator" />
+      <item index="10" class="java.lang.String" itemvalue="Application.org.ddogleg.structGenerator" />
+      <item index="11" class="java.lang.String" itemvalue="Application.boofcv.alg.feature.detect.interestGenerator" />
+      <item index="12" class="java.lang.String" itemvalue="Application.boofcv.alg.feature.detect.intensityGenerator" />
+      <item index="13" class="java.lang.String" itemvalue="Application.abst.fiter.binaryGenerator" />
+      <item index="14" class="java.lang.String" itemvalue="Application.boofcv.abst.feature.detect.interestGenerator" />
+      <item index="15" class="java.lang.String" itemvalue="Application.boofcv.abst.feature.detect.intensityGenerator" />
+      <item index="16" class="java.lang.String" itemvalue="Application.boofcv.factory.feature.detect.intensityGenerator" />
+      <item index="17" class="java.lang.String" itemvalue="Application.boofcv.factory.segmentationGenerator" />
+      <item index="18" class="java.lang.String" itemvalue="Application.boofcv.factory.distortGenerator" />
+      <item index="19" class="java.lang.String" itemvalue="Application.boofcv.factory.interpolateGenerator" />
+      <item index="20" class="java.lang.String" itemvalue="Application.boofcv.factory.trackerGenerator" />
+      <item index="21" class="java.lang.String" itemvalue="Application.boofcv.factory.backgroundGenerator" />
+      <item index="22" class="java.lang.String" itemvalue="Application.boofcv.factory.feature.associateGenerator" />
+      <item index="23" class="java.lang.String" itemvalue="Application.boofcv.factory.feature.trackerGenerator" />
+      <item index="24" class="java.lang.String" itemvalue="Application.boofcv.factory.transformGenerator" />
+      <item index="25" class="java.lang.String" itemvalue="Application.boofcv.factory.feature.detect.interestGenerator" />
+      <item index="26" class="java.lang.String" itemvalue="Application.MethodGenerator" />
+      <item index="27" class="java.lang.String" itemvalue="Application.boofcv.core.image.borderGenerator" />
+      <item index="28" class="java.lang.String" itemvalue="Application.boofcv.core.imageGenerator" />
+      <item index="29" class="java.lang.String" itemvalue="Application.FIBGenerator" />
+      <item index="30" class="java.lang.String" itemvalue="Application.boofcv.alg.filter.binaryGenerator" />
+      <item index="31" class="java.lang.String" itemvalue="Application.boofcv.alg.segmentationGenerator" />
+      <item index="32" class="java.lang.String" itemvalue="Application.boofcv.alg.transformGenerator" />
+      <item index="33" class="java.lang.String" itemvalue="Application.boofcv.alg.filter.convolveGenerator" />
+      <item index="34" class="java.lang.String" itemvalue="Application.boofcv.alg.filter.derivativeGenerator" />
+      <item index="35" class="java.lang.String" itemvalue="Application.boofcv.abst.feature.detect.lineGenerator" />
+      <item index="36" class="java.lang.String" itemvalue="Application.boofcv.alg.feature.detect.lineGenerator" />
+      <item index="37" class="java.lang.String" itemvalue="Application.FKGGenerator" />
+      <item index="38" class="java.lang.String" itemvalue="Application.boofcv.alg.filter.blurGenerator" />
+      <item index="39" class="java.lang.String" itemvalue="Application.boofcv.alg.enhanceGenerator" />
+      <item index="40" class="java.lang.String" itemvalue="Application.FIBAGenerator" />
+      <item index="41" class="java.lang.String" itemvalue="Application.GIMOGenerator" />
+      <item index="42" class="java.lang.String" itemvalue="Application.QCGenerator" />
+      <item index="43" class="java.lang.String" itemvalue="Application.IBVGenerator" />
+      <item index="44" class="java.lang.String" itemvalue="Application.FEDGenerator" />
+      <item index="45" class="java.lang.String" itemvalue="Application.FSDGenerator" />
+      <item index="46" class="java.lang.String" itemvalue="Application.FDLAGenerator" />
+      <item index="47" class="java.lang.String" itemvalue="Application.FTBGenerator" />
+      <item index="48" class="java.lang.String" itemvalue="Application.BEDGenerator" />
+      <item index="49" class="java.lang.String" itemvalue="Application.BPDGenerator" />
+      <item index="50" class="java.lang.String" itemvalue="Application.BEDPGenerator" />
+      <item index="51" class="java.lang.String" itemvalue="Application.ISGenerator" />
+      <item index="52" class="java.lang.String" itemvalue="Application.CEGenerator" />
+      <item index="53" class="java.lang.String" itemvalue="Application.IGRGenerator" />
+      <item index="54" class="java.lang.String" itemvalue="Application.CEDGenerator" />
+      <item index="55" class="java.lang.String" itemvalue="Application.GTEFGenerator" />
+      <item index="56" class="java.lang.String" itemvalue="Application.FBFGenerator" />
+      <item index="57" class="java.lang.String" itemvalue="Application.GBIOGenerator" />
+      <item index="58" class="java.lang.String" itemvalue="Application.BSFGenerator" />
+      <item index="59" class="java.lang.String" itemvalue="Application.GIOGenerator" />
+      <item index="60" class="java.lang.String" itemvalue="Application.FDGenerator" />
+      <item index="61" class="java.lang.String" itemvalue="Application.FFEGenerator" />
+      <item index="62" class="java.lang.String" itemvalue="Application.IMOGenerator" />
+      <item index="63" class="java.lang.String" itemvalue="Application.ITGenerator" />
+      <item index="64" class="java.lang.String" itemvalue="Application.oms" />
+      <item index="65" class="java.lang.String" itemvalue="Application.server" />
     </list>
     <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
       <module name="" />
@@ -3939,25 +3935,25 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="65" y="-4" width="2495" height="1444" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32894737" sideWeight="0.47978768" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.45820433" sideWeight="0.3887301" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.40557274" sideWeight="0.37852186" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.47325438" sideWeight="0.328125" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4868421" sideWeight="0.48754594" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.37693498" sideWeight="0.53940386" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.37693498" sideWeight="0.46059617" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.40325078" sideWeight="0.5859535" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.40325078" sideWeight="0.41404656" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3614551" sideWeight="0.46998775" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33359134" sideWeight="0.54675376" order="11" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20334831" sideWeight="0.671875" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26623112" sideWeight="0.671875" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.52012384" sideWeight="0.47243774" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2498618" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24948959" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39914164" sideWeight="0.49806523" order="3" side_tool="false" content_ui="tabs" />
@@ -3975,41 +3971,6 @@
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.19402985" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
     </layout>
-    <layout-to-restore>
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.47325438" sideWeight="0.328125" order="8" side_tool="true" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4868421" sideWeight="0.48754594" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.43343654" sideWeight="0.4748877" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Dynamic Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2498618" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39914164" sideWeight="0.49806523" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32894737" sideWeight="0.47978768" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.5278638" sideWeight="0.41037157" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.19402985" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.5278638" sideWeight="0.5896284" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3614551" sideWeight="0.47162107" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33359134" sideWeight="0.54675376" order="11" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19763169" sideWeight="0.671875" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.52012384" sideWeight="0.47407106" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-    </layout-to-restore>
   </component>
   <component name="Vcs.Log.UiProperties">
     <option name="RECENTLY_FILTERED_USER_GROUPS">
@@ -4030,443 +3991,429 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="7" />
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-field">
+          <url>file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/recognition/FiducialSquareImageActivity.java</url>
+          <line>33</line>
+          <properties field="FSD" class="org.boofcv.android.recognition.FiducialSquareImageActivity" />
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="9" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/res/values/strings.xml">
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/sfm/d3/VisOdomPixelDepthPnP.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="33" column="36" selection-start-line="33" selection-start-column="36" selection-end-line="33" selection-end-column="36" />
+        <state relative-caret-position="238">
+          <caret line="200" column="127" selection-start-line="200" selection-start-column="127" selection-end-line="200" selection-end-column="127" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/sfm/DisparityActivity.java">
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/sfm/d3/VisOdomMonoPlaneInfinity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="48" column="13" selection-start-line="48" selection-start-column="13" selection-end-line="48" selection-end-column="13" />
+        <state relative-caret-position="195">
+          <caret line="250" column="130" selection-start-line="250" selection-start-column="130" selection-end-line="250" selection-end-column="130" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/calib/CalibrationActivity.java">
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/sfm/d3/VisOdomDualTrackPnP.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="585">
-          <caret line="319" column="9" selection-start-line="319" selection-start-column="9" selection-end-line="319" selection-end-column="9" />
+        <state relative-caret-position="108">
+          <caret line="233" column="21" selection-start-line="233" selection-start-column="21" selection-end-line="233" selection-end-column="21" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/DemoVideoDisplayActivity.java">
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/sfm/d2/ImageMotionPointTrackerKey.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
+        <state relative-caret-position="216">
+          <caret line="211" column="138" selection-start-line="211" selection-start-column="138" selection-end-line="211" selection-end-column="138" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/feature/detect/edge/HysteresisEdgeTracePoints.java">
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/sfm/d3/MonoPlaneInfinity_to_MonocularPlaneVisualOdometry.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="94">
-          <caret line="122" column="0" selection-start-line="122" selection-start-column="0" selection-end-line="122" selection-end-column="0" />
+        <state relative-caret-position="231">
+          <caret line="118" column="0" selection-start-line="118" selection-start-column="0" selection-end-line="119" selection-end-column="22" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/sapphire/compiler/ManagerGenerator.java">
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/sfm/AccessPointTracks.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="65" column="73" selection-start-line="65" selection-start-column="73" selection-end-line="65" selection-end-column="73" />
+        <state relative-caret-position="114">
+          <caret line="30" column="17" selection-start-line="30" selection-start-column="17" selection-end-line="30" selection-end-column="17" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/sapphire/common/AppObject.java">
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/sfm/d2/ImageMotion2D.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="13" selection-start-line="3" selection-start-column="13" selection-end-line="3" selection-end-column="13" />
+        <state relative-caret-position="411">
+          <caret line="98" column="190" selection-start-line="98" selection-start-column="190" selection-end-line="98" selection-end-column="190" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/sapphire/dms/offload/CodeOffload.java">
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/sfm/d2/WrapImageMotionPtkSmartRespawn.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1470">
-          <caret line="28" column="13" selection-start-line="28" selection-start-column="13" selection-end-line="28" selection-end-column="13" />
+        <state relative-caret-position="246">
+          <caret line="95" column="0" selection-start-line="95" selection-start-column="0" selection-end-line="95" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/FactoryEdgeDetectors_Stub.java">
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/feature/tracker/PointTrackerKltPyramid.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="551">
-          <caret line="50" column="0" selection-start-line="50" selection-start-column="0" selection-end-line="50" selection-end-column="0" />
+        <state relative-caret-position="238">
+          <caret line="166" column="15" selection-start-line="166" selection-start-column="15" selection-end-line="166" selection-end-column="15" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/DemoStart.java">
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/feature/tracker/PointTrackerTwoPassKltPyramid.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="15" column="48" selection-start-line="15" selection-start-column="48" selection-end-line="15" selection-end-column="48" />
+        <state relative-caret-position="105">
+          <caret line="73" column="3" selection-start-line="73" selection-start-column="3" selection-end-line="73" selection-end-column="3" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/AppManager.java">
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/feature/tracker/DetectDescribeAssociateTwoPass.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="16" column="5" selection-start-line="16" selection-start-column="5" selection-end-line="16" selection-end-column="5" />
+        <state relative-caret-position="450">
+          <caret line="85" column="35" selection-start-line="85" selection-start-column="35" selection-end-line="85" selection-end-column="35" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/detect/DetectBlackPolygonHelpActivity.java">
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/feature/tracker/DetectDescribeAssociate.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
+        <state relative-caret-position="223">
+          <caret line="175" column="36" selection-start-line="175" selection-start-column="36" selection-end-line="175" selection-end-column="36" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/detect/ShapeFitDisplayActivity.java">
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/sfm/d2/StitchingFromMotion2D.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
+        <state relative-caret-position="238">
+          <caret line="162" column="28" selection-start-line="162" selection-start-column="28" selection-end-line="162" selection-end-column="28" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/tracker/PointTrackerDisplayActivity.java">
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/sfm/d3/VisOdomMonoOverheadMotion2D.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="185" column="9" selection-start-line="185" selection-start-column="9" selection-end-line="185" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/sfm/d2/ImageMotionPtkSmartRespawn.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="276">
+          <caret line="131" column="0" selection-start-line="131" selection-start-column="0" selection-end-line="131" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/sfm/d2/PlToGrayMotion2D.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="840">
+          <caret line="116" column="5" selection-start-line="116" selection-start-column="5" selection-end-line="116" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/sfm/d3/MonoOverhead_to_MonocularPlaneVisualOdometry.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="246">
+          <caret line="114" column="12" selection-start-line="114" selection-start-column="12" selection-end-line="114" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/sfm/StabilizeDisplayActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="343">
+          <caret line="250" column="0" selection-start-line="250" selection-start-column="0" selection-end-line="250" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/sfm/MosaicDisplayActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2880">
+          <caret line="272" column="29" selection-start-line="272" selection-start-column="29" selection-end-line="272" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/CreateDetectorDescriptor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="45" column="13" selection-start-line="45" selection-start-column="13" selection-end-line="45" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/feature/detect/interest/GeneralToInterestPoint.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
+          <caret line="107" column="113" selection-start-line="107" selection-start-column="113" selection-end-line="107" selection-end-column="113" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/feature/detect/interest/GeneralToInterestPoint_Stub.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
-          <caret line="99" column="0" selection-start-line="99" selection-start-column="0" selection-end-line="100" selection-end-column="27" />
+          <caret line="141" column="0" selection-start-line="141" selection-start-column="0" selection-end-line="141" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/tracker/ObjectTrackerActivity.java">
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/factory/background/FactoryBackgroundModel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="90" column="61" selection-start-line="90" selection-start-column="61" selection-end-line="90" selection-end-column="61" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/sapphire/app/AppEntryPoint.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="1" selection-start-line="6" selection-start-column="1" selection-end-line="6" selection-end-column="1" />
+        <state relative-caret-position="105">
+          <caret line="32" column="25" selection-start-line="32" selection-start-column="25" selection-end-line="32" selection-end-column="25" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/sapphire/app/SapphireObject.java">
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/factory/feature/detect/interest/FactoryInterestPoint.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
+        <state relative-caret-position="96">
+          <caret line="52" column="17" selection-start-line="52" selection-start-column="17" selection-end-line="52" selection-end-column="17" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/sapphire/app/AppObjectNotCreatedException.java">
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/feature/detect/interest/SiftDetector.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" column="5" selection-start-line="17" selection-start-column="5" selection-end-line="17" selection-end-column="5" />
+        <state relative-caret-position="96">
+          <caret line="85" column="41" selection-start-line="85" selection-start-column="41" selection-end-line="85" selection-end-column="41" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/sapphire/compiler/Stub.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="19" column="22" selection-start-line="19" selection-start-column="22" selection-end-line="19" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/sapphire/compiler/PolicyStub.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-75">
-          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/sapphire/compiler/StubGenerator.java">
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/feature/detect/interest/EasyGeneralFeatureDetector_Stub.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
-          <caret line="24" column="31" selection-start-line="24" selection-start-column="24" selection-end-line="24" selection-end-column="31" />
+          <caret line="17" column="47" selection-start-line="17" selection-start-column="47" selection-end-line="17" selection-end-column="47" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/sapphire/compiler/AppStub.java">
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/factory/tracker/FactoryTrackerObjectQuad.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="92">
+          <caret line="53" column="7" selection-start-line="53" selection-start-column="7" selection-end-line="53" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/factory/transform/pyramid/FactoryPyramid.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="32" column="35" selection-start-line="32" selection-start-column="35" selection-end-line="32" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/factory/feature/tracker/FactoryPointTracker.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
-          <caret line="11" column="3" selection-start-line="11" selection-start-column="3" selection-end-line="11" selection-end-column="3" />
+          <caret line="403" column="32" selection-start-line="403" selection-start-column="32" selection-end-line="403" selection-end-column="32" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/sapphire/runtime/EventHandler.java">
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/factory/segmentation/FactorySegmentationAlg.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
+        <state relative-caret-position="75">
+          <caret line="37" column="0" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/sapphire/oms/SapphireInstanceManager.java">
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/shapes/polygon/BinaryPolygonDetector.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
+        <state relative-caret-position="336">
+          <caret line="83" column="41" selection-start-line="83" selection-start-column="41" selection-end-line="83" selection-end-column="41" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/sapphire/oms/OMSServer.java">
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/shapes/ellipse/BinaryEllipseDetector.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="18" column="17" selection-start-line="18" selection-start-column="17" selection-end-line="18" selection-end-column="17" />
+        <state relative-caret-position="210">
+          <caret line="43" column="13" selection-start-line="43" selection-start-column="13" selection-end-line="43" selection-end-column="13" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/sapphire/oms/OMSServerImpl.java">
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/distort/ImageDistort.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="35" column="13" selection-start-line="35" selection-start-column="13" selection-end-line="35" selection-end-column="13" />
+        <state relative-caret-position="-33">
+          <caret line="32" column="17" selection-start-line="32" selection-start-column="17" selection-end-line="32" selection-end-column="17" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/sapphire/kernel/server/KernelServerImpl.java">
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/fiducial/calib/CalibrationDetectorCircleAsymmGrid.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1440">
-          <caret line="38" column="13" selection-start-line="38" selection-start-column="13" selection-end-line="38" selection-end-column="13" />
+        <state relative-caret-position="-15">
+          <caret line="74" column="13" selection-start-line="74" selection-start-column="13" selection-end-line="74" selection-end-column="13" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/sapphire/runtime/Sapphire.java">
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/fiducial/calib/DetectFiducialSquareGrid.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="511">
-          <caret line="123" column="56" selection-start-line="123" selection-start-column="56" selection-end-line="123" selection-end-column="56" />
+        <state relative-caret-position="252">
+          <caret line="46" column="13" selection-start-line="46" selection-start-column="13" selection-end-line="46" selection-end-column="13" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/detect/SegmentationDisplayActivity.java">
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/abst/fiducial/calib/CalibrationDetectorSquareGrid.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+        <state relative-caret-position="285">
+          <caret line="75" column="0" selection-start-line="75" selection-start-column="0" selection-end-line="75" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/detect/CannyEdgeActivity.java">
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/distort/PointToPixelTransform_F32.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+        <state relative-caret-position="165">
+          <caret line="29" column="13" selection-start-line="29" selection-start-column="13" selection-end-line="29" selection-end-column="13" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/detect/PointDisplayActivity.java">
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/distort/LensDistortionOps.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/detect/ScalePointDisplayActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/detect/DetectBlackPolygonActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/detect/ContourShapeFittingActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/detect/LineDisplayActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/tracker/DdaTrackerDisplayActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/tracker/KltDisplayActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/assoc/AssociationActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
-          <caret line="15" column="51" selection-start-line="15" selection-start-column="51" selection-end-line="15" selection-end-column="51" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/tracker/StaticBackgroundMotionActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-17">
-          <caret line="228" column="39" selection-start-line="228" selection-start-column="39" selection-end-line="228" selection-end-column="39" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/DemoMain.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="113">
-          <caret line="104" column="42" selection-start-line="104" selection-start-column="42" selection-end-line="104" selection-end-column="42" />
+        <state relative-caret-position="288">
+          <caret line="111" column="66" selection-start-line="111" selection-start-column="66" selection-end-line="111" selection-end-column="66" />
           <folding>
             <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/sapphire/dms/cache/CacheLeasePolicy.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="32" column="83" selection-start-line="32" selection-start-column="83" selection-end-line="32" selection-end-column="83" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/detect/DetectBlackEllipseActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="178">
-          <caret line="193" column="21" selection-start-line="193" selection-start-column="21" selection-end-line="193" selection-end-column="21" />
-          <folding>
-            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/DemoManager_Stub.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="258">
-          <caret line="713" column="0" selection-start-line="713" selection-start-column="0" selection-end-line="713" selection-end-column="0" />
+        <state relative-caret-position="246">
+          <caret line="1385" column="34" selection-start-line="1385" selection-start-column="34" selection-end-line="1385" selection-end-column="34" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/tracker/CombinedTrackerDisplayActivity.java">
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/factory/fiducial/FactoryFiducialCalibration.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="363">
-          <caret line="64" column="31" selection-start-line="64" selection-start-column="31" selection-end-line="64" selection-end-column="31" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
+        <state relative-caret-position="135">
+          <caret line="29" column="2" selection-start-line="29" selection-start-column="2" selection-end-line="29" selection-end-column="2" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/ip/BinaryDisplayActivity.java">
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/struct/distort/Point2Transform2_F32.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="148">
-          <caret line="151" column="46" selection-start-line="151" selection-start-column="46" selection-end-line="151" selection-end-column="46" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="165">
+          <caret line="27" column="39" selection-start-line="27" selection-start-column="39" selection-end-line="27" selection-end-column="39" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/ip/BlurDisplayActivity.java">
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/distort/radtan/RadialTangential_F32.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="172" column="13" selection-start-line="172" selection-start-column="13" selection-end-line="172" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="165">
+          <caret line="27" column="59" selection-start-line="27" selection-start-column="59" selection-end-line="27" selection-end-column="59" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/ip/EnhanceDisplayActivity.java">
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/distort/radtan/RemoveRadialPtoN_F32.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="37" column="0" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/distort/Transform2ThenPixel_F32.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="44" column="28" selection-start-line="44" selection-start-column="28" selection-end-line="44" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/struct/distort/SequencePoint2Transform2_F32.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="300">
-          <caret line="139" column="0" selection-start-line="139" selection-start-column="0" selection-end-line="139" selection-end-column="0" />
+          <caret line="36" column="7" selection-start-line="36" selection-start-column="7" selection-end-line="36" selection-end-column="7" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/ip/GradientDisplayActivity.java">
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/alg/distort/PointTransformHomography_F32.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="287">
-          <caret line="71" column="43" selection-start-line="71" selection-start-column="43" selection-end-line="71" selection-end-column="43" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="120">
+          <caret line="32" column="100" selection-start-line="32" selection-start-column="100" selection-end-line="32" selection-end-column="100" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/ip/ThresholdDisplayActivity.java">
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/factory/distort/FactoryDistort.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="194" column="32" selection-start-line="194" selection-start-column="30" selection-end-line="194" selection-end-column="32" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="810">
+          <caret line="128" column="0" selection-start-line="128" selection-start-column="0" selection-end-line="128" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/ip/ImageTransformActivity.java">
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/boofcv/factory/interpolate/FactoryInterpolation.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="555">
-          <caret line="274" column="56" selection-start-line="274" selection-start-column="56" selection-end-line="274" selection-end-column="56" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="351">
+          <caret line="182" column="12" selection-start-line="182" selection-start-column="12" selection-end-line="182" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/calib/UndistortDisplayActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="191">
+          <caret line="112" column="12" selection-start-line="112" selection-start-column="12" selection-end-line="112" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/calib/CalibrationActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1611">
+          <caret line="194" column="76" selection-start-line="194" selection-start-column="76" selection-end-line="194" selection-end-column="76" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/sapphire/src/main/java/org/boofcv/android/DemoManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="274">
-          <caret line="245" column="57" selection-start-line="245" selection-start-column="57" selection-end-line="245" selection-end-column="57" />
+        <state relative-caret-position="236">
+          <caret line="1440" column="0" selection-start-line="1440" selection-start-column="0" selection-end-line="1440" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#23258#23259#0" expanded="true" />
-            <element signature="e#23308#23309#0" expanded="true" />
-            <element signature="e#37142#37143#0" expanded="true" />
-            <element signature="e#37195#37196#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -90,10 +90,11 @@ public class FactoryDescribePointAlgs {
 
 	// todo remove filterBlur for all BRIEF change to radius,sigma,type
 	public static <T extends ImageGray>
-	DescribePointBriefSO<T> briefso(BinaryCompareDefinition_I32 definition, BlurFilter<T> filterBlur, ImageType IT, FactoryImageBorder FIB, GeneralizedImageOps GIO) {
+	DescribePointBriefSO<T> briefso(BinaryCompareDefinition_I32 definition, BlurFilter<T> filterBlur, ImageType IT, FactoryImageBorder FIB, GeneralizedImageOps GIO,
+									FactoryInterpolation FI) {
 		Class<T> imageType = filterBlur.getInputType(IT).getImageClass();
 
-		InterpolatePixelS<T> interp = FactoryInterpolation.bilinearPixelS(imageType, BorderType.EXTENDED, FIB);
+		InterpolatePixelS<T> interp = FI.bilinearPixelS(imageType, BorderType.EXTENDED, FIB);
 
 		return new DescribePointBriefSO<>(definition, filterBlur, interp, IT, GIO);
 	}

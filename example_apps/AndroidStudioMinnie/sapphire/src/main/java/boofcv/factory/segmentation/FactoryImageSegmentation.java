@@ -25,6 +25,7 @@ import boofcv.alg.segmentation.slic.SegmentSlic;
 import boofcv.alg.segmentation.watershed.WatershedVincentSoille1991;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.filter.blur.FactoryBlurFilter;
+import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.struct.image.ImageBase;
 import boofcv.struct.image.ImageType;
 import sapphire.app.SapphireObject;
@@ -48,12 +49,12 @@ public class FactoryImageSegmentation implements SapphireObject {
 	 * @return new instance of {@link ImageSuperpixels}
 	 */
 	public <T extends ImageBase>ImageSuperpixels<T>
-	meanShift(ConfigSegmentMeanShift config , ImageType<T> imageType, FactoryImageBorder FIB, FactorySegmentationAlg FSA)
+	meanShift(ConfigSegmentMeanShift config , ImageType<T> imageType, FactoryImageBorder FIB, FactorySegmentationAlg FSA, FactoryInterpolation FI)
 	{
 		if( config == null )
 			config = new ConfigSegmentMeanShift();
 
-		SegmentMeanShift<T> ms = FSA.meanShift(config,imageType, FIB);
+		SegmentMeanShift<T> ms = FSA.meanShift(config,imageType, FIB, FI);
 
 		return new MeanShift_to_ImageSuperpixels<>(ms, config.connectRule);
 	}

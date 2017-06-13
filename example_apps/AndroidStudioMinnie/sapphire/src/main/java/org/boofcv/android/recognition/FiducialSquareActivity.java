@@ -30,11 +30,37 @@ import boofcv.abst.fiducial.calib.CalibrationDetectorSquareGrid;
 import boofcv.abst.geo.calibration.DetectorFiducialCalibration;
 import boofcv.alg.InputSanityCheck;
 import boofcv.alg.distort.LensDistortionOps;
+import boofcv.alg.filter.binary.BinaryImageOps;
+import boofcv.alg.filter.binary.GThresholdImageOps;
+import boofcv.alg.filter.binary.LinearContourLabelChang2004;
+import boofcv.alg.filter.binary.ThresholdImageOps;
+import boofcv.alg.filter.binary.impl.ImplBinaryBorderOps;
+import boofcv.alg.filter.binary.impl.ImplBinaryInnerOps;
+import boofcv.alg.filter.blur.BlurImageOps;
+import boofcv.alg.filter.blur.GBlurImageOps;
+import boofcv.alg.filter.blur.impl.ImplMedianHistogramInner;
+import boofcv.alg.filter.blur.impl.ImplMedianSortEdgeNaive;
+import boofcv.alg.filter.blur.impl.ImplMedianSortNaive;
+import boofcv.alg.filter.convolve.ConvolveImageMean;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
+import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
 import boofcv.alg.geo.PerspectiveOps;
+import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.GImageStatistics;
+import boofcv.alg.misc.ImageMiscOps;
+import boofcv.alg.misc.ImageStatistics;
+import boofcv.alg.transform.wavelet.UtilWavelet;
 import boofcv.android.ConvertBitmap;
 import boofcv.android.VisualizeImageData;
 import boofcv.android.gui.VideoImageProcessing;
 import boofcv.core.image.ConvertImage;
+import boofcv.core.image.GeneralizedImageOps;
+import boofcv.core.image.border.ImageBorderValue;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.calib.CameraPinholeRadial;
 import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.ImageBase;
@@ -54,11 +80,37 @@ import georegression.transform.se.SePointOps_F64;
 public abstract class FiducialSquareActivity extends DemoVideoDisplayActivity
 		implements View.OnTouchListener
 {
-	private ImageType IT;
+	private static GBlurImageOps GBIO;
 	private static InputSanityCheck ISC;
+	private static GeneralizedImageOps GIO;
+	private static BlurImageOps BlIO;
+	private static ConvolveImageMean CIM;
+	private static FactoryKernelGaussian FKG;
+	private static ConvolveNormalized CN;
+	private static ConvolveNormalizedNaive CNN;
+	private static ConvolveImageNoBorder CINB;
+	private static ConvolveNormalized_JustBorder CNJB;
+	private static ImplMedianHistogramInner IMHI;
+	private static ImplMedianSortEdgeNaive IMSEN;
+	private static ImplMedianSortNaive IMSN;
+	private static ImplConvolveMean ICM;
+	public static GThresholdImageOps GTIO;
+	private static GImageStatistics GIS;
+	private static ImageStatistics IS;
+	private static ThresholdImageOps TIO;
+	private static GImageMiscOps GIMO;
+	private static ImageMiscOps IMO;
+	private static ConvolveJustBorder_General CJBG;
 	private static ConvertImage CI;
+	private static UtilWavelet UW;
+	private static ImplBinaryInnerOps IBIO;
+	private static ImplBinaryBorderOps IBBO;
+	private static ImageBorderValue IBV;
+	private static BinaryImageOps BIO;
+	private static LinearContourLabelChang2004 cF;
+	private static LensDistortionOps LDO;
 	public static final String TAG = "FiducialSquareActivity";
-
+	ImageType IT = new ImageType();
 	final Object lock = new Object();
 	volatile boolean changed = true;
 	volatile boolean robust = true;
@@ -226,7 +278,7 @@ public abstract class FiducialSquareActivity extends DemoVideoDisplayActivity
 			if( changed && intrinsic != null ) {
 				changed = false;
 				detector = (FiducialDetector)createDetector();
-				detector.setLensDistortion(LensDistortionOps.transformPoint(intrinsic));
+				detector.setLensDistortion(LDO.transformPoint(intrinsic));
 				if( input == null || input.getImageType() != detector.getInputType() ) {
 					input = detector.getInputType().createImage(1, 1);
 				}
@@ -244,7 +296,9 @@ public abstract class FiducialSquareActivity extends DemoVideoDisplayActivity
 				input = (T) color;
 			}
 
-			detector.detect(input);
+			detector.detect(input, GBIO, ISC, GIO, BlIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI,
+					IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW, IT, IBIO, IBBO, IBV,
+					BIO, cF);
 
 			if( showInput ) {
 				ConvertBitmap.multiToBitmap(color, output, storage);
@@ -301,7 +355,7 @@ public abstract class FiducialSquareActivity extends DemoVideoDisplayActivity
 			for (int i = 0; i < 8; i++) {
 				Point3D_F64 c = corners[i];
 				SePointOps_F64.transform(targetToCamera, c, c);
-				PerspectiveOps.convertNormToPixel(intrinsic, c.x / c.z, c.y / c.z, p);
+				PerspectiveOps.convertNormToPixel(intrinsic, c.x / c.z, c.y / c.z, p, LDO);
 				pixel[i] = new Point2D_F32((float)p.x,(float)p.y);
 			}
 
@@ -309,7 +363,7 @@ public abstract class FiducialSquareActivity extends DemoVideoDisplayActivity
 
 			SePointOps_F64.transform(targetToCamera, centerPt, centerPt);
 			PerspectiveOps.convertNormToPixel(intrinsic,
-					centerPt.x / centerPt.z, centerPt.y / centerPt.z, p);
+					centerPt.x / centerPt.z, centerPt.y / centerPt.z, p, LDO);
 			Point2D_F32 centerPixel  = new Point2D_F32((float)p.x,(float)p.y);
 
 			// red

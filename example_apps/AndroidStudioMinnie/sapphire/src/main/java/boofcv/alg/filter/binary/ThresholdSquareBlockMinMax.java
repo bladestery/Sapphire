@@ -19,6 +19,7 @@
 package boofcv.alg.filter.binary;
 
 import boofcv.alg.InputSanityCheck;
+import boofcv.alg.feature.detect.interest.UnrollSiftScaleSpaceGradient;
 import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.ImageGray;
 import boofcv.struct.image.ImageInterleaved;
@@ -54,7 +55,6 @@ import boofcv.struct.image.ImageInterleaved;
 public abstract class ThresholdSquareBlockMinMax
 		<T extends ImageGray, I extends ImageInterleaved>
 {
-	private static InputSanityCheck ISC;
 	// interleaved image which stores min and max values inside each block
 	protected I minmax;
 
@@ -84,7 +84,7 @@ public abstract class ThresholdSquareBlockMinMax
 	 * @param input Input image
 	 * @param output Output binary image
 	 */
-	public void process(T input , GrayU8 output ) {
+	public void process(T input , GrayU8 output, InputSanityCheck ISC) {
 		ISC.checkSameShape(input,output);
 
 		if( input.width < requestedBlockWidth || input.height < requestedBlockWidth ) {

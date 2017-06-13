@@ -20,6 +20,7 @@ package boofcv.alg.sfm.d3;
 
 import boofcv.abst.sfm.d2.ImageMotion2D;
 import boofcv.alg.InputSanityCheck;
+import boofcv.alg.distort.LensDistortionOps;
 import boofcv.alg.feature.detect.interest.FastHessianFeatureDetector;
 import boofcv.alg.filter.binary.GThresholdImageOps;
 import boofcv.alg.filter.binary.ThresholdImageOps;
@@ -51,14 +52,18 @@ import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.core.image.border.FactoryImageBorderAlgs;
 import boofcv.core.image.border.ImageBorderValue;
+import boofcv.factory.distort.FactoryDistort;
 import boofcv.factory.filter.blur.FactoryBlurFilter;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
+import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.factory.sfm.FactorySfmMisc;
 import boofcv.struct.calib.CameraPinholeRadial;
 import boofcv.struct.image.ImageBase;
 import boofcv.struct.image.ImageType;
 import georegression.struct.se.Se2_F64;
 import georegression.struct.se.Se3_F64;
+import sapphire.compiler.IMOGenerator;
+
 import org.ejml.data.DenseMatrix64F;
 
 /**
@@ -79,9 +84,6 @@ import org.ejml.data.DenseMatrix64F;
  */
 public class VisOdomMonoOverheadMotion2D<T extends ImageBase>
 {
-	private static GImageMiscOps GIMO;
-	private static ImageMiscOps IMO;
-	private static FactoryImageBorder FIB;
 	// creates the overhead image
 	private CreateSyntheticOverheadView<T> createOverhead;
 	// estimates 2D motion inside the overhead image
@@ -120,12 +122,12 @@ public class VisOdomMonoOverheadMotion2D<T extends ImageBase>
 	public VisOdomMonoOverheadMotion2D(double cellSize,
 									   double maxCellsPerPixel,
 									   double mapHeightFraction ,
-									   ImageMotion2D<T, Se2_F64> motion2D , ImageType<T> imageType )
+									   ImageMotion2D<T, Se2_F64> motion2D , ImageType<T> imageType, FactoryImageBorder FIB, FactoryInterpolation FI)
 	{
 		selectOverhead = new SelectOverheadParameters(cellSize,maxCellsPerPixel,mapHeightFraction);
 		this.motion2D = motion2D;
 
-		createOverhead = FactorySfmMisc.createOverhead(imageType, FIB);
+		createOverhead = FactorySfmMisc.createOverhead(imageType, FIB, FI);
 
 		overhead = new OverheadView<>(imageType.createImage(1, 1), 0, 0, cellSize);
 	}
@@ -136,17 +138,17 @@ public class VisOdomMonoOverheadMotion2D<T extends ImageBase>
 	 * @param planeToCamera Transform from the plane to camera.
 	 */
 	public void configureCamera(CameraPinholeRadial intrinsic ,
-								Se3_F64 planeToCamera ) {
+								Se3_F64 planeToCamera, ImageMiscOps IMO, GImageMiscOps GIMO, LensDistortionOps LDO) {
 		this.planeToCamera = planeToCamera;
 
-		if( !selectOverhead.process(intrinsic,planeToCamera) )
+		if( !selectOverhead.process(intrinsic,planeToCamera, LDO) )
 			throw new IllegalArgumentException("Can't find a reasonable overhead map.  Can the camera view the plane?");
 
 		overhead.centerX = selectOverhead.getCenterX();
 		overhead.centerY = selectOverhead.getCenterY();
 
 		createOverhead.configure(intrinsic,planeToCamera,overhead.centerX,overhead.centerY,overhead.cellSize,
-				selectOverhead.getOverheadWidth(),selectOverhead.getOverheadHeight());
+				selectOverhead.getOverheadWidth(),selectOverhead.getOverheadHeight(), LDO);
 
 		// used to counter act offset in overhead image
 		origToMap.set(overhead.centerX,overhead.centerY,0);
@@ -175,11 +177,11 @@ public class VisOdomMonoOverheadMotion2D<T extends ImageBase>
 						   ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN, GBlurImageOps GBIO, GeneralizedImageOps GIO, BlurImageOps BIO, ConvolveImageMean CIM,
 						   FactoryKernelGaussian FKG, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM,
 						   GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO, FactoryImageBorderAlgs FIBA, ImageBorderValue IBV,
-						   FastHessianFeatureDetector FHFD, FactoryImageBorder FIB, FactoryBlurFilter FBF, ConvertImage CI, UtilWavelet UW, ImageType IT) {
+						   FastHessianFeatureDetector FHFD, FactoryImageBorder FIB, FactoryBlurFilter FBF, ConvertImage CI, UtilWavelet UW, ImageType IT, FactoryInterpolation FI, FactoryDistort FDs) {
 		createOverhead.process(image, overhead.image);
 
 		if( !motion2D.process(overhead.image,ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN,
-				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF, CI, UW, IT) ) {
+				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF, CI, UW, IT, FI, FDs) ) {
 			return false;
 		}
 

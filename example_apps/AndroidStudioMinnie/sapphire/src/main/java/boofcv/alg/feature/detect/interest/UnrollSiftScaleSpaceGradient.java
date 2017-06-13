@@ -32,6 +32,7 @@ import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.filter.derivative.FactoryDerivative;
+import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.struct.image.GrayF32;
 import sapphire.compiler.FDGenerator;
 
@@ -74,9 +75,9 @@ public class UnrollSiftScaleSpaceGradient {
 	 */
 	public void setImage(GrayF32 image, FactoryImageBorder FIB, InputSanityCheck ISC, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB,
 						 ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN, DerivativeHelperFunctions DHF, ConvolveJustBorder_General CJBG,
-					 GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO) {
+						 GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO, FactoryInterpolation FI) {
 
-		scaleSpace.initialize(image, FIB, ISC, CNN, CINB, CNJB, CN);
+		scaleSpace.initialize(image, FIB, ISC, CNN, CINB, CNJB, CN, FI);
 
 		usedScales.clear();
 		do {

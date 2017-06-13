@@ -54,12 +54,14 @@ import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.core.image.border.FactoryImageBorderAlgs;
 import boofcv.core.image.border.ImageBorderValue;
+import boofcv.factory.distort.FactoryDistort;
 import boofcv.factory.feature.detect.extract.FactoryFeatureExtractor;
 import boofcv.factory.feature.detect.intensity.FactoryIntensityPointAlg;
 import boofcv.factory.feature.tracker.FactoryPointTracker;
 import boofcv.factory.filter.blur.FactoryBlurFilter;
 import boofcv.factory.filter.derivative.FactoryDerivative;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
+import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.factory.sfm.FactoryMotion2D;
 import boofcv.factory.transform.pyramid.FactoryPyramid;
 import boofcv.misc.BoofMiscOps;
@@ -116,6 +118,8 @@ implements CompoundButton.OnCheckedChangeListener
 	private static UtilWavelet UW;
 	private static ImageType IT;
 	private static FactoryPointTracker FPT;
+	private static FactoryInterpolation FI;
+	private static FactoryDistort FDs;
 	Paint paintInlier;
 	Paint paintOutlier;
 
@@ -169,12 +173,12 @@ implements CompoundButton.OnCheckedChangeListener
 		config.radius = 3;
 
 		PointTracker<GrayU8> tracker = FPT.
-				klt(new int[]{1, 2,4}, config, 3, GrayU8.class, GrayS16.class, FD, GIO, FIB, FKG, FP, FFE, FIPA);
+				klt(new int[]{1, 2,4}, config, 3, GrayU8.class, GrayS16.class, FD, GIO, FIB, FKG, FP, FFE, FIPA, FI);
 
 		ImageMotion2D<GrayU8,Affine2D_F64> motion = FactoryMotion2D.createMotion2D(100, 1.5, 2, 40,
 				0.5, 0.6, false,tracker, new Affine2D_F64());
 
-		return FactoryMotion2D.createVideoStitch(0.2,motion, IT.single(GrayU8.class), FIB);
+		return FactoryMotion2D.createVideoStitch(0.2,motion, IT.single(GrayU8.class), FIB, FI, FDs);
 	}
 
 	@Override
@@ -225,7 +229,7 @@ implements CompoundButton.OnCheckedChangeListener
 				return;
 
 			if( !resetRequested && alg.process(gray, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN,
-					GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF, CI, UW, IT) ) {
+					GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF, CI, UW, IT, FI, FDs) ) {
 				GrayU8 stitched = alg.getStitchedImage();
 
 				synchronized ( lockGui ) {
@@ -260,14 +264,14 @@ implements CompoundButton.OnCheckedChangeListener
 				inside &= BoofMiscOps.checkInside(stitched,corners.p3.x,corners.p3.y,5);
 				if( !inside ) {
 					alg.setOriginToCurrent(ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN,
-							GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF, CI, UW, IT);
+							GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF, CI, UW, IT, FI, FDs);
 				}
 
 
 
 			} else {
 				resetRequested = false;
-				alg.reset();
+				alg.reset(IMO, GIMO);
 			}
 		}
 

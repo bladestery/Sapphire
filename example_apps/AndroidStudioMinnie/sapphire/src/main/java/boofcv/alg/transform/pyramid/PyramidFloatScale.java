@@ -44,8 +44,11 @@ import boofcv.alg.misc.ImageStatistics;
 import boofcv.alg.transform.wavelet.UtilWavelet;
 import boofcv.core.image.ConvertImage;
 import boofcv.core.image.GeneralizedImageOps;
+import boofcv.factory.distort.FactoryDistort;
 import boofcv.factory.filter.blur.FactoryBlurFilter;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
+import boofcv.factory.interpolate.FactoryInterpolation;
+import boofcv.struct.image.FactoryImage;
 import boofcv.struct.image.ImageGray;
 import boofcv.struct.image.ImageType;
 import boofcv.struct.pyramid.PyramidFloat;
@@ -75,7 +78,7 @@ public class PyramidFloatScale< T extends ImageGray>
 	public void process(T input, GBlurImageOps GBIO, InputSanityCheck ISC, GeneralizedImageOps GIO, BlurImageOps BIO, ConvolveImageMean CIM, FactoryKernelGaussian FKG,
 						ConvolveNormalized CN, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN,
 						ImplMedianSortNaive IMSN, ImplConvolveMean ICM, GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO, GImageMiscOps GIMO, ImageMiscOps IMO,
-						FactoryBlurFilter FBF, ConvolveJustBorder_General CJBG, ConvertImage CI, UtilWavelet UW, ImageType IT) {
+						FactoryBlurFilter FBF, ConvolveJustBorder_General CJBG, ConvertImage CI, UtilWavelet UW, ImageType IT, FactoryDistort FDs) {
 		super.initialize(input.width,input.height);
 		
 		if( isSaveOriginalReference() )
@@ -86,7 +89,7 @@ public class PyramidFloatScale< T extends ImageGray>
 			T layer = getLayer(i);
 
 			PixelTransformAffine_F32 model = DistortSupport.transformScale(layer,prev, null);
-			DistortImageOps.distortSingle(prev,layer, true, model,interpolate);
+			DistortImageOps.distortSingle(prev,layer, true, model,interpolate, FDs);
 		}
 	}
 

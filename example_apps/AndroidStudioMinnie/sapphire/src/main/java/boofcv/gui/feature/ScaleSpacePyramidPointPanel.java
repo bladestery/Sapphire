@@ -18,9 +18,13 @@
 
 package boofcv.gui.feature;
 
+import org.hamcrest.Factory;
+
 import boofcv.abst.distort.FDistort;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.FactoryImageBorder;
+import boofcv.factory.distort.FactoryDistort;
+import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.io.image.ConvertBufferedImage;
 import boofcv.struct.feature.ScalePoint;
 import boofcv.struct.image.ImageGray;
@@ -39,8 +43,6 @@ import java.util.List;
  * @author Peter Abeles
  */
 public class ScaleSpacePyramidPointPanel extends JPanel implements MouseListener {
-	private GeneralizedImageOps GIO;
-	private static FactoryImageBorder FIB;
 	private PyramidFloat ss;
 	BufferedImage background;
 	List<ScalePoint> points = new ArrayList<>();
@@ -66,7 +68,7 @@ public class ScaleSpacePyramidPointPanel extends JPanel implements MouseListener
 		setPreferredSize(new Dimension(background.getWidth(),background.getHeight()));
 	}
 
-	public synchronized void setPoints( List<ScalePoint> points ) {
+	public synchronized void setPoints( List<ScalePoint> points , GeneralizedImageOps GIO, FactoryImageBorder FIB, FactoryInterpolation FI, FactoryDistort FDs) {
 		unused.addAll(this.points);
 		this.points.clear();
 
@@ -79,16 +81,16 @@ public class ScaleSpacePyramidPointPanel extends JPanel implements MouseListener
 			}
 			this.points.add(p);
 		}
-		setLevel(0);
+		setLevel(0, GIO, FIB, FI, FDs);
 	}
 
-	private synchronized void setLevel( int level ) {
+	private synchronized void setLevel(int level, GeneralizedImageOps GIO, FactoryImageBorder FIB, FactoryInterpolation FI, FactoryDistort FDs) {
 //		System.out.println("level "+level);
 		if( level > 0 && ss != null ) {
 
 			ImageGray small = ss.getLayer(level-1);
 			ImageGray enlarge = GIO.createSingleBand(small.getClass(), ss.getInputWidth(), ss.getInputHeight());
-			new FDistort(small,enlarge, FIB).interpNN(FIB).apply();
+			new FDistort(small,enlarge, FIB, FI).interpNN(FIB, FI).apply(FDs);
 
 			// if the size isn't the same null it so a new image will be declared
 			if( levelImage != null &&
@@ -152,7 +154,11 @@ public class ScaleSpacePyramidPointPanel extends JPanel implements MouseListener
 		if( level > ss.getNumLayers() ) {
 			level = 0;
 		}
-		setLevel(level);
+		FactoryImageBorder FIB = new FactoryImageBorder();
+		FactoryInterpolation FI = new FactoryInterpolation();
+		FactoryDistort FDs = new FactoryDistort();
+		GeneralizedImageOps GIO = new GeneralizedImageOps();
+		setLevel(level, GIO, FIB, FI, FDs);
 		repaint();
 	}
 

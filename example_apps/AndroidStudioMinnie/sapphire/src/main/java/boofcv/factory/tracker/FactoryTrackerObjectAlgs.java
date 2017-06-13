@@ -51,15 +51,15 @@ public class FactoryTrackerObjectAlgs {
 	public static <T extends ImageGray,D extends ImageGray>
 	TldTracker<T,D> createTLD(TldParameters config ,
 							  InterpolatePixelS<T> interpolate , ImageGradient<T,D> gradient ,
-							  Class<T> imageType , Class<D> derivType, GeneralizedImageOps GIO) {
-		return new TldTracker<>(config, interpolate, gradient, imageType, derivType, GIO);
+							  Class<T> imageType , Class<D> derivType, GeneralizedImageOps GIO, FactoryInterpolation FI) {
+		return new TldTracker<>(config, interpolate, gradient, imageType, derivType, GIO, FI);
 	}
 
 	public static <T extends ImageGray,D extends ImageGray>
 	SparseFlowObjectTracker<T,D> createSparseFlow( SfotConfig config ,
 												   Class<T> imageType , Class<D> derivType ,
-												   ImageGradient<T, D> gradient) {
-		return new SparseFlowObjectTracker<>(config, imageType, derivType, gradient);
+												   ImageGradient<T, D> gradient, FactoryInterpolation FI) {
+		return new SparseFlowObjectTracker<>(config, imageType, derivType, gradient, FI);
 	}
 
 	public static <T extends ImageMultiBand>
@@ -116,26 +116,26 @@ public class FactoryTrackerObjectAlgs {
 	}
 
 	public static <T extends ImageGray>
-	CirculantTracker<T> circulant(ConfigCirculantTracker config , Class<T> imageType, FactoryImageBorder FIB, DiscreteFourierTransformOps DFTO, InputSanityCheck ISC) {
+	CirculantTracker<T> circulant(ConfigCirculantTracker config , Class<T> imageType, FactoryImageBorder FIB, DiscreteFourierTransformOps DFTO, InputSanityCheck ISC, FactoryInterpolation FI) {
 		if( config == null )
 			config = new ConfigCirculantTracker();
 
-		InterpolatePixelS<T> interp = FactoryInterpolation.bilinearPixelS(imageType, BorderType.EXTENDED, FIB);
+		InterpolatePixelS<T> interp = FI.bilinearPixelS(imageType, BorderType.EXTENDED, FIB);
 
 		return new CirculantTracker(
 				config.output_sigma_factor,config.sigma,config.lambda,config.interp_factor,
 				config.padding,
 				config.workSpace,
-				config.maxPixelValue,interp, DFTO, ISC, FIB);
+				config.maxPixelValue,interp, DFTO, ISC, FIB, FI);
 	}
 
 	public static <T extends ImageBase>
-	TrackerMeanShiftComaniciu2003<T> meanShiftComaniciu2003(ConfigComaniciu2003 config, ImageType<T> imageType, FactoryImageBorder FIB) {
+	TrackerMeanShiftComaniciu2003<T> meanShiftComaniciu2003(ConfigComaniciu2003 config, ImageType<T> imageType, FactoryImageBorder FIB, FactoryInterpolation FI) {
 
 		if( config == null )
 			config = new ConfigComaniciu2003();
 
-		InterpolatePixelMB<T> interp = FactoryInterpolation.createPixelMB(0,config.maxPixelValue,
+		InterpolatePixelMB<T> interp = FI.createPixelMB(0,config.maxPixelValue,
 				config.interpolation, BorderType.EXTENDED,imageType, FIB);
 
 		LocalWeightedHistogramRotRect<T> hist =

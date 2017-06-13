@@ -22,6 +22,7 @@ import boofcv.abst.filter.binary.InputToBinary;
 import boofcv.alg.InputSanityCheck;
 import boofcv.alg.filter.binary.BinaryImageOps;
 import boofcv.alg.filter.binary.GThresholdImageOps;
+import boofcv.alg.filter.binary.LinearContourLabelChang2004;
 import boofcv.alg.filter.binary.ThresholdImageOps;
 import boofcv.alg.filter.binary.impl.ImplBinaryBorderOps;
 import boofcv.alg.filter.binary.impl.ImplBinaryInnerOps;
@@ -53,7 +54,9 @@ import boofcv.struct.image.ImageGray;
 import boofcv.struct.image.ImageType;
 import georegression.struct.point.Point2D_F64;
 
+import java.io.Serializable;
 import java.util.List;
+import java.util.function.IntBinaryOperator;
 
 /**
  * <p>
@@ -75,35 +78,7 @@ import java.util.List;
  *
  * @author Peter Abeles
  */
-public class DetectChessboardFiducial<T extends ImageGray> {
-	private static GBlurImageOps GBIO;
-	private static BinaryImageOps BIO;
-	private static InputSanityCheck ISC;
-	private static ImplBinaryBorderOps IBBO;
-	private static ImplBinaryInnerOps IBIO;
-	private static GeneralizedImageOps GIO;
-	private static BlurImageOps BlIO;
-	private static ConvolveImageMean CIM;
-	private static FactoryKernelGaussian FKG;
-	private static ConvolveNormalized CN;
-	private static ConvolveNormalizedNaive CNN;
-	private static ConvolveImageNoBorder CINB;
-	private static ConvolveNormalized_JustBorder CNJB;
-	private static ImplMedianHistogramInner IMHI;
-	private static ImplMedianSortEdgeNaive IMSEN;
-	private static ImplMedianSortNaive IMSN;
-	private static ImplConvolveMean ICM;
-	private static ImageBorderValue IBV;
-	private static GThresholdImageOps GTIO;
-	private static GImageStatistics GIS;
-	private static ImageStatistics IS;
-	private static ThresholdImageOps TIO;
-	private static GImageMiscOps GIMO;
-	private static ConvolveJustBorder_General CJBG;
-	private static ImageMiscOps IMO;
-	private static ConvertImage CI;
-	private static UtilWavelet UW;
-	private static ImageType IT;
+public class DetectChessboardFiducial<T extends ImageGray>{
 	// detects the chess board
 	private DetectChessSquarePoints<T> findSeeds;
 	// binary images used to detect chess board
@@ -146,7 +121,11 @@ public class DetectChessboardFiducial<T extends ImageGray> {
 	public void reset() {
 	}
 
-	public boolean process(T gray) {
+	public boolean process(T gray, GBlurImageOps GBIO, InputSanityCheck ISC, GeneralizedImageOps GIO, BlurImageOps BlIO, ConvolveImageMean CIM, FactoryKernelGaussian FKG,
+					   ConvolveNormalized CN, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ImplMedianHistogramInner IMHI,
+					   ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM, GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS,
+					   ThresholdImageOps TIO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvolveJustBorder_General CJBG, ConvertImage CI, UtilWavelet UW, ImageType IT,
+					   ImplBinaryInnerOps IBIO, ImplBinaryBorderOps IBBO, ImageBorderValue IBV, BinaryImageOps BIO, LinearContourLabelChang2004 cF) {
 		binary.reshape(gray.width, gray.height);
 		eroded.reshape(gray.width, gray.height);
 
@@ -155,7 +134,7 @@ public class DetectChessboardFiducial<T extends ImageGray> {
 		// erode to make the squares separated
 		BIO.erode8(binary, 1, eroded, ISC, IBIO, IBBO, IBV);
 
-		return findSeeds.process(gray, eroded);
+		return findSeeds.process(gray, eroded, ISC, IMO, cF);
 	}
 
 	public DetectChessSquarePoints getFindSeeds() {

@@ -54,16 +54,16 @@ public class BaseChecksPnP {
 		ConvertRotation3D_F64.eulerToMatrix(EulerType.XYZ,0.2, -0.34, 0.7, worldToCamera1.getR());
 	}
 
-	public List<Point2D3D> createObservations( Se3_F64 worldToCamera , int total ) {
-		return createObservations(worldToCamera,4,total);
+	public List<Point2D3D> createObservations( Se3_F64 worldToCamera , int total, LensDistortionOps LDO) {
+		return createObservations(worldToCamera,4,total, LDO);
 	}
 
-	public List<Point2D3D> createObservations( Se3_F64 worldToCamera , double nominalZ , int total ) {
+	public List<Point2D3D> createObservations( Se3_F64 worldToCamera , double nominalZ , int total, LensDistortionOps LDO) {
 
 		Se3_F64 cameraToWorld = worldToCamera.invert(null);
 
 		// transform from pixel coordinates to normalized pixel coordinates, which removes lens distortion
-		Point2Transform2_F64 pixelToNorm = LensDistortionOps.transformPoint(intrinsic).undistort_F64(true,false);
+		Point2Transform2_F64 pixelToNorm = LDO.transformPoint(intrinsic).undistort_F64(true,false);
 
 		List<Point2D3D> observations = new ArrayList<>();
 

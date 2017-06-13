@@ -18,6 +18,7 @@
 
 package boofcv.alg.feature.associate;
 
+import boofcv.alg.distort.LensDistortionOps;
 import boofcv.alg.geo.PerspectiveOps;
 import boofcv.alg.geo.RectifyImageOps;
 import boofcv.alg.geo.rectify.RectifyCalibrated;
@@ -54,7 +55,7 @@ public class StereoConsistencyCheck {
 		this.toleranceY = toleranceY;
 	}
 
-	public void setCalibration(StereoParameters param) {
+	public void setCalibration(StereoParameters param, LensDistortionOps LDO) {
 		CameraPinholeRadial left = param.getLeft();
 		CameraPinholeRadial right = param.getRight();
 
@@ -72,8 +73,8 @@ public class StereoConsistencyCheck {
 		DenseMatrix64F rect1 = rectifyAlg.getRect1();
 		DenseMatrix64F rect2 = rectifyAlg.getRect2();
 
-		leftImageToRect = RectifyImageOps.transformPixelToRect_F64(param.left, rect1);
-		rightImageToRect = RectifyImageOps.transformPixelToRect_F64(param.right, rect2);
+		leftImageToRect = RectifyImageOps.transformPixelToRect_F64(param.left, rect1, LDO);
+		rightImageToRect = RectifyImageOps.transformPixelToRect_F64(param.right, rect2, LDO);
 	}
 
 	/**

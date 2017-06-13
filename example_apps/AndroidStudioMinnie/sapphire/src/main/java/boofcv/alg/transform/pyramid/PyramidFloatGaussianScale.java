@@ -45,6 +45,7 @@ import boofcv.alg.misc.ImageStatistics;
 import boofcv.alg.transform.wavelet.UtilWavelet;
 import boofcv.core.image.ConvertImage;
 import boofcv.core.image.GeneralizedImageOps;
+import boofcv.factory.distort.FactoryDistort;
 import boofcv.factory.filter.blur.FactoryBlurFilter;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.image.ImageGray;
@@ -114,7 +115,7 @@ public class PyramidFloatGaussianScale< T extends ImageGray> extends PyramidFloa
 	public void process(T input, GBlurImageOps GBIO, InputSanityCheck ISC, GeneralizedImageOps GIO, BlurImageOps BIO, ConvolveImageMean CIM, FactoryKernelGaussian FKG,
 						ConvolveNormalized CN, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN,
 						ImplMedianSortNaive IMSN, ImplConvolveMean ICM, GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO, GImageMiscOps GIMO, ImageMiscOps IMO,
-						FactoryBlurFilter FBF, ConvolveJustBorder_General CJBG, ConvertImage CI, UtilWavelet UW, ImageType IT) {
+						FactoryBlurFilter FBF, ConvolveJustBorder_General CJBG, ConvertImage CI, UtilWavelet UW, ImageType IT, FactoryDistort FDs) {
 		super.initialize(input.width,input.height);
 
 		if( isSaveOriginalReference() )
@@ -138,7 +139,7 @@ public class PyramidFloatGaussianScale< T extends ImageGray> extends PyramidFloa
 				layer.setTo(tempImage);
 			} else {
 				PixelTransformAffine_F32 model = DistortSupport.transformScale(layer,tempImage, null);
-				DistortImageOps.distortSingle(tempImage,layer, true, model,interpolate);
+				DistortImageOps.distortSingle(tempImage,layer, true, model,interpolate, FDs);
 			}
 		}
 	}

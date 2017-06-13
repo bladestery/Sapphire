@@ -55,12 +55,13 @@ public class FactoryPointTrackerTwoPass {
 	public static <I extends ImageGray, D extends ImageGray>
 	PointTrackerTwoPass<I> klt(PkltConfig config, ConfigGeneralDetector configExtract,
 							   Class<I> imageType, Class<D> derivType, GeneralizedImageOps GIO, FactoryKernelGaussian FKG, FactoryFeatureExtractor FFE,
-							   FactoryIntensityPointAlg FIPA, FactoryPyramid FP, FactoryDerivative FD, FactoryImageBorder FIB, ImageType IT, FactoryPointTracker FPT) {
+							   FactoryIntensityPointAlg FIPA, FactoryPyramid FP, FactoryDerivative FD, FactoryImageBorder FIB, ImageType IT, FactoryPointTracker FPT,
+							   FactoryInterpolation FI) {
 
 		GeneralFeatureDetector<I, D> detector = FPT.createShiTomasi(configExtract, derivType, GIO, FKG, FFE, FIPA);
 
-		InterpolateRectangle<I> interpInput = FactoryInterpolation.<I>bilinearRectangle(imageType);
-		InterpolateRectangle<D> interpDeriv = FactoryInterpolation.<D>bilinearRectangle(derivType);
+		InterpolateRectangle<I> interpInput = FI.<I>bilinearRectangle(imageType);
+		InterpolateRectangle<D> interpDeriv = FI.<D>bilinearRectangle(derivType);
 
 		ImageGradient<I,D> gradient = FD.sobel(imageType, derivType, GIO, FIB);
 

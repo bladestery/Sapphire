@@ -42,10 +42,6 @@ import georegression.struct.InvertibleTransform;
 public class BackgroundMovingGaussian_IL<T extends ImageInterleaved, Motion extends InvertibleTransform<Motion>>
 		extends BackgroundMovingGaussian<T,Motion>
 {
-	private static GImageMiscOps GIMO;
-	private static ImageMiscOps IMO;
-	private static FactoryImageBorder FIB;
-	private ImageType IT;
 	// interpolates the input image
 	protected InterpolatePixelMB<T> interpolateInput;
 	// interpolates the background image
@@ -73,17 +69,17 @@ public class BackgroundMovingGaussian_IL<T extends ImageInterleaved, Motion exte
 	public BackgroundMovingGaussian_IL(float learnRate, float threshold,
 									   Point2Transform2Model_F32<Motion> transform,
 									   InterpolationType interpType,
-									   ImageType<T> imageType)
+									   ImageType<T> imageType, ImageType IT, FactoryImageBorder FIB, FactoryInterpolation FI)
 	{
 		super(learnRate, threshold, transform, imageType);
 
 		int numBands = imageType.getNumBands();
 
-		this.interpolateInput = FactoryInterpolation.createPixelMB(0, 255,
+		this.interpolateInput = FI.createPixelMB(0, 255,
 				InterpolationType.BILINEAR, BorderType.EXTENDED, imageType, FIB);
 
 		background = new InterleavedF32(1,1,2*numBands);
-		this.interpolationBG = FactoryInterpolation.createPixelMB(
+		this.interpolationBG = FI.createPixelMB(
 				0, 255, interpType, BorderType.EXTENDED, IT.il(numBands*2, InterleavedF32.class), FIB);
 		this.interpolationBG.setImage(background);
 		inputWrapper = FactoryGImageMultiBand.create(imageType);
@@ -93,7 +89,7 @@ public class BackgroundMovingGaussian_IL<T extends ImageInterleaved, Motion exte
 	}
 
 	@Override
-	public void initialize(int backgroundWidth, int backgroundHeight, Motion homeToWorld) {
+	public void initialize(int backgroundWidth, int backgroundHeight, Motion homeToWorld, ImageMiscOps IMO, GImageMiscOps GIMO) {
 		background.reshape(backgroundWidth,backgroundHeight);
 		GIMO.fill(background, -1, IMO);
 
@@ -105,7 +101,7 @@ public class BackgroundMovingGaussian_IL<T extends ImageInterleaved, Motion exte
 	}
 
 	@Override
-	public void reset() {
+	public void reset(ImageMiscOps IMO, GImageMiscOps GIMO) {
 		GIMO.fill(background, -1, IMO);
 	}
 

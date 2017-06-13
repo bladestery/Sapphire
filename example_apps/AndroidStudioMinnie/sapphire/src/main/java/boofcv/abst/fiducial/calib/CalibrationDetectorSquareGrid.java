@@ -20,10 +20,38 @@ package boofcv.abst.fiducial.calib;
 
 import boofcv.abst.filter.binary.InputToBinary;
 import boofcv.abst.geo.calibration.DetectorFiducialCalibration;
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.fiducial.calib.grid.DetectSquareGridFiducial;
+import boofcv.alg.filter.binary.BinaryImageOps;
+import boofcv.alg.filter.binary.GThresholdImageOps;
+import boofcv.alg.filter.binary.LinearContourLabelChang2004;
+import boofcv.alg.filter.binary.ThresholdImageOps;
+import boofcv.alg.filter.binary.impl.ImplBinaryBorderOps;
+import boofcv.alg.filter.binary.impl.ImplBinaryInnerOps;
+import boofcv.alg.filter.blur.BlurImageOps;
+import boofcv.alg.filter.blur.GBlurImageOps;
+import boofcv.alg.filter.blur.impl.ImplMedianHistogramInner;
+import boofcv.alg.filter.blur.impl.ImplMedianSortEdgeNaive;
+import boofcv.alg.filter.blur.impl.ImplMedianSortNaive;
+import boofcv.alg.filter.convolve.ConvolveImageMean;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
+import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
 import boofcv.alg.geo.calibration.CalibrationObservation;
+import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.GImageStatistics;
+import boofcv.alg.misc.ImageMiscOps;
+import boofcv.alg.misc.ImageStatistics;
 import boofcv.alg.shapes.polygon.BinaryPolygonDetector;
+import boofcv.alg.transform.wavelet.UtilWavelet;
+import boofcv.core.image.ConvertImage;
+import boofcv.core.image.GeneralizedImageOps;
+import boofcv.core.image.border.ImageBorderValue;
 import boofcv.factory.filter.binary.FactoryThresholdBinary;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.factory.shape.FactoryShapeDetector;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.ImageType;
@@ -38,16 +66,13 @@ import java.util.List;
  * @author Peter Abeles
  */
 public class CalibrationDetectorSquareGrid implements DetectorFiducialCalibration {
-	private static FactoryThresholdBinary FTB;
-	private static ImageType IT;
-	private static FactoryShapeDetector FSD;
 
 	DetectSquareGridFiducial<GrayF32> detect;
 
 	List<Point2D_F64> layoutPoints;
 	CalibrationObservation detected;
 
-	public CalibrationDetectorSquareGrid(ConfigSquareGrid config) {
+	public CalibrationDetectorSquareGrid(ConfigSquareGrid config, FactoryShapeDetector FSD, ImageType IT, FactoryThresholdBinary FTB) {
 
 		if( config.refineWithCorners) {
 			config.square.refine = config.configRefineCorners;
@@ -70,9 +95,13 @@ public class CalibrationDetectorSquareGrid implements DetectorFiducialCalibratio
 	}
 
 	@Override
-	public boolean process(GrayF32 input) {
+	public boolean process(GrayF32 input, GBlurImageOps GBIO, InputSanityCheck ISC, GeneralizedImageOps GIO, BlurImageOps BlIO, ConvolveImageMean CIM, FactoryKernelGaussian FKG,
+						   ConvolveNormalized CN, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ImplMedianHistogramInner IMHI,
+						   ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM, GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS,
+						   ThresholdImageOps TIO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvolveJustBorder_General CJBG, ConvertImage CI, UtilWavelet UW, ImageType IT,
+						   ImplBinaryInnerOps IBIO, ImplBinaryBorderOps IBBO, ImageBorderValue IBV, BinaryImageOps BIO, LinearContourLabelChang2004 cF) {
 		detected = new CalibrationObservation();
-		if( detect.process(input) )  {
+		if( detect.process(input, GBIO, ISC, GIO, BlIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW, IT, cF) )  {
 			List<Point2D_F64> found = detect.getCalibrationPoints();
 			for (int i = 0; i < found.size(); i++) {
 				detected.add( found.get(i), i );

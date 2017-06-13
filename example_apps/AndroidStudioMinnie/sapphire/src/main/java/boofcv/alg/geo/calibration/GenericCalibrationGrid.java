@@ -22,6 +22,9 @@ import boofcv.abst.fiducial.calib.CalibrationDetectorSquareGrid;
 import boofcv.abst.fiducial.calib.ConfigSquareGrid;
 import boofcv.abst.geo.calibration.DetectorFiducialCalibration;
 import boofcv.factory.fiducial.FactoryFiducialCalibration;
+import boofcv.factory.filter.binary.FactoryThresholdBinary;
+import boofcv.factory.shape.FactoryShapeDetector;
+import boofcv.struct.image.ImageType;
 import georegression.geometry.ConvertRotation3D_F64;
 import georegression.geometry.GeometryMath_F64;
 import georegression.struct.EulerType;
@@ -33,6 +36,7 @@ import georegression.transform.se.SePointOps_F64;
 import org.ejml.data.DenseMatrix64F;
 import org.ejml.ops.CommonOps;
 
+import java.awt.Image;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -46,8 +50,8 @@ public class GenericCalibrationGrid {
 		return CalibrationDetectorSquareGrid.createLayout(3, 2, 30, 30);
 	}
 
-	public static DetectorFiducialCalibration createStandardConfig() {
-		return FactoryFiducialCalibration.squareGrid(new ConfigSquareGrid(3, 2, 30, 30));
+	public static DetectorFiducialCalibration createStandardConfig(FactoryShapeDetector FSD, ImageType IT, FactoryThresholdBinary FTB) {
+		return FactoryFiducialCalibration.squareGrid(new ConfigSquareGrid(3, 2, 30, 30), FSD, IT, FTB);
 	}
 
 	public static DenseMatrix64F createStandardCalibration() {

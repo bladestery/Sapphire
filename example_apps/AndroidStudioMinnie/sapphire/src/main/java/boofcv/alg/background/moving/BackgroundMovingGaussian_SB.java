@@ -69,20 +69,20 @@ public class BackgroundMovingGaussian_SB <T extends ImageGray, Motion extends In
 	public BackgroundMovingGaussian_SB(float learnRate, float threshold,
 									   Point2Transform2Model_F32<Motion> transform,
 									   InterpolationType interpType,
-									   Class<T> imageType)
+									   Class<T> imageType, ImageType IT, FactoryImageBorder FIB, FactoryInterpolation FI)
 	{
 		super(learnRate, threshold, transform, IT.single(imageType));
 
-		this.interpolateInput = FactoryInterpolation.bilinearPixelS(imageType, BorderType.EXTENDED, FIB);
+		this.interpolateInput = FI.bilinearPixelS(imageType, BorderType.EXTENDED, FIB);
 
-		this.interpolationBG = FactoryInterpolation.createPixelMB(
+		this.interpolationBG = FI.createPixelMB(
 				0, 255, interpType, BorderType.EXTENDED, IT.pl(2, GrayF32.class), FIB);
 		this.interpolationBG.setImage(background);
 		inputWrapper = FactoryGImageGray.create(imageType);
 	}
 
 	@Override
-	public void initialize(int backgroundWidth, int backgroundHeight, Motion homeToWorld) {
+	public void initialize(int backgroundWidth, int backgroundHeight, Motion homeToWorld, ImageMiscOps IMO, GImageMiscOps GIMO) {
 		background.reshape(backgroundWidth,backgroundHeight);
 		GIMO.fill(background.getBand(0),0, IMO);
 		GIMO.fill(background.getBand(1),-1, IMO);
@@ -95,7 +95,7 @@ public class BackgroundMovingGaussian_SB <T extends ImageGray, Motion extends In
 	}
 
 	@Override
-	public void reset() {
+	public void reset(ImageMiscOps IMO, GImageMiscOps GIMO) {
 		GIMO.fill(background.getBand(0),0, IMO);
 		GIMO.fill(background.getBand(1),-1, IMO);
 	}

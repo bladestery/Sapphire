@@ -25,6 +25,7 @@ import boofcv.alg.interpolate.kernel.BicubicKernel_F32;
 import boofcv.core.image.border.BorderType;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.struct.image.*;
+import sapphire.app.SapphireObject;
 
 /**
  * Simplified interface for creating interpolation classes.
@@ -32,7 +33,7 @@ import boofcv.struct.image.*;
  * @author Peter Abeles
  */
 @SuppressWarnings({"unchecked"})
-public class FactoryInterpolation {
+public class FactoryInterpolation implements SapphireObject {
 	/**
 	 * Returns {@link InterpolatePixelS} of the specified type.
 	 *
@@ -42,7 +43,7 @@ public class FactoryInterpolation {
 	 * @param dataType Type of gray-scale image
 	 * @return Interpolation for single band image
 	 */
-	public static <T extends ImageGray> InterpolatePixelS<T>
+	public <T extends ImageGray> InterpolatePixelS<T>
 	createPixelS(double min, double max, InterpolationType type, BorderType borderType , ImageDataType dataType, FactoryImageBorder FIB)
 	{
 
@@ -51,7 +52,7 @@ public class FactoryInterpolation {
 		return createPixelS(min,max,type,borderType,t, FIB);
 	}
 
-	public static <T extends ImageBase> InterpolatePixel<T>
+	public <T extends ImageBase> InterpolatePixel<T>
 	createPixel(double min, double max, InterpolationType type, BorderType borderType, ImageType<T> imageType, FactoryImageBorder FIB) {
 		switch( imageType.getFamily() ) {
 			case GRAY:
@@ -76,7 +77,7 @@ public class FactoryInterpolation {
 	 * @param imageType Type of input image
 	 * @return Interpolation
 	 */
-	public static <T extends ImageGray> InterpolatePixelS<T>
+	public <T extends ImageGray> InterpolatePixelS<T>
 	createPixelS(double min, double max, InterpolationType type, BorderType borderType, Class<T> imageType, FactoryImageBorder FIB)
 	{
 		InterpolatePixelS<T> alg;
@@ -114,7 +115,7 @@ public class FactoryInterpolation {
 	 * @param type Interpolation typedataType
 	 * @param imageType Type of input image
 	 */
-	public static <T extends ImageBase> InterpolatePixelMB<T>
+	public <T extends ImageBase> InterpolatePixelMB<T>
 	createPixelMB(double min, double max, InterpolationType type, BorderType borderType, ImageType<T> imageType, FactoryImageBorder FIB)
 	{
 		switch (imageType.getFamily()) {
@@ -153,12 +154,12 @@ public class FactoryInterpolation {
 	 * @param <T> Single band image trype
 	 * @return Interpolation for Planar images
 	 */
-	public static <T extends ImageGray> InterpolatePixelMB<Planar<T>>
+	public <T extends ImageGray> InterpolatePixelMB<Planar<T>>
 	createPixelPL(InterpolatePixelS<T> singleBand) {
 		return new InterpolatePixel_PL_using_SB<>(singleBand);
 	}
 
-	public static <T extends ImageGray> InterpolatePixelS<T> bilinearPixelS(T image, BorderType borderType, FactoryImageBorder FIB) {
+	public <T extends ImageGray> InterpolatePixelS<T> bilinearPixelS(T image, BorderType borderType, FactoryImageBorder FIB) {
 
 		InterpolatePixelS<T> ret = bilinearPixelS((Class) image.getClass(), borderType, FIB);
 		ret.setImage(image);
@@ -166,7 +167,7 @@ public class FactoryInterpolation {
 		return ret;
 	}
 
-	public static <T extends ImageGray> InterpolatePixelS<T> bilinearPixelS(Class<T> imageType, BorderType borderType, FactoryImageBorder FIB) {
+	public <T extends ImageGray> InterpolatePixelS<T> bilinearPixelS(Class<T> imageType, BorderType borderType, FactoryImageBorder FIB) {
 		InterpolatePixelS<T> alg;
 
 		if( imageType == GrayF32.class )
@@ -188,7 +189,7 @@ public class FactoryInterpolation {
 		return alg;
 	}
 
-	public static <T extends ImageMultiBand> InterpolatePixelMB<T> bilinearPixelMB(T image, BorderType borderType, FactoryImageBorder FIB) {
+	public <T extends ImageMultiBand> InterpolatePixelMB<T> bilinearPixelMB(T image, BorderType borderType, FactoryImageBorder FIB) {
 
 		InterpolatePixelMB<T> ret = bilinearPixelMB(image.getImageType(), borderType, FIB);
 		ret.setImage(image);
@@ -196,7 +197,7 @@ public class FactoryInterpolation {
 		return ret;
 	}
 
-	public static <T extends ImageMultiBand> InterpolatePixelMB<T> bilinearPixelMB(ImageType<T> imageType, BorderType borderType, FactoryImageBorder FIB) {
+	public <T extends ImageMultiBand> InterpolatePixelMB<T> bilinearPixelMB(ImageType<T> imageType, BorderType borderType, FactoryImageBorder FIB) {
 		InterpolatePixelMB<T> alg;
 
 		int numBands = imageType.getNumBands();
@@ -235,7 +236,7 @@ public class FactoryInterpolation {
 		return alg;
 	}
 
-	public static <T extends ImageMultiBand> InterpolatePixelMB<T> nearestNeighborPixelMB(ImageType<T> imageType, BorderType borderType, FactoryImageBorder FIB) {
+	public <T extends ImageMultiBand> InterpolatePixelMB<T> nearestNeighborPixelMB(ImageType<T> imageType, BorderType borderType, FactoryImageBorder FIB) {
 		InterpolatePixelMB<T> alg;
 
 		if( imageType.getFamily() == ImageType.Family.INTERLEAVED ) {
@@ -273,7 +274,7 @@ public class FactoryInterpolation {
 		return type == null ? "null" : type.getName();
 	}
 
-	public static <T extends ImageGray> InterpolateRectangle<T> bilinearRectangle(T image ) {
+	public <T extends ImageGray> InterpolateRectangle<T> bilinearRectangle(T image ) {
 
 		InterpolateRectangle<T> ret = bilinearRectangle((Class)image.getClass());
 		ret.setImage(image);
@@ -281,7 +282,7 @@ public class FactoryInterpolation {
 		return ret;
 	}
 
-	public static <T extends ImageGray> InterpolateRectangle<T> bilinearRectangle(Class<T> type ) {
+	public <T extends ImageGray> InterpolateRectangle<T> bilinearRectangle(Class<T> type ) {
 		if( type == GrayF32.class )
 			return (InterpolateRectangle<T>)new BilinearRectangle_F32();
 		else if( type == GrayU8.class )
@@ -292,7 +293,7 @@ public class FactoryInterpolation {
 			throw new RuntimeException("Unknown image type: "+typeName(type));
 	}
 
-	public static <T extends ImageGray> InterpolatePixelS<T> nearestNeighborPixelS(Class<T> type) {
+	public <T extends ImageGray> InterpolatePixelS<T> nearestNeighborPixelS(Class<T> type) {
 		if( type == GrayF32.class )
 			return (InterpolatePixelS<T>)new NearestNeighborPixel_F32();
 		else if( type == GrayU8.class )
@@ -307,7 +308,7 @@ public class FactoryInterpolation {
 			throw new RuntimeException("Unknown image type: "+typeName(type));
 	}
 
-	public static <T extends ImageGray> InterpolateRectangle<T> nearestNeighborRectangle(Class<?> type ) {
+	public <T extends ImageGray> InterpolateRectangle<T> nearestNeighborRectangle(Class<?> type ) {
 		if( type == GrayF32.class )
 			return (InterpolateRectangle<T>)new NearestNeighborRectangle_F32();
 //		else if( type == GrayU8.class )
@@ -318,7 +319,7 @@ public class FactoryInterpolation {
 			throw new RuntimeException("Unknown image type: "+typeName(type));
 	}
 
-	public static <T extends ImageGray> InterpolatePixelS<T> bicubicS(float param, float min, float max, Class<T> type) {
+	public <T extends ImageGray> InterpolatePixelS<T> bicubicS(float param, float min, float max, Class<T> type) {
 		BicubicKernel_F32 kernel = new BicubicKernel_F32(param);
 		if( type == GrayF32.class )
 			return (InterpolatePixelS<T>)new ImplInterpolatePixelConvolution_F32(kernel,min,max);
@@ -330,7 +331,7 @@ public class FactoryInterpolation {
 			throw new RuntimeException("Unknown image type: "+typeName(type));
 	}
 
-	public static <T extends ImageGray> InterpolatePixelS<T> polynomialS(int maxDegree, double min, double max, Class<T> type) {
+	public <T extends ImageGray> InterpolatePixelS<T> polynomialS(int maxDegree, double min, double max, Class<T> type) {
 		if( type == GrayF32.class )
 			return (InterpolatePixelS<T>)new ImplPolynomialPixel_F32(maxDegree,(float)min,(float)max);
 		else if( GrayI.class.isAssignableFrom(type) ) {

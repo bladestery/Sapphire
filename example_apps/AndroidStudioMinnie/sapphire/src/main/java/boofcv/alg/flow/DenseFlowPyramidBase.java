@@ -50,8 +50,11 @@ import boofcv.core.image.border.BorderType;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.core.image.border.FactoryImageBorderAlgs;
 import boofcv.core.image.border.ImageBorderValue;
+import boofcv.factory.distort.FactoryDistort;
 import boofcv.factory.filter.blur.FactoryBlurFilter;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
+import boofcv.factory.interpolate.FactoryInterpolation;
+import boofcv.struct.image.FactoryImage;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.ImageGray;
 import boofcv.struct.image.ImageType;
@@ -96,6 +99,8 @@ public abstract class DenseFlowPyramidBase<T extends ImageGray> {
 	private static ConvertImage CI;
 	private static UtilWavelet UW;
 	private static ImageType IT;
+	private static FactoryInterpolation FI;
+	private static FactoryDistort FDs;
 	// storage for normalized image
 	private GrayF32 norm1 = new GrayF32(1,1);
 	private GrayF32 norm2 = new GrayF32(1,1);
@@ -124,12 +129,12 @@ public abstract class DenseFlowPyramidBase<T extends ImageGray> {
 	/**
 	 * Processes the raw input images.  Normalizes them and creates image pyramids from them.
 	 */
-	public void process( T image1 , T image2 )
+	public void process(T image1 , T image2)
 	{
 		// declare image data structures
 		if( pyr1 == null || pyr1.getInputWidth() != image1.width || pyr1.getInputHeight() != image1.height ) {
-			pyr1 = UtilDenseOpticalFlow.standardPyramid(image1.width, image1.height, scale, sigma, 5, maxLayers, GrayF32.class);
-			pyr2 = UtilDenseOpticalFlow.standardPyramid(image1.width, image1.height, scale, sigma, 5, maxLayers, GrayF32.class);
+			pyr1 = UtilDenseOpticalFlow.standardPyramid(image1.width, image1.height, scale, sigma, 5, maxLayers, GrayF32.class, FIB, FI);
+			pyr2 = UtilDenseOpticalFlow.standardPyramid(image1.width, image1.height, scale, sigma, 5, maxLayers, GrayF32.class, FIB, FI);
 
 			pyr1.initialize(image1.width,image1.height);
 			pyr2.initialize(image1.width,image1.height);
@@ -142,8 +147,8 @@ public abstract class DenseFlowPyramidBase<T extends ImageGray> {
 		imageNormalization(image1, image2, norm1, norm2);
 
 		// create image pyramid
-		pyr1.process(norm1, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG, CI, UW, IT);
-		pyr2.process(norm2, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG, CI, UW, IT);
+		pyr1.process(norm1, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG, CI, UW, IT, FDs);
+		pyr2.process(norm2, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG, CI, UW, IT, FDs);
 
 		// compute flow from pyramid
 		process(pyr1, pyr2);

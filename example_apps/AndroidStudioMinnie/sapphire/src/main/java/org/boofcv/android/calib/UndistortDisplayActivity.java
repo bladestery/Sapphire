@@ -12,8 +12,13 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import org.boofcv.android.DemoMain;
+import org.boofcv.android.DemoManager;
 import org.boofcv.android.DemoVideoDisplayActivity;
 import org.boofcv.android.R;
+
+import java.net.InetSocketAddress;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
 import boofcv.alg.InputSanityCheck;
 import boofcv.alg.distort.AdjustmentType;
@@ -33,6 +38,12 @@ import boofcv.struct.distort.Point2Transform2_F32;
 import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.ImageType;
 import boofcv.struct.image.Planar;
+import sapphire.kernel.server.KernelServerImpl;
+import sapphire.oms.OMSServer;
+
+import static org.boofcv.android.DemoMain.client;
+import static org.boofcv.android.DemoMain.edge;
+import static sapphire.kernel.common.GlobalKernelReferences.nodeServer;
 
 /**
  * After the camera has been calibrated the user can display a distortion free image
@@ -42,21 +53,46 @@ import boofcv.struct.image.Planar;
 public class UndistortDisplayActivity extends DemoVideoDisplayActivity
 		implements CompoundButton.OnCheckedChangeListener
 {
-	private ImageType IT;
-	private static FactoryImageBorder FIB;
-	private static InputSanityCheck ISC;
-	private static ConvertImage CI;
 	ToggleButton toggleDistort;
 	ToggleButton toggleColor;
+
+	OMSServer server;
+	DemoManager dm;
+	ImageType IT = new ImageType();
 
 	boolean isDistorted = false;
 	boolean isColor = false;
 
-	ImageDistort<GrayU8,GrayU8> removeDistortion;
+	//ImageDistort<GrayU8,GrayU8> removeDistortion;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		InetSocketAddress host, omsHost;
+
+		try {
+			Registry registry = LocateRegistry.getRegistry(edge, 22346);
+			server = (OMSServer) registry.lookup("SapphireOMS");
+			System.out.println(server);
+
+			host = new InetSocketAddress(client, 22346);
+			omsHost = new InetSocketAddress(edge, 22346);
+			nodeServer = new KernelServerImpl(host, omsHost);
+			System.out.println(nodeServer);
+
+			System.setProperty("java.rmi.server.hostname", host.getAddress().getHostAddress());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		try {
+			dm = (DemoManager) server.getAppEntryPoint();
+			//dm.LatencyCheck();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(0);
+		}
 
 		LayoutInflater inflater = getLayoutInflater();
 		LinearLayout controls = (LinearLayout)inflater.inflate(R.layout.undistort_controls,null);
@@ -73,6 +109,12 @@ public class UndistortDisplayActivity extends DemoVideoDisplayActivity
 		toggleColor.setChecked(isColor);
 
 		if( DemoMain.preference.intrinsic != null ) {
+			LensDistortionOps LDO = new LensDistortionOps();
+			Point2Transform2_F32 fullView = LDO.transform_F32(AdjustmentType.FULL_VIEW,
+					DemoMain.preference.intrinsic, null, false);
+
+			dm.initDistort(fullView);
+			/*
 			// define the transform.  Cache the results for quick rendering later on
 			Point2Transform2_F32 fullView = LensDistortionOps.transform_F32(AdjustmentType.FULL_VIEW,
 					DemoMain.preference.intrinsic, null, false);
@@ -82,6 +124,7 @@ public class UndistortDisplayActivity extends DemoVideoDisplayActivity
 			// cache misses when looking up a point?
 			removeDistortion = FactoryDistort.distortSB(false,interp,GrayU8.class);
 			removeDistortion.setModel(new PointToPixelTransform_F32(fullView));
+			*/
 		}
 	}
 
@@ -107,6 +150,7 @@ public class UndistortDisplayActivity extends DemoVideoDisplayActivity
 
 	protected class UndistortProcessing extends VideoImageProcessing<Planar<GrayU8>> {
 		Planar<GrayU8> undistorted;
+		GrayU8 out;
 
 		public UndistortProcessing() {
 			super(IT.pl(3,GrayU8.class));
@@ -115,8 +159,7 @@ public class UndistortDisplayActivity extends DemoVideoDisplayActivity
 		@Override
 		protected void declareImages( int width , int height ) {
 			super.declareImages(width, height);
-
-			undistorted = new Planar<GrayU8>(GrayU8.class,width,height,3);
+			dm.declDistort(width, height);
 		}
 
 		@Override
@@ -133,20 +176,25 @@ public class UndistortDisplayActivity extends DemoVideoDisplayActivity
 				if( isColor )
 					ConvertBitmap.multiToBitmap(input,output,storage);
 				else {
-					CI.average(input,undistorted.getBand(0), ISC);
-					ConvertBitmap.grayToBitmap(undistorted.getBand(0),output,storage);
+					out = dm.undis(input);
+					//CI.average(input,undistorted.getBand(0), ISC);
+					ConvertBitmap.grayToBitmap(out,output,storage);
 				}
 			} else {
 				if( isColor ) {
+					/*
 					for( int i = 0; i < input.getNumBands(); i++ ) {
 						removeDistortion.apply(input.getBand(i),undistorted.getBand(i));
-					}
+					}*/
+					undistorted = dm.colDistort(input);
 
 					ConvertBitmap.multiToBitmap(undistorted,output,storage);
 				} else {
-					CI.average(input,undistorted.getBand(0), ISC);
-					removeDistortion.apply(undistorted.getBand(0),undistorted.getBand(1));
-					ConvertBitmap.grayToBitmap(undistorted.getBand(1),output,storage);
+					//undistorted = dm.undis(input, undistorted);
+					//CI.average(input,undistorted.getBand(0), ISC);
+					out = dm.remDistort(input);
+					//removeDistortion.apply(undistorted.getBand(0),undistorted.getBand(1));
+					ConvertBitmap.grayToBitmap(out,output,storage);
 				}
 			}
 		}

@@ -25,6 +25,9 @@ import boofcv.alg.distort.LensDistortionOps;
 import boofcv.alg.geo.RectifyImageOps;
 import boofcv.alg.geo.calibration.CalibrationObservation;
 import boofcv.core.image.border.BorderType;
+import boofcv.core.image.border.FactoryImageBorder;
+import boofcv.factory.distort.FactoryDistort;
+import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.gui.feature.VisualizeFeatures;
 import boofcv.io.image.ConvertBufferedImage;
 import boofcv.struct.calib.CameraPinholeRadial;
@@ -51,7 +54,6 @@ import java.util.List;
  * @author Peter Abeles
  */
 public class CalibratedImageGridPanel extends JPanel {
-	private ImageType IT;
 	// images of calibration target
 	List<BufferedImage> images;
 	// which image is being displayed
@@ -318,15 +320,15 @@ public class CalibratedImageGridPanel extends JPanel {
 		}
 	}
 
-	public void setDistorted (CameraPinholeRadial param , DenseMatrix64F rect ) {
+	public void setDistorted (CameraPinholeRadial param , DenseMatrix64F rect, FactoryImageBorder FIB, ImageType IT, FactoryInterpolation FI, FactoryDistort FDs, LensDistortionOps LDO) {
 		if( rect == null ) {
-			this.undoRadial = LensDistortionOps.imageRemoveDistortion(
-					AdjustmentType.FULL_VIEW, BorderType.ZERO, param, null, IT.single(GrayF32.class));
-			this.remove_p_to_p = LensDistortionOps.transform_F32(AdjustmentType.FULL_VIEW, param, null, false);
+			this.undoRadial = LDO.imageRemoveDistortion(
+					AdjustmentType.FULL_VIEW, BorderType.ZERO, param, null, IT.single(GrayF32.class), FIB, FI, FDs);
+			this.remove_p_to_p = LDO.transform_F32(AdjustmentType.FULL_VIEW, param, null, false);
 		} else {
 			this.undoRadial =
-					RectifyImageOps.rectifyImage(param, rect, BorderType.ZERO, IT.single(GrayF32.class));
-			this.remove_p_to_p = RectifyImageOps.transformPixelToRect_F32(param, rect);
+					RectifyImageOps.rectifyImage(param, rect, BorderType.ZERO, IT.single(GrayF32.class), FI, FDs, LDO);
+			this.remove_p_to_p = RectifyImageOps.transformPixelToRect_F32(param, rect, LDO);
 		}
 	}
 

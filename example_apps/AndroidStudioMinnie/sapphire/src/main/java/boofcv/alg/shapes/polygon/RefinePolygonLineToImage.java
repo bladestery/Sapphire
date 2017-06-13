@@ -20,6 +20,7 @@ package boofcv.alg.shapes.polygon;
 
 import boofcv.alg.shapes.edge.SnapToLineEdge;
 import boofcv.core.image.border.FactoryImageBorder;
+import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.struct.distort.PixelTransform2_F32;
 import boofcv.struct.image.ImageGray;
 import georegression.geometry.UtilLine2D_F64;
@@ -56,7 +57,6 @@ import java.util.List;
  * @author Peter Abeles
  */
 public class RefinePolygonLineToImage<T extends ImageGray> implements RefineBinaryPolygon<T> {
-	private static FactoryImageBorder FIB;
 	// How far away from a corner will it sample the line
 	private double cornerOffset = 2.0;
 
@@ -130,13 +130,13 @@ public class RefinePolygonLineToImage<T extends ImageGray> implements RefineBina
 	}
 
 	@Override
-	public void setLensDistortion(int width, int height, PixelTransform2_F32 distToUndist, PixelTransform2_F32 undistToDist) {
-		this.snapToEdge.setTransform(undistToDist, FIB);
+	public void setLensDistortion(int width, int height, PixelTransform2_F32 distToUndist, PixelTransform2_F32 undistToDist, FactoryImageBorder FIB, FactoryInterpolation FI) {
+		this.snapToEdge.setTransform(undistToDist, FIB, FI);
 	}
 
 	@Override
-	public void clearLensDistortion() {
-		this.snapToEdge.setTransform(null, FIB);
+	public void clearLensDistortion(FactoryImageBorder FIB, FactoryInterpolation FI) {
+		this.snapToEdge.setTransform(null, FIB, FI);
 	}
 
 	/**
@@ -287,8 +287,8 @@ public class RefinePolygonLineToImage<T extends ImageGray> implements RefineBina
 	 *
 	 * @param undistToDist Pixel transformation from undistorted pixels into the actual distorted input image..
 	 */
-	public void setTransform( PixelTransform2_F32 undistToDist ) {
-		snapToEdge.setTransform(undistToDist, FIB);
+	public void setTransform( PixelTransform2_F32 undistToDist, FactoryImageBorder FIB, FactoryInterpolation FI ) {
+		snapToEdge.setTransform(undistToDist, FIB, FI);
 	}
 
 	private void computeAdjustedEndPoints(Point2D_F64 a, Point2D_F64 b) {

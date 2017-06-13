@@ -29,21 +29,22 @@ public final class FactoryTrackerObjectQuad_Stub extends boofcv.factory.tracker.
 
 
 
-    // Implementation of tld(ConfigTld, Class, FactoryDerivative, FactoryImageBorder, GeneralizedImageOps, ImageType)
-    public boofcv.abst.tracker.TrackerObjectQuad tld(boofcv.abst.tracker.ConfigTld $param_ConfigTld_1, java.lang.Class $param_Class_2, boofcv.factory.filter.derivative.FactoryDerivative $param_FactoryDerivative_3, boofcv.core.image.border.FactoryImageBorder $param_FactoryImageBorder_4, boofcv.core.image.GeneralizedImageOps $param_GeneralizedImageOps_5, boofcv.struct.image.ImageType $param_ImageType_6) {
+    // Implementation of tld(ConfigTld, Class, FactoryDerivative, FactoryImageBorder, GeneralizedImageOps, ImageType, FactoryInterpolation)
+    public boofcv.abst.tracker.TrackerObjectQuad tld(boofcv.abst.tracker.ConfigTld $param_ConfigTld_1, java.lang.Class $param_Class_2, boofcv.factory.filter.derivative.FactoryDerivative $param_FactoryDerivative_3, boofcv.core.image.border.FactoryImageBorder $param_FactoryImageBorder_4, boofcv.core.image.GeneralizedImageOps $param_GeneralizedImageOps_5, boofcv.struct.image.ImageType $param_ImageType_6, boofcv.factory.interpolate.FactoryInterpolation $param_FactoryInterpolation_7) {
         java.lang.Object $__result = null;
         try {
             if ($__directInvocation)
-                $__result = super.tld( $param_ConfigTld_1,  $param_Class_2,  $param_FactoryDerivative_3,  $param_FactoryImageBorder_4,  $param_GeneralizedImageOps_5,  $param_ImageType_6);
+                $__result = super.tld( $param_ConfigTld_1,  $param_Class_2,  $param_FactoryDerivative_3,  $param_FactoryImageBorder_4,  $param_GeneralizedImageOps_5,  $param_ImageType_6,  $param_FactoryInterpolation_7);
             else {
                 java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
-                String $__method = "public <T,D> boofcv.abst.tracker.TrackerObjectQuad<T> boofcv.factory.tracker.FactoryTrackerObjectQuad.tld(boofcv.abst.tracker.ConfigTld,java.lang.Class<T>,boofcv.factory.filter.derivative.FactoryDerivative,boofcv.core.image.border.FactoryImageBorder,boofcv.core.image.GeneralizedImageOps,boofcv.struct.image.ImageType)";
+                String $__method = "public <T,D> boofcv.abst.tracker.TrackerObjectQuad<T> boofcv.factory.tracker.FactoryTrackerObjectQuad.tld(boofcv.abst.tracker.ConfigTld,java.lang.Class<T>,boofcv.factory.filter.derivative.FactoryDerivative,boofcv.core.image.border.FactoryImageBorder,boofcv.core.image.GeneralizedImageOps,boofcv.struct.image.ImageType,boofcv.factory.interpolate.FactoryInterpolation)";
                 $__params.add($param_ConfigTld_1);
                 $__params.add($param_Class_2);
                 $__params.add($param_FactoryDerivative_3);
                 $__params.add($param_FactoryImageBorder_4);
                 $__params.add($param_GeneralizedImageOps_5);
                 $__params.add($param_ImageType_6);
+                $__params.add($param_FactoryInterpolation_7);
                 $__result = $__client.onRPC($__method, $__params);
             }
         } catch (Exception e) {
@@ -52,15 +53,15 @@ public final class FactoryTrackerObjectQuad_Stub extends boofcv.factory.tracker.
         return ((boofcv.abst.tracker.TrackerObjectQuad) $__result);
     }
 
-    // Implementation of sparseFlow(SfotConfig, Class, Class, FactoryDerivative, FactoryImageBorder, GeneralizedImageOps, ImageType)
-    public boofcv.abst.tracker.TrackerObjectQuad sparseFlow(boofcv.alg.tracker.sfot.SfotConfig $param_SfotConfig_1, java.lang.Class $param_Class_2, java.lang.Class $param_Class_3, boofcv.factory.filter.derivative.FactoryDerivative $param_FactoryDerivative_4, boofcv.core.image.border.FactoryImageBorder $param_FactoryImageBorder_5, boofcv.core.image.GeneralizedImageOps $param_GeneralizedImageOps_6, boofcv.struct.image.ImageType $param_ImageType_7) {
+    // Implementation of sparseFlow(SfotConfig, Class, Class, FactoryDerivative, FactoryImageBorder, GeneralizedImageOps, ImageType, FactoryInterpolation)
+    public boofcv.abst.tracker.TrackerObjectQuad sparseFlow(boofcv.alg.tracker.sfot.SfotConfig $param_SfotConfig_1, java.lang.Class $param_Class_2, java.lang.Class $param_Class_3, boofcv.factory.filter.derivative.FactoryDerivative $param_FactoryDerivative_4, boofcv.core.image.border.FactoryImageBorder $param_FactoryImageBorder_5, boofcv.core.image.GeneralizedImageOps $param_GeneralizedImageOps_6, boofcv.struct.image.ImageType $param_ImageType_7, boofcv.factory.interpolate.FactoryInterpolation $param_FactoryInterpolation_8) {
         java.lang.Object $__result = null;
         try {
             if ($__directInvocation)
-                $__result = super.sparseFlow( $param_SfotConfig_1,  $param_Class_2,  $param_Class_3,  $param_FactoryDerivative_4,  $param_FactoryImageBorder_5,  $param_GeneralizedImageOps_6,  $param_ImageType_7);
+                $__result = super.sparseFlow( $param_SfotConfig_1,  $param_Class_2,  $param_Class_3,  $param_FactoryDerivative_4,  $param_FactoryImageBorder_5,  $param_GeneralizedImageOps_6,  $param_ImageType_7,  $param_FactoryInterpolation_8);
             else {
                 java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
-                String $__method = "public <T,D> boofcv.abst.tracker.TrackerObjectQuad<T> boofcv.factory.tracker.FactoryTrackerObjectQuad.sparseFlow(boofcv.alg.tracker.sfot.SfotConfig,java.lang.Class<T>,java.lang.Class<D>,boofcv.factory.filter.derivative.FactoryDerivative,boofcv.core.image.border.FactoryImageBorder,boofcv.core.image.GeneralizedImageOps,boofcv.struct.image.ImageType)";
+                String $__method = "public <T,D> boofcv.abst.tracker.TrackerObjectQuad<T> boofcv.factory.tracker.FactoryTrackerObjectQuad.sparseFlow(boofcv.alg.tracker.sfot.SfotConfig,java.lang.Class<T>,java.lang.Class<D>,boofcv.factory.filter.derivative.FactoryDerivative,boofcv.core.image.border.FactoryImageBorder,boofcv.core.image.GeneralizedImageOps,boofcv.struct.image.ImageType,boofcv.factory.interpolate.FactoryInterpolation)";
                 $__params.add($param_SfotConfig_1);
                 $__params.add($param_Class_2);
                 $__params.add($param_Class_3);
@@ -68,6 +69,7 @@ public final class FactoryTrackerObjectQuad_Stub extends boofcv.factory.tracker.
                 $__params.add($param_FactoryImageBorder_5);
                 $__params.add($param_GeneralizedImageOps_6);
                 $__params.add($param_ImageType_7);
+                $__params.add($param_FactoryInterpolation_8);
                 $__result = $__client.onRPC($__method, $__params);
             }
         } catch (Exception e) {
@@ -98,18 +100,19 @@ public final class FactoryTrackerObjectQuad_Stub extends boofcv.factory.tracker.
         return ((boofcv.abst.tracker.TrackerObjectQuad) $__result);
     }
 
-    // Implementation of meanShiftComaniciu2003(ConfigComaniciu2003, ImageType, FactoryImageBorder)
-    public boofcv.abst.tracker.TrackerObjectQuad meanShiftComaniciu2003(boofcv.abst.tracker.ConfigComaniciu2003 $param_ConfigComaniciu2003_1, boofcv.struct.image.ImageType $param_ImageType_2, boofcv.core.image.border.FactoryImageBorder $param_FactoryImageBorder_3) {
+    // Implementation of meanShiftComaniciu2003(ConfigComaniciu2003, ImageType, FactoryImageBorder, FactoryInterpolation)
+    public boofcv.abst.tracker.TrackerObjectQuad meanShiftComaniciu2003(boofcv.abst.tracker.ConfigComaniciu2003 $param_ConfigComaniciu2003_1, boofcv.struct.image.ImageType $param_ImageType_2, boofcv.core.image.border.FactoryImageBorder $param_FactoryImageBorder_3, boofcv.factory.interpolate.FactoryInterpolation $param_FactoryInterpolation_4) {
         java.lang.Object $__result = null;
         try {
             if ($__directInvocation)
-                $__result = super.meanShiftComaniciu2003( $param_ConfigComaniciu2003_1,  $param_ImageType_2,  $param_FactoryImageBorder_3);
+                $__result = super.meanShiftComaniciu2003( $param_ConfigComaniciu2003_1,  $param_ImageType_2,  $param_FactoryImageBorder_3,  $param_FactoryInterpolation_4);
             else {
                 java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
-                String $__method = "public <T> boofcv.abst.tracker.TrackerObjectQuad<T> boofcv.factory.tracker.FactoryTrackerObjectQuad.meanShiftComaniciu2003(boofcv.abst.tracker.ConfigComaniciu2003,boofcv.struct.image.ImageType<T>,boofcv.core.image.border.FactoryImageBorder)";
+                String $__method = "public <T> boofcv.abst.tracker.TrackerObjectQuad<T> boofcv.factory.tracker.FactoryTrackerObjectQuad.meanShiftComaniciu2003(boofcv.abst.tracker.ConfigComaniciu2003,boofcv.struct.image.ImageType<T>,boofcv.core.image.border.FactoryImageBorder,boofcv.factory.interpolate.FactoryInterpolation)";
                 $__params.add($param_ConfigComaniciu2003_1);
                 $__params.add($param_ImageType_2);
                 $__params.add($param_FactoryImageBorder_3);
+                $__params.add($param_FactoryInterpolation_4);
                 $__result = $__client.onRPC($__method, $__params);
             }
         } catch (Exception e) {
@@ -118,21 +121,22 @@ public final class FactoryTrackerObjectQuad_Stub extends boofcv.factory.tracker.
         return ((boofcv.abst.tracker.TrackerObjectQuad) $__result);
     }
 
-    // Implementation of circulant(ConfigCirculantTracker, Class, FactoryImageBorder, ImageType, DiscreteFourierTransformOps, InputSanityCheck)
-    public boofcv.abst.tracker.TrackerObjectQuad circulant(boofcv.abst.tracker.ConfigCirculantTracker $param_ConfigCirculantTracker_1, java.lang.Class $param_Class_2, boofcv.core.image.border.FactoryImageBorder $param_FactoryImageBorder_3, boofcv.struct.image.ImageType $param_ImageType_4, boofcv.alg.transform.fft.DiscreteFourierTransformOps $param_DiscreteFourierTransformOps_5, boofcv.alg.InputSanityCheck $param_InputSanityCheck_6) {
+    // Implementation of circulant(ConfigCirculantTracker, Class, FactoryImageBorder, ImageType, DiscreteFourierTransformOps, InputSanityCheck, FactoryInterpolation)
+    public boofcv.abst.tracker.TrackerObjectQuad circulant(boofcv.abst.tracker.ConfigCirculantTracker $param_ConfigCirculantTracker_1, java.lang.Class $param_Class_2, boofcv.core.image.border.FactoryImageBorder $param_FactoryImageBorder_3, boofcv.struct.image.ImageType $param_ImageType_4, boofcv.alg.transform.fft.DiscreteFourierTransformOps $param_DiscreteFourierTransformOps_5, boofcv.alg.InputSanityCheck $param_InputSanityCheck_6, boofcv.factory.interpolate.FactoryInterpolation $param_FactoryInterpolation_7) {
         java.lang.Object $__result = null;
         try {
             if ($__directInvocation)
-                $__result = super.circulant( $param_ConfigCirculantTracker_1,  $param_Class_2,  $param_FactoryImageBorder_3,  $param_ImageType_4,  $param_DiscreteFourierTransformOps_5,  $param_InputSanityCheck_6);
+                $__result = super.circulant( $param_ConfigCirculantTracker_1,  $param_Class_2,  $param_FactoryImageBorder_3,  $param_ImageType_4,  $param_DiscreteFourierTransformOps_5,  $param_InputSanityCheck_6,  $param_FactoryInterpolation_7);
             else {
                 java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
-                String $__method = "public <T> boofcv.abst.tracker.TrackerObjectQuad<T> boofcv.factory.tracker.FactoryTrackerObjectQuad.circulant(boofcv.abst.tracker.ConfigCirculantTracker,java.lang.Class<T>,boofcv.core.image.border.FactoryImageBorder,boofcv.struct.image.ImageType,boofcv.alg.transform.fft.DiscreteFourierTransformOps,boofcv.alg.InputSanityCheck)";
+                String $__method = "public <T> boofcv.abst.tracker.TrackerObjectQuad<T> boofcv.factory.tracker.FactoryTrackerObjectQuad.circulant(boofcv.abst.tracker.ConfigCirculantTracker,java.lang.Class<T>,boofcv.core.image.border.FactoryImageBorder,boofcv.struct.image.ImageType,boofcv.alg.transform.fft.DiscreteFourierTransformOps,boofcv.alg.InputSanityCheck,boofcv.factory.interpolate.FactoryInterpolation)";
                 $__params.add($param_ConfigCirculantTracker_1);
                 $__params.add($param_Class_2);
                 $__params.add($param_FactoryImageBorder_3);
                 $__params.add($param_ImageType_4);
                 $__params.add($param_DiscreteFourierTransformOps_5);
                 $__params.add($param_InputSanityCheck_6);
+                $__params.add($param_FactoryInterpolation_7);
                 $__result = $__client.onRPC($__method, $__params);
             }
         } catch (Exception e) {

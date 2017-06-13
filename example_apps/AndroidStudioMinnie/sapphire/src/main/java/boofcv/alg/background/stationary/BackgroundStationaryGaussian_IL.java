@@ -29,6 +29,7 @@ import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.ImageInterleaved;
 import boofcv.struct.image.ImageType;
 import boofcv.struct.image.InterleavedF32;
+import sapphire.compiler.GIMOGenerator;
 
 /**
  * Implementation of {@link BackgroundStationaryGaussian} for {@link ImageInterleaved}.
@@ -75,7 +76,7 @@ public class BackgroundStationaryGaussian_IL<T extends ImageInterleaved>
 	}
 
 	@Override
-	public void reset() {
+	public void reset(ImageMiscOps IMO, GImageMiscOps GIMO) {
 		background.reshape(1,1);
 	}
 

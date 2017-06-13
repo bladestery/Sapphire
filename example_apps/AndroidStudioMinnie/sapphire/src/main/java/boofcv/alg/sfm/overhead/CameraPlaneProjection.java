@@ -62,11 +62,11 @@ public class CameraPlaneProjection {
 	 * @param intrinsic Pixel to normalized image coordinates
 	 */
 	public void setConfiguration( Se3_F64 planeToCamera ,
-								  CameraPinholeRadial intrinsic )
+								  CameraPinholeRadial intrinsic, LensDistortionOps LDO )
 	{
 		this.planeToCamera = planeToCamera;
-		normToPixel = LensDistortionOps.transformPoint(intrinsic).distort_F64(false, true);
-		pixelToNorm = LensDistortionOps.transformPoint(intrinsic).undistort_F64(true, false);
+		normToPixel = LDO.transformPoint(intrinsic).distort_F64(false, true);
+		pixelToNorm = LDO.transformPoint(intrinsic).undistort_F64(true, false);
 
 		planeToCamera.invert(cameraToPlane);
 	}
@@ -75,10 +75,10 @@ public class CameraPlaneProjection {
 	 * Configures the camera's intrinsic parameters
 	 * @param intrinsic Intrinsic camera parameters
 	 */
-	public void setIntrinsic(CameraPinholeRadial intrinsic )
+	public void setIntrinsic(CameraPinholeRadial intrinsic, LensDistortionOps LDO )
 	{
-		normToPixel = LensDistortionOps.transformPoint(intrinsic).distort_F64(false, true);
-		pixelToNorm = LensDistortionOps.transformPoint(intrinsic).undistort_F64(true, false);
+		normToPixel = LDO.transformPoint(intrinsic).distort_F64(false, true);
+		pixelToNorm = LDO.transformPoint(intrinsic).undistort_F64(true, false);
 	}
 
 	/**

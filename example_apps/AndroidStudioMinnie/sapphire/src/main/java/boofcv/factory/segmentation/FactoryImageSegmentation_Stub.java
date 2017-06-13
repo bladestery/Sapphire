@@ -70,19 +70,20 @@ public final class FactoryImageSegmentation_Stub extends boofcv.factory.segmenta
         return ((boofcv.abst.segmentation.ImageSuperpixels) $__result);
     }
 
-    // Implementation of meanShift(ConfigSegmentMeanShift, ImageType, FactoryImageBorder, FactorySegmentationAlg)
-    public boofcv.abst.segmentation.ImageSuperpixels meanShift(boofcv.factory.segmentation.ConfigSegmentMeanShift $param_ConfigSegmentMeanShift_1, boofcv.struct.image.ImageType $param_ImageType_2, boofcv.core.image.border.FactoryImageBorder $param_FactoryImageBorder_3, boofcv.factory.segmentation.FactorySegmentationAlg $param_FactorySegmentationAlg_4) {
+    // Implementation of meanShift(ConfigSegmentMeanShift, ImageType, FactoryImageBorder, FactorySegmentationAlg, FactoryInterpolation)
+    public boofcv.abst.segmentation.ImageSuperpixels meanShift(boofcv.factory.segmentation.ConfigSegmentMeanShift $param_ConfigSegmentMeanShift_1, boofcv.struct.image.ImageType $param_ImageType_2, boofcv.core.image.border.FactoryImageBorder $param_FactoryImageBorder_3, boofcv.factory.segmentation.FactorySegmentationAlg $param_FactorySegmentationAlg_4, boofcv.factory.interpolate.FactoryInterpolation $param_FactoryInterpolation_5) {
         java.lang.Object $__result = null;
         try {
             if ($__directInvocation)
-                $__result = super.meanShift( $param_ConfigSegmentMeanShift_1,  $param_ImageType_2,  $param_FactoryImageBorder_3,  $param_FactorySegmentationAlg_4);
+                $__result = super.meanShift( $param_ConfigSegmentMeanShift_1,  $param_ImageType_2,  $param_FactoryImageBorder_3,  $param_FactorySegmentationAlg_4,  $param_FactoryInterpolation_5);
             else {
                 java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
-                String $__method = "public <T> boofcv.abst.segmentation.ImageSuperpixels<T> boofcv.factory.segmentation.FactoryImageSegmentation.meanShift(boofcv.factory.segmentation.ConfigSegmentMeanShift,boofcv.struct.image.ImageType<T>,boofcv.core.image.border.FactoryImageBorder,boofcv.factory.segmentation.FactorySegmentationAlg)";
+                String $__method = "public <T> boofcv.abst.segmentation.ImageSuperpixels<T> boofcv.factory.segmentation.FactoryImageSegmentation.meanShift(boofcv.factory.segmentation.ConfigSegmentMeanShift,boofcv.struct.image.ImageType<T>,boofcv.core.image.border.FactoryImageBorder,boofcv.factory.segmentation.FactorySegmentationAlg,boofcv.factory.interpolate.FactoryInterpolation)";
                 $__params.add($param_ConfigSegmentMeanShift_1);
                 $__params.add($param_ImageType_2);
                 $__params.add($param_FactoryImageBorder_3);
                 $__params.add($param_FactorySegmentationAlg_4);
+                $__params.add($param_FactoryInterpolation_5);
                 $__result = $__client.onRPC($__method, $__params);
             }
         } catch (Exception e) {

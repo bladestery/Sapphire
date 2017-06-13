@@ -21,6 +21,7 @@ package boofcv.alg.geo.calibration;
 import boofcv.struct.geo.PointIndex2D_F64;
 import georegression.struct.point.Point2D_F64;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -32,7 +33,7 @@ import java.util.List;
  *
  * @author Peter Abeles
  */
-public class CalibrationObservation {
+public class CalibrationObservation implements Serializable {
 	/**
 	 * List of pixel observations and the index of the control point
 	 */

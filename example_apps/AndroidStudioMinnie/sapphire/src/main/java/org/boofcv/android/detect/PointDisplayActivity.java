@@ -217,7 +217,7 @@ public class PointDisplayActivity extends DemoVideoDisplayActivity
 		protected void process(GrayU8 gray) {
 			// adjust the non-max region based on image size
 			//nonmax.setSearchRadius( 3*gray.width/320 );
-			dm.set_pointDetect(gray);
+			Kueue temp = dm.set_pointDetect(gray);
 
 			synchronized ( lockGui ) {
 				ConvertBitmap.grayToBitmap(gray,bitmap,storage);
@@ -225,15 +225,12 @@ public class PointDisplayActivity extends DemoVideoDisplayActivity
 				maximumsGUI.reset();
 				minimumsGUI.reset();
 
-				QueueCorner maximums = dm.pointgetMaximums();
-				QueueCorner minimums = dm.pointgetMinimums();
-
-				for( int i = 0; i < maximums.size; i++ ) {
-					Point2D_I16 p = maximums.get(i);
+				for( int i = 0; i < temp.maximums.size; i++ ) {
+					Point2D_I16 p = temp.maximums.get(i);
 					maximumsGUI.grow().set(p);
 				}
-				for( int i = 0; i < minimums.size; i++ ) {
-					Point2D_I16 p = minimums.get(i);
+				for( int i = 0; i < temp.minimums.size; i++ ) {
+					Point2D_I16 p = temp.minimums.get(i);
 					minimumsGUI.grow().set(p);
 				}
 			}

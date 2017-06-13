@@ -20,6 +20,7 @@ package boofcv.abst.sfm.d3;
 
 import boofcv.abst.distort.FDistort;
 import boofcv.alg.InputSanityCheck;
+import boofcv.alg.distort.LensDistortionOps;
 import boofcv.alg.feature.detect.interest.FastHessianFeatureDetector;
 import boofcv.alg.filter.binary.GThresholdImageOps;
 import boofcv.alg.filter.binary.ThresholdImageOps;
@@ -49,8 +50,10 @@ import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.core.image.border.FactoryImageBorderAlgs;
 import boofcv.core.image.border.ImageBorderValue;
+import boofcv.factory.distort.FactoryDistort;
 import boofcv.factory.filter.blur.FactoryBlurFilter;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
+import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.struct.calib.CameraPinholeRadial;
 import boofcv.struct.calib.MonoPlaneParameters;
 import boofcv.struct.image.ImageBase;
@@ -80,7 +83,7 @@ public class MonocularPlaneVisualOdometryScaleInput <T extends ImageBase> implem
 	}
 
 	@Override
-	public void setCalibration( MonoPlaneParameters param ) {
+	public void setCalibration(MonoPlaneParameters param, ImageMiscOps IMO, GImageMiscOps GIMO, LensDistortionOps LDO) {
 		scaleParameter.intrinsic = new CameraPinholeRadial(param.intrinsic);
 		scaleParameter.planeToCamera = param.planeToCamera.copy();
 
@@ -88,7 +91,7 @@ public class MonocularPlaneVisualOdometryScaleInput <T extends ImageBase> implem
 
 		scaled.reshape(scaleParameter.intrinsic.width,scaleParameter.intrinsic.height);
 
-		alg.setCalibration(scaleParameter);
+		alg.setCalibration(scaleParameter, IMO, GIMO, LDO);
 	}
 
 	@Override
@@ -97,12 +100,13 @@ public class MonocularPlaneVisualOdometryScaleInput <T extends ImageBase> implem
 						   ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN, GBlurImageOps GBIO, GeneralizedImageOps GIO, BlurImageOps BIO, ConvolveImageMean CIM,
 						   FactoryKernelGaussian FKG, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM,
 						   GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO, FactoryImageBorderAlgs FIBA, ImageBorderValue IBV,
-						   FastHessianFeatureDetector FHFD, FactoryImageBorder FIB, FactoryBlurFilter FBF, ConvertImage CI, UtilWavelet UW, ImageType IT) {
+						   FastHessianFeatureDetector FHFD, FactoryImageBorder FIB, FactoryBlurFilter FBF, ConvertImage CI, UtilWavelet UW, ImageType IT, FactoryInterpolation FI,
+						   FactoryDistort FDs) {
 
-		new FDistort(leftImage,scaled, FIB).scaleExt(FIB).apply();
+		new FDistort(leftImage,scaled, FIB, FI).scaleExt(FIB).apply(FDs);
 
 		return alg.process(scaled,ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN,
-				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF, CI, UW, IT);
+				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF, CI, UW, IT, FI, FDs);
 	}
 
 	@Override

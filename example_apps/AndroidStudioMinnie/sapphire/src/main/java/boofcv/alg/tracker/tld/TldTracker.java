@@ -51,8 +51,10 @@ import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.core.image.border.FactoryImageBorderAlgs;
 import boofcv.core.image.border.ImageBorderValue;
+import boofcv.factory.distort.FactoryDistort;
 import boofcv.factory.filter.blur.FactoryBlurFilter;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
+import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.factory.tracker.FactoryTrackerAlg;
 import boofcv.factory.transform.pyramid.FactoryPyramid;
 import boofcv.struct.ImageRectangle;
@@ -147,14 +149,14 @@ public class TldTracker<T extends ImageGray, D extends ImageGray> {
 	 *
 	 * @param config Configuration class which specifies the tracker's behavior
 	 */
-	public TldTracker( TldParameters config ,
-					   InterpolatePixelS<T> interpolate , ImageGradient<T,D> gradient ,
-					   Class<T> imageType , Class<D> derivType, GeneralizedImageOps GIO) {
+	public TldTracker(TldParameters config ,
+					  InterpolatePixelS<T> interpolate , ImageGradient<T,D> gradient ,
+					  Class<T> imageType , Class<D> derivType, GeneralizedImageOps GIO, FactoryInterpolation FI) {
 		this.config = config;
 
 		Random rand = new Random(config.randomSeed);
 
-		PyramidKltTracker<T, D> tracker = FactoryTrackerAlg.kltPyramid(config.trackerConfig, imageType, derivType);
+		PyramidKltTracker<T, D> tracker = FactoryTrackerAlg.kltPyramid(config.trackerConfig, imageType, derivType, FI);
 
 		tracking = new TldRegionTracker<>(config.trackerGridWidth, config.trackerFeatureRadius,
 				config.maximumErrorFB, gradient, tracker, imageType, derivType);
@@ -181,7 +183,7 @@ public class TldTracker<T extends ImageGray, D extends ImageGray> {
 						   FactoryKernelGaussian FKG, ConvolveNormalized CN, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ImplMedianHistogramInner IMHI,
 						   ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM, GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO,
 						   GImageMiscOps GIMO, ImageMiscOps IMO, FactoryBlurFilter FBF, ConvolveJustBorder_General CJBG, ConvertImage CI, UtilWavelet UW, FactoryPyramid FP, DerivativeHelperFunctions DHF,
-						   GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO, ImageType IT) {
+						   GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO, ImageType IT, FactoryDistort FDs) {
 
 		if( imagePyramid == null ||
 				imagePyramid.getInputWidth() != image.width || imagePyramid.getInputHeight() != image.height ) {
@@ -189,7 +191,7 @@ public class TldTracker<T extends ImageGray, D extends ImageGray> {
 			int scales[] = selectPyramidScale(image.width,image.height,minSize);
 			imagePyramid = FP.discreteGaussian(scales,-1,1,true,(Class<T>)image.getClass(), FKG);
 		}
-		imagePyramid.process(image, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG, CI, UW, IT);
+		imagePyramid.process(image, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG, CI, UW, IT, FDs);
 
 		reacquiring = false;
 
@@ -271,12 +273,12 @@ public class TldTracker<T extends ImageGray, D extends ImageGray> {
 						  FactoryKernelGaussian FKG, ConvolveNormalized CN, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ImplMedianHistogramInner IMHI,
 						  ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM, GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO,
 						  GImageMiscOps GIMO, ImageMiscOps IMO, FactoryBlurFilter FBF, ConvolveJustBorder_General CJBG, ConvertImage CI, UtilWavelet UW, DerivativeHelperFunctions DHF, GradientSobel_Outer GSO,
-						  GradientSobel_UnrolledOuter GSUO, FactoryPyramid FP, ImageType IT){
+						  GradientSobel_UnrolledOuter GSUO, FactoryPyramid FP, ImageType IT, FactoryDistort FDs){
 
 		boolean success = true;
 		valid = false;
 
-		imagePyramid.process(image, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG, CI, UW, IT);
+		imagePyramid.process(image, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG, CI, UW, IT, FDs);
 		template.setImage(image);
 		variance.setImage(image, ISC, GIO);
 		fern.setImage(image);

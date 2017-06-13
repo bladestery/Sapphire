@@ -52,15 +52,15 @@ public class FactoryTrackerAlg {
 	 * @return Tracker
 	 */
 	public static <I extends ImageGray, D extends ImageGray>
-	KltTracker<I, D> klt( KltConfig config, Class<I> imageType , Class<D> derivType )
+	KltTracker<I, D> klt( KltConfig config, Class<I> imageType , Class<D> derivType, FactoryInterpolation FI)
 	{
 		if( config == null )
 			config = new KltConfig();
 		if( derivType == null )
 			derivType = GImageDerivativeOps.getDerivativeType(imageType);
 
-		InterpolateRectangle<I> interpInput = FactoryInterpolation.<I>bilinearRectangle(imageType);
-		InterpolateRectangle<D> interpDeriv = FactoryInterpolation.<D>bilinearRectangle(derivType);
+		InterpolateRectangle<I> interpInput = FI.<I>bilinearRectangle(imageType);
+		InterpolateRectangle<D> interpDeriv = FI.<D>bilinearRectangle(derivType);
 
 		return new KltTracker<>(interpInput, interpDeriv, config);
 	}
@@ -80,15 +80,15 @@ public class FactoryTrackerAlg {
 	public static <I extends ImageGray, D extends ImageGray>
 	PyramidKltTracker<I, D> kltPyramid( KltConfig config,
 										Class<I> imageType ,
-										Class<D> derivType )
+										Class<D> derivType, FactoryInterpolation FI)
 	{
 		if( config == null )
 			config = new KltConfig();
 		if( derivType == null )
 			derivType = GImageDerivativeOps.getDerivativeType(imageType);
 
-		InterpolateRectangle<I> interpInput = FactoryInterpolation.<I>bilinearRectangle(imageType);
-		InterpolateRectangle<D> interpDeriv = FactoryInterpolation.<D>bilinearRectangle(derivType);
+		InterpolateRectangle<I> interpInput = FI.<I>bilinearRectangle(imageType);
+		InterpolateRectangle<D> interpDeriv = FI.<D>bilinearRectangle(derivType);
 
 		KltTracker<I, D> klt = new KltTracker<>(interpInput, interpDeriv, config);
 		return new PyramidKltTracker<>(klt);
@@ -109,7 +109,7 @@ public class FactoryTrackerAlg {
 												 AssociateDescription<Desc> associate,
 												 PkltConfig kltConfig ,
 												 Class<I> imageType,
-												 Class<D> derivType)
+												 Class<D> derivType, FactoryInterpolation FI)
 	{
 		if( kltConfig == null)
 			kltConfig = new PkltConfig();
@@ -117,7 +117,7 @@ public class FactoryTrackerAlg {
 			derivType = GImageDerivativeOps.getDerivativeType(imageType);
 
 		PyramidKltForCombined<I,D> klt = new PyramidKltForCombined<>(kltConfig.config,
-				kltConfig.templateRadius, kltConfig.pyramidScaling, imageType, derivType);
+				kltConfig.templateRadius, kltConfig.pyramidScaling, imageType, derivType, FI);
 
 		return new CombinedTrackerScalePoint<>(klt, detector, associate);
 	}

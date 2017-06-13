@@ -50,8 +50,10 @@ import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.core.image.border.FactoryImageBorderAlgs;
 import boofcv.core.image.border.ImageBorderValue;
+import boofcv.factory.distort.FactoryDistort;
 import boofcv.factory.filter.blur.FactoryBlurFilter;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
+import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.struct.distort.PixelTransform2_F32;
 import boofcv.struct.image.ImageBase;
 import boofcv.struct.image.ImageType;
@@ -60,6 +62,7 @@ import georegression.struct.InvertibleTransform;
 import georegression.struct.homography.Homography2D_F64;
 import georegression.struct.point.Point2D_F64;
 import georegression.struct.shapes.RectangleLength2D_I32;
+import sapphire.compiler.GIMOGenerator;
 
 /**
  * Stitches together sequences of images using {@link ImageMotion2D}, typically used for image stabilization
@@ -79,8 +82,6 @@ import georegression.struct.shapes.RectangleLength2D_I32;
 
 public class StitchingFromMotion2D<I extends ImageBase, IT extends InvertibleTransform>
 {
-	private static GImageMiscOps GIMO;
-	private static ImageMiscOps IMO;
 	// REFERENCE FRAME NOTES:
 	//
 	// World references to the stitched image
@@ -169,14 +170,14 @@ public class StitchingFromMotion2D<I extends ImageBase, IT extends InvertibleTra
 						   ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN, GBlurImageOps GBIO, GeneralizedImageOps GIO, BlurImageOps BIO, ConvolveImageMean CIM,
 						   FactoryKernelGaussian FKG, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM,
 						   GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO, FactoryImageBorderAlgs FIBA, ImageBorderValue IBV,
-						   FastHessianFeatureDetector FHFD, FactoryImageBorder FIB, FactoryBlurFilter FBF, ConvertImage CI, UtilWavelet UW, ImageType IT ) {
+						   FastHessianFeatureDetector FHFD, FactoryImageBorder FIB, FactoryBlurFilter FBF, ConvertImage CI, UtilWavelet UW, ImageType IT, FactoryInterpolation FI, FactoryDistort FDs) {
 		if( stitchedImage == null ) {
 			stitchedImage = (I)image.createNew(widthStitch, heightStitch);
 			workImage = (I)image.createNew(widthStitch, heightStitch);
 		}
 
 		if( motion.process(image, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN,
-				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF, CI, UW, IT) ) {
+				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF, CI, UW, IT, FI, FDs) ) {
 			update(image);
 
 			// check to see if an unstable and improbably solution was generated
@@ -189,7 +190,7 @@ public class StitchingFromMotion2D<I extends ImageBase, IT extends InvertibleTra
 	/**
 	 * Throws away current results and starts over again
 	 */
-	public void reset() {
+	public void reset(ImageMiscOps IMO, GImageMiscOps GIMO) {
 		if( stitchedImage != null )
 			GIMO.fill(stitchedImage, 0, IMO);
 		motion.reset();
@@ -271,7 +272,7 @@ public class StitchingFromMotion2D<I extends ImageBase, IT extends InvertibleTra
 								   ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN, GBlurImageOps GBIO, GeneralizedImageOps GIO, BlurImageOps BIO, ConvolveImageMean CIM,
 								   FactoryKernelGaussian FKG, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM,
 								   GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO, FactoryImageBorderAlgs FIBA, ImageBorderValue IBV,
-								   FastHessianFeatureDetector FHFD, FactoryImageBorder FIB, FactoryBlurFilter FBF, ConvertImage CI, UtilWavelet UW, ImageType IT) {
+								   FastHessianFeatureDetector FHFD, FactoryImageBorder FIB, FactoryBlurFilter FBF, ConvertImage CI, UtilWavelet UW, ImageType IT, FactoryInterpolation FI, FactoryDistort FDs) {
 		IT currToWorld = (IT)worldToCurr.invert(null);
 		IT oldWorldToNewWorld = (IT) worldToInit.concat(currToWorld,null);
 
@@ -290,7 +291,7 @@ public class StitchingFromMotion2D<I extends ImageBase, IT extends InvertibleTra
 
 		// have motion estimates be relative to this frame
 		motion.setToFirst(ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN,
-				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF, CI, UW, IT);
+				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF, CI, UW, IT, FI, FDs);
 		first = true;
 
 		computeCurrToInit_PixelTran();
@@ -304,7 +305,7 @@ public class StitchingFromMotion2D<I extends ImageBase, IT extends InvertibleTra
 	 * @param heightStitch The new height of the stitch image.
 	 * @param newToOldStitch (Optional) Transform from new stitch image pixels to old stick pixels.  Can be null.
 	 */
-	public void resizeStitchImage( int widthStitch, int heightStitch , IT newToOldStitch ) {
+public void resizeStitchImage(int widthStitch, int heightStitch , IT newToOldStitch, GImageMiscOps GIMO, ImageMiscOps IMO) {
 
 		// copy the old image into the new one
 		workImage.reshape(widthStitch,heightStitch);

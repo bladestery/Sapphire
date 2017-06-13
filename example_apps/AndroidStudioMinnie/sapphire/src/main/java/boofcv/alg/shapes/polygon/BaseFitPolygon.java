@@ -23,6 +23,8 @@ import boofcv.alg.misc.GImageMiscOps;
 import boofcv.alg.misc.ImageMiscOps;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.FactoryImageBorder;
+import boofcv.factory.distort.FactoryDistort;
+import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.gui.ListDisplayPanel;
 import boofcv.gui.image.ShowImages;
 import boofcv.struct.image.GrayF32;
@@ -42,10 +44,6 @@ import java.util.Random;
  * @author Peter Abeles
  */
 public class BaseFitPolygon {
-	private GeneralizedImageOps GIO;
-	private static GImageMiscOps GIMO;
-	private static ImageMiscOps IMO;
-	private static FactoryImageBorder FIB;
 	boolean showRendered = false;
 
 	Random rand = new Random(234);
@@ -77,7 +75,7 @@ public class BaseFitPolygon {
 	 * @param black true = black rectangle and white background.  false = reverse
 	 * @param imageType Type of image
 	 */
-	protected void setup( Affine2D_F64 affine, boolean black , Class imageType ) {
+	protected void setup(Affine2D_F64 affine, boolean black , Class imageType, ImageMiscOps IMO, GeneralizedImageOps GIO, GImageMiscOps GIMO, FactoryImageBorder FIB, FactoryInterpolation FI, FactoryDistort FDs) {
 		work = GIO.createSingleBand(imageType, width, height);
 		image = GIO.createSingleBand(imageType,width,height);
 
@@ -87,7 +85,7 @@ public class BaseFitPolygon {
 		GIMO.fillRectangle(work, fg, x0, y0, x1 - x0, y1 - y0, IMO);
 
 		if( affine != null ) {
-			new FDistort(work, image, FIB).border(bg, FIB).affine(affine).apply();
+			new FDistort(work, image, FIB, FI).border(bg, FIB).affine(affine).apply(FDs);
 		} else {
 			image.setTo(work);
 		}

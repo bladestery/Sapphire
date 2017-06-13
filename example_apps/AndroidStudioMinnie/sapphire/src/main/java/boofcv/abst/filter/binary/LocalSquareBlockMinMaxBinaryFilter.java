@@ -78,7 +78,7 @@ public class LocalSquareBlockMinMaxBinaryFilter<T extends ImageGray>
 						ConvolveNormalized_JustBorder CNJB, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM,
 						GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvolveJustBorder_General CJBG,
 						ConvertImage CI, UtilWavelet UW, ImageType IT) {
-		alg.process(input,output);
+		alg.process(input,output, ISC);
 	}
 
 	@Override

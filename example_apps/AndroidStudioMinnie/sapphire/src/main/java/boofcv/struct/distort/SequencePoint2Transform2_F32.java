@@ -18,6 +18,8 @@
 
 package boofcv.struct.distort;
 
+import java.io.Serializable;
+
 import georegression.struct.point.Point2D_F32;
 
 /**
@@ -25,7 +27,7 @@ import georegression.struct.point.Point2D_F32;
  *
  * @author Peter Abeles
  */
-public class SequencePoint2Transform2_F32 implements Point2Transform2_F32 {
+public class SequencePoint2Transform2_F32 implements Point2Transform2_F32, Serializable {
 	Point2Transform2_F32[] sequence;
 
 	/**

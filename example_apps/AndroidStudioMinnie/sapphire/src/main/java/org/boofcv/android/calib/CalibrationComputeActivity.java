@@ -14,12 +14,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.boofcv.android.DemoMain;
+import org.boofcv.android.DemoManager;
 import org.boofcv.android.R;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.net.InetSocketAddress;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +35,12 @@ import boofcv.alg.geo.calibration.Zhang99ParamAll;
 import boofcv.io.calibration.CalibrationIO;
 import boofcv.struct.calib.CameraPinholeRadial;
 import georegression.struct.point.Point2D_F64;
+import sapphire.kernel.server.KernelServerImpl;
+import sapphire.oms.OMSServer;
+
+import static org.boofcv.android.DemoMain.client;
+import static org.boofcv.android.DemoMain.edge;
+import static sapphire.kernel.common.GlobalKernelReferences.nodeServer;
 
 /**
  * After images have been collected in the {@link CalibrationActivity}, this activity is brought up which computes
@@ -50,14 +60,42 @@ public class CalibrationComputeActivity extends Activity {
 	Button buttonOK;
 	Button buttonCancel;
 
-	CalibrationPlanarGridZhang99 calibrationAlg;
+	//CalibrationPlanarGridZhang99 calibrationAlg;
 
 	CalibrationThread thread;
 	private volatile boolean threadRunning = false;
 
+	DemoManager dm;
+	OMSServer server;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		InetSocketAddress host, omsHost;
+
+		try {
+			Registry registry = LocateRegistry.getRegistry(edge, 22346);
+			server = (OMSServer) registry.lookup("SapphireOMS");
+			System.out.println(server);
+
+			host = new InetSocketAddress(client, 22346);
+			omsHost = new InetSocketAddress(edge, 22346);
+			nodeServer = new KernelServerImpl(host, omsHost);
+			System.out.println(nodeServer);
+
+			System.setProperty("java.rmi.server.hostname", host.getAddress().getHostAddress());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		try {
+			dm = (DemoManager) server.getAppEntryPoint();
+			//dm.LatencyCheck();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(0);
+		}
 
 		setContentView(R.layout.calibration_compute_view);
 
@@ -68,7 +106,8 @@ public class CalibrationComputeActivity extends Activity {
 		buttonOK = (Button) findViewById(R.id.button_accept);
 
 		// start a new process
-		calibrationAlg = new CalibrationPlanarGridZhang99(targetLayout,true,2,false);
+		dm.calibAlg(targetLayout);
+		//calibrationAlg = new CalibrationPlanarGridZhang99(targetLayout,true,2,false);
 		intrinsic = null;
 		threadRunning = true;
 		new CalibrationThread().start();
@@ -84,7 +123,7 @@ public class CalibrationComputeActivity extends Activity {
 		super.onStop();
 
 		stopThread();
-		calibrationAlg = null;
+		//calibrationAlg = null;
 	}
 
 	public void pressedDiscard( View v ) {
@@ -154,18 +193,21 @@ public class CalibrationComputeActivity extends Activity {
 			for( CalibrationImageInfo c : images ) {
 				points.add( c.calibPoints );
 			}
-			calibrationAlg.setListener(this);
-			calibrationAlg.process(points);
+
+			//calibrationAlg.setListener(this);
+			//calibrationAlg.process(points);
 
 			try {
-				Zhang99ParamAll zhangParam = calibrationAlg.getOptimized();
+				//Zhang99ParamAll zhangParam = calibrationAlg.getOptimized();
+				Calib ret = dm.algProcess(points, targetLayout);
 
 				// need to open the camera to get its size
 				Camera mCamera = Camera.open(DemoMain.preference.cameraId);
 				Camera.Parameters param = mCamera.getParameters();
 				Camera.Size sizePreview = param.getSupportedPreviewSizes().get(DemoMain.preference.preview);
 
-				intrinsic = zhangParam.convertToIntrinsic();
+				//intrinsic = zhangParam.convertToIntrinsic();
+				intrinsic = ret.intrinsic;
 				intrinsic.width = sizePreview.width;
 				intrinsic.height = sizePreview.height;
 
@@ -177,7 +219,7 @@ public class CalibrationComputeActivity extends Activity {
 				write(String.format("cx = %6.2f cy = %6.2f",intrinsic.cx,intrinsic.cy));
 				write(String.format("radial = [ %6.2e ][ %6.2e ]",intrinsic.radial[0],intrinsic.radial[1]));
 				write("----------------------------");
-				List<ImageResults> results = CalibrateMonoPlanar.computeErrors(points, zhangParam, targetLayout);
+				List<ImageResults> results = ret.results;
 				double totalError = 0;
 				for( int i = 0; i < results.size(); i++ ) {
 					ImageResults r = results.get(i);

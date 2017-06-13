@@ -33,6 +33,7 @@ import georegression.struct.shapes.Polygon2D_F64;
 import georegression.struct.shapes.Polygon2D_I32;
 import org.ddogleg.struct.FastQueue;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -43,10 +44,6 @@ import java.util.List;
  * @author Peter Abeles
  */
 public class DetectChessSquarePoints<T extends ImageGray> {
-	private static InputSanityCheck ISC;
-	private static ImageMiscOps IMO;
-
-	private LinearContourLabelChang2004 cF = new LinearContourLabelChang2004(ConnectRule.FOUR);
 	// detector for squares
 	BinaryPolygonDetector<T> detectorSquare;
 
@@ -99,7 +96,7 @@ public class DetectChessSquarePoints<T extends ImageGray> {
 	 * @param binary Binary image of chessboard
 	 * @return True if successful.
 	 */
-	public boolean process( T input , GrayU8 binary ) {
+	public boolean process( T input , GrayU8 binary, InputSanityCheck ISC, ImageMiscOps IMO, LinearContourLabelChang2004 cF) {
 		boundPolygon.vertexes.reset();
 
 		detectorSquare.process(input, binary, ISC, IMO, cF);

@@ -137,10 +137,7 @@ public class DetectBlackEllipseActivity extends DemoVideoDisplayActivity
 	@Override
 	protected void onResume() {
 		super.onResume();
-		ConfigEllipseDetector config = new ConfigEllipseDetector();
-		config.maxIterations = 1;
-		config.numSampleContour = 20;
-		dm.ellipse(config);
+		dm.ellipse();
 		setSelection(spinnerThresholder.getSelectedItemPosition());
 		setProcessing(new EllipseProcessing());
 	}
@@ -168,7 +165,7 @@ public class DetectBlackEllipseActivity extends DemoVideoDisplayActivity
 				break;
 
 			case 1:
-				dm.localSquare(10,0.95,true);
+				dm.localSquare(10, 0.95, true);
 				break;
 
 			default:
@@ -210,13 +207,14 @@ public class DetectBlackEllipseActivity extends DemoVideoDisplayActivity
 
 		@Override
 		protected void process(GrayU8 image, Bitmap output, byte[] storage) {
-
+			/*
 			synchronized ( this ) {
 				dm.inputProcess(image);
 			}
 
 			binary = dm.detectorProcess(image);
-
+			*/
+			binary = dm.blackEllipse(image);
 			if( showInput ) {
 				ConvertBitmap.boofToBitmap(image,output,storage);
 			} else {

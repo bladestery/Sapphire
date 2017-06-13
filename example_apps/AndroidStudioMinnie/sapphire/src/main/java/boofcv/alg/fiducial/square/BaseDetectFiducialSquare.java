@@ -118,6 +118,7 @@ public abstract class BaseDetectFiducialSquare<T extends ImageGray> {
 	private static ConvertImage CI;
 	private static UtilWavelet UW;
 	private static ImageType IT;
+	private static FactoryInterpolation FI;
 	private LinearContourLabelChang2004 cF = new LinearContourLabelChang2004(ConnectRule.FOUR);
 
 	// Storage for the found fiducials
@@ -175,7 +176,7 @@ public abstract class BaseDetectFiducialSquare<T extends ImageGray> {
 									   double borderWidthFraction ,
 									   double minimumBorderBlackFraction ,
 									   int squarePixels,
-									   Class<T> inputType) {
+									   Class<T> inputType, FactoryInterpolation FI, FactoryDistort FDs) {
 
 		if( squareDetector.getMinimumSides() != 4 || squareDetector.getMaximumSides() != 4)
 			throw new IllegalArgumentException("quadDetector not configured to detect quadrilaterals");
@@ -199,9 +200,9 @@ public abstract class BaseDetectFiducialSquare<T extends ImageGray> {
 
 		// this combines two separate sources of distortion together so that it can be removed in the final image which
 		// is sent to fiducial decoder
-		InterpolatePixelS<T> interp = FactoryInterpolation.nearestNeighborPixelS(inputType);
+		InterpolatePixelS<T> interp = FI.nearestNeighborPixelS(inputType);
 		interp.setBorder(FIB.single(inputType, BorderType.EXTENDED));
-		removePerspective = FactoryDistort.distortSB(false, interp, GrayF32.class);
+		removePerspective = FDs.distortSB(false, interp, GrayF32.class);
 
 		// if no camera parameters is specified default to this
 		removePerspective.setModel(new PointToPixelTransform_F32(transformHomography));
@@ -216,7 +217,7 @@ public abstract class BaseDetectFiducialSquare<T extends ImageGray> {
 	 * @param cache If there's lens distortion should it cache the transforms?  Speeds it up by about 12%.  Ignored
 	 *              if no lens distortion
 	 */
-	public void configure(LensDistortionNarrowFOV distortion, int width , int height , boolean cache ) {
+	public void configure(LensDistortionNarrowFOV distortion, int width , int height , boolean cache) {
 		Point2Transform2_F32 pointSquareToInput;
 		Point2Transform2_F32 pointDistToUndist = distortion.undistort_F32(true,true);
 		Point2Transform2_F32 pointUndistToDist = distortion.distort_F32(true,true);
@@ -228,7 +229,7 @@ public abstract class BaseDetectFiducialSquare<T extends ImageGray> {
 			undistToDist = new PixelTransformCached_F32(width, height, undistToDist);
 		}
 
-		squareDetector.setLensDistortion(width, height,distToUndist,undistToDist);
+		squareDetector.setLensDistortion(width, height,distToUndist,undistToDist, FIB, FI);
 
 		pointSquareToInput = new SequencePoint2Transform2_F32(transformHomography,pointUndistToDist);
 

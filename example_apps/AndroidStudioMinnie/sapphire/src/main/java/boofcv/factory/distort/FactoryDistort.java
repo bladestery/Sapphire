@@ -28,11 +28,12 @@ import boofcv.core.image.border.BorderType;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.struct.image.*;
+import sapphire.app.SapphireObject;
 
 /**
  * @author Peter Abeles
  */
-public class FactoryDistort {
+public class FactoryDistort implements SapphireObject {
 
 	/**
 	 * Creates a {@link boofcv.alg.distort.ImageDistort} for the specified image type, transformation
@@ -45,11 +46,11 @@ public class FactoryDistort {
 	 * @param outputType Type of output image
 	 * @return ImageDistort
 	 */
-	public static <Input extends ImageBase, Output extends ImageBase>
+	public <Input extends ImageBase, Output extends ImageBase>
 	ImageDistort<Input, Output> distort(boolean cached, InterpolationType interpolationType, BorderType borderType,
-										ImageType<Input> inputType, ImageType<Output> outputType, FactoryImageBorder FIB) {
+										ImageType<Input> inputType, ImageType<Output> outputType, FactoryImageBorder FIB, FactoryInterpolation FI) {
 		InterpolatePixel<Input> interp =
-				FactoryInterpolation.createPixel(0,255, interpolationType,borderType,inputType, FIB);
+				FI.createPixel(0,255, interpolationType,borderType,inputType, FIB);
 
 		return distort(cached, interp,outputType);
 	}
@@ -63,7 +64,7 @@ public class FactoryDistort {
 	 * @param outputType Type of output image.
 	 * @return ImageDistort
 	 */
-	public static <Input extends ImageBase, Output extends ImageBase>
+	public <Input extends ImageBase, Output extends ImageBase>
 	ImageDistort<Input, Output> distort(boolean cached, InterpolatePixel<Input> interp, ImageType<Output> outputType) {
 		switch( outputType.getFamily() ) {
 			case GRAY:
@@ -88,7 +89,7 @@ public class FactoryDistort {
 	 * @param interp Which interpolation algorithm should be used.
 	 * @param outputType Type of output image.
 	 */
-	public static <Input extends ImageGray, Output extends ImageGray>
+	public <Input extends ImageGray, Output extends ImageGray>
 	ImageDistort<Input, Output> distortSB(boolean cached, InterpolatePixelS<Input> interp, Class<Output> outputType)
 	{
 		if( cached ) {
@@ -126,7 +127,7 @@ public class FactoryDistort {
 	 * @param interp Which interpolation algorithm should be used.
 	 * @param outputType Type of output image.
 	 */
-	public static <Input extends ImageGray,Output extends ImageGray>
+	public <Input extends ImageGray,Output extends ImageGray>
 	ImageDistort<Planar<Input>,Planar<Output>>
 	distortPL(boolean cached , InterpolatePixelS<Input> interp, Class<Output> outputType)
 	{
@@ -134,7 +135,7 @@ public class FactoryDistort {
 		return new ImplImageDistort_PL<>(distortSingle);
 	}
 
-	public static <Input extends ImageInterleaved, Output extends ImageInterleaved>
+	public <Input extends ImageInterleaved, Output extends ImageInterleaved>
 	ImageDistort<Input, Output>
 	distortIL(boolean cached, InterpolatePixelMB<Input> interp, ImageType<Output> outputType)
 	{

@@ -29,18 +29,19 @@ public final class FactoryPyramid_Stub extends boofcv.factory.transform.pyramid.
 
 
 
-    // Implementation of scaleSpacePyramid(double[], Class, FactoryImageBorder)
-    public boofcv.struct.pyramid.PyramidFloat scaleSpacePyramid(double[] $param_arrayOf_double_1, java.lang.Class $param_Class_2, boofcv.core.image.border.FactoryImageBorder $param_FactoryImageBorder_3) {
+    // Implementation of scaleSpacePyramid(double[], Class, FactoryImageBorder, FactoryInterpolation)
+    public boofcv.struct.pyramid.PyramidFloat scaleSpacePyramid(double[] $param_arrayOf_double_1, java.lang.Class $param_Class_2, boofcv.core.image.border.FactoryImageBorder $param_FactoryImageBorder_3, boofcv.factory.interpolate.FactoryInterpolation $param_FactoryInterpolation_4) {
         java.lang.Object $__result = null;
         try {
             if ($__directInvocation)
-                $__result = super.scaleSpacePyramid( $param_arrayOf_double_1,  $param_Class_2,  $param_FactoryImageBorder_3);
+                $__result = super.scaleSpacePyramid( $param_arrayOf_double_1,  $param_Class_2,  $param_FactoryImageBorder_3,  $param_FactoryInterpolation_4);
             else {
                 java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
-                String $__method = "public <T> boofcv.struct.pyramid.PyramidFloat<T> boofcv.factory.transform.pyramid.FactoryPyramid.scaleSpacePyramid(double[],java.lang.Class<T>,boofcv.core.image.border.FactoryImageBorder)";
+                String $__method = "public <T> boofcv.struct.pyramid.PyramidFloat<T> boofcv.factory.transform.pyramid.FactoryPyramid.scaleSpacePyramid(double[],java.lang.Class<T>,boofcv.core.image.border.FactoryImageBorder,boofcv.factory.interpolate.FactoryInterpolation)";
                 $__params.add($param_arrayOf_double_1);
                 $__params.add($param_Class_2);
                 $__params.add($param_FactoryImageBorder_3);
+                $__params.add($param_FactoryInterpolation_4);
                 $__result = $__client.onRPC($__method, $__params);
             }
         } catch (Exception e) {
@@ -49,18 +50,19 @@ public final class FactoryPyramid_Stub extends boofcv.factory.transform.pyramid.
         return ((boofcv.struct.pyramid.PyramidFloat) $__result);
     }
 
-    // Implementation of scaleSpace(double[], Class, FactoryImageBorder)
-    public boofcv.struct.pyramid.PyramidFloat scaleSpace(double[] $param_arrayOf_double_1, java.lang.Class $param_Class_2, boofcv.core.image.border.FactoryImageBorder $param_FactoryImageBorder_3) {
+    // Implementation of scaleSpace(double[], Class, FactoryImageBorder, FactoryInterpolation)
+    public boofcv.struct.pyramid.PyramidFloat scaleSpace(double[] $param_arrayOf_double_1, java.lang.Class $param_Class_2, boofcv.core.image.border.FactoryImageBorder $param_FactoryImageBorder_3, boofcv.factory.interpolate.FactoryInterpolation $param_FactoryInterpolation_4) {
         java.lang.Object $__result = null;
         try {
             if ($__directInvocation)
-                $__result = super.scaleSpace( $param_arrayOf_double_1,  $param_Class_2,  $param_FactoryImageBorder_3);
+                $__result = super.scaleSpace( $param_arrayOf_double_1,  $param_Class_2,  $param_FactoryImageBorder_3,  $param_FactoryInterpolation_4);
             else {
                 java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
-                String $__method = "public <T> boofcv.struct.pyramid.PyramidFloat<T> boofcv.factory.transform.pyramid.FactoryPyramid.scaleSpace(double[],java.lang.Class<T>,boofcv.core.image.border.FactoryImageBorder)";
+                String $__method = "public <T> boofcv.struct.pyramid.PyramidFloat<T> boofcv.factory.transform.pyramid.FactoryPyramid.scaleSpace(double[],java.lang.Class<T>,boofcv.core.image.border.FactoryImageBorder,boofcv.factory.interpolate.FactoryInterpolation)";
                 $__params.add($param_arrayOf_double_1);
                 $__params.add($param_Class_2);
                 $__params.add($param_FactoryImageBorder_3);
+                $__params.add($param_FactoryInterpolation_4);
                 $__result = $__client.onRPC($__method, $__params);
             }
         } catch (Exception e) {
@@ -69,19 +71,20 @@ public final class FactoryPyramid_Stub extends boofcv.factory.transform.pyramid.
         return ((boofcv.struct.pyramid.PyramidFloat) $__result);
     }
 
-    // Implementation of floatGaussian(double[], double[], Class, FactoryImageBorder)
-    public boofcv.struct.pyramid.PyramidFloat floatGaussian(double[] $param_arrayOf_double_1, double[] $param_arrayOf_double_2, java.lang.Class $param_Class_3, boofcv.core.image.border.FactoryImageBorder $param_FactoryImageBorder_4) {
+    // Implementation of floatGaussian(double[], double[], Class, FactoryImageBorder, FactoryInterpolation)
+    public boofcv.struct.pyramid.PyramidFloat floatGaussian(double[] $param_arrayOf_double_1, double[] $param_arrayOf_double_2, java.lang.Class $param_Class_3, boofcv.core.image.border.FactoryImageBorder $param_FactoryImageBorder_4, boofcv.factory.interpolate.FactoryInterpolation $param_FactoryInterpolation_5) {
         java.lang.Object $__result = null;
         try {
             if ($__directInvocation)
-                $__result = super.floatGaussian( $param_arrayOf_double_1,  $param_arrayOf_double_2,  $param_Class_3,  $param_FactoryImageBorder_4);
+                $__result = super.floatGaussian( $param_arrayOf_double_1,  $param_arrayOf_double_2,  $param_Class_3,  $param_FactoryImageBorder_4,  $param_FactoryInterpolation_5);
             else {
                 java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
-                String $__method = "public <T> boofcv.struct.pyramid.PyramidFloat<T> boofcv.factory.transform.pyramid.FactoryPyramid.floatGaussian(double[],double[],java.lang.Class<T>,boofcv.core.image.border.FactoryImageBorder)";
+                String $__method = "public <T> boofcv.struct.pyramid.PyramidFloat<T> boofcv.factory.transform.pyramid.FactoryPyramid.floatGaussian(double[],double[],java.lang.Class<T>,boofcv.core.image.border.FactoryImageBorder,boofcv.factory.interpolate.FactoryInterpolation)";
                 $__params.add($param_arrayOf_double_1);
                 $__params.add($param_arrayOf_double_2);
                 $__params.add($param_Class_3);
                 $__params.add($param_FactoryImageBorder_4);
+                $__params.add($param_FactoryInterpolation_5);
                 $__result = $__client.onRPC($__method, $__params);
             }
         } catch (Exception e) {

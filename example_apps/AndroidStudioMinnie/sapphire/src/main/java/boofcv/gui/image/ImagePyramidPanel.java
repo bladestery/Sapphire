@@ -21,6 +21,7 @@ package boofcv.gui.image;
 import boofcv.abst.distort.FDistort;
 import boofcv.alg.interpolate.InterpolatePixelS;
 import boofcv.core.image.border.FactoryImageBorder;
+import boofcv.factory.distort.FactoryDistort;
 import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.gui.ListDisplayPanel;
 import boofcv.io.image.ConvertBufferedImage;
@@ -52,9 +53,9 @@ public class ImagePyramidPanel<T extends ImageGray> extends ListDisplayPanel {
 	// show scales or blur factor
 	boolean showScales=true;
 
-	public ImagePyramidPanel(ImagePyramid<T> pyramid, boolean scaleUp) {
+	public ImagePyramidPanel(ImagePyramid<T> pyramid, boolean scaleUp, FactoryInterpolation FI, FactoryDistort FDs) {
 		set(pyramid,scaleUp);
-		render();
+		render(FI, FDs);
 		setPreferredSize(new Dimension(pyramid.getWidth(0),pyramid.getHeight(0)));
 	}
 
@@ -73,14 +74,14 @@ public class ImagePyramidPanel<T extends ImageGray> extends ListDisplayPanel {
 	/**
 	 * Redraws each layer
 	 */
-	public void render() {
+	public void render(FactoryInterpolation FI, FactoryDistort FDs) {
 		reset();
 
 		if( pyramid == null )
 			return;
 
 		if( scaleUp ) {
-			scaleUpLayers();
+			scaleUpLayers(FI, FDs);
 		} else {
 			doNotScaleLayers();
 		}
@@ -95,10 +96,10 @@ public class ImagePyramidPanel<T extends ImageGray> extends ListDisplayPanel {
 		}
 	}
 
-	private void scaleUpLayers() {
+	private void scaleUpLayers(FactoryInterpolation FI, FactoryDistort FDs) {
 		T l = pyramid.getLayer(0);
 		if( upscale == null ) {
-			interp = (InterpolatePixelS<T>) FactoryInterpolation.nearestNeighborPixelS(l.getClass());
+			interp = (InterpolatePixelS<T>) FI.nearestNeighborPixelS(l.getClass());
 			upscale = (T)l.createNew(l.width,l.height);
 		} else {
 			upscale.reshape(l.width,l.height);
@@ -107,7 +108,7 @@ public class ImagePyramidPanel<T extends ImageGray> extends ListDisplayPanel {
 		int N = pyramid.getNumLayers();
 
 		for( int i = 0; i < N; i++ ) {
-			new FDistort(pyramid.getLayer(i),upscale, FIB).interpNN(FIB).scaleExt(FIB).apply();
+			new FDistort(pyramid.getLayer(i),upscale, FIB, FI).interpNN(FIB, FI).scaleExt(FIB).apply(FDs);
 			BufferedImage b = ConvertBufferedImage.convertTo(upscale,null,true);
 			if( showScales )
 				addImage(b,String.format("%5.2f",pyramid.getScale(i)));

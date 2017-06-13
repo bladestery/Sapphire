@@ -22,11 +22,15 @@ import boofcv.abst.distort.FDistort;
 import boofcv.abst.geo.Estimate1ofEpipolar;
 import boofcv.alg.interpolate.InterpolationType;
 import boofcv.core.image.border.FactoryImageBorder;
+import boofcv.factory.distort.FactoryDistort;
 import boofcv.factory.geo.FactoryMultiView;
+import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.struct.geo.AssociatedPair;
 import boofcv.struct.image.ImageBase;
 import boofcv.struct.image.ImageType;
 import georegression.struct.point.Point2D_F64;
+import sapphire.compiler.FIBAGenerator;
+
 import org.ejml.data.DenseMatrix64F;
 
 import java.util.ArrayList;
@@ -39,7 +43,6 @@ import java.util.ArrayList;
  * @author Peter Abeles
  */
 public class RemovePerspectiveDistortion<T extends ImageBase> {
-	private static FactoryImageBorder FIB;
 	FDistort distort;
 
 	// computes the homography
@@ -66,12 +69,12 @@ public class RemovePerspectiveDistortion<T extends ImageBase> {
 	 * @param height Height of undistorted image
 	 * @param imageType Type of undistorted image
 	 */
-	public RemovePerspectiveDistortion( int width , int height , ImageType<T> imageType ) {
+	public RemovePerspectiveDistortion(int width , int height , ImageType<T> imageType, FactoryImageBorder FIB, FactoryInterpolation FI) {
 		output = imageType.createImage(width,height);
 		distort = new FDistort(imageType);
 		distort.output(output);
 
-		distort.interp(InterpolationType.BILINEAR, FIB).transform(homography);
+		distort.interp(InterpolationType.BILINEAR, FIB, FI).transform(homography);
 
 		for (int i = 0; i < 4; i++) {
 			associatedPairs.add( new AssociatedPair());
@@ -92,9 +95,9 @@ public class RemovePerspectiveDistortion<T extends ImageBase> {
 	 * @param corner3 Bottom left corner
 	 * @return true if successful or false if it failed
 	 */
-	public boolean apply( T input ,
-					Point2D_F64 corner0 , Point2D_F64 corner1 ,
-					Point2D_F64 corner2 , Point2D_F64 corner3 )
+	public boolean apply(T input ,
+						 Point2D_F64 corner0 , Point2D_F64 corner1 ,
+						 Point2D_F64 corner2 , Point2D_F64 corner3, FactoryDistort FDs)
 	{
 		associatedPairs.get(0).p2.set(corner0);
 		associatedPairs.get(1).p2.set(corner1);
@@ -110,7 +113,7 @@ public class RemovePerspectiveDistortion<T extends ImageBase> {
 //		homography.set(Hrefined);
 
 		homography.set(H);
-		distort.input(input).apply();
+		distort.input(input).apply(FDs);
 
 		return true;
 	}

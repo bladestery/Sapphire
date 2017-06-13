@@ -20,6 +20,7 @@ package boofcv.abst.sfm.d3;
 
 import boofcv.abst.distort.FDistort;
 import boofcv.alg.InputSanityCheck;
+import boofcv.alg.distort.LensDistortionOps;
 import boofcv.alg.feature.detect.interest.FastHessianFeatureDetector;
 import boofcv.alg.filter.binary.GThresholdImageOps;
 import boofcv.alg.filter.binary.ThresholdImageOps;
@@ -49,8 +50,10 @@ import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.core.image.border.FactoryImageBorderAlgs;
 import boofcv.core.image.border.ImageBorderValue;
+import boofcv.factory.distort.FactoryDistort;
 import boofcv.factory.filter.blur.FactoryBlurFilter;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
+import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.struct.calib.StereoParameters;
 import boofcv.struct.image.ImageBase;
 import boofcv.struct.image.ImageType;
@@ -81,7 +84,7 @@ public class StereoVisualOdometryScaleInput<T extends ImageBase> implements Ster
 	}
 
 	@Override
-	public void setCalibration(StereoParameters parameters) {
+	public void setCalibration(StereoParameters parameters, FactoryInterpolation FI, FactoryDistort FDs, LensDistortionOps LDO) {
 		scaleParameter = new StereoParameters(parameters);
 
 		PerspectiveOps.scaleIntrinsic(scaleParameter.left,scaleFactor);
@@ -90,7 +93,7 @@ public class StereoVisualOdometryScaleInput<T extends ImageBase> implements Ster
 		scaleLeft.reshape(scaleParameter.left.width,scaleParameter.left.height);
 		scaleRight.reshape(scaleParameter.right.width,scaleParameter.right.height);
 
-      alg.setCalibration(scaleParameter);
+      alg.setCalibration(scaleParameter, FI, FDs, LDO);
 	}
 
 	@Override
@@ -99,13 +102,14 @@ public class StereoVisualOdometryScaleInput<T extends ImageBase> implements Ster
 						   ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN, GBlurImageOps GBIO, GeneralizedImageOps GIO, BlurImageOps BIO, ConvolveImageMean CIM,
 						   FactoryKernelGaussian FKG, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM,
 						   GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO, FactoryImageBorderAlgs FIBA, ImageBorderValue IBV,
-						   FastHessianFeatureDetector FHFD, FactoryImageBorder FIB, FactoryBlurFilter FBF, ConvertImage CI, UtilWavelet UW, ImageType IT) {
+						   FastHessianFeatureDetector FHFD, FactoryImageBorder FIB, FactoryBlurFilter FBF, ConvertImage CI, UtilWavelet UW, ImageType IT, FactoryInterpolation FI,
+						   FactoryDistort FDs) {
 
-		new FDistort(leftImage,scaleLeft, FIB).scaleExt(FIB).apply();
-		new FDistort(rightImage,scaleRight, FIB).scaleExt(FIB).apply();
+		new FDistort(leftImage,scaleLeft, FIB, FI).scaleExt(FIB).apply(FDs);
+		new FDistort(rightImage,scaleRight, FIB, FI).scaleExt(FIB).apply(FDs);
 
 		return alg.process(scaleLeft,scaleRight,ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN,
-				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF, CI, UW, IT);
+				GBIO, GIO, BIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD, FIB, FBF, CI, UW, IT, FI, FDs);
 	}
 
 	@Override

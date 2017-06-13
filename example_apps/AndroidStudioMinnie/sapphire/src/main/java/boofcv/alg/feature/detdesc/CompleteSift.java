@@ -38,6 +38,7 @@ import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.filter.derivative.FactoryDerivative;
+import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.struct.feature.BrightFeature;
 import boofcv.struct.feature.ScalePoint;
 import boofcv.struct.image.GrayF32;
@@ -106,11 +107,11 @@ public class CompleteSift extends SiftDetector
 
 	@Override
 	public void process(GrayF32 input, FastHessianFeatureDetector FHFD, FactoryImageBorder FIB, InputSanityCheck ISC, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN,
-						DerivativeHelperFunctions DHF, ConvolveJustBorder_General CJBG, GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO) {
+						DerivativeHelperFunctions DHF, ConvolveJustBorder_General CJBG, GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO, FactoryInterpolation FI) {
 		features.reset();
 		locations.reset();
 		orientations.reset();
-		super.process(input, FHFD, FIB, ISC, CNN, CINB, CNJB, CN, DHF, CJBG, GSO, GSUO);
+		super.process(input, FHFD, FIB, ISC, CNN, CINB, CNJB, CN, DHF, CJBG, GSO, GSUO, FI);
 	}
 
 	@Override

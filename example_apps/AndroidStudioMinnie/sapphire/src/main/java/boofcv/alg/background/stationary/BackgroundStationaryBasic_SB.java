@@ -60,7 +60,7 @@ public class BackgroundStationaryBasic_SB<T extends ImageGray>
 	}
 
 	@Override
-	public void reset() {
+	public void reset(ImageMiscOps IMO, GImageMiscOps GIMO) {
 		background.reshape(1,1);
 	}
 

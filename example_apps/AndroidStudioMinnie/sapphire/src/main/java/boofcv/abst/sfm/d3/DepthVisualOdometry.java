@@ -23,6 +23,7 @@ package boofcv.abst.sfm.d3;
  */
 
 import boofcv.alg.InputSanityCheck;
+import boofcv.alg.distort.LensDistortionOps;
 import boofcv.alg.feature.detect.interest.FastHessianFeatureDetector;
 import boofcv.alg.filter.binary.GThresholdImageOps;
 import boofcv.alg.filter.binary.ThresholdImageOps;
@@ -51,8 +52,10 @@ import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.core.image.border.FactoryImageBorderAlgs;
 import boofcv.core.image.border.ImageBorderValue;
+import boofcv.factory.distort.FactoryDistort;
 import boofcv.factory.filter.blur.FactoryBlurFilter;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
+import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.struct.calib.CameraPinholeRadial;
 import boofcv.struct.distort.PixelTransform2_F32;
 import boofcv.struct.image.ImageBase;
@@ -101,7 +104,7 @@ public interface DepthVisualOdometry<Vis extends ImageBase, Depth extends ImageG
 	 * @param paramVisual Intrinsic parameters for visual camera
 	 * @param visToDepth Transform from visual camera pixels into depth camera pixels
 	 */
-	public void setCalibration(CameraPinholeRadial paramVisual , PixelTransform2_F32 visToDepth );
+	public void setCalibration(CameraPinholeRadial paramVisual , PixelTransform2_F32 visToDepth, LensDistortionOps LDO);
 
 	/**
 	 * Process the new image and update the motion estimate.  The return value must be checked
@@ -117,7 +120,8 @@ public interface DepthVisualOdometry<Vis extends ImageBase, Depth extends ImageG
 						   ConvolveNormalized_JustBorder CNJB, ConvolveNormalized CN, GBlurImageOps GBIO, GeneralizedImageOps GIO, BlurImageOps BIO, ConvolveImageMean CIM,
 						   FactoryKernelGaussian FKG, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM,
 						   GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO, FactoryImageBorderAlgs FIBA, ImageBorderValue IBV,
-						   FastHessianFeatureDetector FHFD, FactoryImageBorder FIB, FactoryBlurFilter FBF, ConvertImage CI, UtilWavelet UW, ImageType IT);
+						   FastHessianFeatureDetector FHFD, FactoryImageBorder FIB, FactoryBlurFilter FBF, ConvertImage CI, UtilWavelet UW, ImageType IT, FactoryInterpolation FI,
+						   FactoryDistort FDs);
 
 	/**
 	 * Type of visual images it can process.

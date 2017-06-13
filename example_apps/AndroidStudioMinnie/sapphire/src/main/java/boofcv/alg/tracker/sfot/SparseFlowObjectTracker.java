@@ -56,8 +56,10 @@ import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.core.image.border.FactoryImageBorderAlgs;
 import boofcv.core.image.border.ImageBorderValue;
+import boofcv.factory.distort.FactoryDistort;
 import boofcv.factory.filter.blur.FactoryBlurFilter;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
+import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.factory.tracker.FactoryTrackerAlg;
 import boofcv.factory.transform.pyramid.FactoryPyramid;
 import boofcv.struct.RectangleRotate_F64;
@@ -121,9 +123,9 @@ public class SparseFlowObjectTracker<Image extends ImageGray, Derivative extends
 	// location of the target in the current frame
 	RectangleRotate_F64 region = new RectangleRotate_F64();
 
-	public SparseFlowObjectTracker( SfotConfig config ,
-									Class<Image> imageType , Class<Derivative> derivType ,
-									ImageGradient<Image, Derivative> gradient ) {
+	public SparseFlowObjectTracker(SfotConfig config ,
+								   Class<Image> imageType , Class<Derivative> derivType ,
+								   ImageGradient<Image, Derivative> gradient, FactoryInterpolation FI) {
 
 		this.config = config;
 		this.imageType = imageType;
@@ -131,7 +133,7 @@ public class SparseFlowObjectTracker<Image extends ImageGray, Derivative extends
 		this.gradient = gradient;
 		maximumErrorFB = (float)(config.maximumErrorFB*config.maximumErrorFB);
 
-		klt = FactoryTrackerAlg.kltPyramid(config.trackerConfig, imageType, derivType);
+		klt = FactoryTrackerAlg.kltPyramid(config.trackerConfig, imageType, derivType, FI);
 
 		ModelManagerScaleTranslateRotate2D manager = new ModelManagerScaleTranslateRotate2D();
 		GenerateScaleTranslateRotate2D generator = new GenerateScaleTranslateRotate2D();
@@ -141,17 +143,17 @@ public class SparseFlowObjectTracker<Image extends ImageGray, Derivative extends
 				config.randSeed, config.robustCycles, Double.MAX_VALUE, 0, manager, generator, distance);
 	}
 
-	public void init( Image input , RectangleRotate_F64 region, GBlurImageOps GBIO, InputSanityCheck ISC, GeneralizedImageOps GIO, BlurImageOps BIO, ConvolveImageMean CIM,
-					  FactoryKernelGaussian FKG, ConvolveNormalized CN, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ImplMedianHistogramInner IMHI,
-					  ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM, GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO,
-					  GImageMiscOps GIMO, ImageMiscOps IMO, FactoryBlurFilter FBF, ConvolveJustBorder_General CJBG, ConvertImage CI, UtilWavelet UW, FactoryPyramid FP, DerivativeHelperFunctions DHF,
-					  GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO, ImageType IT) {
+	public void init(Image input , RectangleRotate_F64 region, GBlurImageOps GBIO, InputSanityCheck ISC, GeneralizedImageOps GIO, BlurImageOps BIO, ConvolveImageMean CIM,
+					 FactoryKernelGaussian FKG, ConvolveNormalized CN, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ImplMedianHistogramInner IMHI,
+					 ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM, GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO,
+					 GImageMiscOps GIMO, ImageMiscOps IMO, FactoryBlurFilter FBF, ConvolveJustBorder_General CJBG, ConvertImage CI, UtilWavelet UW, FactoryPyramid FP, DerivativeHelperFunctions DHF,
+					 GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO, ImageType IT, FactoryDistort FDs) {
 		if( currentImage == null ||
 				currentImage.getInputWidth() != input.width || currentImage.getInputHeight() != input.height) {
 			declarePyramid(input.width,input.height, FP, FKG, GIO);
 		}
 
-		previousImage.process(input, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG, CI, UW, IT);
+		previousImage.process(input, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG, CI, UW, IT, FDs);
 		for( int i = 0; i < previousImage.getNumLayers(); i++ ) {
 			Image layer = previousImage.getLayer(i);
 			gradient.process(layer,previousDerivX[i],previousDerivY[i], ISC, DHF, CINB, CJBG, GSO, GSUO);
@@ -174,12 +176,12 @@ public class SparseFlowObjectTracker<Image extends ImageGray, Derivative extends
 						   FactoryKernelGaussian FKG, ConvolveNormalized CN, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ImplMedianHistogramInner IMHI,
 						   ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM, GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO,
 						   GImageMiscOps GIMO, ImageMiscOps IMO, FactoryBlurFilter FBF, ConvolveJustBorder_General CJBG, ConvertImage CI, UtilWavelet UW, DerivativeHelperFunctions DHF,
-						   GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO, ImageType IT) {
+						   GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO, ImageType IT, FactoryDistort FDs) {
 
 		if( trackLost )
 			return false;
 
-		trackFeatures(input, region, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG, CI, UW, DHF, GSO, GSUO, IT);
+		trackFeatures(input, region, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG, CI, UW, DHF, GSO, GSUO, IT, FDs);
 
 		// See if there are enough points remaining.  use of config.numberOfSamples is some what arbitrary
 		if( pairs.size() < config.numberOfSamples ) {
@@ -234,10 +236,10 @@ public class SparseFlowObjectTracker<Image extends ImageGray, Derivative extends
 							   FactoryKernelGaussian FKG, ConvolveNormalized CN, ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ImplMedianHistogramInner IMHI,
 							   ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM, GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO,
 							   GImageMiscOps GIMO, ImageMiscOps IMO, FactoryBlurFilter FBF, ConvolveJustBorder_General CJBG, ConvertImage CI, UtilWavelet UW, DerivativeHelperFunctions DHF,
-							   GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO, ImageType IT) {
+							   GradientSobel_Outer GSO, GradientSobel_UnrolledOuter GSUO, ImageType IT, FactoryDistort FDs) {
 		pairs.reset();
 
-		currentImage.process(input, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG, CI, UW, IT);
+		currentImage.process(input, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG, CI, UW, IT, FDs);
 		for( int i = 0; i < currentImage.getNumLayers(); i++ ) {
 			Image layer = currentImage.getLayer(i);
 			gradient.process(layer,currentDerivX[i],currentDerivY[i], ISC, DHF, CINB, CJBG, GSO, GSUO);

@@ -21,6 +21,8 @@ package boofcv.factory.background;
 import boofcv.alg.background.BackgroundModelStationary;
 import boofcv.alg.background.moving.*;
 import boofcv.alg.background.stationary.*;
+import boofcv.core.image.border.FactoryImageBorder;
+import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.struct.distort.Point2Transform2Model_F32;
 import boofcv.struct.image.ImageBase;
 import boofcv.struct.image.ImageType;
@@ -71,22 +73,22 @@ public class FactoryBackgroundModel implements SapphireObject {
 	 */
 	public <T extends ImageBase, Motion extends InvertibleTransform<Motion>>
 	BackgroundMovingBasic<T,Motion> movingBasic(ConfigBackgroundBasic config ,
-												Point2Transform2Model_F32<Motion> transform, ImageType<T> imageType ) {
+												Point2Transform2Model_F32<Motion> transform, ImageType<T> imageType, ImageType IT, FactoryImageBorder FIB, FactoryInterpolation FI) {
 
 		config.checkValidity();
 
 		switch( imageType.getFamily() ) {
 			case GRAY:
 				return new BackgroundMovingBasic_SB(config.learnRate,config.threshold,
-						transform,config.interpolation,imageType.getImageClass());
+						transform,config.interpolation,imageType.getImageClass(), IT, FIB, FI);
 
 			case PLANAR:
 				return new BackgroundMovingBasic_PL(config.learnRate,config.threshold,
-						transform,config.interpolation,imageType);
+						transform,config.interpolation,imageType, IT, FIB, FI);
 
 			case INTERLEAVED:
 				return new BackgroundMovingBasic_IL(config.learnRate,config.threshold,
-						transform,config.interpolation,imageType);
+						transform,config.interpolation,imageType, IT, FIB, FI);
 		}
 
 		throw new IllegalArgumentException("Unknown image type");
@@ -139,7 +141,7 @@ public class FactoryBackgroundModel implements SapphireObject {
 	public <T extends ImageBase,Motion extends InvertibleTransform<Motion>>
 	BackgroundMovingGaussian<T,Motion> movingGaussian( ConfigBackgroundGaussian config ,
 													   Point2Transform2Model_F32<Motion> transform,
-													   ImageType<T> imageType ) {
+													   ImageType<T> imageType, ImageType IT, FactoryImageBorder FIB, FactoryInterpolation FI) {
 
 		config.checkValidity();
 
@@ -148,17 +150,17 @@ public class FactoryBackgroundModel implements SapphireObject {
 		switch( imageType.getFamily() ) {
 			case GRAY:
 				ret = new BackgroundMovingGaussian_SB(config.learnRate,config.threshold,
-						transform,config.interpolation,imageType.getImageClass());
+						transform,config.interpolation,imageType.getImageClass(), IT, FIB, FI);
 				break;
 
 			case PLANAR:
 				ret =  new BackgroundMovingGaussian_PL(config.learnRate,config.threshold,
-						transform,config.interpolation,imageType);
+						transform,config.interpolation,imageType, FIB, FI);
 				break;
 
 			case INTERLEAVED:
 				ret =  new BackgroundMovingGaussian_IL(config.learnRate,config.threshold,
-						transform,config.interpolation,imageType);
+						transform,config.interpolation,imageType, IT, FIB, FI);
 				break;
 
 			default:

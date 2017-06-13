@@ -18,10 +18,12 @@
 
 package boofcv.abst.geo.calibration;
 
+import java.io.Serializable;
+
 /**
  * @author Peter Abeles
  */
-public class ImageResults {
+public class ImageResults implements Serializable {
 	public double meanError;
 	public double maxError;
 	public double biasX;

@@ -20,6 +20,9 @@ package boofcv.factory.fiducial;
 
 import boofcv.abst.fiducial.calib.*;
 import boofcv.alg.fiducial.calib.chess.DetectChessboardFiducial;
+import boofcv.factory.filter.binary.FactoryThresholdBinary;
+import boofcv.factory.shape.FactoryShapeDetector;
+import boofcv.struct.image.ImageType;
 
 /**
  * Creates detectors of calibration targets.  These detectors return found key points in the image and
@@ -37,10 +40,10 @@ public class FactoryFiducialCalibration {
 	 * @param config Configuration for chessboard detector
 	 * @return Square grid target detector.
 	 */
-	public static CalibrationDetectorSquareGrid squareGrid(ConfigSquareGrid config) {
+	public static CalibrationDetectorSquareGrid squareGrid(ConfigSquareGrid config, FactoryShapeDetector FSD, ImageType IT, FactoryThresholdBinary FTB) {
 		config.checkValidity();
 
-		return new CalibrationDetectorSquareGrid(config);
+		return new CalibrationDetectorSquareGrid(config, FSD, IT, FTB);
 	}
 
 	/**
@@ -52,10 +55,10 @@ public class FactoryFiducialCalibration {
 	 * @param config Configuration for chessboard detector
 	 * @return Square grid target detector.
 	 */
-	public static CalibrationDetectorChessboard chessboard(ConfigChessboard config ) {
+	public static CalibrationDetectorChessboard chessboard(ConfigChessboard config, FactoryShapeDetector FSD, ImageType IT, FactoryThresholdBinary FTB) {
 		config.checkValidity();
 
-		return new CalibrationDetectorChessboard(config);
+		return new CalibrationDetectorChessboard(config, FSD, IT, FTB);
 	}
 
 	/**
@@ -79,9 +82,9 @@ public class FactoryFiducialCalibration {
 	 * @param config Configuration for target
 	 * @return The detector
 	 */
-	public static CalibrationDetectorCircleAsymmGrid circleAsymmGrid( ConfigCircleAsymmetricGrid config ) {
+	public static CalibrationDetectorCircleAsymmGrid circleAsymmGrid( ConfigCircleAsymmetricGrid config, FactoryShapeDetector FSD, ImageType IT, FactoryThresholdBinary FTB) {
 		config.checkValidity();
 
-		return new CalibrationDetectorCircleAsymmGrid(config);
+		return new CalibrationDetectorCircleAsymmGrid(config, FSD, IT, FTB);
 	}
 }

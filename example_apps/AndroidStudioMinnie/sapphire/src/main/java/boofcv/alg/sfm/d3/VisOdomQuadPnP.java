@@ -53,8 +53,10 @@ import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.core.image.border.FactoryImageBorderAlgs;
 import boofcv.core.image.border.ImageBorderValue;
+import boofcv.factory.distort.FactoryDistort;
 import boofcv.factory.filter.blur.FactoryBlurFilter;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
+import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.struct.calib.StereoParameters;
 import boofcv.struct.distort.Point2Transform2_F64;
 import boofcv.struct.feature.AssociatedIndex;
@@ -124,6 +126,8 @@ public class VisOdomQuadPnP<T extends ImageGray,TD extends TupleDesc> {
 	private static FactoryBlurFilter FBF;
 	private static FastHessianFeatureDetector FHFD;
 	private static ImageType IT;
+	private static FactoryInterpolation FI;
+	private static FactoryDistort FDs;
 
 	// used to estimate each feature's 3D location using a stereo pair
 	private TriangulateTwoViewsCalibrated triangulate;
@@ -206,11 +210,11 @@ public class VisOdomQuadPnP<T extends ImageGray,TD extends TupleDesc> {
 		featsRight1 = new ImageInfo<>(detector);
 	}
 
-	public void setCalibration(StereoParameters param) {
+	public void setCalibration(StereoParameters param, LensDistortionOps LDO) {
 
 		param.rightToLeft.invert(leftToRight);
-		leftImageToNorm = LensDistortionOps.transformPoint(param.left).undistort_F64(true,false);
-		rightImageToNorm = LensDistortionOps.transformPoint(param.right).undistort_F64(true,false);
+		leftImageToNorm = LDO.transformPoint(param.left).undistort_F64(true,false);
+		rightImageToNorm = LDO.transformPoint(param.right).undistort_F64(true,false);
 	}
 
 	/**
@@ -443,7 +447,7 @@ public class VisOdomQuadPnP<T extends ImageGray,TD extends TupleDesc> {
 	 */
 	private void describeImage(T left , ImageInfo<TD> info ) {
 		detector.process(left,ISC ,DHF, CINB, CJBG,  GSO, GSUO, GIMO, IMO,CNN,CNJB, CN, GBIO, GIO,BIO, CIM, FKG,IMHI,IMSEN, IMSN, ICM,GTIO, GIS,IS, TIO,
-				FIBA, IBV, FHFD, FIB, FBF, CI, UW, IT);
+				FIBA, IBV, FHFD, FIB, FBF, CI, UW, IT, FI, FDs);
 		for( int i = 0; i < detector.getNumberOfSets(); i++ ) {
 			PointDescSet<TD> set = detector.getFeatureSet(i);
 			FastQueue<Point2D_F64> l = info.location[i];

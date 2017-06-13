@@ -42,10 +42,10 @@ public class VisualDepthOps {
 	 * @param depth depth image.  each value is in millimeters.
 	 * @param cloud Output point cloud
 	 */
-	public static void depthTo3D(CameraPinholeRadial param , GrayU16 depth , FastQueue<Point3D_F64> cloud ) {
+	public static void depthTo3D(CameraPinholeRadial param , GrayU16 depth , FastQueue<Point3D_F64> cloud, LensDistortionOps LDO ) {
 		cloud.reset();
 
-		Point2Transform2_F64 p2n = LensDistortionOps.transformPoint(param).undistort_F64(true,false);
+		Point2Transform2_F64 p2n = LDO.transformPoint(param).undistort_F64(true,false);
 
 		Point2D_F64 n = new Point2D_F64();
 

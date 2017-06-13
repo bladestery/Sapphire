@@ -81,12 +81,12 @@ public abstract class CreateSyntheticOverheadView<T extends ImageBase>
 	public void configure( CameraPinholeRadial intrinsic ,
 						   Se3_F64 planeToCamera ,
 						   double centerX, double centerY, double cellSize ,
-						   int overheadWidth , int overheadHeight )
+						   int overheadWidth , int overheadHeight, LensDistortionOps LDO)
 	{
 		this.overheadWidth = overheadWidth;
 		this.overheadHeight = overheadHeight;
 
-		Point2Transform2_F64 normToPixel = LensDistortionOps.transformPoint(intrinsic).distort_F64(false, true);
+		Point2Transform2_F64 normToPixel = LDO.transformPoint(intrinsic).distort_F64(false, true);
 
 		// Declare storage for precomputed pixel locations
 		int overheadPixels = overheadHeight*overheadWidth;

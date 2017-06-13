@@ -78,8 +78,8 @@ public class FDistort<T extends ImageBase, D extends ImageBase>
 	 * @param input Input image
 	 * @param output output image
 	 */
-	public FDistort(T input, D output, FactoryImageBorder FIB) {
-		init(input, output, FIB);
+	public FDistort(T input, D output, FactoryImageBorder FIB, FactoryInterpolation FI) {
+		init(input, output, FIB, FI);
 	}
 
 	/**
@@ -96,12 +96,12 @@ public class FDistort<T extends ImageBase, D extends ImageBase>
 	/**
 	 * Specifies the input and output image and sets interpolation to BILINEAR, black image border, cache is off.
 	 */
-	public FDistort init(T input, D output, FactoryImageBorder FIB) {
+	public FDistort init(T input, D output, FactoryImageBorder FIB, FactoryInterpolation FI) {
 		this.input = input;
 		this.output = output;
 
 		inputType = input.getImageType();
-		interp(InterpolationType.BILINEAR, FIB);
+		interp(InterpolationType.BILINEAR, FIB, FI);
 		border(0, FIB);
 
 		cached = false;
@@ -214,9 +214,9 @@ public class FDistort<T extends ImageBase, D extends ImageBase>
 	/**
 	 * Specifies the interpolation used by type.
 	 */
-	public FDistort interp(InterpolationType type, FactoryImageBorder FIB) {
+	public FDistort interp(InterpolationType type, FactoryImageBorder FIB, FactoryInterpolation FI) {
 		distorter = null;
-		this.interp = FactoryInterpolation.createPixel(0, 255, type, BorderType.EXTENDED, inputType, FIB);
+		this.interp = FI.createPixel(0, 255, type, BorderType.EXTENDED, inputType, FIB);
 
 		return this;
 	}
@@ -224,8 +224,8 @@ public class FDistort<T extends ImageBase, D extends ImageBase>
 	/**
 	 * Sets interpolation to use nearest-neighbor
 	 */
-	public FDistort interpNN(FactoryImageBorder FIB) {
-		return interp(InterpolationType.NEAREST_NEIGHBOR, FIB);
+	public FDistort interpNN(FactoryImageBorder FIB, FactoryInterpolation FI) {
+		return interp(InterpolationType.NEAREST_NEIGHBOR, FIB, FI);
 	}
 
 	/**
@@ -325,21 +325,21 @@ public class FDistort<T extends ImageBase, D extends ImageBase>
 	/**
 	 * Applies the distortion.
 	 */
-	public void apply() {
+	public void apply(FactoryDistort FDs) {
 		// see if the distortion class needs to be created again
 		if( distorter == null ) {
 			Class typeOut = output.getImageType().getImageClass();
 			switch( input.getImageType().getFamily() ) {
 				case GRAY:
-					distorter = FactoryDistort.distortSB(cached, (InterpolatePixelS)interp, typeOut);
+					distorter = FDs.distortSB(cached, (InterpolatePixelS)interp, typeOut);
 					break;
 
 				case PLANAR:
-					distorter = FactoryDistort.distortPL(cached, (InterpolatePixelS)interp, typeOut);
+					distorter = FDs.distortPL(cached, (InterpolatePixelS)interp, typeOut);
 					break;
 
 				case INTERLEAVED:
-					distorter = FactoryDistort.distortIL(cached, (InterpolatePixelMB) interp, output.getImageType());
+					distorter = FDs.distortIL(cached, (InterpolatePixelMB) interp, output.getImageType());
 					break;
 
 				default:

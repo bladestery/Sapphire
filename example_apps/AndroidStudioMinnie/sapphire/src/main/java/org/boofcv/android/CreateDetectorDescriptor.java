@@ -30,6 +30,8 @@ import boofcv.factory.feature.orientation.FactoryOrientationAlgs;
 import boofcv.factory.filter.blur.FactoryBlurFilter;
 import boofcv.factory.filter.derivative.FactoryDerivative;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
+import boofcv.factory.interpolate.FactoryInterpolation;
+import boofcv.struct.image.FactoryImage;
 import boofcv.struct.image.ImageType;
 import sapphire.app.SapphireObject;
 import sapphire.compiler.FDGenerator;
@@ -56,7 +58,7 @@ public class CreateDetectorDescriptor implements SapphireObject {
 	public CreateDetectorDescriptor() {}
 
 	public DetectDescribePoint create(int detect , int describe , Class imageType, FactoryInterestPoint FIP, FactoryInterestPointAlgs FIrPA, FactoryIntensityPointAlg FIPA, FactoryFeatureExtractor FFE, FactoryImageBorder FIB, FactoryDerivative FD,
-									  GeneralizedImageOps GIO, FactoryKernelGaussian FKG, ImageType IT, FactoryBlurFilter FBF) {
+									  GeneralizedImageOps GIO, FactoryKernelGaussian FKG, ImageType IT, FactoryBlurFilter FBF, FactoryInterpolation FI) {
 
 		if( detect == DETECT_FH && describe == DESC_SURF ) {
 			return FactoryDetectDescribe.surfFast(confDetectFH(), null, null, imageType, FFE, FIrPA, FKG);
@@ -66,7 +68,7 @@ public class CreateDetectorDescriptor implements SapphireObject {
 			boolean ss = isScaleSpace(detect);
 
 			InterestPointDetector detector = createDetector(detect,imageType, FIP, FIrPA, FIPA, FFE, FIB, FD, GIO, FKG);
-			DescribeRegionPoint descriptor = createDescriptor(describe,ss,imageType, FKG, IT, FBF, GIO, FIB, FD);
+			DescribeRegionPoint descriptor = createDescriptor(describe,ss,imageType, FKG, IT, FBF, GIO, FIB, FD, FI);
 			OrientationImage ori = createOrientation(detect,imageType, FD, GIO, FIB, FKG);
 
 			return FactoryDetectDescribe.fuseTogether(detector,ori,descriptor);
@@ -121,7 +123,7 @@ public class CreateDetectorDescriptor implements SapphireObject {
 	}
 
 	public DescribeRegionPoint createDescriptor(int describe , boolean scaleSpace , Class imageType, FactoryKernelGaussian FKG, ImageType IT, FactoryBlurFilter FBF, GeneralizedImageOps GIO,
-												FactoryImageBorder FIB, FactoryDerivative FD) {
+												FactoryImageBorder FIB, FactoryDerivative FD, FactoryInterpolation FI) {
 		switch( describe ) {
 			case DESC_SURF:
 				return FactoryDescribeRegionPoint.surfFast(null, imageType, FKG, IT);
@@ -130,7 +132,7 @@ public class CreateDetectorDescriptor implements SapphireObject {
 				return FactoryDescribeRegionPoint.sift(null,null,imageType, FKG, IT, FD, GIO, FIB);
 
 			case DESC_BRIEF:
-				return FactoryDescribeRegionPoint.brief(new ConfigBrief(!scaleSpace),imageType, FBF, GIO, IT, FIB);
+				return FactoryDescribeRegionPoint.brief(new ConfigBrief(!scaleSpace),imageType, FBF, GIO, IT, FIB, FI);
 
 			case DESC_NCC:
 				return FactoryDescribeRegionPoint.pixelNCC(9,9,imageType, IT);

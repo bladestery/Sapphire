@@ -19,10 +19,15 @@
 package boofcv.gui.calibration;
 
 import boofcv.abst.geo.calibration.ImageResults;
+import boofcv.alg.distort.LensDistortionOps;
 import boofcv.alg.geo.calibration.CalibrationObservation;
 import boofcv.alg.geo.calibration.Zhang99ParamAll;
+import boofcv.core.image.border.FactoryImageBorder;
+import boofcv.factory.distort.FactoryDistort;
+import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.gui.StandardAlgConfigPanel;
 import boofcv.struct.calib.CameraPinholeRadial;
+import boofcv.struct.image.ImageType;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -203,10 +208,10 @@ public class MonoPlanarPanel extends JPanel implements ItemListener ,
 		paramC.setText(textC);
 	}
 
-	public void setCorrection( CameraPinholeRadial param )
+	public void setCorrection(CameraPinholeRadial param, FactoryImageBorder FIB, ImageType IT, FactoryInterpolation FI, FactoryDistort FDs, LensDistortionOps LDO)
 	{
 		checkUndistorted.setEnabled(true);
-		mainView.setDistorted(param,null);
+		mainView.setDistorted(param,null, FIB, IT, FI, FDs, LDO);
 	}
 
 	@Override

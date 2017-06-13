@@ -25,6 +25,8 @@ import boofcv.alg.InputSanityCheck;
 import boofcv.alg.filter.binary.ThresholdImageOps;
 import boofcv.alg.shapes.polygon.BinaryPolygonDetector;
 import boofcv.core.image.GeneralizedImageOps;
+import boofcv.factory.distort.FactoryDistort;
+import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.ImageGray;
@@ -105,13 +107,13 @@ public class DetectFiducialSquareBinary<T extends ImageGray>
 									  double borderWidthFraction ,
 									  double minimumBlackBorderFraction ,
 									  final InputToBinary<T> inputToBinary,
-									  final BinaryPolygonDetector<T> quadDetector, Class<T> inputType) {
+									  final BinaryPolygonDetector<T> quadDetector, Class<T> inputType, FactoryInterpolation FI, FactoryDistort FDs) {
 		// Black borders occupies 2.0*borderWidthFraction of the total width
 		// The number of pixels for each square is held constant and the total pixels for the inner region
 		// is determined by the size of the grid
 		// The number of pixels in the undistorted image (squarePixels) is selected using the above information
 		super(inputToBinary,quadDetector,borderWidthFraction,minimumBlackBorderFraction,
-				(int)Math.round((w * gridWidth) /(1.0-borderWidthFraction*2.0)) ,inputType);
+				(int)Math.round((w * gridWidth) /(1.0-borderWidthFraction*2.0)) ,inputType, FI, FDs);
 
 		if( gridWidth < 3 || gridWidth > 8)
 			throw new IllegalArgumentException("The grid must be at least 3 and at most 8 elements wide");

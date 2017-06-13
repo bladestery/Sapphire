@@ -42,6 +42,7 @@ import boofcv.factory.feature.detect.extract.FactoryFeatureExtractor;
 import boofcv.factory.feature.orientation.FactoryOrientation;
 import boofcv.factory.filter.derivative.FactoryDerivative;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
+import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.factory.transform.pyramid.FactoryPyramid;
 import boofcv.struct.image.ImageGray;
 import boofcv.struct.pyramid.PyramidFloat;
@@ -97,14 +98,14 @@ public class FactoryInterestPoint implements SapphireObject {
 	public <T extends ImageGray, D extends ImageGray>
 	InterestPointDetector<T> wrapDetector(FeatureLaplacePyramid<T, D> feature,
 										  double[] scales, boolean pyramid,
-										  Class<T> inputType, FactoryImageBorder FIB, FactoryPyramid FP) {
+										  Class<T> inputType, FactoryImageBorder FIB, FactoryPyramid FP, FactoryInterpolation FI) {
 
 		PyramidFloat<T> ss;
 
 		if( pyramid )
-			ss = FP.scaleSpacePyramid(scales, inputType, FIB);
+			ss = FP.scaleSpacePyramid(scales, inputType, FIB, FI);
 		else
-			ss = FP.scaleSpace(scales, inputType, FIB);
+			ss = FP.scaleSpace(scales, inputType, FIB, FI);
 
 		return new WrapFLPtoInterestPoint<>(feature, ss);
 	}
@@ -121,14 +122,14 @@ public class FactoryInterestPoint implements SapphireObject {
 	public <T extends ImageGray, D extends ImageGray>
 	InterestPointDetector<T> wrapDetector(FeaturePyramid<T, D> feature,
 										  double[] scales, boolean pyramid,
-										  Class<T> inputType, FactoryImageBorder FIB, FactoryPyramid FP) {
+										  Class<T> inputType, FactoryImageBorder FIB, FactoryPyramid FP, FactoryInterpolation FI) {
 
 		PyramidFloat<T> ss;
 
 		if( pyramid )
-			ss = FP.scaleSpacePyramid(scales, inputType, FIB);
+			ss = FP.scaleSpacePyramid(scales, inputType, FIB, FI);
 		else
-			ss = FP.scaleSpace(scales, inputType, FIB);
+			ss = FP.scaleSpace(scales, inputType, FIB, FI);
 
 		return new WrapFPtoInterestPoint<>(feature, ss);
 	}

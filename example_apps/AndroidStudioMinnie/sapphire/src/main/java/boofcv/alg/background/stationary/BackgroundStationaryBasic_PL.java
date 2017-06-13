@@ -27,6 +27,7 @@ import boofcv.core.image.GConvertImage;
 import boofcv.core.image.GImageMultiBand;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.struct.image.*;
+import sapphire.compiler.IMOGenerator;
 
 /**
  * Implementation of {@link BackgroundStationaryBasic} for {@link ImageGray}.
@@ -67,7 +68,7 @@ public class BackgroundStationaryBasic_PL<T extends ImageGray>
 	}
 
 	@Override
-	public void reset() {
+	public void reset(ImageMiscOps IMO, GImageMiscOps GIMO) {
 		background.reshape(1,1);
 	}
 

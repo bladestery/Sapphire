@@ -267,7 +267,7 @@ public class DetectBlackPolygonActivity extends DemoVideoDisplayActivity
 				break;
 
 			case 1:
-				dm.localSquare(10,0.95,true);
+				dm.localSquare(10, 0.95, true);
 				break;
 
 			default:
@@ -311,11 +311,11 @@ public class DetectBlackPolygonActivity extends DemoVideoDisplayActivity
 				sidesUpdated = false;
 				dm.setNumberOfSides(minSides,maxSides);
 			}
-
+			/*
 			synchronized ( this ) {
 				dm.inputProcess(image);
 			}
-
+			*/
 			binary = dm.polyProcess(image);
 
 			if( showInput ) {

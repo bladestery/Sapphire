@@ -30,6 +30,7 @@ import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.struct.distort.Point2Transform2Model_F32;
 import boofcv.struct.image.*;
 import georegression.struct.InvertibleTransform;
+import sapphire.compiler.IMOGenerator;
 
 /**
  * Implementation of {@link BackgroundMovingBasic} for {@link Planar}.
@@ -39,10 +40,6 @@ import georegression.struct.InvertibleTransform;
 public class BackgroundMovingBasic_IL<T extends ImageInterleaved, Motion extends InvertibleTransform<Motion>>
 	extends BackgroundMovingBasic<T,Motion>
 {
-	private ImageType IT;
-	private static GImageMiscOps GIMO;
-	private static ImageMiscOps IMO;
-	private static FactoryImageBorder FIB;
 	// where the background image is stored
 	protected InterleavedF32 background;
 	// interpolates the input image
@@ -59,15 +56,15 @@ public class BackgroundMovingBasic_IL<T extends ImageInterleaved, Motion extends
 	public BackgroundMovingBasic_IL(float learnRate, float threshold,
 									Point2Transform2Model_F32<Motion> transform,
 									InterpolationType interpType,
-									ImageType<T> imageType) {
+								ImageType<T> imageType, ImageType IT, FactoryImageBorder FIB, FactoryInterpolation FI) {
 		super(learnRate, threshold,transform, imageType);
 
-		this.interpolationInput = FactoryInterpolation.createPixelMB(0, 255, interpType,BorderType.EXTENDED,imageType, FIB);
+		this.interpolationInput = FI.createPixelMB(0, 255, interpType,BorderType.EXTENDED,imageType, FIB);
 
 		int numBands = imageType.getNumBands();
 		background = new InterleavedF32(1,1,numBands);
 
-		this.interpolationBG = FactoryInterpolation.createPixelMB(
+		this.interpolationBG = FI.createPixelMB(
 				0, 255, interpType, BorderType.EXTENDED, IT.il(numBands, InterleavedF32.class), FIB);
 		this.interpolationBG.setImage(background);
 
@@ -87,7 +84,7 @@ public class BackgroundMovingBasic_IL<T extends ImageInterleaved, Motion extends
 	}
 
 	@Override
-	public void initialize(int backgroundWidth, int backgroundHeight, Motion homeToWorld) {
+	public void initialize(int backgroundWidth, int backgroundHeight, Motion homeToWorld, ImageMiscOps IMO, GImageMiscOps GIMO) {
 		background.reshape(backgroundWidth,backgroundHeight);
 		GIMO.fill(background, Float.MAX_VALUE, IMO);
 
@@ -99,7 +96,7 @@ public class BackgroundMovingBasic_IL<T extends ImageInterleaved, Motion extends
 	}
 
 	@Override
-	public void reset() {
+	public void reset(ImageMiscOps IMO, GImageMiscOps GIMO) {
 		GIMO.fill(background,Float.MAX_VALUE, IMO);
 	}
 

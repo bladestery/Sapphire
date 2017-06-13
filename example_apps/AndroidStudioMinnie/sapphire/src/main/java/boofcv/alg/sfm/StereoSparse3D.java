@@ -20,7 +20,10 @@ package boofcv.alg.sfm;
 
 import boofcv.abst.feature.disparity.StereoDisparitySparse;
 import boofcv.abst.sfm.ImagePixelTo3D;
+import boofcv.alg.distort.LensDistortionOps;
 import boofcv.alg.geo.RectifyImageOps;
+import boofcv.factory.distort.FactoryDistort;
+import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.struct.calib.StereoParameters;
 import boofcv.struct.distort.Point2Transform2_F64;
 import boofcv.struct.image.ImageGray;
@@ -60,10 +63,10 @@ public class StereoSparse3D<T extends ImageGray>
 	}
 
 	@Override
-	public void setCalibration(StereoParameters stereoParam) {
-		super.setCalibration(stereoParam);
+	public void setCalibration(StereoParameters stereoParam, FactoryInterpolation FI, FactoryDistort FDs, LensDistortionOps LDO) {
+		super.setCalibration(stereoParam, FI, FDs, LDO);
 
-		leftPixelToRect = RectifyImageOps.transformPixelToRect_F64(stereoParam.left,rect1);
+		leftPixelToRect = RectifyImageOps.transformPixelToRect_F64(stereoParam.left,rect1, LDO);
 	}
 
 	@Override

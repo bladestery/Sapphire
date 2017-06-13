@@ -26,6 +26,7 @@ import boofcv.alg.sfm.overhead.CreateSyntheticOverheadViewS;
 import boofcv.core.image.border.BorderType;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.interpolate.FactoryInterpolation;
+import boofcv.struct.image.FactoryImage;
 import boofcv.struct.image.ImageBase;
 import boofcv.struct.image.ImageType;
 
@@ -36,19 +37,19 @@ import boofcv.struct.image.ImageType;
  */
 public class FactorySfmMisc {
 
-	public static <T extends ImageBase> CreateSyntheticOverheadView<T> createOverhead(ImageType<T> imageType, FactoryImageBorder FIB) {
+	public static <T extends ImageBase> CreateSyntheticOverheadView<T> createOverhead(ImageType<T> imageType, FactoryImageBorder FIB, FactoryInterpolation FI) {
 
 		Class classType = imageType.getImageClass();
 
 		switch( imageType.getFamily() ) {
 			case GRAY:
 			{
-				InterpolatePixelS interp = FactoryInterpolation.bilinearPixelS(classType, BorderType.EXTENDED, FIB);
+				InterpolatePixelS interp = FI.bilinearPixelS(classType, BorderType.EXTENDED, FIB);
 				return new CreateSyntheticOverheadViewS(interp);
 			}
 
 			case PLANAR:
-				return new CreateSyntheticOverheadViewPL(InterpolationType.BILINEAR,imageType.getNumBands(),classType);
+				return new CreateSyntheticOverheadViewPL(InterpolationType.BILINEAR,imageType.getNumBands(),classType, FI);
 
 			default:
 				throw new IllegalArgumentException(imageType.getFamily()+" is not supported");

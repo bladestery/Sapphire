@@ -25,6 +25,8 @@ import georegression.struct.point.Point2D_F32;
 import org.ejml.data.DenseMatrix64F;
 import org.ejml.ops.CommonOps;
 
+import java.io.Serializable;
+
 import static boofcv.alg.distort.radtan.RemoveRadialNtoN_F32.removeRadial;
 
 /**
@@ -32,7 +34,7 @@ import static boofcv.alg.distort.radtan.RemoveRadialNtoN_F32.removeRadial;
  *
  * @author Peter Abeles
  */
-public class RemoveRadialPtoN_F32 implements Point2Transform2_F32 {
+public class RemoveRadialPtoN_F32 implements Point2Transform2_F32, Serializable {
 
 	// principle point / image center
 	protected float cx, cy;

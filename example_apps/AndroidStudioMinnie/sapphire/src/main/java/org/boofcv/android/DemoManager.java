@@ -1,6 +1,8 @@
 package org.boofcv.android;
 
 import org.boofcv.android.assoc.Assoc;
+import org.boofcv.android.calib.Calib;
+import org.boofcv.android.detect.Kueue;
 import org.boofcv.android.tracker.track;
 import org.boofcv.android.tracker.trackInfo;
 import org.boofcv.android.tracker.trackList;
@@ -30,9 +32,18 @@ import boofcv.abst.feature.detect.line.DetectLineSegment;
 import boofcv.abst.feature.detect.line.DetectLineSegmentsGridRansac;
 import boofcv.abst.feature.tracker.PointTrack;
 import boofcv.abst.feature.tracker.PointTracker;
+import boofcv.abst.fiducial.calib.CalibrationDetectorChessboard;
+import boofcv.abst.fiducial.calib.CalibrationDetectorCircleAsymmGrid;
+import boofcv.abst.fiducial.calib.CalibrationDetectorSquareGrid;
+import boofcv.abst.fiducial.calib.ConfigChessboard;
+import boofcv.abst.fiducial.calib.ConfigCircleAsymmetricGrid;
+import boofcv.abst.fiducial.calib.ConfigSquareGrid;
 import boofcv.abst.filter.binary.InputToBinary;
 import boofcv.abst.filter.blur.BlurFilter;
 import boofcv.abst.filter.derivative.ImageGradient;
+import boofcv.abst.geo.calibration.CalibrateMonoPlanar;
+import boofcv.abst.geo.calibration.DetectorFiducialCalibration;
+import boofcv.abst.geo.calibration.ImageResults;
 import boofcv.abst.segmentation.ImageSuperpixels;
 import boofcv.abst.tracker.ConfigCirculantTracker;
 import boofcv.abst.tracker.ConfigComaniciu2003;
@@ -46,6 +57,10 @@ import boofcv.alg.background.BackgroundModelStationary;
 import boofcv.alg.background.stationary.BackgroundStationaryBasic;
 import boofcv.alg.background.stationary.BackgroundStationaryGaussian;
 import boofcv.alg.descriptor.UtilFeature;
+import boofcv.alg.distort.AdjustmentType;
+import boofcv.alg.distort.ImageDistort;
+import boofcv.alg.distort.LensDistortionOps;
+import boofcv.alg.distort.PointToPixelTransform_F32;
 import boofcv.alg.enhance.EnhanceImageOps;
 import boofcv.alg.feature.detect.edge.CannyEdge;
 import boofcv.alg.feature.detect.edge.EdgeContour;
@@ -57,6 +72,9 @@ import boofcv.alg.feature.detect.intensity.HessianBlobIntensity;
 import boofcv.alg.feature.detect.interest.EasyGeneralFeatureDetector;
 import boofcv.alg.feature.detect.interest.FastHessianFeatureDetector;
 import boofcv.alg.feature.detect.interest.GeneralFeatureDetector;
+import boofcv.alg.fiducial.calib.chess.DetectChessboardFiducial;
+import boofcv.alg.fiducial.calib.circle.DetectAsymmetricCircleGrid;
+import boofcv.alg.fiducial.calib.grid.DetectSquareGridFiducial;
 import boofcv.alg.filter.binary.BinaryImageOps;
 import boofcv.alg.filter.binary.Contour;
 import boofcv.alg.filter.binary.GThresholdImageOps;
@@ -79,6 +97,10 @@ import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
 import boofcv.alg.filter.derivative.DerivativeHelperFunctions;
 import boofcv.alg.filter.derivative.impl.GradientSobel_Outer;
 import boofcv.alg.filter.derivative.impl.GradientSobel_UnrolledOuter;
+import boofcv.alg.geo.calibration.CalibrationObservation;
+import boofcv.alg.geo.calibration.CalibrationPlanarGridZhang99;
+import boofcv.alg.geo.calibration.Zhang99ParamAll;
+import boofcv.alg.interpolate.InterpolatePixelS;
 import boofcv.alg.misc.GImageMiscOps;
 import boofcv.alg.misc.GImageStatistics;
 import boofcv.alg.misc.ImageMiscOps;
@@ -100,8 +122,11 @@ import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.background.ConfigBackgroundBasic;
 import boofcv.factory.background.ConfigBackgroundGaussian;
 import boofcv.factory.background.FactoryBackgroundModel;
+import boofcv.factory.distort.FactoryDistort;
 import boofcv.factory.feature.associate.FactoryAssociation;
 import boofcv.factory.feature.tracker.FactoryPointTracker;
+import boofcv.factory.fiducial.FactoryFiducialCalibration;
+import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.factory.tracker.FactoryTrackerObjectQuad;
 import boofcv.factory.transform.pyramid.FactoryPyramid;
 import boofcv.factory.transform.wavelet.FactoryWaveletTransform;
@@ -131,7 +156,8 @@ import boofcv.factory.shape.ConfigEllipseDetector;
 import boofcv.factory.shape.ConfigPolygonDetector;
 import boofcv.factory.shape.FactoryShapeDetector;
 import boofcv.struct.ConnectRule;
-import boofcv.struct.QueueCorner;
+import boofcv.struct.calib.CameraPinholeRadial;
+import boofcv.struct.distort.Point2Transform2_F32;
 import boofcv.struct.feature.AssociatedIndex;
 import boofcv.struct.feature.ColorQueue_F32;
 import boofcv.struct.feature.ScalePoint;
@@ -206,10 +232,15 @@ public class DemoManager<T extends ImageBase> implements SapphireObject<sapphire
     private FactoryTrackerObjectQuad FTOQ;
     private FactoryPointTracker FPT;
     private FactoryBackgroundModel FBM;
+    private LensDistortionOps LDO;
+    private FactoryInterpolation FI;
+    private FactoryDistort FDs;
 
     //  Lower Level Objects (TODO: check if necessary??)
-    /** info: Necessary when using entire Sapphire, but current
-              code is incomplete, so some should be removed??   **/
+    /**
+     * info: Necessary when using entire Sapphire, but current
+     * code is incomplete, so some should be removed??
+     **/
     private ImageMiscOps IMO;
     private GeneralizedImageOps GIO;
     private FactoryImageBorder FIB;
@@ -243,18 +274,20 @@ public class DemoManager<T extends ImageBase> implements SapphireObject<sapphire
     private FastHessianFeatureDetector FHFD;
 
     //  Objects which are used in applications
-    /** info: Some are redundantly used to save space **/
-    CannyEdge<GrayU8,GrayS16> canny;
+    /**
+     * info: Some are redundantly used to save space
+     **/
+    CannyEdge<GrayU8, GrayS16> canny;
     LinearContourLabelChang2004 contour8 = new LinearContourLabelChang2004(ConnectRule.EIGHT);
     LinearContourLabelChang2004 contour4 = new LinearContourLabelChang2004(ConnectRule.FOUR);
     BinaryEllipseDetector<GrayU8> ellipseDetector;
     InputToBinary<GrayU8> inputToBinary;
     BinaryPolygonDetector<GrayU8> polyDetector;
-    GrayU8 blackBinary = new GrayU8(1,1);
+    GrayU8 blackBinary = new GrayU8(1, 1); //DetectBlack apps
     DetectLine<GrayU8> lineDetector;
     DetectLineSegment<GrayU8> segDetector;
-    GeneralFeatureDetector<GrayU8,GrayS16> general;
-    EasyGeneralFeatureDetector<GrayU8,GrayS16> pointDetector;
+    GeneralFeatureDetector<GrayU8, GrayS16> general;
+    EasyGeneralFeatureDetector<GrayU8, GrayS16> pointDetector;
     GeneralFeatureIntensity<GrayU8, GrayS16> intensity;
     NonMaxSuppression nonmaxMax;
     NonMaxSuppression nonmaxMinMax;
@@ -277,15 +310,15 @@ public class DemoManager<T extends ImageBase> implements SapphireObject<sapphire
     BlurFilter<GrayU8> filter;
     int histogram[];
     int transform[];
-    ImageGradient<GrayU8,GrayS16> gradient;
+    ImageGradient<GrayU8, GrayS16> gradient;
     GrayS16pair deriv;
-    DiscreteFourierTransform<GrayF32,InterleavedF32> dft;
+    DiscreteFourierTransform<GrayF32, InterleavedF32> dft;
     GrayF32 grayF;
     InterleavedF32 interleavedTransform;
     ImagePyramid<GrayU8> pyramid;
     WaveletDescription<WlCoef> desc;
-    WaveletTransform<GrayU8,GrayS32,WlCoef> waveletTran;
-    DetectDescribePoint<GrayF32,TupleDesc> detDesc;
+    WaveletTransform<GrayU8, GrayS32, WlCoef> waveletTran;
+    DetectDescribePoint<GrayF32, TupleDesc> detDesc;
     AssociateDescription<TupleDesc> associate;
     FastQueue<TupleDesc> listSrc;
     FastQueue<TupleDesc> listDst;
@@ -300,12 +333,16 @@ public class DemoManager<T extends ImageBase> implements SapphireObject<sapphire
     T scaled;
     ImageGray work;
     FDistort shrink;
-    int tableDet[] = new int[]{DETECT_SHITOMASI,DETECT_FAST,DETECT_FH};
-    int tableDesc[] = new int[]{DESC_BRIEF,DESC_SURF,DESC_NCC};
-    InterleavedU8 rainbow = new InterleavedU8(1,1,3);
-    GrayU8 MotionBinary = new GrayU8(1,1);
-    GrayU8 monotone = new GrayU8(1,1);
+    int tableDet[] = new int[]{DETECT_SHITOMASI, DETECT_FAST, DETECT_FH};
+    int tableDesc[] = new int[]{DESC_BRIEF, DESC_SURF, DESC_NCC};
+    InterleavedU8 rainbow = new InterleavedU8(1, 1, 3);
+    GrayU8 MotionBinary = new GrayU8(1, 1);
+    GrayU8 monotone = new GrayU8(1, 1);
     boolean col, set;
+    ImageDistort<GrayU8, GrayU8> removeDistortion;
+    DetectorFiducialCalibration fidDetector;
+    CalibrationPlanarGridZhang99 calibrationAlg;
+    Planar<GrayU8> undistorted;
 
     //Initialization
     public DemoManager() {
@@ -371,26 +408,30 @@ public class DemoManager<T extends ImageBase> implements SapphireObject<sapphire
         FTOQ = (FactoryTrackerObjectQuad) new_(FactoryTrackerObjectQuad.class);
         FPT = (FactoryPointTracker) new_(FactoryPointTracker.class);
         FBM = (FactoryBackgroundModel) new_(FactoryBackgroundModel.class);
+        LDO = (LensDistortionOps) new_(LensDistortionOps.class);
+        FI = (FactoryInterpolation) new_(FactoryInterpolation.class);
+        FDs = (FactoryDistort) new_(FactoryDistort.class);
     }
 
-    public void LatencyCheck() {}
+    public void LatencyCheck() {
+    }
     /*
     public <I extends ImageGray> ImageType<I> single(Class<I> imageType ) {
         return IT.single(imageType);
     }*/
 
-    public void canny( int blurRadius , boolean saveTrace , boolean dynamicThreshold) {
+    public void canny(int blurRadius, boolean saveTrace, boolean dynamicThreshold) {
         canny = cannyEdge(blurRadius, saveTrace, dynamicThreshold, GrayU8.class, GrayS16.class);
     }
 
     public <T extends ImageGray, D extends ImageGray>
-    CannyEdge<T,D> cannyEdge( int blurRadius , boolean saveTrace , boolean dynamicThreshold,
-                              Class<T> imageType , Class<D> derivType ) {
+    CannyEdge<T, D> cannyEdge(int blurRadius, boolean saveTrace, boolean dynamicThreshold,
+                              Class<T> imageType, Class<D> derivType) {
         return FED.canny(blurRadius, saveTrace, dynamicThreshold, imageType, derivType,
                 FBF, FD, GIO, IT, FIB);
     }
 
-    public List<EdgeContour> edgeProcess(GrayU8 input , float threshLow, float threshHigh , GrayU8 output) {
+    public List<EdgeContour> edgeProcess(GrayU8 input, float threshLow, float threshHigh, GrayU8 output) {
         canny.process(input, threshLow, threshHigh, output,
                 IMO, GBIO, IBV, GTEF, IENMS, FIBA, GGTEF, IS, ISC, GIO, BlIO, CIM, FKG, CN, CNN,
                 CINB, CNJB, IMHI, IMSEN, IMSN, ICM, DHF, GTIO, GIS, TIO, CJBG, GSO, GSUO, GIMO, CI,
@@ -398,7 +439,7 @@ public class DemoManager<T extends ImageBase> implements SapphireObject<sapphire
         return canny.getContours();
     }
 
-    public void process(GrayU8 input , float threshLow, float threshHigh , GrayU8 output) {
+    public void process(GrayU8 input, float threshLow, float threshHigh, GrayU8 output) {
         canny.process(input, threshLow, threshHigh, output,
                 IMO, GBIO, IBV, GTEF, IENMS, FIBA, GGTEF, IS, ISC, GIO, BlIO, CIM, FKG, CN, CNN,
                 CINB, CNJB, IMHI, IMSEN, IMSN, ICM, DHF, GTIO, GIS, TIO, CJBG, GSO, GSUO, GIMO, CI,
@@ -420,12 +461,12 @@ public class DemoManager<T extends ImageBase> implements SapphireObject<sapphire
         return contour8.getContours();
     }
 
-    public int computeOtsu(ImageGray input , int minValue , int maxValue ) {
-        return GTIO.computeOtsu(input,minValue,maxValue, GIS, IS);
+    public int computeOtsu(ImageGray input, int minValue, int maxValue) {
+        return GTIO.computeOtsu(input, minValue, maxValue, GIS, IS);
     }
 
-    public GrayU8 threshold(GrayU8 input , GrayU8 output ,
-                            int threshold , boolean down) {
+    public GrayU8 threshold(GrayU8 input, GrayU8 output,
+                            int threshold, boolean down) {
         return TIO.threshold(input, output, threshold, down, ISC, GIO);
     }
 
@@ -433,7 +474,7 @@ public class DemoManager<T extends ImageBase> implements SapphireObject<sapphire
         return BIO.removePointNoise(input, output, ISC, IBIO, IBBO, IBV);
     }
 
-    public void findContoursProcess(GrayU8 binary , GrayS32 labeled ) {
+    public void findContoursProcess(GrayU8 binary, GrayS32 labeled) {
         contour8.process(binary, labeled, IMO);
     }
 
@@ -441,16 +482,26 @@ public class DemoManager<T extends ImageBase> implements SapphireObject<sapphire
         return contour8.getContours();
     }
 
-    public void ellipse(ConfigEllipseDetector config) {
+    public void ellipse() {
+        ConfigEllipseDetector config = new ConfigEllipseDetector();
+        config.maxIterations = 1;
+        config.numSampleContour = 20;
         ellipseDetector = Ellipse(config, GrayU8.class);
     }
 
     public <T extends ImageGray>
-    BinaryEllipseDetector<T> Ellipse(ConfigEllipseDetector config , Class<T> imageType) {
+    BinaryEllipseDetector<T> Ellipse(ConfigEllipseDetector config, Class<T> imageType) {
         return FSD.ellipse(config, imageType);
     }
 
     public GrayU8 detectorProcess(GrayU8 image) {
+        inputToBinary.process(image, blackBinary, GBIO, ISC, GIO, BlIO, CIM, FKG, CN, CNN, CINB,
+                CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW, IT);
+        ellipseDetector.process(image, blackBinary, contour4, IMO);
+        return blackBinary;
+    }
+
+    public GrayU8 blackEllipse(GrayU8 image) {
         ellipseDetector.process(image, blackBinary, contour4, IMO);
         return blackBinary;
     }
@@ -500,18 +551,20 @@ public class DemoManager<T extends ImageBase> implements SapphireObject<sapphire
 
     public <T extends ImageGray>
     BinaryPolygonDetector<T> Polygon(ConfigPolygonDetector config, Class<T> imageType) {
-        return FSD.polygon(config,imageType);
+        return FSD.polygon(config, imageType);
     }
 
     public void setConvex(boolean convex) {
         polyDetector.setConvex(convex);
     }
 
-    public void setNumberOfSides( int min , int max ) {
+    public void setNumberOfSides(int min, int max) {
         polyDetector.setNumberOfSides(min, max);
     }
 
     public GrayU8 polyProcess(GrayU8 image) {
+        inputToBinary.process(image, blackBinary, GBIO, ISC, GIO, BlIO, CIM, FKG, CN, CNN, CINB,
+                CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW, IT);
         polyDetector.process(image, blackBinary, ISC, IMO, contour4);
         return blackBinary;
     }
@@ -521,24 +574,24 @@ public class DemoManager<T extends ImageBase> implements SapphireObject<sapphire
     }
 
     public void houghFoot(ConfigHoughFoot config) {
-        lineDetector = HoughFoot(config,GrayU8.class,GrayS16.class);
+        lineDetector = HoughFoot(config, GrayU8.class, GrayS16.class);
     }
 
     public <I extends ImageGray, D extends ImageGray>
-    DetectLineHoughFoot<I,D> HoughFoot(ConfigHoughFoot config ,
-                                       Class<I> imageType ,
-                                       Class<D> derivType ) {
+    DetectLineHoughFoot<I, D> HoughFoot(ConfigHoughFoot config,
+                                        Class<I> imageType,
+                                        Class<D> derivType) {
         return FDLA.houghFoot(config, imageType, derivType, FD, GIO, FIB, IT, FFE);
     }
 
     public void houghPolar(ConfigHoughPolar config) {
-        lineDetector = HoughPolar(config,GrayU8.class,GrayS16.class);
+        lineDetector = HoughPolar(config, GrayU8.class, GrayS16.class);
     }
 
     public <I extends ImageGray, D extends ImageGray>
-    DetectLineHoughPolar<I,D> HoughPolar(ConfigHoughPolar config ,
-                                         Class<I> imageType ,
-                                         Class<D> derivType ) {
+    DetectLineHoughPolar<I, D> HoughPolar(ConfigHoughPolar config,
+                                          Class<I> imageType,
+                                          Class<D> derivType) {
         return FDLA.houghPolar(config, imageType, derivType, FD, GIO, FIB, IT, FFE);
     }
 
@@ -548,36 +601,36 @@ public class DemoManager<T extends ImageBase> implements SapphireObject<sapphire
     }
 
     public void lineRansac() {
-        segDetector = LineRansac(40,30,2.36, true, GrayU8.class, GrayS16.class);
+        segDetector = LineRansac(40, 30, 2.36, true, GrayU8.class, GrayS16.class);
     }
 
     public <I extends ImageGray, D extends ImageGray>
-    DetectLineSegmentsGridRansac<I,D> LineRansac(int regionSize ,
-                                                 double thresholdEdge ,
-                                                 double thresholdAngle ,
-                                                 boolean connectLines,
-                                                 Class<I> imageType ,
-                                                 Class<D> derivType) {
+    DetectLineSegmentsGridRansac<I, D> LineRansac(int regionSize,
+                                                  double thresholdEdge,
+                                                  double thresholdAngle,
+                                                  boolean connectLines,
+                                                  Class<I> imageType,
+                                                  Class<D> derivType) {
         return FDLA.lineRansac(regionSize, thresholdEdge, thresholdAngle, connectLines, imageType,
                 derivType, FD, GIO, FIB);
     }
 
-    public List<LineSegment2D_F32> segDetect (GrayU8 gray) {
+    public List<LineSegment2D_F32> segDetect(GrayU8 gray) {
         return segDetector.detect(gray, ISC, DHF, CINB, GTEF, TIO, GIO, GGTEF, GTIO, CJBG, GSO, GSUO);
     }
 
     public void general(GeneralFeatureIntensity<GrayU8, GrayS16> intensity, NonMaxSuppression nonmax) {
-        general = new GeneralFeatureDetector<GrayU8, GrayS16>(intensity,nonmax);
+        general = new GeneralFeatureDetector<GrayU8, GrayS16>(intensity, nonmax);
     }
 
     public void point() {
-        pointDetector = new EasyGeneralFeatureDetector<GrayU8,GrayS16>(general,GrayU8.class,
+        pointDetector = new EasyGeneralFeatureDetector<GrayU8, GrayS16>(general, GrayU8.class,
                 GrayS16.class, FD, GIO, FIB);
     }
 
     public void general_point() {
-        general = new GeneralFeatureDetector<GrayU8, GrayS16>(intensity,nonmax);
-        pointDetector = new EasyGeneralFeatureDetector<GrayU8,GrayS16>(general,GrayU8.class,
+        general = new GeneralFeatureDetector<GrayU8, GrayS16>(intensity, nonmax);
+        pointDetector = new EasyGeneralFeatureDetector<GrayU8, GrayS16>(general, GrayU8.class,
                 GrayS16.class, FD, GIO, FIB);
     }
 
@@ -590,21 +643,18 @@ public class DemoManager<T extends ImageBase> implements SapphireObject<sapphire
                 GBIO, GIO, BlIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, CI, UW, IT);
     }
 
-    public void set_pointDetect(GrayU8 gray) {
-        nonmax.setSearchRadius( 3*gray.width/320 );
-        general.setMaxFeatures(200*gray.width/320);
+    public Kueue set_pointDetect(GrayU8 gray) {
+        nonmax.setSearchRadius(3 * gray.width / 320);
+        general.setMaxFeatures(200 * gray.width / 320);
         pointDetector.detect(gray, null, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN,
                 GBIO, GIO, BlIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, CI, UW, IT);
+        Kueue ret = new Kueue(pointDetector.getMaximums(), pointDetector.getMinimums());
+        return ret;
     }
-
-    public QueueCorner pointgetMaximums() {
-        return pointDetector.getMaximums();
-    }
-    public QueueCorner pointgetMinimums() { return pointDetector.getMinimums(); }
 
     public void shiTomasi(int windowRadius, boolean weighted) {
         nonmax = nonmaxMax;
-        intensity = FIP.shiTomasi(windowRadius,weighted,GrayS16.class, FIPA, GIO, FKG);
+        intensity = FIP.shiTomasi(windowRadius, weighted, GrayS16.class, FIPA, GIO, FKG);
     }
 
     public void harris(int windowRadius, float kappa, boolean weighted) {
@@ -612,13 +662,13 @@ public class DemoManager<T extends ImageBase> implements SapphireObject<sapphire
         intensity = FIP.harris(windowRadius, kappa, weighted, GrayS16.class, FIPA, GIO, FKG);
     }
 
-    public void fast( int pixelTol, int minCont) {
-        intensity = FIP.fast(pixelTol,minCont,GrayU8.class, FIPA);
+    public void fast(int pixelTol, int minCont) {
+        intensity = FIP.fast(pixelTol, minCont, GrayU8.class, FIPA);
         nonmax = nonmaxCandidate;
     }
 
     public void laplacian() {
-        intensity = (GeneralFeatureIntensity)FIP.laplacian();
+        intensity = (GeneralFeatureIntensity) FIP.laplacian();
         nonmax = nonmaxMinMax;
     }
 
@@ -629,11 +679,11 @@ public class DemoManager<T extends ImageBase> implements SapphireObject<sapphire
 
     public void hessianDet() {
         nonmax = nonmaxMax;
-        intensity = FIP.hessian(HessianBlobIntensity.Type.DETERMINANT,GrayS16.class);
+        intensity = FIP.hessian(HessianBlobIntensity.Type.DETERMINANT, GrayS16.class);
     }
 
     public void hessianTrace() {
-        intensity = FIP.hessian(HessianBlobIntensity.Type.TRACE,GrayS16.class);
+        intensity = FIP.hessian(HessianBlobIntensity.Type.TRACE, GrayS16.class);
         nonmax = nonmaxMinMax;
     }
 
@@ -645,39 +695,25 @@ public class DemoManager<T extends ImageBase> implements SapphireObject<sapphire
 
     public void median(int radius) {
         nonmax = nonmaxMax;
-        intensity = FIP.median(radius,GrayU8.class,FBF, GIO);
+        intensity = FIP.median(radius, GrayU8.class, FBF, GIO);
     }
 
-    public void fastHessian(ConfigFastHessian config ) {
-        foundGUI = new FastQueue<ScalePoint>(ScalePoint.class,true);
+    public void fastHessian() {
+        ConfigFastHessian config = new ConfigFastHessian(10, 3, 100, 2, 9, 4, 4);
+        foundGUI = new FastQueue<ScalePoint>(ScalePoint.class, true);
         scaleDetector = FIrP.fastHessian(config, FIrPA, FFE);
     }
 
-    public void sift(ConfigSiftScaleSpace configSS ,
-                     ConfigSiftDetector configDet) {
-        foundGUI = new FastQueue<ScalePoint>(ScalePoint.class,true);
-        scaleDetector = FIrP.sift(configSS, configDet, GrayU8.class, FFE, FIB, FKG, GIO);
+    public void sift(ConfigSiftScaleSpace configSS) {
+        ConfigSiftDetector configSift = new ConfigSiftDetector(200);
+        foundGUI = new FastQueue<ScalePoint>(ScalePoint.class, true);
+        scaleDetector = FIrP.sift(configSS, configSift, GrayU8.class, FFE, FIB, FKG, GIO);
     }
 
-    public void scaleDetect(GrayU8 gray) {
+    public FastQueue<ScalePoint> scaleDetect(GrayU8 gray) {
         scaleDetector.detect(gray, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN, GBIO,
                 GIO, BlIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD,
-                FIB, FBF, CI, UW, IT);
-    }
-
-    public int getNumberOfFeatures() {
-        return scaleDetector.getNumberOfFeatures();
-    }
-
-    public Point2D_F64 getLocation(int featureIndex ) {
-        return scaleDetector.getLocation(featureIndex);
-    }
-
-    public double getRadius( int featureIndex ) {
-        return scaleDetector.getRadius(featureIndex);
-    }
-
-    public FastQueue<ScalePoint> getInterestPoints() {
+                FIB, FBF, CI, UW, IT, FI, FDs);
         foundGUI.reset();
         int N = scaleDetector.getNumberOfFeatures();
         for (int i = 0; i < N; i++) {
@@ -688,32 +724,55 @@ public class DemoManager<T extends ImageBase> implements SapphireObject<sapphire
         return foundGUI;
     }
 
+    public int getNumberOfFeatures() {
+        return scaleDetector.getNumberOfFeatures();
+    }
+
+    public Point2D_F64 getLocation(int featureIndex) {
+        return scaleDetector.getLocation(featureIndex);
+    }
+
+    public double getRadius(int featureIndex) {
+        return scaleDetector.getRadius(featureIndex);
+    }
+    /*
+    public FastQueue<ScalePoint> getInterestPoints() {
+        foundGUI.reset();
+        int N = scaleDetector.getNumberOfFeatures();
+        for (int i = 0; i < N; i++) {
+            Point2D_F64 p = scaleDetector.getLocation(i);
+            double radius = scaleDetector.getRadius(i);
+            foundGUI.grow().set(p.x, p.y, radius);
+        }
+        return foundGUI;
+    }*/
+
     public void hessianPyramid() {
-        foundGUI = new FastQueue<ScalePoint>(ScalePoint.class,true);
-        double[] scales = {1,2,4,8,16,32};
-        scaleDetector = FIrP.wrapDetector(FIrPA.hessianPyramid(10,4,40,GrayU8.class,GrayS16.class,
-                FFE, GIO, FIB), scales, false, GrayU8.class, FIB, FP);
+        foundGUI = new FastQueue<ScalePoint>(ScalePoint.class, true);
+        double[] scales = {1, 2, 4, 8, 16, 32};
+        scaleDetector = FIrP.wrapDetector(FIrPA.hessianPyramid(10, 4, 40, GrayU8.class, GrayS16.class,
+                FFE, GIO, FIB), scales, false, GrayU8.class, FIB, FP, FI);
     }
 
     public void hessianLaplace() {
-        foundGUI = new FastQueue<ScalePoint>(ScalePoint.class,true);
-        double[] scales = {1,2,4,8,16,32};
-        scaleDetector = FIrP.wrapDetector(FIrPA.hessianLaplace(10,3,50,GrayU8.class,GrayS16.class,
-                FFE, GIO, FIB), scales, false ,GrayU8.class, FIB, FP);
+        foundGUI = new FastQueue<ScalePoint>(ScalePoint.class, true);
+        double[] scales = {1, 2, 4, 8, 16, 32};
+        scaleDetector = FIrP.wrapDetector(FIrPA.hessianLaplace(10, 3, 50, GrayU8.class, GrayS16.class,
+                FFE, GIO, FIB), scales, false, GrayU8.class, FIB, FP, FI);
     }
 
     public void harrisPyramid() {
-        foundGUI = new FastQueue<ScalePoint>(ScalePoint.class,true);
-        double[] scales = {1,2,4,8,16,32};
-        scaleDetector = FIrP.wrapDetector(FIrPA.harrisPyramid(7,3,40,GrayU8.class,GrayS16.class,
-                FIPA, GIO, FKG, FFE, FIB), scales, false ,GrayU8.class, FIB, FP);
+        foundGUI = new FastQueue<ScalePoint>(ScalePoint.class, true);
+        double[] scales = {1, 2, 4, 8, 16, 32};
+        scaleDetector = FIrP.wrapDetector(FIrPA.harrisPyramid(7, 3, 40, GrayU8.class, GrayS16.class,
+                FIPA, GIO, FKG, FFE, FIB), scales, false, GrayU8.class, FIB, FP, FI);
     }
 
     public void harrisLaplace() {
-        foundGUI = new FastQueue<ScalePoint>(ScalePoint.class,true);
-        double[] scales = {1,2,4,8,16,32};
-        scaleDetector = FIrP.wrapDetector(FIrPA.harrisLaplace(7,3,40,GrayU8.class,GrayS16.class,
-                FIPA, GIO, FKG, FFE, FIB), scales, false ,GrayU8.class, FIB, FP);
+        foundGUI = new FastQueue<ScalePoint>(ScalePoint.class, true);
+        double[] scales = {1, 2, 4, 8, 16, 32};
+        scaleDetector = FIrP.wrapDetector(FIrPA.harrisLaplace(7, 3, 40, GrayU8.class, GrayS16.class,
+                FIPA, GIO, FKG, FFE, FIB), scales, false, GrayU8.class, FIB, FP, FI);
     }
 
     /*
@@ -739,18 +798,19 @@ public class DemoManager<T extends ImageBase> implements SapphireObject<sapphire
         segmentation = FIS.fh04(config, type, FSA);
     }
 
-    public void slic(int numBands, ConfigSlic config) {
+    public void slic(int numBands) {
+        ConfigSlic config = new ConfigSlic(100);
         segmentColor = new ColorQueue_F32(3);
         regionMemberCount = new FastQueue<Integer>(Integer.class, false);
         type = IT.pl(numBands, GrayU8.class);
-        segmentation = FIS.slic(config,type, IT, FSA);
+        segmentation = FIS.slic(config, type, IT, FSA);
     }
 
     public void meanShift(int numBands, ConfigSegmentMeanShift config) {
         segmentColor = new ColorQueue_F32(3);
         regionMemberCount = new FastQueue<Integer>(Integer.class, false);
         type = IT.pl(numBands, GrayU8.class);
-        segmentation = FIS.meanShift(config, type, FIB, FSA);
+        segmentation = FIS.meanShift(config, type, FIB, FSA, FI);
     }
 
     public GrayS32 segment(Planar<GrayU8> input) {
@@ -765,88 +825,88 @@ public class DemoManager<T extends ImageBase> implements SapphireObject<sapphire
         segmentColor.resize(numSegments);
         regionMemberCount.resize(numSegments);
         ISO.countRegionPixels(pixelToRegion, numSegments, regionMemberCount.data);
-        colorize.process(background,pixelToRegion,regionMemberCount,segmentColor);
+        colorize.process(background, pixelToRegion, regionMemberCount, segmentColor);
         return segmentColor;
     }
 
     public void initImage(int width, int height) {
-        pixelToRegion = new GrayS32(width,height);
-        background = new Planar<GrayU8>(GrayU8.class,width,height,3);
+        pixelToRegion = new GrayS32(width, height);
+        background = new Planar<GrayU8>(GrayU8.class, width, height, 3);
     }
 
     public void initImageBinary(int width, int height) {
-        binary = new GrayU8(width,height);
-        afterOps = new GrayU8(width,height);
+        binary = new GrayU8(width, height);
+        afterOps = new GrayU8(width, height);
     }
 
     public <T extends ImageGray>
-    GrayU8 threshold(T input , double threshold , boolean down) {
-        GTIO.threshold(input,binary,threshold, down, TIO, ISC, GIO);
+    GrayU8 threshold(T input, double threshold, boolean down) {
+        GTIO.threshold(input, binary, threshold, down, TIO, ISC, GIO);
         return binary;
     }
 
     public <T extends ImageGray>
-    GrayU8 dilate4(T input , double threshold , boolean down, int numTimes) {
-        GTIO.threshold(input,binary,threshold, down, TIO, ISC, GIO);
+    GrayU8 dilate4(T input, double threshold, boolean down, int numTimes) {
+        GTIO.threshold(input, binary, threshold, down, TIO, ISC, GIO);
         BIO.dilate4(binary, numTimes, afterOps, ISC, IBIO, IBBO, IBV);
         return afterOps;
     }
 
     public <T extends ImageGray>
-    GrayU8 dilate8(T input , double threshold , boolean down, int numTimes) {
-        GTIO.threshold(input,binary,threshold, down, TIO, ISC, GIO);
+    GrayU8 dilate8(T input, double threshold, boolean down, int numTimes) {
+        GTIO.threshold(input, binary, threshold, down, TIO, ISC, GIO);
         BIO.dilate8(binary, numTimes, afterOps, ISC, IBIO, IBBO, IBV);
         return afterOps;
     }
 
     public <T extends ImageGray>
-    GrayU8 erode4(T input , double threshold , boolean down, int numTimes) {
-        GTIO.threshold(input,binary,threshold, down, TIO, ISC, GIO);
+    GrayU8 erode4(T input, double threshold, boolean down, int numTimes) {
+        GTIO.threshold(input, binary, threshold, down, TIO, ISC, GIO);
         BIO.erode4(binary, numTimes, afterOps, ISC, IBIO, IBBO, IBV);
         return afterOps;
     }
 
     public <T extends ImageGray>
-    GrayU8 erode8(T input , double threshold , boolean down, int numTimes) {
-        GTIO.threshold(input,binary,threshold, down, TIO, ISC, GIO);
+    GrayU8 erode8(T input, double threshold, boolean down, int numTimes) {
+        GTIO.threshold(input, binary, threshold, down, TIO, ISC, GIO);
         BIO.erode8(binary, numTimes, afterOps, ISC, IBIO, IBBO, IBV);
         return afterOps;
     }
 
     public <T extends ImageGray>
-    GrayU8 edge4(T input , double threshold , boolean down) {
-        GTIO.threshold(input,binary,threshold, down, TIO, ISC, GIO);
+    GrayU8 edge4(T input, double threshold, boolean down) {
+        GTIO.threshold(input, binary, threshold, down, TIO, ISC, GIO);
         BIO.edge4(binary, afterOps, ISC, IBIO, IBBO, IBV);
         return afterOps;
     }
 
     public <T extends ImageGray>
-    GrayU8 edge8(T input , double threshold , boolean down) {
-        GTIO.threshold(input,binary,threshold, down, TIO, ISC, GIO);
+    GrayU8 edge8(T input, double threshold, boolean down) {
+        GTIO.threshold(input, binary, threshold, down, TIO, ISC, GIO);
         BIO.edge8(binary, afterOps, ISC, IBIO, IBBO, IBV);
         return afterOps;
     }
 
     public <T extends ImageGray>
-    GrayU8 removePointNoise(T input , double threshold , boolean down) {
-        GTIO.threshold(input,binary,threshold, down, TIO, ISC, GIO);
+    GrayU8 removePointNoise(T input, double threshold, boolean down) {
+        GTIO.threshold(input, binary, threshold, down, TIO, ISC, GIO);
         BIO.removePointNoise(binary, afterOps, ISC, IBIO, IBBO, IBV);
         return afterOps;
     }
 
     public <T extends ImageGray>
-    GrayU8 thin(T input , double threshold , boolean down , int maxIterations) {
-        GTIO.threshold(input,binary,threshold, down, TIO, ISC, GIO);
+    GrayU8 thin(T input, double threshold, boolean down, int maxIterations) {
+        GTIO.threshold(input, binary, threshold, down, TIO, ISC, GIO);
         BIO.thin(binary, maxIterations, afterOps, ISC, IBV);
         return afterOps;
     }
 
     public <T extends ImageGray> void blurMedian(int radius) {
-        filter = FBF.median(GrayU8.class,radius, GIO);
+        filter = FBF.median(GrayU8.class, radius, GIO);
     }
 
-    public <T extends ImageGray> void gaussian(double sigma , int radius) {
-        filter = FBF.gaussian(GrayU8.class,sigma,radius, GIO);
+    public <T extends ImageGray> void gaussian(double sigma, int radius) {
+        filter = FBF.gaussian(GrayU8.class, sigma, radius, GIO);
     }
 
     public <T extends ImageGray> void mean(int radius) {
@@ -854,11 +914,11 @@ public class DemoManager<T extends ImageBase> implements SapphireObject<sapphire
     }
 
     public void initBlurred(int width, int height) {
-        binaryBlur = new GrayU8(width,height);
+        binaryBlur = new GrayU8(width, height);
     }
 
     public GrayU8 blurProcess(GrayU8 input) {
-        filter.process(input,binaryBlur, GBIO, ISC, GIO, BlIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI,
+        filter.process(input, binaryBlur, GBIO, ISC, GIO, BlIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI,
                 IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW, IT);
         return binaryBlur;
     }
@@ -868,8 +928,8 @@ public class DemoManager<T extends ImageBase> implements SapphireObject<sapphire
     }
 
     public void initEnhanced(int width, int height) {
-        binaryEnhance = new GrayU8(width,height);
-        enhanced = new Planar<GrayU8>(GrayU8.class,width,height,3);
+        binaryEnhance = new GrayU8(width, height);
+        enhanced = new Planar<GrayU8>(GrayU8.class, width, height, 3);
     }
 
     public void initHistogram(int size) {
@@ -885,10 +945,10 @@ public class DemoManager<T extends ImageBase> implements SapphireObject<sapphire
     }
 
     public Planar<GrayU8> average(Planar<GrayU8> input) {
-        CI.average(input,binaryEnhance, ISC);
+        CI.average(input, binaryEnhance, ISC);
         IS.histogram(binaryEnhance, histogram);
         EIO.equalize(histogram, transform);
-        for( int i = 0; i < 3; i++ )
+        for (int i = 0; i < 3; i++)
             EIO.applyTransform(input.getBand(i), transform, enhanced.getBand(i), ISC);
         return enhanced;
     }
@@ -899,25 +959,24 @@ public class DemoManager<T extends ImageBase> implements SapphireObject<sapphire
     }
 
     public Planar<GrayU8> equalizelocal(Planar<GrayU8> input, int radius) {
-        for( int i = 0; i < 3; i++ )
+        for (int i = 0; i < 3; i++)
             EIO.equalizeLocal(input.getBand(i), radius, enhanced.getBand(i), histogram, transform,
                     IS, ISC);
         return enhanced;
     }
 
     public GrayU8 sharpen(GrayU8 input, int which) {
-        if( which == 4 ) {
+        if (which == 4) {
             EIO.sharpen4(input, binaryEnhance, ISC);
-        }
-        else {
+        } else {
             EIO.sharpen8(input, binaryEnhance, ISC);
         }
         return binaryEnhance;
     }
 
     public Planar<GrayU8> sharpenColor(Planar<GrayU8> input, int which) {
-        for( int i = 0; i < 3; i++ ) {
-            if( which == 4 )
+        for (int i = 0; i < 3; i++) {
+            if (which == 4)
                 EIO.sharpen4(input.getBand(i), enhanced.getBand(i), ISC);
             else
                 EIO.sharpen8(input.getBand(i), enhanced.getBand(i), ISC);
@@ -950,23 +1009,23 @@ public class DemoManager<T extends ImageBase> implements SapphireObject<sapphire
     }
 
     public GrayS16pair gradientProcess(GrayU8 input) {
-        gradient.process(input,deriv.derivX,deriv.derivY, ISC,DHF, CINB, CJBG, GSO, GSUO);
+        gradient.process(input, deriv.derivX, deriv.derivY, ISC, DHF, CINB, CJBG, GSO, GSUO);
         return deriv;
     }
 
     public void initFourier(int width, int height) {
-        grayF = new GrayF32(width,height);
-        interleavedTransform = new InterleavedF32(width,height,2);
+        grayF = new GrayF32(width, height);
+        interleavedTransform = new InterleavedF32(width, height, 2);
     }
 
 
     public GrayF32 fourierProcess(GrayU8 input) {
         CI.convert(input, grayF, ISC);
-        PixelMath.divide(grayF,255.0f,grayF, ISC);
+        PixelMath.divide(grayF, 255.0f, grayF, ISC);
         dft.forward(grayF, interleavedTransform, DFTO, ISC);
         DFTO.shiftZeroFrequency(interleavedTransform, true);
         DFTO.magnitude(interleavedTransform, grayF, ISC);
-        PixelMath.log(grayF,grayF, ISC);
+        PixelMath.log(grayF, grayF, ISC);
         float max = IS.maxAbs(grayF);
         PixelMath.multiply(grayF, 255f / max, grayF, ISC);
         return grayF;
@@ -974,14 +1033,14 @@ public class DemoManager<T extends ImageBase> implements SapphireObject<sapphire
 
     public GrayU8 pyramidProcess(GrayU8 input) {
         pyramid.process(input, GBIO, ISC, GIO, BlIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN,
-                IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG, CI, UW, IT);
-        binary.subimage(0,0,pyramid.getLayer(0).width,pyramid.getLayer(0).height,afterOps);
+                IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG, CI, UW, IT, FDs);
+        binary.subimage(0, 0, pyramid.getLayer(0).width, pyramid.getLayer(0).height, afterOps);
         afterOps.setTo(pyramid.getLayer(0));
         int height = 0;
         int width = pyramid.getLayer(0).getWidth();
-        for( int i = 1; i < pyramid.getNumLayers(); i++ ) {
+        for (int i = 1; i < pyramid.getNumLayers(); i++) {
             GrayU8 l = pyramid.getLayer(i);
-            binary.subimage(width,height,width+l.width,height+l.height,afterOps);
+            binary.subimage(width, height, width + l.width, height + l.height, afterOps);
             afterOps.setTo(l);
             height += l.getHeight();
         }
@@ -993,7 +1052,7 @@ public class DemoManager<T extends ImageBase> implements SapphireObject<sapphire
     }
 
     public void discreteGaussian() {
-        pyramid = FP.discreteGaussian(new int[]{2,4,8,16},-1,2,false,GrayU8.class, FKG);
+        pyramid = FP.discreteGaussian(new int[]{2, 4, 8, 16}, -1, 2, false, GrayU8.class, FKG);
     }
 
     public void haarWavelet() {
@@ -1018,11 +1077,11 @@ public class DemoManager<T extends ImageBase> implements SapphireObject<sapphire
 
     public void initWavelet(int width, int height) {
         ImageDimension d = UW.transformDimension(width, height, waveletTran.getLevels());
-        wavelet = new GrayS32(d.width,d.height);
+        wavelet = new GrayS32(d.width, d.height);
     }
 
     public GrayS32 waveletProcess(GrayU8 input) {
-        waveletTran.transform(input,wavelet, ISC, GIO, GIMO, IMO, CI, UW, IT);
+        waveletTran.transform(input, wavelet, ISC, GIO, GIMO, IMO, CI, UW, IT);
         //System.binary.println("BOOF: num levels " + waveletTran.getLevels());
         //System.binary.println("BOOF: width "+wavelet.getWidth()+" "+wavelet.getHeight());
         UW.adjustForDisplay(wavelet, waveletTran.getLevels(), 255);
@@ -1030,25 +1089,25 @@ public class DemoManager<T extends ImageBase> implements SapphireObject<sapphire
     }
 
     public void startAssoc(int selectedDet, int selectedDesc) {
-        detDesc = CDD.create(selectedDet, selectedDesc, GrayF32.class, FIrP, FIrPA, FIPA, FFE,FIB,
-                FD, GIO, FKG, IT, FBF);
+        detDesc = CDD.create(selectedDet, selectedDesc, GrayF32.class, FIrP, FIrPA, FIPA, FFE, FIB,
+                FD, GIO, FKG, IT, FBF, FI);
         ScoreAssociation score = FA.defaultScore(detDesc.getDescriptionType());
-        associate = FA.greedy(score,Double.MAX_VALUE,true);
-        listSrc = UtilFeature.createQueue(detDesc,10);
-        listDst = UtilFeature.createQueue(detDesc,10);
+        associate = FA.greedy(score, Double.MAX_VALUE, true);
+        listSrc = UtilFeature.createQueue(detDesc, 10);
+        listDst = UtilFeature.createQueue(detDesc, 10);
         locationSrc = new FastQueue<>(Point2D_F64.class, true);
-        locationDst = new FastQueue<Point2D_F64>(Point2D_F64.class,true);
+        locationDst = new FastQueue<Point2D_F64>(Point2D_F64.class, true);
     }
 
     public void assocDetectleft(GrayF32 graySrc) {
         detDesc.detect(graySrc, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN, GBIO,
                 GIO, BlIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD,
-                FIB, FBF, CI, UW, IT);
+                FIB, FBF, CI, UW, IT, FI, FDs);
 
         listSrc.reset();
         locationSrc.reset();
         int N = detDesc.getNumberOfFeatures();
-        for( int i = 0; i < N; i++ ) {
+        for (int i = 0; i < N; i++) {
             locationSrc.grow().set(detDesc.getLocation(i));
             listSrc.grow().setTo(detDesc.getDescription(i));
         }
@@ -1057,12 +1116,12 @@ public class DemoManager<T extends ImageBase> implements SapphireObject<sapphire
     public void assocDetectright(GrayF32 graySrc) {
         detDesc.detect(graySrc, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN, GBIO,
                 GIO, BlIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD,
-                FIB, FBF, CI, UW, IT);
+                FIB, FBF, CI, UW, IT, FI, FDs);
 
         listDst.reset();
         locationDst.reset();
         int N = detDesc.getNumberOfFeatures();
-        for( int i = 0; i < N; i++ ) {
+        for (int i = 0; i < N; i++) {
             locationDst.grow().set(detDesc.getLocation(i));
             listDst.grow().setTo(detDesc.getDescription(i));
         }
@@ -1075,7 +1134,7 @@ public class DemoManager<T extends ImageBase> implements SapphireObject<sapphire
 
         Assoc points = new Assoc();
         FastQueue<AssociatedIndex> matches = associate.getMatches();
-        for( int i = 0; i < matches.size; i++ ) {
+        for (int i = 0; i < matches.size; i++) {
             AssociatedIndex m = matches.get(i);
             points.Src.add(locationSrc.get(m.src));
             points.Dst.add(locationDst.get(m.dst));
@@ -1085,41 +1144,41 @@ public class DemoManager<T extends ImageBase> implements SapphireObject<sapphire
     }
 
     public void circulant(ConfigCirculantTracker config) {
-        tracker = FTOQ.circulant(config, GrayU8.class, FIB, IT, DFTO, ISC);
+        tracker = FTOQ.circulant(config, GrayU8.class, FIB, IT, DFTO, ISC, FI);
     }
 
     public void meanShiftComaniciu2003(ConfigComaniciu2003 config, ImageType imageType) {
-        tracker = FTOQ.meanShiftComaniciu2003(config, imageType, FIB);
+        tracker = FTOQ.meanShiftComaniciu2003(config, imageType, FIB, FI);
     }
 
     public void meanShiftLikelihood(int maxIterations,
                                     int numBins,
                                     double maxPixelValue,
                                     MeanShiftLikelihoodType modelType, ImageType imageType) {
-        tracker = FTOQ.meanShiftLikelihood(maxIterations,numBins,maxPixelValue, modelType, imageType);
+        tracker = FTOQ.meanShiftLikelihood(maxIterations, numBins, maxPixelValue, modelType, imageType);
     }
 
     public void sparseFlow(SfotConfig config) {
-        tracker = FTOQ.sparseFlow(config,GrayU8.class,null, FD, FIB, GIO, IT);
+        tracker = FTOQ.sparseFlow(config, GrayU8.class, null, FD, FIB, GIO, IT, FI);
     }
 
     public void tld(ConfigTld config) {
-        tracker = FTOQ.tld(config,GrayU8.class, FD, FIB, GIO, IT);
+        tracker = FTOQ.tld(config, GrayU8.class, FD, FIB, GIO, IT, FI);
     }
 
-    public<T extends ImageBase> track trackerProcess(T input , Quadrilateral_F64 location) {
+    public <T extends ImageBase> track trackerProcess(T input, Quadrilateral_F64 location) {
         track ret = new track();
         ret.visible = tracker.process(input, location, GBIO, ISC, GIO, BlIO, CIM, FKG, CN, CNN,
                 CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG, CI,
-                UW, DHF, GSO, GSUO, FP, DFTO, IT);
+                UW, DHF, GSO, GSUO, FP, DFTO, IT, FDs);
         ret.location = location;
         return ret;
     }
 
-    public<T extends ImageBase> Quadrilateral_F64 trackerMoved(T input, Quadrilateral_F64 location) {
+    public <T extends ImageBase> Quadrilateral_F64 trackerMoved(T input, Quadrilateral_F64 location) {
         tracker.initialize(input, location, GBIO, ISC, GIO, BlIO, CIM, FKG, CN, CNN, CINB, CNJB,
                 IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, FBF, CJBG, CI, UW, DHF, GSO,
-                GSUO, FP, DFTO, IT);
+                GSUO, FP, DFTO, IT, FDs);
         return location;
     }
 
@@ -1128,8 +1187,8 @@ public class DemoManager<T extends ImageBase> implements SapphireObject<sapphire
     }
 
     public void klt(int scaling[], ConfigGeneralDetector configExtract, int featureRadius) {
-        pointTracker = FPT.klt(scaling,configExtract,featureRadius,GrayU8.class, GrayS16.class, FD,
-                GIO, FIB, FKG, FP, FFE, FIPA);
+        pointTracker = FPT.klt(scaling, configExtract, featureRadius, GrayU8.class, GrayS16.class, FD,
+                GIO, FIB, FKG, FP, FFE, FIPA, FI);
     }
 
     public void initPoint() {
@@ -1140,44 +1199,44 @@ public class DemoManager<T extends ImageBase> implements SapphireObject<sapphire
     public trackList pointProcess(GrayU8 gray) {
         pointTracker.process(gray, ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN, GBIO,
                 GIO, BlIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA, IBV, FHFD,
-                FIB, FBF, CI, UW, IT);
+                FIB, FBF, CI, UW, IT, FI, FDs);
 
         // drop tracks which are no longer being used
         inactive.clear();
         pointTracker.getInactiveTracks(inactive);
-        for( int i = 0; i < inactive.size(); i++ ) {
+        for (int i = 0; i < inactive.size(); i++) {
             PointTrack t = inactive.get(i);
             trackInfo info = t.getCookie();
-            if( tick - info.lastActive > 2 ) {
+            if (tick - info.lastActive > 2) {
                 pointTracker.dropTrack(t);
             }
         }
 
         tracklist.active.clear();
         pointTracker.getActiveTracks(tracklist.active);
-        for( int i = 0; i < tracklist.active.size(); i++ ) {
+        for (int i = 0; i < tracklist.active.size(); i++) {
             PointTrack t = tracklist.active.get(i);
             trackInfo info = t.getCookie();
             info.lastActive = tick;
         }
 
         tracklist.spawned.clear();
-        if( tracklist.active.size() < 50 )  {
+        if (tracklist.active.size() < 50) {
             pointTracker.spawnTracks(ISC, DHF, CINB, CJBG, GSO, GSUO, GIMO, IMO, CNN, CNJB, CN,
                     GBIO, GIO, BlIO, CIM, FKG, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, FIBA,
-                    IBV, FHFD, FIB, FBF, CI, UW, IT);
+                    IBV, FHFD, FIB, FBF, CI, UW, IT, FI, FDs);
 
             // update the track's initial position
-            for( int i = 0; i < tracklist.active.size(); i++ ) {
+            for (int i = 0; i < tracklist.active.size(); i++) {
                 PointTrack t = tracklist.active.get(i);
                 trackInfo info = t.getCookie();
                 info.spawn.set(t);
             }
 
             pointTracker.getNewTracks(tracklist.spawned);
-            for( int i = 0; i < tracklist.spawned.size(); i++ ) {
+            for (int i = 0; i < tracklist.spawned.size(); i++) {
                 PointTrack t = tracklist.spawned.get(i);
-                if( t.cookie == null ) {
+                if (t.cookie == null) {
                     t.cookie = new trackInfo();
                 }
                 trackInfo info = t.getCookie();
@@ -1190,30 +1249,33 @@ public class DemoManager<T extends ImageBase> implements SapphireObject<sapphire
         return tracklist;
     }
 
-    public void combinedTracker( int detector , int descriptor , PkltConfig config ) {
-        DetectDescribePoint detDesc = CDD.create(tableDet[detector],tableDesc[descriptor],GrayU8.class, FIrP, FIrPA, FIPA, FFE, FIB, FD, GIO, FKG, IT, FBF);
+    public void combinedTracker(int detector, int descriptor, PkltConfig config) {
+        DetectDescribePoint detDesc = CDD.create(tableDet[detector], tableDesc[descriptor],
+                GrayU8.class, FIrP, FIrPA, FIPA, FFE, FIB, FD, GIO, FKG, IT, FBF, FI);
         ScoreAssociation score = FA.defaultScore(detDesc.getDescriptionType());
         AssociateDescription<TupleDesc_B> association = FA.greedy(score, Double.MAX_VALUE, true);
-        pointTracker = FPT.combined(detDesc,association,config,75,GrayU8.class, FP, FKG, FD, GIO, FIB);
+        pointTracker = FPT.combined(detDesc, association, config, 75, GrayU8.class, FP, FKG, FD,
+                GIO, FIB, FI);
     }
 
-    public void ddaTracker(int detector , int descriptor) {
-        DetectDescribePoint detDesc = CDD.create(tableDet[detector],tableDesc[descriptor],GrayU8.class, FIrP, FIrPA, FIPA, FFE, FIB, FD, GIO, FKG, IT, FBF);
+    public void ddaTracker(int detector, int descriptor) {
+        DetectDescribePoint detDesc = CDD.create(tableDet[detector], tableDesc[descriptor],
+                GrayU8.class, FIrP, FIrPA, FIPA, FFE, FIB, FD, GIO, FKG, IT, FBF, FI);
         ScoreAssociation score = FA.defaultScore(detDesc.getDescriptionType());
         AssociateDescription2D<TupleDesc_B> association =
                 new AssociateDescTo2D<TupleDesc_B>(
                         FA.greedy(score, Double.MAX_VALUE, true));
-        pointTracker = FPT.dda(detDesc,association,false);
+        pointTracker = FPT.dda(detDesc, association, false);
     }
 
     public void stationaryBasic(ConfigBackgroundBasic configBasic) {
-        model = FBM.stationaryBasic(configBasic,IT.single(GrayU8.class), IT);
+        model = FBM.stationaryBasic(configBasic, IT.single(GrayU8.class), IT);
         col = false;
         set = true;
     }
 
     public void stationaryBasicColor(ConfigBackgroundBasic configBasic) {
-        model = FBM.stationaryBasic(configBasic,IT.il(3, ImageDataType.U8), IT);
+        model = FBM.stationaryBasic(configBasic, IT.il(3, ImageDataType.U8), IT);
         col = true;
         set = true;
     }
@@ -1236,28 +1298,28 @@ public class DemoManager<T extends ImageBase> implements SapphireObject<sapphire
 
     public void motionInit() {
         scaled = (T) model.getImageType().createImage(1, 1);
-        work = GIO.createSingleBand(model.getImageType().getDataType(),1,1, IT);
+        work = GIO.createSingleBand(model.getImageType().getDataType(), 1, 1, IT);
     }
 
     public void initbg(int width, int height) {
         MotionBinary.reshape(width, height);
-        rainbow.reshape(width,height);
-        monotone.reshape(width,height);
+        rainbow.reshape(width, height);
+        monotone.reshape(width, height);
         work.reshape(width, height);
-        scaled.reshape(width/3,height/3);
+        scaled.reshape(width / 3, height / 3);
         shrink = new FDistort();
     }
 
     public void setThreshold(float progress) {
-        if( model instanceof BackgroundStationaryBasic) {
-            ((BackgroundStationaryBasic)model).setThreshold(progress);
-        } else if( model instanceof BackgroundStationaryGaussian) {
-            ((BackgroundStationaryGaussian)model).setThreshold(progress);
+        if (model instanceof BackgroundStationaryBasic) {
+            ((BackgroundStationaryBasic) model).setThreshold(progress);
+        } else if (model instanceof BackgroundStationaryGaussian) {
+            ((BackgroundStationaryGaussian) model).setThreshold(progress);
         }
     }
 
     public void reset() {
-        model.reset();
+        model.reset(IMO, GIMO);
         IMO.fill(MotionBinary, 0);
     }
 
@@ -1282,8 +1344,8 @@ public class DemoManager<T extends ImageBase> implements SapphireObject<sapphire
 
     public T pip(T image) {
         // shrink the input image
-        shrink.init(image, scaled, FIB).scaleExt(FIB);
-        shrink.apply();
+        shrink.init(image, scaled, FIB, FI).scaleExt(FIB);
+        shrink.apply(FDs);
 
         // rescale the binary image so that it can be viewed
         PixelMath.multiply(MotionBinary, 255, MotionBinary, ISC);
@@ -1294,12 +1356,111 @@ public class DemoManager<T extends ImageBase> implements SapphireObject<sapphire
         GConvertImage.convert(work, image, ISC, GIO, GIMO, IMO, CI, IT);
 
         // render the shrunk image inside the original
-        int x0 = image.width  - scaled.width;
+        int x0 = image.width - scaled.width;
         int y0 = image.height - scaled.height;
 
-        image.subimage(x0,y0,MotionBinary.width,MotionBinary.height).setTo(scaled);
+        image.subimage(x0, y0, MotionBinary.width, MotionBinary.height).setTo(scaled);
         return image;
     }
+
+    public void initDistort(Point2Transform2_F32 fullView) {
+        InterpolatePixelS<GrayU8> interp = FI.bilinearPixelS(GrayU8.class, BorderType.ZERO, FIB);
+        removeDistortion = FDs.distortSB(false, interp, GrayU8.class);
+        removeDistortion.setModel(new PointToPixelTransform_F32(fullView));
+    }
+
+    public void declDistort(int width, int height) {
+        undistorted = new Planar<GrayU8>(GrayU8.class, width, height, 3);
+    }
+
+    public GrayU8 undis(Planar<GrayU8> input) {
+        CI.average(input, undistorted.getBand(0), ISC);
+        return undistorted.getBand(0);
+    }
+
+    public Planar<GrayU8> colDistort(Planar<GrayU8> input) {
+        for (int i = 0; i < 3; i++) {
+            removeDistortion.apply(input.getBand(i), undistorted.getBand(i));
+        }
+        return undistorted;
+    }
+
+    public GrayU8 remDistort(Planar<GrayU8> input) {
+        CI.average(input, undistorted.getBand(0), ISC);
+        removeDistortion.apply(undistorted.getBand(0), undistorted.getBand(1));
+        return undistorted.getBand(1);
+    }
+
+    public List<Point2D_F64> chessboard(int numCols, int numRows) {
+        ConfigChessboard config = new ConfigChessboard(numCols, numRows, 30);
+        fidDetector = FactoryFiducialCalibration.chessboard(config, FSD, IT, FTB);
+        return fidDetector.getLayout();
+    }
+
+    public List<Point2D_F64> square(int numCols, int numRows) {
+        ConfigSquareGrid config = new ConfigSquareGrid(numCols, numRows, 30, 30);
+        fidDetector = FactoryFiducialCalibration.squareGrid(config, FSD, IT, FTB);
+        return fidDetector.getLayout();
+    }
+
+    public List<Point2D_F64> circle(int numCols, int numRows) {
+        ConfigCircleAsymmetricGrid config = new ConfigCircleAsymmetricGrid(numCols, numRows, 1, 6);
+        fidDetector = FactoryFiducialCalibration.circleAsymmGrid(config, FSD, IT, FTB);
+        return fidDetector.getLayout();
+    }
+
+    public boolean calibProcess(GrayF32 gray) {
+        return fidDetector.process(gray, GBIO, ISC, GIO, BlIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI,
+                IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW, IT, IBIO, IBBO, IBV,
+                BIO, contour4);
+    }
+
+    public CalibrationObservation getDetectedPoints() {
+        return fidDetector.getDetectedPoints();
+    }
+
+    public GrayU8 getChess() {
+        DetectChessboardFiducial<GrayF32> alg = ((CalibrationDetectorChessboard) fidDetector).getAlgorithm();
+        return alg.getBinary();
+    }
+
+    public FastQueue<Polygon2D_F64> getChessSeeds() {
+        DetectChessboardFiducial<GrayF32> alg = ((CalibrationDetectorChessboard) fidDetector).getAlgorithm();
+        return alg.getFindSeeds().getDetectorSquare().getFoundPolygons();
+    }
+
+    public GrayU8 getSquare() {
+        DetectSquareGridFiducial<GrayF32> alg = ((CalibrationDetectorSquareGrid) fidDetector).getAlgorithm();
+        return alg.getBinary();
+    }
+
+    public FastQueue<Polygon2D_F64> getSquarePoly() {
+        DetectSquareGridFiducial<GrayF32> alg = ((CalibrationDetectorSquareGrid) fidDetector).getAlgorithm();
+        return alg.getDetectorSquare().getFoundPolygons();
+    }
+
+    public GrayU8 getCircle() {
+        DetectAsymmetricCircleGrid<GrayF32> alg =((CalibrationDetectorCircleAsymmGrid) fidDetector).getDetector();
+        return alg.getBinary();
+    }
+
+    public List<EllipseRotated_F64> getCircleEllipse() {
+        DetectAsymmetricCircleGrid<GrayF32> alg =((CalibrationDetectorCircleAsymmGrid) fidDetector).getDetector();
+        return alg.getEllipseDetector().getFoundEllipses().toList();
+    }
+
+
+    public void calibAlg(List<Point2D_F64> targetLayout) {
+        calibrationAlg = new CalibrationPlanarGridZhang99(targetLayout, true, 2, false);
+    }
+
+    public Calib algProcess(List<CalibrationObservation> points, List<Point2D_F64> targetLayout) {
+        calibrationAlg.process(points);
+        Zhang99ParamAll zhangParam = calibrationAlg.getOptimized();
+        Calib ret = new Calib(CalibrateMonoPlanar.computeErrors(points, zhangParam, targetLayout), zhangParam.convertToIntrinsic());
+        return ret;
+    }
+
 
 }
 

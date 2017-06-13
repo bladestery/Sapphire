@@ -18,6 +18,8 @@
 
 package boofcv.alg.tracker.combined;
 
+import org.hamcrest.Factory;
+
 import boofcv.alg.interpolate.InterpolateRectangle;
 import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.tracker.klt.*;
@@ -46,13 +48,13 @@ public class PyramidKltForCombined<I extends ImageGray, D extends ImageGray> {
 	public PyramidKltForCombined(KltConfig config,
 								 int featureRadius,
 								 int[] pyramidScaling,
-								 Class<I> inputType, Class<D> derivType) {
+								 Class<I> inputType, Class<D> derivType, FactoryInterpolation FI) {
 		this.config = config;
 		this.featureRadius = featureRadius;
 		this.pyramidScaling = pyramidScaling;
 
-		InterpolateRectangle<I> interpInput = FactoryInterpolation.<I>bilinearRectangle(inputType);
-		InterpolateRectangle<D> interpDeriv = FactoryInterpolation.<D>bilinearRectangle(derivType);
+		InterpolateRectangle<I> interpInput = FI.<I>bilinearRectangle(inputType);
+		InterpolateRectangle<D> interpDeriv = FI.<D>bilinearRectangle(derivType);
 
 		KltTracker<I, D> klt = new KltTracker<>(interpInput, interpDeriv, config);
 		tracker = new PyramidKltTracker<>(klt);

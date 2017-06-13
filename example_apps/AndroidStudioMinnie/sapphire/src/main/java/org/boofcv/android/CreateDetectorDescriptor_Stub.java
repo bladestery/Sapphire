@@ -74,15 +74,15 @@ public final class CreateDetectorDescriptor_Stub extends org.boofcv.android.Crea
         return ((boofcv.abst.feature.detect.interest.InterestPointDetector) $__result);
     }
 
-    // Implementation of createDescriptor(int, boolean, Class, FactoryKernelGaussian, ImageType, FactoryBlurFilter, GeneralizedImageOps, FactoryImageBorder, FactoryDerivative)
-    public boofcv.abst.feature.describe.DescribeRegionPoint createDescriptor(int $param_int_1, boolean $param_boolean_2, java.lang.Class $param_Class_3, boofcv.factory.filter.kernel.FactoryKernelGaussian $param_FactoryKernelGaussian_4, boofcv.struct.image.ImageType $param_ImageType_5, boofcv.factory.filter.blur.FactoryBlurFilter $param_FactoryBlurFilter_6, boofcv.core.image.GeneralizedImageOps $param_GeneralizedImageOps_7, boofcv.core.image.border.FactoryImageBorder $param_FactoryImageBorder_8, boofcv.factory.filter.derivative.FactoryDerivative $param_FactoryDerivative_9) {
+    // Implementation of createDescriptor(int, boolean, Class, FactoryKernelGaussian, ImageType, FactoryBlurFilter, GeneralizedImageOps, FactoryImageBorder, FactoryDerivative, FactoryInterpolation)
+    public boofcv.abst.feature.describe.DescribeRegionPoint createDescriptor(int $param_int_1, boolean $param_boolean_2, java.lang.Class $param_Class_3, boofcv.factory.filter.kernel.FactoryKernelGaussian $param_FactoryKernelGaussian_4, boofcv.struct.image.ImageType $param_ImageType_5, boofcv.factory.filter.blur.FactoryBlurFilter $param_FactoryBlurFilter_6, boofcv.core.image.GeneralizedImageOps $param_GeneralizedImageOps_7, boofcv.core.image.border.FactoryImageBorder $param_FactoryImageBorder_8, boofcv.factory.filter.derivative.FactoryDerivative $param_FactoryDerivative_9, boofcv.factory.interpolate.FactoryInterpolation $param_FactoryInterpolation_10) {
         java.lang.Object $__result = null;
         try {
             if ($__directInvocation)
-                $__result = super.createDescriptor( $param_int_1,  $param_boolean_2,  $param_Class_3,  $param_FactoryKernelGaussian_4,  $param_ImageType_5,  $param_FactoryBlurFilter_6,  $param_GeneralizedImageOps_7,  $param_FactoryImageBorder_8,  $param_FactoryDerivative_9);
+                $__result = super.createDescriptor( $param_int_1,  $param_boolean_2,  $param_Class_3,  $param_FactoryKernelGaussian_4,  $param_ImageType_5,  $param_FactoryBlurFilter_6,  $param_GeneralizedImageOps_7,  $param_FactoryImageBorder_8,  $param_FactoryDerivative_9,  $param_FactoryInterpolation_10);
             else {
                 java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
-                String $__method = "public boofcv.abst.feature.describe.DescribeRegionPoint org.boofcv.android.CreateDetectorDescriptor.createDescriptor(int,boolean,java.lang.Class,boofcv.factory.filter.kernel.FactoryKernelGaussian,boofcv.struct.image.ImageType,boofcv.factory.filter.blur.FactoryBlurFilter,boofcv.core.image.GeneralizedImageOps,boofcv.core.image.border.FactoryImageBorder,boofcv.factory.filter.derivative.FactoryDerivative)";
+                String $__method = "public boofcv.abst.feature.describe.DescribeRegionPoint org.boofcv.android.CreateDetectorDescriptor.createDescriptor(int,boolean,java.lang.Class,boofcv.factory.filter.kernel.FactoryKernelGaussian,boofcv.struct.image.ImageType,boofcv.factory.filter.blur.FactoryBlurFilter,boofcv.core.image.GeneralizedImageOps,boofcv.core.image.border.FactoryImageBorder,boofcv.factory.filter.derivative.FactoryDerivative,boofcv.factory.interpolate.FactoryInterpolation)";
                 $__params.add($param_int_1);
                 $__params.add($param_boolean_2);
                 $__params.add($param_Class_3);
@@ -92,6 +92,7 @@ public final class CreateDetectorDescriptor_Stub extends org.boofcv.android.Crea
                 $__params.add($param_GeneralizedImageOps_7);
                 $__params.add($param_FactoryImageBorder_8);
                 $__params.add($param_FactoryDerivative_9);
+                $__params.add($param_FactoryInterpolation_10);
                 $__result = $__client.onRPC($__method, $__params);
             }
         } catch (Exception e) {
@@ -100,15 +101,15 @@ public final class CreateDetectorDescriptor_Stub extends org.boofcv.android.Crea
         return ((boofcv.abst.feature.describe.DescribeRegionPoint) $__result);
     }
 
-    // Implementation of create(int, int, Class, FactoryInterestPoint, FactoryInterestPointAlgs, FactoryIntensityPointAlg, FactoryFeatureExtractor, FactoryImageBorder, FactoryDerivative, GeneralizedImageOps, FactoryKernelGaussian, ImageType, FactoryBlurFilter)
-    public boofcv.abst.feature.detdesc.DetectDescribePoint create(int $param_int_1, int $param_int_2, java.lang.Class $param_Class_3, boofcv.factory.feature.detect.interest.FactoryInterestPoint $param_FactoryInterestPoint_4, boofcv.factory.feature.detect.interest.FactoryInterestPointAlgs $param_FactoryInterestPointAlgs_5, boofcv.factory.feature.detect.intensity.FactoryIntensityPointAlg $param_FactoryIntensityPointAlg_6, boofcv.factory.feature.detect.extract.FactoryFeatureExtractor $param_FactoryFeatureExtractor_7, boofcv.core.image.border.FactoryImageBorder $param_FactoryImageBorder_8, boofcv.factory.filter.derivative.FactoryDerivative $param_FactoryDerivative_9, boofcv.core.image.GeneralizedImageOps $param_GeneralizedImageOps_10, boofcv.factory.filter.kernel.FactoryKernelGaussian $param_FactoryKernelGaussian_11, boofcv.struct.image.ImageType $param_ImageType_12, boofcv.factory.filter.blur.FactoryBlurFilter $param_FactoryBlurFilter_13) {
+    // Implementation of create(int, int, Class, FactoryInterestPoint, FactoryInterestPointAlgs, FactoryIntensityPointAlg, FactoryFeatureExtractor, FactoryImageBorder, FactoryDerivative, GeneralizedImageOps, FactoryKernelGaussian, ImageType, FactoryBlurFilter, FactoryInterpolation)
+    public boofcv.abst.feature.detdesc.DetectDescribePoint create(int $param_int_1, int $param_int_2, java.lang.Class $param_Class_3, boofcv.factory.feature.detect.interest.FactoryInterestPoint $param_FactoryInterestPoint_4, boofcv.factory.feature.detect.interest.FactoryInterestPointAlgs $param_FactoryInterestPointAlgs_5, boofcv.factory.feature.detect.intensity.FactoryIntensityPointAlg $param_FactoryIntensityPointAlg_6, boofcv.factory.feature.detect.extract.FactoryFeatureExtractor $param_FactoryFeatureExtractor_7, boofcv.core.image.border.FactoryImageBorder $param_FactoryImageBorder_8, boofcv.factory.filter.derivative.FactoryDerivative $param_FactoryDerivative_9, boofcv.core.image.GeneralizedImageOps $param_GeneralizedImageOps_10, boofcv.factory.filter.kernel.FactoryKernelGaussian $param_FactoryKernelGaussian_11, boofcv.struct.image.ImageType $param_ImageType_12, boofcv.factory.filter.blur.FactoryBlurFilter $param_FactoryBlurFilter_13, boofcv.factory.interpolate.FactoryInterpolation $param_FactoryInterpolation_14) {
         java.lang.Object $__result = null;
         try {
             if ($__directInvocation)
-                $__result = super.create( $param_int_1,  $param_int_2,  $param_Class_3,  $param_FactoryInterestPoint_4,  $param_FactoryInterestPointAlgs_5,  $param_FactoryIntensityPointAlg_6,  $param_FactoryFeatureExtractor_7,  $param_FactoryImageBorder_8,  $param_FactoryDerivative_9,  $param_GeneralizedImageOps_10,  $param_FactoryKernelGaussian_11,  $param_ImageType_12,  $param_FactoryBlurFilter_13);
+                $__result = super.create( $param_int_1,  $param_int_2,  $param_Class_3,  $param_FactoryInterestPoint_4,  $param_FactoryInterestPointAlgs_5,  $param_FactoryIntensityPointAlg_6,  $param_FactoryFeatureExtractor_7,  $param_FactoryImageBorder_8,  $param_FactoryDerivative_9,  $param_GeneralizedImageOps_10,  $param_FactoryKernelGaussian_11,  $param_ImageType_12,  $param_FactoryBlurFilter_13,  $param_FactoryInterpolation_14);
             else {
                 java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
-                String $__method = "public boofcv.abst.feature.detdesc.DetectDescribePoint org.boofcv.android.CreateDetectorDescriptor.create(int,int,java.lang.Class,boofcv.factory.feature.detect.interest.FactoryInterestPoint,boofcv.factory.feature.detect.interest.FactoryInterestPointAlgs,boofcv.factory.feature.detect.intensity.FactoryIntensityPointAlg,boofcv.factory.feature.detect.extract.FactoryFeatureExtractor,boofcv.core.image.border.FactoryImageBorder,boofcv.factory.filter.derivative.FactoryDerivative,boofcv.core.image.GeneralizedImageOps,boofcv.factory.filter.kernel.FactoryKernelGaussian,boofcv.struct.image.ImageType,boofcv.factory.filter.blur.FactoryBlurFilter)";
+                String $__method = "public boofcv.abst.feature.detdesc.DetectDescribePoint org.boofcv.android.CreateDetectorDescriptor.create(int,int,java.lang.Class,boofcv.factory.feature.detect.interest.FactoryInterestPoint,boofcv.factory.feature.detect.interest.FactoryInterestPointAlgs,boofcv.factory.feature.detect.intensity.FactoryIntensityPointAlg,boofcv.factory.feature.detect.extract.FactoryFeatureExtractor,boofcv.core.image.border.FactoryImageBorder,boofcv.factory.filter.derivative.FactoryDerivative,boofcv.core.image.GeneralizedImageOps,boofcv.factory.filter.kernel.FactoryKernelGaussian,boofcv.struct.image.ImageType,boofcv.factory.filter.blur.FactoryBlurFilter,boofcv.factory.interpolate.FactoryInterpolation)";
                 $__params.add($param_int_1);
                 $__params.add($param_int_2);
                 $__params.add($param_Class_3);
@@ -122,6 +123,7 @@ public final class CreateDetectorDescriptor_Stub extends org.boofcv.android.Crea
                 $__params.add($param_FactoryKernelGaussian_11);
                 $__params.add($param_ImageType_12);
                 $__params.add($param_FactoryBlurFilter_13);
+                $__params.add($param_FactoryInterpolation_14);
                 $__result = $__client.onRPC($__method, $__params);
             }
         } catch (Exception e) {

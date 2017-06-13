@@ -20,6 +20,7 @@ package boofcv.alg.background.moving;
 
 import boofcv.alg.interpolate.InterpolatePixelS;
 import boofcv.alg.interpolate.InterpolationType;
+import boofcv.alg.misc.GImageMiscOps;
 import boofcv.alg.misc.ImageMiscOps;
 import boofcv.core.image.FactoryGImageGray;
 import boofcv.core.image.GImageGray;
@@ -32,6 +33,7 @@ import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.ImageGray;
 import boofcv.struct.image.ImageType;
 import georegression.struct.InvertibleTransform;
+import sapphire.compiler.GIMOGenerator;
 
 /**
  * Implementation of {@link BackgroundMovingBasic} for {@link ImageGray}.
@@ -41,9 +43,6 @@ import georegression.struct.InvertibleTransform;
 public class BackgroundMovingBasic_SB<T extends ImageGray, Motion extends InvertibleTransform<Motion>>
 	extends BackgroundMovingBasic<T,Motion>
 {
-	private static ImageMiscOps IMO;
-	private static ImageType IT;
-	private static FactoryImageBorder FIB;
 	// storage for background image
 	protected GrayF32 background = new GrayF32(1,1);
 	// interpolates the input image
@@ -57,11 +56,11 @@ public class BackgroundMovingBasic_SB<T extends ImageGray, Motion extends Invert
 	public BackgroundMovingBasic_SB(float learnRate, float threshold,
 									Point2Transform2Model_F32<Motion> transform,
 									InterpolationType interpType,
-									Class<T> imageType) {
+									Class<T> imageType, ImageType IT, FactoryImageBorder FIB, FactoryInterpolation FI) {
 		super(learnRate, threshold, transform, IT.single(imageType));
 
-		this.interpolateInput = FactoryInterpolation.bilinearPixelS(imageType, BorderType.EXTENDED, FIB);
-		this.interpolationBG = FactoryInterpolation.createPixelS(0, 255, interpType, BorderType.EXTENDED, GrayF32.class, FIB);
+		this.interpolateInput = FI.bilinearPixelS(imageType, BorderType.EXTENDED, FIB);
+		this.interpolationBG = FI.createPixelS(0, 255, interpType, BorderType.EXTENDED, GrayF32.class, FIB);
 		this.interpolationBG.setBorder(FIB.single(GrayF32.class, BorderType.EXTENDED));
 		this.interpolationBG.setImage(background);
 
@@ -78,7 +77,7 @@ public class BackgroundMovingBasic_SB<T extends ImageGray, Motion extends Invert
 	}
 
 	@Override
-	public void initialize(int backgroundWidth, int backgroundHeight, Motion homeToWorld) {
+	public void initialize(int backgroundWidth, int backgroundHeight, Motion homeToWorld, ImageMiscOps IMO, GImageMiscOps GIMO) {
 		background.reshape(backgroundWidth,backgroundHeight);
 		IMO.fill(background,Float.MAX_VALUE);
 
@@ -90,7 +89,7 @@ public class BackgroundMovingBasic_SB<T extends ImageGray, Motion extends Invert
 	}
 
 	@Override
-	public void reset() {
+	public void reset(ImageMiscOps IMO, GImageMiscOps GIMO) {
 		IMO.fill(background,Float.MAX_VALUE);
 	}
 

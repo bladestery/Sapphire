@@ -32,6 +32,7 @@ import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.struct.distort.Point2Transform2Model_F32;
 import boofcv.struct.image.*;
 import georegression.struct.InvertibleTransform;
+import sapphire.compiler.IMOGenerator;
 
 /**
  * Implementation of {@link BackgroundMovingGaussian} for {@link Planar}.
@@ -41,9 +42,6 @@ import georegression.struct.InvertibleTransform;
 public class BackgroundMovingGaussian_PL<T extends ImageGray, Motion extends InvertibleTransform<Motion>>
 		extends BackgroundMovingGaussian<Planar<T>,Motion>
 {
-	private static GImageMiscOps GIMO;
-	private static ImageMiscOps IMO;
-	private static FactoryImageBorder FIB;
 	// interpolates the input image
 	protected InterpolatePixelMB<Planar<T>> interpolateInput;
 	// interpolates the background image
@@ -71,17 +69,17 @@ public class BackgroundMovingGaussian_PL<T extends ImageGray, Motion extends Inv
 	public BackgroundMovingGaussian_PL(float learnRate, float threshold,
 									   Point2Transform2Model_F32<Motion> transform,
 									   InterpolationType interpType,
-									   ImageType<Planar<T>> imageType)
+									   ImageType<Planar<T>> imageType, FactoryImageBorder FIB, FactoryInterpolation FI)
 	{
 		super(learnRate, threshold, transform, imageType);
 
 		int numBands = imageType.getNumBands();
 
-		this.interpolateInput = FactoryInterpolation.createPixelMB(0, 255,
+		this.interpolateInput = FI.createPixelMB(0, 255,
 				InterpolationType.BILINEAR, BorderType.EXTENDED, imageType, FIB);
 
 		background = new Planar<>(GrayF32.class,1,1,2*numBands);
-		this.interpolationBG = FactoryInterpolation.createPixelMB(
+		this.interpolationBG = FI.createPixelMB(
 				0, 255, interpType, BorderType.EXTENDED, background.getImageType(), FIB);
 		this.interpolationBG.setImage(background);
 		inputWrapper = FactoryGImageMultiBand.create(imageType);
@@ -91,7 +89,7 @@ public class BackgroundMovingGaussian_PL<T extends ImageGray, Motion extends Inv
 	}
 
 	@Override
-	public void initialize(int backgroundWidth, int backgroundHeight, Motion homeToWorld) {
+	public void initialize(int backgroundWidth, int backgroundHeight, Motion homeToWorld, ImageMiscOps IMO, GImageMiscOps GIMO) {
 		background.reshape(backgroundWidth,backgroundHeight);
 		for (int i = 0; i < background.getNumBands(); i+=2) {
 			GIMO.fill(background.getBand(i),0, IMO);
@@ -106,7 +104,7 @@ public class BackgroundMovingGaussian_PL<T extends ImageGray, Motion extends Inv
 	}
 
 	@Override
-	public void reset() {
+	public void reset(ImageMiscOps IMO, GImageMiscOps GIMO) {
 		for (int i = 0; i < background.getNumBands(); i+=2) {
 			GIMO.fill(background.getBand(i),0, IMO);
 			GIMO.fill(background.getBand(i+1),-1, IMO);

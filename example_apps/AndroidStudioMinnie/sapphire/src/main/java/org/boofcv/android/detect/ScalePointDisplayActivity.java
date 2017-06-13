@@ -153,13 +153,13 @@ public class ScalePointDisplayActivity extends DemoVideoDisplayActivity
 		switch( which ) {
 			case 0:
 				//detector = FactoryInterestPoint.fastHessian(new ConfigFastHessian(10,3,100,2,9,4,4));
-				DM.fastHessian(new ConfigFastHessian(10,3,100,2,9,4,4));
+				DM.fastHessian();
 				break;
 
 			case 1:
-				ConfigSiftDetector configSift = new ConfigSiftDetector(200);
+				//ConfigSiftDetector configSift = new ConfigSiftDetector(200);
 				//detector = FactoryInterestPoint.sift(null, configSift, GrayU8.class);
-				DM.sift(null, configSift);
+				DM.sift(null);
 				break;
 
 			case 2:
@@ -215,7 +215,7 @@ public class ScalePointDisplayActivity extends DemoVideoDisplayActivity
 
 		@Override
 		protected void process(GrayU8 gray) {
-			DM.scaleDetect(gray);
+			FastQueue<ScalePoint> temp = DM.scaleDetect(gray);
 			synchronized ( lockGui ) {
 				ConvertBitmap.grayToBitmap(gray,bitmap,storage);
 				foundGUI.reset();
@@ -228,7 +228,7 @@ public class ScalePointDisplayActivity extends DemoVideoDisplayActivity
 					foundGUI.grow().set(p.x, p.y, radius);
 				}
 				*/
-				foundGUI.addAll(DM.getInterestPoints());
+				foundGUI.addAll(temp);
 			}
 		}
 

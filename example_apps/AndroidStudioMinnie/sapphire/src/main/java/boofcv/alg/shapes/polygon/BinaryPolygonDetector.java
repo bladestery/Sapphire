@@ -26,6 +26,8 @@ import boofcv.alg.shapes.edge.EdgeIntensityPolygon;
 import boofcv.alg.shapes.polyline.MinimizeEnergyPrune;
 import boofcv.alg.shapes.polyline.RefinePolyLineCorner;
 import boofcv.alg.shapes.polyline.SplitMergeLineFitLoop;
+import boofcv.core.image.border.FactoryImageBorder;
+import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.struct.ConnectRule;
 import boofcv.struct.distort.PixelTransform2_F32;
 import boofcv.struct.image.GrayS32;
@@ -191,29 +193,29 @@ public class BinaryPolygonDetector<T extends ImageGray> implements SapphireObjec
 	 * @param undistToDist Transform from undistorted to distorted image.
 	 */
 	public void setLensDistortion(int width , int height ,
-								  PixelTransform2_F32 distToUndist , PixelTransform2_F32 undistToDist ) {
+								  PixelTransform2_F32 distToUndist , PixelTransform2_F32 undistToDist, FactoryImageBorder FIB, FactoryInterpolation FI) {
 
 		this.distToUndist = distToUndist;
 		this.undistToDist = undistToDist;
 
 		if( refinePolygon != null ) {
-			refinePolygon.setLensDistortion(width, height, distToUndist, undistToDist);
+			refinePolygon.setLensDistortion(width, height, distToUndist, undistToDist, FIB, FI);
 		}
 
-		edgeIntensity.setTransform(undistToDist);
+		edgeIntensity.setTransform(undistToDist, FIB, FI);
 	}
 
 	/**
 	 * Discard previously set lens distortion models
 	 */
-	public void clearLensDistortion() {
+	public void clearLensDistortion(FactoryImageBorder FIB, FactoryInterpolation FI) {
 		this.distToUndist = null;
 		this.undistToDist = null;
 		if( refinePolygon != null ) {
-			refinePolygon.clearLensDistortion();
+			refinePolygon.clearLensDistortion(FIB, FI);
 		}
 
-		edgeIntensity.setTransform(null);
+		edgeIntensity.setTransform(null, FIB, FI);
 	}
 
 	/**

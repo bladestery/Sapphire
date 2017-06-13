@@ -20,6 +20,8 @@ package boofcv.alg.fiducial.square;
 
 import android.renderscript.ScriptGroup;
 
+import org.hamcrest.Factory;
+
 import boofcv.abst.distort.FDistort;
 import boofcv.abst.filter.binary.InputToBinary;
 import boofcv.alg.InputSanityCheck;
@@ -36,6 +38,8 @@ import boofcv.alg.shapes.polygon.BinaryPolygonDetector;
 import boofcv.core.image.ConvertImage;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.FactoryImageBorder;
+import boofcv.factory.distort.FactoryDistort;
+import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.ImageGray;
@@ -106,9 +110,9 @@ public class DetectFiducialSquareImage<T extends ImageGray>
 									 BinaryPolygonDetector<T> quadDetector,
 									 double borderWidthFraction ,
 									 double minimumBlackBorderFraction ,
-									 double matchThreshold, Class<T> inputType) {
+									 double matchThreshold, Class<T> inputType, FactoryInterpolation FI, FactoryDistort FDs) {
 		super(inputToBinary,quadDetector,borderWidthFraction, minimumBlackBorderFraction,
-				(int)Math.round(squareLength/(1-2.0*borderWidthFraction)), inputType);
+				(int)Math.round(squareLength/(1-2.0*borderWidthFraction)), inputType, FI, FDs);
 
 		hammingThreshold = (int)(squareLength*squareLength*matchThreshold);
 
@@ -127,7 +131,7 @@ public class DetectFiducialSquareImage<T extends ImageGray>
 	 * @param lengthSide How long one of the sides of the target is in world units.
 	 * @return The ID of the provided image
 	 */
-	public int addPattern(GrayU8 inputBinary, double lengthSide) {
+	public int addPattern(GrayU8 inputBinary, double lengthSide, FactoryInterpolation FI, FactoryDistort FDs) {
 		if( inputBinary == null ) {
 			throw new IllegalArgumentException("Input image is null.");
 		} else if( lengthSide <= 0 ) {
@@ -148,7 +152,7 @@ public class DetectFiducialSquareImage<T extends ImageGray>
 			if( inputBinary.width > squareLength && inputBinary.height > squareLength ) {
 				AverageDownSampleOps.down(inputGray,scaled);
 			} else {
-				new FDistort(inputGray,scaled, FIB).scaleExt(FIB).apply();
+				new FDistort(inputGray,scaled, FIB, FI).scaleExt(FIB).apply(FDs);
 			}
 			GTIO.threshold(scaled,binary,255/2.0,false, TIO, ISC, GIO);
 		} else {
