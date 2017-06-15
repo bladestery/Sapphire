@@ -40,19 +40,16 @@ import java.util.List;
  * @author Peter Abeles
  */
 public abstract class BaseImageClassifier implements ImageClassifier<Planar<GrayF32>> {
-	private static ImageType IT;
-	private static FactoryInterpolation FI;
-	private static FactoryDistort FDs;
 
 	protected FunctionSequence<Tensor_F32,Function<Tensor_F32>> network;
 
 	// List of all the categories
 	protected List<String> categories = new ArrayList<>();
 
-	protected ImageType<Planar<GrayF32>> imageType = IT.pl(3,GrayF32.class);
+	protected ImageType<Planar<GrayF32>> imageType;
 
 	// Resizes input image for the network
-	protected ClipAndReduce<Planar<GrayF32>> massage = new ClipAndReduce<>(true,imageType, FI, FDs);
+	protected ClipAndReduce<Planar<GrayF32>> massage;
 
 	// size of square image
 	protected int imageSize;
@@ -80,10 +77,12 @@ public abstract class BaseImageClassifier implements ImageClassifier<Planar<Gray
 		}
 	};
 
-	public BaseImageClassifier( int imageSize ) {
+	public BaseImageClassifier( int imageSize, FactoryInterpolation FI, FactoryDistort FDs, ImageType IT) {
 		this.imageSize = imageSize;
 		imageRgb = new Planar<>(GrayF32.class,imageSize,imageSize,3);
 		tensorInput = new Tensor_F32(1,3,imageSize,imageSize);
+		imageType = IT.pl(3,GrayF32.class);
+		massage = new ClipAndReduce<>(true,imageType, FI, FDs);
 	}
 
 	@Override

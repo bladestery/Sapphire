@@ -3,6 +3,10 @@ package org.boofcv.android;
 import org.boofcv.android.assoc.Assoc;
 import org.boofcv.android.calib.Calib;
 import org.boofcv.android.detect.Kueue;
+import org.boofcv.android.recognition.FiducialManager;
+import org.boofcv.android.recognition.ImageClassificationActivity;
+import org.boofcv.android.recognition.fid;
+import org.boofcv.android.recognition.learn;
 import org.boofcv.android.sfm.DisparityCalculation;
 import org.boofcv.android.sfm.disparities;
 import org.boofcv.android.sfm.leftright;
@@ -10,7 +14,10 @@ import org.boofcv.android.sfm.mosaic;
 import org.boofcv.android.tracker.track;
 import org.boofcv.android.tracker.trackInfo;
 import org.boofcv.android.tracker.trackList;
+import org.ddogleg.sorting.QuickSelect;
 import org.ddogleg.struct.FastQueue;
+import org.ddogleg.struct.GrowQueue_F64;
+import org.ddogleg.struct.GrowQueue_I32;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,9 +43,14 @@ import boofcv.abst.feature.detect.line.DetectLineSegment;
 import boofcv.abst.feature.detect.line.DetectLineSegmentsGridRansac;
 import boofcv.abst.feature.tracker.PointTrack;
 import boofcv.abst.feature.tracker.PointTracker;
+import boofcv.abst.fiducial.CalibrationFiducialDetector;
+import boofcv.abst.fiducial.FiducialDetector;
+import boofcv.abst.fiducial.SquareBase_to_FiducialDetector;
+import boofcv.abst.fiducial.SquareImage_to_FiducialDetector;
 import boofcv.abst.fiducial.calib.CalibrationDetectorChessboard;
 import boofcv.abst.fiducial.calib.CalibrationDetectorCircleAsymmGrid;
 import boofcv.abst.fiducial.calib.CalibrationDetectorSquareGrid;
+import boofcv.abst.fiducial.calib.CalibrationPatterns;
 import boofcv.abst.fiducial.calib.ConfigChessboard;
 import boofcv.abst.fiducial.calib.ConfigCircleAsymmetricGrid;
 import boofcv.abst.fiducial.calib.ConfigSquareGrid;
@@ -48,6 +60,7 @@ import boofcv.abst.filter.derivative.ImageGradient;
 import boofcv.abst.geo.calibration.CalibrateMonoPlanar;
 import boofcv.abst.geo.calibration.DetectorFiducialCalibration;
 import boofcv.abst.geo.calibration.ImageResults;
+import boofcv.abst.scene.ImageClassifier;
 import boofcv.abst.segmentation.ImageSuperpixels;
 import boofcv.abst.sfm.AccessPointTracks;
 import boofcv.abst.sfm.d2.ImageMotion2D;
@@ -65,6 +78,7 @@ import boofcv.alg.background.stationary.BackgroundStationaryGaussian;
 import boofcv.alg.descriptor.UtilFeature;
 import boofcv.alg.distort.AdjustmentType;
 import boofcv.alg.distort.ImageDistort;
+import boofcv.alg.distort.LensDistortionNarrowFOV;
 import boofcv.alg.distort.LensDistortionOps;
 import boofcv.alg.distort.PointToPixelTransform_F32;
 import boofcv.alg.enhance.EnhanceImageOps;
@@ -135,8 +149,15 @@ import boofcv.factory.feature.detdesc.FactoryDetectDescribe;
 import boofcv.factory.feature.disparity.DisparityAlgorithms;
 import boofcv.factory.feature.disparity.FactoryStereoDisparity;
 import boofcv.factory.feature.tracker.FactoryPointTracker;
+import boofcv.factory.fiducial.ConfigFiducialBinary;
+import boofcv.factory.fiducial.ConfigFiducialImage;
+import boofcv.factory.fiducial.FactoryFiducial;
 import boofcv.factory.fiducial.FactoryFiducialCalibration;
+import boofcv.factory.filter.binary.ConfigThreshold;
+import boofcv.factory.filter.binary.ThresholdType;
 import boofcv.factory.interpolate.FactoryInterpolation;
+import boofcv.factory.scene.ClassifierAndSource;
+import boofcv.factory.scene.FactoryImageClassifier;
 import boofcv.factory.sfm.FactoryMotion2D;
 import boofcv.factory.tracker.FactoryTrackerObjectQuad;
 import boofcv.factory.transform.pyramid.FactoryPyramid;
@@ -193,11 +214,13 @@ import boofcv.struct.image.Planar;
 import boofcv.struct.pyramid.ImagePyramid;
 import boofcv.struct.wavelet.WaveletDescription;
 import boofcv.struct.wavelet.WlCoef;
+import georegression.metric.Area2D_F64;
 import georegression.struct.affine.Affine2D_F64;
 import georegression.struct.homography.Homography2D_F64;
 import georegression.struct.line.LineParametric2D_F32;
 import georegression.struct.line.LineSegment2D_F32;
 import georegression.struct.point.Point2D_F64;
+import georegression.struct.se.Se3_F64;
 import georegression.struct.shapes.EllipseRotated_F64;
 import georegression.struct.shapes.Polygon2D_F64;
 import georegression.struct.shapes.Quadrilateral_F64;
@@ -214,10 +237,16 @@ import static sapphire.runtime.Sapphire.new_;
 
 /**
  * Created by ubuntu on 17/04/03.
+ * This server client comm sucks because it relies on outdated Apache Harmony code.
+ * Efficiency of android app is based on boofcv and how it handles its threads.
+ * Should be OK on one level but asynchronous comms should be a lot better for fps.
+ * Bandwidth is significant problem because large images cannot be transmitted through
+ * wifi to support real-time video analysis
  */
 
 public class DemoManager<T extends ImageBase> implements SapphireObject<sapphire.policy.offload.CodeOffload> {
     //Top Level Objects which need to be created
+    //Since Sapphire code is incomplete, it's not needed anymroe
     private FactoryEdgeDetectors FED;
     private ImageType IT;
     private FactoryBlurFilter FBF;
@@ -253,10 +282,11 @@ public class DemoManager<T extends ImageBase> implements SapphireObject<sapphire
     private FactoryInterpolation FI;
     private FactoryDistort FDs;
 
-    //  Lower Level Objects TODO: check if necessary??
+    //  Lower Level Objects
     /**
      * info: Necessary when using entire Sapphire, but current
-     * code is incomplete, so some should be removed...
+     * code is incomplete, so it isn't needed anymore
+     * Instead of using SapphireObjects, use Serializable
      **/
     private ImageMiscOps IMO;
     private GeneralizedImageOps GIO;
@@ -293,8 +323,8 @@ public class DemoManager<T extends ImageBase> implements SapphireObject<sapphire
     //  Objects which are used in applications
     /**
      * info: Some are redundantly used to save space
-     *       TODO: These objects need to be unique and created
-     *             per application instance to support multiple users
+     *       These objects needs to be created per app instance
+     *       Whole framework currently only works for one user
      **/
     CannyEdge<GrayU8, GrayS16> canny;
     LinearContourLabelChang2004 contour8 = new LinearContourLabelChang2004(ConnectRule.EIGHT);
@@ -371,6 +401,14 @@ public class DemoManager<T extends ImageBase> implements SapphireObject<sapphire
     Point2D_F64 distPt;
     StitchingFromMotion2D.Corners corners;
     GrayU8 stitched;
+    FiducialDetector<GrayU8> FidDetector;
+    GrayU8 FidInput;
+    SquareImage_to_FiducialDetector<GrayU8> squareDetector;
+    org.boofcv.android.recognition.FiducialDetector fidLearn;
+    org.boofcv.android.recognition.FiducialDetector.Detected detected[];
+    int numDetected = 0;
+    GrowQueue_I32 indexes;
+    GrowQueue_F64 area;
 
     //Initialization
     public DemoManager() {
@@ -1646,5 +1684,142 @@ public class DemoManager<T extends ImageBase> implements SapphireObject<sapphire
         return ret;
     }
 
+    public void createFidDetector(boolean robust, int binaryThreshold) {
+        ConfigFiducialBinary config = new ConfigFiducialBinary(0.1);
+        ConfigThreshold configThreshold;
+        if (robust) {
+            configThreshold = ConfigThreshold.local(ThresholdType.LOCAL_SQUARE, 6);
+        } else {
+            configThreshold = ConfigThreshold.fixed(binaryThreshold);
+        }
+        FidDetector = FactoryFiducial.squareBinary(config, configThreshold, GrayU8.class, IT, FSD, FTB, FI, FDs, FIB);
+    }
+
+    public void createFidSquare(boolean robust, int binaryThreshold, List<FiducialManager.Info> list) {
+        ConfigFiducialImage config = new ConfigFiducialImage();
+
+        ConfigThreshold configThreshold;
+        if (robust) {
+            configThreshold = ConfigThreshold.local(ThresholdType.LOCAL_SQUARE, 6);
+        } else {
+            configThreshold = ConfigThreshold.fixed(binaryThreshold);
+        }
+        squareDetector = FactoryFiducial.squareImage(config, configThreshold, GrayU8.class, IT, FSD, FTB, FI, FDs, FIB);
+        FidDetector = squareDetector;
+    }
+
+    public void upBinaries(GrayU8 binary, double id) {
+        BIO.invert(binary,binary, ISC);
+        PixelMath.multiply(binary,255,0,255,binary, ISC);
+        squareDetector.addPatternImage(binary,125,id, GTIO, TIO, ISC, GIO, FI, FDs, IS, CI, FIB, IMO);
+    }
+
+    public void squareBinary(CameraPinholeRadial intrinsic) {
+        FidDetector.setLensDistortion(LDO.transformPoint(intrinsic));
+        if( FidInput == null || FidInput.getImageType() != FidDetector.getInputType() ) {
+            FidInput = FidDetector.getInputType().createImage(1, 1);
+        }
+    }
+
+    public GrayU8 fidProcess(Planar<GrayU8> color) {
+        FidInput.reshape(color.width,color.height);
+        CI.average(color, FidInput, ISC);
+        FidDetector.detect(FidInput, GBIO, ISC, GIO, BlIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI,
+                IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW, IT, IBIO, IBBO, IBV,
+                BIO, contour4);
+
+        if( FidDetector instanceof CalibrationFiducialDetector) {
+            DetectorFiducialCalibration a = ((CalibrationFiducialDetector) FidDetector).getCalibDetector();
+            if( a instanceof CalibrationDetectorChessboard) {
+                return ((CalibrationDetectorChessboard)a).getAlgorithm().getBinary();
+            } else {
+                return ((CalibrationDetectorSquareGrid)a).getAlgorithm().getBinary();
+            }
+        } else {
+            return ((SquareBase_to_FiducialDetector) FidDetector).getAlgorithm().getBinary();
+        }
+    }
+
+    public fid FidRender() {
+        fid ret = new fid();
+        ret.totalFound = FidDetector.totalFound();
+        for (int i = 0; i < ret.totalFound; i++) {
+            Se3_F64 targetToCamera = new Se3_F64();
+            FidDetector.getFiducialToCamera(i, targetToCamera);
+            ret.targetToCameral.add(targetToCamera);
+
+            ret.width.add(FidDetector.getWidth(i));
+            ret.number.add(FidDetector.getId(i));
+        }
+        return ret;
+    }
+
+    public void createLearn() {
+        fidLearn = new org.boofcv.android.recognition.FiducialDetector(FTB, IT, FSD, FDs, FI, FIB);
+        detected = new org.boofcv.android.recognition.FiducialDetector.Detected[3];
+        for (int i = 0; i < detected.length; i++) {
+            detected[i] = new org.boofcv.android.recognition.FiducialDetector.Detected();
+            detected[i].binary = new GrayU8(1,1);
+            detected[i].location = new Quadrilateral_F64();
+        }
+        indexes = new GrowQueue_I32();
+        area = new GrowQueue_F64();
+    }
+
+    public void declLearn(CameraPinholeRadial intrinsic) {
+        LensDistortionNarrowFOV distort = LDO.transformPoint(intrinsic);
+        fidLearn.configure(distort, intrinsic.width, intrinsic.height, true, FIB, FI);
+    }
+
+    public learn learnProcess(GrayU8 gray) {
+        learn ret = new learn();
+        fidLearn.process(gray, GBIO, ISC, GIO, BlIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW, IT, contour4);
+        List<org.boofcv.android.recognition.FiducialDetector.Detected> found = fidLearn.getDetected();
+
+        // Select the largest quadrilaterals
+        if( found.size() <= detected.length ) {
+            numDetected = found.size();
+            for (int i = 0; i < numDetected; i++) {
+                detected[i].binary.setTo(found.get(i).binary);
+                detected[i].location.set(found.get(i).location);
+            }
+        } else {
+            indexes.resize( found.size() );
+            area.resize( found.size());
+
+            for (int i = 0; i < found.size(); i++) {
+                area.set(i, -Area2D_F64.quadrilateral(found.get(i).location));
+            }
+
+            QuickSelect.selectIndex(area.data, detected.length, found.size(), indexes.data);
+
+            numDetected = detected.length;
+            for (int i = 0; i < numDetected; i++) {
+                int index = indexes.data[i];
+
+                detected[i].binary.setTo(found.get(index).binary);
+                detected[i].location.set(found.get(index).location);
+            }
+        }
+
+        ret.numDetected = numDetected;
+        for (int i = 0; i < numDetected; i++) {
+            ret.detected[i] = detected[i];
+        }
+        return ret;
+    }
+
+    public void fidCalib(CalibrationPatterns targetType, int numCols, int numRows) {
+        if( targetType == CalibrationPatterns.CHESSBOARD ) {
+            ConfigChessboard config = new ConfigChessboard(numCols, numRows, 1);
+            FidDetector = FactoryFiducial.calibChessboard(config, GrayU8.class, FSD, IT, FTB);
+        } else if( targetType == CalibrationPatterns.SQUARE_GRID ) {
+            FidDetector = FactoryFiducial.calibSquareGrid(new ConfigSquareGrid(numCols, numRows, 1,1), GrayU8.class, FSD, IT, FTB);
+        } else if( targetType == CalibrationPatterns.CIRCLE_ASYMMETRIC_GRID ) {
+            FidDetector = FactoryFiducial.calibCircleAsymGrid(new ConfigCircleAsymmetricGrid(numCols, numRows, 1,6), GrayU8.class, FSD, IT, FTB);
+        } else {
+            throw new RuntimeException("Unknown");
+        }
+    }
 }
 

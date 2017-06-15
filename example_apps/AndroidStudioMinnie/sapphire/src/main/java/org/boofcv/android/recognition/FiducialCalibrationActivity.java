@@ -10,8 +10,19 @@ import boofcv.abst.fiducial.calib.CalibrationPatterns;
 import boofcv.abst.fiducial.calib.ConfigChessboard;
 import boofcv.abst.fiducial.calib.ConfigCircleAsymmetricGrid;
 import boofcv.abst.fiducial.calib.ConfigSquareGrid;
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.filter.binary.BinaryImageOps;
+import boofcv.alg.filter.binary.GThresholdImageOps;
+import boofcv.alg.filter.binary.ThresholdImageOps;
+import boofcv.alg.misc.ImageMiscOps;
+import boofcv.alg.misc.ImageStatistics;
+import boofcv.core.image.ConvertImage;
+import boofcv.core.image.GeneralizedImageOps;
+import boofcv.core.image.border.FactoryImageBorder;
+import boofcv.factory.distort.FactoryDistort;
 import boofcv.factory.fiducial.FactoryFiducial;
 import boofcv.factory.filter.binary.FactoryThresholdBinary;
+import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.factory.shape.FactoryShapeDetector;
 import boofcv.struct.image.GrayU8;
 
@@ -19,8 +30,6 @@ import boofcv.struct.image.GrayU8;
  * Detects calibration target fiducials
  */
 public class FiducialCalibrationActivity extends FiducialSquareActivity {
-	private static FactoryShapeDetector FSD;
-	private static FactoryThresholdBinary FTB;
 	public static final int TARGET_DIALOG = 10;
 
 	public static CalibrationPatterns targetType = CalibrationPatterns.CHESSBOARD;
@@ -61,8 +70,9 @@ public class FiducialCalibrationActivity extends FiducialSquareActivity {
 	}
 
 	@Override
-	protected FiducialDetector<GrayU8> createDetector() {
-
+	protected void createDetector() {
+		dm.fidCalib(targetType, numCols, numRows);
+		/*
 		if( targetType == CalibrationPatterns.CHESSBOARD ) {
 			ConfigChessboard config = new ConfigChessboard(numCols, numRows, 1);
 			return FactoryFiducial.calibChessboard(config, GrayU8.class, FSD, IT, FTB);
@@ -73,5 +83,6 @@ public class FiducialCalibrationActivity extends FiducialSquareActivity {
 		} else {
 			throw new RuntimeException("Unknown");
 		}
+		*/
 	}
 }

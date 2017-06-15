@@ -74,7 +74,6 @@ import java.util.List;
 public abstract class SquareBase_to_FiducialDetector<T extends ImageGray,Detector extends BaseDetectFiducialSquare<T>>
 	extends FiducialDetectorPnP<T>
 {
-	private ImageType IT;
 	Detector alg;
 
 	// type of image it can process
@@ -99,7 +98,7 @@ public abstract class SquareBase_to_FiducialDetector<T extends ImageGray,Detecto
 
 	List<Point2D3D> points2D3D;
 
-	public SquareBase_to_FiducialDetector(Detector alg) {
+	public SquareBase_to_FiducialDetector(Detector alg, ImageType IT) {
 		this.alg = alg;
 		this.type = IT.single(alg.getInputType());
 
@@ -121,7 +120,7 @@ public abstract class SquareBase_to_FiducialDetector<T extends ImageGray,Detecto
 					   ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN, ImplConvolveMean ICM, GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS,
 					   ThresholdImageOps TIO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvolveJustBorder_General CJBG, ConvertImage CI, UtilWavelet UW, ImageType IT,
 					   ImplBinaryInnerOps IBIO, ImplBinaryBorderOps IBBO, ImageBorderValue IBV, BinaryImageOps BIO, LinearContourLabelChang2004 cF) {
-		alg.process(input);
+		alg.process(input, GBIO, ISC, GIO, BlIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW, IT, cF);
 	}
 	/**
 	 * Return the intersection of two lines defined by opposing corners.  This should also be the geometric center

@@ -85,6 +85,24 @@ public final class DemoManager_Stub extends org.boofcv.android.DemoManager imple
         return ((org.boofcv.android.sfm.mosaic) $__result);
     }
 
+    // Implementation of upBinaries(GrayU8, double)
+    public void upBinaries(boofcv.struct.image.GrayU8 $param_GrayU8_1, double $param_double_2) {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                super.upBinaries( $param_GrayU8_1,  $param_double_2);
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public void org.boofcv.android.DemoManager.upBinaries(boofcv.struct.image.GrayU8,double)";
+                $__params.add($param_GrayU8_1);
+                $__params.add($param_double_2);
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     // Implementation of undis(Planar)
     public boofcv.struct.image.GrayU8 undis(boofcv.struct.image.Planar $param_Planar_1) {
         java.lang.Object $__result = null;
@@ -365,6 +383,23 @@ public final class DemoManager_Stub extends org.boofcv.android.DemoManager imple
                 String $__method = "public void org.boofcv.android.DemoManager.startAssoc(int,int)";
                 $__params.add($param_int_1);
                 $__params.add($param_int_2);
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Implementation of squareBinary(CameraPinholeRadial)
+    public void squareBinary(boofcv.struct.calib.CameraPinholeRadial $param_CameraPinholeRadial_1) {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                super.squareBinary( $param_CameraPinholeRadial_1);
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public void org.boofcv.android.DemoManager.squareBinary(boofcv.struct.calib.CameraPinholeRadial)";
+                $__params.add($param_CameraPinholeRadial_1);
                 $__result = $__client.onRPC($__method, $__params);
             }
         } catch (Exception e) {
@@ -1272,6 +1307,24 @@ public final class DemoManager_Stub extends org.boofcv.android.DemoManager imple
             e.printStackTrace();
         }
         return ((java.util.List) $__result);
+    }
+
+    // Implementation of learnProcess(GrayU8)
+    public org.boofcv.android.recognition.learn learnProcess(boofcv.struct.image.GrayU8 $param_GrayU8_1) {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                $__result = super.learnProcess( $param_GrayU8_1);
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public org.boofcv.android.recognition.learn org.boofcv.android.DemoManager.learnProcess(boofcv.struct.image.GrayU8)";
+                $__params.add($param_GrayU8_1);
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ((org.boofcv.android.recognition.learn) $__result);
     }
 
     // Implementation of laplacian()
@@ -2188,6 +2241,43 @@ public final class DemoManager_Stub extends org.boofcv.android.DemoManager imple
         return ((org.ddogleg.struct.FastQueue) $__result);
     }
 
+    // Implementation of fidProcess(Planar)
+    public boofcv.struct.image.GrayU8 fidProcess(boofcv.struct.image.Planar $param_Planar_1) {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                $__result = super.fidProcess( $param_Planar_1);
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public boofcv.struct.image.GrayU8 org.boofcv.android.DemoManager.fidProcess(boofcv.struct.image.Planar<boofcv.struct.image.GrayU8>)";
+                $__params.add($param_Planar_1);
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ((boofcv.struct.image.GrayU8) $__result);
+    }
+
+    // Implementation of fidCalib(CalibrationPatterns, int, int)
+    public void fidCalib(boofcv.abst.fiducial.calib.CalibrationPatterns $param_CalibrationPatterns_1, int $param_int_2, int $param_int_3) {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                super.fidCalib( $param_CalibrationPatterns_1,  $param_int_2,  $param_int_3);
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public void org.boofcv.android.DemoManager.fidCalib(boofcv.abst.fiducial.calib.CalibrationPatterns,int,int)";
+                $__params.add($param_CalibrationPatterns_1);
+                $__params.add($param_int_2);
+                $__params.add($param_int_3);
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     // Implementation of fh04(int, ConfigFh04)
     public void fh04(int $param_int_1, boofcv.factory.segmentation.ConfigFh04 $param_ConfigFh04_2) {
         java.lang.Object $__result = null;
@@ -2509,6 +2599,23 @@ public final class DemoManager_Stub extends org.boofcv.android.DemoManager imple
         }
     }
 
+    // Implementation of declLearn(CameraPinholeRadial)
+    public void declLearn(boofcv.struct.calib.CameraPinholeRadial $param_CameraPinholeRadial_1) {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                super.declLearn( $param_CameraPinholeRadial_1);
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public void org.boofcv.android.DemoManager.declLearn(boofcv.struct.calib.CameraPinholeRadial)";
+                $__params.add($param_CameraPinholeRadial_1);
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     // Implementation of declDistort(int, int)
     public void declDistort(int $param_int_1, int $param_int_2) {
         java.lang.Object $__result = null;
@@ -2589,6 +2696,59 @@ public final class DemoManager_Stub extends org.boofcv.android.DemoManager imple
                 java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
                 String $__method = "public void org.boofcv.android.DemoManager.createStabilization(boofcv.abst.feature.detect.interest.ConfigGeneralDetector)";
                 $__params.add($param_ConfigGeneralDetector_1);
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Implementation of createLearn()
+    public void createLearn() {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                super.createLearn();
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public void org.boofcv.android.DemoManager.createLearn()";
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Implementation of createFidSquare(boolean, int, List)
+    public void createFidSquare(boolean $param_boolean_1, int $param_int_2, java.util.List $param_List_3) {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                super.createFidSquare( $param_boolean_1,  $param_int_2,  $param_List_3);
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public void org.boofcv.android.DemoManager.createFidSquare(boolean,int,java.util.List<org.boofcv.android.recognition.FiducialManager$Info>)";
+                $__params.add($param_boolean_1);
+                $__params.add($param_int_2);
+                $__params.add($param_List_3);
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Implementation of createFidDetector(boolean, int)
+    public void createFidDetector(boolean $param_boolean_1, int $param_int_2) {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                super.createFidDetector( $param_boolean_1,  $param_int_2);
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public void org.boofcv.android.DemoManager.createFidDetector(boolean,int)";
+                $__params.add($param_boolean_1);
+                $__params.add($param_int_2);
                 $__result = $__client.onRPC($__method, $__params);
             }
         } catch (Exception e) {
@@ -3130,6 +3290,23 @@ public final class DemoManager_Stub extends org.boofcv.android.DemoManager imple
             e.printStackTrace();
         }
         return ((boofcv.abst.feature.detect.line.DetectLineHoughFoot) $__result);
+    }
+
+    // Implementation of FidRender()
+    public org.boofcv.android.recognition.fid FidRender() {
+        java.lang.Object $__result = null;
+        try {
+            if ($__directInvocation)
+                $__result = super.FidRender();
+            else {
+                java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
+                String $__method = "public org.boofcv.android.recognition.fid org.boofcv.android.DemoManager.FidRender()";
+                $__result = $__client.onRPC($__method, $__params);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ((org.boofcv.android.recognition.fid) $__result);
     }
 
     // Implementation of Ellipse(ConfigEllipseDetector, Class)

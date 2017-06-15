@@ -25,6 +25,7 @@ import android.widget.Toast;
 import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
 
+import org.boofcv.android.DemoManager;
 import org.boofcv.android.DemoVideoDisplayActivity;
 import org.boofcv.android.R;
 
@@ -34,18 +35,29 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.InetSocketAddress;
 import java.net.URL;
 import java.net.URLConnection;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.List;
 
 import boofcv.abst.scene.ImageClassifier;
 import boofcv.android.ConvertBitmap;
 import boofcv.android.gui.VideoImageProcessing;
+import boofcv.factory.distort.FactoryDistort;
+import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.factory.scene.ClassifierAndSource;
 import boofcv.factory.scene.FactoryImageClassifier;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.ImageType;
 import boofcv.struct.image.Planar;
+import sapphire.kernel.server.KernelServerImpl;
+import sapphire.oms.OMSServer;
+
+import static org.boofcv.android.DemoMain.client;
+import static org.boofcv.android.DemoMain.edge;
+import static sapphire.kernel.common.GlobalKernelReferences.nodeServer;
 
 /**
  * Displays a video stream until the user clicks the window.  It then attempts to classify what
@@ -53,8 +65,10 @@ import boofcv.struct.image.Planar;
  */
 public class ImageClassificationActivity extends DemoVideoDisplayActivity
         implements AdapterView.OnItemSelectedListener {
-    private ImageType IT;
     public static final String MODEL_PATH = "classifier_models";
+    ImageType IT = new ImageType();
+    private static FactoryInterpolation FI;
+    private static FactoryDistort FDs;
 
     Spinner spinnerClassifier;
     Button deleteButton;
@@ -187,10 +201,10 @@ public class ImageClassificationActivity extends DemoVideoDisplayActivity
 
         ClassifierAndSource selected;
         if (which == 0) {
-            selected = FactoryImageClassifier.vgg_cifar10();
+            selected = FactoryImageClassifier.vgg_cifar10(FI, FDs, IT);
             modelName = "likevgg_cifar10";
         } else if (which == 1) {
-            selected = FactoryImageClassifier.nin_imagenet();
+            selected = FactoryImageClassifier.nin_imagenet(FI, FDs, IT);
             modelName = "nin_imagenet";
         } else
             throw new RuntimeException("Egads");

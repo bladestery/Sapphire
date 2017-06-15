@@ -18,8 +18,12 @@
 
 package boofcv.factory.scene;
 
+import boofcv.alg.sfm.DepthSparse3D;
 import boofcv.deepboof.ImageClassifierNiNImageNet;
 import boofcv.deepboof.ImageClassifierVggCifar10;
+import boofcv.factory.distort.FactoryDistort;
+import boofcv.factory.interpolate.FactoryInterpolation;
+import boofcv.struct.image.ImageType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,14 +42,14 @@ public class FactoryImageClassifier {
 	 *
 	 * @return The classifier and where to download the model
 	 */
-	public static ClassifierAndSource vgg_cifar10() {
+	public static ClassifierAndSource vgg_cifar10(FactoryInterpolation FI, FactoryDistort FDs, ImageType IT) {
 		List<String> sources = new ArrayList<>();
 		sources.add( "http://heanet.dl.sourceforge.net/project/deepboof/networks/v1/likevgg_cifar10.zip" );
 		sources.add( "http://pilotfiber.dl.sourceforge.net/project/deepboof/networks/v1/likevgg_cifar10.zip" );
 
 		ClassifierAndSource ret = new ClassifierAndSource();
 
-		ret.data0 = new ImageClassifierVggCifar10();
+		ret.data0 = new ImageClassifierVggCifar10(FI, FDs, IT);
 		ret.data1 = sources;
 
 		return ret;
@@ -58,14 +62,14 @@ public class FactoryImageClassifier {
 	 *
 	 * @return The classifier and where to download the model
 	 */
-	public static ClassifierAndSource nin_imagenet() {
+	public static ClassifierAndSource nin_imagenet(FactoryInterpolation FI, FactoryDistort FDs, ImageType IT) {
 		List<String> sources = new ArrayList<>();
 		sources.add( "http://heanet.dl.sourceforge.net/project/boofcv/datasets/nin_imagenet.zip" );
 		sources.add( "http://pilotfiber.dl.sourceforge.net/project/boofcv/datasets/nin_imagenet.zip" );
 
 		ClassifierAndSource ret = new ClassifierAndSource();
 
-		ret.data0 = new ImageClassifierNiNImageNet();
+		ret.data0 = new ImageClassifierNiNImageNet(FI, FDs, IT);
 		ret.data1 = sources;
 
 		return ret;

@@ -1,6 +1,15 @@
 package org.boofcv.android.recognition;
 
 import boofcv.abst.fiducial.FiducialDetector;
+import boofcv.alg.InputSanityCheck;
+import boofcv.alg.filter.binary.BinaryImageOps;
+import boofcv.alg.filter.binary.GThresholdImageOps;
+import boofcv.alg.filter.binary.ThresholdImageOps;
+import boofcv.alg.misc.ImageMiscOps;
+import boofcv.alg.misc.ImageStatistics;
+import boofcv.core.image.ConvertImage;
+import boofcv.core.image.GeneralizedImageOps;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.distort.FactoryDistort;
 import boofcv.factory.fiducial.ConfigFiducialBinary;
 import boofcv.factory.fiducial.FactoryFiducial;
@@ -18,18 +27,17 @@ import boofcv.struct.image.GrayU8;
  */
 public class FiducialSquareBinaryActivity extends FiducialSquareActivity
 {
-	private static FactoryShapeDetector FSD;
-	private static FactoryThresholdBinary FTB;
-	private static FactoryInterpolation FI;
-	private static FactoryDistort FDs;
-
 	public FiducialSquareBinaryActivity() {
 		super(FiducialSquareBinaryHelpActivity.class);
 	}
 
 	@Override
-	protected FiducialDetector<GrayU8> createDetector() {
+	protected void createDetector() {
+		synchronized (lock) {
+			dm.createFidDetector(robust, binaryThreshold);
+		}
 
+		/*
 		FiducialDetector<GrayU8> detector;
 		ConfigFiducialBinary config = new ConfigFiducialBinary(0.1);
 
@@ -40,10 +48,10 @@ public class FiducialSquareBinaryActivity extends FiducialSquareActivity
 			} else {
 				configThreshold = ConfigThreshold.fixed(binaryThreshold);
 			}
-			detector = FactoryFiducial.squareBinary(config, configThreshold, GrayU8.class, IT, FSD, FTB, FI, FDs);
+			detector = FactoryFiducial.squareBinary(config, configThreshold, GrayU8.class, IT, FSD, FTB, FI, FDs, FIB);
 		}
 
-		return detector;
+		return detector;*/
 	}
 
 }

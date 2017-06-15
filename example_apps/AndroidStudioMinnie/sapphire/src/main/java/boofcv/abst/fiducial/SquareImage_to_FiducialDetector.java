@@ -24,11 +24,16 @@ import boofcv.alg.InputSanityCheck;
 import boofcv.alg.fiducial.square.DetectFiducialSquareImage;
 import boofcv.alg.filter.binary.GThresholdImageOps;
 import boofcv.alg.filter.binary.ThresholdImageOps;
+import boofcv.alg.misc.ImageMiscOps;
+import boofcv.alg.misc.ImageStatistics;
+import boofcv.core.image.ConvertImage;
 import boofcv.core.image.GeneralizedImageOps;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.distort.FactoryDistort;
 import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.ImageGray;
+import boofcv.struct.image.ImageType;
 
 /**
  * Wrapper around {@link DetectFiducialSquareImage} for {@link FiducialDetector}
@@ -40,8 +45,8 @@ public class SquareImage_to_FiducialDetector<T extends ImageGray>
 {
 	DetectFiducialSquareImage<T> alg;
 
-	public SquareImage_to_FiducialDetector(DetectFiducialSquareImage<T> alg) {
-		super(alg);
+	public SquareImage_to_FiducialDetector(DetectFiducialSquareImage<T> alg, ImageType IT) {
+		super(alg, IT);
 		this.alg = alg;
 	}
 
@@ -53,10 +58,10 @@ public class SquareImage_to_FiducialDetector<T extends ImageGray>
 	 * @param lengthSide Length of a side on the square in world units.
 	 */
 	public void addPatternImage(T pattern, double threshold, double lengthSide, GThresholdImageOps GTIO, ThresholdImageOps TIO, InputSanityCheck ISC, GeneralizedImageOps GIO,
-								FactoryInterpolation FI, FactoryDistort FDs) {
+								FactoryInterpolation FI, FactoryDistort FDs, ImageStatistics IS, ConvertImage CI, FactoryImageBorder FIB, ImageMiscOps IMO) {
 		GrayU8 binary = new GrayU8(pattern.width,pattern.height);
 		GTIO.threshold(pattern,binary,threshold,false, TIO, ISC, GIO);
-		alg.addPattern(binary, lengthSide, FI, FDs);
+		alg.addPattern(binary, lengthSide, FI, FDs, IS, ISC, CI, TIO, GIO, FIB, GTIO, IMO);
 	}
 
 	/**
@@ -65,8 +70,9 @@ public class SquareImage_to_FiducialDetector<T extends ImageGray>
 	 * @param binary Binary image of the pattern.  0 = black, 1 = white.
 	 * @param lengthSide Length of a side on the square in world units.
 	 */
-	public void addPatternBinary(GrayU8 binary, double lengthSide, FactoryInterpolation FI, FactoryDistort FDs) {
-		alg.addPattern(binary, lengthSide, FI, FDs);
+	public void addPatternBinary(GrayU8 binary, double lengthSide, FactoryInterpolation FI, FactoryDistort FDs, GThresholdImageOps GTIO, ThresholdImageOps TIO, InputSanityCheck ISC, GeneralizedImageOps GIO,
+								 ImageStatistics IS, ConvertImage CI, FactoryImageBorder FIB, ImageMiscOps IMO) {
+		alg.addPattern(binary, lengthSide, FI, FDs, IS, ISC, CI, TIO, GIO, FIB, GTIO, IMO);
 	}
 
 	@Override

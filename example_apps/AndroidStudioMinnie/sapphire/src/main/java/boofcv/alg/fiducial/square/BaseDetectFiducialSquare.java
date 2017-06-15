@@ -57,6 +57,7 @@ import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.struct.ConnectRule;
 import boofcv.struct.distort.*;
 import boofcv.struct.geo.AssociatedPair;
+import boofcv.struct.image.FactoryImage;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.ImageGray;
@@ -66,6 +67,8 @@ import georegression.struct.homography.UtilHomography;
 import georegression.struct.point.Point2D_F64;
 import georegression.struct.shapes.Polygon2D_F64;
 import georegression.struct.shapes.Quadrilateral_F64;
+import sapphire.compiler.GIOGenerator;
+
 import org.ddogleg.struct.FastQueue;
 import org.ejml.data.DenseMatrix64F;
 
@@ -93,33 +96,6 @@ import java.util.List;
  */
 // TODO create unit test for bright object
 public abstract class BaseDetectFiducialSquare<T extends ImageGray> {
-	private static FactoryImageBorder FIB;
-	private static GBlurImageOps GBIO;
-	private static GeneralizedImageOps GIO;
-	private static InputSanityCheck ISC;
-	private static BlurImageOps BIO;
-	private static ConvolveImageMean CIM;
-	private static FactoryKernelGaussian FKG;
-	private static ConvolveNormalized CN;
-	private static ConvolveNormalizedNaive CNN;
-	private static ConvolveImageNoBorder CINB;
-	private static ConvolveNormalized_JustBorder CNJB;
-	private static ImplMedianHistogramInner IMHI;
-	private static ImplMedianSortEdgeNaive IMSEN;
-	private static ImplMedianSortNaive IMSN;
-	private static ImplConvolveMean ICM;
-	private static GThresholdImageOps GTIO;
-	private static GImageStatistics GIS;
-	private static ImageStatistics IS;
-	private static ThresholdImageOps TIO;
-	private static ImageMiscOps IMO;
-	private static GImageMiscOps GIMO;
-	private static ConvolveJustBorder_General CJBG;
-	private static ConvertImage CI;
-	private static UtilWavelet UW;
-	private static ImageType IT;
-	private static FactoryInterpolation FI;
-	private LinearContourLabelChang2004 cF = new LinearContourLabelChang2004(ConnectRule.FOUR);
 
 	// Storage for the found fiducials
 	private FastQueue<FoundFiducial> found = new FastQueue<>(FoundFiducial.class, true);
@@ -176,7 +152,7 @@ public abstract class BaseDetectFiducialSquare<T extends ImageGray> {
 									   double borderWidthFraction ,
 									   double minimumBorderBlackFraction ,
 									   int squarePixels,
-									   Class<T> inputType, FactoryInterpolation FI, FactoryDistort FDs) {
+									   Class<T> inputType, FactoryInterpolation FI, FactoryDistort FDs, FactoryImageBorder FIB) {
 
 		if( squareDetector.getMinimumSides() != 4 || squareDetector.getMaximumSides() != 4)
 			throw new IllegalArgumentException("quadDetector not configured to detect quadrilaterals");
@@ -217,7 +193,7 @@ public abstract class BaseDetectFiducialSquare<T extends ImageGray> {
 	 * @param cache If there's lens distortion should it cache the transforms?  Speeds it up by about 12%.  Ignored
 	 *              if no lens distortion
 	 */
-	public void configure(LensDistortionNarrowFOV distortion, int width , int height , boolean cache) {
+	public void configure(LensDistortionNarrowFOV distortion, int width , int height , boolean cache, FactoryImageBorder FIB, FactoryInterpolation FI) {
 		Point2Transform2_F32 pointSquareToInput;
 		Point2Transform2_F32 pointDistToUndist = distortion.undistort_F32(true,true);
 		Point2Transform2_F32 pointUndistToDist = distortion.distort_F32(true,true);
@@ -247,7 +223,10 @@ public abstract class BaseDetectFiducialSquare<T extends ImageGray> {
 	 *
 	 * @param gray Undistorted input image
 	 */
-	public void process( T gray ) {
+	public void process(T gray, GBlurImageOps GBIO, InputSanityCheck ISC, GeneralizedImageOps GIO, BlurImageOps BIO, ConvolveImageMean CIM, FactoryKernelGaussian FKG, ConvolveNormalized CN,
+						ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN,
+						ImplConvolveMean ICM, GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvolveJustBorder_General CJBG,
+						ConvertImage CI, UtilWavelet UW, ImageType IT, LinearContourLabelChang2004 cF) {
 		binary.reshape(gray.width,gray.height);
 
 		inputToBinary.process(gray,binary, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW, IT);
@@ -320,7 +299,7 @@ public abstract class BaseDetectFiducialSquare<T extends ImageGray> {
 					continue;
 				}
 			}
-			if( processSquare(square,result,info.edgeInside,info.edgeOutside)) {
+			if( processSquare(square,result,info.edgeInside,info.edgeOutside, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW, IT)) {
 				prepareForOutput(q,result);
 
 				if( verbose ) System.out.println("accepted!");
@@ -425,7 +404,10 @@ public abstract class BaseDetectFiducialSquare<T extends ImageGray> {
 	 * @param edgeOutside Average pixel value along edge outside
 	 * @return true if the square matches a known target.
 	 */
-	protected abstract boolean processSquare(GrayF32 square , Result result , double edgeInside , double edgeOutside  );
+	protected abstract boolean processSquare(GrayF32 square , Result result , double edgeInside , double edgeOutside , GBlurImageOps GBIO, InputSanityCheck ISC, GeneralizedImageOps GIO, BlurImageOps BIO, ConvolveImageMean CIM, FactoryKernelGaussian FKG, ConvolveNormalized CN,
+											 ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN,
+											 ImplConvolveMean ICM, GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvolveJustBorder_General CJBG,
+											 ConvertImage CI, UtilWavelet UW, ImageType IT);
 
 	/**
 	 * Used to toggle on/off verbose debugging information

@@ -28,21 +28,36 @@ import boofcv.alg.InputSanityCheck;
 import boofcv.alg.descriptor.DescriptorDistance;
 import boofcv.alg.filter.binary.GThresholdImageOps;
 import boofcv.alg.filter.binary.ThresholdImageOps;
+import boofcv.alg.filter.blur.BlurImageOps;
+import boofcv.alg.filter.blur.GBlurImageOps;
+import boofcv.alg.filter.blur.impl.ImplMedianHistogramInner;
+import boofcv.alg.filter.blur.impl.ImplMedianSortEdgeNaive;
+import boofcv.alg.filter.blur.impl.ImplMedianSortNaive;
+import boofcv.alg.filter.convolve.ConvolveImageMean;
 import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
+import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
 import boofcv.alg.filter.misc.AverageDownSampleOps;
 import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.GImageStatistics;
 import boofcv.alg.misc.ImageMiscOps;
 import boofcv.alg.misc.ImageStatistics;
 import boofcv.alg.misc.PixelMath;
 import boofcv.alg.shapes.polygon.BinaryPolygonDetector;
+import boofcv.alg.transform.wavelet.UtilWavelet;
 import boofcv.core.image.ConvertImage;
 import boofcv.core.image.GeneralizedImageOps;
 import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.distort.FactoryDistort;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.ImageGray;
+import boofcv.struct.image.ImageType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,15 +86,6 @@ import java.util.List;
  */
 public class DetectFiducialSquareImage<T extends ImageGray>
 		extends BaseDetectFiducialSquare<T> {
-	private static ImageStatistics IS;
-	private static ImageMiscOps IMO;
-	private static GThresholdImageOps GTIO;
-	private static ThresholdImageOps TIO;
-	private static InputSanityCheck ISC;
-	private static GeneralizedImageOps GIO;
-	private static GImageMiscOps GIMO;
-	private static ConvertImage CI;
-	private static FactoryImageBorder FIB;
 	// Width of black border (units = pixels)
 	private final static int w=16;
 	private final static int squareLength=w*4; // this must be a multiple of 16
@@ -110,9 +116,9 @@ public class DetectFiducialSquareImage<T extends ImageGray>
 									 BinaryPolygonDetector<T> quadDetector,
 									 double borderWidthFraction ,
 									 double minimumBlackBorderFraction ,
-									 double matchThreshold, Class<T> inputType, FactoryInterpolation FI, FactoryDistort FDs) {
+									 double matchThreshold, Class<T> inputType, FactoryInterpolation FI, FactoryDistort FDs, FactoryImageBorder FIB) {
 		super(inputToBinary,quadDetector,borderWidthFraction, minimumBlackBorderFraction,
-				(int)Math.round(squareLength/(1-2.0*borderWidthFraction)), inputType, FI, FDs);
+				(int)Math.round(squareLength/(1-2.0*borderWidthFraction)), inputType, FI, FDs, FIB);
 
 		hammingThreshold = (int)(squareLength*squareLength*matchThreshold);
 
@@ -131,7 +137,8 @@ public class DetectFiducialSquareImage<T extends ImageGray>
 	 * @param lengthSide How long one of the sides of the target is in world units.
 	 * @return The ID of the provided image
 	 */
-	public int addPattern(GrayU8 inputBinary, double lengthSide, FactoryInterpolation FI, FactoryDistort FDs) {
+	public int addPattern(GrayU8 inputBinary, double lengthSide, FactoryInterpolation FI, FactoryDistort FDs, ImageStatistics IS, InputSanityCheck ISC, ConvertImage CI, ThresholdImageOps TIO, GeneralizedImageOps GIO,
+						  FactoryImageBorder FIB, GThresholdImageOps GTIO, ImageMiscOps IMO) {
 		if( inputBinary == null ) {
 			throw new IllegalArgumentException("Input image is null.");
 		} else if( lengthSide <= 0 ) {
@@ -191,7 +198,10 @@ public class DetectFiducialSquareImage<T extends ImageGray>
 	}
 
 	@Override
-	protected boolean processSquare(GrayF32 gray, Result result, double edgeInside, double edgeOutside) {
+	protected boolean processSquare(GrayF32 gray, Result result, double edgeInside, double edgeOutside, GBlurImageOps GBIO, InputSanityCheck ISC, GeneralizedImageOps GIO, BlurImageOps BIO, ConvolveImageMean CIM, FactoryKernelGaussian FKG, ConvolveNormalized CN,
+									ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN,
+									ImplConvolveMean ICM, GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvolveJustBorder_General CJBG,
+									ConvertImage CI, UtilWavelet UW, ImageType IT) {
 
 		int off = (gray.width-binary.width)/2;
 		gray.subimage(off,off,off+binary.width,off+binary.width,grayNoBorder);

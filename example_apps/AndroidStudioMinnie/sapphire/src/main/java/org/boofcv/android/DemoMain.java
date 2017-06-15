@@ -161,10 +161,10 @@ public class DemoMain extends Activity implements ExpandableListView.OnChildClic
 		tracker.addChild("Bad KLT(Det-Desc-Assoc)", DdaTrackerDisplayActivity.class);
 		tracker.addChild("Bad KLT(Combined)", CombinedTrackerDisplayActivity.class);
 
-		recognition.addChild("Image Classification", ImageClassificationActivity.class);
+		recognition.addChild("Image Classification", ImageClassificationActivity.class); //todo
 		recognition.addChild("Square Binary",FiducialSquareBinaryActivity.class);
 		recognition.addChild("Square Image",FiducialSquareImageActivity.class);
-		recognition.addChild("Square Image Library",FiducialImageLibraryAcitivity.class);
+		recognition.addChild("Square Image Library",FiducialImageLibraryAcitivity.class); //Bugged
 		recognition.addChild("Calib Targets",FiducialCalibrationActivity.class);
 
 		calib.addChild("Calibrate",CalibrationActivity.class);

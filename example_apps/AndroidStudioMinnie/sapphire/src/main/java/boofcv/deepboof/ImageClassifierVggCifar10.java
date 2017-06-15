@@ -21,8 +21,11 @@ package boofcv.deepboof;
 import boofcv.alg.color.ColorYuv;
 import boofcv.alg.filter.stat.ImageLocalNormalization;
 import boofcv.core.image.border.BorderType;
+import boofcv.factory.distort.FactoryDistort;
+import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.struct.convolve.Kernel1D_F32;
 import boofcv.struct.image.GrayF32;
+import boofcv.struct.image.ImageType;
 import boofcv.struct.image.Planar;
 import deepboof.Function;
 import deepboof.datasets.UtilCifar10;
@@ -32,6 +35,7 @@ import deepboof.models.DeepModelIO;
 import deepboof.models.YuvStatistics;
 import deepboof.tensors.Tensor_F32;
 
+import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 
@@ -52,8 +56,8 @@ public class ImageClassifierVggCifar10 extends BaseImageClassifier {
 	YuvStatistics stats;
 	Kernel1D_F32 kernel;
 
-	public ImageClassifierVggCifar10() {
-		super(inputSize);
+	public ImageClassifierVggCifar10(FactoryInterpolation FI, FactoryDistort FDs, ImageType IT) {
+		super(inputSize, FI, FDs, IT);
 		categories.addAll(UtilCifar10.getClassNames());
 
 	}

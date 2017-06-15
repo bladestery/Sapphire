@@ -19,6 +19,7 @@
 package org.ddogleg.struct;
 
 
+import java.io.Serializable;
 import java.util.Arrays;
 
 /**
@@ -26,7 +27,7 @@ import java.util.Arrays;
  *
  * @author Peter Abeles
  */
-public class GrowQueue_F64 {
+public class GrowQueue_F64 implements Serializable {
 
 	public double data[];
 	public int size;

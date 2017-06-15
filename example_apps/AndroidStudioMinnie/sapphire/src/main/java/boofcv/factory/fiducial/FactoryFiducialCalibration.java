@@ -20,7 +20,10 @@ package boofcv.factory.fiducial;
 
 import boofcv.abst.fiducial.calib.*;
 import boofcv.alg.fiducial.calib.chess.DetectChessboardFiducial;
+import boofcv.core.image.border.FactoryImageBorder;
+import boofcv.factory.distort.FactoryDistort;
 import boofcv.factory.filter.binary.FactoryThresholdBinary;
+import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.factory.shape.FactoryShapeDetector;
 import boofcv.struct.image.ImageType;
 
@@ -70,10 +73,11 @@ public class FactoryFiducialCalibration {
 	 * @param config Configuration of binary target
 	 * @return Detector for binary grid target
 	 */
-	public static CalibrationDetectorSquareFiducialGrid binaryGrid(ConfigSquareGridBinary config ) {
+	public static CalibrationDetectorSquareFiducialGrid binaryGrid(ConfigSquareGridBinary config, ImageType IT, FactoryShapeDetector FSD, FactoryThresholdBinary FTB, FactoryInterpolation FI,
+																   FactoryDistort FDs, FactoryImageBorder FIB) {
 		config.checkValidity();
 
-		return new CalibrationDetectorSquareFiducialGrid(config);
+		return new CalibrationDetectorSquareFiducialGrid(config, IT, FSD, FTB, FI, FDs, FIB);
 	}
 
 	/**

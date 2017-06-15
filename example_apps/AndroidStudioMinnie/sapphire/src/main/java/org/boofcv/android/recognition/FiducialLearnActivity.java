@@ -17,14 +17,19 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
+import org.boofcv.android.DemoManager;
 import org.boofcv.android.DemoVideoDisplayActivity;
 import org.boofcv.android.R;
 import org.boofcv.android.misc.MiscUtil;
 import org.boofcv.android.misc.UnitsDistance;
 import org.ddogleg.sorting.QuickSelect;
+import org.ddogleg.struct.FastQueue;
 import org.ddogleg.struct.GrowQueue_F64;
 import org.ddogleg.struct.GrowQueue_I32;
 
+import java.net.InetSocketAddress;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.List;
 
 import boofcv.alg.distort.LensDistortionNarrowFOV;
@@ -32,6 +37,11 @@ import boofcv.alg.distort.LensDistortionOps;
 import boofcv.android.ConvertBitmap;
 import boofcv.android.VisualizeImageData;
 import boofcv.android.gui.VideoRenderProcessing;
+import boofcv.core.image.border.FactoryImageBorder;
+import boofcv.factory.distort.FactoryDistort;
+import boofcv.factory.filter.binary.FactoryThresholdBinary;
+import boofcv.factory.interpolate.FactoryInterpolation;
+import boofcv.factory.shape.FactoryShapeDetector;
 import boofcv.struct.calib.CameraPinholeRadial;
 import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.ImageType;
@@ -39,6 +49,12 @@ import georegression.metric.Area2D_F64;
 import georegression.metric.Intersection2D_F64;
 import georegression.struct.point.Point2D_F64;
 import georegression.struct.shapes.Quadrilateral_F64;
+import sapphire.kernel.server.KernelServerImpl;
+import sapphire.oms.OMSServer;
+
+import static org.boofcv.android.DemoMain.client;
+import static org.boofcv.android.DemoMain.edge;
+import static sapphire.kernel.common.GlobalKernelReferences.nodeServer;
 
 /**
  * Opens a view which selects quadrilaterals in the image and lets you select one to use
@@ -49,8 +65,6 @@ import georegression.struct.shapes.Quadrilateral_F64;
 public class FiducialLearnActivity extends DemoVideoDisplayActivity
 		implements View.OnTouchListener
 {
-	private ImageType IT;
-	private static LensDistortionOps LDO;
 	public static final String TAG = "FiducialLearnActivity";
 
 	boolean touched = false;
@@ -60,10 +74,39 @@ public class FiducialLearnActivity extends DemoVideoDisplayActivity
 
 	FiducialManager manager;
 
+	OMSServer server;
+	DemoManager dm;
+	ImageType IT = new ImageType();
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		getViewPreview().setOnTouchListener(this);
+
+		InetSocketAddress host, omsHost;
+
+		try {
+			Registry registry = LocateRegistry.getRegistry(edge, 22346);
+			server = (OMSServer) registry.lookup("SapphireOMS");
+			System.out.println(server);
+
+			host = new InetSocketAddress(client, 22346);
+			omsHost = new InetSocketAddress(edge, 22346);
+			nodeServer = new KernelServerImpl(host, omsHost);
+			System.out.println(nodeServer);
+
+			System.setProperty("java.rmi.server.hostname", host.getAddress().getHostAddress());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		try {
+			dm = (DemoManager) server.getAppEntryPoint();
+			//dm.LatencyCheck();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(0);
+		}
 
 		manager = new FiducialManager(this);
 		manager.loadList();
@@ -94,7 +137,7 @@ public class FiducialLearnActivity extends DemoVideoDisplayActivity
 
 	protected class FiducialProcessor extends VideoRenderProcessing<GrayU8> {
 
-		final FiducialDetector detector = new FiducialDetector();
+		//final FiducialDetector detector = new FiducialDetector(FTB, IT, FSD, FDs, FI, FIB);
 
 		Paint paintBorder = new Paint();
 		Paint paintInside = new Paint();
@@ -105,9 +148,6 @@ public class FiducialLearnActivity extends DemoVideoDisplayActivity
 		FiducialDetector.Detected detected[];
 		int numDetected = 0;
 
-		GrowQueue_I32 indexes = new GrowQueue_I32();
-		GrowQueue_F64 area = new GrowQueue_F64();
-
 		public FiducialProcessor() {
 			super(IT.single(GrayU8.class));
 
@@ -117,20 +157,24 @@ public class FiducialLearnActivity extends DemoVideoDisplayActivity
 			paintInside.setColor(Color.RED);
 			paintInside.setStrokeWidth(3);
 
-			detected = new FiducialDetector.Detected[3];
+			dm.createLearn();
+			/*detected = new FiducialDetector.Detected[3];
 			for (int i = 0; i < detected.length; i++) {
 				detected[i] = new FiducialDetector.Detected();
 				detected[i].binary = new GrayU8(1,1);
 				detected[i].location = new Quadrilateral_F64();
-			}
+			}*/
 		}
 
 		@Override
 		protected void declareImages(int width, int height) {
 			super.declareImages(width, height);
 			CameraPinholeRadial intrinsic = MiscUtil.checkThenInventIntrinsic();
+			dm.declLearn(intrinsic);
+			/*
 			LensDistortionNarrowFOV distort = LDO.transformPoint(intrinsic);
-			detector.configure(distort, intrinsic.width, intrinsic.height, true);
+			detector.configure(distort, intrinsic.width, intrinsic.height, true, FIB, FI);
+			*/
 			bitmap = Bitmap.createBitmap(width,height,Bitmap.Config.ARGB_8888);
 			storage = ConvertBitmap.declareStorage(bitmap, storage);
 			numDetected = 0;
@@ -153,16 +197,16 @@ public class FiducialLearnActivity extends DemoVideoDisplayActivity
 
 		@Override
 		protected void process(GrayU8 gray) {
-
-			detector.process(gray);
+			learn res = dm.learnProcess(gray);
+			//detector.process(gray, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW, IT, cF);
 
 			synchronized ( lockGui ) {
 				ConvertBitmap.grayToBitmap(gray,bitmap,storage);
 
-				List<FiducialDetector.Detected> found = detector.getDetected();
+				//List<FiducialDetector.Detected> found = detector.getDetected();
 
 				// Select the largest quadrilaterals
-
+				/*
 				if( found.size() <= detected.length ) {
 					numDetected = found.size();
 					for (int i = 0; i < numDetected; i++) {
@@ -187,6 +231,9 @@ public class FiducialLearnActivity extends DemoVideoDisplayActivity
 						detected[i].location.set(found.get(index).location);
 					}
 				}
+				*/
+				numDetected = res.numDetected;
+				detected = res.detected;
 			}
 		}
 

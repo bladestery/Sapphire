@@ -18,9 +18,34 @@
 
 package boofcv.alg.fiducial.calib;
 
+import boofcv.alg.InputSanityCheck;
 import boofcv.alg.fiducial.square.BaseDetectFiducialSquare;
 import boofcv.alg.fiducial.square.FoundFiducial;
+import boofcv.alg.filter.binary.GThresholdImageOps;
+import boofcv.alg.filter.binary.LinearContourLabelChang2004;
+import boofcv.alg.filter.binary.ThresholdImageOps;
+import boofcv.alg.filter.blur.BlurImageOps;
+import boofcv.alg.filter.blur.GBlurImageOps;
+import boofcv.alg.filter.blur.impl.ImplMedianHistogramInner;
+import boofcv.alg.filter.blur.impl.ImplMedianSortEdgeNaive;
+import boofcv.alg.filter.blur.impl.ImplMedianSortNaive;
+import boofcv.alg.filter.convolve.ConvolveImageMean;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
+import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
+import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.GImageStatistics;
+import boofcv.alg.misc.ImageMiscOps;
+import boofcv.alg.misc.ImageStatistics;
+import boofcv.alg.transform.wavelet.UtilWavelet;
+import boofcv.core.image.ConvertImage;
+import boofcv.core.image.GeneralizedImageOps;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.struct.image.ImageGray;
+import boofcv.struct.image.ImageType;
 import georegression.struct.shapes.Quadrilateral_F64;
 import org.ddogleg.struct.FastQueue;
 
@@ -83,11 +108,14 @@ public class DetectFiducialSquareGrid<T extends ImageGray> {
 	 * @param input Input image
 	 * @return true if at least one of the component fiducials is detected.  False otherwise
 	 */
-	public boolean detect( T input ) {
+	public boolean detect(T input , GBlurImageOps GBIO, InputSanityCheck ISC, GeneralizedImageOps GIO, BlurImageOps BIO, ConvolveImageMean CIM, FactoryKernelGaussian FKG, ConvolveNormalized CN,
+						  ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN,
+						  ImplConvolveMean ICM, GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvolveJustBorder_General CJBG,
+						  ConvertImage CI, UtilWavelet UW, ImageType IT, LinearContourLabelChang2004 cF) {
 
 		detections.reset();
 
-		detector.process(input);
+		detector.process(input, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW, IT, cF);
 
 		FastQueue<FoundFiducial> found = detector.getFound();
 

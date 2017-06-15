@@ -54,7 +54,7 @@ public class ClipAndReduce<T extends ImageBase<T>> {
 	 * Configuration constructor
 	 * @param clip If true it will first clip the image to make it square before reducing it's size.  Otherwise both
 	 *             sides are scaled independently to make it square
-	 * @param imageType Type of image it iwll be processing
+	 * @param imageType Type of image it will be processing
 	 */
 	public ClipAndReduce( boolean clip , ImageType<T> imageType, FactoryInterpolation FI, FactoryDistort FDs ) {
 		this.clip = clip;

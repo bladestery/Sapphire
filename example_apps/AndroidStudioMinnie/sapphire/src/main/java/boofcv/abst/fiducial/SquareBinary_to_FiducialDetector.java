@@ -20,6 +20,7 @@ package boofcv.abst.fiducial;
 
 import boofcv.alg.fiducial.square.DetectFiducialSquareBinary;
 import boofcv.struct.image.ImageGray;
+import boofcv.struct.image.ImageType;
 
 /**
  * Wrapper around {@link DetectFiducialSquareBinary} for {@link FiducialDetector}
@@ -31,8 +32,8 @@ public class SquareBinary_to_FiducialDetector<T extends ImageGray>
 {
 	private double targetWidth;
 
-	public SquareBinary_to_FiducialDetector(DetectFiducialSquareBinary<T> detector, double targetWidth) {
-		super(detector);
+	public SquareBinary_to_FiducialDetector(DetectFiducialSquareBinary<T> detector, double targetWidth, ImageType IT) {
+		super(detector, IT);
 		this.targetWidth = targetWidth;
 	}
 

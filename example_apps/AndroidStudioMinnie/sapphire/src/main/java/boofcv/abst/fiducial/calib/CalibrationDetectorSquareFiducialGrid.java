@@ -48,6 +48,7 @@ import boofcv.alg.misc.ImageStatistics;
 import boofcv.alg.transform.wavelet.UtilWavelet;
 import boofcv.core.image.ConvertImage;
 import boofcv.core.image.GeneralizedImageOps;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.core.image.border.ImageBorderValue;
 import boofcv.factory.distort.FactoryDistort;
 import boofcv.factory.fiducial.FactoryFiducial;
@@ -59,6 +60,7 @@ import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.ImageType;
 import georegression.struct.point.Point2D_F64;
 
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -67,11 +69,6 @@ import java.util.List;
  * @author Peter Abeles
  */
 public class CalibrationDetectorSquareFiducialGrid implements DetectorFiducialCalibration {
-	private static ImageType IT;
-	private static FactoryShapeDetector FSD;
-	private static FactoryThresholdBinary FTB;
-	private static FactoryInterpolation FI;
-	private static FactoryDistort FDs;
 	// number of squares along each grid axis
 	int numRows;
 	int numCols;
@@ -89,10 +86,11 @@ public class CalibrationDetectorSquareFiducialGrid implements DetectorFiducialCa
 	// storage for observations
 	CalibrationObservation observations;
 
-	public CalibrationDetectorSquareFiducialGrid(ConfigSquareGridBinary config) {
+	public CalibrationDetectorSquareFiducialGrid(ConfigSquareGridBinary config, ImageType IT, FactoryShapeDetector FSD, FactoryThresholdBinary FTB, FactoryInterpolation FI,
+												 FactoryDistort FDs, FactoryImageBorder FIB) {
 
 		DetectFiducialSquareBinary<GrayF32> fiducialDetector = FactoryFiducial.
-				squareBinary(config.configDetector, config.configThreshold, GrayF32.class, IT, FSD, FTB, FI, FDs).getAlgorithm();
+				squareBinary(config.configDetector, config.configThreshold, GrayF32.class, IT, FSD, FTB, FI, FDs, FIB).getAlgorithm();
 		detector = new DetectFiducialSquareGrid<>(config.numRows,config.numCols,config.ids,fiducialDetector);
 
 		numRows = config.numRows;
@@ -111,7 +109,7 @@ public class CalibrationDetectorSquareFiducialGrid implements DetectorFiducialCa
 						   ThresholdImageOps TIO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvolveJustBorder_General CJBG, ConvertImage CI, UtilWavelet UW, ImageType IT,
 						   ImplBinaryInnerOps IBIO, ImplBinaryBorderOps IBBO, ImageBorderValue IBV, BinaryImageOps BIO, LinearContourLabelChang2004 cF) {
 		observations = new CalibrationObservation();
-		if( !detector.detect(input) ) {
+		if( !detector.detect(input, GBIO, ISC, GIO, BlIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW, IT, cF) ) {
 			return false;
 		}
 

@@ -40,6 +40,7 @@ import boofcv.factory.shape.FactoryShapeDetector;
 import boofcv.struct.image.FactoryImage;
 import boofcv.struct.image.ImageGray;
 import boofcv.struct.image.ImageType;
+import sapphire.compiler.FIBAGenerator;
 
 /**
  * Factory for creating fiducial detectors which implement {@link FiducialDetector}.
@@ -61,7 +62,7 @@ public class FactoryFiducial {
 	public static <T extends ImageGray>
 	SquareBinary_to_FiducialDetector<T> squareBinary(ConfigFiducialBinary configFiducial,
 													 ConfigThreshold configThreshold,
-													 Class<T> imageType, ImageType IT, FactoryShapeDetector FSD, FactoryThresholdBinary FTB, FactoryInterpolation FI, FactoryDistort FDs) {
+													 Class<T> imageType, ImageType IT, FactoryShapeDetector FSD, FactoryThresholdBinary FTB, FactoryInterpolation FI, FactoryDistort FDs, FactoryImageBorder FIB) {
 
 		if( configThreshold == null ) {
 			configThreshold = ConfigThreshold.local(ThresholdType.LOCAL_SQUARE,10);
@@ -78,9 +79,9 @@ public class FactoryFiducial {
 		final DetectFiducialSquareBinary<T> alg =
 				new DetectFiducialSquareBinary<>(configFiducial.gridWidth,
 						configFiducial.borderWidthFraction, configFiducial.minimumBlackBorderFraction,
-						binary, squareDetector, imageType, FI, FDs);
+						binary, squareDetector, imageType, FI, FDs, FIB);
 		alg.setAmbiguityThreshold(configFiducial.ambiguousThreshold);
-		return new SquareBinary_to_FiducialDetector<>(alg, configFiducial.targetWidth);
+		return new SquareBinary_to_FiducialDetector<>(alg, configFiducial.targetWidth, IT);
 	}
 
 	/**
@@ -97,9 +98,10 @@ public class FactoryFiducial {
 	 * @return FiducialDetector
 	 */
 	public static  <T extends ImageGray>
-	SquareImage_to_FiducialDetector<T> squareImage( ConfigFiducialImage configFiducial,
-													ConfigThreshold configThreshold,
-													Class<T> imageType, ImageType IT, FactoryShapeDetector FSD, FactoryThresholdBinary FTB, FactoryInterpolation FI, FactoryDistort FDs) {
+	SquareImage_to_FiducialDetector<T> squareImage(ConfigFiducialImage configFiducial,
+												   ConfigThreshold configThreshold,
+												   Class<T> imageType, ImageType IT, FactoryShapeDetector FSD, FactoryThresholdBinary FTB, FactoryInterpolation FI, FactoryDistort FDs,
+												   FactoryImageBorder FIB) {
 
 		if( configThreshold == null ) {
 			configThreshold = ConfigThreshold.local(ThresholdType.LOCAL_SQUARE,10);
@@ -112,9 +114,9 @@ public class FactoryFiducial {
 				FSD.polygon(configFiducial.squareDetector, imageType);
 		DetectFiducialSquareImage<T> alg = new DetectFiducialSquareImage<>(binary,
 				squareDetector, configFiducial.borderWidthFraction, configFiducial.minimumBlackBorderFraction,
-				configFiducial.maxErrorFraction, imageType, FI, FDs);
+				configFiducial.maxErrorFraction, imageType, FI, FDs, FIB);
 
-		return new SquareImage_to_FiducialDetector<>(alg);
+		return new SquareImage_to_FiducialDetector<>(alg, IT);
 	}
 
 	/**
@@ -150,9 +152,10 @@ public class FactoryFiducial {
 	}
 
 	public static <T extends ImageGray>
-	CalibrationFiducialDetector<T> calibSquareGridBinary( ConfigSquareGridBinary config, Class<T> imageType, ImageType IT) {
+	CalibrationFiducialDetector<T> calibSquareGridBinary( ConfigSquareGridBinary config, Class<T> imageType, ImageType IT, FactoryShapeDetector FSD, FactoryThresholdBinary FTB,
+														  FactoryInterpolation FI, FactoryDistort FDs, FactoryImageBorder FIB) {
 
-		return new CalibrationFiducialDetector<>(config, imageType, IT);
+		return new CalibrationFiducialDetector<>(config, imageType, IT, FSD, FTB, FI, FDs, FIB);
 	}
 
 	public static <T extends ImageGray>

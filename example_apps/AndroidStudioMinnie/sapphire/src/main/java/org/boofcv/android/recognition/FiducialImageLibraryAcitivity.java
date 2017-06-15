@@ -105,7 +105,7 @@ public class FiducialImageLibraryAcitivity extends Activity {
 	}
 
 	protected void performDelete( int index ) {
-		// this is all happening in the GUI thread so it should be save to manipulate list
+		// this is all happening in the GUI thread so it should be safe to manipulate list
 		FiducialManager.Info info = list.get(index);
 		fiducialManager.deleteFiducial(info);
 		list.remove(index);

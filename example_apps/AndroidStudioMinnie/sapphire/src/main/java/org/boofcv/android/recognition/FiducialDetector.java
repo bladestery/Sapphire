@@ -10,6 +10,7 @@ import boofcv.alg.InputSanityCheck;
 import boofcv.alg.fiducial.square.BaseDetectFiducialSquare;
 import boofcv.alg.fiducial.square.FoundFiducial;
 import boofcv.alg.filter.binary.GThresholdImageOps;
+import boofcv.alg.filter.binary.LinearContourLabelChang2004;
 import boofcv.alg.filter.binary.ThresholdImageOps;
 import boofcv.alg.filter.blur.BlurImageOps;
 import boofcv.alg.filter.blur.GBlurImageOps;
@@ -30,6 +31,7 @@ import boofcv.alg.misc.ImageStatistics;
 import boofcv.alg.transform.wavelet.UtilWavelet;
 import boofcv.core.image.ConvertImage;
 import boofcv.core.image.GeneralizedImageOps;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.distort.FactoryDistort;
 import boofcv.factory.filter.binary.FactoryThresholdBinary;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
@@ -47,50 +49,24 @@ import georegression.struct.shapes.Quadrilateral_F64;
  * @author Peter Abeles
  */
 public class FiducialDetector extends BaseDetectFiducialSquare<GrayU8> {
-	private static GBlurImageOps GBIO;
-	private static GeneralizedImageOps GIO;
-	private static InputSanityCheck ISC;
-	private static BlurImageOps BIO;
-	private static ConvolveImageMean CIM;
-	private static FactoryKernelGaussian FKG;
-	private static ConvolveNormalized CN;
-	private static ConvolveNormalizedNaive CNN;
-	private static ConvolveImageNoBorder CINB;
-	private static ConvolveNormalized_JustBorder CNJB;
-	private static ImplMedianHistogramInner IMHI;
-	private static ImplMedianSortEdgeNaive IMSEN;
-	private static ImplMedianSortNaive IMSN;
-	private static ImplConvolveMean ICM;
-	private static FactoryThresholdBinary FTB;
-	private static FactoryShapeDetector FSD;
-	private static ImageType IT;
-	private static GThresholdImageOps GTIO;
-	private static GImageStatistics GIS;
-	private static ImageStatistics IS;
-	private static ThresholdImageOps TIO;
-	private static GImageMiscOps GIMO;
-	private static ImageMiscOps IMO;
-	private static ConvolveJustBorder_General CJBG;
-	private static ConvertImage CI;
-	private static UtilWavelet UW;
-	private static FactoryInterpolation FI;
-	private static FactoryDistort FDs;
 	private static final String TAG = "FiducialDetector";
 
 	// Width of black border (units = pixels)
 	private final static int w=32;
 	private final static int squareLength=w*4; // this must be a multiple of 16
 
-	private InputToBinary<GrayF32> threshold = FTB.globalOtsu(0,255,true,GrayF32.class, IT);
+	private InputToBinary<GrayF32> threshold;
 	private GrayF32 grayNoBorder = new GrayF32();
 
 	// All the images inside which it found
 	private FastQueue<GrayU8> foundBinary;
 
-	public FiducialDetector() {
+	public FiducialDetector(FactoryThresholdBinary FTB, ImageType IT, FactoryShapeDetector FSD, FactoryDistort FDs, FactoryInterpolation FI, FactoryImageBorder FIB) {
 		super(FTB.globalOtsu(0, 255, true, GrayU8.class, IT), FSD.polygon(
 						new ConfigPolygonDetector(false, 4, 4), GrayU8.class),
-				0.25, 0.5, squareLength + squareLength, GrayU8.class, FI, FDs);
+				0.25, 0.5, squareLength + squareLength, GrayU8.class, FI, FDs, FIB);
+
+		threshold = FTB.globalOtsu(0,255,true,GrayF32.class, IT);
 
 		foundBinary = new FastQueue<GrayU8>(GrayU8.class,true) {
 			@Override
@@ -101,9 +77,12 @@ public class FiducialDetector extends BaseDetectFiducialSquare<GrayU8> {
 	}
 
 	@Override
-	public void process(GrayU8 gray) {
+	public void process(GrayU8 gray, GBlurImageOps GBIO, InputSanityCheck ISC, GeneralizedImageOps GIO, BlurImageOps BIO, ConvolveImageMean CIM, FactoryKernelGaussian FKG, ConvolveNormalized CN,
+						ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN,
+						ImplConvolveMean ICM, GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvolveJustBorder_General CJBG,
+						ConvertImage CI, UtilWavelet UW, ImageType IT, LinearContourLabelChang2004 cF) {
 		foundBinary.reset();
-		super.process(gray);
+		super.process(gray, GBIO, ISC, GIO, BIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI, IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW, IT, cF);
 	}
 
 	/**
@@ -130,7 +109,10 @@ public class FiducialDetector extends BaseDetectFiducialSquare<GrayU8> {
 	}
 
 	@Override
-	protected boolean processSquare(GrayF32 gray, Result result , double edgeInside, double edgeOutside) {
+	protected boolean processSquare(GrayF32 gray, Result result , double edgeInside, double edgeOutside, GBlurImageOps GBIO, InputSanityCheck ISC, GeneralizedImageOps GIO, BlurImageOps BIO, ConvolveImageMean CIM, FactoryKernelGaussian FKG, ConvolveNormalized CN,
+									ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN,
+									ImplConvolveMean ICM, GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvolveJustBorder_General CJBG,
+									ConvertImage CI, UtilWavelet UW, ImageType IT) {
 		GrayU8 binary = foundBinary.grow();
 		int off = (gray.width-binary.width)/2;
 		gray.subimage(off, off, gray.width - off, gray.width - off, grayNoBorder);

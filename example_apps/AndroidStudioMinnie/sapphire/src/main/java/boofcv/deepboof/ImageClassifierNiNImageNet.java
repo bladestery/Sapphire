@@ -19,7 +19,10 @@
 package boofcv.deepboof;
 
 import boofcv.alg.misc.GPixelMath;
+import boofcv.factory.distort.FactoryDistort;
+import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.struct.image.GrayF32;
+import boofcv.struct.image.ImageType;
 import boofcv.struct.image.Planar;
 import deepboof.Function;
 import deepboof.io.torch7.ConvertTorchToBoofForward;
@@ -29,6 +32,7 @@ import deepboof.io.torch7.SequenceAndParameters;
 import deepboof.io.torch7.struct.*;
 import deepboof.tensors.Tensor_F32;
 
+import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -57,8 +61,8 @@ public class ImageClassifierNiNImageNet extends BaseImageClassifier {
 	// Input image with the bands in the correct order
 	Planar<GrayF32> imageBgr = new Planar<>(GrayF32.class,imageCrop,imageCrop,3);
 
-	public ImageClassifierNiNImageNet() {
-		super(imageCrop);
+	public ImageClassifierNiNImageNet(FactoryInterpolation FI, FactoryDistort FDs, ImageType IT) {
+		super(imageCrop, FI, FDs, IT);
 	}
 
 	@Override

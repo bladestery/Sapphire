@@ -51,13 +51,17 @@ import boofcv.alg.transform.wavelet.UtilWavelet;
 import boofcv.core.image.ConvertImage;
 import boofcv.core.image.GConvertImage;
 import boofcv.core.image.GeneralizedImageOps;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.core.image.border.ImageBorderValue;
+import boofcv.factory.distort.FactoryDistort;
 import boofcv.factory.fiducial.FactoryFiducialCalibration;
 import boofcv.factory.filter.binary.FactoryThresholdBinary;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
+import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.factory.shape.FactoryShapeDetector;
 import boofcv.struct.geo.Point2D3D;
 import boofcv.struct.geo.PointIndex2D_F64;
+import boofcv.struct.image.FactoryImage;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.ImageGray;
 import boofcv.struct.image.ImageType;
@@ -127,8 +131,9 @@ public class CalibrationFiducialDetector<T extends ImageGray>
 	 * Configure it to detect square-grid style targets
 	 */
 	public CalibrationFiducialDetector(ConfigSquareGridBinary config,
-									   Class<T> imageType, ImageType IT) {
-		DetectorFiducialCalibration detector = FactoryFiducialCalibration.binaryGrid(config);
+									   Class<T> imageType, ImageType IT, FactoryShapeDetector FSD, FactoryThresholdBinary FTB,
+									   FactoryInterpolation FI, FactoryDistort FDs, FactoryImageBorder FIB) {
+		DetectorFiducialCalibration detector = FactoryFiducialCalibration.binaryGrid(config, IT, FSD, FTB, FI, FDs, FIB);
 		int squareCols = config.numCols;
 		int squareRows = config.numRows;
 		double sideWidth = squareCols*config.squareWidth + (squareCols-1)*config.spaceWidth;

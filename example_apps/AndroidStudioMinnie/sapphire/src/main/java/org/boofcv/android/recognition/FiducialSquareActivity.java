@@ -18,9 +18,14 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import org.boofcv.android.DemoMain;
+import org.boofcv.android.DemoManager;
 import org.boofcv.android.DemoVideoDisplayActivity;
 import org.boofcv.android.R;
 import org.boofcv.android.misc.MiscUtil;
+
+import java.net.InetSocketAddress;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
 import boofcv.abst.fiducial.CalibrationFiducialDetector;
 import boofcv.abst.fiducial.FiducialDetector;
@@ -59,8 +64,13 @@ import boofcv.android.VisualizeImageData;
 import boofcv.android.gui.VideoImageProcessing;
 import boofcv.core.image.ConvertImage;
 import boofcv.core.image.GeneralizedImageOps;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.core.image.border.ImageBorderValue;
+import boofcv.factory.distort.FactoryDistort;
+import boofcv.factory.filter.binary.FactoryThresholdBinary;
 import boofcv.factory.filter.kernel.FactoryKernelGaussian;
+import boofcv.factory.interpolate.FactoryInterpolation;
+import boofcv.factory.shape.FactoryShapeDetector;
 import boofcv.struct.calib.CameraPinholeRadial;
 import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.ImageBase;
@@ -71,6 +81,12 @@ import georegression.struct.point.Point2D_F64;
 import georegression.struct.point.Point3D_F64;
 import georegression.struct.se.Se3_F64;
 import georegression.transform.se.SePointOps_F64;
+import sapphire.kernel.server.KernelServerImpl;
+import sapphire.oms.OMSServer;
+
+import static org.boofcv.android.DemoMain.client;
+import static org.boofcv.android.DemoMain.edge;
+import static sapphire.kernel.common.GlobalKernelReferences.nodeServer;
 
 /**
  * Base class for square fiducials
@@ -80,43 +96,17 @@ import georegression.transform.se.SePointOps_F64;
 public abstract class FiducialSquareActivity extends DemoVideoDisplayActivity
 		implements View.OnTouchListener
 {
-	private static GBlurImageOps GBIO;
-	private static InputSanityCheck ISC;
-	private static GeneralizedImageOps GIO;
-	private static BlurImageOps BlIO;
-	private static ConvolveImageMean CIM;
-	private static FactoryKernelGaussian FKG;
-	private static ConvolveNormalized CN;
-	private static ConvolveNormalizedNaive CNN;
-	private static ConvolveImageNoBorder CINB;
-	private static ConvolveNormalized_JustBorder CNJB;
-	private static ImplMedianHistogramInner IMHI;
-	private static ImplMedianSortEdgeNaive IMSEN;
-	private static ImplMedianSortNaive IMSN;
-	private static ImplConvolveMean ICM;
-	public static GThresholdImageOps GTIO;
-	private static GImageStatistics GIS;
-	private static ImageStatistics IS;
-	private static ThresholdImageOps TIO;
-	private static GImageMiscOps GIMO;
-	private static ImageMiscOps IMO;
-	private static ConvolveJustBorder_General CJBG;
-	private static ConvertImage CI;
-	private static UtilWavelet UW;
-	private static ImplBinaryInnerOps IBIO;
-	private static ImplBinaryBorderOps IBBO;
-	private static ImageBorderValue IBV;
-	private static BinaryImageOps BIO;
-	private static LinearContourLabelChang2004 cF;
-	private static LensDistortionOps LDO;
 	public static final String TAG = "FiducialSquareActivity";
+	OMSServer server;
+	DemoManager dm;
 	ImageType IT = new ImageType();
+	LensDistortionOps LDO = new LensDistortionOps();
 	final Object lock = new Object();
 	volatile boolean changed = true;
 	volatile boolean robust = true;
 	volatile int binaryThreshold = 100;
 
-	Se3_F64 targetToCamera = new Se3_F64();
+	//Se3_F64 targetToCamera = new Se3_F64();
 	CameraPinholeRadial intrinsic;
 
 	Class help;
@@ -136,6 +126,31 @@ public abstract class FiducialSquareActivity extends DemoVideoDisplayActivity
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		InetSocketAddress host, omsHost;
+
+		try {
+			Registry registry = LocateRegistry.getRegistry(edge, 22346);
+			server = (OMSServer) registry.lookup("SapphireOMS");
+			System.out.println(server);
+
+			host = new InetSocketAddress(client, 22346);
+			omsHost = new InetSocketAddress(edge, 22346);
+			nodeServer = new KernelServerImpl(host, omsHost);
+			System.out.println(nodeServer);
+
+			System.setProperty("java.rmi.server.hostname", host.getAddress().getHostAddress());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		try {
+			dm = (DemoManager) server.getAppEntryPoint();
+			//dm.LatencyCheck();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(0);
+		}
 
 		LayoutInflater inflater = getLayoutInflater();
 		LinearLayout controls = (LinearLayout)inflater.inflate(R.layout.fiducial_controls,null);
@@ -219,13 +234,13 @@ public abstract class FiducialSquareActivity extends DemoVideoDisplayActivity
 		setProcessing(new FiducialProcessor() );
 	}
 
-	protected abstract FiducialDetector<GrayU8> createDetector();
+	protected abstract void createDetector();
 
 	protected class FiducialProcessor<T extends ImageBase> extends VideoImageProcessing<Planar<GrayU8>>
 	{
-		T input;
+		//T input;
 
-		FiducialDetector<T> detector;
+		//FiducialDetector<T> detector;
 
 		Paint paintSelected = new Paint();
 		Paint paintLine0 = new Paint();
@@ -277,17 +292,22 @@ public abstract class FiducialSquareActivity extends DemoVideoDisplayActivity
 		{
 			if( changed && intrinsic != null ) {
 				changed = false;
+				createDetector();
+				dm.squareBinary(intrinsic);
+				/*
 				detector = (FiducialDetector)createDetector();
 				detector.setLensDistortion(LDO.transformPoint(intrinsic));
-				if( input == null || input.getImageType() != detector.getInputType() ) {
-					input = detector.getInputType().createImage(1, 1);
+				if( input == null || input.getImageType() != inputType ) {
+					input = (T) inputType.createImage(1, 1);
 				}
+				*/
 			}
-
+			/*
 			if( detector == null  ) {
 				return;
-			}
-
+			}*/
+			GrayU8 binary = dm.fidProcess(color);
+			/*
 			ImageType inputType = detector.getInputType();
 			if( inputType.getFamily() == ImageType.Family.GRAY ) {
 				input.reshape(color.width,color.height);
@@ -299,11 +319,12 @@ public abstract class FiducialSquareActivity extends DemoVideoDisplayActivity
 			detector.detect(input, GBIO, ISC, GIO, BlIO, CIM, FKG, CN, CNN, CINB, CNJB, IMHI,
 					IMSEN, IMSN, ICM, GTIO, GIS, IS, TIO, GIMO, IMO, CJBG, CI, UW, IT, IBIO, IBBO, IBV,
 					BIO, cF);
+			*/
 
 			if( showInput ) {
 				ConvertBitmap.multiToBitmap(color, output, storage);
 			} else {
-				GrayU8 binary = null;
+				/*
 				if( detector instanceof CalibrationFiducialDetector) {
 					DetectorFiducialCalibration a = ((CalibrationFiducialDetector) detector).getCalibDetector();
 					if( a instanceof CalibrationDetectorChessboard) {
@@ -314,16 +335,20 @@ public abstract class FiducialSquareActivity extends DemoVideoDisplayActivity
 				} else {
 					binary = ((SquareBase_to_FiducialDetector) detector).getAlgorithm().getBinary();
 				}
+				*/
 				VisualizeImageData.binaryToBitmap(binary, false, output, storage);
 			}
 
 			Canvas canvas = new Canvas(output);
 
-			for (int i = 0; i < detector.totalFound(); i++) {
-				detector.getFiducialToCamera(i, targetToCamera);
+			fid res = dm.FidRender();
 
-				double width = detector.getWidth(i);
-				drawCube(detector.getId(i),targetToCamera,intrinsic,width,canvas);
+			for (int i = 0; i < res.totalFound; i++) {
+				//detector.getFiducialToCamera(i, targetToCamera);
+
+				//double width = detector.getWidth(i);
+				//drawCube(detector.getId(i),targetToCamera,intrinsic,width,canvas);
+				drawCube(res.number.get(i),res.targetToCameral.get(i),intrinsic,res.width.get(i),canvas);
 			}
 
 			if( drawText != null ) {

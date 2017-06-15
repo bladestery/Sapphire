@@ -22,14 +22,36 @@ import android.renderscript.ScriptGroup;
 
 import boofcv.abst.filter.binary.InputToBinary;
 import boofcv.alg.InputSanityCheck;
+import boofcv.alg.filter.binary.GThresholdImageOps;
 import boofcv.alg.filter.binary.ThresholdImageOps;
+import boofcv.alg.filter.blur.BlurImageOps;
+import boofcv.alg.filter.blur.GBlurImageOps;
+import boofcv.alg.filter.blur.impl.ImplMedianHistogramInner;
+import boofcv.alg.filter.blur.impl.ImplMedianSortEdgeNaive;
+import boofcv.alg.filter.blur.impl.ImplMedianSortNaive;
+import boofcv.alg.filter.convolve.ConvolveImageMean;
+import boofcv.alg.filter.convolve.ConvolveImageNoBorder;
+import boofcv.alg.filter.convolve.ConvolveNormalized;
+import boofcv.alg.filter.convolve.border.ConvolveJustBorder_General;
+import boofcv.alg.filter.convolve.noborder.ImplConvolveMean;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalizedNaive;
+import boofcv.alg.filter.convolve.normalized.ConvolveNormalized_JustBorder;
+import boofcv.alg.misc.GImageMiscOps;
+import boofcv.alg.misc.GImageStatistics;
+import boofcv.alg.misc.ImageMiscOps;
+import boofcv.alg.misc.ImageStatistics;
 import boofcv.alg.shapes.polygon.BinaryPolygonDetector;
+import boofcv.alg.transform.wavelet.UtilWavelet;
+import boofcv.core.image.ConvertImage;
 import boofcv.core.image.GeneralizedImageOps;
+import boofcv.core.image.border.FactoryImageBorder;
 import boofcv.factory.distort.FactoryDistort;
+import boofcv.factory.filter.kernel.FactoryKernelGaussian;
 import boofcv.factory.interpolate.FactoryInterpolation;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.ImageGray;
+import boofcv.struct.image.ImageType;
 
 import java.util.Arrays;
 
@@ -67,9 +89,6 @@ import java.util.Arrays;
  */
 public class DetectFiducialSquareBinary<T extends ImageGray>
 		extends BaseDetectFiducialSquare<T> {
-	private static ThresholdImageOps TIO;
-	private static InputSanityCheck ISC;
-	private static GeneralizedImageOps GIO;
 
 	// helper data structures for computing the value of each grid element
 	int[] counts, classified, tmp;
@@ -107,13 +126,13 @@ public class DetectFiducialSquareBinary<T extends ImageGray>
 									  double borderWidthFraction ,
 									  double minimumBlackBorderFraction ,
 									  final InputToBinary<T> inputToBinary,
-									  final BinaryPolygonDetector<T> quadDetector, Class<T> inputType, FactoryInterpolation FI, FactoryDistort FDs) {
+									  final BinaryPolygonDetector<T> quadDetector, Class<T> inputType, FactoryInterpolation FI, FactoryDistort FDs, FactoryImageBorder FIB) {
 		// Black borders occupies 2.0*borderWidthFraction of the total width
 		// The number of pixels for each square is held constant and the total pixels for the inner region
 		// is determined by the size of the grid
 		// The number of pixels in the undistorted image (squarePixels) is selected using the above information
 		super(inputToBinary,quadDetector,borderWidthFraction,minimumBlackBorderFraction,
-				(int)Math.round((w * gridWidth) /(1.0-borderWidthFraction*2.0)) ,inputType, FI, FDs);
+				(int)Math.round((w * gridWidth) /(1.0-borderWidthFraction*2.0)) ,inputType, FI, FDs, FIB);
 
 		if( gridWidth < 3 || gridWidth > 8)
 			throw new IllegalArgumentException("The grid must be at least 3 and at most 8 elements wide");
@@ -126,13 +145,16 @@ public class DetectFiducialSquareBinary<T extends ImageGray>
 	}
 
 	@Override
-	protected boolean processSquare(GrayF32 gray, Result result, double edgeInside, double edgeOutside) {
+	protected boolean processSquare(GrayF32 gray, Result result, double edgeInside, double edgeOutside, GBlurImageOps GBIO, InputSanityCheck ISC, GeneralizedImageOps GIO, BlurImageOps BIO, ConvolveImageMean CIM, FactoryKernelGaussian FKG, ConvolveNormalized CN,
+									ConvolveNormalizedNaive CNN, ConvolveImageNoBorder CINB, ConvolveNormalized_JustBorder CNJB, ImplMedianHistogramInner IMHI, ImplMedianSortEdgeNaive IMSEN, ImplMedianSortNaive IMSN,
+									ImplConvolveMean ICM, GThresholdImageOps GTIO, GImageStatistics GIS, ImageStatistics IS, ThresholdImageOps TIO, GImageMiscOps GIMO, ImageMiscOps IMO, ConvolveJustBorder_General CJBG,
+									ConvertImage CI, UtilWavelet UW, ImageType IT) {
 		int off = (gray.width - binaryInner.width) / 2;
 		gray.subimage(off, off, off + binaryInner.width, off + binaryInner.width, grayNoBorder);
 
 		// convert input image into binary number
 		double threshold = (edgeInside+edgeOutside)/2;
-		findBitCounts(grayNoBorder,threshold);
+		findBitCounts(grayNoBorder,threshold, TIO, ISC, GIO);
 
 		if (thresholdBinaryNumber()) {
 			if( verbose ) System.out.println("  can't threshold binary, ambiguous");
@@ -257,7 +279,7 @@ public class DetectFiducialSquareBinary<T extends ImageGray>
 	 * Converts the gray scale image into a binary number.  Skip the outer 1 pixel of each inner square.  These
 	 * tend to be incorrectly classified due to distortion.
 	 */
-	protected void findBitCounts(GrayF32 gray , double threshold ) {
+	protected void findBitCounts(GrayF32 gray , double threshold, ThresholdImageOps TIO, InputSanityCheck ISC, GeneralizedImageOps GIO) {
 		// compute binary image using an adaptive algorithm to handle shadows
 		TIO.threshold(gray,binaryInner,(float)threshold,true, ISC, GIO);
 
