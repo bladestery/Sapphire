@@ -1766,9 +1766,9 @@ public class DemoManager<T extends ImageBase> implements SapphireObject<sapphire
         area = new GrowQueue_F64();
     }
 
-    public void declLearn(CameraPinholeRadial intrinsic) {
+    public void declLearn(int width, int height, CameraPinholeRadial intrinsic) {
         LensDistortionNarrowFOV distort = LDO.transformPoint(intrinsic);
-        fidLearn.configure(distort, intrinsic.width, intrinsic.height, true, FIB, FI);
+        fidLearn.configure(distort, width, height, true, FIB, FI);
     }
 
     public learn learnProcess(GrayU8 gray) {

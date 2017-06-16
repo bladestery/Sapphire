@@ -170,7 +170,7 @@ public class FiducialLearnActivity extends DemoVideoDisplayActivity
 		protected void declareImages(int width, int height) {
 			super.declareImages(width, height);
 			CameraPinholeRadial intrinsic = MiscUtil.checkThenInventIntrinsic();
-			dm.declLearn(intrinsic);
+			dm.declLearn(width, height, intrinsic);
 			/*
 			LensDistortionNarrowFOV distort = LDO.transformPoint(intrinsic);
 			detector.configure(distort, intrinsic.width, intrinsic.height, true, FIB, FI);

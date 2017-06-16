@@ -2599,16 +2599,18 @@ public final class DemoManager_Stub extends org.boofcv.android.DemoManager imple
         }
     }
 
-    // Implementation of declLearn(CameraPinholeRadial)
-    public void declLearn(boofcv.struct.calib.CameraPinholeRadial $param_CameraPinholeRadial_1) {
+    // Implementation of declLearn(int, int, CameraPinholeRadial)
+    public void declLearn(int $param_int_1, int $param_int_2, boofcv.struct.calib.CameraPinholeRadial $param_CameraPinholeRadial_3) {
         java.lang.Object $__result = null;
         try {
             if ($__directInvocation)
-                super.declLearn( $param_CameraPinholeRadial_1);
+                super.declLearn( $param_int_1,  $param_int_2,  $param_CameraPinholeRadial_3);
             else {
                 java.util.ArrayList<Object> $__params = new java.util.ArrayList<Object>();
-                String $__method = "public void org.boofcv.android.DemoManager.declLearn(boofcv.struct.calib.CameraPinholeRadial)";
-                $__params.add($param_CameraPinholeRadial_1);
+                String $__method = "public void org.boofcv.android.DemoManager.declLearn(int,int,boofcv.struct.calib.CameraPinholeRadial)";
+                $__params.add($param_int_1);
+                $__params.add($param_int_2);
+                $__params.add($param_CameraPinholeRadial_3);
                 $__result = $__client.onRPC($__method, $__params);
             }
         } catch (Exception e) {

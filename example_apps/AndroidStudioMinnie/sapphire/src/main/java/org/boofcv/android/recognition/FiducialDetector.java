@@ -2,6 +2,7 @@ package org.boofcv.android.recognition;
 
 import org.ddogleg.struct.FastQueue;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +43,7 @@ import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.GrayU8;
 import boofcv.struct.image.ImageType;
 import georegression.struct.shapes.Quadrilateral_F64;
+import sapphire.app.SapphireObject;
 
 /**
  * Detects fiducials inside of an image.  Used to return the pattern inside.
@@ -121,7 +123,7 @@ public class FiducialDetector extends BaseDetectFiducialSquare<GrayU8> {
 		return true;
 	}
 
-	public static class Detected {
+	public static class Detected implements Serializable {
 		public GrayU8 binary;
 		public Quadrilateral_F64 location;
 	}
